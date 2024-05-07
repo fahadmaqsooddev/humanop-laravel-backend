@@ -3,12 +3,12 @@
 @section('content')
   <div class="row">
     <div class="col-lg-7 position-relative z-index-2">
-      <div class="card card-plain mb-4">
+      <div class="mb-4">
         <div class="card-body p-3">
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
               <div class="d-flex flex-column h-100">
-                <h2 class="font-weight-bolder mb-0">General Statistics</h2>
+                <h2 class="font-weight-bolder mb-0">Statistics</h2>
               </div>
             </div>
           </div>
@@ -16,90 +16,179 @@
       </div>
       <div class="row">
         <div class="col-lg-5 col-sm-5">
-          <div class="card  mb-4">
+            <a href="{{ url('pages-users-reports') }}">
+                <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
             <div class="card-body p-3">
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Daily Assessments</p>
                     <h5 class="font-weight-bolder mb-0">
-                      $53,000
+                      9
                       <span class="text-success text-sm font-weight-bolder">+55%</span>
                     </h5>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card ">
+            </a>
+            <a href="{{ url('pages-users-reports') }}">
+                <div class="card" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
             <div class="card-body p-3">
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Weekly Assessments</p>
                     <h5 class="font-weight-bolder mb-0">
-                      2,300
+                      45
                       <span class="text-success text-sm font-weight-bolder">+3%</span>
                     </h5>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+            </a>
         </div>
         <div class="col-lg-5 col-sm-5 mt-sm-0 mt-4">
-          <div class="card  mb-4">
+            <a href="{{ url('pages-users-reports') }}">
+                <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
             <div class="card-body p-3">
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Monthly Assessments</p>
                     <h5 class="font-weight-bolder mb-0">
-                      +3,462
-                      <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                      130
+                      <span class="text-success text-sm font-weight-bolder">+2%</span>
                     </h5>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card ">
+            </a>
+            <a href="{{ url('pages-users-reports') }}">
+                <div class="card" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
             <div class="card-body p-3">
               <div class="row">
                 <div class="col-8">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Sales</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Yearly Assessments</p>
                     <h5 class="font-weight-bolder mb-0">
-                      $103,430
+                      1560
                       <span class="text-success text-sm font-weight-bolder">+5%</span>
                     </h5>
                   </div>
                 </div>
                 <div class="col-4 text-end">
                   <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+            </a>
         </div>
       </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-5 col-sm-5">
+                <a href="{{ url('pages-users-reports') }}">
+                    <div class="card mb-4"
+                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                            Practitioner Activity Stats</p>
+                                        <h5 class="font-weight-bolder mb-0">
+                                            <span class="text-success text-sm font-weight-bolder"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="{{ url('pages-users-reports') }}">
+                    <div class="card"
+                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                            Revenue Stats</p>
+                                        <h5 class="font-weight-bolder mb-0">
+                                            <span class="text-success text-sm font-weight-bolder"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-5 col-sm-5">
+                <a href="{{ url('pages-users-reports') }}">
+                    <div class="card"
+                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                            Project Stats</p>
+                                        <h5 class="font-weight-bolder mb-0">
+                                            <span class="text-success text-sm font-weight-bolder"></span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
       <div class="row mt-4">
         <div class="col-12 col-md-10">
           <div class="card ">

@@ -31,65 +31,65 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/datatable', 'applications/datatables');
     Route::view('/kanban', 'applications/kanban');
     Route::view('/wizard', 'applications/wizard');
-    
+
     Route::view('/authentication-error404', 'authentication/error/404');
     Route::view('/authentication-error500', 'authentication/error/500');
-    
+
     Route::view('/authentication-lock-basic', 'authentication/lock/basic');
     Route::view('/authentication-lock-cover', 'authentication/lock/cover');
     Route::view('/authentication-lock-illustration', 'authentication/lock/illustration');
-    
+
     Route::view('/authentication-reset-basic', 'authentication/reset/basic');
     Route::view('/authentication-reset-cover', 'authentication/reset/cover');
     Route::view('/authentication-reset-illustration', 'authentication/reset/illustration');
-    
+
     Route::view('/authentication-signin-basic', 'authentication/signin/basic');
     Route::view('/authentication-signin-cover', 'authentication/signin/cover');
     Route::view('/authentication-signin-illustration', 'authentication/signin/illustration');
-    
+
     Route::view('/authentication-signup-basic', 'authentication/signup/basic');
     Route::view('/authentication-signup-cover', 'authentication/signup/cover');
     Route::view('/authentication-signup-illustration', 'authentication/signup/illustration');
-    
+
     Route::view('/authentication-verification-basic', 'authentication/verification/basic');
     Route::view('/authentication-verification-cover', 'authentication/verification/cover');
     Route::view('/authentication-verification-illustration', 'authentication/verification/illustration');
-    
+
     Route::view('/dashboard-default', 'dashboards/default');
-    Route::view('/dashboard-automative', 'dashboards/automotive');
+    Route::view('/dashboard-cms', 'dashboards/cms');
     Route::view('/dashboard-crm', 'dashboards/crm');
-    Route::view('/dashboard-smart-home', 'dashboards/smart-home');
-    
+    Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
+
     Route::view('/dashboard-virtual-default', 'dashboards/vr/vr-default');
     Route::view('/dashboard-virtual-info', 'dashboards/vr/vr-info');
-    
+
     Route::view('/ecommerce-overview', 'ecommerce/overview');
     Route::view('/ecommerce-referral', 'ecommerce/referral');
-    
+
     Route::view('/ecommerce-products-edit-product', 'ecommerce/products/edit-product');
     Route::view('/ecommerce-products-new-product', 'ecommerce/products/new-product');
     Route::view('/ecommerce-products-page', 'ecommerce/products/product-page');
     Route::view('/ecommerce-products-list', 'ecommerce/products/products-list');
-    
+
     Route::view('/ecommerce-orders-details', 'ecommerce/orders/details');
     Route::view('/ecommerce-orders-list', 'ecommerce/orders/list');
-    
+
     Route::view('/pages-profile-overview', 'pages/profile/overview');
     Route::view('/pages-profile-projects', 'pages/profile/projects');
     Route::view('/pages-profile-teams', 'pages/profile/teams');
-    
+
     Route::view('/pages-users-reports', 'pages/users/reports');
     Route::view('/pages-users-new', 'pages/users/new-user');
-    
+
     Route::view('/pages-account-settings', 'pages/account/settings');
     Route::view('/pages-account-billing', 'pages/account/billing');
     Route::view('/pages-account-invoice', 'pages/account/invoice');
     Route::view('/pages-account-security', 'pages/account/security');
-    
+
     Route::view('/pages-projects-general', 'pages/projects/general');
     Route::view('/pages-projects-new-project', 'pages/projects/new-project');
     Route::view('/pages-projects-timeline', 'pages/projects/timeline');
-    
+
     Route::view('/pages-charts', 'pages/charts');
     Route::view('/pages-notifications', 'pages/notifications');
     Route::view('/pages-pricing', 'pages/pricing-page');
@@ -117,7 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/laravel-edit-category/{id}', [CategoryController::class, 'edit']);
     Route::get('/laravel-category-management', [CategoryController::class, 'create']);
     Route::get('/laravel-delete-category/{id}', [CategoryController::class, 'destroy']);
-    
+
     Route::get('/laravel-user-profile', [UserProfileController::class, 'create']);
     Route::post('/laravel-save-user-profile', [UserProfileController::class, 'store']);
 
@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/validate-step-three', [UsersController::class, 'validateThree'])->name('users.validate.step.three');
     Route::get('/laravel-create-step-four', [UsersController::class, 'createFour'])->name('users.create.step.four');
 
-    
+
     Route::get('/laravel-edit-users/{id}', [UsersController::class, 'createEditOne'])->name('edit.create.step.one');
     Route::post('/edit-step-one/{id}', [UsersController::class, 'validateEditOne'])->name('edit.validate.step.one');
     Route::get('/edit-create-step-two/{id}', [UsersController::class, 'createEditTwo'])->name('edit.create.step.two');
