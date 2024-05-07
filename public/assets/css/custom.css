@@ -1,0 +1,13 @@
+.background_image{
+    color: var(--chakra-colors-gray-800);
+    background-repeat: ;
+    background-attachment: ;
+    background-origin: ;
+    background-clip: ;
+    background-color: ;
+    transition-property: background-color;
+    transition-duration: var(--chakra-transition-duration-normal);
+    line-height: var(--chakra-lineHeights-base);
+    background-image: url('../img/background-body-admin.05c0b5b9.png');
+    background-size: cover;
+}
