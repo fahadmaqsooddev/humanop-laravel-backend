@@ -1,6 +1,6 @@
 <!--
 =========================================================
-* Soft UI Dashboard PRO - v1.0.4
+* UI Dashboard PRO - v1.0.4
 =========================================================
 
 * Product Page:  https://www.creative-tim.com/product/soft-ui-dashboard-pro
@@ -27,7 +27,7 @@
 
   <link rel="apple-touch-icon" sizes="76x76" href="{{ URL::asset('assets/img/apple-icon.png') }}">
   <link rel="icon" type="image/png" href="{{ URL::asset('assets/img/favicon.png') }}">
-  <title>Soft UI Dashboard PRO by Creative Tim</title>
+  <title>UI Dashboard PRO by Creative Tim</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
