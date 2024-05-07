@@ -33,6 +33,7 @@
   <!-- Nucleo Icons -->
   <link href="{{ URL::asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
   <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+  <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" />
   <link href="{{ URL::asset('css/soft-ui-dashboard.css') }}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
@@ -41,7 +42,7 @@
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show  bg-gray-100 {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }}">
+<body class="background_image {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }}">
   @auth
     @yield('auth')
   @endauth
