@@ -19739,30 +19739,6 @@ svg.text-dark .color-background {
   fill: #3A416F;
 }
 
-.blur {
-  box-shadow: inset 0px 0px 2px #fefefed1;
-  -webkit-backdrop-filter: saturate(200%) blur(30px);
-  backdrop-filter: saturate(200%) blur(30px);
-  background-color: rgba(255, 255, 255, 0.8) !important;
-}
-.blur.saturation-less {
-  -webkit-backdrop-filter: saturate(20%) blur(30px);
-  backdrop-filter: saturate(20%) blur(30px);
-}
-.blur.blur-rounded {
-  border-radius: 40px;
-}
-.blur.blur-light {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-.blur.blur-dark {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.shadow-blur {
-  box-shadow: inset 0 0px 1px 1px rgba(254, 254, 254, 0.9), 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
-}
-
 .shadow-card {
   box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
 }
