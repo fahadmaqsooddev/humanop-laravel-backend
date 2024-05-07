@@ -2,7 +2,8 @@
 
 @section('content')
     <main class="main-content  mt-0">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('assets/img/curved-images/curved9.jpg');">
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+             style="background-image: url('assets/img/curved-images/curved9.jpg');">
         <span class="mask bg-gradient-dark opacity-6"></span>
         <div class="container">
             <div class="row d-flex flex-column justify-content-center">
@@ -15,10 +16,10 @@
                     <ol class="text-white">
                         <li>Username <b>admin@softui.com</b> and Password <b>secret</b>
                         </li>
-                        <li>Username 
+                        <li>Username
                             <b>creator@softui.com</b> and Password <b>secret</b>
                         </li>
-                        <li>Username 
+                        <li>Username
                             <b>member@softui.com</b> and Password <b>secret</b>
                         </li>
                     </ol>
@@ -120,7 +121,7 @@
                     <div class="text-center">
                     <a href="/register" class="btn bg-gradient-dark w-100 mt-2 mb-4">Sign up</a>
                     </div>
-                    <p class="text-sm mt-3 mb-0">Forgot your password? Reset your password 
+                    <p class="text-sm mt-3 mb-0">Forgot your password? Reset your password
                         <a href="/login/forgot-password" class="text-dark font-weight-bolder">here</a>
                     </p>
                 </form>
