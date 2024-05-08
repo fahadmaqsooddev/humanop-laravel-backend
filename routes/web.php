@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
-    Route::view('/dashboard-virtual-info', 'dashboards/vr/vr-info');
+    Route::view('/client-dashboard-result', 'client-dashboard/video');
 
     Route::view('/ecommerce-overview', 'ecommerce/overview');
     Route::view('/ecommerce-referral', 'ecommerce/referral');
