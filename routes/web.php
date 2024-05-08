@@ -64,7 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/grid', 'dashboards/grid');
     Route::view('/answers', 'dashboards/answer');
 
-    Route::view('/dashboard-virtual-default', 'dashboards/vr/vr-default');
+//    client dashboard
+    Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
     Route::view('/dashboard-virtual-info', 'dashboards/vr/vr-info');
 
     Route::view('/ecommerce-overview', 'ecommerce/overview');
