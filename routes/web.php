@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/users', 'dashboards/all_users');
     Route::view('/user-detail', 'dashboards/user_detail');
     Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
+    Route::view('/grid', 'dashboards/grid');
+    Route::view('/answers', 'dashboards/answer');
 
     Route::view('/dashboard-virtual-default', 'dashboards/vr/vr-default');
     Route::view('/dashboard-virtual-info', 'dashboards/vr/vr-info');
