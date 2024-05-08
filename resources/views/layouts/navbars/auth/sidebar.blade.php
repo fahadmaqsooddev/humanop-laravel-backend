@@ -36,6 +36,12 @@
                             <span class="sidenav-normal"> Dashboard </span>
                         </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}" href="{{ url('users') }}">
+                                <span class="sidenav-mini-icon"> U </span>
+                                <span class="sidenav-normal"> Users </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
                         <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}" href="{{ url('dashboard-cms') }}">
                             <span class="sidenav-mini-icon"> C </span>

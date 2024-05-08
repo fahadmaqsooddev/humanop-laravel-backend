@@ -2385,7 +2385,7 @@ progress {
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
-  color: #67748e;
+  color: white;
   vertical-align: top;
   border-color: #e9ecef;
 }
@@ -5048,7 +5048,7 @@ textarea.form-control-lg {
 .card-header {
   padding: 0.5rem 1rem;
   margin-bottom: 0;
-  background-color: #fff;
+  /*background-color: #fff;*/
   border-bottom: 0 solid rgba(0, 0, 0, 0.125);
 }
 .card-header:first-child {
@@ -18913,7 +18913,7 @@ textarea.form-control-lg {
   background: rgba(0, 0, 0, 0.2);
 }
 .card.card-background.card-background-mask-primary:after {
-  background-image: linear-gradient(310deg, #7928CA 0%, #FF0080 100%);
+  background-image: linear-gradient(310deg, #582CFF 0%,  #582CFF 100%);
   opacity: 0.85;
 }
 .card.card-background.card-background-mask-secondary:before {
@@ -19481,7 +19481,7 @@ label,
 }
 
 .bg-gradient-primary {
-  background-image: linear-gradient(310deg, #7928CA 0%, #FF0080 100%);
+  background-image: linear-gradient(310deg, #582CFF 0%,  #582CFF 100%);
 }
 
 .bg-gradient-secondary {
@@ -20234,6 +20234,7 @@ hr.horizontal.gray-light {
 }
 .navbar-vertical.navbar-expand-xs.fixed-start {
   left: 0;
+    background: linear-gradient(178.68deg, rgba(6, 11, 38, 0.94) 31.88%, rgba(26, 31, 55, 0) 100%);
 }
 .navbar-vertical.navbar-expand-xs.fixed-end {
   right: 0;
@@ -21252,7 +21253,7 @@ hr.horizontal.gray-light {
 }
 
 .pagination.pagination-primary .page-item.active > .page-link, .pagination.pagination-primary .page-item.active > .page-link:focus, .pagination.pagination-primary .page-item.active > .page-link:hover {
-  background-image: linear-gradient(310deg, #7928CA 0%, #FF0080 100%);
+  background-image: linear-gradient(310deg, #582CFF 0%,  #582CFF 100%);
   border: none;
 }
 .pagination.pagination-secondary .page-item.active > .page-link, .pagination.pagination-secondary .page-item.active > .page-link:focus, .pagination.pagination-secondary .page-item.active > .page-link:hover {
@@ -23247,7 +23248,7 @@ span.flatpickr-weekday {
 }
 
 .noUi-connect {
-  background-image: linear-gradient(310deg, #7928CA 0%, #FF0080 100%);
+  background-image: linear-gradient(310deg, #582CFF 0%,  #582CFF 100%);
 }
 
 /* Handles and cursors;
