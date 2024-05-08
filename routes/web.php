@@ -59,6 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/dashboard-cms', 'dashboards/cms');
     Route::view('/users', 'dashboards/all_users');
     Route::view('/user-detail', 'dashboards/user_detail');
+    Route::view('/user-info', 'dashboards/user_info');
     Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
     Route::view('/grid', 'dashboards/grid');
     Route::view('/answers', 'dashboards/answer');

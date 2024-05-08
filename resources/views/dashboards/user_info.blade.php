@@ -8,88 +8,44 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
-                                <h2 class="font-weight-bolder mb-0">User Summary</h2>
+                                <h2 class="font-weight-bolder mb-0">User Information</h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-5 col-sm-5">
-                    <a href="{{ url('user-info') }}">
-                        <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Personal <br> Information</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
+                <div class="col-lg-10 col-sm-5">
+                    <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p class="font-weight-bold" style="color: white;">First Name</p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-bold" style="color: white;">Davis Millan</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p class="font-weight-bold" style="color: white;">Email</label>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-bold" style="color: white;">davismillan@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <p class="font-weight-bold" style="color: white;">Gender</p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-bold" style="color: white;">Male</p>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                    <a href="{{ url('grid') }}">
-                        <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Grid <br> Report</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-5 col-sm-5 mt-sm-0 mt-4">
-                    <a href="{{ url('answers') }}">
-                        <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Answer <br> Sheets</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="{{ url('pages-users-reports') }}">
-                        <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">Presentation <br> CMS</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -110,7 +66,7 @@
     <script>
 
 
-        (function() {
+        (function () {
             const container = document.getElementById("globe");
             const canvas = container.getElementsByTagName("canvas")[0];
 
@@ -198,6 +154,7 @@
                     requestAnimationFrame(animate);
                     renderer.render(scene, camera);
                 }
+
                 animate();
             }
 
@@ -221,6 +178,7 @@
                         });
                 }
             }
+
             init();
         })();
     </script>
