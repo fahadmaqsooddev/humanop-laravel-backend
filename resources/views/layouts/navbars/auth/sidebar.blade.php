@@ -88,8 +88,8 @@
             </li>
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#authExamples" class="nav-link {{ ($parentFolder == 'authentication' ? ' active' : '') }}"
-                   aria-controls="authExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#clientdashboardids" class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"
+                   aria-controls="clientdashboardids" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                         <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>document</title>
@@ -107,7 +107,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Client Dashboard</span>
                 </a>
-                <div class="collapse {{ ($parentFolder == 'authentication' ? ' show' : '') }}" id="authExamples">
+                <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}" id="clientdashboardids">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item {{ (Request::is('client-dashboard')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('client-dashboard')  ? 'active' : '') }}" href="{{ url('client-dashboard') }}">
