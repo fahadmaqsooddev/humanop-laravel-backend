@@ -27,7 +27,7 @@
                             <td class="text-sm font-weight-normal">System Architect</td>
                             <td class="text-sm font-weight-normal">Edinburgh</td>
                             <td class="text-sm font-weight-normal">user@gmail.com</td>
-                            <td class="text-sm font-weight-normal"><a href="{{ url('pageuser-detail') }}" type="submit" style="background-color: #582CFF; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                            <td class="text-sm font-weight-normal"><a href="{{ url('user-detail') }}" type="submit" style="background-color: #582CFF; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                         </tr>
                         <tr>
                             <td class="text-sm font-weight-normal">Tiger Nixon</td>
