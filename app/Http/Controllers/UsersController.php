@@ -37,7 +37,7 @@ class UsersController extends Controller
             'email' => ['required', 'email', 'max:50', Rule::unique('users', 'email')],
             'password' => ['required', 'min:5', 'max:20', 'confirmed'],
         ]);
-  
+
         if(empty($request->session()->get('user'))){
             $user = new User();
             $user->fill($validatedData);
@@ -47,14 +47,14 @@ class UsersController extends Controller
             $user->fill($validatedData);
             $request->session()->put('user', $user);
         }
-  
+
         return redirect()->route('users.create.step.two');
     }
 
     public function createTwo(Request $request)
     {
         $user = $request->session()->get('user');
-  
+
         return view('laravel-examples/users/add-step-two',compact('user'));
     }
 
@@ -67,18 +67,18 @@ class UsersController extends Controller
             'state' => ['max:50'],
             'zip_code' => ['max:50'],
         ]);
-  
+
         $user = $request->session()->get('user');
         $user->fill($validatedData);
         $request->session()->put('user', $user);
-  
+
         return redirect()->route('users.create.step.three');
     }
 
     public function createThree(Request $request)
     {
         $user = $request->session()->get('user');
-  
+
         return view('laravel-examples/users/add-step-three',compact('user'));
     }
 
@@ -89,18 +89,18 @@ class UsersController extends Controller
             'facebook' => ['max:50'],
             'instagram' => ['max:50'],
         ]);
-  
+
         $user = $request->session()->get('user');
         $user->fill($validatedData);
         $request->session()->put('user', $user);
-  
+
         return redirect()->route('users.create.step.four');
     }
 
     public function createFour(Request $request)
     {
         $user = $request->session()->get('user');
-  
+
         return view('laravel-examples/users/add-step-four',compact('user'));
     }
 
@@ -123,9 +123,9 @@ class UsersController extends Controller
         $user->fill($validatedData);
         $user->file = $uniqueFileName;
         $user->save();
-  
+
         $request->session()->forget('user');
-  
+
         return redirect('/laravel-users-management')->with('success','User successfully added.');
     }
 
@@ -145,7 +145,7 @@ class UsersController extends Controller
         $this->authorize('manage-users', User::class);
         $roles =  DB::table('roles')->get();
         $user = User::with('roles')->where('id', $id)->first();
-        
+
         $editUser = $request->session()->get('user');
         return view('laravel-examples/users/edit-step-one',compact('user', 'roles', 'editUser'));
     }
@@ -164,8 +164,8 @@ class UsersController extends Controller
         {
             if(env('IS_DEMO') && $user->id <4)
             {
-                
-                return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t change the email address or the password.']);         
+
+                return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t change the email address or the password.']);
             }
             else{
             $validatedData = $request->validate([
@@ -185,7 +185,7 @@ class UsersController extends Controller
             $editUser->fill($validatedData);
             $request->session()->put('user', $editUser);
         }
-  
+
         return redirect('/edit-create-step-two/'. $id);
     }
 
@@ -205,11 +205,11 @@ class UsersController extends Controller
             'state' => ['max:50'],
             'zip_code' => ['max:50'],
         ]);
-  
+
         $editUser = $request->session()->get('user');
         $editUser->fill($validatedData);
         $request->session()->put('user', $editUser);
-  
+
         return redirect('/edit-create-step-three/'. $id);
     }
 
@@ -227,11 +227,11 @@ class UsersController extends Controller
             'facebook' => ['max:50'],
             'instagram' => ['max:50'],
         ]);
-  
+
         $editUser = $request->session()->get('user');
         $editUser->fill($validatedData);
         $request->session()->put('user', $editUser);
-  
+
         return redirect('/edit-create-step-four/'. $id);
     }
 
@@ -261,9 +261,9 @@ class UsersController extends Controller
         $editUser->fill($validatedData);
         $editUser->file = $uniqueFileName;
         $editUser->save();
-  
+
         $request->session()->forget('user');
-  
+
         return redirect('/laravel-users-management')->with('success','User successfully edited.');
     }
 }

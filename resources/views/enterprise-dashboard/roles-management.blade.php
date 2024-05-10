@@ -1,18 +1,18 @@
-@extends('user_type.auth', ['parentFolder' => 'laravel', 'childFolder' => 'users-laravel'])
+@extends('user_type.auth', ['parentFolder' => 'enterprise-dashboard', 'childFolder' => 'none'])
 
 @section('content')
-<div class="row">
+  <div class="row">
     <div class="col-12">
       <div class="card">
         <!-- Card header -->
         <div class="card-header pb-0">
           <div class="d-lg-flex">
             <div>
-              <h5 class="mb-0">All Users</h5>
+              <h5 class="mb-0" style="color: white">Role Management</h5>
             </div>
             <div class="ms-auto my-auto mt-lg-0 mt-4">
               <div class="ms-auto my-auto">
-                <a href="{{ route('users.create.step.one') }}" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; New User</a>
+                <a href="{{ url('laravel-new-role') }}" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; New Role</a>
               </div>
             </div>
           </div>
@@ -37,51 +37,38 @@
                   </button>
               </div>
             @endif
-            <table class="table table-flush" id="users-list">
+            <table class="table table-flush" id="roles-list">
               <thead class="thead-light">
                 <tr>
                   <th>ID</th>
-                  <th>PHOTO</th>
                   <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>ROLE</th>
+                  <th>DESCRIPTION</th>
                   <th>CREATION DATE</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                  @if(count($users) > 1)
-                    @foreach($users as $user)
-                        <tr>
-                        <td class="text-sm">{{$user->id}}</td>
+              @if(count($roles) > 1)
+                  @foreach($roles as $role)
+                      <tr>
+                        <td class="text-sm">{{$role->id}}</td>
+                        <td class="text-sm">{{$role->name}}</td>
+                        <td class="text-sm">{{$role->description}}</td>
+                        <td class="text-sm">{{$role->created_at}}</td>
                         <td class="text-sm">
-                          <span class="my-2 text-xs">
-                            <img src="{{ URL::asset('assets/img/users/'.$user->file) }}" alt="picture" class="avatar avatar-xxl me-2">
-                          </span>
-                        </td>
-                        <td class="text-sm">{{$user->first_name}}</td>
-                        <td class="text-sm">{{$user->email}}</td>
-                        <td class="text-sm">{{$user->roles->name}}</td>
-                        <td class="text-sm">{{$user->created_at}}</td>
-                        <td class="text-sm">
-                          <a href="{{ url('laravel-edit-users/' . $user->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
+                          <a href="{{ url('laravel-edit-roles/' . $role->id) }}" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit role">
                             <i class="fas fa-user-edit text-secondary"></i>
                           </a>
-                          @if ($user->id < 4)
-                          <span data-bs-toggle="tooltip" data-bs-original-title="Disabled" data-bs-original-title="Delete user">
-                            <i class="fas fa-trash text-secondary"></i>
-                          </span>
-                          @else
-                          <a href="{{ url('laravel-delete-user/' . $user->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Delete user">
+                          <a href="{{ url('laravel-delete-role/' . $role->id) }}" data-bs-toggle="tooltip" data-bs-original-title="Delete role">
                             <i class="fas fa-trash text-secondary"></i>
                           </a>
-                          @endif
                         </td>
                       </tr>
-                    @endforeach
-                  @else
-                      <tr> no content </tr>
-                  @endif
+                  @endforeach
+                @else
+                    <tr> no content </tr>
+                @endif
+
               </tbody>
             </table>
           </div>
@@ -94,11 +81,11 @@
   @push('js')
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script>
-      if (document.getElementById('users-list')) {
-        const dataTableSearch = new simpleDatatables.DataTable("#users-list", {
+      if (document.getElementById('roles-list')) {
+        const dataTableSearch = new simpleDatatables.DataTable("#roles-list", {
           searchable: true,
           fixedHeight: false,
-          perPage: 7
+          perPage: 5
         });
 
         document.querySelectorAll(".export").forEach(function(el) {

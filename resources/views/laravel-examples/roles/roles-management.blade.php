@@ -68,7 +68,7 @@
                 @else
                     <tr> no content </tr>
                 @endif
-                
+
               </tbody>
             </table>
           </div>
@@ -79,7 +79,7 @@
 @endsection
 
   @push('js')
-    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>  
+    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script>
       if (document.getElementById('roles-list')) {
         const dataTableSearch = new simpleDatatables.DataTable("#roles-list", {

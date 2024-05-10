@@ -134,7 +134,8 @@
             </li>
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link {{ ($parentFolder == 'pages' ? ' active' : '') }}" aria-controls="pagesExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#practitionerdashboardids" class="nav-link {{ ($parentFolder == 'practitioner-dashboard' ? ' active' : '') }}"
+                   aria-controls="practitionerdashboardids" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -152,10 +153,10 @@
                     </div>
                     <span class="nav-link-text ms-1">Practitioner Dashboard</span>
                 </a>
-                <div class="collapse  {{ ($parentFolder == 'pages' ? 'show' : '') }}" id="pagesExamples">
+                <div class="collapse  {{ ($parentFolder == 'practitioner-dashboard' ? 'show' : '') }}" id="practitionerdashboardids">
                     <ul class="nav ms-4 ps-3">
-                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('practitioner-database')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-database')  ? 'active' : '') }}" href="{{ url('practitioner-database') }}">
                                 <span class="sidenav-mini-icon"> D </span>
                                 <span class="sidenav-normal"> Database </span>
                             </a>
@@ -168,22 +169,22 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('practitioner-projects') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-projects') ? 'active' : '') }}" href="{{ url('practitioner-projects') }}">
                                 <span class="sidenav-mini-icon"> P </span>
                                 <span class="sidenav-normal"> Projects </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('practitioner-new-user') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-new-user') ? 'active' : '') }}" href="{{ url('practitioner-new-user') }}">
                                 <span class="sidenav-mini-icon"> N </span>
                                 <span class="sidenav-normal"> New Users </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('practitioner-total-sales') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-total-sales') ? 'active' : '') }}" href="{{ url('practitioner-total-sales') }}">
                                 <span class="sidenav-mini-icon"> T </span>
                                 <span class="sidenav-normal"> Total Sales </span>
                             </a>
@@ -200,7 +201,8 @@
             </li>
 
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#ecommerceExamples" class="nav-link {{ ($parentFolder == 'ecommerce' ? ' active' : '') }}" aria-controls="ecommerceExamples" role="button" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#enterprisedashboardids" class="nav-link {{ ($parentFolder == 'enterprise-dashboard' ? ' active' : '') }}"
+                   aria-controls="enterprisedashboardids" role="button" aria-expanded="false">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                         <svg class="text-dark" width="12px" height="12px" viewBox="0 0 42 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>basket</title>
@@ -218,31 +220,31 @@
                     </div>
                     <span class="nav-link-text ms-1">Enterprise Dashboard</span>
                 </a>
-                <div class="collapse {{ ($parentFolder == 'ecommerce' ? ' show' : '') }}" id="ecommerceExamples">
+                <div class="collapse {{ ($parentFolder == 'enterprise-dashboard' ? ' show' : '') }}" id="enterprisedashboardids">
                     <ul class="nav ms-4 ps-3">
-                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}" href="{{ url('enterprise-roles-management') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal"> Role Management </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}" href="{{ url('enterprise-tags-management') }}">
                                 <span class="sidenav-mini-icon"> T </span>
                                 <span class="sidenav-normal"> Team Mgmt Summary </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('enterprise-team-stats') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-team-stats') ? 'active' : '') }}" href="{{ url('enterprise-team-stats') }}">
                                 <span class="sidenav-mini-icon"> T </span>
                                 <span class="sidenav-normal"> Team Stats </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('enterprise-strategies-development') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-strategies-development') ? 'active' : '') }}" href="{{ url('/enterprise-strategies-development') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Strategies Development </span>
                             </a>
