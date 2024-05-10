@@ -6,7 +6,7 @@
         <div class="row mb-5 justify-content-center align-items-center">
             <div class="col-9">
                 <!-- Card Profile -->
-                <div class="card card-body" id="profile" style="background-color: white">
+                <div class="card card-body" id="profile" >
                     <div class="row justify-content-center align-items-center">
                     <div class="col-sm-auto col-4">
                         <div class="avatar avatar-xxl position-relative">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <!-- Card Basic Info -->
-                <div class="card mt-4" id="basic-info" style="background-color: white">
+                <div class="card mt-4" id="basic-info" >
                     <div class="card-header">
                     <h5 style="color: white">Basic Info</h5>
                     </div>
@@ -72,71 +72,22 @@
                             @endif
                             <input type="file" id="file-input" name="user_img" accept="image/*" class="d-none">
                             <div class="row">
-                                <div class="col-6">
-                                <label class="form-label" style="color: white">First Name</label>
+                                <div class="col-12">
+                                <label class="form-label" style="color: white">Name</label>
                                 <div class="input-group">
                                     <input id="firstName" name="firstName" class="form-control" type="text" placeholder="Alec" required="required" value="{{ auth()->user()->first_name }}">
                                 </div>
                                 </div>
-                                <div class="col-6">
-                                <label class="form-label" style="color: white">Last Name</label>
+                                <div class="col-12 mt-2">
+                                <label class="form-label" style="color: white">Email</label>
                                 <div class="input-group">
-                                    <input id="lastName" name="lastName" class="form-control" type="text" placeholder="Thompson" value="{{ auth()->user()->last_name }}">
-                                </div>
-                                </div>
-                            </div>
-                            <div class="row" style="display: none">
-                                <div class="col-sm-3 col-4">
-                                    <label class="form-label mt-4" style="color: white">I'm</label>
-                                    <select class="form-control" name="choices-gender" id="choices-gender">
-                                        <option value="">Gender</option>
-                                        <option value="Male" {{ $gender == 'Male' ? 'selected' : '' }}>Male</option>
-                                        <option value="Female" {{ $gender == 'Female' ? 'selected=' : '' }}>Female</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <div class="col-sm-4 col-4">
-                                            <label class="form-label mt-4" style="color: white">Birth Date</label>
-                                            <select class="form-control" name="choices-month" id="choices-month">
-                                                <option value="">Month</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4 col-4">
-                                            <label class="form-label mt-4">&nbsp;</label>
-                                            <select class="form-control" name="choices-day" id="choices-day">
-                                                <option value="">Day</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4 col-4">
-                                            <label class="form-label mt-4">&nbsp;</label>
-                                            <select class="form-control" name="choices-year" id="choices-year">
-                                                <option value="">Year</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                <label class="form-label mt-4" style="color: white">Email</label>
-                                <div class="input-group">
-                                    <input id="email" name="email" class="form-control" type="email" placeholder="example@email.com" value="{{ auth()->user()->email }}">
-                                </div>
-                                @error('email')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
-                                <label class="form-label mt-4" style="color: white">Confirmation Email</label>
-                                <div class="input-group">
-                                    <input id="email_confirmation" name="email_confirmation" class="form-control" type="email" placeholder="example@email.com" aria-label="email-confirmation" value="{{ old('email_confirmation') }}" aria-describedby="email-addon">
+                                    <input id="lastName" name="lastName" class="form-control" type="email" placeholder="Thompson" value="{{ auth()->user()->email }}">
                                 </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <label class="form-label mt-4" style="color: white; font-size: 16px;">Phone</label>
+                                    <label class="form-label mt-4" style="color: white; font-size: 18px;">Phone</label>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                         <h6 class="text-dark font-weight-bold text-sm mt-1">SMS Notification</h6>
@@ -152,7 +103,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 align-self-center">
-                                    <label class="form-label mt-4" style="color: white; font-size: 16px;">HumanOp Technology</label>
+                                    <label class="form-label mt-4" style="color: white; font-size: 18px;">HumanOp Technology</label>
                                     <div class="form-check" style="display:flex;">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                         <h6 class="text-dark font-weight-bold text-sm ms-3">Personal Growth and Development</h6>
@@ -175,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="">
-                                <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Save changes</button>
+                                <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update</button>
                             </div>
                         </form>
                     </div>

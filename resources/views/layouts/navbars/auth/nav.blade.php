@@ -68,12 +68,11 @@
                             <a class="dropdown-item border-radius-md" href="{{ url('profile-user') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <i class="ni ni-circle-08 text-lg opacity-10 me-3" aria-hidden="true"></i>
+                                        <img src="http://127.0.0.1:8000/assets/img/users/team-1.jpg" class="avatar-sm" id="imgDisplay" alt="Profile Photo">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal">
-                                            <span class="font-weight-bold">View Profile</span>
-                                        </h6>
+                                            <span class="font-weight-bold">Admin</span>
+                                            <label class="font-weight-bold">admin@gmail.com</label>
                                     </div>
                                 </div>
                             </a>
@@ -86,7 +85,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal">
-                                            <span class="font-weight-bold">Update Profile</span>
+                                            <span class="font-weight-bold">My Profile</span>
                                         </h6>
                                     </div>
                                 </div>
