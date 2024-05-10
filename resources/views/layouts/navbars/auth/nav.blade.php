@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal">
-                                            <span class="font-weight-bold">Create Profile</span>
+                                            <span class="font-weight-bold">View Profile</span>
                                         </h6>
                                     </div>
                                 </div>

@@ -6,7 +6,7 @@
         <div class="row mb-5 justify-content-center align-items-center">
             <div class="col-9">
                 <!-- Card Profile -->
-                <div class="card card-body" id="profile">
+                <div class="card card-body" id="profile" style="background-color: white">
                     <div class="row justify-content-center align-items-center">
                     <div class="col-sm-auto col-4">
                         <div class="avatar avatar-xxl position-relative">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <!-- Card Basic Info -->
-                <div class="card mt-4" id="basic-info">
+                <div class="card mt-4" id="basic-info" style="background-color: white">
                     <div class="card-header">
                     <h5 style="color: white">Basic Info</h5>
                     </div>
@@ -85,7 +85,7 @@
                                 </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="display: none">
                                 <div class="col-sm-3 col-4">
                                     <label class="form-label mt-4" style="color: white">I'm</label>
                                     <select class="form-control" name="choices-gender" id="choices-gender">
@@ -136,31 +136,42 @@
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                <label class="form-label mt-4" style="color: white">Your location</label>
-                                <div class="input-group">
-                                    <input id="location" name="location" class="form-control" type="text" placeholder="Sydney, A" value="{{ auth()->user()->Address_1 }}">
-                                </div>
+                                    <label class="form-label mt-4" style="color: white; font-size: 16px;">Phone</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm mt-1">SMS Notification</h6>
+                                    </div>
                                 </div>
                                 <div class="col-6">
-                                <label class="form-label mt-4" style="color: white">Phone Number</label>
-                                <div class="input-group">
-                                    <input id="phone" name="phone" class="form-control" type="number" placeholder="+40 735 631 620" value="{{ auth()->user()->phone }}">
-                                </div>
+                                    <label class="form-label mt-4" style="color: #575A6B">.</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm mt-1">Google 2FA</h6>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 align-self-center">
-                                <label class="form-label mt-4" style="color: white">Language</label>
-                                <select class="form-control" name="choices-language" id="choices-language" style="background-color: white;">
-                                    <option value="">Language</option>
-                                    <option value="English" {{ $language == 'English' ? 'selected' : '' }}>English</option>
-                                    <option value="French" {{ $language == 'French' ? 'selected' : '' }}>French</option>
-                                    <option value="Spanish" {{ $language == 'Spanish' ? 'selected' : '' }}>Spanish</option>
-                                </select>
-                                </div>
-                                <div class="col-md-6">
-                                <label class="form-label mt-4" style="color: white">Skills</label>
-                                <input class="form-control" id="skills" name="skills" type="text" placeholder="Enter your skills" value="{{ auth()->user()->skills }}" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <label class="form-label mt-4" style="color: white; font-size: 16px;">HumanOp Technology</label>
+                                    <div class="form-check" style="display:flex;">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm ms-3">Personal Growth and Development</h6>
+                                    </div>
+
+                                    <div class="form-check mt-2" style="display:flex;">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm ms-3">Optimize Performance and Productivity</h6>
+                                    </div>
+
+                                    <div class="form-check mt-2" style="display:flex;">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm ms-3">Business Development and Growth</h6>
+                                    </div>
+
+                                    <div class="form-check mt-2" style="display:flex;">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <h6 class="text-dark font-weight-bold text-sm ms-3">Optimize Health</h6>
+                                    </div>
                                 </div>
                             </div>
                             <div class="">
