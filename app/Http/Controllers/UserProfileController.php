@@ -34,11 +34,11 @@ class UserProfileController extends Controller
                 'day' => 0,
                 'month' => 0
               );
-            
+
         }
-        
-        return view('laravel-examples/user-profile', compact('gender', 'language', 'birthdayArray'));
-        
+
+        return view('profile/user-profile', compact('gender', 'language', 'birthdayArray'));
+
     }
 
     public function store(Request $request)
@@ -48,8 +48,8 @@ class UserProfileController extends Controller
         {
             if(env('IS_DEMO'))
             {
-                
-                return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t change the email address or the password.']);         
+
+                return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t change the email address or the password.']);
             }
             else{
                 $attribute = request()->validate([
@@ -76,7 +76,7 @@ class UserProfileController extends Controller
         else{
             $uniqueFileName = auth()->user()->file;
         }
-        
+
         User::where('id','=',auth()->user()->id)
             ->update([
                 'first_name'    => $request->get('firstName'),
@@ -90,6 +90,6 @@ class UserProfileController extends Controller
                 'language'    => $request->get('choices-language'),
                 'skills' => $request->get('skills'),
             ]);
-        return redirect('/laravel-user-profile')->with('success','Your account details have been saved.');
+        return redirect('profile-user')->with('success','Your account details have been saved.');
     }
 }

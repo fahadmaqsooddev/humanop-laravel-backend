@@ -12,7 +12,7 @@ class TagsController extends Controller
     {
         $this->authorize('manage-items', User::class);
         $tags = DB::table('tags')->get();
-        return view('laravel-examples/tags/tags-management', compact('tags'));
+        return view('enterprise-dashboard/team-management', compact('tags'));
     }
 
     public function createNew()
@@ -33,7 +33,7 @@ class TagsController extends Controller
         $attributes = request()->validate([
             'name' => ['required'],
             'color' => ['required'],
-        ]); 
+        ]);
         DB::table('tags')
             ->insert(['name' => $attributes['name'], 'description'=> $attributes['color'], 'created_at' => now(), 'updated_at' => now()]);
         return redirect('/laravel-tags-management')->with('success','Tag successfully added.');
@@ -43,8 +43,8 @@ class TagsController extends Controller
         $attributes = request()->validate([
             'name' => ['required'],
             'color' => ['required'],
-        ]); 
-        
+        ]);
+
         DB::table('tags')
             ->where('id', $id)->limit(1)
             ->update(['name' => $attributes['name'], 'description'=> $attributes['color'], 'created_at' => now(), 'updated_at' => now()]);

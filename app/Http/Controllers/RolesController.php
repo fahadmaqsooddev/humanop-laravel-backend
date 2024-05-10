@@ -12,7 +12,7 @@ class RolesController extends Controller
     {
         $this->authorize('manage-users', User::class);
         $roles = DB::table('roles')->get();
-        return view('laravel-examples/roles/roles-management', compact('roles'));
+        return view('enterprise-dashboard/roles-management', compact('roles'));
     }
 
     public function createNew()
@@ -33,7 +33,7 @@ class RolesController extends Controller
         $attributes = request()->validate([
             'name' => ['required'],
             'description' => ['required'],
-        ]);  
+        ]);
         DB::table('roles')
             ->insert(['name' => $attributes['name'], 'description'=> $attributes['description'], 'created_at' => now(), 'updated_at' => now()]);
         return redirect('/laravel-roles-management')->with('success','Role successfully added.');
@@ -44,7 +44,7 @@ class RolesController extends Controller
             'name' => ['required'],
             'description' => ['required'],
         ]);
-        
+
         DB::table('roles')
             ->where('id', $id)->limit(1)
             ->update(['name' => $attributes['name'], 'description'=> $attributes['description'], 'created_at' => now(), 'updated_at' => now()]);

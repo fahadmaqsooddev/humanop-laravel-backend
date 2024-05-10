@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/authentication-verification-cover', 'authentication/verification/cover');
     Route::view('/authentication-verification-illustration', 'authentication/verification/illustration');
 
+//    admin dashboard
     Route::view('/dashboard-default', 'dashboards/default');
     Route::view('/dashboard-cms', 'dashboards/cms');
     Route::view('/users', 'dashboards/all_users');
@@ -68,8 +69,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
     Route::view('/client-dashboard-result', 'client-dashboard/video');
 
-    Route::view('/ecommerce-overview', 'ecommerce/overview');
-    Route::view('/ecommerce-referral', 'ecommerce/referral');
+//    practitioner dashboard
+    Route::view('/practitioner-database', 'practitioner-dashboard/database');
+    Route::view('/practitioner-projects', 'practitioner-dashboard/projects');
+    Route::view('/practitioner-new-user', 'practitioner-dashboard/new-user');
+    Route::view('/practitioner-total-sales', 'practitioner-dashboard/total-sales');
+
+//    enterprise dashboard
+    Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
+    Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
+    Route::view('/enterprise-team-stats', 'enterprise-dashboard/team-stats');
+    Route::view('/enterprise-strategies-development', 'enterprise-dashboard/strategies-development');
+
+//    user profile
+    Route::get('/profile-user', [UserProfileController::class, 'create']);
+    Route::post('/save-user-profile', [UserProfileController::class, 'store']);
 
     Route::view('/ecommerce-products-edit-product', 'ecommerce/products/edit-product');
     Route::view('/ecommerce-products-new-product', 'ecommerce/products/new-product');
@@ -122,9 +136,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/laravel-edit-category/{id}', [CategoryController::class, 'edit']);
     Route::get('/laravel-category-management', [CategoryController::class, 'create']);
     Route::get('/laravel-delete-category/{id}', [CategoryController::class, 'destroy']);
-
-    Route::get('/laravel-user-profile', [UserProfileController::class, 'create']);
-    Route::post('/laravel-save-user-profile', [UserProfileController::class, 'store']);
 
     Route::get('/laravel-new-user', [UsersController::class, 'createOne'])->name('users.create.step.one');
     Route::post('/validate-step-one', [UsersController::class, 'validateOne'])->name('users.validate.step.one');
