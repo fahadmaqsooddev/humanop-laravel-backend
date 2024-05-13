@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="">
-                                <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update</button>
+                                <button type="submit" class="btn text-white btn-sm float-end mt-6 mb-0" style="background-color: #f2661c">Update</button>
                             </div>
                         </form>
                     </div>
