@@ -34244,6 +34244,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
 }
 
 .choices__list--single .choices__item {
+    color: white;
   width: 100%;
 }
 
