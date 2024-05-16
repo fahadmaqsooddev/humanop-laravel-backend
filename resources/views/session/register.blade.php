@@ -61,7 +61,7 @@
                                 </a>
                             </div>
                         </div>
-                    <p class="text-center text-white">or</p>
+                    <p class="text-center text-white"><b>or</b></p>
                         <div class="card-body">
                             <form action="/register" method="POST" role="form text-start">
                                 @csrf
@@ -85,11 +85,28 @@
                                 <div class="mt-3">
                                     <div class="">
                                         <select class="form-control" name="role_id" id="role_id" name="user_type" style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                            <option value=""  selected hidden >Choose</option>
+                                            <option value=""  selected hidden >Gender</option>
                                             <option value="1">{{ __('Admin') }}</option>
                                             <option value="2">{{ __('Creator') }}</option>
                                             <option value="3">{{ __('Member') }}</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div>
+                                        <input type="date" class="form-control" placeholder="Date of Birth" aria-label="Date of Birth" name="dob" id="dob" value="{{ old('dob') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        @error('dob')
+                                            <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3">
+                                    <div>
+                                        <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        @error('phone')
+                                            <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -101,7 +118,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-check form-check-info text-start" style="color: rgb(160, 174, 192)">
+                                {{-- <div class="form-check form-check-info text-start" style="color: rgb(160, 174, 192)">
                                     <input class="form-check-input" type="checkbox" name="agreement" id="flexCheckDefault" checked="">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
@@ -109,9 +126,13 @@
                                     @error('agreement')
                                         <p class="text-danger text-xs mt-2">First, agree to the Terms and Conditions, then try register again.</p>
                                     @enderror
+                                </div> --}}
+                                <div class="form-check form-switch mt-4">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember me</label>
                                 </div>
                                 <div class="text-center">
-                                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                                    <button type="submit" class="btn w-100 my-4 mb-2" style="background-color: #f2661c;color:white">Sign up</button>
                                 </div>
                                 <p class="text-sm mt-3 mb-0" style="color: rgb(160, 174, 192)">Already have an account? <a href="{{ url('login') }}" class="text-dark font-weight-bolder">Sign in</a></p>
                             </form>
