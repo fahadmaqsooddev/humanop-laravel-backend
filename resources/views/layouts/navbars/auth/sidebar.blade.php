@@ -1,8 +1,8 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="align-items-center d-flex m-0 navbar-brand text-wrap" href="{{ url('dashboard-default') }}">
-            <img src="{{ URL::asset('assets/img/logo.png') }}" class="navbar-brand-img h-100" style="width: 200px" alt="main_logo">
+        <a class="align-items-center d-flex m-0 text-wrap" href="{{ url('dashboard-default') }}">
+            <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -108,15 +108,15 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}" id="clientdashboardids">
                     <ul class="nav ms-4 ps-3">
-                        <li class="nav-item {{ (Request::is('client-dashboard')  ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('client-dashboard')  ? 'active' : '') }}" href="{{ url('client-dashboard') }}">
+                        <li class="nav-item {{ (Request::is('client-user-detail')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-user-detail')  ? 'active' : '') }}" href="{{ url('client-user-detail') }}">
                                 <span class="sidenav-mini-icon"> R </span>
                                 <span class="sidenav-normal"> Results </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('client-dashboard') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-dashboard') ? 'active' : '') }}" href="{{ url('client-dashboard') }}">
                                 <span class="sidenav-mini-icon"> L </span>
                                 <span class="sidenav-normal"> Library Resources </span>
                             </a>

@@ -40,6 +40,12 @@ Route::group(['middleware' => 'auth'], function () {
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
     Route::view('/client-dashboard-result', 'client-dashboard/video');
+    Route::view('/client-user-detail', 'client-dashboard/client_user_detail');
+    Route::view('/client-grid', 'client-dashboard/client_grid');
+    Route::view('/client-answers', 'client-dashboard/client_answer');
+    Route::view('/client-user-info', 'client-dashboard/client_user_info');
+
+
 
 //    practitioner dashboard
     Route::view('/practitioner-database', 'practitioner-dashboard/database');
