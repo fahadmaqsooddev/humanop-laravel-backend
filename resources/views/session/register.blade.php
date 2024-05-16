@@ -22,8 +22,8 @@
                         <div class="card-header text-center pt-4">
                             <h5 class="text-white">Register with</h5>
                         </div>
-                        <div class="css-mgpqwz">
-                            <div class="d-flex justify-content-center" style="margin-right: 20px;">
+                        <div class="css-mgpqwz d-flex justify-content-center">
+                            <div class="" style="margin-right: 20px;">
                                 <a href="#">
                                     <button class="btn btn-primary p-2 border border-radius-lg border-gray-800" type="button" style="background-color: rgb(19, 21, 54);">
                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512"
@@ -36,7 +36,7 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="d-flex justify-content-center " style="margin-right: 20px;>
+                            <div class="" style="margin-right: 20px;>
                                 <a href="#">
                                     <button class="btn btn-primary p-2 border border-radius-lg border-gray-800" type="button" style="background-color: rgb(19, 21, 54);">
                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" aria-hidden="true"
@@ -48,7 +48,7 @@
                                     </button>
                                 </a>
                             </div>
-                            <div class="d-flex justify-content-center" style="margin-right: 20px;>
+                            <div class="" style="margin-right: 20px;>
                                 <a href="#">
                                     <button class="btn btn-primary  p-2 border border-radius-lg border-gray-800" type="button" style="background-color: rgb(19, 21, 54);">
                                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 488 512" aria-hidden="true"
