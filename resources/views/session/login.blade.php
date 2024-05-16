@@ -77,44 +77,34 @@
                             </a>
                         </div>               
                     </div>
-                    <p class="text-center text-white">or</p>
+                    <p class="text-center text-white"><b>or</b></p>
                     <div class="card-body">
                         <form role="form" class="text-start" action="{{url('/session')}}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <input type="email" class="form-control" placeholder="Email" aria-label="Email"
                                     value="admin@softui.com" name="email" id="email" value="{{ old('email') }}"
-                                    required>
+                                    required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 @error('email')
                                 <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="mb-3">
                                 <input type="password" class="form-control" placeholder="Password" aria-label="Password"
-                                    value="secret" name="password" id="password" required>
+                                    value="secret" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 @error('password')
                                 <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                                <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember me</label>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Sign in</button>
+                                <button type="submit" class="btn w-100 my-4 mb-2" style="background-color: #f2661c;color:white">Sign in</button>
                             </div>
-                            <div class="mb-2 position-relative text-center">
-                                <p
-                                    class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
-                                    or
-                                </p>
-                            </div>
-                            <div class="text-center">
-                                <a href="/register" class="btn bg-gradient-dark w-100 mt-2 mb-4">Sign up</a>
-                            </div>
-                            <p class="text-sm mt-3 mb-0">Forgot your password? Reset your password
-                                <a href="/login/forgot-password" class="text-dark font-weight-bolder">here</a>
-                            </p>
+                            <p class="text-sm text-center mt-3 mb-0" style="color: rgb(160, 174, 192)">Don't have an account? <a href="{{ url('register') }}" class="text-dark font-weight-bolder">Sign up</a></p>
+
                         </form>
                     </div>
                 </div>
