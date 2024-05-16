@@ -155,9 +155,9 @@
                 <div class="collapse  {{ ($parentFolder == 'practitioner-dashboard' ? 'show' : '') }}" id="practitionerdashboardids">
                     <ul class="nav ms-4 ps-3">
                         <li class="nav-item {{ (Request::is('practitioner-database')  ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('practitioner-database')  ? 'active' : '') }}" href="{{ url('practitioner-database') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-database')  ? 'active' : '') }}" href="{{ url('practitioner-dashboard') }}">
                                 <span class="sidenav-mini-icon"> D </span>
-                                <span class="sidenav-normal"> Database </span>
+                                <span class="sidenav-normal"> Dashboard </span>
                             </a>
                         </li>
 

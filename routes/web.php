@@ -48,10 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 //    practitioner dashboard
-    Route::view('/practitioner-database', 'practitioner-dashboard/database');
+    Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
     Route::view('/practitioner-projects', 'practitioner-dashboard/projects');
     Route::view('/practitioner-new-user', 'practitioner-dashboard/new-user');
     Route::view('/practitioner-total-sales', 'practitioner-dashboard/total-sales');
+    Route::view('/practitioner-user-detail', 'practitioner-dashboard/practitioner_user_detail');
+
 
 //    enterprise dashboard
     Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
