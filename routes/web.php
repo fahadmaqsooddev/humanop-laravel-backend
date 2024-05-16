@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/answers', 'dashboards/answer');
     Route::view('/pages-users-reports', 'pages/users/reports');
     Route::view('/pages-users-new', 'pages/users/new-user');
+    Route::view('/pages-account-settings', 'dashboards/setting');
 
 
 //    client dashboard
@@ -47,18 +48,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/client-grid', 'client-dashboard/client_grid');
     Route::view('/client-answers', 'client-dashboard/client_answer');
     Route::view('/client-user-info', 'client-dashboard/client_user_info');
+    Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
 
 //    practitioner dashboard
     Route::view('/practitioner-database', 'practitioner-dashboard/database');
     Route::view('/practitioner-projects', 'practitioner-dashboard/projects');
     Route::view('/practitioner-new-user', 'practitioner-dashboard/new-user');
     Route::view('/practitioner-total-sales', 'practitioner-dashboard/total-sales');
+    Route::view('/practitioner-pages-account-settings', 'practitioner-dashboard/practitioner-setting');
 
 //    enterprise dashboard
     Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
     Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
     Route::view('/enterprise-team-stats', 'enterprise-dashboard/team-stats');
     Route::view('/enterprise-strategies-development', 'enterprise-dashboard/strategies-development');
+    Route::view('/enterprise-pages-account-settings', 'enterprise-dashboard/enterprise-setting');
 
 //    user profile
     Route::get('/profile-user', [UserProfileController::class, 'create']);
@@ -66,6 +70,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/logout', [SessionController::class, 'destroy']);
     Route::view('/login', 'dashboards/default')->name('sign-up');
+
+    Route::view('/pages-account-billing', 'pages/account/billing');
+    Route::view('/pages-account-invoice', 'pages/account/invoice');
+    Route::view('/pages-account-security', 'pages/account/security');
+
 });
 
 Route::group(['middleware' => 'guest'], function () {

@@ -19745,9 +19745,9 @@ svg.text-success .color-background {
 svg.text-dark .color-foreground {
   fill: #141727;
 }
-svg.text-dark .color-background {
-  fill: #3A416F;
-}
+/*svg.text-dark .color-background {*/
+/*  fill: #3A416F;*/
+/*}*/
 
 .shadow-card {
   box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
@@ -20046,9 +20046,9 @@ hr.horizontal.gray-light {
   width: 100%;
   z-index: 1;
 }
-.navbar.navbar-transparent .nav-link, .navbar.navbar-transparent .nav-link i {
-  color: #fff;
-}
+/*.navbar.navbar-transparent .nav-link, .navbar.navbar-transparent .nav-link i {*/
+/*  color: #fff;*/
+/*}*/
 .navbar.navbar-transparent .nav-link:hover, .navbar.navbar-transparent .nav-link:focus {
   color: rgba(255, 255, 255, 0.75);
 }

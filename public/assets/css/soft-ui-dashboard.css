@@ -20788,9 +20788,9 @@ svg.text-dark .color-foreground {
   fill: #141727;
 }
 
-svg.text-dark .color-background {
-  fill: #3A416F;
-}
+/*svg.text-dark .color-background {*/
+/*  fill: #3A416F;*/
+/*}*/
 
 .shadow-card {
   box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
@@ -26079,7 +26079,7 @@ a[data-scroll] {
 }
 
 a[data-scroll]:hover {
-  background: #e9ecef;
+  background: #344767;
   color: #344767;
 }
 
@@ -27785,7 +27785,8 @@ pre[class*="language-"] {
   width: 100%;
   padding: 10px;
   border-bottom: 1px solid #dddddd;
-  background-color: #ffffff;
+  background-color: #dddddd;
+    border-radius: 12px;
   margin: 0;
 }
 
@@ -27881,7 +27882,7 @@ pre[class*="language-"] {
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid #d2d6da;
-  border-radius: .5rem;
+  border-radius: 16px;
   font-size: 14px;
   min-height: 40px;
   overflow: hidden;
@@ -27917,6 +27918,7 @@ pre[class*="language-"] {
 }
 
 .choices__list--single .choices__item {
+    color: white;
   width: 100%;
 }
 
@@ -34109,7 +34111,8 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
   width: 100%;
   padding: 10px;
   border-bottom: 1px solid #dddddd;
-  background-color: #ffffff;
+    background-color: #dddddd;
+    border-radius: 12px;
   margin: 0;
 }
 
@@ -34205,7 +34208,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
   width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid #d2d6da;
-  border-radius: .5rem;
+  border-radius: 16px;
   font-size: 14px;
   min-height: 40px;
   overflow: hidden;

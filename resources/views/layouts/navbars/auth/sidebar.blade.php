@@ -82,6 +82,12 @@
                             <span class="sidenav-normal"> H.A.I. Chat </span>
                         </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('pages-account-settings') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('pages-account-settings') ? 'active' : '') }}" href="{{ url('pages-account-settings') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Setting </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -126,6 +132,12 @@
                             <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
                                 <span class="sidenav-mini-icon"> H </span>
                                 <span class="sidenav-normal"> Human Network </span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ (Request::is('client-pages-account-settings') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-pages-account-settings') ? 'active' : '') }}" href="{{ url('client-pages-account-settings') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Setting </span>
                             </a>
                         </li>
                     </ul>
@@ -195,6 +207,12 @@
                                 <span class="sidenav-normal"> HAI Interface </span>
                             </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('practitioner-pages-account-settings') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-pages-account-settings') ? 'active' : '') }}" href="{{ url('practitioner-pages-account-settings') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Setting </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -246,6 +264,12 @@
                             <a class="nav-link {{ (Request::is('enterprise-strategies-development') ? 'active' : '') }}" href="{{ url('/enterprise-strategies-development') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Strategies Development </span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ (Request::is('enterprise-pages-account-settings') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-pages-account-settings') ? 'active' : '') }}" href="{{ url('enterprise-pages-account-settings') }}">
+                                <span class="sidenav-mini-icon"> S </span>
+                                <span class="sidenav-normal"> Setting </span>
                             </a>
                         </li>
                     </ul>
