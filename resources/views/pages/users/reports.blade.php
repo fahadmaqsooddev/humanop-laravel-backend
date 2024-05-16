@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'pages', 'childFolder' => 'users'])
+@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'users'])
 
 @section('content')
     <div class="row mt-4">

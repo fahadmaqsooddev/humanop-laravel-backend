@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
     Route::view('/grid', 'dashboards/grid');
     Route::view('/answers', 'dashboards/answer');
+    Route::view('/pages-users-reports', 'pages/users/reports');
+    Route::view('/pages-users-new', 'pages/users/new-user');
+
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
@@ -44,8 +47,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/client-grid', 'client-dashboard/client_grid');
     Route::view('/client-answers', 'client-dashboard/client_answer');
     Route::view('/client-user-info', 'client-dashboard/client_user_info');
-
-
 
 //    practitioner dashboard
     Route::view('/practitioner-database', 'practitioner-dashboard/database');
