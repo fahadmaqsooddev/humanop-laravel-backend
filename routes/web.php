@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-users-reports', 'pages/users/reports');
     Route::view('/pages-users-new', 'pages/users/new-user');
     Route::view('/pages-account-settings', 'dashboards/setting');
+    Route::view('/admin-projects', 'dashboards/admin_projects');
 
 
 //    client dashboard
@@ -51,11 +52,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
 
 //    practitioner dashboard
-    Route::view('/practitioner-database', 'practitioner-dashboard/database');
+    Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
     Route::view('/practitioner-projects', 'practitioner-dashboard/projects');
     Route::view('/practitioner-new-user', 'practitioner-dashboard/new-user');
     Route::view('/practitioner-total-sales', 'practitioner-dashboard/total-sales');
     Route::view('/practitioner-pages-account-settings', 'practitioner-dashboard/practitioner-setting');
+    Route::view('/practitioner-user-detail', 'practitioner-dashboard/practitioner_user_detail');
+
 
 //    enterprise dashboard
     Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
