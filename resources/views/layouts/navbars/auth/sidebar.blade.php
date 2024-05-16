@@ -76,12 +76,18 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item {{ (Request::is('dashboard-hai-chat') ? 'active' : '') }}">
-                        <a class="nav-link {{ (Request::is('dashboard-hai-chat') ? 'active' : '') }}" href="{{ url('dashboard-hai-chat') }}">
+                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                        <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('dashboard-hai-chat') }}">
                             <span class="sidenav-mini-icon"> H </span>
                             <span class="sidenav-normal"> H.A.I. Chat </span>
                         </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('dashboard-project') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('dashboard-project') ? 'active' : '') }}" href="{{ url('admin-projects') }}">
+                                <span class="sidenav-mini-icon"> I </span>
+                                <span class="sidenav-normal">Projects</span>
+                            </a>
+                            </li>
                     </ul>
                 </div>
             </li>

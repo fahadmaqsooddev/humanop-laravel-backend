@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
     Route::view('/grid', 'dashboards/grid');
     Route::view('/answers', 'dashboards/answer');
+    Route::view('/admin-projects', 'dashboards/admin_projects');
+
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
