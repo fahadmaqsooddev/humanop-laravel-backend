@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::view('/pages-users-reports', 'pages/users/reports');
     Route::view('/pages-users-new', 'pages/users/new-user');
+    Route::view('/pages-widgets', 'pages/widgets');
 
     Route::view('/pages-account-settings', 'pages/account/settings');
     Route::view('/pages-account-billing', 'pages/account/billing');
