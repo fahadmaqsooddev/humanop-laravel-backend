@@ -82,6 +82,8 @@
                         <form role="form" class="text-start" action="{{url('/session')}}" method="POST">
                             @csrf
                             <div class="mb-3">
+                                <label for="name" class="text-white">Email</label>
+
                                 <input type="email" class="form-control" placeholder="Email" aria-label="Email"
                                     value="admin@softui.com" name="email" id="email" value="{{ old('email') }}"
                                     required style="background-color: #0F1535; color: white; border-radius: 15px;">
@@ -90,6 +92,8 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label for="name" class="text-white">Password</label>
+
                                 <input type="password" class="form-control" placeholder="Password" aria-label="Password"
                                     value="secret" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 @error('password')
