@@ -83,6 +83,16 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
+                                    <div class=" ">
+                                        <label for="name" class="text-white">Password</label>
+
+                                        <input type="password" class="form-control " placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        @error('password')
+                                            <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-3">
                                     <div class="">
                                         <label for="name" class="text-white">Gender</label>
 
@@ -115,16 +125,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mt-3">
-                                    <div class=" ">
-                                        <label for="name" class="text-white">Password</label>
-
-                                        <input type="password" class="form-control " placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                        @error('password')
-                                            <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
+                      
                                 {{-- <div class="form-check form-check-info text-start" style="color: rgb(160, 174, 192)">
                                     <input class="form-check-input" type="checkbox" name="agreement" id="flexCheckDefault" checked="">
                                     <label class="form-check-label" for="flexCheckDefault">
