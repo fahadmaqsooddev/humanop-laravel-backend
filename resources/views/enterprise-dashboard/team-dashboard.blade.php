@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="page-header min-height-300 border-radius-xl mt-4">
+        <div class="page-header border-radius-xl mt-4" style="height: 100px">
         </div>
         <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
             <div class="row gx-4">
@@ -231,7 +231,7 @@
                             </div>
                         </div>
                         <p>A group of people who collectively are responsible for all of the work necessary to produce working, validated assets.</p>
-                        
+
                     </div>
                 </div>
                 <div class="card mt-4 mb-3">
@@ -260,7 +260,7 @@
                             </div>
                         </div>
                         <p>Because it's about motivating the doers. Because I’m here to follow my dreams and inspire other people to follow their dreams, too.</p>
-                        
+
                     </div>
                 </div>
                 <div class="card mt-4">
@@ -277,7 +277,7 @@
                         <p class="mt-3 text-white"> You have an upcoming meet for Marketing Planning</p>
                         <p class="mb-0 text-white"><b>Meeting ID:</b> 902-128-281</p>
                         <hr class="horizontal dark">
-                        
+
                     </div>
                 </div>
             </div>
