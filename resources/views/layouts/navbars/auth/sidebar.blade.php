@@ -245,6 +245,12 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'enterprise-dashboard' ? ' show' : '') }}" id="enterprisedashboardids">
                     <ul class="nav ms-4 ps-3">
+                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('enterprise-dashboard') }}">
+                                <span class="sidenav-mini-icon"></span>
+                                <span class="sidenav-normal"> Dashboard </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}" href="{{ url('enterprise-roles-management') }}">
                                 <span class="sidenav-mini-icon"> R </span>
