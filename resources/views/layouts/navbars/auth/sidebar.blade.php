@@ -275,6 +275,12 @@
                                 <span class="sidenav-normal"> Dashboard </span>
                             </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('enterprise-team-dashboard') }}">
+                                <span class="sidenav-mini-icon"></span>
+                                <span class="sidenav-normal"> Team Dashboard </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}" href="{{ url('enterprise-roles-management') }}">
                                 <span class="sidenav-mini-icon"> R </span>
