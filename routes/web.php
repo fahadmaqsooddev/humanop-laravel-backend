@@ -42,6 +42,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-account-settings', 'dashboards/setting');
     Route::view('/admin-projects', 'dashboards/admin_projects');
 
+<<<<<<< Updated upstream
+=======
+// pricing page
+
+    Route::view('/pricing-page', 'pages/pricing-page');
+
+// check out page
+
+    Route::view('stripe/checkout' , 'mcq/checkout');
+>>>>>>> Stashed changes
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
@@ -54,6 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
     Route::view('/client-billing', 'client-dashboard/client_billing');
     Route::view('/client-human-network', 'client-dashboard/network');
+    Route::view('/attempt-test', 'client-dashboard/assessment');
+
 
 //    practitioner dashboard
     Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
