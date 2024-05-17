@@ -8,9 +8,6 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
                         <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-                        <p class="text-lead text-white">
-                            Use these awesome forms to login or create new account in your project for free.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -66,7 +63,8 @@
                             <form action="/register" method="POST" role="form text-start">
                                 @csrf
                                 <div>
-                                    <div class="input-group">
+                                    <div class="">
+                                        <label for="name" class="text-white">Name</label>
                                         <input type="text" class="form-control " placeholder="Name" aria-label="Name" aria-describedby="email-addon" name="name" id="name" value="{{ old('name') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
                                     @error('name')
@@ -76,6 +74,8 @@
 
                                 <div class="mt-3">
                                     <div class=" ">
+                                        <label for="email" class="text-white">Email</label>
+
                                         <input type="email" class="form-control " placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('email')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -84,6 +84,8 @@
                                 </div>
                                 <div class="mt-3">
                                     <div class="">
+                                        <label for="name" class="text-white">Gender</label>
+
                                         <select class="form-control" name="role_id" id="role_id" name="user_type" style="background-color: #0F1535; color: white; border-radius: 12px;">
                                             <option value="" selected hidden >Gender</option>
                                             <option value="1">Male</option>
@@ -93,6 +95,8 @@
                                 </div>
                                 <div class="mt-3">
                                     <div>
+                                        <label for="name" class="text-white">Date</label>
+
                                         <input type="date" class="form-control" placeholder="Date of Birth" aria-label="Date of Birth" name="dob" id="dob" value="{{ old('dob') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('dob')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -102,6 +106,8 @@
 
                                 <div class="mt-3">
                                     <div>
+                                        <label for="name" class="text-white">Phone</label>
+
                                         <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('phone')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -111,6 +117,8 @@
 
                                 <div class="mt-3">
                                     <div class=" ">
+                                        <label for="name" class="text-white">Password</label>
+
                                         <input type="password" class="form-control " placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('password')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
