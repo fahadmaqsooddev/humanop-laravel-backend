@@ -26,7 +26,7 @@
                         </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Admin Dashboard</span>
+                    <span class="nav-link-text ms-1">Admin</span>
                 </a>
                 <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                     <ul class="nav ms-4 ps-3">
@@ -116,7 +116,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Client Dashboard</span>
+                    <span class="nav-link-text ms-1">Client</span>
                 </a>
                 <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}" id="clientdashboardids">
                     <ul class="nav ms-4 ps-3">
@@ -186,7 +186,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Practitioner Dashboard</span>
+                    <span class="nav-link-text ms-1">Practitioner</span>
                 </a>
                 <div class="collapse  {{ ($parentFolder == 'practitioner-dashboard' ? 'show' : '') }}" id="practitionerdashboardids">
                     <ul class="nav ms-4 ps-3">
@@ -265,7 +265,7 @@
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Enterprise Dashboard</span>
+                    <span class="nav-link-text ms-1">Enterprise</span>
                 </a>
                 <div class="collapse {{ ($parentFolder == 'enterprise-dashboard' ? ' show' : '') }}" id="enterprisedashboardids">
                     <ul class="nav ms-4 ps-3">
