@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 //    enterprise dashboard
     Route::view('/enterprise-dashboard', 'enterprise-dashboard/dashboard');
     Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
-    Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
+    // Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
     Route::view('/enterprise-team-stats', 'enterprise-dashboard/team-stats');
     Route::view('/enterprise-strategies-development', 'enterprise-dashboard/strategies-development');
     Route::view('/enterprise-pages-account-settings', 'enterprise-dashboard/enterprise-setting');
