@@ -22343,6 +22343,7 @@ hr.horizontal.gray-light {
 .nav.nav-pills .nav-link.active {
     background-color: #f2661c !important;
   animation: 0.2s ease;
+  color: white;
 }
 
 .nav.nav-pills .nav-link:hover:not(.active) {
