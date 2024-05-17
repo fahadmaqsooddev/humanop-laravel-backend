@@ -126,6 +126,12 @@
                                 <span class="sidenav-normal"> Dashboard </span>
                             </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('attempt-test') }}">
+                                <span class="sidenav-mini-icon"> </span>
+                                <span class="sidenav-normal"> Assessment </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('client-user-detail')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('client-user-detail')  ? 'active' : '') }}" href="{{ url('client-user-detail') }}">
                                 <span class="sidenav-mini-icon"> R </span>
