@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::view('/pricing-page', 'pages/pricing-page');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
@@ -42,8 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-account-settings', 'dashboards/setting');
     Route::view('/admin-projects', 'dashboards/admin_projects');
 
-<<<<<<< Updated upstream
-=======
+
 // pricing page
 
     Route::view('/pricing-page', 'pages/pricing-page');
@@ -51,7 +49,6 @@ Route::group(['middleware' => 'auth'], function () {
 // check out page
 
     Route::view('stripe/checkout' , 'mcq/checkout');
->>>>>>> Stashed changes
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
