@@ -92,6 +92,155 @@
     <div class="container-fluid py-4">
         <div class="row mt-3">
             <div class="col-12 col-md-6 col-xl-4">
+                <div class="card h-100" style="background-image: url('assets/img/welcome-profile.png');">
+                    <div class="card-header pb-0 p-3">
+                        <h2 class="mb-0 text-white">Welcome Back!</h2>
+                        <p class="text-white">Nice to see you, Alec Thompson</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-xl-5 mt-xl-0 mt-4">
+                <div class="card h-100">
+                    <div class="card-header pb-0 p-3">
+                        <h4 class="mb-0 text-white">Assessment Information</h4>
+                        <p class="text-white">Hello, Mark Johnson! Your Assessment is ready.</p>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="card mb-4"
+                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                Assessment</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                <span class="text-success text-sm font-weight-bolder"></span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4"
+                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                Assessment</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                <span class="text-success text-sm font-weight-bolder"></span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4"
+                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                Assessment</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                <span class="text-success text-sm font-weight-bolder"></span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4"
+                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                Assessment</p>
+                                            <h5 class="font-weight-bolder mb-0">
+                                                <span class="text-success text-sm font-weight-bolder"></span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3 mt-md-0 mt-4">
+                <div class="card h-100">
+                    <div class="card-header pb-0 p-3">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <h6 class="mb-0">Profile Information</h6>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <a href="javascript:;">
+                                    <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <p class="text-sm text-white">
+                            Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).
+                        </p>
+                        <hr class="horizontal gray-light my-4">
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Full Name:</strong> &nbsp; Alec M. Thompson</li>
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Mobile:</strong> &nbsp; (44) 123 1234 123</li>
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Email:</strong> &nbsp; alecthompson@mail.com</li>
+                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Location:</strong> &nbsp; USA</li>
+                            <li class="list-group-item border-0 ps-0 pb-0">
+                                <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                                <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                    <i class="fab fa-facebook fa-lg"></i>
+                                </a>
+                                <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                    <i class="fab fa-twitter fa-lg"></i>
+                                </a>
+                                <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                    <i class="fab fa-instagram fa-lg"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-md-6 col-xl-4">
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
                         <h6 class="mb-0">Platform Settings</h6>
@@ -142,110 +291,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-xl-4 mt-md-0 mt-4">
-                <div class="card h-100">
-                    <div class="card-header pb-0 p-3">
-                        <div class="row">
-                            <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-0">Profile Information</h6>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <a href="javascript:;">
-                                    <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-3">
-                        <p class="text-sm text-white">
-                            Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).
-                        </p>
-                        <hr class="horizontal gray-light my-4">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Full Name:</strong> &nbsp; Alec M. Thompson</li>
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Mobile:</strong> &nbsp; (44) 123 1234 123</li>
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Email:</strong> &nbsp; alecthompson@mail.com</li>
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm text-white"><strong class="text-dark">Location:</strong> &nbsp; USA</li>
-                            <li class="list-group-item border-0 ps-0 pb-0">
-                                <strong class="text-dark text-sm">Social:</strong> &nbsp;
-                                <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                                    <i class="fab fa-facebook fa-lg"></i>
-                                </a>
-                                <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                                    <i class="fab fa-twitter fa-lg"></i>
-                                </a>
-                                <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
-                                    <i class="fab fa-instagram fa-lg"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-xl-4 mt-xl-0 mt-4">
-                <div class="card h-100">
-                    <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Conversations</h6>
-                    </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                <div class="avatar me-3">
-                                    <img src="{{ URL::asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" class="border-radius-lg shadow">
-                                </div>
-                                <div class="d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">Sophie B.</h6>
-                                    <p class="mb-0 text-xs text-white">Hi! I need more information..</p>
-                                </div>
-                                <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
-                            </li>
-                            <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                <div class="avatar me-3">
-                                    <img src="{{ URL::asset('assets/img/marie.jpg') }}" alt="kal" class="border-radius-lg shadow">
-                                </div>
-                                <div class="d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">Anne Marie</h6>
-                                    <p class="mb-0 text-xs text-white">Awesome work, can you..</p>
-                                </div>
-                                <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
-                            </li>
-                            <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                <div class="avatar me-3">
-                                    <img src="{{ URL::asset('assets/img/ivana-square.jpg') }}" alt="kal" class="border-radius-lg shadow">
-                                </div>
-                                <div class="d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">Ivanna</h6>
-                                    <p class="mb-0 text-xs text-white">About files I can..</p>
-                                </div>
-                                <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
-                            </li>
-                            <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                                <div class="avatar me-3">
-                                    <img src="{{ URL::asset('assets/img/team-4.jpg') }}" alt="kal" class="border-radius-lg shadow">
-                                </div>
-                                <div class="d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">Peterson</h6>
-                                    <p class="mb-0 text-xs text-white">Have a great afternoon..</p>
-                                </div>
-                                <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
-                            </li>
-                            <li class="list-group-item border-0 d-flex align-items-center px-0">
-                                <div class="avatar me-3">
-                                    <img src="{{ URL::asset('assets/img/team-3.jpg') }}" alt="kal" class="border-radius-lg shadow">
-                                </div>
-                                <div class="d-flex align-items-start flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">Nick Daniel</h6>
-                                    <p class="mb-0 text-xs text-white">Hi! I need more information..</p>
-                                </div>
-                                <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12">
+            <div class="col-12 col-md-6 col-xl-8">
                 <div class="card mb-4">
                     <div class="card-header pb-0 p-3">
                         <h6 class="mb-1 text-white">Projects</h6>
@@ -253,7 +299,7 @@
                     </div>
                     <div class="card-body p-3">
                         <div class="row">
-                            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                            <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
                                 <div class="card card-blog card-plain">
                                     <div class="position-relative">
                                         <a class="d-block shadow-xl border-radius-xl">
@@ -290,7 +336,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                            <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
                                 <div class="card card-blog card-plain">
                                     <div class="position-relative">
                                         <a class="d-block shadow-xl border-radius-xl">
@@ -327,7 +373,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
+                            <div class="col-xl-4 col-md-6 mb-xl-0 mb-4">
                                 <div class="card card-blog card-plain">
                                     <div class="position-relative">
                                         <a class="d-block shadow-xl border-radius-xl">
@@ -361,16 +407,6 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
-                                <div class="card h-100 card-plain border">
-                                    <div class="card-body d-flex flex-column justify-content-center text-center">
-                                        <a href="javascript:;">
-                                            <i class="fa fa-plus text-secondary mb-3"></i>
-                                            <h5 class=" text-secondary"> New project </h5>
-                                        </a>
                                     </div>
                                 </div>
                             </div>

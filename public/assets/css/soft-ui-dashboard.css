@@ -20276,7 +20276,7 @@ fieldset:disabled .btn {
 }
 
 .fixed-plugin .fixed-plugin-button {
-  background: #fff;
+  background: #f2661c;
   border-radius: 50%;
   bottom: 30px;
   right: 30px;
@@ -22434,7 +22434,7 @@ hr.horizontal.gray-light {
   border-radius: 0.5rem;
 }
 
-.moving-tab .nav-link.active {
+.moving-tab .nav-link.activ.fixed-plugin .fixed-plugin-buttone {
   color: #fff;
   font-weight: 600;
   /*box-shadow: 0px 1px 5px 1px #ddd;*/
