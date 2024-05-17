@@ -5600,7 +5600,8 @@ textarea.form-control-lg {
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .list-group-item:first-child {
-  border-top-left-radius: inherit;
+    background-color: #0f1534 !important;
+    border-top-left-radius: inherit;
   border-top-right-radius: inherit;
 }
 .list-group-item:last-child {
@@ -9501,9 +9502,6 @@ textarea.form-control-lg {
   background-color: transparent !important;
 }
 
-.bg-gray-100 {
-  background-color: #f8f9fa !important;
-}
 
 .bg-gray-200 {
   background-color: #e9ecef !important;
@@ -9818,7 +9816,7 @@ textarea.form-control-lg {
 }
 
 .min-height-300 {
-  min-height: 300px !important;
+  min-height: 60px !important;
 }
 
 .min-height-400 {
@@ -21222,7 +21220,7 @@ hr.horizontal.gray-light {
 .moving-tab .nav-link.active {
   color: #fff;
   font-weight: 600;
-  box-shadow: 0px 1px 5px 1px #ddd;
+  /*box-shadow: 0px 1px 5px 1px #ddd;*/
   -webkit-animation: 0.2s ease;
           animation: 0.2s ease;
   background: #fff;

@@ -120,6 +120,12 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}" id="clientdashboardids">
                     <ul class="nav ms-4 ps-3">
+                        <li class="nav-item {{ (Request::is('client-dashboard')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-dashboard')  ? 'active' : '') }}" href="{{ url('client-dashboard') }}">
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Dashboard </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('client-user-detail')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('client-user-detail')  ? 'active' : '') }}" href="{{ url('client-user-detail') }}">
                                 <span class="sidenav-mini-icon"> R </span>
@@ -127,17 +133,23 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('client-dashboard') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('client-dashboard') ? 'active' : '') }}" href="{{ url('client-dashboard') }}">
+                        <li class="nav-item {{ (Request::is('client-resource') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-resource') ? 'active' : '') }}" href="{{ url('client-resource') }}">
                                 <span class="sidenav-mini-icon"> L </span>
                                 <span class="sidenav-normal"> Library Resources </span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
+                        <li class="nav-item {{ (Request::is('client-human-network') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-human-network') ? 'active' : '') }}" href="{{ url('client-human-network') }}">
                                 <span class="sidenav-mini-icon"> H </span>
                                 <span class="sidenav-normal"> Human Network </span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ (Request::is('client-billing') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('client-billing') ? 'active' : '') }}" href="{{ url('client-billing') }}">
+                                <span class="sidenav-mini-icon"> B </span>
+                                <span class="sidenav-normal"> Billing </span>
                             </a>
                         </li>
                         <li class="nav-item {{ (Request::is('client-pages-account-settings') ? 'active' : '') }}">
@@ -213,6 +225,12 @@
                                 <span class="sidenav-normal"> HAI Interface </span>
                             </a>
                         </li>
+                        <li class="nav-item {{ (Request::is('practitioner-billing') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('practitioner-billing') ? 'active' : '') }}" href="{{ url('practitioner-billing') }}">
+                                <span class="sidenav-mini-icon"> B </span>
+                                <span class="sidenav-normal"> Billing </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('practitioner-pages-account-settings') ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('practitioner-pages-account-settings') ? 'active' : '') }}" href="{{ url('practitioner-pages-account-settings') }}">
                                 <span class="sidenav-mini-icon"> S </span>
@@ -270,6 +288,12 @@
                             <a class="nav-link {{ (Request::is('enterprise-strategies-development') ? 'active' : '') }}" href="{{ url('/enterprise-strategies-development') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Strategies Development </span>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ (Request::is('enterprise-billing') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-billing') ? 'active' : '') }}" href="{{ url('enterprise-billing') }}">
+                                <span class="sidenav-mini-icon"> B </span>
+                                <span class="sidenav-normal"> Billing </span>
                             </a>
                         </li>
                         <li class="nav-item {{ (Request::is('enterprise-pages-account-settings') ? 'active' : '') }}">
