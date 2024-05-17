@@ -82,8 +82,8 @@
                             <span class="sidenav-normal"> H.A.I. Chat </span>
                         </a>
                         </li>
-                        <li class="nav-item {{ (Request::is('dashboard-project') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('dashboard-project') ? 'active' : '') }}" href="{{ url('admin-projects') }}">
+                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('pages-profile-projects') }}">
                                 <span class="sidenav-mini-icon"> I </span>
                                 <span class="sidenav-normal">Projects</span>
                             </a>
@@ -245,6 +245,12 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'enterprise-dashboard' ? ' show' : '') }}" id="enterprisedashboardids">
                     <ul class="nav ms-4 ps-3">
+                        <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('enterprise-dashboard') }}">
+                                <span class="sidenav-mini-icon"></span>
+                                <span class="sidenav-normal"> Dashboard </span>
+                            </a>
+                        </li>
                         <li class="nav-item {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('enterprise-roles-management')  ? 'active' : '') }}" href="{{ url('enterprise-roles-management') }}">
                                 <span class="sidenav-mini-icon"> R </span>
@@ -253,7 +259,7 @@
                         </li>
 
                         <li class="nav-item {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}" href="{{ url('enterprise-tags-management') }}">
+                            <a class="nav-link {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}" href="{{ url('#') }}">
                                 <span class="sidenav-mini-icon"> T </span>
                                 <span class="sidenav-normal"> Team Mgmt Summary </span>
                             </a>

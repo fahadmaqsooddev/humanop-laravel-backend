@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'enterprise-dashboard', 'childFolder' => 'none'])
 
 @section('content')
   <div class="container-fluid">

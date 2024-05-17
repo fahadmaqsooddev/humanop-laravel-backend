@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::view('/pricing-page', 'pages/pricing-page');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
@@ -61,8 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 //    enterprise dashboard
+    Route::view('/enterprise-dashboard', 'enterprise-dashboard/dashboard');
     Route::get('/enterprise-roles-management', [RolesController::class, 'create']);
-    Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
+    // Route::get('/enterprise-tags-management', [TagsController::class, 'create']);
     Route::view('/enterprise-team-stats', 'enterprise-dashboard/team-stats');
     Route::view('/enterprise-strategies-development', 'enterprise-dashboard/strategies-development');
     Route::view('/enterprise-pages-account-settings', 'enterprise-dashboard/enterprise-setting');
@@ -77,6 +79,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-account-billing', 'pages/account/billing');
     Route::view('/pages-account-invoice', 'pages/account/invoice');
     Route::view('/pages-account-security', 'pages/account/security');
+
+    // project dashboard
+
+    Route::view('/pages-profile-projects', 'pages/profile/projects');
+
+    // pricing pages
+
+
 
 });
 

@@ -5571,7 +5571,7 @@ fieldset:disabled .btn {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-    background: rgb(15, 21, 53) border-box;
+  background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;
   background-clip: border-box;
   border: 0 solid rgba(0, 0, 0, 0.125);
   border-radius: 1rem;
@@ -22320,7 +22320,7 @@ hr.horizontal.gray-light {
 }
 
 .nav.nav-pills {
-  background: #f8f9fa;
+  background: black;
   border-radius: 0.75rem;
   position: relative;
 }
