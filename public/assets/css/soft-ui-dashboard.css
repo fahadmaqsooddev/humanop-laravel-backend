@@ -6224,6 +6224,7 @@ fieldset:disabled .btn {
 }
 
 .list-group-item:first-child {
+    background-color: #0f1534 !important;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
 }
@@ -6248,7 +6249,8 @@ fieldset:disabled .btn {
 }
 
 .list-group-item+.list-group-item {
-  border-top-width: 0;
+    background-color: #0f1534 !important;
+    border-top-width: 0;
 }
 
 .list-group-item+.list-group-item.active {
@@ -10301,9 +10303,7 @@ fieldset:disabled .btn {
   background-color: transparent !important;
 }
 
-.bg-gray-100 {
-  background-color: #f8f9fa !important;
-}
+
 
 .bg-gray-200 {
   background-color: #e9ecef !important;
@@ -10611,7 +10611,7 @@ fieldset:disabled .btn {
 }
 
 .min-height-300 {
-  min-height: 300px !important;
+  min-height: 60px !important;
 }
 
 .min-height-400 {
@@ -22341,6 +22341,7 @@ hr.horizontal.gray-light {
 }
 
 .nav.nav-pills .nav-link.active {
+    background-color: #f2661c !important;
   animation: 0.2s ease;
 }
 
@@ -22435,7 +22436,7 @@ hr.horizontal.gray-light {
 .moving-tab .nav-link.active {
   color: #fff;
   font-weight: 600;
-  box-shadow: 0px 1px 5px 1px #ddd;
+  /*box-shadow: 0px 1px 5px 1px #ddd;*/
   animation: 0.2s ease;
   background: #fff;
 }

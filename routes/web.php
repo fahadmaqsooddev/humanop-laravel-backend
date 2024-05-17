@@ -45,12 +45,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
+    Route::view('/client-resource', 'client-dashboard/client-resource');
     Route::view('/client-dashboard-result', 'client-dashboard/video');
     Route::view('/client-user-detail', 'client-dashboard/client_user_detail');
     Route::view('/client-grid', 'client-dashboard/client_grid');
     Route::view('/client-answers', 'client-dashboard/client_answer');
     Route::view('/client-user-info', 'client-dashboard/client_user_info');
     Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
+    Route::view('/client-billing', 'client-dashboard/client_billing');
+    Route::view('/client-human-network', 'client-dashboard/network');
 
 //    practitioner dashboard
     Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
@@ -59,7 +62,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/practitioner-total-sales', 'practitioner-dashboard/total-sales');
     Route::view('/practitioner-pages-account-settings', 'practitioner-dashboard/practitioner-setting');
     Route::view('/practitioner-user-detail', 'practitioner-dashboard/practitioner_user_detail');
-
+    Route::view('/pages-account-billing', 'pages/account/billing');
+    Route::view('/practitioner-billing', 'practitioner-dashboard/practitioner-billing');
 
 //    enterprise dashboard
     Route::view('/enterprise-dashboard', 'enterprise-dashboard/dashboard');
@@ -68,6 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/enterprise-team-stats', 'enterprise-dashboard/team-stats');
     Route::view('/enterprise-strategies-development', 'enterprise-dashboard/strategies-development');
     Route::view('/enterprise-pages-account-settings', 'enterprise-dashboard/enterprise-setting');
+    Route::view('/pages-account-billing', 'pages/account/billing');
+    Route::view('/enterprise-billing', 'enterprise-dashboard/enterprise-billing');
 
 //    user profile
     Route::get('/profile-user', [UserProfileController::class, 'create']);
@@ -76,17 +82,28 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [SessionController::class, 'destroy']);
     Route::view('/login', 'dashboards/default')->name('sign-up');
 
+
+    Route::view('/pages-profile-overview', 'pages/profile/overview');
+    Route::view('/pages-profile-projects', 'pages/profile/projects');
+
+    Route::view('/pages-users-reports', 'pages/users/reports');
+    Route::view('/pages-users-new', 'pages/users/new-user');
+
+    Route::view('/pages-account-settings', 'pages/account/settings');
     Route::view('/pages-account-billing', 'pages/account/billing');
     Route::view('/pages-account-invoice', 'pages/account/invoice');
     Route::view('/pages-account-security', 'pages/account/security');
 
-    // project dashboard
+    Route::view('/pages-projects-general', 'pages/projects/general');
+    Route::view('/pages-projects-new-project', 'pages/projects/new-project');
+    Route::view('/pages-projects-timeline', 'pages/projects/timeline');
 
-    Route::view('/pages-profile-projects', 'pages/profile/projects');
-
-    // pricing pages
-
-
+    Route::view('/pages-charts', 'pages/charts');
+    Route::view('/pages-notifications', 'pages/notifications');
+    Route::view('/pages-pricing', 'pages/pricing-page');
+    Route::view('/pages-rtl', 'pages/rtl-page');
+    Route::view('/pages-sweet-alerts', 'pages/sweet-alerts');
+    Route::view('/pages-widgets', 'pages/widgets');
 
 });
 
