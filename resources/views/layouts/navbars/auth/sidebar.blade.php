@@ -82,8 +82,8 @@
                             <span class="sidenav-normal"> H.A.I. Chat </span>
                         </a>
                         </li>
-                        <li class="nav-item {{ (Request::is('dashboard-project') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('dashboard-project') ? 'active' : '') }}" href="{{ url('admin-projects') }}">
+                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('pages-profile-projects') }}">
                                 <span class="sidenav-mini-icon"> I </span>
                                 <span class="sidenav-normal">Projects</span>
                             </a>

@@ -78,6 +78,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-account-invoice', 'pages/account/invoice');
     Route::view('/pages-account-security', 'pages/account/security');
 
+    // project dashboard
+
+    Route::view('/pages-profile-projects', 'pages/profile/projects');
+
 });
 
 Route::group(['middleware' => 'guest'], function () {
