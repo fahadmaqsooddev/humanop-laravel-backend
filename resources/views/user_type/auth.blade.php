@@ -37,13 +37,13 @@
             @include('layouts/footers/guest/footer')
         @else
             @include('layouts/navbars/auth/sidebar')
-            <main class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative bg-gray-100' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
+            <main class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
                 @if (\Request::is('pages-rtl'))
                     @include('layouts/navbars/auth/nav-rtl')
                 @else
                     @include('layouts/navbars/auth/nav')
                 @endif
-                @if($childFolder == 'profile'||$childFolder == 'account'||Request::is('ecommerce-products-new-product')) 
+                @if($childFolder == 'profile'||$childFolder == 'account'||Request::is('ecommerce-products-new-product'))
                     @yield('content')
                 @else
                     <div class="container-fluid py-4">
