@@ -26,7 +26,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
                                             Daily Assessments</p>
-                                        <h5 class="font-weight-bolder mb-0">
+                                        <h5 class="font-weight-bolder mb-0" style="margin-top: 80px">
                                             9
                                             <span class="text-success text-sm font-weight-bolder">+55%</span>
                                         </h5>
@@ -51,7 +51,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
                                             Weekly Assessments</p>
-                                        <h5 class="font-weight-bolder mb-0">
+                                        <h5 class="font-weight-bolder mb-0" style="margin-top: 80px">
                                             45
                                             <span class="text-success text-sm font-weight-bolder">+3%</span>
                                         </h5>
@@ -78,7 +78,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
                                             Monthly Assessments</p>
-                                        <h5 class="font-weight-bolder mb-0">
+                                        <h5 class="font-weight-bolder mb-0" style="margin-top: 80px">
                                             130
                                             <span class="text-success text-sm font-weight-bolder">+2%</span>
                                         </h5>
@@ -103,7 +103,7 @@
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
                                             Yearly Assessments</p>
-                                        <h5 class="font-weight-bolder mb-0">
+                                        <h5 class="font-weight-bolder mb-0" style="margin-top: 80px">
                                             1560
                                             <span class="text-success text-sm font-weight-bolder">+5%</span>
                                         </h5>
