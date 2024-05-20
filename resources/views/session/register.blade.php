@@ -60,7 +60,7 @@
                         </div>
                     <p class="text-center text-white"><b>or</b></p>
                         <div class="card-body">
-                            <form action="/register" method="POST" role="form text-start">
+                            <form action="{{url('login')}}" role="form text-start">
                                 @csrf
                                 <div>
                                     <div class="">
