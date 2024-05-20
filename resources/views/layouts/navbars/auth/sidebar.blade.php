@@ -127,7 +127,7 @@
                             </a>
                         </li>
                         <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('attempt-test') }}">
+                            <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}" href="{{ url('pricing-page') }}">
                                 <span class="sidenav-mini-icon"> </span>
                                 <span class="sidenav-normal"> Assessment </span>
                             </a>

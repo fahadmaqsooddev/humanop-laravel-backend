@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'mcq', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'client-dashboard ', 'childFolder' => 'none'])
 
 
 
@@ -20,7 +20,7 @@
             <div class="col-xl-8 col-lg-5 col-md-4">
                 <div class="card z-index-0">
                     <div class="card-body">
-                        <form action="{{url('client-user-detail')}}">
+                        <form action="{{url('attempt-test')}}">
                           
                             <div class="mb-3">
                                 <label for="" class="text-white">Name</label>

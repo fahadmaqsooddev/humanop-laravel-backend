@@ -107,7 +107,7 @@
                 <label class="form-check-label text-white" for="q5a4">D) Thailand</label>
             </div>
 
-            <a href="{{url('pricing-page')}}" class="btn btn-icon bg-gradient-primary mt-4">
+            <a href="{{url('client-user-detail')}}" class="btn btn-icon bg-gradient-primary mt-4">
                 Submit
                 <i class="fas fa-arrow-right ms-1"></i>
             </a>
