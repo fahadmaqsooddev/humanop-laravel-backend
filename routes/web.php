@@ -24,11 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        return redirect('dashboard-default');
+        return redirect('/admin-dashboard');
     });
 
 //    admin dashboard
-    Route::view('/dashboard-default', 'dashboards/default');
+    Route::view('/admin-dashboard', 'dashboards/default');
     Route::view('/dashboard-cms', 'dashboards/cms');
     Route::view('/users', 'dashboards/all_users');
     Route::view('/user-detail', 'dashboards/user_detail');
@@ -115,7 +115,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::view('/pages-rtl', 'pages/rtl-page');
     Route::view('/pages-sweet-alerts', 'pages/sweet-alerts');
     Route::view('/pages-widgets', 'pages/widgets');
-    
+
 
 });
 

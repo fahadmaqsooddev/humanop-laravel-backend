@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="align-items-center d-flex m-0 text-wrap" href="{{ url('dashboard-default') }}">
+        <a class="align-items-center d-flex m-0 text-wrap" href="{{ url('admin-dashboard') }}">
             <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
         </a>
     </div>
@@ -30,8 +30,8 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                     <ul class="nav ms-4 ps-3">
-                        <li class="nav-item {{ (Request::is('dashboard-default') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('dashboard-default') ? 'active' : '') }}" href="{{ url('dashboard-default') }}">
+                        <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}" href="{{ url('admin-dashboard') }}">
                             <span class="sidenav-mini-icon"> D </span>
                             <span class="sidenav-normal"> Dashboard </span>
                         </a>
