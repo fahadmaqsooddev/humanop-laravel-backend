@@ -20408,6 +20408,31 @@ fieldset:disabled .btn {
     border-radius: 8px;
     padding: 10px;
 }
+#droppable {
+    position: relative;
+    border-radius: 11px;
+    width: 430px;
+    height: 400px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+#droppable1 {
+    margin-left: 45px;
+    position: relative;
+    border-radius: 11px;
+    width: 430px;
+    height: 400px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+
+#div2 {
+    border-radius: 11px;
+    width: 350px;
+    height: 366px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
 /* end chat box css */
 .fixed-plugin .fixed-plugin-button {
   background: #f2661c;
