@@ -223,10 +223,10 @@
                         </p>
                         <div class="d-flex">
                             <div class="row">
-                                <div id="droppable"></div>
+                                <div id="droppable" class="droppable"></div>
                             </div>
                             <div class="row">
-                                <div id="droppable1"></div>
+                                <div id="droppable1" class="droppable1"></div>
                             </div>
                         </div>
                     </div>
@@ -379,11 +379,11 @@
                 $draggable.css({
                     top: newTop,
                     left: newLeft,
-                    width: "430px",
+                    width: "375px",
                     height: "400px",
                     padding: "10px",
                     marginTop: "-166px",  // Reset margin-top to avoid extra offset
-                    marginLeft: "-181px",  // Reset margin-top to avoid extra offset
+                    marginLeft: "-154px",  // Reset margin-top to avoid extra offset
                     position: "absolute" // Ensure absolute positioning
                 }).appendTo($droppable);
                 $draggable[0].style.setProperty('border-radius', '11px', 'important');
