@@ -28,13 +28,13 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
                                    role="tab" aria-selected="true">
-                                    <span class="ms-1">Access Personal Dashboard</span>
+                                    <span class="ms-1 text-white text-bold">Access Personal <br> Dashboard</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
                                    aria-selected="false">
-                                    <span class="ms-1">Teams</span>
+                                    <span class="ms-1 text-white text-bold">Teams</span>
                                 </a>
                             </li>
                         </ul>
