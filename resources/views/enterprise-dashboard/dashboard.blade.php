@@ -193,7 +193,64 @@
                         <div class="card-body p-3">
                             <p class="text-sm mt-3 text-white" style="color: rgb(160, 174, 192)"> TEAM PERFORMANCE R. O.
                                 I. METRICS</p>
-                            <textarea cols="132" rows="10">type here...</textarea>
+                            
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable-search">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>SA</th>
+                                    <th>MA</th>
+                                    <th>JO</th>
+                                    <th>LU</th>
+                                    <th>VEN</th>
+                                    <th>MER</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="text-center">
+                                    <td>Tiger Nixon</td>
+                                    <td>user@gmail.com/td>
+                                    <td>Male</td>
+                                    <td>0</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td style="color: greenyellow">6</td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>Nancy Grace</td>
+                                    <td>user1@gmail.com/td>
+                                    <td>Female</td>
+                                    <td>4</td>
+                                    <td>0</td>
+                                    <td style="color: greenyellow">7</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>5</td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>Ronald jordge</td>
+                                    <td>user2@gmail.com/td>
+                                    <td>Male</td>
+                                    <td style="color: greenyellow">7</td>
+                                    <td>4</td>
+                                    <td>2</td>
+                                    <td>4</td>
+                                    <td>0</td>
+                                    <td>6</td>
+                                    <td><a href="{{ url('client-grid') }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                </tr>
+                      
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
