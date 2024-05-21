@@ -2,25 +2,6 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 
 @section('content')
-    <style>
-        .droppable {
-            position: relative;
-            border-radius: 11px;
-            width: 375px;
-            height: 400px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;
-        }
-        .droppable1 {
-            margin-left: 45px;
-            position: relative;
-            border-radius: 11px;
-            width: 375px;
-            height: 400px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;
-        }
-    </style>
     <div class="container-fluid">
         <div class="page-header border-radius-xl mt-4" style="height: 100px">
         </div>
@@ -243,10 +224,21 @@
                         </p>
                         <div class="d-flex">
                             <div class="row">
-                                <div id="droppable" class="droppable"></div>
+                                <div id="droppable" class="droppable" style="position: relative;
+            border-radius: 11px;
+            width: 375px;
+            height: 400px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;"></div>
                             </div>
                             <div class="row">
-                                <div id="droppable1" class="droppable1"></div>
+                                <div id="droppable1" class="droppable1" style="margin-left: 45px;
+            position: relative;
+            border-radius: 11px;
+            width: 375px;
+            height: 400px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;"></div>
                             </div>
                         </div>
                     </div>
