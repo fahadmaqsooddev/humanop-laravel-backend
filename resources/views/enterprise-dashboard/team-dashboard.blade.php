@@ -16,7 +16,7 @@
                         <h5 class="mb-1 text-white">
                             Alec Thompson
                         </h5>
-                        <p class="mb-0 font-weight-bold text-sm text-white">
+                        <p class="mb-0 font-weight-bold text-sm textf-white">
                             CEO / Co-Founder
                         </p>
                     </div>
@@ -206,79 +206,160 @@
             </div>
             <div class="col-12 col-lg-4">
                 <div class="card mb-3 mt-lg-0 mt-4">
-                    <div class="card-body pb-0 text-white">
-                        <div class="row align-items-center mb-3">
-                            <div class="col-9">
-                                <h5 class="mb-1 text-gradient text-primary">
-                                    <a href="javascript:;">Digital Marketing</a>
-                                </h5>
+                    <div class="card">
+                        <div class="card-body p-3">
+                          <div class="d-flex">
+                            <div class="avatar avatar-xl bg-gradient-dark border-radius-md p-2">
+                              <img src="{{ URL::asset('assets/img/small-logos/logo-slack.svg') }}" alt="slack_logo">
                             </div>
-                            <div class="col-3 text-end">
-                                <div class="dropstart">
-                                    <a href="javascript:;" class="text-secondary" id="dropdownMarketingCard" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="dropdownMarketingCard">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Team</a></li>
-                                    </ul>
+                            <div class="ms-3 my-auto">
+                              <h6 class="text-white">Slack Bot</h6>
+                              {{-- <div class="avatar-group">
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}" class="">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Audrey Love">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}" class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Michael Lewis">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}" class="">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Audrey Love">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}" class="rounded-circle">
+                                </a>
+                              </div> --}}
+                            </div>
+                            <div class="ms-auto">
+                              <div class="dropdown">
+                                <button class="btn btn-link text-secondary ps-0 pe-2" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v text-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end me-sm-n4 me-n3" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="javascript:;">Action</a>
+                                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                                  <a class="dropdown-item" href="javascript:;">Something else here</a>
                                 </div>
+                              </div>
                             </div>
+                          </div>
+                          <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Pink is obviously a better color.</p>
+                          <hr class="horizontal dark">
+                          <div class="row">
+                            {{-- <div class="col-6">
+                              <h6 class="text-sm mb-0 text-white">5</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Participants</p>
+                            </div> --}}
+                            {{-- <div class="col-6 text-end">
+                              <h6 class="text-sm mb-0 text-white">02.03.22</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Due date</p>
+                            </div> --}}
+                          </div>
                         </div>
-                        <p>A group of people who collectively are responsible for all of the work necessary to produce working, validated assets.</p>
-
-                    </div>
+                      </div>
                 </div>
                 <div class="card mt-4 mb-3">
-                    <div class="card-body pb-0 text-white">
-                        <div class="row align-items-center mb-3">
-                            <div class="col-9">
-                                <h5 class="mb-1 text-gradient text-primary">
-                                    <a href="javascript:;">Design</a>
-                                </h5>
+                    <div class="card">
+                        <div class="card-body p-3">
+                          <div class="d-flex">
+                            <div class="avatar avatar-xl bg-gradient-dark border-radius-md p-2">
+                              <img src="{{ URL::asset('assets/img/small-logos/logo-spotify.svg') }}" alt="spotify_logo">
                             </div>
-                            <div class="col-3 text-end">
-                                <div class="dropstart">
-                                    <a href="javascript:;" class="text-secondary" id="dropdownDesignCard" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="dropdownDesignCard">
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a></li>
-                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Team</a></li>
-                                    </ul>
+                            <div class="ms-3 my-auto">
+                              <h6 class="text-white">Premium support</h6>
+                              {{-- <div class="avatar-group">
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Audrey Love">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}" class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}" class="">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Michael Lewis">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">
+                                </a>
+                              </div> --}}
+                            </div>
+                            <div class="ms-auto">
+                              <div class="dropdown">
+                                <button class="btn btn-link text-secondary ps-0 pe-2" id="navbarDropdownMenuLink1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v text-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end me-sm-n4 me-n3" aria-labelledby="navbarDropdownMenuLink1">
+                                  <a class="dropdown-item" href="javascript:;">Action</a>
+                                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                                  <a class="dropdown-item" href="javascript:;">Something else here</a>
                                 </div>
+                              </div>
                             </div>
+                          </div>
+                          <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Red is obviously a better color.</p>
+                          <hr class="horizontal dark">
+                          <div class="row">
+                            {{-- <div class="col-6">
+                              <h6 class="text-sm mb-0 text-white">3</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Participants</p>
+                            </div> --}}
+                            {{-- <div class="col-6 text-end">
+                              <h6 class="text-sm mb-0 text-white">22.11.21</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Due date</p>
+                            </div> --}}
+                          </div>
                         </div>
-                        <p>Because it's about motivating the doers. Because I’m here to follow my dreams and inspire other people to follow their dreams, too.</p>
-
-                    </div>
+                      </div>
                 </div>
                 <div class="card mt-4">
-                    <div class="card-body p-3">
-                        <div class="d-flex text-white">
-                            <div class="avatar avatar-lg">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/small-logos/logo-slack.svg') }}">
+                    <div class="card">
+                        <div class="card-body p-3">
+                          <div class="d-flex">
+                            <div class="avatar avatar-xl bg-gradient-dark border-radius-md p-2">
+                              <img src="{{ URL::asset('assets/img/small-logos/logo-xd.svg') }}" alt="xd_logo">
                             </div>
-                            <div class="ms-2 my-auto">
-                                <h6 class="mb-0 text-white">Slack Meet</h6>
-                                <p class="text-xs mb-0">11:00 AM</p>
+                            <div class="ms-3 my-auto">
+                              <h6 class="text-white">Design tools</h6>
+                              {{-- <div class="avatar-group">
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Audrey Love">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}" class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Michael Lewis">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}" class="">
+                                </a>
+                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
+                                  <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}" class="">
+                                </a>
+                              </div> --}}
                             </div>
+                            <div class="ms-auto">
+                              <div class="dropdown">
+                                <button class="btn btn-link text-secondary ps-0 pe-2" id="navbarDropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v text-lg"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end me-sm-n4 me-n3" aria-labelledby="navbarDropdownMenuLink2">
+                                  <a class="dropdown-item" href="javascript:;">Action</a>
+                                  <a class="dropdown-item" href="javascript:;">Another action</a>
+                                  <a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Pink is obviously a better color.</p>
+                          <hr class="horizontal dark">
+                          <div class="row">
+                            {{-- <div class="col-6">
+                              <h6 class="text-sm mb-0 text-white">4</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Participants</p>
+                            </div> --}}
+                            {{-- <div class="col-6 text-end">
+                              <h6 class="text-sm mb-0 text-white">06.03.20</h6>
+                              <p class="text-secondary text-sm font-weight-bold mb-0">Due date</p>
+                            </div> --}}
+                          </div>
                         </div>
-                        <p class="mt-3 text-white"> You have an upcoming meet for Marketing Planning</p>
-                        <p class="mb-0 text-white"><b>Meeting ID:</b> 902-128-281</p>
-                        <hr class="horizontal dark">
-
-                    </div>
+                      </div>
                 </div>
             </div>
         </div>
