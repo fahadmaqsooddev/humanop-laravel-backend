@@ -37,7 +37,7 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="" class="text-white">Expiry Date</label>
-                                    <input type="number"  class="form-control" placeholder="00/00"  aria-label="Password"
+                                    <input type="text" class="form-control" placeholder="00/00"  aria-label="Password"
                                          name="password" id="password"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 </div>
                             </div>
