@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'authentication', 'childFolder' => 'error', 'hasFooter' => 'footer', 'navbar' => 'cover'])
+@extends('user_type.guest', ['parentFolder' => 'authentication', 'childFolder' => 'error', 'hasFooter' => 'footer', 'navbar' => 'cover'])
 
 @section('content')
 <!--navbar basic-->
@@ -8,8 +8,8 @@
         <div class="row">
           <div class="col-lg-6 my-auto">
             <h1 class="display-1 text-bolder text-gradient text-danger">Error 404</h1>
-            <h2>Erm. Page not found</h2>
-            <p class="lead">We suggest you to go to the homepage while we solve this issue.</p>
+            <h2 class="text-white">Erm. Page not found</h2>
+            <p class="lead text-white">We suggest you to go to the homepage while we solve this issue.</p>
             <a href="/dashboard-default" type="button" class="btn bg-gradient-dark mt-4">Go to Homepage</a>
           </div>
           <div class="col-lg-6 my-auto position-relative">
