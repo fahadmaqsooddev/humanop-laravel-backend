@@ -20,6 +20,7 @@
                         <p class="mb-0 font-weight-bold text-sm text-white">
                             Optimal Trait To Be In Right Now:
                         </p>
+                        <p class="text-white">Perceptive Trait (Thinking) For Strategy and Problem Solving Activities</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
@@ -28,13 +29,13 @@
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;"
                                    role="tab" aria-selected="true">
-                                    <span class="ms-1">Access Your Results</span>
+                                    <span class="ms-1 text-white text-bold">Access Your Results</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
                                    aria-selected="false">
-                                    <span class="ms-1">Get Free Pro Access!</span>
+                                    <span class="ms-1 text-white text-bold">Get Free Pro Access!</span>
                                 </a>
                             </li>
                         </ul>
