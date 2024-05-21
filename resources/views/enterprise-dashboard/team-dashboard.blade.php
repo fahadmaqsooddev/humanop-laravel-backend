@@ -229,7 +229,14 @@
             width: 375px;
             height: 400px;
             padding: 10px;
-            border: 1px solid #aaaaaa;"></div>
+            border: 1px solid #aaaaaa;">
+                                    <p style="color: white;
+    align-items: center;
+    text-align: center;
+    margin-top: 140px;
+    font-size: 23px;">Drag  and Drop or Click To Add Team Member</p>
+                                    <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
+                                </div>
                             </div>
                             <div class="row">
                                 <div id="droppable1" class="droppable1" style="margin-left: 45px;
@@ -238,7 +245,14 @@
             width: 375px;
             height: 400px;
             padding: 10px;
-            border: 1px solid #aaaaaa;"></div>
+            border: 1px solid #aaaaaa;">
+                                    <p style="color: white;
+    align-items: center;
+    text-align: center;
+    margin-top: 140px;
+    font-size: 23px;">Drag  and Drop or Click To Add Team Member</p>
+                                    <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
