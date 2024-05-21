@@ -195,13 +195,13 @@
                             </div>
                         </div>
                         <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
-                            <label class="form-check-label mb-0">
+                            <label class="form-check-label text-white mb-0">
                                 <small id="profileVisibility">
                                     Switch to invisible
                                 </small>
                             </label>
                             <div class="form-check form-switch ms-2">
-                                <input style="background-color: #0f1534;" class="form-check-input" sty type="checkbox" id="flexSwitchCheckDefault23" checked onchange="visible()">
+                                <input style="background-color: orange;" class="form-check-input" sty type="checkbox" id="flexSwitchCheckDefault23" checked onchange="visible()">
                             </div>
                         </div>
                     </div>
@@ -209,18 +209,18 @@
                 <!-- Card Basic Info -->
                 <div class="card mt-4" id="basic-info">
                     <div class="card-header">
-                        <h5>Basic Info</h5>
+                        <h5 class="text-white">Basic Info</h5>
                     </div>
                     <div class="card-body pt-0">
                         <div class="row">
                             <div class="col-6">
-                                <label class="form-label">First Name</label>
+                                <label class="form-label text-white">First Name</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="firstName" name="firstName" class="form-control" type="text" placeholder="Alec" required="required">
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label">Last Name</label>
+                                <label class="form-label text-white">Last Name</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="lastName" name="lastName" class="form-control" type="text" placeholder="Thompson" required="required">
                                 </div>
@@ -228,7 +228,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-4 col-6">
-                                <label class="form-label mt-4">I'm</label>
+                                <label class="form-label mt-4 text-white">I'm</label>
                                 <select class="form-control" name="choices-gender" id="choices-gender">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -237,7 +237,7 @@
                             <div class="col-sm-8">
                                 <div class="row">
                                     <div class="col-sm-5 col-5">
-                                        <label class="form-label mt-4">Birth Date</label>
+                                        <label class="form-label mt-4 text-white">Birth Date</label>
                                         <select class="form-control" name="choices-month" id="choices-month"></select>
                                     </div>
                                     <div class="col-sm-4 col-3">
@@ -253,13 +253,13 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label class="form-label mt-4">Email</label>
+                                <label class="form-label mt-4 text-white">Email</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="email" name="email" class="form-control" type="email" placeholder="example@email.com">
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label mt-4">Confirmation Email</label>
+                                <label class="form-label mt-4 text-white">Confirmation Email</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="confirmation" name="confirmation" class="form-control" type="email" placeholder="example@email.com">
                                 </div>
@@ -267,13 +267,13 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label class="form-label mt-4">Your location</label>
+                                <label class="form-label mt-4 text-white">Your location</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="location" name="location" class="form-control" type="text" placeholder="Sydney, A">
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label mt-4">Phone Number</label>
+                                <label class="form-label mt-4 text-white">Phone Number</label>
                                 <div class="input-group">
                                     <input style="background-color: #0f1534;" id="phone" name="phone" class="form-control" type="number" placeholder="+40 735 631 620">
                                 </div>
@@ -281,7 +281,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 align-self-center">
-                                <label class="form-label mt-4">Language</label>
+                                <label class="form-label mt-4 text-white">Language</label>
                                 <select class="form-control" name="choices-language" id="choices-language">
                                     <option value="English">English</option>
                                     <option value="French">French</option>
@@ -289,7 +289,7 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label mt-4">Skills</label>
+                                <label class="form-label mt-4 text-white">Skills</label>
                                 <input style="background-color: #0f1534;" class="form-control" id="choices-skills" type="text" value="vuejs, angular, react" placeholder="Enter something" />
                             </div>
                         </div>
@@ -298,14 +298,14 @@
                 <!-- Card Change Password -->
                 <div class="card mt-4" id="password">
                     <div class="card-header">
-                        <h5>Change Password</h5>
+                        <h5 class="text-white">Change Password</h5>
                     </div>
                     <div class="card-body pt-0">
-                        <label class="form-label">Current password</label>
+                        <label class="form-label text-white">Current password</label>
                         <div class="form-group">
                             <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Current password">
                         </div>
-                        <label class="form-label">New password</label>
+                        <label class="form-label text-white">New password</label>
                         <div class="form-group">
                             <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="New password">
                         </div>
@@ -313,8 +313,8 @@
                         <div class="form-group">
                             <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Confirm password">
                         </div>
-                        <h5 class="mt-5">Password requirements</h5>
-                        <p class="text-muted mb-2">
+                        <h5 class="mt-5 text-white">Password requirements</h5>
+                        <p class="text-muted mb-2 text-white">
                             Please follow this guide for a strong password:
                         </p>
                         <ul class="text-muted ps-4 mb-0 float-start">
@@ -337,33 +337,33 @@
                 <!-- Card Change Password -->
                 <div class="card mt-4" id="2fa">
                     <div class="card-header d-flex">
-                        <h5 class="mb-0">Two-factor authentication</h5>
+                        <h5 class="mb-0 text-white">Two-factor authentication</h5>
                         <span class="badge badge-success ms-auto">Enabled</span>
                     </div>
                     <div class="card-body">
                         <div class="d-flex">
                             <p class="my-auto text-white" >Security keys</p>
                             <p class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>
+                            <button class="btn btn-sm btn-outline-dark bg-gradient-primary mb-0 text-white" type="button">Add</button>
                         </div>
                         <hr class="horizontal dark">
                         <div class="d-flex">
                             <p class="my-auto text-white" >SMS number</p>
                             <p class="text-secondary text-sm ms-auto my-auto me-3">+4012374423</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Edit</button>
+                            <button class="btn btn-sm btn-outline-dark bg-gradient-primary mb-0 text-white" type="button">Edit</button>
                         </div>
                         <hr class="horizontal dark">
                         <div class="d-flex">
                             <p class="my-auto text-white" >Authenticator app</p>
                             <p class="text-secondary text-sm ms-auto my-auto me-3">Not Configured</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Set up</button>
+                            <button class="btn btn-sm btn-outline-dark bg-gradient-primary mb-0 text-white" type="button">Set up</button>
                         </div>
                     </div>
                 </div>
                 <!-- Card Accounts -->
                 <div class="card mt-4" id="accounts">
                     <div class="card-header">
-                        <h5>Accounts</h5>
+                        <h5 class="text-white">Accounts</h5>
                         <p class="text-sm text-white" >Here you can setup and manage your integration settings.</p>
                     </div>
                     <div class="card-body pt-0">
@@ -371,24 +371,24 @@
                             <img class="width-48-px" src="{{ URL::asset('assets/img/small-logos/logo-slack.svg') }}" alt="logo_slack">
                             <div class="my-auto ms-3">
                                 <div class="h-100">
-                                    <h5 class="mb-0">Slack</h5>
+                                    <h5 class="mb-0 text-white">Slack</h5>
                                     <a class="text-sm text-body" href="javascript:;">Show less <i class="fas fa-chevron-up text-xs ms-1" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                             <p class="text-sm text-secondary ms-auto me-3 my-auto">Enabled</p>
                             <div class="form-check form-switch my-auto">
-                                <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault1">
+                                <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault1">
                             </div>
                         </div>
                         <div class="ps-5 pt-3 ms-3">
                             <p class="mb-0 text-sm text-white">You haven't added your Slack yet or you aren't authorized. Please add our Slack Bot to your account by clicking on <a href="javascript">here</a>. When you've added the bot, send your verification code that you have received.</p>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4">
                                 <p class="text-sm font-weight-bold my-auto ps-sm-2">Verification Code</p>
-                                <input style="background-color: #0f1534;" class="form-control form-control-sm ms-sm-auto mt-sm-0 mt-2 w-sm-15 w-40" type="text" value="1172913" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy!">
+                                <input style="background-color: orange;" class="form-control form-control-sm ms-sm-auto mt-sm-0 mt-2 w-sm-15 w-40" type="text" value="1172913" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy!">
                             </div>
                             <div class="d-sm-flex bg-gray-100 border-radius-lg p-2 my-4">
                                 <p class="text-sm font-weight-bold my-auto ps-sm-2">Connected account</p>
-                                <h6 class="text-sm ms-auto me-3 my-auto">hello@creative-tim.com</h6>
+                                <h6 class="text-sm ms-auto me-3 my-auto text-white">hello@creative-tim.com</h6>
                                 <button class="btn btn-sm bg-gradient-danger my-sm-auto mt-2 mb-0" type="button" name="button">Delete</button>
                             </div>
                         </div>
@@ -397,13 +397,13 @@
                             <img class="width-48-px" src="{{ URL::asset('assets/img/small-logos/logo-spotify.svg') }}" alt="logo_spotify">
                             <div class="my-auto ms-3">
                                 <div class="h-100">
-                                    <h5 class="mb-0">Spotify</h5>
+                                    <h5 class="mb-0 text-white">Spotify</h5>
                                     <p class="mb-0 text-sm text-white">Music</p>
                                 </div>
                             </div>
                             <p class="text-sm text-secondary ms-auto me-3 my-auto">Enabled</p>
                             <div class="form-check form-switch my-auto">
-                                <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault2">
+                                <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault2">
                             </div>
                         </div>
                         <hr class="horizontal dark">
@@ -411,13 +411,13 @@
                             <img class="width-48-px" src="{{ URL::asset('assets/img/small-logos/logo-atlassian.svg') }}" alt="logo_atlassian">
                             <div class="my-auto ms-3">
                                 <div class="h-100">
-                                    <h5 class="mb-0">Atlassian</h5>
+                                    <h5 class="mb-0 text-white">Atlassian</h5>
                                     <p class="mb-0 text-sm text-white">Payment vendor</p>
                                 </div>
                             </div>
                             <p class="text-sm text-secondary ms-auto me-3 my-auto">Enabled</p>
                             <div class="form-check form-switch my-auto">
-                                <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault3">
+                                <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault3">
                             </div>
                         </div>
                         <hr class="horizontal dark">
@@ -425,12 +425,12 @@
                             <img class="width-48-px" src="{{ URL::asset('assets/img/small-logos/logo-asana.svg') }}" alt="logo_asana">
                             <div class="my-auto ms-3">
                                 <div class="h-100">
-                                    <h5 class="mb-0">Asana</h5>
+                                    <h5 class="mb-0 text-white">Asana</h5>
                                     <p class="mb-0 text-sm text-white">Organize your team</p>
                                 </div>
                             </div>
                             <div class="form-check form-switch ms-auto my-auto">
-                                <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4">
+                                <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4">
                             </div>
                         </div>
                     </div>
@@ -438,7 +438,7 @@
                 <!-- Card Notifications -->
                 <div class="card mt-4" id="notifications">
                     <div class="card-header">
-                        <h5>Notifications</h5>
+                        <h5 class="text-white">Notifications</h5>
                         <p class="text-sm text-white" >Choose how you receive notifications. These notification settings apply to the things you’re watching.</p>
                     </div>
                     <div class="card-body pt-0">
@@ -470,17 +470,17 @@
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault11">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault11">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault12">
+                                            <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault12">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault13">
+                                            <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault13">
                                         </div>
                                     </td>
                                 </tr>
@@ -493,17 +493,17 @@
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault14">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault14">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault15">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault15">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault16">
+                                            <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault16">
                                         </div>
                                     </td>
                                 </tr>
@@ -516,17 +516,17 @@
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault17">
+                                            <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault17">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault18">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault18">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault19">
+                                            <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault19">
                                         </div>
                                     </td>
                                 </tr>
@@ -538,17 +538,17 @@
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault20">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault20">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault21">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault21">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault22">
+                                            <input style="background-color: orange;" class="form-check-input" checked type="checkbox" id="flexSwitchCheckDefault22">
                                         </div>
                                     </td>
                                 </tr>
@@ -560,7 +560,7 @@
                 <!-- Card Sessions -->
                 <div class="card mt-4" id="sessions">
                     <div class="card-header pb-3">
-                        <h5>Sessions</h5>
+                        <h5 class="text-white">Sessions</h5>
                         <p class="text-sm text-white" >This is a list of devices that have logged into your account. Remove those that you do not recognize.</p>
                     </div>
                     <div class="card-body pt-0">
@@ -611,14 +611,14 @@
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">
                     <div class="card-header">
-                        <h5>Delete Account</h5>
+                        <h5 class="text-white">Delete Account</h5>
                         <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please be certain.</p>
                     </div>
                     <div class="card-body d-sm-flex pt-0">
                         <div class="d-flex align-items-center mb-sm-0 mb-4">
                             <div>
                                 <div class="form-check form-switch mb-0">
-                                    <input style="background-color: #0f1534;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0">
+                                    <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0">
                                 </div>
                             </div>
                             <div class="ms-2">
