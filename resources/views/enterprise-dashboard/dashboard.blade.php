@@ -18,7 +18,7 @@
                             Mark Johnson
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm text-white">
-                           Optimal Trait To Be In Right Now:
+                            Optimal Trait To Be In Right Now:
                         </p>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                 <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
-                                           Enterprise Stats</p>
+                                            Enterprise Stats</p>
                                         <h5 class="font-weight-bolder mb-0">
                                             <span class="text-success text-sm font-weight-bolder"></span>
                                         </h5>
@@ -200,4 +200,96 @@
         </section>
         @include('layouts/footers/auth/footer')
     </div>
+
+    <div class="row mt-lg-4 mt-2">
+        <div class="fixed-plugin">
+            <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
+               class="btn col-12 fixed-plugin-button">H.A.I CHAT INTERFACE</a>
+            <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">
+                <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
+                    <div class="float-start d-flex">
+                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
+                        <div class="header-info text-white">
+                            <div class="header-title">Need help?</div>
+                            <div class="header-subtitle">We reply immediately</div>
+                        </div>
+                    </div>
+                    <div class="float-end mt-4">
+                        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+                    <!-- End Toggle Button -->
+                </div>
+                <div class="d-flex">
+                    <div class="col-3">
+                        <div class="chatbox">
+                            <div class="chatbox-content" style="background-color: #f2661c">
+                                <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">
+                                    <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>
+                                    <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>
+                                </div>
+                                <hr>
+                                <div class="mt-4">
+                                    <h5 class="text-white text-bold">Today chat</h5>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Set Permissions for Directory</p>
+                                </div>
+                                <div class="mt-4">
+                                    <h5 class="text-white text-bold">Yesterday chat</h5>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Permission Denied Error Troubleshooting</p>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Customizing Embedding Videos</p>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Bootstrap: Utilizar bordes blancos</p>
+                                </div>
+                                <div class="mt-4">
+                                    <h5 class="text-white text-bold">Previous 30 Days chat</h5>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Merge Videos with FFmpeg</p>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Permission Denied Error Troubleshooting</p>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Customizing Embedding Videos</p>
+                                    <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                        Bootstrap: Utilizar bordes blancos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="chatbox">
+                            <div class="chatbox-content" id="chatbox-content">
+                                <div class="message bot-message">Welcome to our store! Whether you have a
+                                    specific
+                                    question or need
+                                    assistance, we're here for you. What would you like to know? 😊
+                                </div>
+                                <div class="message user-message">Shopping guide</div>
+                                <div class="message bot-message">Don’t spend hours searching for the right
+                                    product.
+                                    We’ll help you find
+                                    exactly what you need in no-time! Also, feel free to check our items on sale
+                                    now. 💥
+                                </div>
+                                <div class="message user-message">Shopping guide</div>
+                                <div class="message bot-message">Don’t spend hours searching for the right
+                                    product.
+                                    We’ll help you find
+                                    exactly what you need in no-time! Also, feel free to check our items on sale
+                                    now. 💥
+                                </div>
+                            </div>
+                            <div class="chatbox-input">
+                                <input type="text" id="user-input" placeholder="Type your message here...">
+                                <button id="send-button">&#9658;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

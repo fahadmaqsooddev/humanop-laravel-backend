@@ -20,7 +20,8 @@
                         <p class="mb-0 font-weight-bold text-sm text-white">
                             Optimal Trait To Be In Right Now:
                         </p>
-                        <p class="text-white">Perceptive Trait (Thinking) For Strategy and Problem Solving Activities</p>
+                        <p class="text-white">Perceptive Trait (Thinking) For Strategy and Problem Solving
+                            Activities</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
@@ -216,26 +217,71 @@
                             </div>
                             <!-- End Toggle Button -->
                         </div>
-                        <div class="chatbox">
-                            <div class="chatbox-content" id="chatbox-content">
-                                <div class="message bot-message">Welcome to our store! Whether you have a specific
-                                    question or need
-                                    assistance, we're here for you. What would you like to know? 😊
-                                </div>
-                                <div class="message user-message">Shopping guide</div>
-                                <div class="message bot-message">Don’t spend hours searching for the right product.
-                                    We’ll help you find
-                                    exactly what you need in no-time! Also, feel free to check our items on sale now. 💥
-                                </div>
-                                <div class="message user-message">Shopping guide</div>
-                                <div class="message bot-message">Don’t spend hours searching for the right product.
-                                    We’ll help you find
-                                    exactly what you need in no-time! Also, feel free to check our items on sale now. 💥
+                        <div class="d-flex">
+                            <div class="col-3">
+                                <div class="chatbox">
+                                    <div class="chatbox-content" style="background-color: #f2661c">
+                                        <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">
+                                            <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>
+                                            <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>
+                                        </div>
+                                        <hr>
+                                        <div class="mt-4">
+                                            <h5 class="text-white text-bold">Today chat</h5>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Set Permissions for Directory</p>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h5 class="text-white text-bold">Yesterday chat</h5>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Permission Denied Error Troubleshooting</p>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Customizing Embedding Videos</p>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Bootstrap: Utilizar bordes blancos</p>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h5 class="text-white text-bold">Previous 30 Days chat</h5>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Merge Videos with FFmpeg</p>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Permission Denied Error Troubleshooting</p>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Customizing Embedding Videos</p>
+                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
+                                                Bootstrap: Utilizar bordes blancos</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="chatbox-input">
-                                <input type="text" id="user-input" placeholder="Type your message here...">
-                                <button id="send-button">&#9658;</button>
+                            <div class="col-9">
+                                <div class="chatbox">
+                                    <div class="chatbox-content" id="chatbox-content">
+                                        <div class="message bot-message">Welcome to our store! Whether you have a
+                                            specific
+                                            question or need
+                                            assistance, we're here for you. What would you like to know? 😊
+                                        </div>
+                                        <div class="message user-message">Shopping guide</div>
+                                        <div class="message bot-message">Don’t spend hours searching for the right
+                                            product.
+                                            We’ll help you find
+                                            exactly what you need in no-time! Also, feel free to check our items on sale
+                                            now. 💥
+                                        </div>
+                                        <div class="message user-message">Shopping guide</div>
+                                        <div class="message bot-message">Don’t spend hours searching for the right
+                                            product.
+                                            We’ll help you find
+                                            exactly what you need in no-time! Also, feel free to check our items on sale
+                                            now. 💥
+                                        </div>
+                                    </div>
+                                    <div class="chatbox-input">
+                                        <input type="text" id="user-input" placeholder="Type your message here...">
+                                        <button id="send-button">&#9658;</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

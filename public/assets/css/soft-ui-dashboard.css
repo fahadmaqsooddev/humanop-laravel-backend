@@ -20341,7 +20341,9 @@ fieldset:disabled .btn {
 }
 
 .bot-message {
-    width: 750px;
+    margin-top: 15px;
+    margin-left: 13px;
+    width: 520px;
     background-color: #f1f1f1;
     align-self: flex-start;
 }
@@ -20349,8 +20351,8 @@ fieldset:disabled .btn {
 .user-message {
     margin-top: 30px;
     margin-bottom: 30px;
-    width: 750px;
-    margin-left: 740px;
+    width: 520px;
+    margin-left: 590px;
     background-color: #f2661c;
     color: white;
     align-self: flex-end;
@@ -20400,6 +20402,11 @@ fieldset:disabled .btn {
 
 .chatbox-input button:hover {
     background-color: #f2661c;
+}
+.chat-hover:hover {
+    background-color: #0f1534;
+    border-radius: 8px;
+    padding: 10px;
 }
 /* end chat box css */
 .fixed-plugin .fixed-plugin-button {
