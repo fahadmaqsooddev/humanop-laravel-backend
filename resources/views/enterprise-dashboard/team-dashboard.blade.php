@@ -1,6 +1,26 @@
 @extends('user_type.auth', ['parentFolder' => 'enterprise-dashboard', 'childFolder' => 'profile'])
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
 @section('content')
+    <style>
+        .droppable {
+            position: relative;
+            border-radius: 11px;
+            width: 375px;
+            height: 400px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+        .droppable1 {
+            margin-left: 45px;
+            position: relative;
+            border-radius: 11px;
+            width: 375px;
+            height: 400px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
     <div class="container-fluid">
         <div class="page-header border-radius-xl mt-4" style="height: 100px">
         </div>

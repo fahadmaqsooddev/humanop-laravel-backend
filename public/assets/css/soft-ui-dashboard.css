@@ -20408,23 +20408,7 @@ fieldset:disabled .btn {
     border-radius: 8px;
     padding: 10px;
 }
-.droppable {
-    position: relative;
-    border-radius: 11px;
-    width: 375px;
-    height: 400px;
-    padding: 10px;
-    border: 1px solid #aaaaaa;
-}
-.droppable1 {
-    margin-left: 45px;
-    position: relative;
-    border-radius: 11px;
-    width: 375px;
-    height: 400px;
-    padding: 10px;
-    border: 1px solid #aaaaaa;
-}
+
 
 #div2 {
     border-radius: 11px;
