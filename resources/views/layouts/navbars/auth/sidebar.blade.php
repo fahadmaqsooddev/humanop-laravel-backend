@@ -291,7 +291,7 @@
                         <li class="nav-item {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}">
                             <a class="nav-link {{ (Request::is('enterprise-tags-management') ? 'active' : '') }}" href="{{ url('#') }}">
                                 <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Team Mgmt Summary </span>
+                                <span class="sidenav-normal"> Team Management Summary </span>
                             </a>
                         </li>
 
