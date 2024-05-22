@@ -237,7 +237,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <style>
@@ -247,13 +247,13 @@
         #droppable1{
             margin-left: 10px;
         }
-        
+
         .droppable-container {
-            flex: 1 1 48%; 
-            margin-bottom: 20px; 
-           
+            flex: 1 1 48%;
+            margin-bottom: 20px;
+
         }
-        
+
         .droppable {
             position: relative;
             border-radius: 11px;
@@ -264,24 +264,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            /* height: auto; */
             height: 400px;
             min-height: 200px;
             background-color: #381036;
         }
-        
+
         .droppable p {
             color: white;
             text-align: center;
             font-size: 1.5rem;
         }
-        
+
         .droppable i {
             font-size: 1.5rem;
             color: white;
             margin-top: 10px;
         }
-        
+
             </style>
             <div class="col-12 col-lg-4">
                 <div class="card mb-3 mt-lg-0 mt-4">
@@ -412,26 +411,19 @@
                 var $droppable = $(this);
                 $droppable.empty();
 
-                var dropWidth = $droppable.width();
-                var dropHeight = $droppable.height();
-
-                var $draggable = ui.draggable;
-                var dragWidth = $draggable.width();
-                var dragHeight = $draggable.height();
-
-                var newLeft = (dropWidth - dragWidth) / 2;
-                var newTop = (dropHeight - dragHeight) / 2;
-
                 var $draggable = ui.helper.clone();
                 $draggable.css({
-                    top: newTop,
-                    left: newLeft,
-                    width: "375px",
-                    height: "400px",
-                    padding: "10px",
-                    marginTop: "-166px",  // Reset margin-top to avoid extra offset
-                    marginLeft: "-154px",  // Reset margin-top to avoid extra offset
-                    position: "absolute" // Ensure absolute positioning
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center center"
                 }).appendTo($droppable);
                 $draggable[0].style.setProperty('border-radius', '11px', 'important');
             }
