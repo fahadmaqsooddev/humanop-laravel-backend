@@ -222,39 +222,67 @@
                             recruiters to continue reading your CV because you’re telling them from the off exactly why
                             they should hire you.
                         </p>
-                        <div class="d-flex">
-                            <div class="row">
-                                <div id="droppable" class="droppable" style="position: relative;
-            border-radius: 11px;
-            width: 375px;
-            height: 400px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;">
-                                    <p style="color: white; align-items: center; text-align: center; margin-top: 140px; font-size: 23px;">
-                                        Drag and Drop or Click To Add Team Member</p>
-                                    <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
+                        <div class="d-flex flex-wrap justify-content-between">
+                            <div class="droppable-container">
+                                <div id="droppable" class="droppable">
+                                    <p>Drag and Drop or Click To Add Team Member</p>
+                                    <i class="fa fa-plus"></i>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div id="droppable1" class="droppable1" style="margin-left: 45px;
-            position: relative;
-            border-radius: 11px;
-            width: 375px;
-            height: 400px;
-            padding: 10px;
-            border: 1px solid #aaaaaa;">
-                                    <p style="color: white;
-    align-items: center;
-    text-align: center;
-    margin-top: 140px;
-    font-size: 23px;">Drag and Drop or Click To Add Team Member</p>
-                                    <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
+                            <div class="droppable-container">
+                                <div id="droppable1" class="droppable">
+                                    <p>Drag and Drop or Click To Add Team Member</p>
+                                    <i class="fa fa-plus"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
+            <style>
+                .card-body {
+            padding: 20px;
+        }
+        #droppable1{
+            margin-left: 10px;
+        }
+        
+        .droppable-container {
+            flex: 1 1 48%; 
+            margin-bottom: 20px; 
+           
+        }
+        
+        .droppable {
+            position: relative;
+            border-radius: 11px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* height: auto; */
+            height: 400px;
+            min-height: 200px;
+            background-color: #381036;
+        }
+        
+        .droppable p {
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .droppable i {
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 10px;
+        }
+        
+            </style>
             <div class="col-12 col-lg-4">
                 <div class="card mb-3 mt-lg-0 mt-4">
                     <div class="card">
@@ -380,24 +408,20 @@
         });
 
         $("#droppable, #droppable1").droppable({
-
             drop: function (event, ui) {
-                // Get droppable area dimensions
                 var $droppable = $(this);
                 $droppable.empty();
+
                 var dropWidth = $droppable.width();
                 var dropHeight = $droppable.height();
 
-                // Get draggable element dimensions
                 var $draggable = ui.draggable;
                 var dragWidth = $draggable.width();
                 var dragHeight = $draggable.height();
 
-                // Calculate new top and left positions for centering the draggable element
                 var newLeft = (dropWidth - dragWidth) / 2;
                 var newTop = (dropHeight - dragHeight) / 2;
 
-                // Apply CSS changes to the draggable element
                 var $draggable = ui.helper.clone();
                 $draggable.css({
                     top: newTop,
@@ -414,6 +438,7 @@
         });
     });
 </script>
+
 
 
 
