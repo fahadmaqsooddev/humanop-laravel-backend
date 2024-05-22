@@ -115,9 +115,9 @@
                                  style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                                 <div class="card-body p-3">
                                     <div class="row">
-                                        <div class="col-8">
-                                            <div class="numbers">
-                                                <iframe width="560" height="250" src="https://app.hiro.fm/embed/65c95c9f355f13001914ccab" frameborder="0"></iframe>
+                                        <div class="">
+                                            <div class="numbers mt-3">
+                                                <iframe class="col-lg-12 col-md-12" height="220" src="https://app.hiro.fm/embed/65c95c9f355f13001914ccab" frameborder="0"></iframe>
                                                 <h5 class="font-weight-bolder mb-0">
                                                     <span class="text-success text-sm font-weight-bolder"></span>
                                                 </h5>
