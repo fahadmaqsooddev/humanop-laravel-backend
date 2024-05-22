@@ -230,11 +230,8 @@
             height: 400px;
             padding: 10px;
             border: 1px solid #aaaaaa;">
-                                    <p style="color: white;
-    align-items: center;
-    text-align: center;
-    margin-top: 140px;
-    font-size: 23px;">Drag  and Drop or Click To Add Team Member</p>
+                                    <p style="color: white; align-items: center; text-align: center; margin-top: 140px; font-size: 23px;">
+                                        Drag and Drop or Click To Add Team Member</p>
                                     <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
                                 </div>
                             </div>
@@ -250,7 +247,7 @@
     align-items: center;
     text-align: center;
     margin-top: 140px;
-    font-size: 23px;">Drag  and Drop or Click To Add Team Member</p>
+    font-size: 23px;">Drag and Drop or Click To Add Team Member</p>
                                     <i class="fa fa-plus" style="margin-left: 160px; font-size: 23px; color: white"></i>
                                 </div>
                             </div>
@@ -372,19 +369,18 @@
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <script>
     $(function () {
-        $("#drag1").draggable({revert: "invalid"});
-        $("#drag2").draggable({revert: "invalid"});
-        $("#drag3").draggable({revert: "invalid"});
-        $("#drag4").draggable({revert: "invalid"});
-        $("#drag5").draggable({revert: "invalid"});
-        $("#drag6").draggable({revert: "invalid"});
-        $("#drag7").draggable({revert: "invalid"});
-        $("#drag8").draggable({revert: "invalid"});
-        $("#drag9").draggable({revert: "invalid"});
-        $("#drag10").draggable({revert: "invalid"});
-        $("#drag11").draggable({revert: "invalid"});
+        $(".profile").draggable({
+            helper: "clone",
+            revert: "invalid",
+            start: function(event, ui) {
+                ui.helper.css('z-index', 100);
+                ui.helper.css('width', '75px');
+                ui.helper.css('height', '75px');
+            }
+        });
 
         $("#droppable, #droppable1").droppable({
+
             drop: function (event, ui) {
                 // Get droppable area dimensions
                 var $droppable = $(this);
@@ -402,6 +398,7 @@
                 var newTop = (dropHeight - dragHeight) / 2;
 
                 // Apply CSS changes to the draggable element
+                var $draggable = ui.helper.clone();
                 $draggable.css({
                     top: newTop,
                     left: newLeft,
