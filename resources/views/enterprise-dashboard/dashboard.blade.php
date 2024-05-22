@@ -214,7 +214,7 @@
                                 <tbody>
                                 <tr class="text-center">
                                     <td>Tiger Nixon</td>
-                                    <td>user@gmail.com/td>
+                                    <td>user@gmail.com</td>
                                     <td>Male</td>
                                     <td>0</td>
                                     <td>3</td>
@@ -226,7 +226,7 @@
                                 </tr>
                                 <tr class="text-center">
                                     <td>Nancy Grace</td>
-                                    <td>user1@gmail.com/td>
+                                    <td>user1@gmail.com</td>
                                     <td>Female</td>
                                     <td>4</td>
                                     <td>0</td>
@@ -238,7 +238,7 @@
                                 </tr>
                                 <tr class="text-center">
                                     <td>Ronald jordge</td>
-                                    <td>user2@gmail.com/td>
+                                    <td>user2@gmail.com</td>
                                     <td>Male</td>
                                     <td style="color: greenyellow">7</td>
                                     <td>4</td>
