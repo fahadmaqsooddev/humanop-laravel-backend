@@ -22476,7 +22476,7 @@ hr.horizontal.gray-light {
 .nav.nav-pills {
   background: black;
   border-radius: 0.75rem;
-  position: relative;
+  position: absolute;
 }
 
 .nav.nav-pills.nav-pills-vertical {

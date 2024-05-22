@@ -21,12 +21,12 @@
             </p>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mt-3">
+        <div class="col-lg-5 col-md-5 ms-sm-auto me-sm-0 mt-3">
           <div class="nav-wrapper position-relative end-0">
             <ul class="nav nav-pills nav-fill p-1 bg-transparent">
                 <li class="nav-item">
                 <a class="nav-link mb-0 px-0 py-1">
-                  <button class="ms-1 bg-gradient-primary rounded-3 p-2" style="margin-right: -80px !important">
+                  <button class="ms-1 bg-gradient-primary rounded-3 p-2">
                   <svg class="text-dark" width="16px" height="16px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                       <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -46,7 +46,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link mb-0 px-0 py-1">
-                  <button class="ms-1 bg-gradient-primary rounded-3 p-2" style="margin-right: -80px !important">
+                  <button class="ms-1 bg-gradient-primary rounded-3 p-2">
                   <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <title>document</title>
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
