@@ -23,9 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', function () {
-        return redirect('/admin-dashboard');
-    });
+    
 
 //    admin dashboard
     Route::view('/admin-dashboard', 'dashboards/default');
