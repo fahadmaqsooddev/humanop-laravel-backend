@@ -15,30 +15,21 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
-            $table->string('password');
-            $table->string('file')->nullable()->default('default/default.jpg');
+            $table->string('password')->nullable();
+            $table->string('phone')->nullable();
+            $table->tinyInteger('age_min')->nullable();
+            $table->tinyInteger('age_max')->nullable();
             $table->string('gender')->nullable();
-            $table->date('birthday')->nullable();
-            $table->string('company')->nullable();
-            $table->integer('phone')->nullable();
-            $table->string('Address_1')->nullable();
-            $table->string('Address_2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->integer('zip_code')->nullable();
-            $table->string('language')->nullable();
-            $table->string('skills')->nullable();
-            $table->string('twitter')->nullable();
-            $table->string('facebook')->nullable();
-            $table->string('instagram')->nullable();
-            $table->string('public_email')->unique()->nullable();
-            $table->string('biography')->nullable();
+            $table->dateTime('signup_date')->nullable();
+            $table->dateTime('last_login')->nullable();
+            $table->tinyInteger('status')->nullable();
+            $table->string('stripe_id')->nullable();
+            $table->tinyInteger('is_admin')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
         });
     }
 

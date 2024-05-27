@@ -19,29 +19,9 @@ class UserSeeder extends Seeder
             'id' => 1,
             'first_name' => 'admin',
             'last_name' => 'admin',
-            'file' => 'team-1.jpg',
-            'email' => 'admin@softui.com',
-            'password' => Hash::make('secret'),
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        DB::table('users')->insert([
-            'id' => 2,
-            'first_name' => 'creator',
-            'last_name' => 'creator',
-            'file' => 'team-2.jpg',
-            'email' => 'creator@softui.com',
-            'password' => Hash::make('secret'),
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        DB::table('users')->insert([
-            'id' => 3,
-            'first_name' => 'member',
-            'last_name' => 'member',
-            'file' => 'team-3.jpg',
-            'email' => 'member@softui.com',
-            'password' => Hash::make('secret'),
+            'email' => 'admin@gmail.com',
+            'is_admin' => 1,
+            'password' => Hash::make('12345678'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
