@@ -16,18 +16,18 @@ class SessionController extends Controller
     {
         $attributes = request()->validate([
             'email'=>'required|email',
-            'password'=>'required'
+            'password'=>'required' 
         ]);
-
 
         if(Auth::attempt($attributes))
         {
-            return redirect('/admin-dashboard');
+            session()->regenerate();
+            return redirect('/');
         }
 
         return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
     }
-
+    
     public function destroy()
     {
 
