@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'id' => 1,
-            'role_id' => 1,
             'first_name' => 'admin',
             'last_name' => 'admin',
             'file' => 'team-1.jpg',
@@ -28,7 +27,6 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'id' => 2,
-            'role_id' => 2,
             'first_name' => 'creator',
             'last_name' => 'creator',
             'file' => 'team-2.jpg',
@@ -39,7 +37,6 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'id' => 3,
-            'role_id' => 3,
             'first_name' => 'member',
             'last_name' => 'member',
             'file' => 'team-3.jpg',
