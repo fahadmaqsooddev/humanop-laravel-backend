@@ -143,5 +143,56 @@ return [
         ],
 
     ],
-
+    'models' => [
+        'Answer' => [
+            'table' => 'answers',
+            'fillable' => ['answer','sort','image','user_id','question_id' ],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'AnswerCode' => [
+            'table' => 'answer_codes',
+            'fillable' => ['code','number','answer_id','code_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'BillingInfo' => [
+            'table' => 'billing_infos',
+            'fillable' => ['first_name','last_name','email','zip_code','address','user_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'code' => [
+            'table' => 'codes',
+            'fillable' => ['name','code','public_name','number','type','code_number','text','sorting'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'GeneralSetting' => [
+            'table' => 'general_settings',
+            'fillable' => ['sidebar_color','text_color','background_color','navbar_color','user_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'plan' => [
+            'table' => 'plans',
+            'fillable' => ['plan_id','name','billing_method','price','currency'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'Question' => [
+            'table' => 'questions',
+            'fillable' => ['question','sort','active','multiple','gender'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'StripeSetting' => [
+            'table' => 'stripe_settings',
+            'fillable' => ['api_key','account_id','account_name','account_email'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'Subscription' => [
+            'table' => 'subscriptions',
+            'fillable' => ['stripe_id','stripe_status','stripe_price','quantity','trial_end_at','user_id','plan_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'User' => [
+            'table' => 'users',
+            'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin'],
+            'hidden' => ['created_at','updated_at','remember_token','password']
+        ],
+    ]
 ];
