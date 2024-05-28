@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function () {
+
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
     Route::view('/client-resource', 'client-dashboard/client-resource');
@@ -26,3 +28,4 @@ use Illuminate\Support\Facades\Route;
     Route::view('/client-human-network', 'client-dashboard/network');
     Route::view('/attempt-test', 'client-dashboard/assessment');
 
+});

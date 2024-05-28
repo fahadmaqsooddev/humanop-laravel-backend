@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function () {
+
 //    practitioner dashboard
     Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
     Route::view('/practitioner-projects', 'practitioner-dashboard/projects');
@@ -22,4 +24,5 @@ use Illuminate\Support\Facades\Route;
     Route::view('/practitioner-user-detail', 'practitioner-dashboard/practitioner_user_detail');
     Route::view('/pages-account-billing', 'pages/account/billing');
     Route::view('/practitioner-billing', 'practitioner-dashboard/practitioner-billing');
-    
+
+});

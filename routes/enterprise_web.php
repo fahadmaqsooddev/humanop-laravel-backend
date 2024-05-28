@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => 'auth'], function () {
+
 //    enterprise dashboard
     Route::view('/enterprise-dashboard', 'enterprise-dashboard/dashboard');
     Route::view('/enterprise-team-dashboard', 'enterprise-dashboard/team-dashboard');
@@ -23,3 +25,5 @@ use Illuminate\Support\Facades\Route;
     Route::view('/enterprise-pages-account-settings', 'enterprise-dashboard/enterprise-setting');
     Route::view('/pages-account-billing', 'pages/account/billing');
     Route::view('/enterprise-billing', 'enterprise-dashboard/enterprise-billing');
+
+});
