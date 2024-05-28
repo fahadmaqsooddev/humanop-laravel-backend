@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}" id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="align-items-center d-flex m-0 text-wrap" href="{{ url('admin-dashboard') }}">
+        <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
             <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
         </a>
     </div>
@@ -30,14 +30,14 @@
                 </a>
                 <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                     <ul class="nav ms-4 ps-3">
-                        <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}" href="{{ url('admin-dashboard') }}">
+                        <li class="nav-item {{ (Request::is('admin_dashboard') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('admin_dashboard') ? 'active' : '') }}" href="{{ route('admin_dashboard') }}">
                             <span class="sidenav-mini-icon"> D </span>
                             <span class="sidenav-normal"> Dashboard </span>
                         </a>
                         </li>
-                        <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}" href="{{ url('users') }}">
+                        <li class="nav-item {{ (Request::is('admin_all_users') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('admin_all_users') ? 'active' : '') }}" href="{{ route('admin_all_users') }}">
                                 <span class="sidenav-mini-icon"> U </span>
                                 <span class="sidenav-normal"> Users </span>
                             </a>
@@ -55,8 +55,8 @@
                                             <span class="sidenav-normal"> Video Buckets </span>
                                         </a>
                                     </li>
-                                    <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
-                                        <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}" href="{{ url('dashboard-cms') }}">
+                                    <li class="nav-item {{ (Request::is('admin_cms') ? 'active' : '') }}">
+                                        <a class="nav-link {{ (Request::is('admin_cms') ? 'active' : '') }}" href="{{ route('admin_cms') }}">
                                             <span class="sidenav-mini-icon"> A </span>
                                             <span class="sidenav-normal"> Assets Management </span>
                                         </a>
@@ -77,19 +77,19 @@
                             </div>
                         </li>
                         <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                        <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('dashboard-hai-chat') }}">
+                        <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ route('admin_hai_chat') }}">
                             <span class="sidenav-mini-icon"> H </span>
                             <span class="sidenav-normal"> H.A.I. Chat </span>
                         </a>
                         </li>
                         <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('pages-profile-projects') }}">
+                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ route('admin_projects') }}">
                                 <span class="sidenav-mini-icon"> I </span>
                                 <span class="sidenav-normal">Projects</span>
                             </a>
                         </li>
-                            <li class="nav-item {{ (Request::is('pages-account-settings') ? 'active' : '') }}">
-                            <a class="nav-link {{ (Request::is('pages-account-settings') ? 'active' : '') }}" href="{{ url('pages-account-settings') }}">
+                            <li class="nav-item {{ (Request::is('admin_setting') ? 'active' : '') }}">
+                            <a class="nav-link {{ (Request::is('admin_setting') ? 'active' : '') }}" href="{{ route('admin_setting') }}">
                                 <span class="sidenav-mini-icon"> S </span>
                                 <span class="sidenav-normal"> Setting </span>
                             </a>

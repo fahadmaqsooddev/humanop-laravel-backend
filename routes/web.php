@@ -36,16 +36,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['checkLogin']], function() {
 
 //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
-//    Route::view('/dashboard-cms', 'dashboards/cms');
-//    Route::view('/users', 'dashboards/all_users');
-//    Route::view('/user-detail', 'dashboards/user_detail');
-//    Route::view('/user-info', 'dashboards/user_info');
-//    Route::view('/dashboard-hai-chat', 'dashboards/hai-chat');
-//    Route::view('/grid', 'dashboards/grid');
-//    Route::view('/answers', 'dashboards/answer');
-//    Route::view('/pages-users-reports', 'pages/users/reports');
-//    Route::view('/pages-users-new', 'pages/users/new-user');
-//    Route::view('/pages-account-settings', 'dashboards/setting');
-//    Route::view('/admin-projects', 'dashboards/admin_projects');
+    Route::get('/dashboard-cms', [AdminController::class,'cms'])->name('admin_cms');
+    Route::get('/users', [AdminController::class,'allUsers'])->name('admin_all_users');
+    Route::get('/user-detail', [AdminController::class,'userDetail'])->name('admin_user_detail');
+    Route::get('/user-info', [AdminController::class,'userInfo'])->name('admin_user_info');
+    Route::get('/dashboard-hai-chat', [AdminController::class,'haiChat'])->name('admin_hai_chat');
+    Route::get('/grid', [AdminController::class,'grid'])->name('admin_grid');
+    Route::get('/answers', [AdminController::class,'answer'])->name('admin_answer');
+    Route::get('/pages-users-reports', [AdminController::class,'pagesUsersReports'])->name('admin_pages_users_reports');
+    Route::get('/pages-users-new', [AdminController::class,'pagesUsersNewUser'])->name('admin_pages_users_new_user');
+    Route::get('/pages-account-settings', [AdminController::class,'setting'])->name('admin_setting');
+    Route::get('/admin-projects', [AdminController::class,'project'])->name('admin_projects');
 
 });

@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-5 col-sm-5">
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card mb-4"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -69,7 +69,7 @@
                     </a>
                 </div>
                 <div class="col-lg-5 col-sm-5 mt-sm-0 mt-4">
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card mb-4"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -126,7 +126,7 @@
 
             <div class="row mt-4">
                 <div class="col-lg-5 col-sm-5">
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card mb-4"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -179,7 +179,7 @@
                 </div>
 
                 <div class="col-lg-5 col-sm-5">
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -204,7 +204,7 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ url('pages-users-reports') }}">
+                    <a href="{{ route('admin_pages_users_reports') }}">
                         <div class="card mt-4"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
@@ -382,7 +382,7 @@
 
         <div class="row mt-4">
             <div class="col-lg-5 col-sm-5">
-                <a href="{{ url('pages-users-reports') }}">
+                <a href="{{ route('admin_pages_users_reports') }}">
                     <div class="card mb-4"
                          style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                         <div class="card-body p-3">
@@ -406,7 +406,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="{{ url('pages-users-reports') }}">
+                <a href="{{ route('admin_pages_users_reports') }}">
                     <div class="card"
                          style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                         <div class="card-body p-3">
@@ -433,7 +433,7 @@
             </div>
 
             <div class="col-lg-5 col-sm-5">
-                <a href="{{ url('pages-users-reports') }}">
+                <a href="{{ route('admin_pages_users_reports') }}">
                     <div class="card"
                          style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                         <div class="card-body p-3">
