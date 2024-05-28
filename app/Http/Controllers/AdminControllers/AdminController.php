@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -12,6 +14,12 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $stripe = null;
+
+    public function __construct(StripeSetting $stripe){
+        $this->genre = $stripe;
+    }
     public function index()
     {
         try {
@@ -56,13 +64,29 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.setting');
+            $account = StripeSetting::getSingle();
+
+            return view('admin-dashboards.setting', compact('account'));
 
         }catch (\Exception $exception)
         {
-
             return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+        }
+    }
 
+    public function stripeSetting(UpdateStripeRequest $request, $id)
+    {
+        try
+        {
+            $dataArray = $request->only($this->genre->getFillable());
+
+            StripeSetting::updateStripeAccount($dataArray, $id);
+
+            return redirect()->route('admin_setting')->with('success', 'Stripe Account Update Successfully');
+
+        }catch (\Exception $exception)
+        {
+            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
         }
     }
     public function pagesUsersNewUser()

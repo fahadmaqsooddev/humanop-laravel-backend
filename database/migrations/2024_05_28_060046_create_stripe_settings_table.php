@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('stripe_settings', function (Blueprint $table) {
             $table->id();
             $table->string('api_key')->nullable();
-            $table->string('account_id')->nullable();
+            $table->string('public_key')->nullable();
             $table->string('account_name')->nullable();
             $table->string('account_email')->nullable();
 
