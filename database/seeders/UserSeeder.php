@@ -15,15 +15,29 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'id' => 1,
-            'first_name' => 'admin',
-            'last_name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'is_admin' => 1,
-            'password' => Hash::make('12345678'),
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        DB::table('users')->truncate();
+
+        $users = [
+            [
+                'first_name' => 'admin',
+                'last_name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'is_admin' => 1,
+                'password' => Hash::make('12345678'),
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'first_name' => 'user',
+                'last_name' => 'user',
+                'email' => 'user@gmail.com',
+                'is_admin' => 2,
+                'password' => Hash::make('12345678'),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ];
+
+        DB::table('users')->insert($users);
     }
 }
