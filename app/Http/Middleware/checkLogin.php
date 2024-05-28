@@ -20,9 +20,8 @@ class checkLogin
 
         if (Auth::user()->is_admin == '1')
         {
-            return redirect()->route('admin_dashboard');
+            return $next($request);
         }
 
-        return $next($request);
     }
 }

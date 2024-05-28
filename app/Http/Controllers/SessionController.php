@@ -21,7 +21,7 @@ class SessionController extends Controller
 
         if(Auth::attempt($attributes))
         {
-            return redirect('/admin-dashboard');
+            return redirect()->route('admin_dashboard');
         }
 
         return back()->withErrors(['msgError' => 'These credentials do not match our records.']);

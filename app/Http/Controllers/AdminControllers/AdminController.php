@@ -15,7 +15,6 @@ class AdminController extends Controller
     public function index()
     {
         try {
-            dd(5);
 
             return view('admin-dashboards.default');
 
