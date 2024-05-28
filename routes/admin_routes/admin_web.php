@@ -27,12 +27,8 @@ Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPa
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy']);
 
-//    Route::get('/', function () {
-//        return redirect('/login');
-//    });
-//});
 
-Route::group(['prefix' => 'admin', 'middleware' => ['checkLogin']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
 
 //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');

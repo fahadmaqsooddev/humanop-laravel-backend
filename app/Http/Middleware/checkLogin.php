@@ -18,10 +18,17 @@ class checkLogin
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::user()->is_admin == '1')
+        if (Auth::user() &&  Auth::user()->is_admin == '1')
         {
-            return $next($request);
+            return response()->view('admin-dashboards.default');
         }
+        if (Auth::user() && Auth::user()->is_admin == '2')
+        {
+            return response()->view('admin-dashboards.default');
+        }
+
+        return $next($request);
+
 
     }
 }

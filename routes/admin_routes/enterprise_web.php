@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['prefix' => 'enterprise', 'middleware' => 'auth'], function () {
 
 //    enterprise dashboard
     Route::view('/enterprise-dashboard', 'enterprise-dashboard/dashboard');

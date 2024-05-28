@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['prefix' => 'client-user', 'middleware' => 'auth'], function () {
 
 //    client dashboard
     Route::view('/client-dashboard', 'client-dashboard/client-dashboard');

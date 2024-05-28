@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['prefix' => 'practitioner', 'middleware' => 'auth'], function () {
 
 //    practitioner dashboard
     Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');
