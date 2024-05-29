@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 class AdminController extends Controller
 {
@@ -20,7 +21,7 @@ class AdminController extends Controller
     public function __construct(StripeSetting $stripe){
         $this->genre = $stripe;
     }
-    
+
     public function index()
     {
         try {
@@ -66,8 +67,8 @@ class AdminController extends Controller
         try {
 
             $account = StripeSetting::getSingle();
-
-            return view('admin-dashboards.setting', compact('account'));
+            $currentUser = Auth::user();
+            return view('admin-dashboards.setting', compact('account','currentUser'));
 
         }catch (\Exception $exception)
         {
@@ -189,7 +190,7 @@ class AdminController extends Controller
 
         }
     }
-    
+
     public function allQuestions()
     {
         try {
