@@ -13,7 +13,7 @@ class generateAnswerData extends Command
      *
      * @var string
      */
-    protected $signature = 'answer:name';
+    protected $signature = 'make:answer';
 
     /**
      * The console command description.
