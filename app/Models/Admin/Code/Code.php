@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Models\Admin\Question;
+namespace App\Models\Admin\Code;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Admin\Answer\Answer;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class Code extends Model
 {
     use HasFactory;
-
+    
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -19,17 +18,12 @@ class Question extends Model
         parent::__construct($attributes);
     }
 
-    public function answers()
+    public static function allCodes()
     {
-        return $this->hasMany(Answer::class,'question_id');
+        return self::all();
     }
-
-    public static function allQuestion()
-    {
-        return self::with('answers.answerCodes')->get();
-    }
-
-    public static function singleQuestion($id = null)
+    
+    public static function getSingleCode($id = null)
     {
         return self::find($id);
     }

@@ -159,9 +159,9 @@ return [
             'fillable' => ['first_name','last_name','email','zip_code','address','user_id'],
             'hidden' => ['created_at','updated_at']
         ],
-        'code' => [
+        'Code' => [
             'table' => 'codes',
-            'fillable' => ['name','code','public_name','number','type','code_number','text','sorting'],
+            'fillable' => ['name','code','public_name','number','type','text'],
             'hidden' => ['created_at','updated_at']
         ],
         'GeneralSetting' => [
@@ -169,7 +169,7 @@ return [
             'fillable' => ['sidebar_color','text_color','background_color','navbar_color','user_id'],
             'hidden' => ['created_at','updated_at']
         ],
-        'plan' => [
+        'Plan' => [
             'table' => 'plans',
             'fillable' => ['plan_id','name','billing_method','price','currency'],
             'hidden' => ['created_at','updated_at']

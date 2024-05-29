@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('codes', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('code')->nullable();
-            $table->string('public_name')->nullable();
-            $table->string('number')->nullable();
-            $table->string('type')->nullable();
+            $table->string('title')->nullable();
+            $table->string('meta_key')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->longText('text')->nullable();
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('codes');
+        Schema::dropIfExists('pages');
     }
 };
