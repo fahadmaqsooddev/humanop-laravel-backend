@@ -41,7 +41,7 @@
                                     <p class="font-weight-bold" style="color: white;">Gender</p>
                                 </div>
                                 <div class="col">
-                                    <p class="font-weight-bold" style="color: white;">{{($user->gender === 0 ? 'Both' : ($user->gender === 1 ? 'Female' : ($user->gender === 2 ? 'Male' : ''))) }}</p>
+                                    <p class="font-weight-bold" style="color: white;">{{($user->gender == 0 ? 'Both' : ($user->gender == 1 ? 'Female' : ($user->gender == 2 ? 'Male' : ''))) }}</p>
                                 </div>
                             </div>
                         </div>
