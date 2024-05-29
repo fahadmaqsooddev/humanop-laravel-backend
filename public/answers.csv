@@ -1,0 +1,266 @@
+"ans_id","qst_id","ans","sort","img"
+"1","1","Black","1",NULL
+"2","1","Brown","2",NULL
+"3","1","Light Brown","3",NULL
+"4","1","Blonde","4",NULL
+"5","1","Red","5",NULL
+"6","2","Dark Brown","1","images/q/darkbrowneyes.jpg"
+"7","2","Blue","2","images/q/blueeyes.jpg"
+"8","2","Hazel","3","images/q/lightbrowneyes.jpg"
+"9","2","Golden Brown","4","images/q/goldenbrowneyes.jpg"
+"10","2","Blue Violet","5","images/q/bluevioleteyes.jpg"
+"11","2","Green","6","images/q/greeneyes.jpg"
+"12","3","Small","1",NULL
+"13","3","Medium","2",NULL
+"14","3","Large","3",NULL
+"15","4","yes","1",NULL
+"16","4","no","2",NULL
+"17","5","Rounded","1",NULL
+"18","5","Turned up","2",NULL
+"19","5","Turned under","3",NULL
+"20","5","Pointed","4",NULL
+"21","6","Slim","1",NULL
+"22","6","Average","2",NULL
+"23","6","Muscular/Athletic/Toned","3",NULL
+"24","6","Full","4",NULL
+"25","7","yes","1",NULL
+"26","7","no","2",NULL
+"27","8","yes","1",NULL
+"28","8","no","2",NULL
+"29","9","yes","1",NULL
+"30","9","no","2",NULL
+"31","10","yes","1",NULL
+"32","10","no","2",NULL
+"33","11","On the waist","1",NULL
+"34","11","On the hips, thighs or chest","2",NULL
+"35","11","I do not gain weight","3",NULL
+"37","12","On the waist","1",NULL
+"38","12","On the hips, thighs or chest","2",NULL
+"39","12","I do not gain weight","3",NULL
+"40","13","yes","1",NULL
+"41","13","no","2",NULL
+"42","14","yes","1",NULL
+"43","14","no","2",NULL
+"44","15","Positive","1",NULL
+"45","15","2","2",NULL
+"46","15","3","3",NULL
+"47","15","4","4",NULL
+"48","15","5","5",NULL
+"49","15","6","6",NULL
+"50","15","7","7",NULL
+"51","15","Negative","8",NULL
+"52","16","yes","1",NULL
+"53","16","no","2",NULL
+"54","16","sometimes","3",NULL
+"55","17","Pale/Light burns easily","1",NULL
+"56","17","Golden and/or Freckled  burns then tans","2",NULL
+"57","17","Dark or Olive tans easily","3",NULL
+"58","18","yes","1",NULL
+"59","18","no","2",NULL
+"60","18","sometimes","3",NULL
+"61","19","yes","1",NULL
+"62","19","no","2",NULL
+"63","19","sometimes","3",NULL
+"64","20","yes","1",NULL
+"65","20","no","2",NULL
+"66","20","sometimes","3",NULL
+"67","21","yes","1",NULL
+"68","21","no","2",NULL
+"69","22","smooth","1",NULL
+"70","22","chiseled or square","2",NULL
+"71","22","pointed","3",NULL
+"72","23","yes","1",NULL
+"73","23","no","2",NULL
+"74","24","Male","1",NULL
+"75","24","Female","2",NULL
+"76","24","An even number of both","3",NULL
+"77","24","I have no friends","4",NULL
+"78","25","yes","1",NULL
+"79","25","no","2",NULL
+"80","26","yes","1",NULL
+"81","26","no","2",NULL
+"82","26","sometimes","3",NULL
+"83","27","King or Queen","1",NULL
+"84","27","Knight","2",NULL
+"85","27","Advisor to King","3",NULL
+"86","27","Healer","4",NULL
+"87","27","Fairy or Jester","5",NULL
+"88","27","Prince or Princess","6",NULL
+"89","28","yes","1",NULL
+"90","28","no","2",NULL
+"91","29","yes","1",NULL
+"92","29","no","2",NULL
+"93","29","sometimes","3",NULL
+"94","30","yes","1",NULL
+"95","30","no","2",NULL
+"96","30","sometimes","3",NULL
+"97","31","yes","1",NULL
+"98","31","no","2",NULL
+"99","31","sometimes","3",NULL
+"100","32","yes","1",NULL
+"101","32","no","2",NULL
+"102","33","yes","1",NULL
+"103","33","no","2",NULL
+"104","34","yes","1",NULL
+"105","34","no","2",NULL
+"106","34","sometimes","3",NULL
+"107","35","yes","1",NULL
+"108","35","no","2",NULL
+"109","36","yes","1",NULL
+"110","36","no","2",NULL
+"111","36","sometimes","3",NULL
+"112","37","yes","1",NULL
+"113","37","no","2",NULL
+"114","38","yes","1",NULL
+"115","38","no","2",NULL
+"116","38","sometimes","3",NULL
+"117","39","yes","1",NULL
+"118","39","no","2",NULL
+"119","39","sometimes","3",NULL
+"120","40","yes","1",NULL
+"121","40","no","2",NULL
+"122","40","sometimes","3",NULL
+"123","41","yes","1",NULL
+"124","41","no","2",NULL
+"125","41","sometimes","3",NULL
+"126","42","yes","1",NULL
+"127","42","no","2",NULL
+"128","42","sometimes","3",NULL
+"129","43","yes","1",NULL
+"130","43","no","2",NULL
+"131","44","yes","1",NULL
+"132","44","no","2",NULL
+"133","44","sometimes","3",NULL
+"134","45","yes","1",NULL
+"135","45","no","2",NULL
+"136","45","sometimes","3",NULL
+"137","46","yes","1",NULL
+"138","46","no","2",NULL
+"139","46","sometimes","3",NULL
+"140","47","yes","1",NULL
+"141","47","no","2",NULL
+"142","47","sometimes","3",NULL
+"143","48","yes","1",NULL
+"144","48","no","2",NULL
+"145","49","yes","1",NULL
+"146","49","no","2",NULL
+"147","50","yes","1",NULL
+"148","50","no","2",NULL
+"149","51","yes","1",NULL
+"150","51","no","2",NULL
+"151","51","sometimes","3",NULL
+"152","52","yes","1",NULL
+"153","52","no","2",NULL
+"154","53","yes","1",NULL
+"155","53","no","2",NULL
+"156","54","yes","1",NULL
+"157","54","no","2",NULL
+"158","55","yes","1",NULL
+"159","55","no","2",NULL
+"160","55","sometimes","3",NULL
+"161","56","yes","1",NULL
+"162","56","no","2",NULL
+"163","57","yes","1",NULL
+"164","57","no","2",NULL
+"165","57","sometimes","3",NULL
+"166","58","yes","1",NULL
+"167","58","no","2",NULL
+"168","58","sometimes","3",NULL
+"169","59","yes","1",NULL
+"170","59","no","2",NULL
+"171","59","sometimes","3",NULL
+"172","60","yes","1",NULL
+"173","60","no","2",NULL
+"174","61","yes","1",NULL
+"175","61","no","2",NULL
+"176","61","sometimes","3",NULL
+"177","62","yes","1",NULL
+"178","62","no","2",NULL
+"179","62","sometimes","3",NULL
+"180","63","yes","1",NULL
+"181","63","no","2",NULL
+"182","63","sometimes","3",NULL
+"183","64","yes","1",NULL
+"184","64","no","2",NULL
+"185","65","yes","1",NULL
+"186","65","no","2",NULL
+"187","65","sometimes","3",NULL
+"188","66","yes","1",NULL
+"189","66","no","2",NULL
+"190","67","yes","1",NULL
+"191","67","no","2",NULL
+"192","67","sometimes","3",NULL
+"193","68","yes","1",NULL
+"194","68","no","2",NULL
+"195","68","sometimes","3",NULL
+"196","69","yes","1",NULL
+"197","69","no","2",NULL
+"198","70","yes","1",NULL
+"199","70","no","2",NULL
+"200","70","sometimes","3",NULL
+"201","71","yes","1",NULL
+"202","71","no","2",NULL
+"203","71","sometimes","3",NULL
+"204","72","yes","1",NULL
+"205","72","no","2",NULL
+"206","73","yes","1",NULL
+"207","73","no","2",NULL
+"208","73","sometimes","3",NULL
+"209","74","yes","1",NULL
+"210","74","no","2",NULL
+"211","74","sometimes","3",NULL
+"212","75","yes","1",NULL
+"213","75","no","2",NULL
+"214","75","sometimes","3",NULL
+"215","76","yes","1",NULL
+"216","76","no","2",NULL
+"217","76","sometimes","3",NULL
+"218","77","yes","1",NULL
+"219","77","no","2",NULL
+"220","77","sometimes","3",NULL
+"221","78","yes","1",NULL
+"222","78","no","2",NULL
+"223","79","yes","1",NULL
+"224","79","no","2",NULL
+"225","79","sometimes","3",NULL
+"226","80","Under your direction","1",NULL
+"227","80","At your disposal","2",NULL
+"228","80","An inspiration","3",NULL
+"229","80","As companionship","4",NULL
+"230","81","Gold (White or Yellow) or Platinum","1",NULL
+"231","81","Silver","2",NULL
+"232","81","Copper","3",NULL
+"233","82","Clean, reasonably priced hotel","1",NULL
+"234","82","5 Star Hotel","2",NULL
+"235","82","Roadside discount motel","3",NULL
+"236","83","Very Important","1",NULL
+"237","83","Somewhat Important","2",NULL
+"238","83","Not Important","3",NULL
+"239","84","Not Organized","1",NULL
+"240","84","Somewhat organized","2",NULL
+"241","84","Very organized","3",NULL
+"242","85","Twice a day","1",NULL
+"243","85","Once a day","2",NULL
+"244","85","Every other day","3",NULL
+"245","86","Once a week","1",NULL
+"246","86","Once a month","2",NULL
+"247","86","After someone writes wash me on it","3",NULL
+"248","87","Never","1",NULL
+"249","87","Yes, under the right conditions.","2",NULL
+"250","87","Absolutely, I love it!","3",NULL
+"251","88","Read a book","1",NULL
+"252","88","Do something active","2",NULL
+"253","88","Relax in a jacuzzi","3",NULL
+"254","88","Dine with friends","4",NULL
+"255","89","Reliability","1",NULL
+"256","89","The way it looks","2",NULL
+"257","89","Seating capacity","3",NULL
+"258","89","Driving experience","4",NULL
+"259","90","You love to listen to music","1",NULL
+"260","90","You love to contemplate","2",NULL
+"261","90","You love to move your body","3",NULL
+"262","90","You love to socialize","4",NULL
+"263","91","Drama","1",NULL
+"264","91","Comedy","2",NULL
+"265","91","Documentary or Art film","3",NULL
+"266","91","Action","4",NULL

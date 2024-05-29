@@ -176,7 +176,7 @@ return [
         ],
         'Question' => [
             'table' => 'questions',
-            'fillable' => ['question','sort','active','multiple','gender'],
+            'fillable' => ['question','sort','active','gender'],
             'hidden' => ['created_at','updated_at']
         ],
         'StripeSetting' => [

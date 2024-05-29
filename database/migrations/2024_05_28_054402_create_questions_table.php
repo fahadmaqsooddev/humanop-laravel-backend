@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('question')->nullable();
             $table->string('sort')->nullable();
             $table->string('active')->nullable();
-            $table->string('multiple')->nullable();
             $table->string('gender')->nullable();
             $table->timestamps();
         });
