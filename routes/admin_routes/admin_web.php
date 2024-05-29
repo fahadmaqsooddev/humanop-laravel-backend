@@ -3,6 +3,7 @@
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\AdminControllers\AdminController;
+use App\Http\Controllers\AdminControllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,10 @@ Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPa
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy']);
 
+    Route::get('/', function () {
+        return redirect('/login');
+    });
+//});
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
 
@@ -44,5 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/pages-account-settings', [AdminController::class,'setting'])->name('admin_setting');
     Route::post('/stripe-settings/{id}', [AdminController::class,'stripeSetting'])->name('stripe_setting');
     Route::get('/admin-projects', [AdminController::class,'project'])->name('admin_projects');
+
+    Route::get('/questions', [QuestionController::class,'allQuestions'])->name('admin_all_questions');
 
 });

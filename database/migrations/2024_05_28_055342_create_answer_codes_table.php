@@ -15,13 +15,11 @@ return new class extends Migration
     {
         Schema::create('answer_codes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('answer_id')->nullable();
             $table->string('code')->nullable();
             $table->string('number')->nullable();
-            $table->unsignedBigInteger('answer_id')->nullable();
-            $table->unsignedBigInteger('code_id')->nullable();
 
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
-            $table->foreign('code_id')->references('id')->on('codes')->onDelete('cascade');
             $table->timestamps();
         });
     }

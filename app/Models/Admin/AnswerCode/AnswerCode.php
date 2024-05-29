@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models\Admin\Question;
+namespace App\Models\Admin\AnswerCode;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Admin\Answer\Answer;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class AnswerCode extends Model
 {
     use HasFactory;
 
@@ -17,15 +16,5 @@ class Question extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
 
         parent::__construct($attributes);
-    }
-
-    public function answers()
-    {
-        return $this->hasMany(Answer::class,'question_id');
-    }
-
-    public static function allQuestion()
-    {
-        return self::with('answers.answerCodes')->get();
     }
 }

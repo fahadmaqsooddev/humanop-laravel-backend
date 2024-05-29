@@ -20,6 +20,7 @@ class AdminController extends Controller
     public function __construct(StripeSetting $stripe){
         $this->genre = $stripe;
     }
+    
     public function index()
     {
         try {
@@ -185,6 +186,20 @@ class AdminController extends Controller
         try {
 
             return view('admin-dashboards.all_users');
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+
+        }
+    }
+    
+    public function allQuestions()
+    {
+        try {
+
+            return view('admin-dashboards.all_questions');
 
         }catch (\Exception $exception)
         {

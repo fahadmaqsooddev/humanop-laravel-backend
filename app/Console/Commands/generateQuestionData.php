@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Admin\Question\Question;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class generateQuestionData extends Command
 {
@@ -29,33 +30,35 @@ class generateQuestionData extends Command
      */
     public function handle()
     {
+
         $csvFile = fopen(base_path("public/questions.csv"), "r");
 
-        $firstline = false;
+        $firstline = true;
 
         while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
+
+            if ($firstline) {
+                // Skip the first line
+                $firstline = false;
+                continue;
+            }
 
             $q = $data[1];
             $sort = $data[2];
             $active = $data[3];
             $gender = $data[5];
 
-            if (!$firstline) {
+            $question = new Question();
 
-                $question = new Question();
+            $question->question = $q;
+            $question->sort = $sort;
+            $question->active = $active;
+            $question->gender = $gender;
+            $question->gender = $gender;
+            $question->created_at = Carbon::today();
+            $question->updated_at = Carbon::today();
 
-                $question->question = $q;
-                $question->sort = $sort;
-                $question->active = $active;
-                $question->gender = $gender;
-                $question->gender = $gender;
-                $question->created_at = Carbon::today();
-                $question->updated_at = Carbon::today();
-
-                $question->save();
-            }
-
-            $firstline = false;
+            $question->save();
 
         }
 

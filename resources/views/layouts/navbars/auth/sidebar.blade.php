@@ -55,6 +55,13 @@
                                     <span class="sidenav-normal"> Users </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
+                                   href="{{ route('admin_all_questions') }}">
+                                    <span class="sidenav-mini-icon"> Q </span>
+                                    <span class="sidenav-normal"> Question </span>
+                                </a>
+                            </li>
                             <li class="nav-item ">
                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
