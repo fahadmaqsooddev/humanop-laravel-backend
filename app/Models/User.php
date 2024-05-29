@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
+    public static function allUser(){
+        $users = self::all();
+        return $users;
+    }
+    public static function getSingleUser($id = null){
+        $user = self::find($id);
+        return $user;
+    }
 }
