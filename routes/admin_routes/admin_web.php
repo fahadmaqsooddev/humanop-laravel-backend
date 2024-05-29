@@ -4,6 +4,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
+use App\Http\Controllers\AdminControllers\CodeController;
+use App\Http\Controllers\AdminControllers\WebPagesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,5 +53,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/admin-projects', [AdminController::class,'project'])->name('admin_projects');
 
     Route::get('/questions', [QuestionController::class,'allQuestions'])->name('admin_all_questions');
+    Route::get('/edit-question/{id}', [QuestionController::class,'editQuestions'])->name('admin_edit_questions');
+
+    Route::get('/codes', [CodeController::class,'ManageCode'])->name('admin_manage_code');
+    Route::get('/edit-code/{id}', [CodeController::class,'editCode'])->name('admin_edit_manage_code');
+
+    Route::get('/cms', [WebPagesController::class,'webPages'])->name('admin_web_pages');
+
 
 });

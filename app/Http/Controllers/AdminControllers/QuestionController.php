@@ -21,7 +21,6 @@ class QuestionController extends Controller
         try {
 
             $questions = Question::allQuestion();
-//            dd($questions);
 
             return view('admin-dashboards.all_questions', compact('questions'));
 
@@ -31,5 +30,23 @@ class QuestionController extends Controller
             return redirect()->route('admin_all_questions')->with('error', $exception->getMessage());
 
         }
+    }
+
+    public function editQuestions($id)
+    {
+
+        try {
+
+            $question = Question::singleQuestion($id);
+            
+            return view('admin-dashboards.edit_question', compact('question'));
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->route('admin_all_questions')->with('error', $exception->getMessage());
+
+        }
+
     }
 }

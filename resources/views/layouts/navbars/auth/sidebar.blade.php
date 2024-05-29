@@ -59,7 +59,14 @@
                                 <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
                                    href="{{ route('admin_all_questions') }}">
                                     <span class="sidenav-mini-icon"> Q </span>
-                                    <span class="sidenav-normal"> Question </span>
+                                    <span class="sidenav-normal"> Questions </span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
+                                   href="{{ route('admin_manage_code') }}">
+                                    <span class="sidenav-mini-icon"> C </span>
+                                    <span class="sidenav-normal"> Codes Manage </span>
                                 </a>
                             </li>
                             <li class="nav-item ">

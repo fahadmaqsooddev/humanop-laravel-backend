@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->string('phone')->nullable();
-            $table->tinyInteger('age_min')->nullable();
-            $table->tinyInteger('age_max')->nullable();
+            $table->integer('age_min')->nullable();
+            $table->integer('age_max')->nullable();
             $table->string('gender')->nullable();
             $table->dateTime('signup_date')->nullable();
             $table->dateTime('last_login')->nullable();
