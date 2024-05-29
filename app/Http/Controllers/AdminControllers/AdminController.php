@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use Illuminate\Http\Request;
-
+use App\Models\User;
 class AdminController extends Controller
 {
     /**
@@ -154,11 +154,11 @@ class AdminController extends Controller
 
         }
     }
-    public function userInfo()
+    public function userInfo($id)
     {
         try {
-
-            return view('admin-dashboards.user_info');
+            $user = User::getSingleUser($id);
+            return view('admin-dashboards.user_info',compact('user'));
 
         }catch (\Exception $exception)
         {
@@ -167,25 +167,20 @@ class AdminController extends Controller
 
         }
     }
-    public function userDetail()
+    public function userDetail($id)
     {
         try {
-
-            return view('admin-dashboards.user_detail');
-
+            return view('admin-dashboards.user_detail',compact('id'));
         }catch (\Exception $exception)
         {
-
             return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
-
         }
     }
     public function allUsers()
     {
         try {
-
-            return view('admin-dashboards.all_users');
-
+            $users = User::allUser();
+            return view('admin-dashboards.all_users',compact('users'));
         }catch (\Exception $exception)
         {
 

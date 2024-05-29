@@ -34,8 +34,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
     Route::get('/dashboard-cms', [AdminController::class,'cms'])->name('admin_cms');
     Route::get('/users', [AdminController::class,'allUsers'])->name('admin_all_users');
-    Route::get('/user-detail', [AdminController::class,'userDetail'])->name('admin_user_detail');
-    Route::get('/user-info', [AdminController::class,'userInfo'])->name('admin_user_info');
+    Route::get('/user-detail/{id}', [AdminController::class,'userDetail'])->name('admin_user_detail');
+    Route::get('/user-info/{id}', [AdminController::class,'userInfo'])->name('admin_user_info');
     Route::get('/dashboard-hai-chat', [AdminController::class,'haiChat'])->name('admin_hai_chat');
     Route::get('/grid', [AdminController::class,'grid'])->name('admin_grid');
     Route::get('/answers', [AdminController::class,'answer'])->name('admin_answer');
