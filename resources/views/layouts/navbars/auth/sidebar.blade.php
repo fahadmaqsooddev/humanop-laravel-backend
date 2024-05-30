@@ -69,6 +69,13 @@
                                     <span class="sidenav-normal"> Codes Manage </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
+                                   href="{{ route('admin_resources') }}">
+                                    <span class="sidenav-mini-icon"> R </span>
+                                    <span class="sidenav-normal"> Resources </span>
+                                </a>
+                            </li>
                             <li class="nav-item ">
                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">

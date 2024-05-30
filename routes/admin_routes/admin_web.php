@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
 use App\Http\Controllers\AdminControllers\CodeController;
 use App\Http\Controllers\AdminControllers\WebPagesController;
+use App\Http\Controllers\AdminControllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
     Route::get('/edit-code/{id}', [CodeController::class,'editCode'])->name('admin_edit_manage_code');
 
     Route::get('/cms', [WebPagesController::class,'webPages'])->name('admin_web_pages');
+
+    Route::get('/resources', [ResourceController::class,'resources'])->name('admin_resources');
+    Route::get('/master-key', [ResourceController::class,'masterKey'])->name('admin_master_key');
+    Route::get('/style', [ResourceController::class,'style'])->name('admin_style');
+    Route::get('/cycle', [ResourceController::class,'cycle'])->name('admin_cycle');
+    Route::get('/alchemy', [ResourceController::class,'alchemy'])->name('admin_alchemy');
+    Route::get('/energy_center', [ResourceController::class,'energyCenter'])->name('admin_energy_center');
 
 
 });
