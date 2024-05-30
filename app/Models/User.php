@@ -60,4 +60,11 @@ class User extends Authenticatable
         $user = self::find($id);
         return $user;
     }
+    public static function updateUser($data = null, $id = null){
+
+        $user = self::find($id)->update($data);
+
+        return $user;
+
+    }
 }

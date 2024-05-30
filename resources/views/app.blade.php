@@ -40,6 +40,7 @@
   <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
+    @livewireStyles
 </head>
 
 <body class="background_image {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }}">
@@ -73,6 +74,7 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ URL::asset('assets/js/soft-ui-dashboard.min.js?v=1.0.4') }}"></script>
+  @livewireScripts
 </body>
 
 </html>
