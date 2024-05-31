@@ -3,7 +3,7 @@
         <h5>Basic Info</h5>
     </div>
     @include('layouts.message')
-    <form wire:submit.prevent="submitForm">
+    <form wire:submit.prevent="submitForm" >
         <input type="hidden" wire:model="currentUser.id">
         <div class="card-body pt-0">
             <div class="row">

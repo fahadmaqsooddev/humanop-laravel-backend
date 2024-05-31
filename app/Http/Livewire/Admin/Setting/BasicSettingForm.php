@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Admin\Setting;
 
 use App\Models\User;
-
 use Livewire\Component;
 
 class BasicSettingForm extends Component
@@ -32,9 +31,8 @@ class BasicSettingForm extends Component
             session()->flash('error', $exception->getMessage());
         }
     }
-
     public function render()
     {
-        return view('livewire.basic-setting-form');
+        return view('livewire.admin.setting.basic-setting-form');
     }
 }

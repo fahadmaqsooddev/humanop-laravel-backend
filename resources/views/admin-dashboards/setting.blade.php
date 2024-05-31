@@ -250,50 +250,12 @@
                 </div>
                 @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)
                 <!-- Card Basic Info -->
-                @livewire('basic-setting-form',['user' => $currentUser])
+                @livewire('admin.setting.basic-setting-form',['user' => $currentUser])
 
                 <!-- Card Change Password -->
-                <div class="card mt-4" id="password">
-                    <div class="card-header">
-                        <h5>Change Password</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <label class="form-label text-white">Current password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password"
-                                   placeholder="Current password">
-                        </div>
-                        <label class="form-label text-white">New password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password"
-                                   placeholder="New password">
-                        </div>
-                        <label class="form-label text-white">Confirm new password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password"
-                                   placeholder="Confirm password">
-                        </div>
-                        <h5 class="mt-5">Password requirements</h5>
-                        <p class="text-muted mb-2">
-                            Please follow this guide for a strong password:
-                        </p>
-                        <ul class="text-muted ps-4 mb-0 float-start">
-                            <li>
-                                <span class="text-sm text-white">One special characters</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white">Min 6 characters</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white">One number (2 are recommended)</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white">Change it often</span>
-                            </li>
-                        </ul>
-                        <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">Update password</button>
-                    </div>
-                </div>
+                @livewire('admin.setting.password-setting-form')
+
+
                 <!-- Card Change Password -->
                 <div class="card mt-4" id="2fa">
                     <div class="card-header d-flex">
