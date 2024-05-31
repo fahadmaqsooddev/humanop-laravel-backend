@@ -257,283 +257,233 @@
 
 
                 <!-- Card Change Password -->
-                <div class="card mt-4" id="2fa">
-                    <div class="card-header d-flex">
-                        <h5 class="mb-0">Two-factor authentication</h5>
-                        <span class="badge badge-success ms-auto">Enabled</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <p class="my-auto text-white">Security keys</p>
-                            <p class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>
-                        </div>
-                        <hr class="horizontal dark">
-                        <div class="d-flex">
-                            <p class="my-auto text-white">SMS number</p>
-                            <p class="text-secondary text-sm ms-auto my-auto me-3">+4012374423</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Edit</button>
-                        </div>
-                        <hr class="horizontal dark">
-                        <div class="d-flex">
-                            <p class="my-auto text-white">Authenticator app</p>
-                            <p class="text-secondary text-sm ms-auto my-auto me-3">Not Configured</p>
-                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Set up</button>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="card mt-4" id="2fa">--}}
+{{--                    <div class="card-header d-flex">--}}
+{{--                        <h5 class="mb-0">Two-factor authentication</h5>--}}
+{{--                        <span class="badge badge-success ms-auto">Enabled</span>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <p class="my-auto text-white">Security keys</p>--}}
+{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>--}}
+{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>--}}
+{{--                        </div>--}}
+{{--                        <hr class="horizontal dark">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <p class="my-auto text-white">SMS number</p>--}}
+{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">+4012374423</p>--}}
+{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Edit</button>--}}
+{{--                        </div>--}}
+{{--                        <hr class="horizontal dark">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <p class="my-auto text-white">Authenticator app</p>--}}
+{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">Not Configured</p>--}}
+{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Set up</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <!-- Card Accounts -->
-                <div class="card mt-4" id="accounts">
-                    <div class="card-header">
-                        <h5>Stripe Account Setting</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <form action="{{route('stripe_setting', $account['id'])}}" method="post">
-                            @csrf
-                            <div class="card-body pt-0">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="form-label text-white">Account Name</label>
-                                        <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="account_name" value="{{$account['account_name']}}"
-                                                   placeholder="account name">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label text-white">Account Email</label>
-                                        <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="email" name="account_email"
-                                                   value="{{$account['account_email']}}"
-                                                   placeholder="account email">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="form-label text-white">API KEY</label>
-                                        <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="api_key" value="{{$account['api_key']}}"
-                                                   placeholder="api key">
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label text-white">PUBLIC KEY</label>
-                                        <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="public_key" value="{{$account['public_key']}}"
-                                                   placeholder="public key">
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">Update
-                                    account
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                @livewire('admin.setting.stripe-setting-form',['account' => $account])
+
                 <!-- Card Notifications -->
-                <div class="card mt-4" id="notifications">
-                    <div class="card-header">
-                        <h5>Notifications</h5>
-                        <p class="text-sm text-white">Choose how you receive notifications. These notification settings
-                            apply to the things you’re watching.</p>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead>
-                                <tr>
-                                    <th class="ps-1" colspan="4">
-                                        <p class="mb-0">Activity</p>
-                                    </th>
-                                    <th class="text-center">
-                                        <p class="mb-0">Email</p>
-                                    </th>
-                                    <th class="text-center">
-                                        <p class="mb-0">Push</p>
-                                    </th>
-                                    <th class="text-center">
-                                        <p class="mb-0">SMS</p>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td class="ps-1" colspan="4">
-                                        <div class="my-auto text-white">
-                                            <span class="text-dark d-block text-sm">Mentions</span>
-                                            <span class="text-xs font-weight-normal">Notify when another user mentions you in a comment</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault11">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input"
-                                                   type="checkbox" id="flexSwitchCheckDefault12">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input"
-                                                   type="checkbox" id="flexSwitchCheckDefault13">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-1" colspan="4">
-                                        <div class="my-auto text-white">
-                                            <span class="text-dark d-block text-sm">Comments</span>
-                                            <span class="text-xs font-weight-normal">Notify when another user comments your item.</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault14">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault15">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input"
-                                                   type="checkbox" id="flexSwitchCheckDefault16">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-1" colspan="4">
-                                        <div class="my-auto text-white">
-                                            <span class="text-dark d-block text-sm">Follows</span>
-                                            <span class="text-xs font-weight-normal">Notify when another user follows you.</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input"
-                                                   type="checkbox" id="flexSwitchCheckDefault17">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault18">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input"
-                                                   type="checkbox" id="flexSwitchCheckDefault19">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-1" colspan="4">
-                                        <div class="my-auto text-white">
-                                            <p class="text-sm mb-0 text-white">Log in from a new device</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault20">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault21">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div
-                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">
-                                            <input style="background-color: #0f1534;" class="form-check-input" checked
-                                                   type="checkbox" id="flexSwitchCheckDefault22">
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="card mt-4" id="notifications">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h5>Notifications</h5>--}}
+{{--                        <p class="text-sm text-white">Choose how you receive notifications. These notification settings--}}
+{{--                            apply to the things you’re watching.</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body pt-0">--}}
+{{--                        <div class="table-responsive">--}}
+{{--                            <table class="table mb-0">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th class="ps-1" colspan="4">--}}
+{{--                                        <p class="mb-0">Activity</p>--}}
+{{--                                    </th>--}}
+{{--                                    <th class="text-center">--}}
+{{--                                        <p class="mb-0">Email</p>--}}
+{{--                                    </th>--}}
+{{--                                    <th class="text-center">--}}
+{{--                                        <p class="mb-0">Push</p>--}}
+{{--                                    </th>--}}
+{{--                                    <th class="text-center">--}}
+{{--                                        <p class="mb-0">SMS</p>--}}
+{{--                                    </th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
+{{--                                <tbody>--}}
+{{--                                <tr>--}}
+{{--                                    <td class="ps-1" colspan="4">--}}
+{{--                                        <div class="my-auto text-white">--}}
+{{--                                            <span class="text-dark d-block text-sm">Mentions</span>--}}
+{{--                                            <span class="text-xs font-weight-normal">Notify when another user mentions you in a comment</span>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault11">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault12">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault13">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td class="ps-1" colspan="4">--}}
+{{--                                        <div class="my-auto text-white">--}}
+{{--                                            <span class="text-dark d-block text-sm">Comments</span>--}}
+{{--                                            <span class="text-xs font-weight-normal">Notify when another user comments your item.</span>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault14">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault15">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault16">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td class="ps-1" colspan="4">--}}
+{{--                                        <div class="my-auto text-white">--}}
+{{--                                            <span class="text-dark d-block text-sm">Follows</span>--}}
+{{--                                            <span class="text-xs font-weight-normal">Notify when another user follows you.</span>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault17">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault18">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault19">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                                <tr>--}}
+{{--                                    <td class="ps-1" colspan="4">--}}
+{{--                                        <div class="my-auto text-white">--}}
+{{--                                            <p class="text-sm mb-0 text-white">Log in from a new device</p>--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault20">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault21">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                    <td>--}}
+{{--                                        <div--}}
+{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
+{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
+{{--                                                   type="checkbox" id="flexSwitchCheckDefault22">--}}
+{{--                                        </div>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
+{{--                                </tbody>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <!-- Card Sessions -->
-                <div class="card mt-4" id="sessions">
-                    <div class="card-header pb-3">
-                        <h5>Sessions</h5>
-                        <p class="text-sm text-white">This is a list of devices that have logged into your account.
-                            Remove those that you do not recognize.</p>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="d-flex align-items-center text-white">
-                            <div class="text-center w-5">
-                                <i class="fas fa-desktop text-lg opacity-6"></i>
-                            </div>
-                            <div class="my-auto ms-3">
-                                <div class="h-100">
-                                    <p class="text-sm mb-1">
-                                        Bucharest 68.133.163.201
-                                    </p>
-                                    <p class="mb-0 text-xs">
-                                        Your current session
-                                    </p>
-                                </div>
-                            </div>
-                            <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>
-                            <p class="text-secondary text-sm my-auto me-3">EU</p>
-                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <hr class="horizontal dark">
-                        <div class="d-flex align-items-center text-white">
-                            <div class="text-center w-5">
-                                <i class="fas fa-desktop text-lg opacity-6"></i>
-                            </div>
-                            <p class="my-auto ms-3">Chrome on macOS</p>
-                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <hr class="horizontal dark">
-                        <div class="d-flex align-items-center text-white">
-                            <div class="text-center w-5">
-                                <i class="fas fa-mobile text-lg opacity-6"></i>
-                            </div>
-                            <p class="my-auto ms-3">Safari on iPhone</p>
-                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>
-                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more
-                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="card mt-4" id="sessions">--}}
+{{--                    <div class="card-header pb-3">--}}
+{{--                        <h5>Sessions</h5>--}}
+{{--                        <p class="text-sm text-white">This is a list of devices that have logged into your account.--}}
+{{--                            Remove those that you do not recognize.</p>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body pt-0">--}}
+{{--                        <div class="d-flex align-items-center text-white">--}}
+{{--                            <div class="text-center w-5">--}}
+{{--                                <i class="fas fa-desktop text-lg opacity-6"></i>--}}
+{{--                            </div>--}}
+{{--                            <div class="my-auto ms-3">--}}
+{{--                                <div class="h-100">--}}
+{{--                                    <p class="text-sm mb-1">--}}
+{{--                                        Bucharest 68.133.163.201--}}
+{{--                                    </p>--}}
+{{--                                    <p class="mb-0 text-xs">--}}
+{{--                                        Your current session--}}
+{{--                                    </p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>--}}
+{{--                            <p class="text-secondary text-sm my-auto me-3">EU</p>--}}
+{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
+{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        <hr class="horizontal dark">--}}
+{{--                        <div class="d-flex align-items-center text-white">--}}
+{{--                            <div class="text-center w-5">--}}
+{{--                                <i class="fas fa-desktop text-lg opacity-6"></i>--}}
+{{--                            </div>--}}
+{{--                            <p class="my-auto ms-3">Chrome on macOS</p>--}}
+{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>--}}
+{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
+{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        <hr class="horizontal dark">--}}
+{{--                        <div class="d-flex align-items-center text-white">--}}
+{{--                            <div class="text-center w-5">--}}
+{{--                                <i class="fas fa-mobile text-lg opacity-6"></i>--}}
+{{--                            </div>--}}
+{{--                            <p class="my-auto ms-3">Safari on iPhone</p>--}}
+{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>--}}
+{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
+{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">
                     <div class="card-header">

@@ -31,7 +31,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -44,7 +44,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -58,7 +58,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -72,7 +72,7 @@ class AdminController extends Controller
 
         }catch (\Exception $exception)
         {
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ class AdminController extends Controller
 
         }catch (\Exception $exception)
         {
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
         }
     }
     public function pagesUsersNewUser()
@@ -100,7 +100,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -113,7 +113,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -126,7 +126,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -139,7 +139,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -152,7 +152,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -165,7 +165,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -175,7 +175,7 @@ class AdminController extends Controller
             return view('admin-dashboards.user_detail',compact('id'));
         }catch (\Exception $exception)
         {
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
         }
     }
     public function allUsers()
@@ -186,7 +186,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
@@ -200,7 +200,7 @@ class AdminController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->route('admin_dashboard')->with('error', $exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }

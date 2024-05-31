@@ -4,21 +4,21 @@
     </div>
     @include('layouts.message')
     <form wire:submit.prevent="submitForm" >
-        <input type="hidden" wire:model="currentUser.id">
+        <input type="hidden" wire:model.defer="currentUser.id">
         <div class="card-body pt-0">
             <div class="row">
                 <div class="col-6">
                     <label class="form-label text-white">First Name</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="firstName"
-                               wire:model="currentUser.first_name"
+                               wire:model.defer="currentUser.first_name"
                                class="form-control" type="text">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label text-white">Last Name</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="lastName" wire:model="currentUser.last_name"
+                        <input style="background-color: #0f1534;" id="lastName" wire:model.defer="currentUser.last_name"
                                class="form-control" type="text" placeholder="{{$currentUser['last_name']}}">
                     </div>
                 </div>
@@ -28,14 +28,14 @@
                 <div class="col-6">
                     <label class="form-label mt-4">Email</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="email" wire:model="currentUser.email"
+                        <input style="background-color: #0f1534;" id="email" wire:model.defer="currentUser.email"
                                class="form-control" type="email" placeholder="{{$currentUser['email']}}">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label mt-4">Phone Number</label>
                     <div class="input-group">
-                        <input style="background-color: #0f1534;" id="phone" wire:model="currentUser.phone"
+                        <input style="background-color: #0f1534;" id="phone" wire:model.defer="currentUser.phone"
                                class="form-control" type="number" placeholder="{{$currentUser['phone']}}">
                     </div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4">I'm</label>
-                    <select class="form-control" wire:model="currentUser.gender" >
+                    <select class="form-control" wire:model.defer="currentUser.gender" >
                         <option value="2">Male</option>
                         <option value="1">Female</option>
                     </select>
@@ -52,7 +52,7 @@
 
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4">Age Group</label>
-                    <select class="form-control" wire:model="currentUser.age_range" >
+                    <select class="form-control" wire:model.defer="currentUser.age_range" >
                         <option value="5-6">5-6</option>
                         <option value="7-11">7-11</option>
                         <option value="12-15">12-15</option>
@@ -72,7 +72,7 @@
 
 
             </div>
-            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Update Basic Info</button>
+            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Update Info</button>
         </div>
 
     </form>

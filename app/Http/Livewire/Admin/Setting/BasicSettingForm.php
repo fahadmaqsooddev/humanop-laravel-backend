@@ -14,9 +14,32 @@ class BasicSettingForm extends Component
     {
         $this->currentUser = $user->toArray();
     }
+    protected function rules()
+    {
+        return [
+            'currentUser.first_name' => 'required|string|max:255',
+            'currentUser.last_name' => 'required|string|max:255',
+            'currentUser.email' => 'required|email|max:255|unique:users,email,' . $this->currentUser['id'],
+            'currentUser.age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
+            'currentUser.gender' => 'required|string',
+            'currentUser.phone' => 'required|string|max:25',
+        ];
+    }
+    protected function validationAttributes()
+    {
+        return [
+            'currentUser.first_name' => 'first name',
+            'currentUser.last_name' => 'last name',
+            'currentUser.email' => 'email',
+            'currentUser.age_range' => 'age range',
+            'currentUser.gender' => 'gender',
+            'currentUser.phone' => 'phone',
+        ];
+    }
 
     public function submitForm()
     {
+        $this->validate();
         try {
             $age = explode('-', $this->currentUser['age_range']);
             $this->currentUser['age_min'] = $age[0];
