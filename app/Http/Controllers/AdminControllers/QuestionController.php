@@ -22,7 +22,7 @@ class QuestionController extends Controller
 
             $questions = Question::allQuestion();
 
-            return view('admin-dashboards.all_questions', compact('questions'));
+            return view('admin-dashboards.questions.index', compact('questions'));
 
         }catch (\Exception $exception)
         {
@@ -38,7 +38,7 @@ class QuestionController extends Controller
         try {
 
             $question = Question::singleQuestion($id);
-            
+
             return view('admin-dashboards.edit_question', compact('question'));
 
         }catch (\Exception $exception)

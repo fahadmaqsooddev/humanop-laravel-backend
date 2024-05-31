@@ -20360,6 +20360,12 @@ fieldset:disabled .btn {
     align-self: flex-end;
 }
 
+.updateBtn
+{
+    background-color: #f2661c;
+    color: white;
+}
+
 .options {
     display: flex;
     justify-content: flex-start;
