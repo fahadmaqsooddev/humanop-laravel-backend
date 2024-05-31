@@ -248,77 +248,10 @@
                         </div>
                     </div>
                 </div>
-
+                @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)
                 <!-- Card Basic Info -->
-                <div class="card mt-4" id="basic-info">
-                    <div class="card-header">
-                        <h5>Basic Info</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-label text-white">First Name</label>
-                                <div class="input-group">
-                                    <input style="background-color: #0f1534;" id="firstName" name="firstName"
-                                           class="form-control" type="text" placeholder="{{$currentUser->first_name}}" required="required">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label text-white">Last Name</label>
-                                <div class="input-group">
-                                    <input style="background-color: #0f1534;" id="lastName" name="lastName"
-                                           class="form-control" type="text" placeholder="{{$currentUser->last_name}}" required="required">
-                                </div>
-                            </div>
-                        </div>
+                @livewire('basic-setting-form',['user' => $currentUser])
 
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-label mt-4">Email</label>
-                                <div class="input-group">
-                                    <input style="background-color: #0f1534;" id="email" name="email"
-                                           class="form-control" type="email" placeholder="{{$currentUser->email}}">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label mt-4">Phone Number</label>
-                                <div class="input-group">
-                                    <input style="background-color: #0f1534;" id="phone" name="phone"
-                                           class="form-control" type="number" placeholder="{{$currentUser->phone}}">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-4 col-6 w-50">
-                                <label class="form-label mt-4">I'm</label>
-                                <select class="form-control" name="choices-gender" id="choices-gender">
-                                    <option value="Male" {{$currentUser->gender == 2 ? 'selected' : ''  }}>Male</option>
-                                    <option value="Female" {{$currentUser->gender == 1 ? 'selected' : ''  }}>Female</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-4 col-6 w-50">
-                                <label class="form-label mt-4">Age Group</label>
-                                <select class="form-control" name="choices-age" id="choices-age">
-                                    <option value="5-6" {{$currentUser->age_min.'-'.$currentUser->age_max == '5-6' ? 'selected' : ''}} >5-6</option>
-                                    <option value="7-11" {{$currentUser->age_min.'-'.$currentUser->age_max == '7-11' ? 'selected' : ''}} >7-11</option>
-                                    <option value="12-15" {{$currentUser->age_min.'-'.$currentUser->age_max == '12-15' ? 'selected' : ''}} >12-15</option>
-                                    <option value="16-20" {{$currentUser->age_min.'-'.$currentUser->age_max == '16-20' ? 'selected' : ''}} >16-20</option>
-                                    <option value="21-29" {{$currentUser->age_min.'-'.$currentUser->age_max == '21-29' ? 'selected' : ''}} >21-29</option>
-                                    <option value="30-33" {{$currentUser->age_min.'-'.$currentUser->age_max == '30-33' ? 'selected' : ''}} >30-33</option>
-                                    <option value="34-42" {{$currentUser->age_min.'-'.$currentUser->age_max == '34-42' ? 'selected' : ''}} >34-42</option>
-                                    <option value="43-51" {{$currentUser->age_min.'-'.$currentUser->age_max == '43-51' ? 'selected' : ''}} >43-51</option>
-                                    <option value="52-65" {{$currentUser->age_min.'-'.$currentUser->age_max == '52-65' ? 'selected' : ''}} >52-65</option>
-                                    <option value="66-69" {{$currentUser->age_min.'-'.$currentUser->age_max == '66-69' ? 'selected' : ''}} >66-69</option>
-                                    <option value="70-74" {{$currentUser->age_min.'-'.$currentUser->age_max == '70-74' ? 'selected' : ''}} >70-74</option>
-                                    <option value="75-83" {{$currentUser->age_min.'-'.$currentUser->age_max == '75-83' ? 'selected' : ''}} >75-83</option>
-                                    <option value="84-93" {{$currentUser->age_min.'-'.$currentUser->age_max == '84-93' ? 'selected' : ''}} >84-93</option>
-                                    <option value="94-101" {{$currentUser->age_min.'-'.$currentUser->age_max == '94-101' ? 'selected' : ''}} >94&up</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <!-- Card Change Password -->
                 <div class="card mt-4" id="password">
                     <div class="card-header">
@@ -358,7 +291,7 @@
                                 <span class="text-sm text-white">Change it often</span>
                             </li>
                         </ul>
-                        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+                        <button class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">Update password</button>
                     </div>
                 </div>
                 <!-- Card Change Password -->
@@ -433,7 +366,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update
+                                <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">Update
                                     account
                                 </button>
                             </div>
