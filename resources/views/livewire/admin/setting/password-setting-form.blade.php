@@ -7,17 +7,17 @@
     <div class="card-body pt-0">
         <label class="form-label text-white">Current password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" wire:model.defer="current_password" class="form-control" type="password"
+            <input style="background-color: #0f1534;" wire:model="current_password" class="form-control" type="password"
                    placeholder="Current password">
         </div>
         <label class="form-label text-white">New password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" class="form-control" wire:model.defer="password"  type="password"
+            <input style="background-color: #0f1534;" class="form-control" wire:model="password"  type="password"
                    placeholder="New password">
         </div>
         <label class="form-label text-white">Confirm new password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" class="form-control" wire:model.defer="confirm_password" type="password"
+            <input style="background-color: #0f1534;" class="form-control" wire:model="confirm_password" type="password"
                    placeholder="Confirm password">
         </div>
         <p class="text-muted mb-2">
