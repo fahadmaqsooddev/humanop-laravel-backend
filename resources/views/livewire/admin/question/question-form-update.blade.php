@@ -1,5 +1,5 @@
-<div class="modal fade" id="question-1" aria-hidden="true"
-     aria-labelledby="question-1"
+<div wire:ignore.self class="modal fade" id="updateQuestion" aria-hidden="true"
+     aria-labelledby="updateQuestion"
      tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -16,20 +16,19 @@
                                         style="background-color: #0f1534;"
                                         class="form-control text-white"
                                         type="text" name="question"
-                                        wire:model="question.question"
+                                        wire:model="name"
                                         placeholder="question">
                                 </div>
                                 <label class="form-label fs-4 text-white">Answers</label>
-                                @foreach($answers as $index => $answer)
+{{--                                @foreach($answers as $index => $answer)--}}
                                     <div class="form-group">
                                         <input
                                             style="background-color: #0f1534;"
                                             class="form-control text-white"
                                             type="text"
-                                            wire:model="answers.{{ $index }}.answer"
                                             placeholder="answer">
                                     </div>
-                                @endforeach
+{{--                                @endforeach--}}
                             </div>
                         </div>
                         <button type="submit"

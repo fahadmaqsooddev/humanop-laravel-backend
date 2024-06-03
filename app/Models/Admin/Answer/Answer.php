@@ -24,6 +24,11 @@ class Answer extends Model
         return $this->hasMany(AnswerCode::class, 'answer_id');
     }
 
+    public static function getAnswer($id = null)
+    {
+        return self::where('question_id', $id)->get();
+    }
+
     public static function updateAnswer($data = null)
     {
 

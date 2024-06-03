@@ -31,7 +31,7 @@ class Question extends Model
 
     public static function singleQuestion($id = null)
     {
-        return self::find($id);
+        return self::with('answers')->find($id);
     }
 
     public static function updateQuestion($data = null, $id = null)
