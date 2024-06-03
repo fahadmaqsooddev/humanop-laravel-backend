@@ -33,4 +33,15 @@ class Question extends Model
     {
         return self::find($id);
     }
+
+    public static function updateQuestion($data = null, $id = null)
+    {
+
+        $question = self::find($id);
+
+        $question->update($data);
+
+        return $question;
+
+    }
 }

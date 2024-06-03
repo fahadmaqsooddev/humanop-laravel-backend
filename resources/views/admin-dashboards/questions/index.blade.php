@@ -19,6 +19,7 @@
                         </thead>
                         <tbody>
                         @foreach($questions as $question)
+{{--                            @include('layouts.message')--}}
                             <tr>
                                 <td class="text-sm font-weight-normal">
                                     <h6 class="text-white">{{$question['question']}}</h6>
@@ -39,40 +40,8 @@
                                                     <div class="modal-content">
                                                         <div class="modal-body"
                                                              style="background-color: #0f1535; border-radius: 9px">
-                                                            <form action="" method="post">
-                                                                @csrf
-                                                                <div class="card-body">
-                                                                    <div class="row">
-                                                                        <div class="col-12">
-                                                                            <label class="form-label fs-4 text-white">Question</label>
-                                                                            <div class="form-group">
-                                                                                <input
-                                                                                    style="background-color: #0f1534;"
-                                                                                    class="form-control text-white"
-                                                                                    type="text" name="question"
-                                                                                    value="{{$question['question']}}"
-                                                                                    placeholder="question">
-                                                                            </div>
-                                                                            <label
-                                                                                class="form-label fs-4 text-white">Answer</label>
-                                                                            @foreach($question['answers'] as $answer)
-                                                                                <div class="form-group">
-                                                                                    <input
-                                                                                        style="background-color: #0f1534;"
-                                                                                        class="form-control text-white"
-                                                                                        type="text" name="answer"
-                                                                                        value="{{$answer['answer']}}"
-                                                                                        placeholder="question">
-                                                                                </div>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="submit"
-                                                                            class="btn updateBtn btn-sm float-end mt-4 mb-0">
-                                                                        Update Question
-                                                                    </button>
-                                                                </div>
-                                                            </form>
+                                                            @livewire('admin.question.question-update-form',['question'
+                                                            => $question, 'answers' => $question['answers']])
                                                         </div>
                                                     </div>
                                                 </div>
