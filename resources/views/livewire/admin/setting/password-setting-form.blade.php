@@ -3,24 +3,23 @@
         <h5>Change Password</h5>
     </div>
     @include('layouts.message')
-    <form wire:submit.prevent="submitForm">
+    <form wire:submit.prevent="submitForm" class="mb-4">
     <div class="card-body pt-0">
         <label class="form-label text-white">Current password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" wire:model="current_password" class="form-control" type="password"
+            <input style="background-color: #0f1534;" wire:model.defer="current_password" class="form-control" type="password"
                    placeholder="Current password">
         </div>
         <label class="form-label text-white">New password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" class="form-control" wire:model="password"  type="password"
+            <input style="background-color: #0f1534;" class="form-control" wire:model.defer="password"  type="password"
                    placeholder="New password">
         </div>
         <label class="form-label text-white">Confirm new password</label>
         <div class="form-group">
-            <input style="background-color: #0f1534;" class="form-control" wire:model="confirm_password" type="password"
+            <input style="background-color: #0f1534;" class="form-control" wire:model.defer="confirm_password" type="password"
                    placeholder="Confirm password">
         </div>
-        <h5 class="mt-5">Password requirements</h5>
         <p class="text-muted mb-2">
             Please follow this guide for a strong password:
         </p>
