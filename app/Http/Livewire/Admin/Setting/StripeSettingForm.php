@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Admin\Setting;
 
 use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Http\Requests\Admin\Setting\StripeAccountSettingRequest;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-
+use App\Traits\HandlesValidationErrors;
 class StripeSettingForm extends Component
 {
+    use HandlesValidationErrors;
     public $account;
 
 
@@ -15,25 +17,11 @@ class StripeSettingForm extends Component
     {
         $this->account = $account->toArray();
     }
-    protected $rules = [
-        'account.account_name' => 'required',
-        'account.account_email' => 'required|email',
-        'account.api_key' => 'required',
-        'account.public_key' => 'required'
-    ];
-
-    protected function validationAttributes()
-    {
-        return [
-            'account.account_name' => 'account name',
-            'account.account_email' => 'account email',
-            'account.api_key' => 'api key',
-            'account.public_key' => 'public key',
-        ];
-    }
 
     public function submitForm(){
-        $this->validate();
+
+        if($this->customValidation(new StripeAccountSettingRequest($this->account),$this->account)){return;};
+
         try
         {
             StripeSetting::updateStripeAccount($this->account, Auth::user()->id);

@@ -1,29 +1,28 @@
 <?php
 
 namespace App\Http\Livewire\Admin\Setting;
+use App\Http\Requests\Admin\Setting\PasswordSettingRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\HandlesValidationErrors;
 use App\Models\User;
 use Livewire\Component;
-use Mockery\Expectation;
+
 
 class PasswordSettingForm extends Component
 {
+    use HandlesValidationErrors;
     public $current_password,$password,$confirm_password;
-    protected $rules = [
-        'current_password' => 'required',
-        'password' => [
-            'required',
-            'string',
-            'min:6',
-            'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
-            'regex:/[0-9].*[0-9]/',           // At least two numbers
-            'different:current_password',
-        ],
-        'confirm_password' => 'required|same:password',
-    ];
+
     public function submitForm(){
-        $this->validate();
+        $data = [
+            'current_password' => $this->current_password,
+            'password' => $this->password,
+            'confirm_password' => $this->confirm_password
+        ];
+
+        if($this->customValidation(new PasswordSettingRequest($data),$data)){return;};
+
         try{
        $passCheck = User::checkPassword($this->current_password, Auth::user()->id);
        if($passCheck){
