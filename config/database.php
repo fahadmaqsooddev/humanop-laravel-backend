@@ -194,5 +194,10 @@ return [
             'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin'],
             'hidden' => ['created_at','updated_at','remember_token','password']
         ],
+        'Page' => [
+            'table' => 'pages',
+            'fillable' => ['name','title','meta_key','meta_description','text'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];

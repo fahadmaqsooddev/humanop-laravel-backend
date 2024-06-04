@@ -91,6 +91,13 @@
                                                 <span class="sidenav-normal"> Video Buckets </span>
                                             </a>
                                         </li>
+                                        <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
+                                               href="{{ route('admin_web_pages') }}">
+                                                <span class="sidenav-mini-icon text-xs"> W </span>
+                                                <span class="sidenav-normal"> Web Pages </span>
+                                            </a>
+                                        </li>
                                         <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
                                             <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
                                                href="{{ route('admin_cms') }}">
@@ -101,14 +108,14 @@
                                         <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                             <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                href="{{ url('#') }}">
-                                                <span class="sidenav-mini-icon text-xs"> V </span>
+                                                <span class="sidenav-mini-icon text-xs"> R </span>
                                                 <span class="sidenav-normal"> Resources Content </span>
                                             </a>
                                         </li>
                                         <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                             <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                href="{{ url('#') }}">
-                                                <span class="sidenav-mini-icon text-xs"> V </span>
+                                                <span class="sidenav-mini-icon text-xs"> D </span>
                                                 <span class="sidenav-normal"> Daily Tips </span>
                                             </a>
                                         </li>
