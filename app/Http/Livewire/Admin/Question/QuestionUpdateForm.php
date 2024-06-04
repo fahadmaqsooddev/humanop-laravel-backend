@@ -8,13 +8,14 @@ use App\Models\Admin\Answer\Answer;
 
 class QuestionUpdateForm extends Component
 {
+
     public $question, $answers;
 
     public function mount($question, $answers)
     {
 
-        $this->question = $question->toArray();
-        $this->answers = $answers->toArray();
+        $this->question = $question;
+        $this->answers = $answers;
 
     }
 
@@ -25,9 +26,10 @@ class QuestionUpdateForm extends Component
             $question = $this->only(['question']);
             $answer = $this->only(['answers']);
 
-             Question::updateQuestion($question['question'], $this->question['id']);
 
-             Answer::updateAnswer($answer['answers']);
+            Question::updateQuestion($question['question'], $question['question']['id']);
+
+            Answer::updateAnswer($answer['answers']);
 
             session()->flash('success', 'Question updated successfully.');
 
