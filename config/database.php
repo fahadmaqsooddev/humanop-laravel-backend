@@ -199,5 +199,15 @@ return [
             'fillable' => ['name','title','meta_key','meta_description','text'],
             'hidden' => ['created_at','updated_at']
         ],
+        'Slide' => [
+            'table' => 'slides',
+            'fillable' => ['heading','body','slide_id','sub','sub1', 'sub2'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'SlideMedia' => [
+            'table' => 'slide_media',
+            'fillable' => ['image', 'slide_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];
