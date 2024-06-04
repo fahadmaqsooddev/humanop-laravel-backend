@@ -1,5 +1,4 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
-
 @section('content')
     <div class="container-fluid">
         <div class="page-header min-height-100 border-radius-xl">
@@ -245,6 +244,6 @@
             </div>
 
         </section>
-        @include('layouts/footers/auth/footer')
+{{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
     </div>
 @endsection

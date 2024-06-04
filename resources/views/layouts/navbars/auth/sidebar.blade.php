@@ -177,16 +177,16 @@
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
                         <ul class="nav ms-4 ps-3">
-                            <li class="nav-item {{ (Request::is('client-dashboard')  ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-dashboard')  ? 'active' : '') }}"
-                                   href="{{ url('client-dashboard') }}">
+                            <li class="nav-item {{ (Request::is('dashboard')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('dashboard')  ? 'active' : '') }}"
+                                   href="{{ url('dashboard') }}">
                                     <span class="sidenav-mini-icon"> D </span>
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}"
-                                   href="{{ url('pricing-page') }}">
+                            <li class="nav-item {{ (Request::is('pricing-page')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('pricing-page')  ? 'active' : '') }}"
+                                   href="{{ route('pricing') }}">
                                     <span class="sidenav-mini-icon"> </span>
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>

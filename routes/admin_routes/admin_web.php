@@ -20,23 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::group(['middleware' => 'guest'], function () {
-Route::get('/register', [RegisterController::class, 'create']);
-Route::post('/register', [RegisterController::class, 'store']);
-Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/session', [SessionController::class, 'store']);
-Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
-Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
-Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
-Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-Route::get('/logout', [SessionController::class, 'destroy']);
-
-    Route::get('/', function () {
-        return redirect('/login');
-    });
-//});
-
-Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
+Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function() {
 
 //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
@@ -63,5 +47,20 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function() {
 
     Route::get('/resources', [ResourceController::class,'resources'])->name('admin_resources');
 
-
 });
+
+//Route::group(['middleware' => 'guest'], function () {
+    Route::get('/register', [RegisterController::class, 'create']);
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/login', [SessionController::class, 'create'])->name('login');
+    Route::post('/session', [SessionController::class, 'store']);
+    Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
+    Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
+    Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
+    Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+    Route::get('/logout', [SessionController::class, 'destroy']);
+
+    Route::get('/', function () {
+        return redirect('/login');
+    });
+//});

@@ -31,8 +31,8 @@
                 </div>
                 @include('layouts/footers/auth/footer')
             </div>
-        @elseif (\Request::is('pages-pricing'))
-            @include('layouts/navbars/auth/nav-auth-basic')
+        @elseif (\Request::is('client/pricing-page'))
+{{--            @include('layouts/navbars/auth/nav-auth-basic')--}}
             @yield('content')
             @include('layouts/footers/guest/footer')
         @else

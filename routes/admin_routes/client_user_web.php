@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController\ClientController;
+use App\Http\Controllers\ClientController\PricingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'client-user', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'client'], function () {
 
 //    client dashboard
-    Route::view('/client-dashboard', 'client-dashboard/client-dashboard');
+    Route::get('/dashboard', [ClientController::class, 'index'])->name('client_dashboard');
+
+    Route::get('/pricing-page', [PricingController::class, 'index'])->name('pricing');
+
     Route::view('/client-resource', 'client-dashboard/client-resource');
     Route::view('/client-dashboard-result', 'client-dashboard/video');
     Route::view('/client-user-detail', 'client-dashboard/client_user_detail');
@@ -27,5 +32,7 @@ Route::group(['prefix' => 'client-user', 'middleware' => 'auth'], function () {
     Route::view('/client-billing', 'client-dashboard/client_billing');
     Route::view('/client-human-network', 'client-dashboard/network');
     Route::view('/attempt-test', 'client-dashboard/assessment');
+
+    Route::view('/pages-pricing', 'pages/pricing-page');
 
 });

@@ -35,6 +35,7 @@ class AdminController extends Controller
 
         }
     }
+    
     public function cms()
     {
         try {
