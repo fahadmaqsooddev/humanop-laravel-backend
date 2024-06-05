@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController\ClientController;
 use App\Http\Controllers\ClientController\PricingController;
+use App\Http\Controllers\ClientController\PaymentController;
+use App\Http\Controllers\ClientController\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,10 @@ Route::group(['prefix' => 'client'], function () {
 
     Route::get('/pricing-page', [PricingController::class, 'index'])->name('pricing');
 
+    Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
+
+    Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
+
     Route::view('/client-resource', 'client-dashboard/client-resource');
     Route::view('/client-dashboard-result', 'client-dashboard/video');
     Route::view('/client-user-detail', 'client-dashboard/client_user_detail');
@@ -31,8 +37,6 @@ Route::group(['prefix' => 'client'], function () {
     Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
     Route::view('/client-billing', 'client-dashboard/client_billing');
     Route::view('/client-human-network', 'client-dashboard/network');
-    Route::view('/attempt-test', 'client-dashboard/assessment');
 
-    Route::view('/pages-pricing', 'pages/pricing-page');
 
 });

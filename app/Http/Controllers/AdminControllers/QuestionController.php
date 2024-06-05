@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Question\Question;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller

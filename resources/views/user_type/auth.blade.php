@@ -25,19 +25,29 @@
                 @include('layouts/navbars/auth/nav')
             </div>
             <div class="virtual-reality">
-                <div class="border-radius-xl mt-3 mx-3 position-relative" style="background-image: url('assets/img/vr-bg.jpg') ; background-size: cover;">
+                <div class="border-radius-xl mt-3 mx-3 position-relative"
+                     style="background-image: url('assets/img/vr-bg.jpg') ; background-size: cover;">
                     @include('layouts/navbars/auth/sidebar')
                     @yield('content')
                 </div>
                 @include('layouts/footers/auth/footer')
             </div>
         @elseif (\Request::is('client/pricing-page'))
-{{--            @include('layouts/navbars/auth/nav-auth-basic')--}}
+            @include('layouts.navbars.guest.nav')
+            @yield('content')
+            @include('layouts/footers/guest/footer')
+        @elseif (\Request::is('client/stripe-checkout'))
+            @include('layouts.navbars.guest.nav')
+            @yield('content')
+            @include('layouts/footers/guest/footer')
+        @elseif (\Request::is('client/play'))
+            @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
         @else
             @include('layouts/navbars/auth/sidebar')
-            <main class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
+            <main
+                class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
                 @if (\Request::is('pages-rtl'))
                     @include('layouts/navbars/auth/nav-rtl')
                 @else

@@ -93,7 +93,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -157,7 +157,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Try Premium
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -221,7 +221,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -289,7 +289,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -353,7 +353,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Try Premium
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -417,7 +417,7 @@
                                             <span class="ps-3">Complete documentation </span>
                                         </div>
                                     </div>
-                                    <a href="{{url('stripe/checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
