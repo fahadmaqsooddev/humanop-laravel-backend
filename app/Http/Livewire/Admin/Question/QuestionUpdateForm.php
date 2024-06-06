@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Admin\Question;
 
 use Livewire\Component;
-use App\Models\Admin\Question\Question;
+use App\Models\Question;
 use App\Models\Admin\Answer\Answer;
 
 class QuestionUpdateForm extends Component

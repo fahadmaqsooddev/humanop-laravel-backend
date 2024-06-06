@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Question;
 
-use App\Models\Admin\Question\Question;
+use App\Models\Question;
 use Livewire\Component;
 use Livewire\WithPagination;
 

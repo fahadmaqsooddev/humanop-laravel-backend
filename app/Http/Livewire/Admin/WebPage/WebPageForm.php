@@ -21,8 +21,9 @@ class WebPageForm extends Component
         try {
 
             $page = $this->only(['page']);
-
             Page::updatePage($page['page']);
+
+            $this->emit('refreshPages');
 
             session()->flash('success', 'Web Page updated successfully.');
 

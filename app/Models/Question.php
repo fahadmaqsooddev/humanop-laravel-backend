@@ -27,7 +27,7 @@ class Question extends Model
 
     public static function allQuestion()
     {
-        return self::with('answers.answerCodes')->get();
+        return self::with('answers.answerCodes');
     }
 
     public static function getQuestion()
