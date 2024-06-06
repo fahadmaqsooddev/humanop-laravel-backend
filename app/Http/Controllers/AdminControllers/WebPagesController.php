@@ -3,14 +3,31 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Pages\Page;
 use Illuminate\Http\Request;
 
 class WebPagesController extends Controller
 {
-    protected $question = null;
+    protected $page = null;
 
-    public function __construct(Question $question)
+    public function __construct(Page $page)
     {
-        $this->question = $question;
+        $this->page = $page;
+    }
+
+    public function webPages()
+    {
+        try {
+
+            $web_pages = Page::allPages();
+
+            return view('admin-dashboards.web-pages.index', compact('web_pages'));
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->route('admin_web_pages')->with('error', $exception->getMessage());
+
+        }
     }
 }

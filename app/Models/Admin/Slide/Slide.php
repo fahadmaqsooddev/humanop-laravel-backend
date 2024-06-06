@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Admin\Pages;
+namespace App\Models\Admin\Slide;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Slide extends Model
 {
     use HasFactory;
 
@@ -16,19 +16,5 @@ class Page extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
 
         parent::__construct($attributes);
-    }
-
-    public static function allPages()
-    {
-        return self::all();
-    }
-
-    public static function updatePage($data = null)
-    {
-        $page = self::where('id', $data['id'])->first();
-
-        $page->update($data);
-
-        return $page;
     }
 }

@@ -194,5 +194,20 @@ return [
             'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin'],
             'hidden' => ['created_at','updated_at','remember_token','password']
         ],
+        'Page' => [
+            'table' => 'pages',
+            'fillable' => ['name','title','meta_key','meta_description','text'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'Slide' => [
+            'table' => 'slides',
+            'fillable' => ['heading','body','slide_id','sub','sub1', 'sub2'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'SlideMedia' => [
+            'table' => 'slide_media',
+            'fillable' => ['image', 'slide_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];

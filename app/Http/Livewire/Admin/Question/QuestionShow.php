@@ -18,6 +18,7 @@ class QuestionShow extends Component
 
     protected $listeners = ['refreshQuestion' => 'handleRefreshQuestion'];
 
+    public $questions;
 
     public function handleRefreshQuestion(){
        $this->getQuestion();

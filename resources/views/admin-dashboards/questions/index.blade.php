@@ -37,7 +37,7 @@
                 <div class="card-header">
                     <h5 class="mb-0">All Questions</h5>
                 </div>
-                @livewire('admin.question.question-show')
+                @livewire('admin.question.question-show',['questions' => $questions])
             </div>
         </div>
     </div>

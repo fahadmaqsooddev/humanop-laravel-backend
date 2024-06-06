@@ -18,7 +18,7 @@
                                 </div>
 
                                 <label class="form-label fs-4 text-white">Answers</label>
-                                @foreach($answers as $index => $answer)
+                                @foreach($question['answers'] as $index => $answer)
                                     <div class="form-group">
                                         <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="answers.{{ $index }}.answer" placeholder="answer">
                                     </div>
