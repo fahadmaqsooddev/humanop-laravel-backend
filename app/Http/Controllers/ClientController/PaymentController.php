@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\StripeSetting\StripeSetting;
+use Illuminate\Support\Facades\Auth;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -30,21 +31,23 @@ class PaymentController extends Controller
     public function processPayment(Request $request)
     {
 
-//        dd($request->stripeToken);
+        $user = Auth::user();
 
-//        $key = StripeSetting::getSingle();
+        $user->createOrGetStripeCustomer();
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $key = StripeSetting::getSingle();
+
+        Stripe::setApiKey($key['api_key']);
 
 //        try {
             Charge::create([
-                'amount' => 500, // Amount in cents
+                'amount' => 500*100, // Amount in cents
                 'currency' => 'usd',
-//                'source' => $request->stripeToken,
+                'source' => $request->stripeToken,
                 'description' => 'Test Payment',
             ]);
 
-            return redirect()->route('test_play')->with('success', 'Payment successful!');
+        return redirect()->route('test_play')->with('success', 'Payment successful!');
 
 //        } catch (\Exception $e) {
 //

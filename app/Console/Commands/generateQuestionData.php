@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Admin\Question\Question;
+use App\Models\Question;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 

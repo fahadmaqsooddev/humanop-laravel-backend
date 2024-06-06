@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use App\Models\Admin\Code\Code;
 
 class generateOrdersData extends Command
 {

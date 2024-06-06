@@ -12,7 +12,7 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Billable;
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');

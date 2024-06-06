@@ -16,12 +16,15 @@ class StripeAccountSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('stripe_settings')->truncate();
+
         $stripe_account = [
             [
                 'account_name' => 'M Ahtasham',
                 'account_email' => 'mahtasham060@gmail.com',
                 'api_key' => 123456789,
                 'public_key' => 123456789,
+                'amount' => 500,
                 'created_at' => now(),
                 'updated_at' => now()
             ]

@@ -184,9 +184,9 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('pricing-page')  ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('pricing-page')  ? 'active' : '') }}"
-                                   href="{{ route('pricing') }}">
+                            <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
+                                   href="{{ route('stripe_checkout') }}">
                                     <span class="sidenav-mini-icon"> </span>
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>

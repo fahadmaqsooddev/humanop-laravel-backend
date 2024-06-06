@@ -20,7 +20,8 @@
                 <div class="col-xl-8 col-lg-5 col-md-4">
                     <div class="card z-index-0">
                         <div class="card-body">
-                            <form action="{{route('process_payment')}}" method="post" class="require-validation"
+                            <form role="form" action="{{route('process_payment')}}" method="post"
+                                  class="require-validation"
                                   data-cc-on-file="false"
                                   data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
                                 @csrf
@@ -32,7 +33,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="cardNumber" class="text-white">Card Number</label>
-                                    <input autocomplete='off' type="text" maxlength="16" size='16' class="form-control card-number"
+                                    <input autocomplete='off' type="text" maxlength="16" size='16'
+                                           class="form-control card-number"
                                            placeholder="Enter You Card Number"
                                            name="cardNumber" id="cardNumber"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
@@ -52,7 +54,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="expMonth" class="text-white">Expiration Month</label>
-                                            <input type="text" class="form-control card-expiry-month" placeholder='MM' maxlength="2"
+                                            <input type="text" class="form-control card-expiry-month" placeholder='MM'
+                                                   maxlength="2"
                                                    size='2'
                                                    name="expMonth" id="expMonth"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
@@ -61,7 +64,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="expYear" class="text-white">Expiration Year</label>
-                                            <input type="text" class="form-control card-expiry-year" placeholder='YYYY' maxlength="4"
+                                            <input type="text" class="form-control card-expiry-year" placeholder='YYYY'
+                                                   maxlength="4"
                                                    size='4'
                                                    name="expYear" id="expYear"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
@@ -85,11 +89,12 @@
     </main>
 @endsection
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
 
             /*------------------------------------------
             --------------------------------------------
@@ -99,7 +104,7 @@
 
             var $form = $(".require-validation");
 
-            $('form.require-validation').bind('submit', function(e) {
+            $('form.require-validation').bind('submit', function (e) {
                 var $form = $(".require-validation"),
                     inputSelector = ['input[type=email]', 'input[type=password]',
                         'input[type=text]', 'input[type=file]',
@@ -110,7 +115,7 @@
                 $errorMessage.addClass('hide');
 
                 $('.has-error').removeClass('has-error');
-                $inputs.each(function(i, el) {
+                $inputs.each(function (i, el) {
                     var $input = $(el);
                     if ($input.val() === '') {
                         $input.parent().addClass('has-error');

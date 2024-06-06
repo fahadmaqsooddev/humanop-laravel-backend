@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->dateTime('signup_date')->nullable();
             $table->dateTime('last_login')->nullable();
             $table->tinyInteger('status')->nullable();
-            $table->string('stripe_id')->nullable();
             $table->tinyInteger('is_admin')->nullable();
             $table->rememberToken();
             $table->timestamps();

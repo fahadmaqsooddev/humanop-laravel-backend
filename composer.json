@@ -8,11 +8,12 @@
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
+        "laravel/cashier": "14.0",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.6",
         "livewire/livewire": "^2.12",
-        "stripe/stripe-php": "^14.9"
+        "stripe/stripe-php": "9.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
