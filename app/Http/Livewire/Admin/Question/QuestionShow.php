@@ -2,22 +2,36 @@
 
 namespace App\Http\Livewire\Admin\Question;
 
+use App\Models\Admin\Question\Question;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class QuestionShow extends Component
 {
+    use WithPagination;
 
-    public $questions;
+    public $search = '';
+    protected $questions = 'question';
+    protected $paginationTheme = 'bootstrap';
+    public $perPage = 10;
+    protected $queryString = ['search'];
 
-    public function mount($questions)
-    {
+    protected $listeners = ['refreshQuestion' => 'handleRefreshQuestion'];
 
-        $this->questions = $questions->toArray();
 
+    public function handleRefreshQuestion(){
+       $this->getQuestion();
+    }
+
+    public function getQuestion(){
+        $this->questions = Question::allQuestion()->paginate($this->perPage);
     }
 
     public function render()
     {
-        return view('livewire.admin.question.question-show');
+        $this->getQuestion();
+        return view('livewire.admin.question.question-show', [
+            'questions' => $this->questions,
+        ]);
     }
 }
