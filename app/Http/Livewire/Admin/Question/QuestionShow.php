@@ -1,40 +1,37 @@
 <?php
 
 namespace App\Http\Livewire\Admin\Question;
-use App\Models\Admin\Question\Question;
-use App\Models\Admin\Answer\Answer;
 
+use App\Models\Admin\Question\Question;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class QuestionShow extends Component
 {
-    public $questions, $questionId, $name, $answers;
+    use WithPagination;
+
+    public $search = '';
+    protected $questions = 'question';
+    protected $paginationTheme = 'bootstrap';
+    public $perPage = 10;
+    protected $queryString = ['search'];
+
+    protected $listeners = ['refreshQuestion' => 'handleRefreshQuestion'];
 
 
-    public function editQuestion(int $id)
-    {
-
-        $this->questionId = $id;
-
-        $question = Question::singleQuestion($id);
-
-
-        if (!empty($question))
-        {
-            $this->name = $question['question'];
-        }
-
+    public function handleRefreshQuestion(){
+       $this->getQuestion();
     }
 
-    public function updateQuestion()
-    {
-
+    public function getQuestion(){
+        $this->questions = Question::allQuestion()->paginate($this->perPage);
     }
 
     public function render()
     {
-        $this->questions = Question::allQuestion();
-
-        return view('livewire.admin.question.question-show', [$this->questions]);
+        $this->getQuestion();
+        return view('livewire.admin.question.question-show', [
+            'questions' => $this->questions,
+        ]);
     }
 }
