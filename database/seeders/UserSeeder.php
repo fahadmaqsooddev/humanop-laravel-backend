@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
                 'last_name' => 'admin',
                 'email' => 'admin@gmail.com',
                 'is_admin' => 1,
+                'gender' => 1,
                 'password' => Hash::make('12345678'),
                 'created_at' => now(),
                 'updated_at' => now()
@@ -32,6 +33,7 @@ class UserSeeder extends Seeder
                 'last_name' => 'user',
                 'email' => 'user@gmail.com',
                 'is_admin' => 2,
+                'gender' => 2,
                 'password' => Hash::make('12345678'),
                 'created_at' => now(),
                 'updated_at' => now()

@@ -20,10 +20,10 @@
             </div>
         @endforeach
 
-        <a href="{{url('client-user-detail')}}" class="btn btn-icon bg-gradient-primary mt-4">
-            Submit
-            <i class="fas fa-arrow-right ms-1"></i>
-        </a>
+{{--        <a href="{{url('client-user-detail')}}" class="btn btn-icon bg-gradient-primary mt-4">--}}
+{{--            Submit--}}
+{{--            <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--        </a>--}}
     </div>
 
 

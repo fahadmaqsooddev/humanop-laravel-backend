@@ -23,7 +23,7 @@
                             <form role="form" action="{{route('process_payment')}}" method="post"
                                   class="require-validation"
                                   data-cc-on-file="false"
-                                  data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
+                                  data-stripe-publishable-key="{{ $stripe['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="" class="text-white">Name</label>

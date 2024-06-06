@@ -191,39 +191,39 @@
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client-user-detail')  ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-user-detail')  ? 'active' : '') }}"
-                                   href="{{ url('client-user-detail') }}">
+                            <li class="nav-item {{ (Request::is('client/user-detail')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/user-detail')  ? 'active' : '') }}"
+                                   href="{{ route('user_detail') }}">
                                     <span class="sidenav-mini-icon"> R </span>
                                     <span class="sidenav-normal"> Results </span>
                                 </a>
                             </li>
 
-                            <li class="nav-item {{ (Request::is('client-resource') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-resource') ? 'active' : '') }}"
-                                   href="{{ url('client-resource') }}">
+                            <li class="nav-item {{ (Request::is('client/resource') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/resource') ? 'active' : '') }}"
+                                   href="{{ route('resource') }}">
                                     <span class="sidenav-mini-icon"> L </span>
                                     <span class="sidenav-normal"> Library Resources </span>
                                 </a>
                             </li>
 
-                            <li class="nav-item {{ (Request::is('client-human-network') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-human-network') ? 'active' : '') }}"
-                                   href="{{ url('client-human-network') }}">
+                            <li class="nav-item {{ (Request::is('client/human-network') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/human-network') ? 'active' : '') }}"
+                                   href="{{ route('human_network') }}">
                                     <span class="sidenav-mini-icon"> H </span>
                                     <span class="sidenav-normal"> Human Network </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client-billing') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-billing') ? 'active' : '') }}"
-                                   href="{{ url('client-billing') }}">
+                            <li class="nav-item {{ (Request::is('client/billing') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/billing') ? 'active' : '') }}"
+                                   href="{{ route('billing') }}">
                                     <span class="sidenav-mini-icon"> B </span>
                                     <span class="sidenav-normal"> Billing </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client-pages-account-settings') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client-pages-account-settings') ? 'active' : '') }}"
-                                   href="{{ url('client-pages-account-settings') }}">
+                            <li class="nav-item {{ (Request::is('client/setting') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/setting') ? 'active' : '') }}"
+                                   href="{{ route('setting') }}">
                                     <span class="sidenav-mini-icon"> S </span>
                                     <span class="sidenav-normal"> Setting </span>
                                 </a>

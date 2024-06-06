@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 
 @section('content')
     <div class="row">
@@ -23,7 +23,7 @@
                                     <p class="font-weight-bold" style="color: white;">Name</p>
                                 </div>
                                 <div class="col">
-                                    <p class="font-weight-bold" style="color: white;">{{$user->first_name.' '.$user->last_name}}</p>
+                                    <p class="font-weight-bold" style="color: white;">{{$user['first_name'].' '.$user['last_name']}}</p>
                                 </div>
                             </div>
 
@@ -32,7 +32,7 @@
                                     <p class="font-weight-bold" style="color: white;">Email</label>
                                 </div>
                                 <div class="col">
-                                    <p class="font-weight-bold" style="color: white;">{{$user->email}}</p>
+                                    <p class="font-weight-bold" style="color: white;">{{$user['email']}}</p>
                                 </div>
                             </div>
 
@@ -41,7 +41,7 @@
                                     <p class="font-weight-bold" style="color: white;">Gender</p>
                                 </div>
                                 <div class="col">
-                                    <p class="font-weight-bold" style="color: white;">{{($user->gender == 0 ? 'Both' : ($user->gender == 1 ? 'Female' : ($user->gender == 2 ? 'Male' : ''))) }}</p>
+                                    <p class="font-weight-bold" style="color: white;">{{($user['gender'] == 0 ? 'Both' : ($user['gender'] == 1 ? 'Female' : ($user['gender'] == 2 ? 'Male' : ''))) }}</p>
                                 </div>
                             </div>
                         </div>
