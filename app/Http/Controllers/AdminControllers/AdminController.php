@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+
 class AdminController extends Controller
 {
     /**
@@ -18,7 +19,8 @@ class AdminController extends Controller
 
     protected $stripe = null;
 
-    public function __construct(StripeSetting $stripe){
+    public function __construct(StripeSetting $stripe)
+    {
         $this->genre = $stripe;
     }
 
@@ -28,22 +30,20 @@ class AdminController extends Controller
 
             return view('admin-dashboards.default');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
-    
+
     public function cms()
     {
         try {
 
             return view('admin-dashboards.cms');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -56,136 +56,133 @@ class AdminController extends Controller
 
             return view('admin-dashboards.admin_projects');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function setting()
     {
         try {
 
             $account = StripeSetting::getSingle();
             $currentUser = Auth::user();
-            return view('admin-dashboards.setting', compact('account','currentUser'));
+            return view('admin-dashboards.setting', compact('account', 'currentUser'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
 
     public function stripeSetting(UpdateStripeRequest $request, $id)
     {
-        try
-        {
+        try {
             $dataArray = $request->only($this->genre->getFillable());
 
             StripeSetting::updateStripeAccount($dataArray, $id);
 
             return redirect()->route('admin_setting')->with('success', 'Stripe Account Update Successfully');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
+
     public function pagesUsersNewUser()
     {
         try {
 
             return view('admin-dashboards.new-user');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function pagesUsersReports()
     {
         try {
 
             return view('admin-dashboards.reports');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function answer()
     {
         try {
 
             return view('admin-dashboards.answer');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function grid()
     {
         try {
 
             return view('admin-dashboards.grid');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function haiChat()
     {
         try {
 
             return view('admin-dashboards.hai-chat');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function userInfo($id)
     {
         try {
             $user = User::getSingleUser($id);
-            return view('admin-dashboards.user_info',compact('user'));
+            return view('admin-dashboards.user_info', compact('user'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
+
     public function userDetail($id)
     {
         try {
-            return view('admin-dashboards.user_detail',compact('id'));
-        }catch (\Exception $exception)
-        {
+            return view('admin-dashboards.user_detail', compact('id'));
+        } catch (\Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
+
     public function allUsers()
     {
         try {
             $users = User::allUser();
-            return view('admin-dashboards.all_users',compact('users'));
-        }catch (\Exception $exception)
-        {
+            return view('admin-dashboards.all_users', compact('users'));
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -198,8 +195,7 @@ class AdminController extends Controller
 
             return view('admin-dashboards.all_questions');
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 

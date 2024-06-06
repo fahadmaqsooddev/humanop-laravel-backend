@@ -3,70 +3,157 @@
 
 
 @section('content')
-<main class="main-content mt-7">
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 border-radius-lg"
-         style="background-image: url('assets/img/login.webp');">
-        {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
-        <div class="container">
-            <div class="row d-flex flex-column justify-content-center">
-                <div class="col-lg-5 text-center mx-auto">
-                    <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-            <div class="col-xl-8 col-lg-5 col-md-4">
-                <div class="card z-index-0">
-                    <div class="card-body">
-                        <form action="{{url('attempt-test')}}">
-
-                            <div class="mb-3">
-                                <label for="" class="text-white">Name</label>
-                                <input type="text" class="form-control" placeholder="Please Enter Your Name"
-                                       style="background-color: #0F1535; color: white; border-radius: 15px;">
-
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="text-white">Card Number</label>
-                                <input type="text" class="form-control" placeholder="Enter You Card Number" aria-label="Password"
-                                       name="password" id="password"  style="background-color: #0F1535; color: white; border-radius: 15px;">
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="" class="text-white">Expiry Date</label>
-                                        <input type="text" class="form-control" placeholder="00/00"  aria-label="Password"
-                                               name="password" id="password"  style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="" class="text-white">CVC</label>
-                                        <input type="text" class="form-control" placeholder="xxx" aria-label="Password"
-                                               name="password" id="password"  style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="text-center">
-                                <a href="{{route('test_play')}}" class="btn w-100 my-4 mb-2" style="background-color: #f2661c;color:white">Pay Now</a>
-                            </div>
-
-                        </form>
+    <main class="main-content mt-7">
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 border-radius-lg"
+             style="background-image: url('assets/img/login.webp');">
+            {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
+            <div class="container">
+                <div class="row d-flex flex-column justify-content-center">
+                    <div class="col-lg-5 text-center mx-auto">
+                        <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
-{{-- <script>
-    document.getElementById('expiryDate').addEventListener('input', function () {
-        if (this.value.length > 14) {
-            this.value = this.value.slice(0, 14);
-        }
-    });
-</script> --}}
+        <div class="container">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+                <div class="col-xl-8 col-lg-5 col-md-4">
+                    <div class="card z-index-0">
+                        <div class="card-body">
+                            <form action="{{route('process_payment')}}" method="post" class="require-validation"
+                                  data-cc-on-file="false"
+                                  data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="" class="text-white">Name</label>
+                                    <input type="text" class="form-control" placeholder="Please Enter Your Name"
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="text-white">Card Number</label>
+                                    <input autocomplete='off' type="text" maxlength="16" size='16' class="form-control card-number"
+                                           placeholder="Enter You Card Number"
+                                           name="cardNumber" id="cardNumber"
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="cvc" class="text-white">CVC</label>
+                                            <input placeholder='ex. 311' maxlength="3" size='4' type="text"
+                                                   class="form-control card-cvc" aria-label="Password"
+                                                   name="cvc" id="cvc"
+                                                   style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="expMonth" class="text-white">Expiration Month</label>
+                                            <input type="text" class="form-control card-expiry-month" placeholder='MM' maxlength="2"
+                                                   size='2'
+                                                   name="expMonth" id="expMonth"
+                                                   style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="expYear" class="text-white">Expiration Year</label>
+                                            <input type="text" class="form-control card-expiry-year" placeholder='YYYY' maxlength="4"
+                                                   size='4'
+                                                   name="expYear" id="expYear"
+                                                   style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn w-100 my-4 mb-2"
+                                            style="background-color: #f2661c;color:white">Pay Now
+                                        (${{$stripe['amount']}})
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 @endsection
+@push('js')
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script type="text/javascript">
+
+        $(function() {
+
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Payment Code
+            --------------------------------------------
+            --------------------------------------------*/
+
+            var $form = $(".require-validation");
+
+            $('form.require-validation').bind('submit', function(e) {
+                var $form = $(".require-validation"),
+                    inputSelector = ['input[type=email]', 'input[type=password]',
+                        'input[type=text]', 'input[type=file]',
+                        'textarea'].join(', '),
+                    $inputs = $form.find('.required').find(inputSelector),
+                    $errorMessage = $form.find('div.error'),
+                    valid = true;
+                $errorMessage.addClass('hide');
+
+                $('.has-error').removeClass('has-error');
+                $inputs.each(function(i, el) {
+                    var $input = $(el);
+                    if ($input.val() === '') {
+                        $input.parent().addClass('has-error');
+                        $errorMessage.removeClass('hide');
+                        e.preventDefault();
+                    }
+                });
+
+                console.log($form.data('stripe-publishable-key'));
+                if (!$form.data('cc-on-file')) {
+                    e.preventDefault();
+                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+                    Stripe.createToken({
+                        number: $('.card-number').val(),
+                        cvc: $('.card-cvc').val(),
+                        exp_month: $('.card-expiry-month').val(),
+                        exp_year: $('.card-expiry-year').val()
+                    }, stripeResponseHandler);
+                }
+
+            });
+
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Response Handler
+            --------------------------------------------
+            --------------------------------------------*/
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    $('.error')
+                        .removeClass('hide')
+                        .find('.alert')
+                        .text(response.error.message);
+                } else {
+                    /* token contains id, last4, and card type */
+                    var token = response['id'];
+
+                    $form.find('input[type=text]').empty();
+                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+                    $form.get(0).submit();
+                }
+            }
+
+        });
+    </script>
+@endpush

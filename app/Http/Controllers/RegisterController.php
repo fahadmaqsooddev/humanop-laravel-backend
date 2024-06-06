@@ -3,40 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Admin\Setting\BasicSettingRequest;
+
 
 class RegisterController extends Controller
 {
+
+    protected $user = null;
+
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     public function create()
     {
         return view('session/register');
     }
 
-    public function store()
+    public function store(BasicSettingRequest $request)
     {
 
-        $attributes = request()->validate([
-            'role_id' => 'required',
-            'name' => ['required', 'max:50'],
-            'email' => ['required', 'email', 'max:50', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:5', 'max:20'],
-            'agreement' => ['accepted']
-        ]);
-        $insertUser = User::create(
-            [
-                'role_id' => $attributes['role_id'],
-                'first_name' => $attributes['name'],
-                'email' => $attributes['email'],
-                'password' => $attributes['password'],
-            ]
-        );
-        
+        $dataArray = $request->only($this->user->getFillable());
+
+        $dataArray['age_range'] = $request['age_range'];
+
+        $user = User::createUser($dataArray);
+
+        if (!$user->hasStripeId()) {
+
+            User::createCustomerAndSubscriptionOnStripe($user);
+
+        }
+
         session()->flash('success', 'Your account has been created.');
-        Auth::login($insertUser); 
-        return view('dashboards/default');
+
+        Auth::login($user);
+
+        return redirect()->route('client_dashboard');
     }
 }

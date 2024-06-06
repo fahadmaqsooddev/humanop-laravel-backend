@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Cashier\Billable;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -56,15 +58,46 @@ class User extends Authenticatable
         $users = self::all();
         return $users;
     }
+
     public static function getSingleUser($id = null){
         $user = self::find($id);
         return $user;
     }
+
     public static function updateUser($data = null, $id = null){
 
         $user = self::find($id)->update($data);
 
         return $user;
+
+    }
+
+    public static function createUser($data = null){
+
+        $data['is_admin'] = 2;
+        $age = explode('-', $data['age_range']);
+        $data['age_min'] = $age[0];
+        $data['age_max'] = $age[1];
+        $data['password'] = Hash::make($data['password']);
+
+        $user = self::create($data);
+
+        return $user;
+
+    }
+
+    public static function createCustomerAndSubscriptionOnStripe($user = null){
+
+        $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET"));
+
+        $stripe_customer = $stripe->customers->create([
+            'name' => $user['first_name'] . ' ' . $user['last_name'],
+            'email' => $user['email'],
+        ]);
+
+        $user->stripe_id = $stripe_customer->id;
+
+        $user->save();
 
     }
 

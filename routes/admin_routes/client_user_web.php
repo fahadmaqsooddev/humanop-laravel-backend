@@ -25,6 +25,7 @@ Route::group(['prefix' => 'client'], function () {
     Route::get('/pricing-page', [PricingController::class, 'index'])->name('pricing');
 
     Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
+    Route::post('/stripe', [PaymentController::class, 'processPayment'])->name('process_payment');
 
     Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
 

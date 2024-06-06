@@ -14,7 +14,7 @@
         </div>
         <div class="container">
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
                         <div class="card-header text-center pt-4">
                             <h5 class="text-white">Register with</h5>
@@ -60,15 +60,24 @@
                         </div>
                     <p class="text-center text-white"><b>or</b></p>
                         <div class="card-body">
-                            <form action="{{url('login')}}" role="form text-start">
+                            <form action="{{route('store_user')}}" method="post">
                                 @csrf
                                 <div>
                                     <div class="">
-                                        <label for="name" class="text-white">Name</label>
-                                        <input type="text" class="form-control " placeholder="Name" aria-label="Name" aria-describedby="email-addon" name="name" id="name" value="{{ old('name') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <label for="name" class="text-white">First Name</label>
+                                        <input type="text" class="form-control " placeholder="first name" aria-label="Name" aria-describedby="email-addon" name="first_name" id="first_name" required style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
-                                    @error('name')
+                                    @error('first_name')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <div class="mt-3">
+                                        <label for="name" class="text-white">Last Name</label>
+                                        <input type="text" class="form-control " placeholder="last name" aria-label="Name" aria-describedby="email-addon" name="last_name" id="last_name" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                    </div>
+                                    @error('last_name')
+                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                     @enderror
                                 </div>
 
@@ -93,10 +102,20 @@
                                     </div>
                                 </div>
                                 <div class="mt-3">
+                                    <div>
+                                        <label for="name" class="text-white">Phone</label>
+
+                                        <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        @error('phone')
+                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-3">
                                     <div class="">
                                         <label for="name" class="text-white">Gender</label>
 
-                                        <select class="form-control" name="role_id" id="role_id" name="user_type" style="background-color: #0F1535; color: white; border-radius: 12px;">
+                                        <select class="form-control" name="gender" id="gender" name="user_type" style="background-color: #0F1535; color: white; border-radius: 12px;">
                                             <option value="" selected hidden >Gender</option>
                                             <option value="1">Male</option>
                                             <option value="2">Female</option>
@@ -105,36 +124,28 @@
                                 </div>
                                 <div class="mt-3">
                                     <div>
-                                        <label for="name" class="text-white">Date</label>
-
-                                        <input type="date" class="form-control" placeholder="Date of Birth" aria-label="Date of Birth" name="dob" id="dob" value="{{ old('dob') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                        @error('dob')
+                                        <label for="name" class="text-white">Age Group</label>
+                                        <select class="form-control" name="age_range" id="age_range">
+                                            <option value="5-6">5-6</option>
+                                            <option value="7-11">7-11</option>
+                                            <option value="12-15">12-15</option>
+                                            <option value="16-20">16-20</option>
+                                            <option value="21-29">21-29</option>
+                                            <option value="30-33">30-33</option>
+                                            <option value="34-42">34-42</option>
+                                            <option value="43-51">43-51</option>
+                                            <option value="52-65">52-65</option>
+                                            <option value="66-69">66-69</option>
+                                            <option value="70-74">70-74</option>
+                                            <option value="75-83">75-83</option>
+                                            <option value="84-93">84-93</option>
+                                            <option value="94-101">94&up</option>
+                                        </select>
+                                        @error('age_range')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 </div>
-
-                                <div class="mt-3">
-                                    <div>
-                                        <label for="name" class="text-white">Phone</label>
-
-                                        <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                        @error('phone')
-                                            <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                      
-                                {{-- <div class="form-check form-check-info text-start" style="color: rgb(160, 174, 192)">
-                                    <input class="form-check-input" type="checkbox" name="agreement" id="flexCheckDefault" checked="">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
-                                    </label>
-                                    @error('agreement')
-                                        <p class="text-danger text-xs mt-2">First, agree to the Terms and Conditions, then try register again.</p>
-                                    @enderror
-                                </div> --}}
                                 <div class="form-check form-switch mt-4">
                                     <input class="form-check-input" type="checkbox" id="rememberMe">
                                     <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember me</label>
@@ -152,12 +163,12 @@
     </main>
 @endsection
 
-@push('js')
-    <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
-    <script>
-        if (document.getElementById('role_id')) {
-            var country = document.getElementById('role_id');
-            const example = new Choices(country);
-            }
-    </script>
-@endpush
+{{--@push('js')--}}
+{{--    <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>--}}
+{{--    <script>--}}
+{{--        if (document.getElementById('role_id')) {--}}
+{{--            var country = document.getElementById('role_id');--}}
+{{--            const example = new Choices(country);--}}
+{{--            }--}}
+{{--    </script>--}}
+{{--@endpush--}}

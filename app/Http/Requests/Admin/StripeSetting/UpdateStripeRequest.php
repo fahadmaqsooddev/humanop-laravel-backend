@@ -28,6 +28,7 @@ class UpdateStripeRequest extends FormRequest
             'account_email' => 'required',
             'api_key' => 'required',
             'public_key' => 'required',
+            'amount' => 'required',
         ];
     }
 
@@ -38,6 +39,7 @@ class UpdateStripeRequest extends FormRequest
             'account_email.required' => 'Account Email is required',
             'api_key.required' => 'API KEY is required',
             'public_key.required' => 'PUBLIC KEY is required',
+            'amount.required' => 'Amount is required',
         ];
     }
 }

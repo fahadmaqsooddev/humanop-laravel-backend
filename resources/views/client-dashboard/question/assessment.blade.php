@@ -9,8 +9,12 @@
                 <h4 class="text-white">{{$index +1}}. {{$question['question']}}</h4>
                 @foreach($question['answers'] as $answer)
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="q1a1" name="q1" onclick="onlyOne(this)">
-                        <label class="form-check-label text-white" for="q1a1">{{$answer['answer']}}</label>
+                        <input class="form-check-input" type="checkbox" id="q{{$question['id']}}a{{$answer['id']}}" value="{{$answer['answer']}}" name="q-{{$question['id']}}" onclick="onlyOne(this, 'q-{{$question['id']}}')">
+                        <label class="form-check-label text-white" for="q{{$question['id']}}a{{$answer['id']}}">{{$answer['answer']}}</label>
+                        @if($answer['image'] !== 'NULL')
+                            <br>
+                            <img src="{{ asset('assets/img/' . $answer['image']) }}" alt="Image for {{$answer['answer']}}">
+                        @endif
                     </div>
                 @endforeach
             </div>
@@ -26,8 +30,8 @@
 @endsection
 @push('js')
     <script>
-        function onlyOne(checkbox) {
-            var checkboxes = document.getElementsByName('q1');
+        function onlyOne(checkbox, groupName) {
+            var checkboxes = document.getElementsByName(groupName);
             checkboxes.forEach((item) => {
                 if (item !== checkbox) item.checked = false;
             });

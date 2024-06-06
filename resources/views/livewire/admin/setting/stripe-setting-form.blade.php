@@ -42,6 +42,14 @@
                                    placeholder="public key">
                         </div>
                     </div>
+                    <div class="col-12">
+                        <label class="form-label text-white">Amount</label>
+                        <div class="form-group">
+                            <input style="background-color: #0f1534;" class="form-control text-white" wire:model.defer="account.amount"
+                                   type="text"
+                                   placeholder="amount">
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">Update
                     account
