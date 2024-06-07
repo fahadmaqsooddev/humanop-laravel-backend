@@ -18,13 +18,23 @@ class isAdmin
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::check() && Auth::user()['is_admin'] == '1')
+        if (Auth::check())
         {
-            return $next($request);
 
+            if (Auth::user()['is_admin'] == '1')
+            {
+                return $next($request);
+
+            }else{
+
+                return redirect()->route('client_dashboard');
+
+            }
         }else{
 
-            return redirect()->route('client_dashboard');
+            Auth::logout();
+
+            return redirect('/login')->with(['success'=>'You\'ve been logged out.']);
 
         }
     }
