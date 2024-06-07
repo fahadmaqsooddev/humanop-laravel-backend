@@ -117,44 +117,7 @@
             <!-- Card Basic Info -->
                 @livewire('client.setting.basic-setting-form',['user' => $user])
                 <!-- Card Change Password -->
-                <div class="card mt-4" id="password">
-                    <div class="card-header">
-                        <h5 class="text-white">Change Password</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <label class="form-label text-white">Current password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Current password">
-                        </div>
-                        <label class="form-label text-white">New password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="New password">
-                        </div>
-                        <label class="form-label">Confirm new password</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control" type="password" placeholder="Confirm password">
-                        </div>
-                        <h5 class="mt-5 text-white">Password requirements</h5>
-                        <p class="text-muted mb-2 text-white">
-                            Please follow this guide for a strong password:
-                        </p>
-                        <ul class="text-muted ps-4 mb-0 float-start">
-                            <li>
-                                <span class="text-sm text-white" >One special characters</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white" >Min 6 characters</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white" >One number (2 are recommended)</span>
-                            </li>
-                            <li>
-                                <span class="text-sm text-white" >Change it often</span>
-                            </li>
-                        </ul>
-                        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
-                    </div>
-                </div>
+                @livewire('client.setting.password-setting-form')
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">
                     <div class="card-header">
