@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Admin\Setting\BasicSettingRequest;
+use App\Http\Requests\Client\Register\RegisterFormRequest;
 
 
 class RegisterController extends Controller
@@ -23,7 +22,7 @@ class RegisterController extends Controller
         return view('session/register');
     }
 
-    public function store(BasicSettingRequest $request)
+    public function store(RegisterFormRequest $request)
     {
 
         $dataArray = $request->only($this->user->getFillable());

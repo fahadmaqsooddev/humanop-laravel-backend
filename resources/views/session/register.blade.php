@@ -65,7 +65,7 @@
                                 <div>
                                     <div class="">
                                         <label for="name" class="text-white">First Name</label>
-                                        <input type="text" class="form-control " placeholder="first name" aria-label="Name" aria-describedby="email-addon" name="first_name" id="first_name" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <input type="text" class="form-control " placeholder="first name" aria-label="Name" aria-describedby="email-addon" name="first_name" id="first_name"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
                                     @error('first_name')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -74,7 +74,7 @@
                                 <div>
                                     <div class="mt-3">
                                         <label for="name" class="text-white">Last Name</label>
-                                        <input type="text" class="form-control " placeholder="last name" aria-label="Name" aria-describedby="email-addon" name="last_name" id="last_name" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <input type="text" class="form-control " placeholder="last name" aria-label="Name" aria-describedby="email-addon" name="last_name" id="last_name"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
                                     @error('last_name')
                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -85,7 +85,7 @@
                                     <div class=" ">
                                         <label for="email" class="text-white">Email</label>
 
-                                        <input type="email" class="form-control " placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <input type="email" class="form-control " placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('email')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                         @enderror
@@ -95,7 +95,7 @@
                                     <div class=" ">
                                         <label for="name" class="text-white">Password</label>
 
-                                        <input type="password" class="form-control " placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" id="password" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <input type="password" class="form-control " placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" id="password"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('password')
                                             <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                         @enderror
@@ -105,7 +105,7 @@
                                     <div>
                                         <label for="name" class="text-white">Phone</label>
 
-                                        <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}" required style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                        <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone" name="phone" id="phone" value="{{ old('phone') }}"  style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         @error('phone')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                         @enderror
@@ -120,6 +120,9 @@
                                             <option value="1">Male</option>
                                             <option value="2">Female</option>
                                         </select>
+                                        @error('gender')
+                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="mt-3">
