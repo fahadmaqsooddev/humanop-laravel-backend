@@ -43,7 +43,7 @@ class PaymentController extends Controller
             Charge::create([
                 'amount' => 500*100, // Amount in cents
                 'currency' => 'usd',
-                'customer' => $user['first_name'] .' '. $user['last_name'],
+//                'customer' => $user['first_name'] .' '. $user['last_name'],
                 'source' => $request->stripeToken,
                 'description' => 'Test Payment',
             ]);
