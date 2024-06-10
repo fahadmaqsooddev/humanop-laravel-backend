@@ -9,23 +9,36 @@
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label fs-4 text-white">Question</label>
-                                <button type="button" class="close modal-close-btn"  data-bs-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                        aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 @include('layouts.message')
                                 <div class="form-group mt-4">
-                                    <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="question.question">
+                                    <input style="background-color: #0f1534;" class="form-control text-white"
+                                           type="text" wire:model.defer="question.question">
                                 </div>
-
+                                <label class="form-label fs-4 text-white">Gender</label>
+                                <div class="form-group">
+                                    <select style="background-color: #0f1535" class="form-control" wire:model.defer="question.gender">
+                                        <option value="2">Male</option>
+                                        <option value="1">Female</option>
+                                        <option value="0">Male & Female</option>
+                                    </select>
+                                </div>
                                 <label class="form-label fs-4 text-white">Answers</label>
                                 @foreach($question['answers'] as $index => $answer)
                                     <div class="form-group">
-                                        <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="answers.{{ $index }}.answer" placeholder="answer">
+                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                               type="text" wire:model.defer="answers.{{ $index }}.answer"
+                                               placeholder="answer">
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update Question</button>
+                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                            Question
+                        </button>
                     </div>
                 </form>
             </div>

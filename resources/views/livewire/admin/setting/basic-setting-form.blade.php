@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4">I'm</label>
-                    <select class="form-control" wire:model.defer="currentUser.gender" >
+                    <select style="background-color: #0f1535" class="form-control" wire:model.defer="currentUser.gender" >
                         <option value="2">Male</option>
                         <option value="1">Female</option>
                     </select>
@@ -52,7 +52,7 @@
 
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4">Age Group</label>
-                    <select class="form-control" wire:model.defer="currentUser.age_range" >
+                    <select style="background-color: #0f1535" class="form-control" wire:model.defer="currentUser.age_range" >
                         <option value="5-6">5-6</option>
                         <option value="7-11">7-11</option>
                         <option value="12-15">12-15</option>
