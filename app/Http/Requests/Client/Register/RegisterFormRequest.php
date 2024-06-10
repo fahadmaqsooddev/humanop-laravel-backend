@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Admin\Setting;
+namespace App\Http\Requests\Client\Register;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class BasicSettingRequest extends FormRequest
+class RegisterFormRequest extends FormRequest
 {
-    protected $data;
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function __construct($data = null)
-    {
-        parent::__construct();
-        $this->data = $data;
-    }
-
     public function authorize()
     {
         return true;
@@ -27,19 +20,21 @@ class BasicSettingRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::user()->id,
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|max:255',
             'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
-            'phone' => 'required|string|max:25',
+            'phone' => 'required|string|max:25'
         ];
     }
+
     public function messages()
     {
         return [

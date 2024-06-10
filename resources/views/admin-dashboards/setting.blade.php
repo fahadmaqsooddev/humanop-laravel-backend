@@ -93,32 +93,6 @@
                                 <span class="text-sm text-white">Change Password</span>
                             </a>
                         </li>
-{{--                        <li class="nav-item pt-2">--}}
-{{--                            <a class="nav-link text-body" data-scroll="" href="#2fa">--}}
-{{--                                <div class="icon me-2">--}}
-{{--                                    <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 44"--}}
-{{--                                         version="1.1" xmlns="http://www.w3.org/2000/svg"--}}
-{{--                                         xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-{{--                                        <title>switches</title>--}}
-{{--                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-{{--                                            <g transform="translate(-1870.000000, -440.000000)" fill="#FFFFFF"--}}
-{{--                                               fill-rule="nonzero">--}}
-{{--                                                <g transform="translate(1716.000000, 291.000000)">--}}
-{{--                                                    <g transform="translate(154.000000, 149.000000)">--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M10,20 L30,20 C35.4545455,20 40,15.4545455 40,10 C40,4.54545455 35.4545455,0 30,0 L10,0 C4.54545455,0 0,4.54545455 0,10 C0,15.4545455 4.54545455,20 10,20 Z M10,3.63636364 C13.4545455,3.63636364 16.3636364,6.54545455 16.3636364,10 C16.3636364,13.4545455 13.4545455,16.3636364 10,16.3636364 C6.54545455,16.3636364 3.63636364,13.4545455 3.63636364,10 C3.63636364,6.54545455 6.54545455,3.63636364 10,3.63636364 Z"--}}
-{{--                                                              opacity="0.6"></path>--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M30,23.6363636 L10,23.6363636 C4.54545455,23.6363636 0,28.1818182 0,33.6363636 C0,39.0909091 4.54545455,43.6363636 10,43.6363636 L30,43.6363636 C35.4545455,43.6363636 40,39.0909091 40,33.6363636 C40,28.1818182 35.4545455,23.6363636 30,23.6363636 Z M30,40 C26.5454545,40 23.6363636,37.0909091 23.6363636,33.6363636 C23.6363636,30.1818182 26.5454545,27.2727273 30,27.2727273 C33.4545455,27.2727273 36.3636364,30.1818182 36.3636364,33.6363636 C36.3636364,37.0909091 33.4545455,40 30,40 Z"></path>--}}
-{{--                                                    </g>--}}
-{{--                                                </g>--}}
-{{--                                            </g>--}}
-{{--                                        </g>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                                <span class="text-sm text-white">2FA</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#accounts">
                                 <div class="icon me-2">
@@ -127,63 +101,6 @@
                                 <span class="text-sm text-white">Stripe Setting</span>
                             </a>
                         </li>
-{{--                        <li class="nav-item pt-2">--}}
-{{--                            <a class="nav-link text-body" data-scroll="" href="#notifications">--}}
-{{--                                <div class="icon me-2">--}}
-{{--                                    <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 44 43"--}}
-{{--                                         version="1.1" xmlns="http://www.w3.org/2000/svg"--}}
-{{--                                         xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-{{--                                        <title>megaphone</title>--}}
-{{--                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-{{--                                            <g transform="translate(-2168.000000, -591.000000)" fill="#FFFFFF"--}}
-{{--                                               fill-rule="nonzero">--}}
-{{--                                                <g transform="translate(1716.000000, 291.000000)">--}}
-{{--                                                    <g transform="translate(452.000000, 300.000000)">--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M35.7958333,0.273166667 C35.2558424,-0.0603712374 34.5817509,-0.0908856664 34.0138333,0.1925 L19.734,7.33333333 L9.16666667,7.33333333 C4.10405646,7.33333333 0,11.4373898 0,16.5 C0,21.5626102 4.10405646,25.6666667 9.16666667,25.6666667 L19.734,25.6666667 L34.0138333,32.8166667 C34.5837412,33.1014624 35.2606401,33.0699651 35.8016385,32.7334768 C36.3426368,32.3969885 36.6701539,31.8037627 36.6666942,31.1666667 L36.6666942,1.83333333 C36.6666942,1.19744715 36.3370375,0.607006911 35.7958333,0.273166667 Z"></path>--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M38.5,11 L38.5,22 C41.5375661,22 44,19.5375661 44,16.5 C44,13.4624339 41.5375661,11 38.5,11 Z"--}}
-{{--                                                              opacity="0.601050967"></path>--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M18.5936667,29.3333333 L10.6571667,29.3333333 L14.9361667,39.864 C15.7423448,41.6604248 17.8234451,42.4993948 19.6501416,41.764381 C21.4768381,41.0293672 22.3968823,38.982817 21.7341667,37.1286667 L18.5936667,29.3333333 Z"--}}
-{{--                                                              opacity="0.601050967"></path>--}}
-{{--                                                    </g>--}}
-{{--                                                </g>--}}
-{{--                                            </g>--}}
-{{--                                        </g>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                                <span class="text-sm text-white">Notifications</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item pt-2">--}}
-{{--                            <a class="nav-link text-body" data-scroll="" href="#sessions">--}}
-{{--                                <div class="icon me-2">--}}
-{{--                                    <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 40"--}}
-{{--                                         version="1.1" xmlns="http://www.w3.org/2000/svg"--}}
-{{--                                         xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-{{--                                        <title>settings</title>--}}
-{{--                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-{{--                                            <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF"--}}
-{{--                                               fill-rule="nonzero">--}}
-{{--                                                <g transform="translate(1716.000000, 291.000000)">--}}
-{{--                                                    <g transform="translate(304.000000, 151.000000)">--}}
-{{--                                                        <polygon class="color-background" opacity="0.596981957"--}}
-{{--                                                                 points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"--}}
-{{--                                                              opacity="0.596981957"></path>--}}
-{{--                                                        <path class="color-background"--}}
-{{--                                                              d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>--}}
-{{--                                                    </g>--}}
-{{--                                                </g>--}}
-{{--                                            </g>--}}
-{{--                                        </g>--}}
-{{--                                    </svg>--}}
-{{--                                </div>--}}
-{{--                                <span class="text-sm text-white">Sessions</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#delete">
                                 <div class="icon me-2">
@@ -216,7 +133,7 @@
             <div class="col-lg-9 mt-lg-0 mt-4">
                 <!-- Card Profile -->
                 <div class="card card-body" id="profile">
-                    <div class="row justify-content-center align-items-center">
+                    <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
                                 <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="bruce"
@@ -235,17 +152,6 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
-                            <label class="form-check-label mb-0">
-                                <small id="profileVisibility">
-                                    Switch to invisible
-                                </small>
-                            </label>
-                            <div class="form-check form-switch ms-2">
-                                <input style="background-color: #0f1534;" class="form-check-input" sty type="checkbox"
-                                       id="flexSwitchCheckDefault23" checked onchange="visible()">
-                            </div>
-                        </div>
                     </div>
                 </div>
                 @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)
@@ -255,235 +161,9 @@
                 <!-- Card Change Password -->
                 @livewire('admin.setting.password-setting-form')
 
-
-                <!-- Card Change Password -->
-{{--                <div class="card mt-4" id="2fa">--}}
-{{--                    <div class="card-header d-flex">--}}
-{{--                        <h5 class="mb-0">Two-factor authentication</h5>--}}
-{{--                        <span class="badge badge-success ms-auto">Enabled</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <p class="my-auto text-white">Security keys</p>--}}
-{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">No Security Keys</p>--}}
-{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Add</button>--}}
-{{--                        </div>--}}
-{{--                        <hr class="horizontal dark">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <p class="my-auto text-white">SMS number</p>--}}
-{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">+4012374423</p>--}}
-{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Edit</button>--}}
-{{--                        </div>--}}
-{{--                        <hr class="horizontal dark">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <p class="my-auto text-white">Authenticator app</p>--}}
-{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">Not Configured</p>--}}
-{{--                            <button class="btn btn-sm btn-outline-dark mb-0" type="button">Set up</button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <!-- Card Accounts -->
+                <!-- Stripe -->
                 @livewire('admin.setting.stripe-setting-form',['account' => $account])
 
-                <!-- Card Notifications -->
-{{--                <div class="card mt-4" id="notifications">--}}
-{{--                    <div class="card-header">--}}
-{{--                        <h5>Notifications</h5>--}}
-{{--                        <p class="text-sm text-white">Choose how you receive notifications. These notification settings--}}
-{{--                            apply to the things you’re watching.</p>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-body pt-0">--}}
-{{--                        <div class="table-responsive">--}}
-{{--                            <table class="table mb-0">--}}
-{{--                                <thead>--}}
-{{--                                <tr>--}}
-{{--                                    <th class="ps-1" colspan="4">--}}
-{{--                                        <p class="mb-0">Activity</p>--}}
-{{--                                    </th>--}}
-{{--                                    <th class="text-center">--}}
-{{--                                        <p class="mb-0">Email</p>--}}
-{{--                                    </th>--}}
-{{--                                    <th class="text-center">--}}
-{{--                                        <p class="mb-0">Push</p>--}}
-{{--                                    </th>--}}
-{{--                                    <th class="text-center">--}}
-{{--                                        <p class="mb-0">SMS</p>--}}
-{{--                                    </th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
-{{--                                <tbody>--}}
-{{--                                <tr>--}}
-{{--                                    <td class="ps-1" colspan="4">--}}
-{{--                                        <div class="my-auto text-white">--}}
-{{--                                            <span class="text-dark d-block text-sm">Mentions</span>--}}
-{{--                                            <span class="text-xs font-weight-normal">Notify when another user mentions you in a comment</span>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault11">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault12">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault13">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td class="ps-1" colspan="4">--}}
-{{--                                        <div class="my-auto text-white">--}}
-{{--                                            <span class="text-dark d-block text-sm">Comments</span>--}}
-{{--                                            <span class="text-xs font-weight-normal">Notify when another user comments your item.</span>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault14">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault15">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault16">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td class="ps-1" colspan="4">--}}
-{{--                                        <div class="my-auto text-white">--}}
-{{--                                            <span class="text-dark d-block text-sm">Follows</span>--}}
-{{--                                            <span class="text-xs font-weight-normal">Notify when another user follows you.</span>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault17">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault18">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input"--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault19">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td class="ps-1" colspan="4">--}}
-{{--                                        <div class="my-auto text-white">--}}
-{{--                                            <p class="text-sm mb-0 text-white">Log in from a new device</p>--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault20">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault21">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                    <td>--}}
-{{--                                        <div--}}
-{{--                                            class="form-check form-switch mb-0 d-flex align-items-center justify-content-center">--}}
-{{--                                            <input style="background-color: #0f1534;" class="form-check-input" checked--}}
-{{--                                                   type="checkbox" id="flexSwitchCheckDefault22">--}}
-{{--                                        </div>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                </tbody>--}}
-{{--                            </table>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <!-- Card Sessions -->
-{{--                <div class="card mt-4" id="sessions">--}}
-{{--                    <div class="card-header pb-3">--}}
-{{--                        <h5>Sessions</h5>--}}
-{{--                        <p class="text-sm text-white">This is a list of devices that have logged into your account.--}}
-{{--                            Remove those that you do not recognize.</p>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-body pt-0">--}}
-{{--                        <div class="d-flex align-items-center text-white">--}}
-{{--                            <div class="text-center w-5">--}}
-{{--                                <i class="fas fa-desktop text-lg opacity-6"></i>--}}
-{{--                            </div>--}}
-{{--                            <div class="my-auto ms-3">--}}
-{{--                                <div class="h-100">--}}
-{{--                                    <p class="text-sm mb-1">--}}
-{{--                                        Bucharest 68.133.163.201--}}
-{{--                                    </p>--}}
-{{--                                    <p class="mb-0 text-xs">--}}
-{{--                                        Your current session--}}
-{{--                                    </p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <span class="badge badge-success badge-sm my-auto ms-auto me-3">Active</span>--}}
-{{--                            <p class="text-secondary text-sm my-auto me-3">EU</p>--}}
-{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
-{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                        <hr class="horizontal dark">--}}
-{{--                        <div class="d-flex align-items-center text-white">--}}
-{{--                            <div class="text-center w-5">--}}
-{{--                                <i class="fas fa-desktop text-lg opacity-6"></i>--}}
-{{--                            </div>--}}
-{{--                            <p class="my-auto ms-3">Chrome on macOS</p>--}}
-{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>--}}
-{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
-{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                        <hr class="horizontal dark">--}}
-{{--                        <div class="d-flex align-items-center text-white">--}}
-{{--                            <div class="text-center w-5">--}}
-{{--                                <i class="fas fa-mobile text-lg opacity-6"></i>--}}
-{{--                            </div>--}}
-{{--                            <p class="my-auto ms-3">Safari on iPhone</p>--}}
-{{--                            <p class="text-secondary text-sm ms-auto my-auto me-3">US</p>--}}
-{{--                            <a href="javascript:;" class="text-primary text-sm icon-move-right my-auto">See more--}}
-{{--                                <i class="fas fa-arrow-right text-xs ms-1" aria-hidden="true"></i>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">
                     <div class="card-header">

@@ -13,7 +13,7 @@ use App\Http\Controllers\ClientController\SettingController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Client User Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -42,16 +42,5 @@ Route::group(['prefix' => 'client'], function () {
     Route::get('/human-network', [NetworkController::class, 'network'])->name('human_network');
     Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
-
-//    Route::view('/client-resource', 'client-dashboard/client-resource');
-//    Route::view('/client-dashboard-result', 'client-dashboard/video');
-//    Route::view('/client-user-detail', 'client-dashboard/client_user_detail');
-//    Route::view('/client-grid', 'client-dashboard/client_grid');
-//    Route::view('/client-answers', 'client-dashboard/client_answer');
-//    Route::view('/client-user-info', 'client-dashboard/client_user_info');
-//    Route::view('/client-pages-account-settings', 'client-dashboard/client-setting');
-//    Route::view('/client-billing', 'client-dashboard/client_billing');
-//    Route::view('/client-human-network', 'client-dashboard/network');
-
 
 });

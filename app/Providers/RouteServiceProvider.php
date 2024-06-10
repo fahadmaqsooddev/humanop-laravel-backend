@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/admin-dashboard';
+    public const HOME = '/login';
     protected $ClientUserNamespace = 'App\Http\Controllers\User';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $EnterpriseNamespace = 'App\Http\Controllers\User';

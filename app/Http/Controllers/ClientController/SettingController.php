@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -12,7 +13,9 @@ class SettingController extends Controller
     {
         try {
 
-            return view('client-dashboard.setting.index');
+            $user = Auth::user();
+
+            return view('client-dashboard.setting.index', compact('user'));
 
         }catch (\Exception $exception)
         {
@@ -21,5 +24,5 @@ class SettingController extends Controller
 
         }
     }
-    
+
 }
