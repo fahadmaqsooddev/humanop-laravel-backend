@@ -209,5 +209,15 @@ return [
             'fillable' => ['image', 'slide_id'],
             'hidden' => ['created_at','updated_at']
         ],
+        'Assessment' => [
+            'table' => 'assessments',
+            'fillable' => ['user_id', 'page','sa','ma','jo','lu','ven','mer','so','de','dom','fe','gre','lun','nai','ne','pow','sp','tra','van','wil','g','s','c','em','ins','int','mov'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'AssessmentDetail' => [
+            'table' => 'assessment_details',
+            'fillable' => ['user_id', 'question_id','answer_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];

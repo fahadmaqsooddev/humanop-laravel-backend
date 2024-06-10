@@ -30,13 +30,17 @@ class Question extends Model
         return self::with('answers.answerCodes');
     }
 
-    public static function getQuestion()
+    public static function getQuestion($offset = 0,$limit = 3)
     {
         return self::with('answers.answerCodes')
 
             ->where('gender', Auth::user()['gender'])
 
             ->where('active', 1)
+
+            ->offset($offset)
+
+            ->limit($limit)
 
             ->get();
     }

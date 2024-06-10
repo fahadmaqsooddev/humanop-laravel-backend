@@ -60,7 +60,7 @@
   <!-- Kanban scripts -->
   <script src="{{ URL::asset('assets/js/plugins/dragula/dragula.min.js') }}"></script>
   <script src="{{ URL::asset('assets/js/plugins/jkanban/jkanban.js') }}"></script>
-  @stack('js')
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -74,9 +74,10 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{ URL::asset('assets/js/soft-ui-dashboard.min.js?v=1.0.4') }}"></script>
-{{--  @livewireScripts--}}
-  <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
-  <livewire:scripts />
+  @livewireScripts
+  @stack('js')
+{{--  <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>--}}
+{{--  <livewire:scripts />--}}
 </body>
 
 </html>
