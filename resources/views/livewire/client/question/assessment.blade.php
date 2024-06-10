@@ -10,14 +10,15 @@
                            value="{{ $answer['answer'] }}"
                            class="q-{{ $question['id'] }} form-check-input"
                            @if(!empty($answers[$question['id']]))
-                             {{$answers[$question['id']]['answer_id'] == $answer['id'] ? 'checked' : ''}}
+                           {{$answers[$question['id']]['answer_id'] == $answer['id'] ? 'checked' : ''}}
                            @endif
                            wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}' , '{{$answer['answerCodes']}}')"
                     >
                     <label class="form-check-label text-white">{{ $answer['answer'] }}</label>
                     @if($answer['image'] !== 'NULL')
                         <br>
-                        <img src="{{ asset('assets/img/' . $answer['image']) }}" alt="Image for {{ $answer['answer'] }}">
+                        <img src="{{ asset('assets/img/' . $answer['image']) }}"
+                             alt="Image for {{ $answer['answer'] }}">
                     @endif
                 </div>
             @endforeach

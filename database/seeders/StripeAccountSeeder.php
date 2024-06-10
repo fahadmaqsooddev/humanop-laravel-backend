@@ -22,8 +22,8 @@ class StripeAccountSeeder extends Seeder
             [
                 'account_name' => 'M Ahtasham',
                 'account_email' => 'mahtasham060@gmail.com',
-                'api_key' => 123456789,
-                'public_key' => 123456789,
+                'api_key' => 'sk_test_51POCfVRxOqsngfBOEZQIBANGwXJ5gNqRHrmMQ24pke5p5sFhXlicCwsNYTS3gqZHY9z4KNEO3SqcZoAZIds0i81F00kr86cMJp',
+                'public_key' => 'pk_test_51POCfVRxOqsngfBOj4nQaZn71XcfP5WueR8PinqAj2AY7qyzdHxsC2N43mwAwMbxD2Y50Bop0E488FJ0gcK61ruf00wX4q9key',
                 'amount' => 500,
                 'created_at' => now(),
                 'updated_at' => now()

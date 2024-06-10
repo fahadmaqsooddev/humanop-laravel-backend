@@ -34,7 +34,7 @@ class Question extends Model
     {
         return self::with('answers.answerCodes')
 
-            ->where('gender', Auth::user()['gender'])
+            ->whereIn('gender', [Auth::user()['gender'], 0])
 
             ->where('active', 1)
 

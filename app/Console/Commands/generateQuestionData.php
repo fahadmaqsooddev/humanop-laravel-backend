@@ -46,6 +46,7 @@ class generateQuestionData extends Command
             $q = $data[1];
             $sort = $data[2];
             $active = $data[3];
+            $multiple = $data[4];
             $gender = $data[5];
 
             $question = new Question();
@@ -53,7 +54,7 @@ class generateQuestionData extends Command
             $question->question = $q;
             $question->sort = $sort;
             $question->active = $active;
-            $question->gender = $gender;
+            $question->multiple = $multiple;
             $question->gender = $gender;
             $question->created_at = Carbon::today();
             $question->updated_at = Carbon::today();

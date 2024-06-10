@@ -6,6 +6,7 @@ use App\Models\Question;
 use Livewire\Component;
 use App\Models\Assessment as AssessmentModal;
 use Illuminate\Support\Facades\Auth;
+
 class Assessment extends Component
 {
     public $offset = 0;
@@ -15,7 +16,8 @@ class Assessment extends Component
 
     public function updateAssessment()
     {
-        try{
+//        dd($this->answers);
+        try {
             $userId = Auth::user()->id;
             $codeArray = [];
             ksort($this->answers);
@@ -28,6 +30,9 @@ class Assessment extends Component
                     $codeArray[$lowercaseCode] += $value;
                 }
             }
+//            dd($codeArray);
+
+
             $this->updateQuestion();
             $this->offset += 3;
 
@@ -35,28 +40,36 @@ class Assessment extends Component
 
             if ($existingAssessment) {
 
-                    $oldResult = $existingAssessment->toArray();
-                    $resultArray = [];
+                $oldResult = $existingAssessment->toArray();
+//                dd($oldResult);
+
+                $resultArray = [];
 
                 foreach ($codeArray as $key => $value) {
                     $resultArray[$key] = $value;
                 }
+//                dd($resultArray);
 
-                foreach ($oldResult as $key => $value) {
-                    if (isset($resultArray[$key])) {
-                        $resultArray[$key] += $value;
-                    } else {
-                        $resultArray[$key] = $value;
-                    }
-                }
-                    $resultArray['page'] = $this->offset / 3;
-                    $existingAssessment->update($resultArray);
+//                foreach ($oldResult as $key => $value) {
+//                    if (isset($resultArray[$key])) {
+//                        $resultArray[$key] += $value;
+//                    } else {
+//                        $resultArray[$key] = $value;
+//                    }
+//                }
+//                dd($resultArray);
+
+                $resultArray['page'] = $this->offset / 3;
+                $existingAssessment->update($resultArray);
+//                $codeArray = [];
+
             } else {
 
-                $finalAssessment= array_merge(['user_id' => $userId,'page' =>   $this->offset / 3], $codeArray);
+                $finalAssessment = array_merge(['user_id' => $userId, 'page' => $this->offset / 3], $codeArray);
                 AssessmentModal::create($finalAssessment);
+//                $codeArray = [];
             }
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             session()->flash('error', $exception->getMessage());
         }
     }
@@ -66,14 +79,14 @@ class Assessment extends Component
         $this->questions = Question::getQuestion($this->offset, $this->limit);
     }
 
-    public function selectAnswer($questionId, $answer,$answerCodes)
+    public function selectAnswer($questionId, $answer, $answerCodes)
     {
         $codes = [];
         $codeArr = json_decode($answerCodes, true);
-        foreach ($codeArr as $code){
+        foreach ($codeArr as $code) {
             $codes[$code['code']] = $code['number'];
         }
-        $this->answers[$questionId] = ['answer_id' => $answer,'answer_codes' => $codes];
+        $this->answers[$questionId] = ['answer_id' => $answer, 'answer_codes' => $codes];
     }
 
     public function render()
