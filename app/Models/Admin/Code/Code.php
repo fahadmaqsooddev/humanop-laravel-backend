@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Code extends Model
 {
     use HasFactory;
-    
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -22,9 +22,18 @@ class Code extends Model
     {
         return self::all();
     }
-    
+
     public static function getSingleCode($id = null)
     {
         return self::find($id);
+    }
+
+    public static function updateCode($data = null, $id = null)
+    {
+
+        $code = self::find($id)->update($data);
+
+        return $code;
+
     }
 }
