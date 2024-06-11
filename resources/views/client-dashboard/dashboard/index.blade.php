@@ -48,11 +48,9 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card" style="height: 375px;">
                         <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> DAILY
-                                TIP</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Remember that between the
-                                hours<br> of 2 - 4pm everyday you should schedule a power nap as an energy management
-                                strategy!</p>
+                            <h5 class="text-white">Daily Tip</h5>
+                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">{{ $tip ? $tip['title'] : ''}}</p>
+                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)">{{$tip ? $tip['description'] : ''}}</p>
                         </div>
                     </div>
                 </div>
