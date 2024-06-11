@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminControllers\QuestionController;
 use App\Http\Controllers\AdminControllers\CodeController;
 use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
+use App\Http\Controllers\AdminControllers\TipController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,5 +63,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
 
     Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
+
+    Route::get('/daily-tip', [TipController::class, 'index'])->name('admin_daily_tip');
+    Route::get('/create-daily-tip', [TipController::class, 'create'])->name('admin_create_daily_tip');
 
 });

@@ -219,5 +219,15 @@ return [
             'fillable' => ['user_id', 'question_id','answer_id'],
             'hidden' => ['created_at','updated_at']
         ],
+        'DailyTip' => [
+            'table' => 'daily_tips',
+            'fillable' => ['title', 'description','code'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'TipRecord' => [
+            'table' => 'tip_records',
+            'fillable' => ['user_id', 'tip_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];

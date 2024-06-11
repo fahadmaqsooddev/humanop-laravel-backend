@@ -112,9 +112,9 @@
                                                 <span class="sidenav-normal"> Resources Content </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                               href="{{ url('#') }}">
+                                        <li class="nav-item {{ (Request::is('client/daily-tip') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/daily-tip') ? 'active' : '') }}"
+                                               href="{{ route('admin_daily_tip') }}">
                                                 <span class="sidenav-mini-icon text-xs"> D </span>
                                                 <span class="sidenav-normal"> Daily Tips </span>
                                             </a>
