@@ -31,6 +31,8 @@ class generateQuestionData extends Command
     public function handle()
     {
 
+//        DB::table('questions')->truncate();
+
         $csvFile = fopen(base_path("public/questions.csv"), "r");
 
         $firstline = true;
