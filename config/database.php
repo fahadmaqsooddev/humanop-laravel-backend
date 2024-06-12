@@ -159,8 +159,8 @@ return [
             'fillable' => ['first_name','last_name','email','zip_code','address','user_id'],
             'hidden' => ['created_at','updated_at']
         ],
-        'Code' => [
-            'table' => 'codes',
+        'CodeDetail' => [
+            'table' => 'code_details',
             'fillable' => ['name','code','public_name','number','type','text'],
             'hidden' => ['created_at','updated_at']
         ],

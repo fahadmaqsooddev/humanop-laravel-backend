@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Admin\ManageCode;
 
 use Livewire\Component;
-use App\Models\Admin\Code\Code;
+use App\Models\Admin\Code\CodeDetail;
 use App\Traits\HandlesValidationErrors;
 use App\Http\Requests\Admin\ManageCode\UpdateCodeRequest;
 
@@ -27,7 +27,7 @@ class ManageCodeForm extends Component
             $keysToKeep = ['name', 'public_name', 'code', 'type', 'text'];
             $data = array_intersect_key($this->select_code, array_flip($keysToKeep));
 
-            Code::updateCode($data, $this->select_code['id']);
+            CodeDetail::updateCode($data, $this->select_code['id']);
 
             $this->name = '';
             $this->public_name = '';

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Code\Code;
+use App\Models\Admin\Code\CodeDetail;
 use Illuminate\Http\Request;
 
 class CodeController extends Controller
@@ -11,16 +11,16 @@ class CodeController extends Controller
 
     protected $code = null;
 
-    public function __construct(Code $code)
+    public function __construct(CodeDetail $code)
     {
         $this->code = $code;
     }
-    
+
     public function ManageCode()
     {
         try {
 
-            $codes = Code::allCodes();
+            $codes = CodeDetail::allCodes();
 
             return view('admin-dashboards.manage-codes.index', compact('codes'));
 
@@ -35,7 +35,7 @@ class CodeController extends Controller
     {
         try {
 
-            $code = Code::getSingleCode($id);
+            $code = CodeDetail::getSingleCode($id);
 
             return view('admin-dashboards.manage-codes.edit', compact('code'));
 
