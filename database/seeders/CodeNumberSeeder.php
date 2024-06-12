@@ -15,20 +15,28 @@ class CodeNumberSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('code_numbers')->truncate();
+//        DB::table('code_numbers')->truncate();
 
         $numbers = [
             [
-                'number' => 0
+                'number' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'number' => 1
+                'number' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'number' => 2
+                'number' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'number' => 3
+                'number' => 3,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
         ];
         DB::table('code_numbers')->insert($numbers);

@@ -14,86 +14,138 @@ class CodeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('codes')->truncate();
+//        DB::table('codes')->truncate();
 
         $codes = [
             [
-                'code_name' => 'sa'
+                'code' => 'sa',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'ma'
+                'code' => 'ma',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'jo'
+                'code' => 'jo',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'lu'
+                'code' => 'lu',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'ven'
+                'code' => 'ven',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'mer'
+                'code' => 'mer',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'so'
+                'code' => 'so',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'de'
+                'code' => 'de',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'dom'
+                'code' => 'dom',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'fe'
+                'code' => 'fe',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'gre'
+                'code' => 'gre',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'lun'
+                'code' => 'lun',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'nai'
+                'code' => 'nai',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'ne'
+                'code' => 'ne',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'pow'
+                'code' => 'pow',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'sp'
+                'code' => 'sp',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'tra'
+                'code' => 'tra',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'van'
+                'code' => 'van',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'wil'
+                'code' => 'wil',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'g'
+                'code' => 'g',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 's'
+                'code' => 's',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'c'
+                'code' => 'c',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'em'
+                'code' => 'em',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'ins'
+                'code' => 'ins',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'int'
+                'code' => 'int',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
-                'code_name' => 'mov'
+                'code' => 'mov',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
         ];
 
