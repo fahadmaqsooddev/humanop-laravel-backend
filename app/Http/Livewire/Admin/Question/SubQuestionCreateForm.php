@@ -31,7 +31,7 @@ class SubQuestionCreateForm extends Component
 
             Answer::createAnswer($this->question['answers'], $this->sub_answer, $new_question['id']);
 
-            $this->emit('refreshQuestion');
+//            $this->emit('refreshQuestion');
 
             session()->flash('success', 'Sub Question create successfully.');
 
