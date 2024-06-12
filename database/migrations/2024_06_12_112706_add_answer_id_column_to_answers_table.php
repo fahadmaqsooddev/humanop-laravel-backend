@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('code_numbers', function (Blueprint $table) {
-            $table->id();
-            $table->integer('number')->nullable();
-            $table->timestamps();
+        Schema::table('answers', function (Blueprint $table) {
+
+            $table->integer('answer_id')->nullable();
+
         });
     }
 
@@ -27,6 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('code_numbers');
+        Schema::table('answers', function (Blueprint $table) {
+
+            $table->dropColumn('answer_id');
+        });
     }
 };

@@ -1,21 +1,16 @@
-
 <div class="table-responsive">
 
     <table class="table table-flush" id="datatable-search">
         <thead class="thead-light">
         <tr>
-            <th>
-                    Questions
-            </th>
-            <th>
-                    Gender
-            </th>
+            <th>Questions</th>
+            <th></th>
+            <th>Gender</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         @foreach($questions as $q)
-
             <tr>
                 <td class="text-sm font-weight-normal px-4">
                     <h6 class="text-white">{{ $q->question }}</h6>
@@ -34,7 +29,13 @@
                     </div>
                 </td>
                 <td class="text-sm font-weight-normal">
-                    {{ $q->gender === '0' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '2' ? 'Male' : '')) }}
+                    <button type="button" data-bs-toggle="modal"
+                            data-bs-target="#createSubQuestionModal{{ $q->id }}"
+                            class="btn btn-sm updateBtn mt-2 mb-0">Add
+                    </button>
+                </td>
+                <td class="text-sm font-weight-normal">
+                    <p class="mt-2">{{ $q->gender === '0' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '2' ? 'Male' : '')) }}</p>
                 </td>
                 <td class="text-sm font-weight-normal px-4">
                     <button type="button" data-bs-toggle="modal"
@@ -43,7 +44,12 @@
                     </button>
                 </td>
             </tr>
-            @livewire('admin.question.question-update-form', ['question' => $q->toArray(), 'answers' => $q->answers->toArray()], key($q->id))
+
+            @livewire('admin.question.question-update-form', ['question' => $q->toArray(), 'answers' =>
+            $q->answers->toArray()], key($q->id))
+
+            @livewire('admin.question.sub-question-create-form', ['question' => $q->toArray(), 'answers' =>
+            $q->answers->toArray()], key($q->id))
         @endforeach
         </tbody>
     </table>

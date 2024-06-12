@@ -32,15 +32,40 @@ class Answer extends Model
     public static function updateAnswer($data = null)
     {
 
-        foreach($data as $answer)
-        {
+        foreach ($data as $answer) {
 
-           $ans = self::find($answer['id']);
+            $ans = self::find($answer['id']);
 
-           $ans->update($answer);
+            $ans->update($answer);
 
         }
 
         return 1;
+    }
+
+    public static function createAnswer($answers = null, $sub_answers = null, $id = null)
+    {
+
+        foreach ($sub_answers as $index => $answer) {
+
+            if (isset($answers[$index])) {
+
+                self::create([
+                    'question_id' => $id,
+                    'answer' => $answer,
+                    'sort' => $answers[$index]['sort'],
+                    'image' => $answers[$index]['image'],
+                    'answer_id' => $answers[$index]['id'],
+                ]);
+
+            } else {
+
+                return false;
+            }
+
+        }
+
+        return true;
+
     }
 }

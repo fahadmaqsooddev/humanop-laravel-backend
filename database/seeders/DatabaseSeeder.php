@@ -16,8 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             StripeAccountSeeder::class,
-            CodeSeeder::class,
-            CodeNumberSeeder::class,
         ]);
     }
 }

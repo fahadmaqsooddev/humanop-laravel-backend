@@ -146,7 +146,7 @@ return [
     'models' => [
         'Answer' => [
             'table' => 'answers',
-            'fillable' => ['answer','sort','image','user_id','question_id' ],
+            'fillable' => ['answer','sort','image','user_id','question_id', 'answer_id'],
             'hidden' => ['created_at','updated_at']
         ],
         'AnswerCode' => [
@@ -176,7 +176,7 @@ return [
         ],
         'Question' => [
             'table' => 'questions',
-            'fillable' => ['question','sort','active','gender'],
+            'fillable' => ['question','sort','active','gender', 'question_id'],
             'hidden' => ['created_at','updated_at']
         ],
         'StripeSetting' => [

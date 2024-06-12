@@ -60,4 +60,16 @@ class Question extends Model
         return $question;
 
     }
+
+    public static function createQuestion($question = null, $sub_question = null)
+    {
+        return self::create([
+            'question' => $sub_question,
+            'active' => 1,
+            'gender' => $question['gender'],
+            'sort' => $question['sort'],
+            'question_id' => $question['id'],
+        ]);
+
+    }
 }
