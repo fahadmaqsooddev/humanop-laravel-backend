@@ -4,7 +4,7 @@
     @foreach($questions as $index => $question)
         <hr class="" style="border: 1px solid white">
         <div class="mb-4 text-white text-bold">
-            <h4 class="text-white">{{ $index+1 }}. {{ $question['question'] }}</h4>
+            <h4 class="text-white">{{ $offset+($index+1) }}. {{ $question['question'] }}</h4>
             @foreach($question['answers'] as $key=>$answer)
                 <div class="form-check">
                     <input type="checkbox"

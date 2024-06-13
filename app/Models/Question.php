@@ -32,12 +32,12 @@ class Question extends Model
 
     public static function getQuestion($offset = 0, $limit = 3)
     {
-        // Get the main question IDs with the specified offset and limit
-        $question_ids = self::offset($offset)
+        $question_ids = self::whereIn('gender', [Auth::user()['gender'], 0])
+            ->offset($offset)
             ->limit($limit)
+            ->where('active', 1)
             ->pluck('id');
 
-        // Get the main questions with the specified criteria
         $main_questions = self::with('answers.answerCodes')
             ->whereIn('id', $question_ids)
             ->whereIn('gender', [Auth::user()['gender'], 0])
@@ -45,9 +45,10 @@ class Question extends Model
             ->get()
             ->toArray();
 
-        // Get the sub-questions grouped by question_id
         $sub_questions = self::with('answers.subAnswerCodes')
             ->whereIn('question_id', $question_ids)
+            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->where('active', 1)
             ->get()
             ->groupBy('question_id')
             ->toArray();
@@ -66,6 +67,8 @@ class Question extends Model
             $randomKey = array_rand($questionArray);
             $q[] = $questionArray[$randomKey];
         }
+
+//        dd($q);
 
         return $q;
     }

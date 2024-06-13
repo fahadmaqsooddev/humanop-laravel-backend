@@ -72,7 +72,9 @@ class Assessment extends Component
     public function updateQuestion()
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
-
+        if(!$this->questions){
+            return redirect()->route('user_detail');
+        }
     }
 
     public function selectAnswer($questionId, $answer, $answerCodes = [])
@@ -83,13 +85,11 @@ class Assessment extends Component
             $codes[$code['code']] = $code['number'];
         }
         $this->answers[$questionId] = ['answer_id' => $answer, 'answer_codes' => $codes];
+        $this->skipRender();
     }
 
     public function render()
     {
-        if ($this->answers) {
-            $this->skipRender();
-        }
         $this->updateQuestion();
         return view('livewire.client.question.assessment', ['questions' => $this->questions]);
     }
