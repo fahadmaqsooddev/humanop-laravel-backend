@@ -145,7 +145,7 @@
     {{--    Master Key Modal--}}
     <div class="modal fade" id="MasterKey" aria-hidden="true" aria-labelledby="MasterKeyLabel"
          tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
                     <img style="width: 100%;" src="{{asset('assets/img/Master_Key.jpg')}}">
@@ -156,7 +156,7 @@
     {{--    Style Modal--}}
     <div class="modal fade" id="Style" aria-hidden="true" aria-labelledby="StyleLabel"
          tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
                     <img style="width: 100%;" src="{{asset('assets/img/Styles_Wheel.jpg')}}">
@@ -167,7 +167,7 @@
     {{--    Cycle Modal--}}
     <div class="modal fade" id="Cycle" aria-hidden="true" aria-labelledby="CycleLabel"
          tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-body">
                     <img style="width: 100%;" src="{{asset('assets/img/Cycle_Of_Life.jpg')}}">
@@ -245,7 +245,7 @@
     {{--    Alchemy Modal--}}
     <div class="modal fade" id="Alchemy" aria-hidden="true" aria-labelledby="AlchemyLabel"
          tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-body">
                     <img style="width: 100%;" src="{{asset('assets/img/Alchemy.jpg')}}">
@@ -257,7 +257,7 @@
     {{--    Energy Center Modal--}}
     <div class="modal fade" id="EnergyCenter" aria-hidden="true" aria-labelledby="EnergyCenterLabel"
          tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
                     <img style="width: 100%;" src="{{asset('assets/img/Energy_Center_Doorways.jpg')}}">
