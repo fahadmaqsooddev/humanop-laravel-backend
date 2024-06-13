@@ -30,19 +30,44 @@ class Question extends Model
         return self::with('answers.answerCodes');
     }
 
-    public static function getQuestion($offset = 0,$limit = 3)
+    public static function getQuestion($offset = 0, $limit = 3)
     {
-        return self::with('answers.answerCodes')
-
-            ->whereIn('gender', [Auth::user()['gender'], 0])
-
-            ->where('active', 1)
-
-            ->offset($offset)
-
+        // Get the main question IDs with the specified offset and limit
+        $question_ids = self::offset($offset)
             ->limit($limit)
+            ->pluck('id');
 
-            ->get();
+        // Get the main questions with the specified criteria
+        $main_questions = self::with('answers.answerCodes')
+            ->whereIn('id', $question_ids)
+            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->where('active', 1)
+            ->get()
+            ->toArray();
+
+        // Get the sub-questions grouped by question_id
+        $sub_questions = self::with('answers.subAnswerCodes')
+            ->whereIn('question_id', $question_ids)
+            ->get()
+            ->groupBy('question_id')
+            ->toArray();
+
+        $questions = [];
+
+        foreach ($main_questions as $key => $main_question) {
+            $questions[$key] = [$main_question];
+            foreach ($sub_questions[$main_question['id']] ?? [] as $sub_question) {
+                array_push($questions[$key], $sub_question);
+            }
+        }
+
+        $q = [];
+        foreach ($questions as $index => $questionArray) {
+            $randomKey = array_rand($questionArray);
+            $q[] = $questionArray[$randomKey];
+        }
+
+        return $q;
     }
 
     public static function singleQuestion($id = null)

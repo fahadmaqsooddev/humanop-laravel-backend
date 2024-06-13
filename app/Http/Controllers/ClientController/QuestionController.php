@@ -18,17 +18,18 @@ class QuestionController extends Controller
 
     public function testPlay()
     {
-        try {
+
+//        try {
 
             $questions = Question::getQuestion();
 
             return view('client-dashboard.question.assessment', compact('questions'));
 
-        }catch (\Exception $exception)
-        {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
+//        }catch (\Exception $exception)
+//        {
+//
+//            return redirect()->back()->with('error', $exception->getMessage());
+//
+//        }
     }
 }

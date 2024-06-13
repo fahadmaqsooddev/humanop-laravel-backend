@@ -16,7 +16,6 @@ class Assessment extends Component
 
     public function updateAssessment()
     {
-//        dd($this->answers);
         try {
             $userId = Auth::user()->id;
             $codeArray = [];
@@ -30,9 +29,6 @@ class Assessment extends Component
                     $codeArray[$lowercaseCode] += $value;
                 }
             }
-//            dd($codeArray);
-
-
             $this->updateQuestion();
             $this->offset += 3;
 
@@ -41,7 +37,6 @@ class Assessment extends Component
             if ($existingAssessment) {
 
                 $oldResult = $existingAssessment->toArray();
-//                dd($oldResult);
 
                 $resultArray = [];
 
@@ -77,9 +72,10 @@ class Assessment extends Component
     public function updateQuestion()
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
+
     }
 
-    public function selectAnswer($questionId, $answer, $answerCodes)
+    public function selectAnswer($questionId, $answer, $answerCodes = [])
     {
         $codes = [];
         $codeArr = json_decode($answerCodes, true);
@@ -91,6 +87,9 @@ class Assessment extends Component
 
     public function render()
     {
+        if ($this->answers) {
+            $this->skipRender();
+        }
         $this->updateQuestion();
         return view('livewire.client.question.assessment', ['questions' => $this->questions]);
     }

@@ -21,7 +21,11 @@ class Answer extends Model
 
     public function answerCodes()
     {
-        return $this->hasMany(AnswerCode::class, 'answer_id');
+        return $this->hasMany(AnswerCode::class, 'answer_id', 'id');
+    }
+    public function subAnswerCodes()
+    {
+        return $this->hasMany(AnswerCode::class, 'answer_id', 'answer_id');
     }
 
     public static function getAnswer($id = null)
