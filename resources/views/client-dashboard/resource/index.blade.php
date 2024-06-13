@@ -221,8 +221,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -232,8 +234,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to Traits.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to Traits.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -243,8 +247,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to The Cycle of Life.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to The Cycle of Life.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -254,8 +260,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to Motivation (Drivers).mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -265,8 +273,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to Alchemy.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to Alchemy.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -276,8 +286,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to Communication Style.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to Communication Style.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -287,8 +299,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Intro to Energy Pool.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Intro to Energy Pool.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>

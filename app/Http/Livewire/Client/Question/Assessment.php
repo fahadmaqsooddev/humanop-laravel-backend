@@ -16,6 +16,7 @@ class Assessment extends Component
 
     public function updateAssessment()
     {
+
         try {
             $userId = Auth::user()->id;
             $codeArray = [];
@@ -30,6 +31,7 @@ class Assessment extends Component
                 }
             }
             $this->updateQuestion();
+            $resultArray['page'] = $this->offset / 3;
             $this->offset += 3;
 
             $existingAssessment = AssessmentModal::where('user_id', $userId)->first();
@@ -54,7 +56,7 @@ class Assessment extends Component
 //                }
 //                dd($resultArray);
 
-                $resultArray['page'] = $this->offset / 3;
+
                 $existingAssessment->update($resultArray);
 //                $codeArray = [];
 
@@ -79,6 +81,7 @@ class Assessment extends Component
 
     public function selectAnswer($questionId, $answer, $answerCodes = [])
     {
+
         $codes = [];
         $codeArr = json_decode($answerCodes, true);
         foreach ($codeArr as $code) {

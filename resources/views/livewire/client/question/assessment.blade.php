@@ -1,4 +1,4 @@
-<form wire:submit.prevent="updateAssessment">
+<form wire:submit.prevent="updateAssessment" >
     @csrf
 
     @foreach($questions as $index => $question)

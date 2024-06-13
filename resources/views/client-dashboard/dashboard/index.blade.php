@@ -28,12 +28,12 @@
                         <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1">
-                                    <button class="ms-1 text-white bg-gradient-primary rounded-3">Access Your<br> Results</button>
+                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;" class="text-white bg-gradient-primary">Access Your<br> Results</button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 ">
-                                    <button class="ms-1 text-white bg-gradient-primary rounded-3">Get Free Pro<br> Access!</button>
+                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;" class=" ms-2 text-white bg-gradient-primary">Get Free Pro<br> Access!</button>
                                 </a>
                             </li>
                         </ul>
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
         <section class="py-3">
             <div class="row mt-lg-4 mt-2">
                 <div class="col-lg-3 col-md-6 mb-4">

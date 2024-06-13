@@ -16,6 +16,7 @@
             </div>
         </div>
         <div class="container">
+            @include('layouts.message')
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
                 <div class="col-xl-8 col-lg-5 col-md-4">
                     <div class="card z-index-0">
@@ -27,7 +28,7 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="" class="text-white">Name</label>
-                                    <input type="text" class="form-control" placeholder="Please Enter Your Name"
+                                    <input type="text" class="form-control" placeholder="Enter Card Holder Name"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
 
                                 </div>

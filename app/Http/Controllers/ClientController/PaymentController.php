@@ -39,20 +39,19 @@ class PaymentController extends Controller
 
         Stripe::setApiKey($key['api_key']);
 
-//        try {
+        try {
             Charge::create([
                 'amount' => 500*100, // Amount in cents
                 'currency' => 'usd',
-//                'customer' => $user['first_name'] .' '. $user['last_name'],
                 'source' => $request->stripeToken,
                 'description' => 'Test Payment',
             ]);
 
         return redirect()->route('test_play')->with('success', 'Payment successful!');
 
-//        } catch (\Exception $e) {
-//
-//            return redirect()->route('stripe_checkout')->with('error', $e->getMessage());
-//        }
+        } catch (\Exception $e) {
+
+            return redirect()->route('stripe_checkout')->with('error', $e->getMessage());
+        }
     }
 }
