@@ -55,6 +55,7 @@ class QuestionUpdateForm extends Component
 
             $this->sub_question = '';
             $this->sub_answer = '';
+            $this->emit('refreshQuestion');
 
             session()->flash('success', 'Sub Question create successfully.');
 
@@ -68,7 +69,6 @@ class QuestionUpdateForm extends Component
 
     public function render()
     {
-        dd(1);
         return view('livewire.admin.question.question-update-form');
     }
 }
