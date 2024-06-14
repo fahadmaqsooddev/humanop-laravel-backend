@@ -48,8 +48,8 @@
             @livewire('admin.question.question-update-form', ['question' => $q->toArray(), 'answers' =>
             $q->answers->toArray()], key($q->id))
 
-            @livewire('admin.question.sub-question-create-form', ['question' => $q->toArray(), 'answers' =>
-            $q->answers->toArray()], key($q->id))
+{{--            @livewire('admin.question.sub-question-create-form', ['question' => $q->toArray(), 'answers' =>--}}
+{{--            $q->answers->toArray()], key($q->id))--}}
         @endforeach
         </tbody>
     </table>

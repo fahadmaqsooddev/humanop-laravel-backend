@@ -9,11 +9,17 @@ use App\Models\Admin\Answer\Answer;
 class QuestionUpdateForm extends Component
 {
 
-    public $question, $answers;
+    public $question, $answers, $sub_question, $sub_answer = [];
+
     public function mount($question, $answers)
     {
         $this->question = $question;
         $this->answers = $answers;
+
+        foreach ($answers as $index => $answer) {
+            $this->sub_answer[$index] = '';
+        }
+
     }
 
 
@@ -38,8 +44,31 @@ class QuestionUpdateForm extends Component
         }
     }
 
+    public function createSubQuestion()
+    {
+
+        try {
+
+            $new_question = Question::createQuestion($this->question, $this->sub_question);
+
+            Answer::createAnswer($this->question['answers'], $this->sub_answer, $new_question['id']);
+
+            $this->sub_question = '';
+            $this->sub_answer = '';
+
+            session()->flash('success', 'Sub Question create successfully.');
+
+        } catch (\Exception $exception) {
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+
+    }
+
     public function render()
     {
+        dd(1);
         return view('livewire.admin.question.question-update-form');
     }
 }
