@@ -23,6 +23,7 @@ class Answer extends Model
     {
         return $this->hasMany(AnswerCode::class, 'answer_id', 'id');
     }
+
     public function subAnswerCodes()
     {
         return $this->hasMany(AnswerCode::class, 'answer_id', 'answer_id');
@@ -50,18 +51,16 @@ class Answer extends Model
     public static function createAnswer($answers = null, $sub_answers = null, $id = null)
     {
 
-        foreach ($sub_answers as $index => $answer) {
+        foreach ($answers as $index => $answer) {
 
-            if (isset($answers[$index])) {
-
+            if (isset($sub_answers[$index])) {
                 self::create([
                     'question_id' => $id,
-                    'answer' => $answer,
-                    'sort' => $answers[$index]['sort'],
-                    'image' => $answers[$index]['image'],
-                    'answer_id' => $answers[$index]['id'],
+                    'answer' => $sub_answers[$index],
+                    'sort' => $answer['sort'],
+                    'image' => $answer['image'],
+                    'answer_id' => $answer['id'],
                 ]);
-
             } else {
 
                 return false;
