@@ -37,7 +37,7 @@
             <label class="form-label text-white">Text</label>
             <div class="input-group" wire:ignore>
                 <textarea id="summernote" rows="10" cols="10" style="background-color: #0f1534;" name="text"
-                          class="form-control text-white summernote" wire:model.defer="select_code.text"></textarea>
+                          class="form-control text-white summernote" wire:model.defer="select_code.text">{{ $select_code['text'] }}</textarea>
             </div>
         </div>
     </div>
@@ -49,7 +49,9 @@
 
 <script type="text/javascript">
     document.addEventListener('livewire:load', function () {
-        $('#summernote').summernote({
+        const summernoteElement = $('#summernote');
+
+        summernoteElement.summernote({
             height: 300,
             callbacks: {
                 onChange: function(contents, $editable) {
@@ -59,12 +61,8 @@
         });
 
         Livewire.on('contentUpdated', function(content) {
-            $('#summernote').summernote('code', content);
+            summernoteElement.summernote('code', content);
         });
     });
 
-    document.addEventListener('livewire:update', function () {
-        const content = @this.get('select_code.text');
-        $('#summernote').summernote('code', content);
-    });
 </script>
