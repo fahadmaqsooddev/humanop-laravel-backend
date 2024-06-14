@@ -29,3 +29,15 @@
         </button>
     </div>
 @endif
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Automatically close alert messages after 3 seconds
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert").alert('close');
+        }, 500);
+    });
+</script>
