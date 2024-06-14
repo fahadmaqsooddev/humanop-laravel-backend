@@ -22,7 +22,7 @@ use App\Http\Controllers\ClientController\SettingController;
 |
 */
 
-Route::group(['prefix' => 'client'], function () {
+Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
 //    client dashboard
     Route::get('/dashboard', [ClientController::class, 'index'])->name('client_dashboard');
