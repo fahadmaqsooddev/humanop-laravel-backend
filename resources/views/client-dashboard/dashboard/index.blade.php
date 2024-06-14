@@ -1,4 +1,25 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+<style>
+    .description-container::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+    }
+
+    .description-container::-webkit-scrollbar-track {
+        background: rgb(160, 174, 192); /* Color of the track */
+    }
+
+    .description-container::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the handle */
+        border-radius: 10px; /* Roundness of the handle */
+        /*border: 2px solid #555; !* Space around the handle *!*/
+    }
+
+    /* Custom scrollbar for Firefox */
+    .description-container {
+        scrollbar-width: thin; /* Thickness of the scrollbar */
+        scrollbar-color: #888 rgb(160, 174, 192); /* Color of the scrollbar and track */
+    }
+</style>
 @section('content')
     <div class="container-fluid">
         <div class="page-header min-height-100 border-radius-xl">
@@ -49,8 +70,14 @@
                     <div class="card" style="height: 375px;">
                         <div class="card-body p-3">
                             <h5 class="text-white">Daily Tip</h5>
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">{{ $tip ? $tip['title'] : ''}}</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)">{{$tip ? $tip['description'] : ''}}</p>
+                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
+                                {{ $tip ? $tip['title'] : '' }}
+                            </p>
+                            <div class="description-container" style="max-height: 200px; overflow-y: auto;">
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
+                                    {{ $tip ? $tip['description'] : '' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
