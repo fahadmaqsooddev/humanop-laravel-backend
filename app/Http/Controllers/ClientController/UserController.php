@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Assessment;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -56,7 +57,9 @@ class UserController extends Controller
     {
         try {
 
-            return view('client-dashboard.user.client_grid');
+            $grid = Assessment::getGrid();
+
+            return view('client-dashboard.user.client_grid', compact('grid'));
 
         }catch (\Exception $exception)
         {

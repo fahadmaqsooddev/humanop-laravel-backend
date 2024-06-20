@@ -20,44 +20,34 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success' : '') }}">{{$grid['sa']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success' : '') }}">{{$grid['ma']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success' : '') }}">{{$grid['jo']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success' : '') }}">{{$grid['lu']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success' : '') }}">{{$grid['ven']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success' : '') }}">{{$grid['mer']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : '') }}">{{$grid['so']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white">{{$grid['sa'] + $grid['ma']+ $grid['jo']+ $grid['lu']+ $grid['ven']+ $grid['mer']+ $grid['so']}}</td>
                         </tr>
                         <tr>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success' : '') }}">{{$second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success' : '') }}">{{$second_row_ma = $grid['sa'] + $grid['ma'] + $grid['jo']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success' : '') }}">{{$second_row_jo = $grid['ma'] + $grid['jo'] + $grid['lu']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success' : '') }}">{{$second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success' : '') }}">{{$second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success' : '') }}">{{$second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white ">0</td>
+                            <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                         </tr>
                         <tr>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                        </tr>
-                        <tr>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                            <td class="text-sm font-weight-normal text-center border border-white">0</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success' : '') }}">{{$third_row_sa = $grid['sa'] * $second_row_sa}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success' : '') }}">{{$third_row_ma = $grid['ma'] * $second_row_ma}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success' : '') }}">{{$third_row_jo = $grid['jo'] * $second_row_jo}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success' : '') }}">{{$third_row_lu = $grid['lu'] * $second_row_lu}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success' : '') }}">{{$third_row_ven = $grid['ven'] * $second_row_ven}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success' : '') }}">{{$third_row_mer = $grid['mer'] * $second_row_mer}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white {{ $grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : '') }}">{{$third_row_so = 0 * $grid['so']}}</td>
+                            <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
                         </tr>
                         </tbody>
                     </table>
