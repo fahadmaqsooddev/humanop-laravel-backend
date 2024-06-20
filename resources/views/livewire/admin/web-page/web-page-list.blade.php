@@ -25,3 +25,25 @@
     </table>
     {{ $pages->links() }}
 </div>
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('livewire:load', function () {
+        const summernoteElement = $('.summernote');
+
+        summernoteElement.summernote({
+            height: 300,
+            callbacks: {
+                onChange: function (contents, $editable) {
+                @this.set('page.text', contents);
+                }
+            }
+        });
+
+        Livewire.on('contentUpdated', function (content) {
+            summernoteElement.summernote('code', content);
+        });
+
+    });
+</script>
