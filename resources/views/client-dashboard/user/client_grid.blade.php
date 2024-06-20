@@ -144,9 +144,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['g']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['s']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['c']}}</td>
                             </tr>
                             <tr>
                                 <td class="text-sm font-weight-normal text-center border border-white">0</td>
@@ -179,10 +179,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
-                                <td class="text-sm font-weight-normal text-center border border-white">0</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['em']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['ins']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['int']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white">{{$grid['mov']}}</td>
                             </tr>
                             <tr>
                                 <td class="text-sm font-weight-normal text-center border border-white">0</td>
