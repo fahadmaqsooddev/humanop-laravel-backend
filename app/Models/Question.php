@@ -29,6 +29,17 @@ class Question extends Model
     {
         return self::with('answers.answerCodes');
     }
+    public static function totalAssessmentQuestion(){
+        $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 0])
+            ->where('active', 1)->pluck('id');
+        $main_questions = self::with('answers.answerCodes')
+            ->whereNull('question_id')
+            ->whereIn('id', $question_ids)
+            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->where('active', 1)
+            ->count();
+        return $main_questions;
+    }
 
     public static function getQuestion($offset = 0, $limit = 3)
     {
@@ -68,8 +79,6 @@ class Question extends Model
             $randomKey = array_rand($questionArray);
             $q[] = $questionArray[$randomKey];
         }
-
-//        dd($q);
 
         return $q;
     }

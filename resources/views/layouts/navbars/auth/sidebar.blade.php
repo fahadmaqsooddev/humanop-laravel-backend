@@ -186,7 +186,12 @@
                             </li>
                             <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
-                                   href="{{ route('stripe_checkout') }}">
+                                   @if(\App\Models\Assessment::getLastPage() > 0)
+                                   href="{{route('test_play')}}"
+                                   @else
+                                   href="{{ route('stripe_checkout') }}"
+                                   @endif
+                                >
                                     <span class="sidenav-mini-icon"> </span>
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>

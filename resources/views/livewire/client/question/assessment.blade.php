@@ -1,6 +1,11 @@
 <form wire:submit.prevent="updateAssessment" >
     @csrf
-
+    <div class="m-3  alert alert-warning alert-dismissible fade" id="alert" role="alert">
+                        <span class="alert-text text-white">All Questions Are Required</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
+    </div>
     @foreach($questions as $index => $question)
         <hr class="" style="border: 1px solid white">
         <div class="mb-4 text-white text-bold">
@@ -11,12 +16,7 @@
                            value="{{ $answer['answer'] }}"
                            class="q-{{ $question['id'] }} form-check-input"
                            onclick="onlyOne(this, 'q-{{ $question['id'] }}')"
-                           @if($answer['answer_id'])
-                           wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}' , '{{ json_encode($answer['sub_answer_codes'] ?? []) }}')"
-                           @else
-                           wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}' , '{{ json_encode($answer['answer_codes'] ?? []) }}')"
-                           @endif
-                    >
+                           wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}', '{{ addslashes(json_encode($answer['sub_answer_codes'] ?? $answer['answer_codes'] ?? [])) }}', '{{ addslashes($question['question']) }}', '{{ addslashes($answer['answer']) }}')">
                     <label class="form-check-label text-white">{{ $answer['answer'] }}</label>
                     @if($answer['image'] !== 'NULL')
                         <br>
@@ -41,6 +41,13 @@
                 if (item !== checkbox) item.checked = false;
             });
         }
+
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('scrollToTop', () => {
+                document.getElementById('alert').classList.add('show');
+                window.scrollTo(0, 0);
+            });
+        });
     </script>
 @endpush
 

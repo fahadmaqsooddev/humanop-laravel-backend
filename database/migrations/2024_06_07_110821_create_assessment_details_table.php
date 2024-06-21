@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('assessment_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('question_id')->nullable();
-            $table->unsignedBigInteger('answer_id')->nullable();
+            $table->unsignedBigInteger('assessment_id')->nullable();
+            $table->text('question')->nullable();
+            $table->string('answer')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
+            $table->foreign('assessment_id')->references('id')->on('assessments')->onDelete('cascade');
             $table->timestamps();
         });
     }

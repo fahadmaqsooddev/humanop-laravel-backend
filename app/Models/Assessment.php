@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
 class Assessment extends Model
 {
     use HasFactory;
@@ -20,5 +20,14 @@ class Assessment extends Model
     }
     public static function updateAssessment($data = null,$id = null){
         return self::find($id)->update($data);
+    }
+
+    public static function getLastPage(){
+       $page =  self::where('user_id',Auth::user()->id)->select(['page'])->latest()->first();
+        if($page){
+            return $page->page;
+        }else{
+            return 0;
+        }
     }
 }
