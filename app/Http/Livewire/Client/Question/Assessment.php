@@ -24,11 +24,11 @@ class Assessment extends Component
     }
     public function updateAssessment()
     {
-        if(count($this->questions) != count($this->answers)){
-             $this->emit('scrollToTop');
-             $this->skipRender();
-             return;
-         }
+//        if(count($this->questions) != count($this->answers)){
+//             $this->emit('scrollToTop');
+//             $this->skipRender();
+//             return;
+//         }
          try {
 
              $totalPages = ceil($this->totalQuestion / $this->limit);
@@ -113,6 +113,7 @@ class Assessment extends Component
             }
 
             $this->answers = [];
+             $this->emit('addSortable');
         } catch (\Exception $exception) {
             session()->flash('error', $exception->getMessage());
         }
