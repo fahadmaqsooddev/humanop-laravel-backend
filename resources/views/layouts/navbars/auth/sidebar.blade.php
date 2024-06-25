@@ -136,8 +136,8 @@
                                     <span class="sidenav-normal">Projects</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('pages-account-settings') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('pages-account-settings') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"
                                    href="{{ route('admin_setting') }}">
                                     <span class="sidenav-mini-icon"> S </span>
                                     <span class="sidenav-normal"> Setting </span>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -69,7 +69,9 @@ class AdminController extends Controller
 
             $account = StripeSetting::getSingle();
             $currentUser = Auth::user();
-            return view('admin-dashboards.setting', compact('account', 'currentUser'));
+            $coupon = Coupon::getSingle();
+
+            return view('admin-dashboards.setting', compact('account', 'currentUser', 'coupon'));
 
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());

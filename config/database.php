@@ -229,5 +229,10 @@ return [
             'fillable' => ['user_id', 'tip_id'],
             'hidden' => ['created_at','updated_at']
         ],
+        'Coupon' => [
+            'table' => 'coupon',
+            'fillable' => ['discount', 'limit', 'coupon'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];
