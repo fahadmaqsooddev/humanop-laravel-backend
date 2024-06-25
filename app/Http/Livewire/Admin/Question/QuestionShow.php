@@ -15,7 +15,6 @@ class QuestionShow extends Component
     protected $paginationTheme = 'bootstrap';
     public $perPage = 10;
     protected $queryString = ['search'];
-
     protected $listeners = ['refreshQuestion' => 'handleRefreshQuestion'];
 
 
@@ -23,8 +22,10 @@ class QuestionShow extends Component
        $this->getQuestion();
     }
 
+
     public function getQuestion(){
         $this->questions = Question::allQuestion()->paginate($this->perPage);
+
     }
 
     public function render()

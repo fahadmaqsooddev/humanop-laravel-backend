@@ -27,8 +27,11 @@ class Question extends Model
 
     public static function allQuestion()
     {
-        return self::with('answers.answerCodes');
+        return self::with(['answers.answerCodes','subQuestions.answers']);
     }
+
+
+
     public static function totalAssessmentQuestion(){
         $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 0])
             ->where('active', 1)->pluck('id');
@@ -39,6 +42,10 @@ class Question extends Model
             ->where('active', 1)
             ->count();
         return $main_questions;
+    }
+    public function subQuestions()
+    {
+        return $this->hasMany(Question::class, 'question_id');
     }
 
     public static function getQuestion($offset = 0, $limit = 3)

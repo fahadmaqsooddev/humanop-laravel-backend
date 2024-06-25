@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Question;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\Question;
 use App\Models\Admin\Answer\Answer;
@@ -10,7 +11,7 @@ class QuestionUpdateForm extends Component
 {
 
     public $question, $answers, $sub_question, $sub_answer = [];
-
+    public $subQuestions;
     public function mount($question, $answers)
     {
         $this->question = $question;
@@ -22,6 +23,37 @@ class QuestionUpdateForm extends Component
 
     }
 
+    public function updateSubQuestion($subQuestionId)
+    {
+        try {
+        DB::transaction(function() use ($subQuestionId) {
+            $filteredSubQuestions = array_filter($this->subQuestions, function ($subQuestion) use ($subQuestionId) {
+                return $subQuestion['id'] === $subQuestionId;
+            });
+            $reindexedSubQuestions = array_values($filteredSubQuestions);
+
+            $data = array_shift($reindexedSubQuestions);
+             if($data['question'] == ''){
+                 session()->flash('error'.$subQuestionId, 'All Fields Are Required');
+                 return;
+             }
+            Question::updateQuestion(['question' => $data['question']],$subQuestionId);
+
+            foreach ($data['answers'] as $answer){
+                if($answer['answer'] == ''){
+                    session()->flash('error'.$subQuestionId, 'All Fields Are Required');
+                    DB::rollBack();
+                    return;
+                }
+                Answer::updateAnswer(['answer' => $answer['answer']],$answer['id']);
+            }
+
+            session()->flash('success'.$subQuestionId, 'Subquestion updated successfully.');
+        });
+        }catch(\Exception $exception){
+            session()->flash('error'.$subQuestionId, $exception->getMessage());
+        }
+    }
 
 
     public function updateQuestion()

@@ -29,10 +29,21 @@
                     </div>
                 </td>
                 <td class="text-sm font-weight-normal">
+                    <div>
                     <button type="button" data-bs-toggle="modal"
                             data-bs-target="#createSubQuestionModal{{ $q->id }}"
                             class="btn btn-sm updateBtn mt-2 mb-0">Add
                     </button>
+                    </div>
+                    @if($q->subQuestions && count($q->subQuestions) > 0)
+                        <div>
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#updateSubQuestionModal{{ $q->id }}"
+                                    class="btn btn-sm updateBtn mt-2 mb-0" style="padding-left:16px;padding-right: 28px">
+                                ({{ count($q->subQuestions) }}) View
+                            </button>
+                        </div>
+                    @endif
                 </td>
                 <td class="text-sm font-weight-normal">
                     <p class="mt-2">{{ $q->gender === '0' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '2' ? 'Male' : '')) }}</p>
@@ -45,7 +56,7 @@
                 </td>
             </tr>
 
-            @livewire('admin.question.question-update-form', ['question' => $q->toArray(), 'answers' =>
+            @livewire('admin.question.question-update-form', ['subQuestions' => $q->subQuestions->toArray(),'question' => $q->toArray(), 'answers' =>
             $q->answers->toArray()], key($q->id))
 
 {{--            @livewire('admin.question.sub-question-create-form', ['question' => $q->toArray(), 'answers' =>--}}

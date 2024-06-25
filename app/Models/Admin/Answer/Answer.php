@@ -34,16 +34,21 @@ class Answer extends Model
         return self::where('question_id', $id)->get();
     }
 
-    public static function updateAnswer($data = null)
+    public static function updateAnswer($data = null,$id = null)
     {
+        if($id){
+            $ans = self::find($id);
+            $ans->update($data);
+        }else{
+            foreach ($data as $answer) {
 
-        foreach ($data as $answer) {
+                $ans = self::find($answer['id']);
 
-            $ans = self::find($answer['id']);
+                $ans->update($answer);
 
-            $ans->update($answer);
-
+            }
         }
+
 
         return 1;
     }
