@@ -1,7 +1,34 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard ', 'childFolder' => 'none'])
+<style>
+    .modal-close-btn {
+        background: #f2661c;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: x-large;
+        float:right;
+        border-radius: 3px;
+        padding: 0px 10px 1px 10px;
+    }
+    .pagination{
+        float:right;
+        margin-right:24px ;
+    }
+    .page-link {
+        background: none !important;
+    }
+    .page-link:hover{
+        background: #f2661c !important;
+        color:white !important;
+    }
 
+    .page-item.active .page-link {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
 
-
+</style>
 @section('content')
     <main class="main-content mt-7">
         <div class="page-header align-items-start min-vh-50 pt-5 pb-11 border-radius-lg"
@@ -87,11 +114,51 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="couponModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="couponModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg " role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <form method="post" action="">
+                            @csrf
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label fs-4 text-white">Do you have any Coupon</label>
+                                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        @include('layouts.message')
+                                        <div class="form-group mt-4">
+                                            <input style="background-color: #0f1534;" class="form-control text-white"
+                                                   type="text" name="code" placeholder="enter coupon code">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" data-bs-dismiss="modal" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Cancle</button>
+                                <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 @endsection
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Show the modal when the page loads
+            $('#couponModal').modal('show');
+        });
+    </script>
 
     <script type="text/javascript">
 

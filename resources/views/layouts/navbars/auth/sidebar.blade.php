@@ -62,13 +62,6 @@
                                     <span class="sidenav-normal"> Questions </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
-                                   href="{{ route('admin_manage_code') }}">
-                                    <span class="sidenav-mini-icon"> C </span>
-                                    <span class="sidenav-normal"> Codes Manage </span>
-                                </a>
-                            </li>
                             <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
                                    href="{{ route('admin_resources') }}">
@@ -84,6 +77,13 @@
                                 </a>
                                 <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}" id="vrExamples">
                                     <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
+                                               href="{{ route('admin_manage_code') }}">
+                                                <span class="sidenav-mini-icon"> C </span>
+                                                <span class="sidenav-normal"> Codes Manage </span>
+                                            </a>
+                                        </li>
                                         <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                             <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                href="{{ url('#') }}">
@@ -136,8 +136,8 @@
                                     <span class="sidenav-normal">Projects</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('pages-account-settings') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('pages-account-settings') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"
                                    href="{{ route('admin_setting') }}">
                                     <span class="sidenav-mini-icon"> S </span>
                                     <span class="sidenav-normal"> Setting </span>

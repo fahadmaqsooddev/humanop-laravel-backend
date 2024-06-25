@@ -50,7 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::get('/answers', [AdminController::class, 'answer'])->name('admin_answer');
     Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
     Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
-    Route::get('/pages-account-settings', [AdminController::class, 'setting'])->name('admin_setting');
+    Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
     Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
     Route::get('/admin-projects', [AdminController::class, 'project'])->name('admin_projects');
 

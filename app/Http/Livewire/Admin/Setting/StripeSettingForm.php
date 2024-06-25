@@ -24,8 +24,9 @@ class StripeSettingForm extends Component
 
         try
         {
-            StripeSetting::updateStripeAccount($this->account, Auth::user()->id);
 
+            StripeSetting::updateStripeAccount($this->account, $this->account['id']);
+             $this->emit('updateAmount');
             session()->flash('success', 'Stripe Account Update Successfully.');
 
         }catch (\Exception $exception)

@@ -15,9 +15,11 @@ class Assessment extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
         parent::__construct($attributes);
     }
+
     public static function createAssessment($data = null){
         return self::create($data);
     }
+
     public static function updateAssessment($data = null,$id = null){
         return self::find($id)->update($data);
     }
@@ -29,5 +31,10 @@ class Assessment extends Model
         }else{
             return 0;
         }
+    }
+
+      public static function getGrid()
+    {
+        return self::where('user_id', Auth::user()['id'])->first();
     }
 }
