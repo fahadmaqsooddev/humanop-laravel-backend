@@ -10,6 +10,7 @@ use App\Http\Controllers\ClientController\ResourceController;
 use App\Http\Controllers\ClientController\NetworkController;
 use App\Http\Controllers\ClientController\BillingController;
 use App\Http\Controllers\ClientController\SettingController;
+use App\Http\Controllers\ClientController\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,5 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
 
+    Route::post('/check-coupon',[CouponController::class, 'checkCoupon'])->name('check_coupon');
 });
