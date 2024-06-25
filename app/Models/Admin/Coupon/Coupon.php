@@ -4,7 +4,6 @@ namespace App\Models\Admin\Coupon;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Coupon extends Model
 {
@@ -31,5 +30,30 @@ class Coupon extends Model
         $discount->update($data);
 
         return $discount;
+    }
+
+    public static function checkCouponCode($data = null, $original_amount = null)
+    {
+        $coupon = self::where('coupon', $data['coupon'])->first();
+
+        if ($coupon && $coupon->limit > 0) {
+
+            $dis_amount = $original_amount - ($coupon->discount / 100 * $original_amount);
+
+            $dis_amount = (int) $dis_amount;
+
+            $coupon->limit -= 1;
+
+            $coupon->save();
+
+            $data = ['success' => "Congratulations! You've Won a Special Discount Coupon", 'status' => 200, 'amount' => $dis_amount];
+
+        } else {
+
+            $data = ['error' => "Coupon Code Invalid", 'amount' => $original_amount];
+
+        }
+
+        return $data;
     }
 }

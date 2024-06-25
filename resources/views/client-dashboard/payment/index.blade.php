@@ -38,6 +38,7 @@
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
                         <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
+                        <p id="success_message"></p>
                     </div>
                 </div>
             </div>
@@ -54,6 +55,8 @@
                                   data-stripe-publishable-key="{{ $stripe['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
+                                    <input type="text" class="form-control" hidden name="amount" value="" id="amount"
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <label for="" class="text-white">Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Card Holder Name"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
@@ -102,7 +105,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn w-100 my-4 mb-2"
+                                    <button type="submit" class="btn w-100 my-4 mb-2" id="discount_amount"
                                             style="background-color: #f2661c;color:white">Pay Now
                                         (${{$stripe['amount']}})
                                     </button>
@@ -122,7 +125,8 @@
             <div class="modal-dialog modal-lg " role="document">
                 <div class="modal-content">
                     <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                        <form method="post" action="">
+                        <p id="error_message"></p>
+                        <form id="checkCoupon">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
@@ -135,7 +139,7 @@
                                         @include('layouts.message')
                                         <div class="form-group mt-4">
                                             <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="code" placeholder="enter coupon code">
+                                                   type="text" name="coupon" placeholder="enter coupon code">
                                         </div>
                                     </div>
                                 </div>
@@ -155,8 +159,63 @@
 
     <script>
         $(document).ready(function() {
-            // Show the modal when the page loads
-            $('#couponModal').modal('show');
+
+            var couponLimit = {{ $coupon['limit'] }};
+
+            if (couponLimit > 0) {
+
+                $('#couponModal').modal('show');
+
+            }
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Set up the AJAX request
+            $('#checkCoupon').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ route("check_coupon") }}',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+
+                        var discountedAmount = response.amount;
+
+                        if (response.status == 200)
+                        {
+
+                            $('#discount_amount').text('Pay Now ($' + discountedAmount + ')');
+                            $('#amount').val(discountedAmount);
+
+                            $('#success_message').html("<div class='alert alert-success'>" + response.success + "</div>");
+
+                            $('#couponModal').modal('hide');
+
+                        }else
+                        {
+
+                            $('#discount_amount').text('Pay Now ($' + discountedAmount + ')');
+
+                            $('#error_message').html("<div class='alert alert-danger'>" + response.error + "</div>");
+
+                        }
+
+                    },
+                    error: function(response) {
+
+                        console.log(response);
+
+
+                    }
+                });
+            });
         });
     </script>
 

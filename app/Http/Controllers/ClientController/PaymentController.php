@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Models\Admin\Coupon\Coupon;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -17,8 +18,9 @@ class PaymentController extends Controller
         try {
 
             $stripe = StripeSetting::getSingle();
+            $coupon = Coupon::getSingle();
 
-            return view('client-dashboard.payment.index', compact('stripe'));
+            return view('client-dashboard.payment.index', compact('stripe', 'coupon'));
 
         }catch (\Exception $exception)
         {
@@ -41,7 +43,7 @@ class PaymentController extends Controller
 
         try {
             Charge::create([
-                'amount' => 500*100, // Amount in cents
+                'amount' => $request['amount']*100, // Amount in cents
                 'currency' => 'usd',
                 'source' => $request->stripeToken,
                 'description' => 'Test Payment',
