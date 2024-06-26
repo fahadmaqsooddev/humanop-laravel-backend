@@ -49,12 +49,12 @@
                         <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1">
-                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;" class="text-white bg-gradient-primary">Access Your<br> Results</button>
+                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c" class="text-white btn btn-lg">Access Your<br> Results</button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 ">
-                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;" class=" ms-2 text-white bg-gradient-primary">Get Free Pro<br> Access!</button>
+                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c" class=" ms-2 text-white btn btn-lg" >Get Free Pro<br> Access!</button>
                                 </a>
                             </li>
                         </ul>

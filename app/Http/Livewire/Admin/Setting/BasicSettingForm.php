@@ -20,13 +20,11 @@ class BasicSettingForm extends Component
 
     public function submitForm()
     {
-
         if($this->customValidation(new BasicSettingRequest($this->currentUser),$this->currentUser)){return;};
         try {
             $age = explode('-', $this->currentUser['age_range']);
             $this->currentUser['age_min'] = $age[0];
             $this->currentUser['age_max'] = $age[1];
-
             $keysToKeep = ['first_name', 'last_name','email','age_min', 'age_max', 'gender', 'phone'];
             $data = array_intersect_key($this->currentUser, array_flip($keysToKeep));
 

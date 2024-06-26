@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             StripeAccountSeeder::class,
+            RoleSeeder::class,
+            HasRoleSeeder::class,
+            PermissionSeeder::class,
+            HasPermissionSeeder::class,
         ]);
     }
 }

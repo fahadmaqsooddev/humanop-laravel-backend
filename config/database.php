@@ -230,7 +230,7 @@ return [
             'hidden' => ['created_at','updated_at']
         ],
         'Coupon' => [
-            'table' => 'coupon',
+            'table' => 'coupons',
             'fillable' => ['discount', 'limit', 'coupon'],
             'hidden' => ['created_at','updated_at']
         ],

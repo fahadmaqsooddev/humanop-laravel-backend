@@ -11,7 +11,7 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            @if(\Illuminate\Support\Facades\Auth::user()->is_admin == 1)
+            @if(Auth::user()->hasAnyRole(['super admin', 'sub admin']) )
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#dashboardsExamples"
                        class="nav-link {{ ($parentFolder == 'dashboards' ? ' active' : '') }}"
@@ -48,6 +48,7 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
+                            @can('users')
                             <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
                                    href="{{ route('admin_all_users') }}">
@@ -55,6 +56,8 @@
                                     <span class="sidenav-normal"> Users </span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('questions')
                             <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
                                    href="{{ route('admin_all_questions') }}">
@@ -62,6 +65,8 @@
                                     <span class="sidenav-normal"> Questions </span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('resources')
                             <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
                                    href="{{ route('admin_resources') }}">
@@ -69,6 +74,8 @@
                                     <span class="sidenav-normal"> Resources </span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('cms')
                             <li class="nav-item ">
                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
@@ -122,6 +129,8 @@
                                     </ul>
                                 </div>
                             </li>
+                            @endcan
+                            @can('chat')
                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                    href="{{ route('admin_hai_chat') }}">
@@ -129,6 +138,8 @@
                                     <span class="sidenav-normal"> H.A.I. Chat </span>
                                 </a>
                             </li>
+                            @endcan
+                            @can('projects')
                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                    href="{{ route('admin_projects') }}">
@@ -136,6 +147,7 @@
                                     <span class="sidenav-normal">Projects</span>
                                 </a>
                             </li>
+                            @endcan
                             <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"
                                    href="{{ route('admin_setting') }}">
@@ -146,7 +158,7 @@
                         </ul>
                     </div>
                 </li>
-            @elseif(\Illuminate\Support\Facades\Auth::user()->is_admin == 2)
+            @elseif(\Illuminate\Support\Facades\Auth::user()->is_admin == 2 )
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#clientdashboardids"
                        class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"
