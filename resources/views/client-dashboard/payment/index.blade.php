@@ -55,7 +55,7 @@
                                   data-stripe-publishable-key="{{ $stripe['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" hidden name="amount" value="" id="amount"
+                                    <input type="text" class="form-control" hidden name="amount" value="{{$stripe['amount']}}" id="amount"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <label for="" class="text-white">Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Card Holder Name"
@@ -139,7 +139,7 @@
                                         @include('layouts.message')
                                         <div class="form-group mt-4">
                                             <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="coupon" placeholder="enter coupon code">
+                                                   type="text" name="coupon" maxlength="9" placeholder="enter coupon code">
                                         </div>
                                     </div>
                                 </div>

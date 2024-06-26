@@ -32,16 +32,16 @@ class PaymentController extends Controller
 
     public function processPayment(Request $request)
     {
-
-        $user = Auth::user();
-
-        $user->createOrGetStripeCustomer();
-
-        $key = StripeSetting::getSingle();
-
-        Stripe::setApiKey($key['api_key']);
-
         try {
+
+            $user = Auth::user();
+
+            $user->createOrGetStripeCustomer();
+
+            $key = StripeSetting::getSingle();
+
+            Stripe::setApiKey($key['api_key']);
+
             Charge::create([
                 'amount' => $request['amount']*100, // Amount in cents
                 'currency' => 'usd',

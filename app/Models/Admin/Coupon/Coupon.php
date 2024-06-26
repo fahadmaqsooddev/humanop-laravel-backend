@@ -23,6 +23,24 @@ class Coupon extends Model
         return self::first();
     }
 
+    public static function checkCouponDiscount()
+    {
+        $coupon = self::where('discount', 100)->where('limit', '>', 0)->first();
+
+        if (!empty($coupon))
+        {
+            $coupon->limit -= 1;
+
+            $coupon->save();
+
+            return 1;
+
+        }else
+        {
+            return 0;
+        }
+    }
+
     public static function updateDiscount($data = null, $id = null)
     {
         $discount = self::whereId($id)->first();
