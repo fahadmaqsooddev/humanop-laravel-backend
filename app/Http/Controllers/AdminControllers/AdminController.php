@@ -69,9 +69,8 @@ class AdminController extends Controller
 
             $account = StripeSetting::getSingle();
             $currentUser = Auth::user();
-            $coupon = Coupon::getSingle();
 
-            return view('admin-dashboards.setting', compact('account', 'currentUser', 'coupon'));
+            return view('admin-dashboards.setting', compact('account', 'currentUser'));
 
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', $exception->getMessage());

@@ -231,7 +231,13 @@ return [
         ],
         'Coupon' => [
             'table' => 'coupons',
-            'fillable' => ['discount', 'limit', 'coupon'],
+            'fillable' => ['discount', 'limit', 'coupon', 'remaining_redemption'],
+            'hidden' => ['created_at','updated_at']
+        ],
+
+        'Couponredemption' => [
+            'table' => 'coupon_redemptions',
+            'fillable' => ['user_id', 'coupon_id'],
             'hidden' => ['created_at','updated_at']
         ],
     ]

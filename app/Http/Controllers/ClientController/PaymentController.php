@@ -18,9 +18,8 @@ class PaymentController extends Controller
         try {
 
             $stripe = StripeSetting::getSingle();
-            $coupon = Coupon::getSingle();
 
-            return view('client-dashboard.payment.index', compact('stripe', 'coupon'));
+            return view('client-dashboard.payment.index', compact('stripe'));
 
         }catch (\Exception $exception)
         {

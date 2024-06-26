@@ -6,20 +6,23 @@
         color: white;
         font-weight: bold;
         font-size: x-large;
-        float:right;
+        float: right;
         border-radius: 3px;
         padding: 0px 10px 1px 10px;
     }
-    .pagination{
-        float:right;
-        margin-right:24px ;
+
+    .pagination {
+        float: right;
+        margin-right: 24px;
     }
+
     .page-link {
         background: none !important;
     }
-    .page-link:hover{
+
+    .page-link:hover {
         background: #f2661c !important;
-        color:white !important;
+        color: white !important;
     }
 
     .page-item.active .page-link {
@@ -55,7 +58,8 @@
                                   data-stripe-publishable-key="{{ $stripe['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" hidden name="amount" value="{{$stripe['amount']}}" id="amount"
+                                    <input type="text" class="form-control" hidden name="amount"
+                                           value="{{$stripe['amount']}}" id="amount"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <label for="" class="text-white">Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Card Holder Name"
@@ -139,12 +143,17 @@
                                         @include('layouts.message')
                                         <div class="form-group mt-4">
                                             <input style="background-color: #0f1534;" class="form-control text-white"
-                                                   type="text" name="coupon" maxlength="9" placeholder="enter coupon code">
+                                                   type="text" name="coupon" maxlength="9"
+                                                   placeholder="enter coupon code">
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" data-bs-dismiss="modal" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Cancle</button>
-                                <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">Submit</button>
+                                <button type="button" data-bs-dismiss="modal"
+                                        class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Cancle
+                                </button>
+                                <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">
+                                    Submit
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -154,27 +163,23 @@
     </main>
 @endsection
 @push('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            var couponLimit = {{ $coupon['limit'] }};
-
-            if (couponLimit > 0) {
-
-                $('#couponModal').modal('show');
-
-            }
+            $('#couponModal').modal('show');
 
         });
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Set up the AJAX request
-            $('#checkCoupon').on('submit', function(e) {
+            $('#checkCoupon').on('submit', function (e) {
                 e.preventDefault();
 
                 $.ajax({
@@ -184,12 +189,11 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    success: function(response) {
+                    success: function (response) {
 
                         var discountedAmount = response.amount;
 
-                        if (response.status == 200)
-                        {
+                        if (response.status == 200) {
 
                             $('#discount_amount').text('Pay Now ($' + discountedAmount + ')');
                             $('#amount').val(discountedAmount);
@@ -198,8 +202,11 @@
 
                             $('#couponModal').modal('hide');
 
-                        }else
+                        }else if(response.status == 202)
                         {
+                            window.location.href = "{{route('test_play')}}";
+                        }
+                        else {
 
                             $('#discount_amount').text('Pay Now ($' + discountedAmount + ')');
 
@@ -208,7 +215,7 @@
                         }
 
                     },
-                    error: function(response) {
+                    error: function (response) {
 
                         console.log(response);
 

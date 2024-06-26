@@ -126,6 +126,13 @@
                                                 <span class="sidenav-normal"> Daily Tips </span>
                                             </a>
                                         </li>
+                                        <li class="nav-item {{ (Request::is('client/all-coupons') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/all-coupons') ? 'active' : '') }}"
+                                               href="{{ route('admin_all_coupon') }}">
+                                                <span class="sidenav-mini-icon text-xs"> C </span>
+                                                <span class="sidenav-normal"> Coupons </span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -198,14 +205,10 @@
                             </li>
                             <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
-                                   @if(\App\Models\Admin\Coupon\Coupon::checkCouponDiscount() == 1)
-                                   href="{{ route('test_play') }}"
-                                   @else
                                    @if(\App\Models\Assessment::getLastPage() > 0)
                                    href="{{ route('test_play') }}"
                                    @else
                                    href="{{ route('stripe_checkout') }}"
-                                    @endif
                                     @endif
                                 >
                                     <span class="sidenav-mini-icon"> </span>

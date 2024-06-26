@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminControllers\CodeController;
 use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\TipController;
+use App\Http\Controllers\AdminControllers\CouponController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,5 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     Route::get('/daily-tip', [TipController::class, 'index'])->name('admin_daily_tip');
     Route::get('/create-daily-tip', [TipController::class, 'create'])->name('admin_create_daily_tip');
+
+    Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
 
 });

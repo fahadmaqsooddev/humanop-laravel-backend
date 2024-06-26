@@ -11,7 +11,7 @@
                     <div class="col-12">
                         <label class="form-label text-white">Discount</label>
                         <div class="form-group">
-                            <select style="background-color: #0f1535" class="form-control" wire:model.defer="coupon.discount">
+                            <select style="background-color: #0f1535" class="form-control" name="discount" wire:model="discount">
                                 <option value="0">0%</option>
                                 <option value="5">5%</option>
                                 <option value="10">10%</option>
@@ -39,22 +39,8 @@
                     <div class="col-12">
                         <label class="form-label text-white">Discount Limit</label>
                         <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="coupon.limit"
+                            <input style="background-color: #0f1534;" class="form-control text-white" type="text" name="limit" wire:model="limit"
                                    placeholder="limit">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label text-white">Amount</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="account"
-                                   placeholder="amount">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label text-white">Coupon</label>
-                        <div class="form-group">
-                            <input style="background-color: #0f1534;" class="form-control text-white" type="text" wire:model.defer="coupon.coupon"
-                                   placeholder="coupon">
                         </div>
                     </div>
                 </div>

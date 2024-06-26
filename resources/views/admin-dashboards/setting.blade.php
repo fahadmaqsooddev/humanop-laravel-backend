@@ -187,7 +187,7 @@
                 @livewire('admin.setting.stripe-setting-form',['account' => $account])
 
                 <!-- Discount -->
-                @livewire('admin.setting.discount-setting-form',['coupon' => $coupon, 'account' => $account])
+                @livewire('admin.setting.discount-setting-form')
             @endif
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">

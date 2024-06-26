@@ -26,7 +26,6 @@ class UpdateDiscountRequest extends FormRequest
         return [
             'discount' => 'required',
             'limit' => 'required',
-            'coupon' => 'nullable'
         ];
     }
 
