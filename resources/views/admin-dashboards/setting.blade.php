@@ -93,6 +93,15 @@
                                 <span class="text-sm text-white">Change Password</span>
                             </a>
                         </li>
+                        @if (Auth::user()->hasRole('super admin'))
+                        <li class="nav-item pt-2">
+                            <a class="nav-link text-body" data-scroll="" href="#add-sub-admin-info">
+                                <div class="icon me-2">
+                                    <i class="fa fa-cc-stripe text-white" aria-hidden="true"></i>
+                                </div>
+                                <span class="text-sm text-white">Add Sub Admin</span>
+                            </a>
+                        </li>
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#accounts">
                                 <div class="icon me-2">
@@ -109,6 +118,8 @@
                                 <span class="text-sm text-white">Discount</span>
                             </a>
                         </li>
+                        @endif
+                        @if (Auth::user()->hasRole('sub admin'))
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#delete">
                                 <div class="icon me-2">
@@ -135,6 +146,7 @@
                                 <span class="text-sm text-white">Delete Account</span>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -168,13 +180,15 @@
 
                 <!-- Card Change Password -->
                 @livewire('admin.setting.password-setting-form')
-
+            @if (Auth::user()->hasRole('super admin'))
+                <!-- Add sub Admin -->
+                @livewire('admin.setting.add-sub-admin')
                 <!-- Stripe -->
                 @livewire('admin.setting.stripe-setting-form',['account' => $account])
 
                 <!-- Discount -->
                 @livewire('admin.setting.discount-setting-form',['coupon' => $coupon, 'account' => $account])
-
+            @endif
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">
                     <div class="card-header">

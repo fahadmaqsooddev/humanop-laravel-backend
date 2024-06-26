@@ -9,10 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable;
+    use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles;
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -34,11 +36,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function roles()
-    {
-        return $this->belongsTo(Role::class, 'role_id');
-    }
 
     public function isAdmin()
     {
@@ -85,7 +82,19 @@ class User extends Authenticatable
         return $user;
 
     }
+    public static function createSubAdmin($data = null){
+        $data['is_admin'] = 3;
+        $age = explode('-', $data['age_range']);
+        $data['age_min'] = $age[0];
+        $data['age_max'] = $age[1];
+        $data['status'] = 1;
+        $data['password'] = Hash::make($data['password']);
 
+        $user = self::create($data);
+
+        return $user;
+
+    }
     public static function createCustomerAndSubscriptionOnStripe($user = null){
 
         $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET"));

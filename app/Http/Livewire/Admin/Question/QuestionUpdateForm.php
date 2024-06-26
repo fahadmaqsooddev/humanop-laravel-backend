@@ -16,11 +16,9 @@ class QuestionUpdateForm extends Component
     {
         $this->question = $question;
         $this->answers = $answers;
-
         foreach ($answers as $index => $answer) {
             $this->sub_answer[$index] = '';
         }
-
     }
 
     public function updateSubQuestion($subQuestionId)
