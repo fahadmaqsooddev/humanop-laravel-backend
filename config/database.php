@@ -235,7 +235,7 @@ return [
             'hidden' => ['created_at','updated_at']
         ],
 
-        'Couponredemption' => [
+        'CouponRedemption' => [
             'table' => 'coupon_redemptions',
             'fillable' => ['user_id', 'coupon_id'],
             'hidden' => ['created_at','updated_at']
