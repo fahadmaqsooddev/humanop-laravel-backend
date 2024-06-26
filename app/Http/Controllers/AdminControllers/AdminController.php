@@ -173,9 +173,13 @@ class AdminController extends Controller
     public function userDetail($id)
     {
         try {
+
             return view('admin-dashboards.user_detail', compact('id'));
+
         } catch (\Exception $exception) {
+
             return redirect()->back()->with('error', $exception->getMessage());
+
         }
     }
 

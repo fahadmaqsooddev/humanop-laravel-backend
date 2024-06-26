@@ -200,9 +200,9 @@
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client/user-detail')  ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client/user-detail')  ? 'active' : '') }}"
-                                   href="{{ route('user_detail') }}">
+                            <li class="nav-item {{ (Request::is('client/all-assessments')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/all-assessments')  ? 'active' : '') }}"
+                                   href="{{ route('all_assessment') }}">
                                     <span class="sidenav-mini-icon"> R </span>
                                     <span class="sidenav-normal"> Results </span>
                                 </a>

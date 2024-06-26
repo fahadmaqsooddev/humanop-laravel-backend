@@ -125,7 +125,7 @@ class Assessment extends Component
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
         if(!$this->questions){
-            return redirect()->route('user_detail');
+            return redirect()->route('all_assessment');
         }
     }
 

@@ -15,10 +15,17 @@ class AssessmentDetail extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
         parent::__construct($attributes);
     }
+
     public static function createAssessmentDetail($data = null){
         return self::create($data);
     }
+
     public static function updateAssessmentDetail($data = null,$id = null){
         return self::find($id)->update($data);
+    }
+
+    public static function getDetail()
+    {
+        return 1;
     }
 }
