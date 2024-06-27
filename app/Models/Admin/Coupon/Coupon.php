@@ -43,60 +43,38 @@ class Coupon extends Model
     {
         $coupon = self::where('coupon', $data['coupon'])->first();
 
-        if (empty($coupon))
-        {
-            $data = ['error' => "Coupon Code Invalid", 'amount' => $original_amount];
-        }
-        else
-        {
-            $checkCouponRedemption = CouponRedemption::checkRedemption($coupon['id']);
-
-            if ($checkCouponRedemption == true)
-            {
-                $data = ['error' => "You have already used this coupon.", 'amount' => $original_amount];
-            }
-
-            else
-            {
-                if ($coupon && $coupon['discount'] == 100)
-                {
-                    CouponRedemption::createRedemption($coupon['id']);
-
-                    $data = ['status' => 202];
-                }
-                else
-                {
-
-                    if ($coupon && $coupon['limit'] == 0) {
-
-                        $dis_amount = $original_amount - ($coupon['discount'] / 100 * $original_amount);
-
-                        $dis_amount = (int) $dis_amount;
-
-                        CouponRedemption::createRedemption($coupon['id']);
-
-                        $data = ['success' => "Congratulations! You've Won a Special Discount", 'status' => 200, 'amount' => $dis_amount];
-
-                    }
-                    elseif ($coupon && $coupon['limit'] > 0)
-                    {
-                        $dis_amount = $original_amount - ($coupon->discount / 100 * $original_amount);
-
-                        $dis_amount = (int) $dis_amount;
-
-                        $coupon['remaining_redemption'] -= 1;
-
-                        $coupon->update();
-
-                        CouponRedemption::createRedemption($coupon['id']);
-
-                        $data = ['success' => "Congratulations! You've Won a Special Discount", 'status' => 200, 'amount' => $dis_amount];
-
-                    }
-                }
-            }
+        if (empty($coupon)) {
+            return ['error' => "Coupon Code Invalid", 'amount' => $original_amount];
         }
 
-        return $data;
+        $checkCouponRedemption = CouponRedemption::checkRedemption($coupon['id']);
+
+        if ($checkCouponRedemption) {
+            return ['error' => "You have already used this coupon.", 'amount' => $original_amount];
+        }
+
+        if ($coupon['discount'] == 100) {
+            CouponRedemption::createRedemption($coupon['id']);
+
+            if ($coupon['limit'] > 0) {
+                $coupon['remaining_redemption'] -= 1;
+                $coupon->update();
+            }
+
+            return ['status' => 202];
+        } else {
+            $dis_amount = $original_amount - ($coupon['discount'] / 100 * $original_amount);
+            $dis_amount = (int) $dis_amount;
+
+            CouponRedemption::createRedemption($coupon['id']);
+
+            if ($coupon['limit'] > 0) {
+                $coupon['remaining_redemption'] -= 1;
+                $coupon->update();
+            }
+
+            return ['success' => "Congratulations! You've Won a Special Discount", 'status' => 200, 'amount' => $dis_amount];
+        }
     }
+
 }
