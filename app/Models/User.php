@@ -51,9 +51,10 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
-    public static function allUser(){
-        $users = self::all();
-        return $users;
+
+    public static function allUser()
+    {
+        return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
     }
 
     public static function getSingleUser($id = null){
