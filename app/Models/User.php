@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Assessment;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class, 'user_id', 'id');
+    }
 
     public function isAdmin()
     {

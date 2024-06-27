@@ -48,7 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
     Route::get('/dashboard-hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
     Route::get('/grid', [AdminController::class, 'grid'])->name('admin_grid');
-    Route::get('/answers', [AdminController::class, 'answer'])->name('admin_answer');
+    Route::get('/user-answer/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
     Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
     Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');

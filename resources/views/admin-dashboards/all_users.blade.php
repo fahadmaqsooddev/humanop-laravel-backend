@@ -21,14 +21,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $user)
+                        @foreach($assessments as $assessment)
                         <tr>
-                            <td class="text-sm font-weight-normal">{{$user->first_name.' '.$user->last_name}} </td>
-                            <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($user->signup_date)->format('Y/m/d')}}</td>
+                            <td class="text-sm font-weight-normal">{{$assessment['user']['first_name'].' '.$assessment['user']['last_name']}} </td>
+                            <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['user']['signup_date'])->format('Y/m/d')}}</td>
                             <td class="text-sm font-weight-normal">Null</td>
                             <td class="text-sm font-weight-normal">Null</td>
-                            <td class="text-sm font-weight-normal">{{$user->email}}</td>
-                            <td class="text-sm font-weight-normal"><a href="{{ route('admin_user_detail',['id' => $user->id ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
+                            <td class="text-sm font-weight-normal">{{$assessment['user']['email']}}</td>
+                            <td class="text-sm font-weight-normal"><a href="{{ route('admin_user_detail',['id' => $assessment['user']['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                         </tr>
                         @endforeach
 
