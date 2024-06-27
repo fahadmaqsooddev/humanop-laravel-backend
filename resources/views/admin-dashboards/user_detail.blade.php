@@ -54,7 +54,7 @@
                     </a>
                 </div>
                 <div class="col-lg-5 col-sm-5 mt-sm-0 mt-4">
-                    <a href="{{ route('admin_answer') }}">
+                    <a href="{{ route('admin_user_answer',['id' => $id]) }}">
                         <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
                                 <div class="row">

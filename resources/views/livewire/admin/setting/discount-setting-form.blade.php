@@ -1,7 +1,7 @@
 
 <div class="card mt-4" id="discount">
     <div class="card-header">
-        <h5>Discount Setting</h5>
+        <h5>Coupon Setting</h5>
     </div>
     @include('layouts.message')
     <div class="card-body pt-0">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                        style="background-color: #f2661c ">Update Discount
+                        style="background-color: #f2661c ">Create Coupon
                 </button>
             </div>
         </form>

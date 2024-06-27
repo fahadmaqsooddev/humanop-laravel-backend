@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Assessment;
 
 class User extends Authenticatable
 {
@@ -37,6 +38,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class, 'user_id', 'id');
+    }
+
     public function isAdmin()
     {
         return $this->role_id == 1;
@@ -51,9 +57,10 @@ class User extends Authenticatable
     {
         return $this->role_id == 3;
     }
-    public static function allUser(){
-        $users = self::all();
-        return $users;
+
+    public static function allUser()
+    {
+        return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
     }
 
     public static function getSingleUser($id = null){
