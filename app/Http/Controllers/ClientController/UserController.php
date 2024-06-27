@@ -55,11 +55,11 @@ class UserController extends Controller
         }
     }
 
-    public function grid()
+    public function grid($id)
     {
         try {
 
-            $grid = Assessment::getGrid();
+            $grid = Assessment::getGrid($id);
 
             return view('client-dashboard.user.client_grid', compact('grid'));
 
