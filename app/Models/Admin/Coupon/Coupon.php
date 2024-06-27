@@ -47,6 +47,11 @@ class Coupon extends Model
             return ['error' => "Coupon Code Invalid", 'amount' => $original_amount];
         }
 
+        if($coupon['remaining_redemption'] == 0)
+        {
+            return ['error' => "Coupon has expired.", 'amount' => $original_amount];
+        }
+
         $checkCouponRedemption = CouponRedemption::checkRedemption($coupon['id']);
 
         if ($checkCouponRedemption) {
