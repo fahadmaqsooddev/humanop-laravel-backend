@@ -43,9 +43,9 @@ class UserController extends Controller
     {
         try {
 
-            $Assessment_details = AssessmentDetail::getDetail();
+            $assessment_details = AssessmentDetail::getDetail($id);
 
-            return view('client-dashboard.user.client_answer');
+            return view('client-dashboard.user.client_answer', compact('assessment_details'));
 
         }catch (\Exception $exception)
         {

@@ -17,31 +17,12 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($assessment_details as $index => $assessment)
                             <tr>
-                                <td class="text-sm font-weight-normal">1-What was the hair color closest to your natural hair color at 21?</td>
-                                <td class="text-sm font-weight-normal">	Brown</td>
+                                <td class="text-sm font-weight-normal">{{$index + 1}} - {{$assessment['question']}}</td>
+                                <td class="text-sm font-weight-normal">{{$assessment['answer']}}</td>
                             </tr>
-                            <tr>
-                                <td class="text-sm font-weight-normal">2-Which eye color is closest to yours?</td>
-                                <td class="text-sm font-weight-normal">Golden Brown</td>
-                            </tr>
-                            <tr>
-                                <td class="text-sm font-weight-normal">3-Are your eyes?</td>
-                                <td class="text-sm font-weight-normal">Medium</td>
-                            </tr>
-                            <tr>
-                                <td class="text-sm font-weight-normal">4-Have you been told your eyes sparkle or you have a twinkle in your eye?</td>
-                                <td class="text-sm font-weight-normal">no</td>
-                            </tr>
-                            <tr>
-                                <td class="text-sm font-weight-normal">5-Is your nose:</td>
-                                <td class="text-sm font-weight-normal">Turned up</td>
-                            </tr>
-                            <tr>
-                                <td class="text-sm font-weight-normal">6-Which is your natural body shape?</td>
-                                <td class="text-sm font-weight-normal">	Brown</td>
-                            </tr>
-
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
