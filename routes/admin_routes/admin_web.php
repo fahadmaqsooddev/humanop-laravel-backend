@@ -70,4 +70,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
 
+    Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+
 });

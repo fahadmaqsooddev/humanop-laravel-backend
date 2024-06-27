@@ -97,7 +97,7 @@
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#add-sub-admin-info">
                                 <div class="icon me-2">
-                                    <i class="fa fa-cc-stripe text-white" aria-hidden="true"></i>
+                                    <i class="fa fa-user text-white" aria-hidden="true"></i>
                                 </div>
                                 <span class="text-sm text-white">Add Sub Admin</span>
                             </a>
@@ -115,7 +115,7 @@
                                 <div class="icon me-2">
                                     <i class="fa fa-tag text-white" aria-hidden="true"></i>
                                 </div>
-                                <span class="text-sm text-white">Discount</span>
+                                <span class="text-sm text-white">Coupon</span>
                             </a>
                         </li>
                         @endif

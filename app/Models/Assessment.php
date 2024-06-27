@@ -56,7 +56,12 @@ class Assessment extends Model
 
     public static function allAssessment()
     {
-        return self::with('user')->get();
+        return self::with('user')->where('page', 0)->get();
+    }
+
+    public static function abandonedAssessment()
+    {
+        return self::with('user')->where('page','>', 0)->get();
     }
 
 }

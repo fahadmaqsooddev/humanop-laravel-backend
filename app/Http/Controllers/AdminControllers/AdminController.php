@@ -211,4 +211,19 @@ class AdminController extends Controller
 
         }
     }
+
+    public function abandonedAssessment()
+    {
+        try {
+
+            $assessments = Assessment::abandonedAssessment();
+
+            return view('admin-dashboards.user.abandoned_assessment', compact('assessments'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
 }
