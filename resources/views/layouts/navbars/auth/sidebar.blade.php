@@ -48,6 +48,13 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
+                                   href="{{ route('admin_all_sub_admins') }}">
+                                    <span class="sidenav-mini-icon"></span>
+                                    <span class="sidenav-normal"> Sub Admins </span>
+                                </a>
+                            </li>
                             @can('users')
                             <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"

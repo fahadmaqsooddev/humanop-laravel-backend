@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
     Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
     Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
+    Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
     Route::get('/user-detail/{id}', [AdminController::class, 'userDetail'])->name('admin_user_detail');
     Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
     Route::get('/dashboard-hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');

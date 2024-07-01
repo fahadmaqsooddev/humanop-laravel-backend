@@ -193,7 +193,16 @@ class AdminController extends Controller
 
         }
     }
+    public function allAdmins()
+    {
 
+        try {
+            $admins = User::allSubAdmin();
+            return view('admin-dashboards.all_admins', compact('admins'));
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+    }
     public function allQuestions()
     {
         try {

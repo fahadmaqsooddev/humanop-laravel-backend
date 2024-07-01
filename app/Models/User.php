@@ -55,7 +55,10 @@ class User extends Authenticatable
         $users = self::all();
         return $users;
     }
-
+    public static function allSubAdmin(){
+        $subAdmins = self::where('is_admin',3)->get();
+        return $subAdmins;
+    }
     public static function getSingleUser($id = null){
         $user = self::find($id);
         return $user;

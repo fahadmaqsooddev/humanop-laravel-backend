@@ -24,11 +24,8 @@ class isAdmin
             if (Auth::user()['is_admin'] == ('1' || '3'))
             {
                 return $next($request);
-
             }else{
-
                 return redirect()->route('client_dashboard');
-
             }
         }else{
 
