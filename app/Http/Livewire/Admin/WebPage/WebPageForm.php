@@ -20,8 +20,6 @@ class WebPageForm extends Component
     {
         try {
 
-            dd($this->page);
-
             $page = $this->only(['page']);
 
             Page::updatePage($page['page']);

@@ -62,6 +62,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
 
     Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
+    Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
 
     Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
 
