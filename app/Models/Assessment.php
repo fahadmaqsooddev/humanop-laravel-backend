@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class Assessment extends Model
 {
@@ -16,6 +17,11 @@ class Assessment extends Model
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public static function createAssessment($data = null)
@@ -46,6 +52,16 @@ class Assessment extends Model
     public static function getAssessment()
     {
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+    }
+
+    public static function allAssessment()
+    {
+        return self::with('user')->where('page', 0)->get();
+    }
+
+    public static function abandonedAssessment()
+    {
+        return self::with('user')->where('page','>', 0)->get();
     }
 
 }

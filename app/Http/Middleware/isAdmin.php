@@ -21,7 +21,7 @@ class isAdmin
         if (Auth::check())
         {
 
-            if (Auth::user()['is_admin'] == ('1' || '3'))
+            if (Auth::user()['is_admin'] == 1 || Auth::user()['is_admin'] == 3)
             {
                 return $next($request);
             }else{

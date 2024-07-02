@@ -8,6 +8,8 @@ use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Assessment;
+use App\Models\AssessmentDetail;
 
 class AdminController extends Controller
 {
@@ -117,11 +119,13 @@ class AdminController extends Controller
         }
     }
 
-    public function answer()
+    public function userAnswer($id)
     {
         try {
 
-            return view('admin-dashboards.answer');
+            $assessment_details = AssessmentDetail::getDetail($id);
+
+            return view('admin-dashboards.user.answer', compact('assessment_details'));
 
         } catch (\Exception $exception) {
 
@@ -185,8 +189,9 @@ class AdminController extends Controller
     public function allUsers()
     {
         try {
-            $users = User::allUser();
-            return view('admin-dashboards.all_users', compact('users'));
+            $assessments = Assessment::allAssessment();
+
+            return view('admin-dashboards.all_users', compact('assessments'));
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
@@ -208,6 +213,21 @@ class AdminController extends Controller
         try {
 
             return view('admin-dashboards.all_questions');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function abandonedAssessment()
+    {
+        try {
+
+            $assessments = Assessment::abandonedAssessment();
+
+            return view('admin-dashboards.user.abandoned_assessment', compact('assessments'));
 
         } catch (\Exception $exception) {
 

@@ -21,7 +21,7 @@ class isClient
         if (Auth::check())
         {
 
-            if (Auth::user()['is_admin'] == '2')
+            if (Auth::user()['is_admin'] == 2)
             {
                 return $next($request);
             }else{

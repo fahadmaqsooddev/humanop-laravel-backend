@@ -56,111 +56,119 @@
                                 </a>
                             </li>
                             @can('users')
-                            <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
-                                   href="{{ route('admin_all_users') }}">
-                                    <span class="sidenav-mini-icon"> U </span>
-                                    <span class="sidenav-normal"> Users </span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
+                                       href="{{ route('admin_all_users') }}">
+                                        <span class="sidenav-mini-icon"> U </span>
+                                        <span class="sidenav-normal"> Users </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
+                                       href="{{ route('admin_abandoned_assessment') }}">
+                                        <span class="sidenav-mini-icon"> A </span>
+                                        <span class="sidenav-normal"> Abandoned Assessment </span>
+                                    </a>
+                                </li>
                             @endcan
                             @can('questions')
-                            <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
-                                   href="{{ route('admin_all_questions') }}">
-                                    <span class="sidenav-mini-icon"> Q </span>
-                                    <span class="sidenav-normal"> Questions </span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
+                                       href="{{ route('admin_all_questions') }}">
+                                        <span class="sidenav-mini-icon"> Q </span>
+                                        <span class="sidenav-normal"> Questions </span>
+                                    </a>
+                                </li>
                             @endcan
                             @can('resources')
-                            <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
-                                   href="{{ route('admin_resources') }}">
-                                    <span class="sidenav-mini-icon"> R </span>
-                                    <span class="sidenav-normal"> Resources </span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
+                                       href="{{ route('admin_resources') }}">
+                                        <span class="sidenav-mini-icon"> R </span>
+                                        <span class="sidenav-normal"> Resources </span>
+                                    </a>
+                                </li>
                             @endcan
                             @can('cms')
-                            <li class="nav-item ">
-                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                   data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
-                                    <span class="sidenav-mini-icon"> C </span>
-                                    <span class="sidenav-normal"> CMS <b class="caret"></b></span>
-                                </a>
-                                <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}" id="vrExamples">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
-                                               href="{{ route('admin_manage_code') }}">
-                                                <span class="sidenav-mini-icon"> C </span>
-                                                <span class="sidenav-normal"> Codes Manage </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                               href="{{ url('#') }}">
-                                                <span class="sidenav-mini-icon text-xs"> V </span>
-                                                <span class="sidenav-normal"> Video Buckets </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
-                                               href="{{ route('admin_web_pages') }}">
-                                                <span class="sidenav-mini-icon text-xs"> W </span>
-                                                <span class="sidenav-normal"> Web Pages </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
-                                               href="{{ route('admin_cms') }}">
-                                                <span class="sidenav-mini-icon"> A </span>
-                                                <span class="sidenav-normal"> Assets Management </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                               href="{{ url('#') }}">
-                                                <span class="sidenav-mini-icon text-xs"> R </span>
-                                                <span class="sidenav-normal"> Resources Content </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('client/daily-tip') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('client/daily-tip') ? 'active' : '') }}"
-                                               href="{{ route('admin_daily_tip') }}">
-                                                <span class="sidenav-mini-icon text-xs"> D </span>
-                                                <span class="sidenav-normal"> Daily Tips </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item {{ (Request::is('client/all-coupons') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('client/all-coupons') ? 'active' : '') }}"
-                                               href="{{ route('admin_all_coupon') }}">
-                                                <span class="sidenav-mini-icon text-xs"> C </span>
-                                                <span class="sidenav-normal"> Coupons </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                       data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
+                                        <span class="sidenav-mini-icon"> C </span>
+                                        <span class="sidenav-normal"> CMS <b class="caret"></b></span>
+                                    </a>
+                                    <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
+                                         id="vrExamples">
+                                        <ul class="nav nav-sm flex-column">
+                                            <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
+                                                   href="{{ route('admin_manage_code') }}">
+                                                    <span class="sidenav-mini-icon"> C </span>
+                                                    <span class="sidenav-normal"> Codes Manage </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                                   href="{{ url('#') }}">
+                                                    <span class="sidenav-mini-icon text-xs"> V </span>
+                                                    <span class="sidenav-normal"> Video Buckets </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
+                                                   href="{{ route('admin_web_pages') }}">
+                                                    <span class="sidenav-mini-icon text-xs"> W </span>
+                                                    <span class="sidenav-normal"> Web Pages </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
+                                                   href="{{ route('admin_cms') }}">
+                                                    <span class="sidenav-mini-icon"> A </span>
+                                                    <span class="sidenav-normal"> Assets Management </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                                   href="{{ url('#') }}">
+                                                    <span class="sidenav-mini-icon text-xs"> R </span>
+                                                    <span class="sidenav-normal"> Resources Content </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('client/daily-tip') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('client/daily-tip') ? 'active' : '') }}"
+                                                   href="{{ route('admin_daily_tip') }}">
+                                                    <span class="sidenav-mini-icon text-xs"> D </span>
+                                                    <span class="sidenav-normal"> Daily Tips </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('client/all-coupons') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('client/all-coupons') ? 'active' : '') }}"
+                                                   href="{{ route('admin_all_coupon') }}">
+                                                    <span class="sidenav-mini-icon text-xs"> C </span>
+                                                    <span class="sidenav-normal"> Coupons </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                             @endcan
                             @can('chat')
-                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                   href="{{ route('admin_hai_chat') }}">
-                                    <span class="sidenav-mini-icon"> H </span>
-                                    <span class="sidenav-normal"> H.A.I. Chat </span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                       href="{{ route('admin_hai_chat') }}">
+                                        <span class="sidenav-mini-icon"> H </span>
+                                        <span class="sidenav-normal"> H.A.I. Chat </span>
+                                    </a>
+                                </li>
                             @endcan
                             @can('projects')
-                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                   href="{{ route('admin_projects') }}">
-                                    <span class="sidenav-mini-icon"> I </span>
-                                    <span class="sidenav-normal">Projects</span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                       href="{{ route('admin_projects') }}">
+                                        <span class="sidenav-mini-icon"> I </span>
+                                        <span class="sidenav-normal">Projects</span>
+                                    </a>
+                                </li>
                             @endcan
                             <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"

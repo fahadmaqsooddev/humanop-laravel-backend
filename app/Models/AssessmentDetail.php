@@ -24,8 +24,8 @@ class AssessmentDetail extends Model
         return self::find($id)->update($data);
     }
 
-    public static function getDetail()
+    public static function getDetail($id = null)
     {
-        return 1;
+        return self::where('assessment_id', $id)->get();
     }
 }

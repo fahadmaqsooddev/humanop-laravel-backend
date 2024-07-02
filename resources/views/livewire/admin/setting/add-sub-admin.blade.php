@@ -116,7 +116,7 @@
                 </div>
 
             </div>
-            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Create</button>
+            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Create Sub Admin</button>
             <p class="text-muted mt-4 mb-2">
                 Please follow this guide for a strong password:
             </p>
