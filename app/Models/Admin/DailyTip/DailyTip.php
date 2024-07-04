@@ -34,13 +34,13 @@ class DailyTip extends Model
 
         $tip = self::whereNotIn('id', $tiprecords)->inRandomOrder()->first();
 
-
-        if ($tip != null)
-        {
-            TipRecord::createTip($tip['id']);
-
-            return $tip;
-        }
+        return $tip;
+//        if ($tip != null)
+//        {
+//            TipRecord::createTip($tip['id']);
+//
+//            return $tip;
+//        }
 
     }
 

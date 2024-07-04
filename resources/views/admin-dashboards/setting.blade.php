@@ -110,14 +110,6 @@
                                 <span class="text-sm text-white">Stripe Setting</span>
                             </a>
                         </li>
-                        <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#discount">
-                                <div class="icon me-2">
-                                    <i class="fa fa-tag text-white" aria-hidden="true"></i>
-                                </div>
-                                <span class="text-sm text-white">Coupon</span>
-                            </a>
-                        </li>
                         @endif
                         @if (Auth::user()->hasRole('sub admin'))
                         <li class="nav-item pt-2">
@@ -186,8 +178,6 @@
                 <!-- Stripe -->
                 @livewire('admin.setting.stripe-setting-form',['account' => $account])
 
-                <!-- Discount -->
-                @livewire('admin.setting.discount-setting-form')
             @endif
                 <!-- Card Delete Account -->
                 <div class="card mt-4" id="delete">

@@ -20,7 +20,12 @@ class Page extends Model
 
     public static function allPages()
     {
-        return self::query();
+        return self::all();
+    }
+
+    public static function getSinglePage($id = null)
+    {
+        return self::find($id);
     }
 
     public static function updatePage($data = null)

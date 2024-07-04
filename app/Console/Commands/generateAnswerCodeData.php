@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Admin\AnswerCode\AnswerCode;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class generateAnswerCodeData extends Command
@@ -30,6 +31,9 @@ class generateAnswerCodeData extends Command
      */
     public function handle()
     {
+
+//        DB::table('answer_codes')->truncate();
+
         Schema::disableForeignKeyConstraints();
 
         $csvFile = fopen(base_path("public/ans_codes.csv"), "r");

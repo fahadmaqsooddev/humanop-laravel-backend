@@ -30,4 +30,20 @@ class WebPagesController extends Controller
 
         }
     }
+
+    public function editWebPages($id)
+    {
+        try {
+
+            $web_page = Page::getSinglePage($id);
+
+            return view('admin-dashboards.web-pages.edit', compact('web_page'));
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->route('admin_web_pages')->with('error', $exception->getMessage());
+
+        }
+    }
 }
