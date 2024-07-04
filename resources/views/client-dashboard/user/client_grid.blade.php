@@ -27,7 +27,7 @@
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$grid['lu']}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$grid['ven']}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$grid['mer']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">{{$grid['so']}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">{{$grid['so']}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
                             </tr>
                             <tr>
@@ -37,7 +37,7 @@
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven']}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer']}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white ">0</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">0</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
@@ -61,94 +61,207 @@
                 <div class="card" >
                     <div class="table-responsive">
                         @php
-                                $de = $grid['de'];
-                                $dom = $grid['dom'];
-                                $fe = $grid['fe'];
-                                $gre = $grid['gre'];
-                                $lun = $grid['lun'];
-                                $nai = $grid['nai'];
-                                $ne = $grid['ne'];
-                                $pow = $grid['pow'];
-                                $sp = $grid['sp'];
-                                $tra = $grid['tra'];
-                                $van = $grid['van'];
-                                $wil = $grid['wil'];
-                                $result = $de + $dom + $fe + $gre + $lun + $nai + $ne + $pow + $sp + $tra + $van + $wil;
+                            // Initialize variables based on $grid values
+                            $de = $grid['de'];
+                            $dom = $grid['dom'];
+                            $fe = $grid['fe'];
+                            $gre = $grid['gre'];
+                            $lun = $grid['lun'];
+                            $nai = $grid['nai'];
+                            $ne = $grid['ne'];
+                            $pow = $grid['pow'];
+                            $sp = $grid['sp'];
+                            $tra = $grid['tra'];
+                            $van = $grid['van'];
+                            $wil = $grid['wil'];
+                            // Calculate result sums
+                            $result = $de + $dom + $fe + $gre + $lun + $nai + $ne + $pow + $sp + $tra + $van + $wil;
 
-                                $second_row_de = $grid['ma'];
-                                $second_row_dom = $grid['sa'] + $grid['ma'];
-                                $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
-                                $second_row_gre = $grid['mer'];
-                                $second_row_lun = $grid['lu'];
-                                $second_row_nai = $grid['so'];
-                                $second_row_ne = $grid['sa'] + $grid['lu'] + $grid['ven'];
-                                $second_row_pow = $grid['jo'] + $grid['mer'];
-                                $second_row_sp = $grid['jo'];
-                                $second_row_tra = $grid['jo'] + $grid['ven'];
-                                $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
-                                $second_row_wil = $grid['ma'] + $grid['lu'];
-                                $second_row_result = $second_row_de + $second_row_dom + $second_row_fe + $second_row_gre + $second_row_lun + $second_row_nai + $second_row_ne + $second_row_pow + $second_row_sp + $second_row_tra + $second_row_van + $second_row_wil;
+                            // Calculate second row values
+                            $second_row_de = $grid['ma'];
+                            $second_row_dom = $grid['sa'] + $grid['ma'];
+                            $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
+                            $second_row_gre = $grid['mer'];
+                            $second_row_lun = $grid['lu'];
+                            $second_row_nai = $grid['so'];
+                            $second_row_ne = $grid['sa'] + $grid['lu'] + $grid['ven'];
+                            $second_row_pow = $grid['jo'] + $grid['mer'];
+                            $second_row_sp = $grid['jo'];
+                            $second_row_tra = $grid['jo'] + $grid['ven'];
+                            $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
+                            $second_row_wil = $grid['ma'] + $grid['lu'];
+                            $second_row_result = $second_row_de + $second_row_dom + $second_row_fe + $second_row_gre + $second_row_lun + $second_row_nai + $second_row_ne + $second_row_pow + $second_row_sp + $second_row_tra + $second_row_van + $second_row_wil;
 
-                                $third_row_de = $grid['de'] * $second_row_de;
-                                $third_row_dom = $grid['dom'] * $second_row_dom;
-                                $third_row_fe = $grid['fe'] * $second_row_fe;
-                                $third_row_gre = $grid['gre'] * $second_row_gre;
-                                $third_row_lun = $grid['lun'] * $second_row_lun;
-                                $third_row_nai = $grid['nai'] * $second_row_nai;
-                                $third_row_ne = $grid['ne'] * $second_row_ne;
-                                $third_row_pow = $grid['pow'] * $second_row_pow;
-                                $third_row_sp = $grid['sp'] * $second_row_sp;
-                                $third_row_tra = $grid['tra'] * $second_row_tra;
-                                $third_row_van = $grid['van'] * $second_row_van;
-                                $third_row_wil = $grid['wil'] * $second_row_wil;
-                                $third_row_result = $third_row_de + $third_row_dom + $third_row_fe + $third_row_gre + $third_row_lun + $third_row_nai + $third_row_ne + $third_row_pow + $third_row_sp + $third_row_tra + $third_row_van + $third_row_wil;
+                            // Calculate third row values
+                            $third_row_de = $grid['de'] * $second_row_de;
+                            $third_row_dom = $grid['dom'] * $second_row_dom;
+                            $third_row_fe = $grid['fe'] * $second_row_fe;
+                            $third_row_gre = $grid['gre'] * $second_row_gre;
+                            $third_row_lun = $grid['lun'] * $second_row_lun;
+                            $third_row_nai = $grid['nai'] * $second_row_nai;
+                            $third_row_ne = $grid['ne'] * $second_row_ne;
+                            $third_row_pow = $grid['pow'] * $second_row_pow;
+                            $third_row_sp = $grid['sp'] * $second_row_sp;
+                            $third_row_tra = $grid['tra'] * $second_row_tra;
+                            $third_row_van = $grid['van'] * $second_row_van;
+                            $third_row_wil = $grid['wil'] * $second_row_wil;
+                            $third_row_result = $third_row_de + $third_row_dom + $third_row_fe + $third_row_gre + $third_row_lun + $third_row_nai + $third_row_ne + $third_row_pow + $third_row_sp + $third_row_tra + $third_row_van + $third_row_wil;
 
-                                $featrue = [
-                                    'de' => $grid['de'],
-                                    'dom' => $grid['dom'],
-                                    'fe' => $grid['fe'],
-                                    'gre' => $grid['gre'],
-                                    'lun' => $grid['lun'],
-                                    'nai' => $grid['nai'],
-                                    'ne' => $grid['ne'],
-                                    'pow' => $grid['pow'],
-                                    'sp' => $grid['sp'],
-                                    'tra' => $grid['tra'],
-                                    'van' => $grid['van'],
-                                    'wil' => $grid['wil'],
-                                 ];
+                            // Define features array
+                            $features = [
+                                'de' => $grid['de'],
+                                'dom' => $grid['dom'],
+                                'fe' => $grid['fe'],
+                                'gre' => $grid['gre'],
+                                'lun' => $grid['lun'],
+                                'nai' => $grid['nai'],
+                                'ne' => $grid['ne'],
+                                'pow' => $grid['pow'],
+                                'sp' => $grid['sp'],
+                                'tra' => $grid['tra'],
+                                'van' => $grid['van'],
+                                'wil' => $grid['wil'],
+                            ];
 
-                                $third_row_featrue = [
-                                    'de' => $grid['de'] * $second_row_de,
-                                    'dom' => $grid['dom'] * $second_row_dom,
-                                    'fe' => $grid['fe'] * $second_row_fe,
-                                    'gre' => $grid['gre'] * $second_row_gre,
-                                    'lun' => $grid['lun'] * $second_row_lun,
-                                    'nai' => $grid['nai'] * $second_row_nai,
-                                    'ne' => $grid['ne'] * $second_row_ne,
-                                    'pow' => $grid['pow'] * $second_row_pow,
-                                    'sp' => $grid['sp'] * $second_row_sp,
-                                    'tra' => $grid['tra'] * $second_row_tra,
-                                    'van' => $grid['van'] * $second_row_van,
-                                    'wil' => $grid['wil'] * $second_row_wil,
-                                ];
+                            $third_row_feature = [
+                                'de' => $grid['de'] * $second_row_de,
+                                'dom' => $grid['dom'] * $second_row_dom,
+                                'fe' => $grid['fe'] * $second_row_fe,
+                                'gre' => $grid['gre'] * ($grid['jo'] + $grid['mer']),
+                                'lun' => $grid['lun'] * $second_row_lun,
+                                'nai' => $grid['nai'] * $second_row_nai,
+                                'ne' => $grid['ne'] * $second_row_ne,
+                                'pow' => $grid['pow'] * $second_row_pow,
+                                'sp' => $grid['sp'] * $second_row_sp,
+                                'tra' => $grid['tra'] * $second_row_tra,
+                                'van' => $grid['van'] * $second_row_van,
+                                'wil' => $grid['wil'] * $second_row_wil,
+                            ];
 
-                                // Find the maximum value in $featrue and get the corresponding keys
-                                $maxValue = max($featrue);
-                                $maxValueKeys = array_keys($featrue, $maxValue);
+                            // Sort features in descending order while maintaining key associations
+                            arsort($features);
 
-                                // Get the matching keys and their values from $third_row_featrue
-                                $matchingKeys = array_intersect_key($third_row_featrue, array_flip($maxValueKeys));
+                            // Filter keys based on conditions
+                            $filtered_keys = [];
+                            foreach ($features as $key => $value) {
+                                switch ($key) {
+                                    case 'de':
+                                        if ($grid['de'] > 2 && $grid['ma'] > 4) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'dom':
+                                        if ($grid['dom'] > 2 && ($grid['sa'] > 4 || $grid['ma'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'fe':
+                                        if ($grid['fe'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'gre':
+                                        if ($grid['gre'] > 2 && ($grid['jo'] > 6)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'lun':
+                                        if ($grid['lun'] > 2 && $grid['lu'] > 4) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'nai':
+                                        if ($grid['nai'] > 2 && $grid['so'] > 4) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'ne':
+                                        if ($grid['ne'] > 2 && ($grid['sa'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'pow':
+                                        if ($grid['pow'] > 2 && ($grid['jo'] > 4 || $grid['mer'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'sp':
+                                        if ($grid['sp'] > 2 && $grid['jo'] > 4) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'tra':
+                                        if ($grid['tra'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'van':
+                                        if ($grid['van'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4 || $grid['mer'] > 4 || $grid['so'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                    case 'wil':
+                                        if ($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) {
+                                            $filtered_keys[$key] = $value;
+                                        }
+                                        break;
+                                }
+                            }
 
-                                // Sort $matchingKeys in descending order to get the greatest values
+                            if (count($filtered_keys) < 2) {
+
+                                // Get the matching keys and their values from $third_row_feature
+                                $matchingKeys = array_intersect_key($third_row_feature, array_flip(array_keys($filtered_keys)));
                                 arsort($matchingKeys);
 
-                                // Get the first two greatest values
-                                $topTwoMatchingKeys = array_slice($matchingKeys, 0, 2, true);
+                                $all_values_are_2 = [];
+                                foreach ($features as $key => $value) {
+                                    if ($value == 2) {
+                                        $all_values_are_2[$key] = $value;
+                                    }
+                                }
 
-                        dd($topTwoMatchingKeys);
+                                $matchingKeysLessThanTwo = array_intersect_key($third_row_feature, array_flip(array_keys($all_values_are_2)));
+                                arsort($matchingKeysLessThanTwo);
+
+                                $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
+
+                                $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
+
+                                $nextTwoKeys = [];
+                            } else {
+
+                                // Count the occurrences of each value
+                                $value_counts = array_count_values($filtered_keys);
+
+                                // Filter unique values
+                                $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+                                    return $value_counts[$value] === 1;
+                                });
+
+                                // Filter remaining values (including repeating ones)
+                                $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+                                    return $value_counts[$value] > 1 || $value_counts[$value] === 1;
+                                });
+
+                                // Removing the unique values from the remaining_keys array
+                                $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
+                                    return $value_counts[$value] > 1;
+                                });
+
+                                $matchingKeysAll = array_intersect_key($third_row_feature, array_flip(array_keys($remaining_keys)));
+                                arsort($matchingKeysAll);
+
+                                $allValuesGets = array_merge($unique_filtered_keys, $matchingKeysAll);
+
+                                $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
+                                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
+
+                            }
+
 
                         @endphp
+
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
@@ -169,48 +282,48 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['de'] > 2 && $grid['ma'] > 4) ? 'bg-success text-dark' : ($grid['de'] > 2 && $grid['ma'] < 5 ? 'bg-danger' : '') }}">{{$de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['dom'] > 2 || $grid['dom'] == 4) ? (($grid['sa'] >= 5 && $grid['ma'] >= 5) ? 'bg-success text-dark' : (($grid['dom'] > 2 && $grid['sa'] < 5 && $grid['ma'] < 5) ? 'bg-danger' : '')) : '' }}">{{$dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['fe'] == 3 || $grid['fe'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['gre'] == 3 || $grid['gre'] == 4) ? ($grid['jo'] >= 7 ? 'bg-success text-dark' : '') : '' }}">{{$gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['lun'] == 3 || $grid['lun'] == 4) ? ($grid['lu'] >= 5 ? 'bg-success text-dark' : ($grid['lu'] < 5 ? 'bg-danger' : '')) : '' }}">{{$lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['nai'] == 3 || $grid['nai'] == 4) ? ($grid['so'] >= 5 ? 'bg-success text-dark' : ($grid['so'] < 5 ? 'bg-danger' : '')) : '' }}">{{$nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['ne'] == 3 || $grid['ne'] == 4) ? (($grid['sa'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['pow'] == 3 || $grid['pow'] == 4) ? (($grid['jo'] >= 5 && $grid['mer'] >= 5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['mer'] < 5) ? 'bg-danger' : '')) : '' }}">{{$pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['sp'] == 3 || $grid['sp'] == 4) ? ($grid['jo'] >= 5 ? 'bg-success text-dark' : ($grid['jo'] < 5 ? 'bg-danger' : '')) : '' }}">{{$sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['tra'] == 3 || $grid['tra'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >=5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['van'] == 3 || $grid['van'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >= 5 && $grid['mer'] >=5 && $grid['so'] >=5) ? 'bg-success text-dark' : (($grid['jo'] >= 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) ? 'bg-danger' : '')) : '' }}">{{$van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['wil'] == 3 || $grid['wil'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5) ? 'bg-danger' : '')) : '' }}">{{$wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['de'] == 3 || $grid['de'] == 4) ? ($grid['ma'] >= 5 ? 'bg-success text-dark' : ($grid['ma'] < 5 ? 'bg-danger' : '')) : '' }}">{{$second_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['dom'] == 3 || $grid['dom'] == 4) ? (($grid['sa'] >= 5 && $grid['ma'] >= 5) ? 'bg-success text-dark' : (($grid['sa'] < 5 && $grid['ma'] < 5) ? 'bg-danger': '')) : '' }}">{{$second_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['fe'] == 3 || $grid['fe'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['gre'] == 3 || $grid['gre'] == 4) ? ($grid['jo'] >= 7 ? 'bg-success text-dark' : '') : '' }}">{{$second_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['lun'] == 3 || $grid['lun'] == 4) ? ($grid['lu'] >= 5 ? 'bg-success text-dark' : ($grid['lu'] < 5 ? 'bg-danger' : '')) : '' }}">{{$second_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['nai'] == 3 || $grid['nai'] == 4) ? ($grid['so'] >= 5 ? 'bg-success text-dark' : ($grid['so'] < 5 ? 'bg-danger' : '')) : '' }}">{{$second_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['ne'] == 3 || $grid['ne'] == 4) ? (($grid['sa'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['pow'] == 3 || $grid['pow'] == 4) ? (($grid['jo'] >= 5 && $grid['mer'] >= 5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['mer'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['sp'] == 3 || $grid['sp'] == 4) ? ($grid['jo'] >= 5 ? 'bg-success text-dark' : ($grid['jo'] < 5 ? 'bg-danger' : '')) : '' }}">{{$second_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['tra'] == 3 || $grid['tra'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >=5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['van'] == 3 || $grid['van'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >= 5 && $grid['mer'] >=5 && $grid['so'] >=5) ? 'bg-success text-dark' : (($grid['jo'] >= 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['wil'] == 3 || $grid['wil'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5) ? 'bg-danger' : '')) : '' }}">{{$second_row_wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$second_row_de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$second_row_dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$second_row_fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$second_row_gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$second_row_lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$second_row_nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$second_row_ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$second_row_pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$second_row_sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$second_row_tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$second_row_van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$second_row_wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['de'] == 3 || $grid['de'] == 4) ? ($grid['ma'] >= 5 ? 'bg-success text-dark' : ($grid['ma'] < 5 ? 'bg-danger' : '')) : '' }}">{{$third_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['dom'] == 3 || $grid['dom'] == 4) ? (($grid['sa'] >= 5 && $grid['ma'] >= 5) ? 'bg-success text-dark' : (($grid['sa'] < 5 && $grid['ma'] < 5) ? 'bg-danger': '')) : '' }}">{{$third_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['fe'] == 3 || $grid['fe'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['gre'] == 3 || $grid['gre'] == 4) ? ($grid['jo'] >= 7 ? 'bg-success text-dark' : '') : '' }}">{{$third_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['lun'] == 3 || $grid['lun'] == 4) ? ($grid['lu'] >= 5 ? 'bg-success text-dark' : ($grid['lu'] < 5 ? 'bg-danger' : '')) : '' }}">{{$third_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['nai'] == 3 || $grid['nai'] == 4) ? ($grid['so'] >= 5 ? 'bg-success text-dark' : ($grid['so'] < 5 ? 'bg-danger' : '')) : '' }}">{{$third_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['ne'] == 3 || $grid['ne'] == 4) ? (($grid['sa'] >= 5 && $grid['lu'] >= 5 && $grid['ven'] >= 5) ? 'bg-success text-dark' : (($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['pow'] == 3 || $grid['pow'] == 4) ? (($grid['jo'] >= 5 && $grid['mer'] >= 5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['mer'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['sp'] == 3 || $grid['sp'] == 4) ? ($grid['jo'] >= 5 ? 'bg-success text-dark' : ($grid['jo'] < 5 ? 'bg-danger' : '')) : '' }}">{{$third_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['tra'] == 3 || $grid['tra'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >=5) ? 'bg-success text-dark' : (($grid['jo'] < 5 && $grid['ven'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['van'] == 3 || $grid['van'] == 4) ? (($grid['jo'] >= 5 && $grid['ven'] >= 5 && $grid['mer'] >=5 && $grid['so'] >=5) ? 'bg-success text-dark' : (($grid['jo'] >= 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ ($grid['wil'] == 3 || $grid['wil'] == 4) ? (($grid['ma'] >= 5 && $grid['lu'] >= 5) ? 'bg-success text-dark' : (($grid['ma'] < 5 && $grid['lu'] < 5) ? 'bg-danger' : '')) : '' }}">{{$third_row_wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$third_row_de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$third_row_dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$third_row_fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$third_row_gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$third_row_lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$third_row_nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$third_row_ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$third_row_pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$third_row_sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$third_row_tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$third_row_van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$third_row_wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_result}}</td>
                             </tr>
                             </tbody>
@@ -264,6 +377,15 @@
                         $second_row_mov = $grid['ma'] + $grid['so'] + $grid['mer'];
                         $communication_style_array = [$second_row_em, $second_row_ins, $second_row_int, $second_row_mov];
                         $communication_style = max($communication_style_array);
+
+                        $third_row_em = $grid['em'] * $second_row_em;
+                        $third_row_ins = $grid['ins'] * $second_row_ins;
+                        $third_row_int = $grid['int'] * $second_row_int;
+                        $third_row_mov = $grid['mov'] * $second_row_mov;
+
+                        $communication_third_style_array = [$third_row_em, $third_row_ins, $third_row_int, $third_row_mov];
+                        $communication_third_style = max($communication_third_style_array);
+
                         @endphp
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -288,10 +410,10 @@
                                 <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_mov ==  $communication_style ? 'bg-success' : ''}}">{{$second_row_mov}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($second_row_em > 29 && $second_row_em < 301 && $second_row_em == $communication_style) ? 'bg-success' : (($second_row_em < 30 || $second_row_em > 300) ? 'bg-danger' : '') }}">{{$grid['em'] * $second_row_em}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($second_row_ins > 29 && $second_row_ins < 301 && $second_row_ins == $communication_style) ? 'bg-success' : (($second_row_ins < 30 || $second_row_ins > 300) ? 'bg-danger' : '') }}">{{$grid['ins'] * $second_row_ins}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($second_row_int > 29 && $second_row_int < 301 && $second_row_int == $communication_style) ? 'bg-success' : (($second_row_int < 30 || $second_row_int > 300) ? 'bg-danger' : '') }}">{{$grid['int'] * $second_row_int}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($second_row_mov > 29 && $second_row_mov < 301 && $second_row_mov == $communication_style) ? 'bg-success' : (($second_row_mov < 30 || $second_row_mov > 300) ? 'bg-danger' : '') }}">{{$grid['mov'] * $second_row_mov}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'bg-success' : (($third_row_em < 30 || $third_row_em > 300) ? 'bg-danger' : '') }}">{{$third_row_em}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'bg-success' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'bg-danger' : '') }}">{{$third_row_ins}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'bg-success' : (($third_row_int < 30 || $third_row_int > 300) ? 'bg-danger' : '') }}">{{$third_row_int}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'bg-success' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'bg-danger' : '') }}">{{$third_row_mov}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -334,590 +456,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    <script src="{{ URL::asset('assets/js/plugins/chartjs.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins/threejs.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
-    <script>
-
-        function changeColorStyleSA(style){
-            document.getElementById("style_sa").style.backgroundColor = "#ffff00";
-            document.getElementById("style_sa").style.color = "black";
-
-            document.getElementById("feature_dom").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_dom").style.color = "black";
-
-            document.getElementById("feature_ne").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_ne").style.color = "black";
-        }
-
-        function clearColorStyleSA() {
-            document.getElementById("style_sa").style.backgroundColor = "";
-            document.getElementById("style_sa").style.color = "";
-
-            document.getElementById("feature_dom").style.backgroundColor = "";
-            document.getElementById("feature_dom").style.color = "";
-
-            document.getElementById("feature_ne").style.backgroundColor = "";
-            document.getElementById("feature_ne").style.color = "";
-        }
-
-        function changeColorStyleMA(){
-            document.getElementById("style_ma").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ma").style.color = "black";
-
-            document.getElementById("feature_de").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_de").style.color = "black";
-
-            document.getElementById("feature_dom").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_dom").style.color = "black";
-
-            document.getElementById("feature_fe").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_fe").style.color = "black";
-
-            document.getElementById("feature_wil").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_wil").style.color = "black";
-        }
-
-        function clearColorStyleMA(){
-            document.getElementById("style_ma").style.backgroundColor = "";
-            document.getElementById("style_ma").style.color = "";
-
-            document.getElementById("feature_de").style.backgroundColor = "";
-            document.getElementById("feature_de").style.color = "";
-
-            document.getElementById("feature_dom").style.backgroundColor = "";
-            document.getElementById("feature_dom").style.color = "";
-
-            document.getElementById("feature_fe").style.backgroundColor = "";
-            document.getElementById("feature_fe").style.color = "";
-
-            document.getElementById("feature_wil").style.backgroundColor = "";
-            document.getElementById("feature_wil").style.color = "";
-        }
-
-        function changeColorStyleJO(){
-            document.getElementById("style_jo").style.backgroundColor = "#ffff00";
-            document.getElementById("style_jo").style.color = "black";
-
-            document.getElementById("feature_pow").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_pow").style.color = "black";
-
-            document.getElementById("feature_sp").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_sp").style.color = "black";
-
-            document.getElementById("feature_tra").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_tra").style.color = "black";
-
-            document.getElementById("feature_van").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_van").style.color = "black";
-        }
-
-        function clearColorStyleJO(){
-            document.getElementById("style_jo").style.backgroundColor = "";
-            document.getElementById("style_jo").style.color = "";
-
-            document.getElementById("feature_pow").style.backgroundColor = "";
-            document.getElementById("feature_pow").style.color = "";
-
-            document.getElementById("feature_sp").style.backgroundColor = "";
-            document.getElementById("feature_sp").style.color = "";
-
-            document.getElementById("feature_tra").style.backgroundColor = "";
-            document.getElementById("feature_tra").style.color = "";
-
-            document.getElementById("feature_van").style.backgroundColor = "";
-            document.getElementById("feature_van").style.color = "";
-        }
-
-        function changeColorStyleLU(){
-            document.getElementById("style_lu").style.backgroundColor = "#ffff00";
-            document.getElementById("style_lu").style.color = "black";
-
-            document.getElementById("feature_fe").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_fe").style.color = "black";
-
-            document.getElementById("feature_lun").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_lun").style.color = "black";
-
-            document.getElementById("feature_ne").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_ne").style.color = "black";
-
-            document.getElementById("feature_wil").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_wil").style.color = "black";
-        }
-
-        function clearColorStyleLU(){
-            document.getElementById("style_lu").style.backgroundColor = "";
-            document.getElementById("style_lu").style.color = "";
-
-            document.getElementById("feature_fe").style.backgroundColor = "";
-            document.getElementById("feature_fe").style.color = "";
-
-            document.getElementById("feature_lun").style.backgroundColor = "";
-            document.getElementById("feature_lun").style.color = "";
-
-            document.getElementById("feature_ne").style.backgroundColor = "";
-            document.getElementById("feature_ne").style.color = "";
-
-            document.getElementById("feature_wil").style.backgroundColor = "";
-            document.getElementById("feature_wil").style.color = "";
-        }
-
-        function changeColorStyleVEN(){
-            document.getElementById("style_ven").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ven").style.color = "black";
-
-            document.getElementById("feature_fe").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_fe").style.color = "black";
-
-            document.getElementById("feature_lun").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_lun").style.color = "black";
-
-            document.getElementById("feature_tra").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_tra").style.color = "black";
-
-            document.getElementById("feature_van").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_van").style.color = "black";
-        }
-
-        function clearColorStyleVEN(){
-            document.getElementById("style_ven").style.backgroundColor = "";
-            document.getElementById("style_ven").style.color = "";
-
-            document.getElementById("feature_fe").style.backgroundColor = "";
-            document.getElementById("feature_fe").style.color = "";
-
-            document.getElementById("feature_lun").style.backgroundColor = "";
-            document.getElementById("feature_lun").style.color = "";
-
-            document.getElementById("feature_tra").style.backgroundColor = "";
-            document.getElementById("feature_tra").style.color = "";
-
-            document.getElementById("feature_van").style.backgroundColor = "";
-            document.getElementById("feature_van").style.color = "";
-        }
-
-        function changeColorStyleMER(){
-            document.getElementById("style_mer").style.backgroundColor = "#ffff00";
-            document.getElementById("style_mer").style.color = "black";
-
-            document.getElementById("feature_gre").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_gre").style.color = "black";
-
-            document.getElementById("feature_pow").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_pow").style.color = "black";
-
-            document.getElementById("feature_van").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_van").style.color = "black";
-        }
-
-        function clearColorStyleMER(){
-            document.getElementById("style_mer").style.backgroundColor = "";
-            document.getElementById("style_mer").style.color = "";
-
-            document.getElementById("feature_gre").style.backgroundColor = "";
-            document.getElementById("feature_gre").style.color = "";
-
-            document.getElementById("feature_pow").style.backgroundColor = "";
-            document.getElementById("feature_pow").style.color = "";
-
-            document.getElementById("feature_van").style.backgroundColor = "";
-            document.getElementById("feature_van").style.color = "";
-        }
-
-        function changeColorStyleSO(){
-            document.getElementById("style_so").style.backgroundColor = "#ffff00";
-            document.getElementById("style_so").style.color = "black";
-
-            document.getElementById("feature_nai").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_nai").style.color = "black";
-
-            document.getElementById("feature_van").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_van").style.color = "black";
-        }
-
-        function clearColorStyleSO(){
-            document.getElementById("style_so").style.backgroundColor = "";
-            document.getElementById("style_so").style.color = "";
-
-            document.getElementById("feature_nai").style.backgroundColor = "";
-            document.getElementById("feature_nai").style.color = "";
-
-            document.getElementById("feature_van").style.backgroundColor = "";
-            document.getElementById("feature_van").style.color = "";
-        }
-
-        function changeColorFeatureDE(){
-            document.getElementById("feature_de").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_de").style.color = "black";
-
-            document.getElementById("style_ma").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ma").style.color = "black";
-        }
-
-        function clearColorFeatureDE(){
-            document.getElementById("feature_de").style.backgroundColor = "";
-            document.getElementById("feature_de").style.color = "";
-
-            document.getElementById("style_ma").style.backgroundColor = "";
-            document.getElementById("style_ma").style.color = "";
-        }
-
-        function changeColorFeatureDOM(){
-            document.getElementById("feature_dom").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_dom").style.color = "black";
-
-            document.getElementById("style_sa").style.backgroundColor = "#ffff00";
-            document.getElementById("style_sa").style.color = "black";
-
-            document.getElementById("style_ma").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ma").style.color = "black";
-        }
-
-        function clearColorFeatureDOM(){
-            document.getElementById("feature_dom").style.backgroundColor = "";
-            document.getElementById("feature_dom").style.color = "";
-
-            document.getElementById("style_sa").style.backgroundColor = "";
-            document.getElementById("style_sa").style.color = "";
-
-            document.getElementById("style_ma").style.backgroundColor = "";
-            document.getElementById("style_ma").style.color = "";
-        }
-
-        function changeColorFeatureFE(){
-            document.getElementById("feature_fe").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_fe").style.color = "black";
-
-            document.getElementById("style_ma").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ma").style.color = "black";
-
-            document.getElementById("style_lu").style.backgroundColor = "#ffff00";
-            document.getElementById("style_lu").style.color = "black";
-
-            document.getElementById("style_ven").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ven").style.color = "black";
-        }
-
-        function clearColorFeatureFE(){
-            document.getElementById("feature_fe").style.backgroundColor = "";
-            document.getElementById("feature_fe").style.color = "";
-
-            document.getElementById("style_ma").style.backgroundColor = "";
-            document.getElementById("style_ma").style.color = "";
-
-            document.getElementById("style_lu").style.backgroundColor = "";
-            document.getElementById("style_lu").style.color = "";
-
-            document.getElementById("style_ven").style.backgroundColor = "";
-            document.getElementById("style_ven").style.color = "";
-        }
-
-        function changeColorFeatureGRE(){
-            document.getElementById("feature_gre").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_gre").style.color = "black";
-
-            document.getElementById("style_mer").style.backgroundColor = "#ffff00";
-            document.getElementById("style_mer").style.color = "black";
-        }
-
-        function clearColorFeatureGRE(){
-            document.getElementById("feature_gre").style.backgroundColor = "";
-            document.getElementById("feature_gre").style.color = "";
-
-            document.getElementById("style_mer").style.backgroundColor = "";
-            document.getElementById("style_mer").style.color = "";
-        }
-
-        function changeColorFeatureLUN(){
-            document.getElementById("feature_lun").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_lun").style.color = "black";
-
-            document.getElementById("style_lu").style.backgroundColor = "#ffff00";
-            document.getElementById("style_lu").style.color = "black";
-        }
-
-        function clearColorFeatureLUN(){
-            document.getElementById("feature_lun").style.backgroundColor = "";
-            document.getElementById("feature_lun").style.color = "";
-
-            document.getElementById("style_lu").style.backgroundColor = "";
-            document.getElementById("style_lu").style.color = "";
-        }
-
-        function changeColorFeatureNAI(){
-            document.getElementById("feature_nai").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_nai").style.color = "black";
-
-            document.getElementById("style_so").style.backgroundColor = "#ffff00";
-            document.getElementById("style_so").style.color = "black";
-        }
-
-        function clearColorFeatureNAI(){
-            document.getElementById("feature_nai").style.backgroundColor = "";
-            document.getElementById("feature_nai").style.color = "";
-
-            document.getElementById("style_so").style.backgroundColor = "";
-            document.getElementById("style_so").style.color = "";
-        }
-
-        function changeColorFeatureNE(){
-            document.getElementById("feature_ne").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_ne").style.color = "black";
-
-            document.getElementById("style_sa").style.backgroundColor = "#ffff00";
-            document.getElementById("style_sa").style.color = "black";
-
-            document.getElementById("style_lu").style.backgroundColor = "#ffff00";
-            document.getElementById("style_lu").style.color = "black";
-
-            document.getElementById("style_ven").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ven").style.color = "black";
-        }
-
-        function clearColorFeatureNE(){
-            document.getElementById("feature_ne").style.backgroundColor = "";
-            document.getElementById("feature_ne").style.color = "";
-
-            document.getElementById("style_sa").style.backgroundColor = "";
-            document.getElementById("style_sa").style.color = "";
-
-            document.getElementById("style_lu").style.backgroundColor = "";
-            document.getElementById("style_lu").style.color = "";
-
-            document.getElementById("style_ven").style.backgroundColor = "";
-            document.getElementById("style_ven").style.color = "";
-        }
-
-        function changeColorFeaturePOW(){
-            document.getElementById("feature_pow").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_pow").style.color = "black";
-
-            document.getElementById("style_jo").style.backgroundColor = "#ffff00";
-            document.getElementById("style_jo").style.color = "black";
-
-            document.getElementById("style_mer").style.backgroundColor = "#ffff00";
-            document.getElementById("style_mer").style.color = "black";
-        }
-
-        function clearColorFeaturePOW(){
-            document.getElementById("feature_pow").style.backgroundColor = "";
-            document.getElementById("feature_pow").style.color = "";
-
-            document.getElementById("style_jo").style.backgroundColor = "";
-            document.getElementById("style_jo").style.color = "";
-
-            document.getElementById("style_mer").style.backgroundColor = "";
-            document.getElementById("style_mer").style.color = "";
-        }
-
-        function changeColorFeatureSP(){
-            document.getElementById("feature_sp").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_sp").style.color = "black";
-
-            document.getElementById("style_jo").style.backgroundColor = "#ffff00";
-            document.getElementById("style_jo").style.color = "black";
-        }
-
-        function clearColorFeatureSP(){
-            document.getElementById("feature_sp").style.backgroundColor = "";
-            document.getElementById("feature_sp").style.color = "";
-
-            document.getElementById("style_jo").style.backgroundColor = "";
-            document.getElementById("style_jo").style.color = "";
-        }
-
-        function changeColorFeatureTRA(){
-            document.getElementById("feature_tra").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_tra").style.color = "black";
-
-            document.getElementById("style_jo").style.backgroundColor = "#ffff00";
-            document.getElementById("style_jo").style.color = "black";
-
-            document.getElementById("style_ven").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ven").style.color = "black";
-        }
-
-        function clearColorFeatureTRA(){
-            document.getElementById("feature_tra").style.backgroundColor = "";
-            document.getElementById("feature_tra").style.color = "";
-
-            document.getElementById("style_jo").style.backgroundColor = "";
-            document.getElementById("style_jo").style.color = "";
-
-            document.getElementById("style_ven").style.backgroundColor = "";
-            document.getElementById("style_ven").style.color = "";
-        }
-
-        function changeColorFeatureVAN(){
-            document.getElementById("feature_van").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_van").style.color = "black";
-
-            document.getElementById("style_jo").style.backgroundColor = "#ffff00";
-            document.getElementById("style_jo").style.color = "black";
-
-            document.getElementById("style_ven").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ven").style.color = "black";
-
-            document.getElementById("style_mer").style.backgroundColor = "#ffff00";
-            document.getElementById("style_mer").style.color = "black";
-
-            document.getElementById("style_so").style.backgroundColor = "#ffff00";
-            document.getElementById("style_so").style.color = "black";
-        }
-
-        function clearColorFeatureVAN(){
-            document.getElementById("feature_van").style.backgroundColor = "";
-            document.getElementById("feature_van").style.color = "";
-
-            document.getElementById("style_jo").style.backgroundColor = "";
-            document.getElementById("style_jo").style.color = "";
-
-            document.getElementById("style_ven").style.backgroundColor = "";
-            document.getElementById("style_ven").style.color = "";
-
-            document.getElementById("style_mer").style.backgroundColor = "";
-            document.getElementById("style_mer").style.color = "";
-
-            document.getElementById("style_so").style.backgroundColor = "";
-            document.getElementById("style_so").style.color = "";
-        }
-
-        function changeColorFeatureWIL(){
-            document.getElementById("feature_wil").style.backgroundColor = "#ffff00";
-            document.getElementById("feature_wil").style.color = "black";
-
-            document.getElementById("style_ma").style.backgroundColor = "#ffff00";
-            document.getElementById("style_ma").style.color = "black";
-
-            document.getElementById("style_lu").style.backgroundColor = "#ffff00";
-            document.getElementById("style_lu").style.color = "black";
-        }
-
-        function clearColorFeatureWIL(){
-            document.getElementById("feature_wil").style.backgroundColor = "";
-            document.getElementById("feature_wil").style.color = "";
-
-            document.getElementById("style_ma").style.backgroundColor = "";
-            document.getElementById("style_ma").style.color = "";
-
-            document.getElementById("style_lu").style.backgroundColor = "";
-            document.getElementById("style_lu").style.color = "";
-        }
-
-        (function() {
-            const container = document.getElementById("globe");
-            const canvas = container.getElementsByTagName("canvas")[0];
-
-            const globeRadius = 100;
-            const globeWidth = 4098 / 2;
-            const globeHeight = 1968 / 2;
-
-            function convertFlatCoordsToSphereCoords(x, y) {
-                let latitude = ((x - globeWidth) / globeWidth) * -180;
-                let longitude = ((y - globeHeight) / globeHeight) * -90;
-                latitude = (latitude * Math.PI) / 180;
-                longitude = (longitude * Math.PI) / 180;
-                const radius = Math.cos(longitude) * globeRadius;
-
-                return {
-                    x: Math.cos(latitude) * radius,
-                    y: Math.sin(longitude) * globeRadius,
-                    z: Math.sin(latitude) * radius
-                };
-            }
-
-            function makeMagic(points) {
-                const {
-                    width,
-                    height
-                } = container.getBoundingClientRect();
-
-                // 1. Setup scene
-                const scene = new THREE.Scene();
-                // 2. Setup camera
-                const camera = new THREE.PerspectiveCamera(45, width / height);
-                // 3. Setup renderer
-                const renderer = new THREE.WebGLRenderer({
-                    canvas,
-                    antialias: true
-                });
-                renderer.setSize(width, height);
-                // 4. Add points to canvas
-                // - Single geometry to contain all points.
-                const mergedGeometry = new THREE.Geometry();
-                // - Material that the dots will be made of.
-                const pointGeometry = new THREE.SphereGeometry(0.5, 1, 1);
-                const pointMaterial = new THREE.MeshBasicMaterial({
-                    color: "#989db5",
-                });
-
-                for (let point of points) {
-                    const {
-                        x,
-                        y,
-                        z
-                    } = convertFlatCoordsToSphereCoords(
-                        point.x,
-                        point.y,
-                        width,
-                        height
-                    );
-
-                    if (x && y && z) {
-                        pointGeometry.translate(x, y, z);
-                        mergedGeometry.merge(pointGeometry);
-                        pointGeometry.translate(-x, -y, -z);
-                    }
-                }
-
-                const globeShape = new THREE.Mesh(mergedGeometry, pointMaterial);
-                scene.add(globeShape);
-
-                container.classList.add("peekaboo");
-
-                // Setup orbital controls
-                camera.orbitControls = new THREE.OrbitControls(camera, canvas);
-                camera.orbitControls.enableKeys = false;
-                camera.orbitControls.enablePan = false;
-                camera.orbitControls.enableZoom = false;
-                camera.orbitControls.enableDamping = false;
-                camera.orbitControls.enableRotate = true;
-                camera.orbitControls.autoRotate = true;
-                camera.position.z = -265;
-
-                function animate() {
-                    // orbitControls.autoRotate is enabled so orbitControls.update
-                    // must be called inside animation loop.
-                    camera.orbitControls.update();
-                    requestAnimationFrame(animate);
-                    renderer.render(scene, camera);
-                }
-                animate();
-            }
-
-            function hasWebGL() {
-                const gl =
-                    canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-                if (gl && gl instanceof WebGLRenderingContext) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            function init() {
-                if (hasWebGL()) {
-                    window
-                    window.fetch("https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-dashboard-pro/assets/js/points.json")
-                        .then(response => response.json())
-                        .then(data => {
-                            makeMagic(data.points);
-                        });
-                }
-            }
-            init();
-        })();
-    </script>
-@endpush
