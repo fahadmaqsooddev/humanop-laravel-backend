@@ -27,7 +27,7 @@ class Coupon extends Model
 
     public static function getCoupon()
     {
-        return self::orderBy('created_at', 'desc')->get();
+        return self::orderBy('created_at', 'desc');
     }
 
     public static function createDiscount($data = null)

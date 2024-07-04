@@ -30,8 +30,8 @@ class DiscountSettingForm extends Component
 
             Coupon::createDiscount($validatedData);
 
-            $this->discount = '';
-            $this->limit = '';
+            $this->reset();
+            $this->emit('refreshCoupon');
 
             session()->flash('success', 'Coupon create successfully.');
 
