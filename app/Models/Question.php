@@ -27,7 +27,7 @@ class Question extends Model
 
     public static function allQuestion()
     {
-        return self::with(['answers.answerCodes','subQuestions.answers']);
+        return self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
     }
 
 
@@ -113,6 +113,7 @@ class Question extends Model
             'active' => 1,
             'gender' => $question['gender'],
             'sort' => $question['sort'],
+            'multiple' => $question['multiple'],
             'question_id' => $question['id'],
         ]);
 

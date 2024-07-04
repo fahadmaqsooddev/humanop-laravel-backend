@@ -33,20 +33,20 @@ class Assessment extends Component
 
     public function updateOrder($orderedIds)
     {
+        $answer = Answer::where('id', $orderedIds[0]['value'])->first();
 
-        $question = Answer::where('id', $orderedIds[0]['value'])->select('question_id')->first();
-        $questionId = $question->question_id;
+        $questionId = $answer->question_id;
 
         // Find the question in the array by its 'id'
         $questionKey = array_search($questionId, array_column($this->questions, 'id'));
-
         if ($questionKey !== false && isset($this->questions[$questionKey]['answers'])) {
             // Create a new array for reordered answers
             $newAnswers = [];
 
             foreach ($orderedIds as $order) {
+
                 // Find the answer within the question's 'answers' array
-                $answerKey = array_search($order['value'], array_column($this->questions[$questionKey]['answers'], 'id'));
+                $answerKey = array_search($order['value'], array_column($this->questions[$questionKey]['answers'],  'id'));
 
                 if ($answerKey !== false) {
                     // Append the answer to the new answers array
@@ -57,6 +57,7 @@ class Assessment extends Component
             // Assign the new ordered answers array back to the question
             $this->questions[$questionKey]['answers'] = $newAnswers;
         }
+
         $this->multiple = true;
         // Persist the updated questions
         $this->updatedQuestions($this->questions, $this->answers);
@@ -64,7 +65,13 @@ class Assessment extends Component
         $i = 3;
         $this->energyArr[$questionId] = [];
         foreach ($orderedIds as $id) {
-            $answerCode = AnswerCode::where('answer_id', $id['value'])->select(['code', 'number'])->first();
+            if($answer->answer_id){
+                $subAnswer = Answer::where('id',$id['value'])->first();
+                $answerCode = AnswerCode::where('answer_id', $subAnswer->answer_id)->select(['code', 'number'])->first();
+            }else{
+                $answerCode = AnswerCode::where('answer_id', $id['value'])->select(['code', 'number'])->first();
+            }
+
             if ($answerCode) {
                 $number = (int) $answerCode->number + $i;
                 $code = strtolower($answerCode->code);
@@ -129,12 +136,16 @@ class Assessment extends Component
             $multipleQuestions = array_filter($this->questions, function ($question) {
                 return $question['multiple'] == 1;
             });
+
             //calculation
-            foreach ($multipleQuestions as $q) {
+            foreach ($multipleQuestions as $key => $q) {
                 $i = 3;
                 $this->energyArr[$q['id']] = [];
+
                 foreach ($q['answers'] as $answer) {
-                    $answerCode = AnswerCode::where('answer_id', $answer['id'])->select(['code', 'number'])->first();
+
+                    $answerCode = AnswerCode::where('answer_id', ($answer['answer_id'] ?? $answer['id'] ))->select(['code', 'number'])->first();
+
                     if ($answerCode) {
                         $number = (int)$answerCode->number + $i;
                         $code = strtolower($answerCode->code);
@@ -153,6 +164,8 @@ class Assessment extends Component
             $energyValues =  $this->mergeEnergyArr();
             $this->energyArr = [];
         }
+
+
         //end of calculation
 
          try {
@@ -238,8 +251,9 @@ class Assessment extends Component
                 $data['assessment_id'] = $this->assessmentId;
                 AssessmentDetail::createAssessmentDetail($data);
             }
-            $this->answers = [];
-             $this->multiple = false;
+
+              $this->answers = [];
+              $this->multiple = false;
 //            dd($this->answers);
         } catch (\Exception $exception) {
             session()->flash('error', $exception->getMessage());
