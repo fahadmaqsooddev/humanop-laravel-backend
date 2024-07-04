@@ -12,6 +12,7 @@ class QuestionUpdateForm extends Component
 
     public $question, $answers, $sub_question, $sub_answer = [];
     public $subQuestions;
+
     public function mount($question, $answers)
     {
         $this->question = $question;
@@ -20,6 +21,9 @@ class QuestionUpdateForm extends Component
             $this->sub_answer[$index] = '';
         }
     }
+
+
+
 
     public function updateSubQuestion($subQuestionId)
     {

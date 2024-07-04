@@ -78,6 +78,7 @@
   @stack('js')
   <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
   <livewire:scripts />
+  @stack('javascript')
 </body>
 
 </html>
