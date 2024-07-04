@@ -1,92 +1,92 @@
-"qst_id","q","sort","active","multiple","gender"
-"1","What was the hair color closest to your natural hair color at 21?","0","1","0","0"
-"2","Which eye color is closest to yours?","1","1","0","0"
-"3","Are your eyes?","2","1","0","0"
-"4","Have you been told your eyes sparkle or you have a twinkle in your eye?","3","1","0","0"
-"5","Is your nose:","4","1","0","0"
-"6","Which is your natural body shape?","5","1","0","0"
-"7","Are you tall? (6'0"" or taller)","6","1","0","2"
-"8","Are you tall (5'7 or taller)","7","1","0","1"
-"9","Do people see you as taller than you are?","8","1","0","0"
-"10","Did your hair begin thinning before age 30?","9","1","0","2"
-"11","When you gain weight, where does it show first?","10","1","0","1"
-"12","When you gain weight, where does it show first?","11","0","0","2"
-"13","Are you naturally hairy?","12","1","0","1"
-"14","Are you naturally hairy?  Do you have any of these: hairy chest, back,  arms or legs?","13","1","0","2"
-"15","On a scale of 1 to 8, ""1 being positive"" and ""8 being negative"", where do you rate yourself?","14","1","0","0"
-"16","Are you confrontational when provoked?","15","1","0","0"
-"17","For your ethnicity, what is your skin tone?","16","1","0","0"
-"18","Do you have a childlike voice?","17","1","0","0"
-"19","Are you easily distracted?","18","1","0","0"
-"20","Are you an optimist?","19","1","0","0"
-"21","In non-emergency situations, are you quick to take action?","20","1","0","0"
-"22","Is your natural chin or jaw line:","21","1","0","0"
-"23","Are you naturally playful?","22","1","0","0"
-"24","Are your friends predominantly...","23","1","0","0"
-"25","Do you like shiny things?","24","1","0","0"
-"26","Are you aggressive?","25","1","0","0"
-"27","If you were a character in a fairy tale, would you want to be a:","26","1","0","0"
-"28","Are you ""frequently"" volunteered for positions of authority?","27","1","0","0"
-"29","Are you a micromanager?","28","1","0","0"
-"30","Are you lazy?","29","1","0","2"
-"31","Do you often feel other people's pain?","30","1","0","0"
-"32","Are you patient?","31","1","0","0"
-"33","Do you naturally have a high forehead or receding hairline?","32","1","0","1"
-"34","Are you afraid of life? (traffic, airplanes, germs)","33","1","0","0"
-"35","Is a beautiful environment important to you?","34","1","0","0"
-"36","Is it important for you to create order in your home or work place?","35","1","0","0"
-"37","Are you very apologetic?","36","1","0","0"
-"38","Are you stubborn?","37","1","0","0"
-"39","Are you an instigator?","38","1","0","0"
-"40","Are you gullible?","39","1","0","0"
-"41","Have you ever gone unnoticed at a party?","40","1","0","0"
-"42","Are your moods unpredictable?","41","1","0","0"
-"43","Do you share?","42","1","0","0"
-"44","Is money important to you?","43","1","0","0"
-"45","Are you always concerned with your appearance when you leave the house?","44","1","0","0"
-"46","Do you find it easy to detach from people, places or things?","45","1","0","0"
-"47","Do you avoid commitments?","46","1","0","0"
-"48","Do you stay on task?","47","1","0","0"
-"49","Do you like to physically tear  down heavy things or move them around? (walls, furniture, etc.)","48","1","0","0"
-"50","Do you like to blow things up or out of proportion? (e.g. firecrackers, situations)","49","1","0","0"
-"51","Does life often seem hopeless?","50","1","0","0"
-"52","Do we need more laws to protect us?","51","1","0","0"
-"53","Are you a daydreamer?","52","1","0","0"
-"54","Are you young at heart?","53","1","0","0"
-"55","Do you agonize over things?","54","1","0","0"
-"56","Do you delegate authority?","55","1","0","0"
-"57","Do you think that you are always right?","56","1","0","0"
-"58","Do you like to get up in front of people?","57","1","0","0"
-"59","Do you over buy?","58","1","0","0"
-"60","Is it difficult for you to make decisions?","59","1","0","0"
-"61","Is change difficult, or in extreme cases, devastating for you?","60","1","0","0"
-"62","Are you extremely compassionate?","61","1","0","0"
-"63","Are you afraid of war, famine or poverty?","62","1","0","0"
-"64","Do you require acknowledgement for good deeds?","63","1","0","0"
-"65","Do others perceive you as childlike?","64","1","0","0"
-"66","Do you get depressed easily?","65","1","0","0"
-"67","Do you like to debate, argue or fight?","66","1","0","0"
-"68","Do you often look in the mirror at yourself?","67","1","0","0"
-"69","Do you always desire more?","68","1","0","0"
-"70","Is life wonderful?","69","1","0","0"
-"71","Do you cling to people?","70","1","0","0"
-"72","Do you feel safe in the world?","71","1","0","0"
-"73","Do you require attention?","72","1","0","0"
-"74","Do you worry that people think you are crazy?","73","1","0","0"
-"75","Do you need to win?","74","1","0","0"
-"76","Are you relentless in your pursuits?","75","1","0","0"
-"77","Do you focus on the big picture?","76","1","0","0"
-"78","Do you frequently use intimidation to take control?","77","1","0","0"
-"79","Are you loyal?","78","1","0","0"
-"80","When you are in charge of others, do you regard them as:","79","1","0","0"
-"81","What is your favorite jewelry to wear?","80","1","0","0"
-"82","When traveling, if money is not a consideration, where would you prefer to stay?","81","1","0","0"
-"83","Is having your bed made each morning","82","1","0","0"
-"84","Are you","83","1","0","0"
-"85","How often do you shower?","84","1","0","0"
-"86","How often is your car washed?","85","1","0","0"
-"87","If you were asked to go camping, would you respond...","86","1","0","0"
-"88","In the following questions, choose what you would do first, second, third and fourth.  Click and drag the boxes from top to bottom in order of preference","87","1","1","0"
-"89","When purchasing a new car, what do you look for?","88","1","1","0"
-"90","Which best describes you?","89","1","1","0"
-"91","When selecting a movie, please rank the following in order:","90","1","1","0"
+qst_id,q,sort,active,multiple,gender
+1,What was the hair color closest to your natural hair color at 21?,0,1,0,0
+2,Which eye color is closest to yours?,1,1,0,0
+3,Are your eyes?,2,1,0,0
+4,Have you been told your eyes sparkle or you have a twinkle in your eye?,3,1,0,0
+5,Is your nose:,4,1,0,0
+6,Which is your natural body shape?,5,1,0,0
+7,"Are you tall? (6'0"" or taller)",6,1,0,2
+8,Are you tall (5'7 or taller),7,1,0,1
+9,Do people see you as taller than you are?,8,1,0,0
+10,Did your hair begin thinning before age 30?,9,1,0,2
+11,"When you gain weight, where does it show first?",10,1,0,1
+12,"When you gain weight, where does it show first?",11,1,0,2
+13,Are you naturally hairy?,12,1,0,1
+14,"Are you naturally hairy?  Do you have any of these: hairy chest, back,  arms or legs?",13,1,0,2
+15,"On a scale of 1 to 8, ""1 being positive"" and ""8 being negative"", where do you rate yourself?",14,1,0,0
+16,Are you confrontational when provoked?,15,1,0,0
+17,"For your ethnicity, what is your skin tone?",16,1,0,0
+18,Do you have a childlike voice?,17,1,0,0
+19,Are you easily distracted?,18,1,0,0
+20,Are you an optimist?,19,1,0,0
+21,"In non-emergency situations, are you quick to take action?",20,1,0,0
+22,Is your natural chin or jaw line:,21,1,0,0
+23,Are you naturally playful?,22,1,0,0
+24,Are your friends predominantly...,23,1,0,0
+25,Do you like shiny things?,24,1,0,0
+26,Are you aggressive?,25,1,0,0
+27,"If you were a character in a fairy tale, would you want to be a:",26,1,0,0
+28,"Are you ""frequently"" volunteered for positions of authority?",27,1,0,0
+29,Are you a micromanager?,28,1,0,0
+30,Are you lazy?,29,1,0,2
+31,Do you often feel other people's pain?,30,1,0,0
+32,Are you patient?,31,1,0,0
+33,Do you naturally have a high forehead or receding hairline?,32,1,0,1
+34,"Are you afraid of life? (traffic, airplanes, germs)",33,1,0,0
+35,Is a beautiful environment important to you?,34,1,0,0
+36,Is it important for you to create order in your home or work place?,35,1,0,0
+37,Are you very apologetic?,36,1,0,0
+38,Are you stubborn?,37,1,0,0
+39,Are you an instigator?,38,1,0,0
+40,Are you gullible?,39,1,0,0
+41,Have you ever gone unnoticed at a party?,40,1,0,0
+42,Are your moods unpredictable?,41,1,0,0
+43,Do you share?,42,1,0,0
+44,Is money important to you?,43,1,0,0
+45,Are you always concerned with your appearance when you leave the house?,44,1,0,0
+46,"Do you find it easy to detach from people, places or things?",45,1,0,0
+47,Do you avoid commitments?,46,1,0,0
+48,Do you stay on task?,47,1,0,0
+49,"Do you like to physically tear  down heavy things or move them around? (walls, furniture, etc.)",48,1,0,0
+50,"Do you like to blow things up or out of proportion? (e.g. firecrackers, situations)",49,1,0,0
+51,Does life often seem hopeless?,50,1,0,0
+52,Do we need more laws to protect us?,51,1,0,0
+53,Are you a daydreamer?,52,1,0,0
+54,Are you young at heart?,53,1,0,0
+55,Do you agonize over things?,54,1,0,0
+56,Do you delegate authority?,55,1,0,0
+57,Do you think that you are always right?,56,1,0,0
+58,Do you like to get up in front of people?,57,1,0,0
+59,Do you over buy?,58,1,0,0
+60,Is it difficult for you to make decisions?,59,1,0,0
+61,"Is change difficult, or in extreme cases, devastating for you?",60,1,0,0
+62,Are you extremely compassionate?,61,1,0,0
+63,"Are you afraid of war, famine or poverty?",62,1,0,0
+64,Do you require acknowledgement for good deeds?,63,1,0,0
+65,Do others perceive you as childlike?,64,1,0,0
+66,Do you get depressed easily?,65,1,0,0
+67,"Do you like to debate, argue or fight?",66,1,0,0
+68,Do you often look in the mirror at yourself?,67,1,0,0
+69,Do you always desire more?,68,1,0,0
+70,Is life wonderful?,69,1,0,0
+71,Do you cling to people?,70,1,0,0
+72,Do you feel safe in the world?,71,1,0,0
+73,Do you require attention?,72,1,0,0
+74,Do you worry that people think you are crazy?,73,1,0,0
+75,Do you need to win?,74,1,0,0
+76,Are you relentless in your pursuits?,75,1,0,0
+77,Do you focus on the big picture?,76,1,0,0
+78,Do you frequently use intimidation to take control?,77,1,0,0
+79,Are you loyal?,78,1,0,0
+80,"When you are in charge of others, do you regard them as:",79,1,0,0
+81,What is your favorite jewelry to wear?,80,1,0,0
+82,"When traveling, if money is not a consideration, where would you prefer to stay?",81,1,0,0
+83,Is having your bed made each morning,82,1,0,0
+84,Are you,83,1,0,0
+85,How often do you shower?,84,1,0,0
+86,How often is your car washed?,85,1,0,0
+87,"If you were asked to go camping, would you respond...",86,1,0,0
+88,"In the following questions, choose what you would do first, second, third and fourth.  Click and drag the boxes from top to bottom in order of preference",87,1,1,0
+89,"When purchasing a new car, what do you look for?",88,1,1,0
+90,Which best describes you?,89,1,1,0
+91,"When selecting a movie, please rank the following in order:",90,1,1,0
