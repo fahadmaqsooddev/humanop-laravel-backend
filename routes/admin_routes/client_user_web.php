@@ -40,6 +40,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/user-info', [UserController::class, 'userInfo'])->name('user_info');
     Route::get('/user-answers/{id}', [UserController::class, 'answers'])->name('user_answers');
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('user_grid');
+    Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
     Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
     Route::get('/human-network', [NetworkController::class, 'network'])->name('human_network');
     Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
