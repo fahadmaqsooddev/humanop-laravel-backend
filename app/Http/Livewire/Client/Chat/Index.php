@@ -15,7 +15,7 @@ class Index extends Component
        if(isset($this->userMessage)){
            $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
-           $aiReply = $this->sendRequestFromGuzzle('post','https://44.201.128.253:8000/llm-response',['query' => $this->userMessage]);
+           $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-response',['query' => $this->userMessage]);
 
 
            $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
