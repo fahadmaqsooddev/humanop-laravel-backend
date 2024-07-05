@@ -2,6 +2,239 @@
 
 @section('content')
     <div>
+        @php
+            $second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer'];
+            $second_row_ma = $grid['sa'] + $grid['ma'] + $grid['jo'];
+            $second_row_jo = $grid['ma'] + $grid['jo'] + $grid['lu'];
+            $second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven'];
+            $second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer'];
+            $second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa'];
+
+            $third_row_sa = $grid['sa'] * $second_row_sa;
+            $third_row_ma = $grid['ma'] * $second_row_ma;
+            $third_row_jo = $grid['jo'] * $second_row_jo;
+            $third_row_lu = $grid['lu'] * $second_row_lu;
+            $third_row_ven = $grid['ven'] * $second_row_ven;
+            $third_row_mer = $grid['mer'] * $second_row_mer;
+            $third_row_so = 10 * $grid['so'];
+
+            // Initialize variables based on $grid values
+            $de = $grid['de'];
+            $dom = $grid['dom'];
+            $fe = $grid['fe'];
+            $gre = $grid['gre'];
+            $lun = $grid['lun'];
+            $nai = $grid['nai'];
+            $ne = $grid['ne'];
+            $pow = $grid['pow'];
+            $sp = $grid['sp'];
+            $tra = $grid['tra'];
+            $van = $grid['van'];
+            $wil = $grid['wil'];
+            // Calculate result sums
+            $result = $de + $dom + $fe + $gre + $lun + $nai + $ne + $pow + $sp + $tra + $van + $wil;
+
+            // Calculate second row values
+            $second_row_de = $grid['ma'];
+            $second_row_dom = $grid['sa'] + $grid['ma'];
+            $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
+            $second_row_gre = $grid['mer'];
+            $second_row_lun = $grid['lu'];
+            $second_row_nai = $grid['so'];
+            $second_row_ne = $grid['sa'] + $grid['lu'] + $grid['ven'];
+            $second_row_pow = $grid['jo'] + $grid['mer'];
+            $second_row_sp = $grid['jo'];
+            $second_row_tra = $grid['jo'] + $grid['ven'];
+            $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
+            $second_row_wil = $grid['ma'] + $grid['lu'];
+            $second_row_result = $second_row_de + $second_row_dom + $second_row_fe + $second_row_gre + $second_row_lun + $second_row_nai + $second_row_ne + $second_row_pow + $second_row_sp + $second_row_tra + $second_row_van + $second_row_wil;
+
+            // Calculate third row values
+            $third_row_de = $grid['de'] * $second_row_de;
+            $third_row_dom = $grid['dom'] * $second_row_dom;
+            $third_row_fe = $grid['fe'] * $second_row_fe;
+            $third_row_gre = $grid['gre'] * $second_row_gre;
+            $third_row_lun = $grid['lun'] * $second_row_lun;
+            $third_row_nai = $grid['nai'] * $second_row_nai;
+            $third_row_ne = $grid['ne'] * $second_row_ne;
+            $third_row_pow = $grid['pow'] * $second_row_pow;
+            $third_row_sp = $grid['sp'] * $second_row_sp;
+            $third_row_tra = $grid['tra'] * $second_row_tra;
+            $third_row_van = $grid['van'] * $second_row_van;
+            $third_row_wil = $grid['wil'] * $second_row_wil;
+            $third_row_result = $third_row_de + $third_row_dom + $third_row_fe + $third_row_gre + $third_row_lun + $third_row_nai + $third_row_ne + $third_row_pow + $third_row_sp + $third_row_tra + $third_row_van + $third_row_wil;
+
+            // Define features array
+            $features = [
+                'de' => $grid['de'],
+                'dom' => $grid['dom'],
+                'fe' => $grid['fe'],
+                'gre' => $grid['gre'],
+                'lun' => $grid['lun'],
+                'nai' => $grid['nai'],
+                'ne' => $grid['ne'],
+                'pow' => $grid['pow'],
+                'sp' => $grid['sp'],
+                'tra' => $grid['tra'],
+                'van' => $grid['van'],
+                'wil' => $grid['wil'],
+            ];
+
+            $third_row_feature = [
+                'de' => $grid['de'] * $second_row_de,
+                'dom' => $grid['dom'] * $second_row_dom,
+                'fe' => $grid['fe'] * $second_row_fe,
+                'gre' => $grid['gre'] * ($grid['jo'] + $grid['mer']),
+                'lun' => $grid['lun'] * $second_row_lun,
+                'nai' => $grid['nai'] * $second_row_nai,
+                'ne' => $grid['ne'] * $second_row_ne,
+                'pow' => $grid['pow'] * $second_row_pow,
+                'sp' => $grid['sp'] * $second_row_sp,
+                'tra' => $grid['tra'] * $second_row_tra,
+                'van' => $grid['van'] * $second_row_van,
+                'wil' => $grid['wil'] * $second_row_wil,
+            ];
+
+            // Sort features in descending order while maintaining key associations
+            arsort($features);
+
+            // Filter keys based on conditions
+            $filtered_keys = [];
+            foreach ($features as $key => $value) {
+                switch ($key) {
+                    case 'de':
+                        if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $third_row_ma > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'dom':
+                        if (($grid['dom'] > 2 && ($grid['sa'] > 4 || $grid['ma'] > 4)) || ($grid['dom'] > 2 && $third_row_ma > 30 && $third_row_sa > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'fe':
+                        if (($grid['fe'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['fe'] > 2 && $third_row_ma > 30 && $third_row_lu > 30 && $third_row_ven > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'gre':
+                        if (($grid['gre'] > 2 && ($grid['jo'] > 6)) || ($grid['gre'] > 2 && $third_row_mer > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'lun':
+                        if (($grid['lun'] > 2 && $grid['lu'] > 4) || ($grid['lun'] > 2 && $third_row_lu > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'nai':
+                        if (($grid['nai'] > 2 && $grid['so'] > 4) || ($grid['nai'] > 2 && $third_row_so > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'ne':
+                        if (($grid['ne'] > 2 && ($grid['sa'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['ne'] > 2 && $third_row_sa > 30 && $third_row_lu > 30 && $third_row_ven > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'pow':
+                        if (($grid['pow'] > 2 && ($grid['jo'] > 4 || $grid['mer'] > 4)) || ($grid['pow'] > 2 && $third_row_jo > 30 && $third_row_mer > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'sp':
+                        if ((($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $third_row_jo > 30)) || ($grid['sp'] > 2 && $third_row_jo > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'tra':
+                        if (($grid['tra'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4)) || ($grid['tra'] > 2 && $third_row_jo > 30 && $third_row_ven > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'van':
+                        if (($grid['van'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4 || $grid['mer'] > 4 || $grid['so'] > 4)) || ($grid['van'] > 2 && $third_row_jo > 30 && $third_row_ven > 30 && $third_row_mer > 30 && $third_row_so > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                    case 'wil':
+                        if (($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) || ($grid['wil'] > 2 && $third_row_ma > 30 && $third_row_lu > 30)) {
+                            $filtered_keys[$key] = $value;
+                        }
+                        break;
+                }
+            }
+
+            if (count($filtered_keys) < 2) {
+
+                // Get the matching keys and their values from $third_row_feature
+                $matchingKeys = array_intersect_key($third_row_feature, array_flip(array_keys($filtered_keys)));
+                arsort($matchingKeys);
+
+                $all_values_are_2 = [];
+                foreach ($features as $key => $value) {
+                    if ($value == 2) {
+                        $all_values_are_2[$key] = $value;
+                    }
+                }
+
+                $matchingKeysLessThanTwo = array_intersect_key($third_row_feature, array_flip(array_keys($all_values_are_2)));
+                arsort($matchingKeysLessThanTwo);
+
+                $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
+
+                $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
+
+                $nextTwoKeys = [];
+            }
+            else {
+
+                // Count the occurrences of each value
+                $value_counts = array_count_values($filtered_keys);
+
+                // Filter unique values
+                $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+                    return $value_counts[$value] === 1;
+                });
+
+                // Filter remaining values (including repeating ones)
+                $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+                    return $value_counts[$value] > 1 || $value_counts[$value] === 1;
+                });
+
+                // Removing the unique values from the remaining_keys array
+                $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
+                    return $value_counts[$value] > 1;
+                });
+
+                // Find the highest and second highest values
+                $values = array_values($remaining_keys);
+                $highest_value = max($values);
+                $second_highest_value = count(array_diff($values, [$highest_value])) ? max(array_diff($values, [$highest_value])) : null;
+
+                // Separate arrays for highest and second-highest values
+                $highest_array = [];
+                $second_highest_array = [];
+
+                foreach ($remaining_keys as $key => $value) {
+                    if ($value == $highest_value) {
+                        $highest_array[$key] = $value;
+                    } elseif ($value == $second_highest_value) {
+                        $second_highest_array[$key] = $value;
+                    }
+                }
+
+                $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($highest_array)));
+                arsort($firstHighestArrayValue);
+                $secondHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($second_highest_array)));
+                arsort($secondHighestArrayValue);
+
+                $allValuesGets = array_merge($unique_filtered_keys, $firstHighestArrayValue, $secondHighestArrayValue);
+
+                $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
+                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
+
+            }@endphp
         <div class="row mt-4">
             <div class="col-6">
                 <div class="card" >
@@ -31,23 +264,23 @@
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$grid['sa'] + $grid['ma'] + $grid['jo'] + $grid['lu'] + $grid['ven'] + $grid['mer'] + $grid['so']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] >= 2 && $grid['sa'] <= 4 ? 'bg-primary' : ($grid['sa'] == 1 ? 'bg-info' : ($grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success text-dark' : ($grid['sa'] <= 4 && $grid['sa'] >= 1 && $grid['ma'] >= 5 && $grid['mer'] >= 5 ? 'border-success' : 'border-white')))) }}">{{$second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] >= 2 && $grid['ma'] <= 4 ? 'bg-primary' : ($grid['ma'] == 1 ? 'bg-info' : ($grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success text-dark' : (($grid['ma'] <= 4) && ($grid['ma'] >= 1) && ($grid['sa'] >= 5) && ($grid['jo'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_ma = $grid['sa'] + $grid['ma'] + $grid['jo']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] >= 2 && $grid['jo'] <= 4 ? 'bg-primary' : ($grid['jo'] == 1 ? 'bg-info' : ($grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success text-dark' : (($grid['jo'] <= 4) && ($grid['jo'] >= 1) && ($grid['ma'] >= 5) && ($grid['lu'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_jo = $grid['ma'] + $grid['jo'] + $grid['lu']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer']}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa']}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] >= 2 && $grid['sa'] <= 4 ? 'bg-primary' : ($grid['sa'] == 1 ? 'bg-info' : ($grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success text-dark' : ($grid['sa'] <= 4 && $grid['sa'] >= 1 && $grid['ma'] >= 5 && $grid['mer'] >= 5 ? 'border-success' : 'border-white')))) }}">{{$second_row_sa}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] >= 2 && $grid['ma'] <= 4 ? 'bg-primary' : ($grid['ma'] == 1 ? 'bg-info' : ($grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success text-dark' : (($grid['ma'] <= 4) && ($grid['ma'] >= 1) && ($grid['sa'] >= 5) && ($grid['jo'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_ma}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] >= 2 && $grid['jo'] <= 4 ? 'bg-primary' : ($grid['jo'] == 1 ? 'bg-info' : ($grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success text-dark' : (($grid['jo'] <= 4) && ($grid['jo'] >= 1) && ($grid['ma'] >= 5) && ($grid['lu'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_jo}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_lu}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_ven}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$second_row_mer}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">0</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] >= 2 && $grid['sa'] <= 4 ? 'bg-primary' : ($grid['sa'] == 1 ? 'bg-info' : ($grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success text-dark' : ($grid['sa'] <= 4 && $grid['sa'] >= 1 && $grid['ma'] >= 5 && $grid['mer'] >= 5 ? 'border-success' : 'border-white')))) }}">{{$third_row_sa = $grid['sa'] * $second_row_sa}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] >= 2 && $grid['ma'] <= 4 ? 'bg-primary' : ($grid['ma'] == 1 ? 'bg-info' : ($grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success text-dark' : (($grid['ma'] <= 4) && ($grid['ma'] >= 1) && ($grid['sa'] >= 5) && ($grid['jo'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_ma = $grid['ma'] * $second_row_ma}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] >= 2 && $grid['jo'] <= 4 ? 'bg-primary' : ($grid['jo'] == 1 ? 'bg-info' : ($grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success text-dark' : (($grid['jo'] <= 4) && ($grid['jo'] >= 1) && ($grid['ma'] >= 5) && ($grid['lu'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_jo = $grid['jo'] * $second_row_jo}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_lu = $grid['lu'] * $second_row_lu}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_ven = $grid['ven'] * $second_row_ven}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_mer = $grid['mer'] * $second_row_mer}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">{{$third_row_so = 10 * $grid['so']}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['sa'] >= 2 && $grid['sa'] <= 4 ? 'bg-primary' : ($grid['sa'] == 1 ? 'bg-info' : ($grid['sa'] == 0 ? 'bg-danger' : ($grid['sa'] >= 5 ? 'bg-success text-dark' : ($grid['sa'] <= 4 && $grid['sa'] >= 1 && $grid['ma'] >= 5 && $grid['mer'] >= 5 ? 'border-success' : 'border-white')))) }}">{{$third_row_sa}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['ma'] >= 2 && $grid['ma'] <= 4 ? 'bg-primary' : ($grid['ma'] == 1 ? 'bg-info' : ($grid['ma'] == 0 ? 'bg-danger' : ($grid['ma'] >= 5 ? 'bg-success text-dark' : (($grid['ma'] <= 4) && ($grid['ma'] >= 1) && ($grid['sa'] >= 5) && ($grid['jo'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_ma}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['jo'] >= 2 && $grid['jo'] <= 4 ? 'bg-primary' : ($grid['jo'] == 1 ? 'bg-info' : ($grid['jo'] == 0 ? 'bg-danger' : ($grid['jo'] >= 5 ? 'bg-success text-dark' : (($grid['jo'] <= 4) && ($grid['jo'] >= 1) && ($grid['ma'] >= 5) && ($grid['lu'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_jo}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] >= 2 && $grid['lu'] <= 4 ? 'bg-primary' : ($grid['lu'] == 1 ? 'bg-info' : ($grid['lu'] == 0 ? 'bg-danger' : ($grid['lu'] >= 5 ? 'bg-success text-dark' : (($grid['lu'] <= 4) && ($grid['lu'] >= 1) && ($grid['jo'] >= 5) && ($grid['ven'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_lu}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] >= 2 && $grid['ven'] <= 4 ? 'bg-primary' : ($grid['ven'] == 1 ? 'bg-info' : ($grid['ven'] == 0 ? 'bg-danger' : ($grid['ven'] >= 5 ? 'bg-success text-dark' : (($grid['ven'] <= 4) && ($grid['ven'] >= 1) && ($grid['lu'] >= 5) && ($grid['mer'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_ven}}</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] >= 2 && $grid['mer'] <= 4 ? 'bg-primary' : ($grid['mer'] == 1 ? 'bg-info' : ($grid['mer'] == 0 ? 'bg-danger' : ($grid['mer'] >= 5 ? 'bg-success text-dark' : (($grid['mer'] <= 4) && ($grid['mer'] >= 1) && ($grid['ven'] >= 5) && ($grid['sa'] >= 5) ? 'border-success' : 'border-white')))) }}">{{$third_row_mer}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{ $grid['so'] >= 2 && $grid['so'] <= 4 ? 'bg-primary' : ($grid['so'] == 1 ? 'bg-info' : ($grid['so'] == 0 ? 'bg-danger' : ($grid['so'] >= 5 ? 'bg-success' : ''))) }}">{{$third_row_so}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
                             </tr>
                             </tbody>
@@ -60,208 +293,6 @@
             <div class="col-11">
                 <div class="card" >
                     <div class="table-responsive">
-                        @php
-                            // Initialize variables based on $grid values
-                            $de = $grid['de'];
-                            $dom = $grid['dom'];
-                            $fe = $grid['fe'];
-                            $gre = $grid['gre'];
-                            $lun = $grid['lun'];
-                            $nai = $grid['nai'];
-                            $ne = $grid['ne'];
-                            $pow = $grid['pow'];
-                            $sp = $grid['sp'];
-                            $tra = $grid['tra'];
-                            $van = $grid['van'];
-                            $wil = $grid['wil'];
-                            // Calculate result sums
-                            $result = $de + $dom + $fe + $gre + $lun + $nai + $ne + $pow + $sp + $tra + $van + $wil;
-
-                            // Calculate second row values
-                            $second_row_de = $grid['ma'];
-                            $second_row_dom = $grid['sa'] + $grid['ma'];
-                            $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
-                            $second_row_gre = $grid['mer'];
-                            $second_row_lun = $grid['lu'];
-                            $second_row_nai = $grid['so'];
-                            $second_row_ne = $grid['sa'] + $grid['lu'] + $grid['ven'];
-                            $second_row_pow = $grid['jo'] + $grid['mer'];
-                            $second_row_sp = $grid['jo'];
-                            $second_row_tra = $grid['jo'] + $grid['ven'];
-                            $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
-                            $second_row_wil = $grid['ma'] + $grid['lu'];
-                            $second_row_result = $second_row_de + $second_row_dom + $second_row_fe + $second_row_gre + $second_row_lun + $second_row_nai + $second_row_ne + $second_row_pow + $second_row_sp + $second_row_tra + $second_row_van + $second_row_wil;
-
-                            // Calculate third row values
-                            $third_row_de = $grid['de'] * $second_row_de;
-                            $third_row_dom = $grid['dom'] * $second_row_dom;
-                            $third_row_fe = $grid['fe'] * $second_row_fe;
-                            $third_row_gre = $grid['gre'] * $second_row_gre;
-                            $third_row_lun = $grid['lun'] * $second_row_lun;
-                            $third_row_nai = $grid['nai'] * $second_row_nai;
-                            $third_row_ne = $grid['ne'] * $second_row_ne;
-                            $third_row_pow = $grid['pow'] * $second_row_pow;
-                            $third_row_sp = $grid['sp'] * $second_row_sp;
-                            $third_row_tra = $grid['tra'] * $second_row_tra;
-                            $third_row_van = $grid['van'] * $second_row_van;
-                            $third_row_wil = $grid['wil'] * $second_row_wil;
-                            $third_row_result = $third_row_de + $third_row_dom + $third_row_fe + $third_row_gre + $third_row_lun + $third_row_nai + $third_row_ne + $third_row_pow + $third_row_sp + $third_row_tra + $third_row_van + $third_row_wil;
-
-                            // Define features array
-                            $features = [
-                                'de' => $grid['de'],
-                                'dom' => $grid['dom'],
-                                'fe' => $grid['fe'],
-                                'gre' => $grid['gre'],
-                                'lun' => $grid['lun'],
-                                'nai' => $grid['nai'],
-                                'ne' => $grid['ne'],
-                                'pow' => $grid['pow'],
-                                'sp' => $grid['sp'],
-                                'tra' => $grid['tra'],
-                                'van' => $grid['van'],
-                                'wil' => $grid['wil'],
-                            ];
-
-                            $third_row_feature = [
-                                'de' => $grid['de'] * $second_row_de,
-                                'dom' => $grid['dom'] * $second_row_dom,
-                                'fe' => $grid['fe'] * $second_row_fe,
-                                'gre' => $grid['gre'] * ($grid['jo'] + $grid['mer']),
-                                'lun' => $grid['lun'] * $second_row_lun,
-                                'nai' => $grid['nai'] * $second_row_nai,
-                                'ne' => $grid['ne'] * $second_row_ne,
-                                'pow' => $grid['pow'] * $second_row_pow,
-                                'sp' => $grid['sp'] * $second_row_sp,
-                                'tra' => $grid['tra'] * $second_row_tra,
-                                'van' => $grid['van'] * $second_row_van,
-                                'wil' => $grid['wil'] * $second_row_wil,
-                            ];
-
-                            // Sort features in descending order while maintaining key associations
-                            arsort($features);
-
-                            // Filter keys based on conditions
-                            $filtered_keys = [];
-                            foreach ($features as $key => $value) {
-                                switch ($key) {
-                                    case 'de':
-                                        if ($grid['de'] > 2 && $grid['ma'] > 4) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'dom':
-                                        if ($grid['dom'] > 2 && ($grid['sa'] > 4 || $grid['ma'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'fe':
-                                        if ($grid['fe'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'gre':
-                                        if ($grid['gre'] > 2 && ($grid['jo'] > 6)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'lun':
-                                        if ($grid['lun'] > 2 && $grid['lu'] > 4) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'nai':
-                                        if ($grid['nai'] > 2 && $grid['so'] > 4) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'ne':
-                                        if ($grid['ne'] > 2 && ($grid['sa'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'pow':
-                                        if ($grid['pow'] > 2 && ($grid['jo'] > 4 || $grid['mer'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'sp':
-                                        if ($grid['sp'] > 2 && $grid['jo'] > 4) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'tra':
-                                        if ($grid['tra'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'van':
-                                        if ($grid['van'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4 || $grid['mer'] > 4 || $grid['so'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                    case 'wil':
-                                        if ($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) {
-                                            $filtered_keys[$key] = $value;
-                                        }
-                                        break;
-                                }
-                            }
-
-                            if (count($filtered_keys) < 2) {
-
-                                // Get the matching keys and their values from $third_row_feature
-                                $matchingKeys = array_intersect_key($third_row_feature, array_flip(array_keys($filtered_keys)));
-                                arsort($matchingKeys);
-
-                                $all_values_are_2 = [];
-                                foreach ($features as $key => $value) {
-                                    if ($value == 2) {
-                                        $all_values_are_2[$key] = $value;
-                                    }
-                                }
-
-                                $matchingKeysLessThanTwo = array_intersect_key($third_row_feature, array_flip(array_keys($all_values_are_2)));
-                                arsort($matchingKeysLessThanTwo);
-
-                                $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
-
-                                $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-
-                                $nextTwoKeys = [];
-                            } else {
-
-                                // Count the occurrences of each value
-                                $value_counts = array_count_values($filtered_keys);
-
-                                // Filter unique values
-                                $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                                    return $value_counts[$value] === 1;
-                                });
-
-                                // Filter remaining values (including repeating ones)
-                                $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                                    return $value_counts[$value] > 1 || $value_counts[$value] === 1;
-                                });
-
-                                // Removing the unique values from the remaining_keys array
-                                $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
-                                    return $value_counts[$value] > 1;
-                                });
-
-                                $matchingKeysAll = array_intersect_key($third_row_feature, array_flip(array_keys($remaining_keys)));
-                                arsort($matchingKeysAll);
-
-                                $allValuesGets = array_merge($unique_filtered_keys, $matchingKeysAll);
-
-                                $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
-                                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
-
-                            }
-
-
-                        @endphp
-
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
@@ -282,48 +313,48 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5 && $third_row_ma < 30) bg-danger @endif">{{$de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5) && $third_row_sa < 30 && $third_row_ma < 30) bg-danger  @endif">{{$dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_ma < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger @endif">{{$fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5 && $third_row_ma) bg-danger @endif">{{$lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5 && $third_row_so < 30) bg-danger @endif">{{$nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_sa < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger  @endif">{{$ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5 && $third_row_jo < 30) bg-danger @endif">{{$sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5) && $third_row_jo < 30 && $third_row_ven < 30) bg-danger @endif">{{$tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) && $third_row_jo < 30 && $third_row_ven < 30 && $third_row_mer < 30 && $third_row_so < 30) bg-danger @endif">{{$van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5) && $third_row_ma < 30 && $third_row_lu < 30) bg-danger @endif">{{$wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$second_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$second_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$second_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$second_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$second_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$second_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$second_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$second_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$second_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$second_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$second_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$second_row_wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5 && $third_row_ma < 30) bg-danger @endif">{{$second_row_de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5) && $third_row_sa < 30 && $third_row_ma < 30) bg-danger  @endif">{{$second_row_dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_ma < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger @endif">{{$second_row_fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$second_row_gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5 && $third_row_ma) bg-danger @endif">{{$second_row_lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5 && $third_row_so < 30) bg-danger @endif">{{$second_row_nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_sa < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger  @endif">{{$second_row_ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$second_row_pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5 && $third_row_jo < 30) bg-danger @endif">{{$second_row_sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5) && $third_row_jo < 30 && $third_row_ven < 30) bg-danger @endif">{{$second_row_tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) && $third_row_jo < 30 && $third_row_ven < 30 && $third_row_mer < 30 && $third_row_so < 30) bg-danger @endif">{{$second_row_van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5) && $third_row_ma < 30 && $third_row_lu < 30) bg-danger @endif">{{$second_row_wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_result}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5) bg-danger @endif">{{$third_row_de}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) bg-danger  @endif">{{$third_row_dom}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$third_row_fe}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5)) bg-danger @endif">{{$third_row_gre}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5) bg-danger @endif">{{$third_row_lun}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5) bg-danger @endif">{{$third_row_nai}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) bg-danger  @endif">{{$third_row_ne}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) bg-danger @endif">{{$third_row_pow}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5) bg-danger @endif">{{$third_row_sp}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) bg-danger @endif">{{$third_row_tra}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) bg-danger @endif">{{$third_row_van}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) bg-danger @endif">{{$third_row_wil}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('de', $topTwoKeys)) bg-success @elseif(in_array('de', $nextTwoKeys)) bg-primary @elseif(($grid['de'] > 2) && $grid['ma'] < 5 && $third_row_ma < 30) bg-danger @endif">{{$third_row_de}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('dom', $topTwoKeys)) bg-success @elseif(in_array('dom', $nextTwoKeys)) bg-primary @elseif($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5) && $third_row_sa < 30 && $third_row_ma < 30) bg-danger  @endif">{{$third_row_dom}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('fe', $topTwoKeys)) bg-success @elseif(in_array('fe', $nextTwoKeys)) bg-primary @elseif($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_ma < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger @endif">{{$third_row_fe}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('gre', $topTwoKeys)) bg-success @elseif(in_array('gre', $nextTwoKeys)) bg-primary @elseif($grid['gre'] > 2 && ($grid['jo'] < 7 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$third_row_gre}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('lun', $topTwoKeys)) bg-success @elseif(in_array('lun', $nextTwoKeys)) bg-primary @elseif($grid['lun'] > 2 && $grid['lu'] < 5 && $third_row_ma) bg-danger @endif">{{$third_row_lun}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('nai', $topTwoKeys)) bg-success @elseif(in_array('nai', $nextTwoKeys)) bg-primary @elseif($grid['nai'] > 2 && $grid['so'] < 5 && $third_row_so < 30) bg-danger @endif">{{$third_row_nai}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('ne', $topTwoKeys)) bg-success @elseif(in_array('ne', $nextTwoKeys)) bg-primary @elseif($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5) && $third_row_sa < 30 && $third_row_lu < 30 && $third_row_ven < 30) bg-danger  @endif">{{$third_row_ne}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('pow', $topTwoKeys)) bg-success @elseif(in_array('pow', $nextTwoKeys)) bg-primary @elseif($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5) && $third_row_jo < 30 && $third_row_mer < 30) bg-danger @endif">{{$third_row_pow}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('sp', $topTwoKeys)) bg-success @elseif(in_array('sp', $nextTwoKeys)) bg-primary @elseif($grid['sp'] > 2 && $grid['jo'] < 5 && $third_row_jo < 30) bg-danger @endif">{{$third_row_sp}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('tra', $topTwoKeys)) bg-success @elseif(in_array('tra', $nextTwoKeys)) bg-primary @elseif($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5) && $third_row_jo < 30 && $third_row_ven < 30) bg-danger @endif">{{$third_row_tra}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('van', $topTwoKeys)) bg-success @elseif(in_array('van', $nextTwoKeys)) bg-primary @elseif($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5) && $third_row_jo < 30 && $third_row_ven < 30 && $third_row_mer < 30 && $third_row_so < 30) bg-danger @endif">{{$third_row_van}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white @if(in_array('wil', $topTwoKeys)) bg-success @elseif(in_array('wil', $nextTwoKeys)) bg-primary @elseif($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5) && $third_row_ma < 30 && $third_row_lu < 30) bg-danger @endif">{{$third_row_wil}}</td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$third_row_result}}</td>
                             </tr>
                             </tbody>
