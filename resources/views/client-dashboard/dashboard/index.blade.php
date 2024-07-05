@@ -19,6 +19,42 @@
         scrollbar-width: thin; /* Thickness of the scrollbar */
         scrollbar-color: #888 rgb(160, 174, 192); /* Color of the scrollbar and track */
     }
+
+
+    #chatDots {
+        margin: 32px;
+    }
+    .chatDot {
+        width: 10px;
+        height: 10px;
+        background-color: #f2661c;
+        display: inline-block;
+        margin: 1px;
+        border-radius: 50%;
+    }
+    .chatDot:nth-child(1) {
+         animation: bounce 1s infinite;
+     }
+    .chatDot:nth-child(2) {
+         animation: bounce 1s infinite .2s;
+     }
+    .chatDot:nth-child(3) {
+         animation: bounce 1s infinite .4s;
+     }
+
+
+    @keyframes bounce {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(8px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
 </style>
 @section('content')
     <div class="container-fluid">
@@ -207,67 +243,20 @@
                                             <h5 class="text-white text-bold">Yesterday chat</h5>
                                             <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
                                                 Permission Denied Error Troubleshooting</p>
-                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                                Customizing Embedding Videos</p>
-                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                                Bootstrap: Utilizar bordes blancos</p>
                                         </div>
                                         <div class="mt-4">
                                             <h5 class="text-white text-bold">Previous 30 Days chat</h5>
                                             <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
                                                 Merge Videos with FFmpeg</p>
-                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                                Permission Denied Error Troubleshooting</p>
-                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                                Customizing Embedding Videos</p>
-                                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                                Bootstrap: Utilizar bordes blancos</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-9">
-                                <div class="chatbox">
-                                    <div class="chatbox-content" id="chatbox-content">
-                                        <div style="display: flex; justify-content: flex-start">
-                                            <div class="message bot-message">Welcome to our store! Whether you have a
-                                                specific
-                                                question or need
-                                                assistance, we're here for you. What would you like to know? 😊
-                                            </div>
-                                        </div>
-                                        <div style="display: flex; justify-content: flex-end">
-                                            <div class="message user-message">Shopping guide</div>
-                                        </div>
-                                        <div style="display: flex; justify-content: flex-start">
-                                            <div class="message bot-message">Welcome to our store! Whether you have a
-                                                specific
-                                                question or need
-                                                assistance, we're here for you. What would you like to know? 😊
-                                            </div>
-                                        </div>
-                                        <div style="display: flex; justify-content: flex-end">
-                                            <div class="message user-message">Shopping guide</div>
-                                        </div>
-                                        <div style="display: flex; justify-content: flex-start">
-                                            <div class="message bot-message">Welcome to our store! Whether you have a
-                                                specific
-                                                question or need
-                                                assistance, we're here for you. What would you like to know? 😊
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="chatbox-input">
-                                        <input type="text" id="user-input" placeholder="Type your message here...">
-                                        <button id="send-button">&#9658;</button>
-                                    </div>
-                                </div>
-                            </div>
+                                @livewire('client.chat.index')
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
 {{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
     </div>
