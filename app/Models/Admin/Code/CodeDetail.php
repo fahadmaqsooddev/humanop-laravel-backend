@@ -36,4 +36,20 @@ class CodeDetail extends Model
         return $code;
 
     }
+
+    public static function getCodeDeatil($keys = null)
+    {
+        $results = [];
+
+        foreach ($keys as $index => $key) {
+            $key_code = strtoupper($key);
+
+            $code_text = self::where('code', $key_code)->where('number', $index + 1)->get(['text', 'public_name', 'number']);
+
+            $results[] = $code_text;
+        }
+
+        return $results;
+
+    }
 }
