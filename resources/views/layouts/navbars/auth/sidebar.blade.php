@@ -48,6 +48,7 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
+                            @if(Auth::user()->hasRole('super admin'))
                             <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
                                    href="{{ route('admin_all_sub_admins') }}">
@@ -55,6 +56,7 @@
                                     <span class="sidenav-normal"> Sub Admins </span>
                                 </a>
                             </li>
+                            @endif
                             @can('users')
                                 <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
