@@ -5,13 +5,13 @@
         @if ($navbar == 'basic')
             @include('layouts/navbars/auth/nav-auth-basic')
         @else
-            <div class="container position-sticky z-index-sticky top-0">
-                <div class="row">
-                    <div class="col-12">
-                        @include('layouts/navbars/auth/nav-auth-cover')
-                    </div>
-                </div>
-            </div>
+{{--            <div class="container position-sticky z-index-sticky top-0">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-12">--}}
+{{--                        @include('layouts/navbars/auth/nav-auth-cover')--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         @endif
         <main class="main-content max-height-vh-100 h-100">
             @yield('content')

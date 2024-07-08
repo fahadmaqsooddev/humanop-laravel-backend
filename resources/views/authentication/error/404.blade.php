@@ -2,6 +2,7 @@
 
 @section('content')
 <!--navbar basic-->
+
   <main class="main-content  mt-0">
     <section class="my-10">
       <div class="container">

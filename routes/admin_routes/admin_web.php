@@ -36,42 +36,59 @@ use Illuminate\Support\Facades\Route;
     Route::get('/', function () {
         return redirect('/login');
     });
-//});
+ //});
 
-Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
+ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
-//    admin dashboard
+ //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
-    Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
-    Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
-    Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
-    Route::get('/user-detail/{id}', [AdminController::class, 'userDetail'])->name('admin_user_detail');
-    Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
-    Route::get('/dashboard-hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
-    Route::get('/grid', [AdminController::class, 'grid'])->name('admin_grid');
-    Route::get('/user-answer/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
-    Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
-    Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
+
+    Route::group(['middleware' => ['permission:users']], function () {
+        Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
+        Route::get('/user-detail/{id}', [AdminController::class, 'userDetail'])->name('admin_user_detail');
+        Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
+        Route::get('/grid', [AdminController::class, 'grid'])->name('admin_grid');
+        Route::get('/user-answer/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
+        Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+    });
+
+    Route::group(['middleware' => ['permission:cms']], function () {
+        Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
+        Route::get('/codes', [CodeController::class, 'ManageCode'])->name('admin_manage_code');
+        Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
+        Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
+        Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
+        Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
+        Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
+    });
+
+    Route::group(['middleware' => ['permission:questions']], function () {
+        Route::get('/questions', [QuestionController::class, 'allQuestions'])->name('admin_all_questions');
+        Route::get('/edit-question/{id}', [QuestionController::class, 'editQuestions'])->name('admin_edit_questions');
+    });
+
+    Route::group(['middleware' => ['permission:chat']], function () {
+        Route::get('/dashboard-hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
+    });
+    Route::group(['middleware' => ['permission:resources']], function () {
+        Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
+    });
+
+    Route::group(['middleware' => ['permission:projects']], function () {
+        Route::get('/admin-projects', [AdminController::class, 'project'])->name('admin_projects');
+    });
+
+    Route::group(['middleware' => ['role:super admin']], function () {
+        Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
+        Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
+
+        Route::get('/daily-tip', [TipController::class, 'index'])->name('admin_daily_tip');
+        Route::get('/create-daily-tip', [TipController::class, 'create'])->name('admin_create_daily_tip');
+
+        Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
+
+
+    });
+
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
-    Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
-    Route::get('/admin-projects', [AdminController::class, 'project'])->name('admin_projects');
-
-    Route::get('/questions', [QuestionController::class, 'allQuestions'])->name('admin_all_questions');
-    Route::get('/edit-question/{id}', [QuestionController::class, 'editQuestions'])->name('admin_edit_questions');
-
-    Route::get('/codes', [CodeController::class, 'ManageCode'])->name('admin_manage_code');
-    Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
-
-    Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
-    Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
-
-    Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
-
-    Route::get('/daily-tip', [TipController::class, 'index'])->name('admin_daily_tip');
-    Route::get('/create-daily-tip', [TipController::class, 'create'])->name('admin_create_daily_tip');
-
-    Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
-
-    Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
-
 });
