@@ -234,7 +234,8 @@
                 $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
                 $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
 
-            }@endphp
+            }
+            @endphp
         <div class="row mt-4">
             <div class="col-6">
                 <div class="card" >

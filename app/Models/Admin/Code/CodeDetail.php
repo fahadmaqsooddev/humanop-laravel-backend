@@ -37,17 +37,60 @@ class CodeDetail extends Model
 
     }
 
-    public static function getCodeDeatil($keys = null)
+    public static function getCodeDeatil($Stylekeys = null, $featureKeys = null, $alchemyCode = null, $communicationCode = null, $polarityCode = null, $energyCode = null, $pv = null, $ep = null)
     {
-        $results = [];
+        $style_code_detail = [];
+        $feature_code_detail = [];
+        $communication_code_detail = [];
 
-        foreach ($keys as $index => $key) {
-            $key_code = strtoupper($key);
+        foreach ($Stylekeys as $index => $style_key) {
+            $style_key_code = strtoupper($style_key);
 
-            $code_text = self::where('code', $key_code)->where('number', $index + 1)->get(['text', 'public_name', 'number']);
+            $style_code_text = self::where('code', $style_key_code)->where('number', $index + 1)->first(['text', 'public_name', 'number']);
 
-            $results[] = $code_text;
+            $style_code_detail[] = $style_code_text;
         }
+
+        foreach ($featureKeys as $feature_key) {
+            $feature_key_code = strtoupper($feature_key);
+
+            $feature_code_text = self::where('code', $feature_key_code)->first(['text', 'public_name']);
+
+            $feature_code_detail[] = $feature_code_text;
+        }
+
+        foreach ($communicationCode as $communication_key) {
+            $communication_key_code = strtoupper($communication_key);
+
+            $communication_code_text = self::where('code', $communication_key_code)->first(['text', 'public_name']);
+
+            $communication_code_detail[] = $communication_code_text;
+        }
+
+        $alchemy_key_code = strtoupper($alchemyCode['code']);
+        $alchemy_code = self::where('code', $alchemy_key_code)->first(['text', 'public_name']);
+
+        $alchemy_code_deatil = [
+            'image' => $alchemyCode['image'],
+            'text' => $alchemy_code['text'],
+            'public_name' => $alchemy_code['public_name'],
+        ];
+
+        $perception_life = self::where('id', 38)->first(['text', 'public_name']);
+        $polarity_code_detail = self::where('id', $polarityCode)->first(['text', 'public_name']);
+        $energy_code_detail = self::where('id', $energyCode)->first(['text', 'public_name']);
+
+        $results = [
+            'style_code_details' => $style_code_detail,
+            'feature_code_details' => $feature_code_detail,
+            'alchemy_code_details' => $alchemy_code_deatil,
+            'communication_code_details' => $communication_code_detail,
+            'perception_life' => $perception_life,
+            'polarity_code_detail' => $polarity_code_detail,
+            'energy_code_detail' => $energy_code_detail,
+            'pv' => $pv,
+            'ep' => $ep,
+        ];
 
         return $results;
 

@@ -234,10 +234,14 @@ return [
             'fillable' => ['discount', 'limit', 'coupon', 'remaining_redemption'],
             'hidden' => ['created_at','updated_at']
         ],
-
         'CouponRedemption' => [
             'table' => 'coupon_redemptions',
             'fillable' => ['user_id', 'coupon_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'AlchemyCode' => [
+            'table' => 'alchemy_codes',
+            'fillable' => ['number', 'code', 'image'],
             'hidden' => ['created_at','updated_at']
         ],
     ]

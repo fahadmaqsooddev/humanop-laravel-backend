@@ -32,7 +32,7 @@ class generateAnswerData extends Command
     public function handle()
     {
 
-        Schema::disableForeignKeyConstraints();
+//        Schema::disableForeignKeyConstraints();
 
         DB::table('answers')->truncate();
         $csvFile = fopen(base_path("public/answers.csv"), "r");
