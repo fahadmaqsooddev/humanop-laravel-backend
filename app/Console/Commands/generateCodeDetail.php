@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use App\Models\Admin\Code\CodeDetail;
+use Illuminate\Support\Facades\DB;
 
 class generateCodeDetail extends Command
 {
@@ -29,8 +30,9 @@ class generateCodeDetail extends Command
      */
     public function handle()
     {
-
-        $csvFile = fopen(base_path("public/codes.csv"), "r");
+        DB::table('code_details')->truncate();
+        
+        $csvFile = fopen(base_path("public/code_details.csv"), "r");
 
         $firstline = true;
 
@@ -47,7 +49,8 @@ class generateCodeDetail extends Command
             $public_name = $data[3];
             $number = $data[4];
             $type = $data[5];
-            $text = $data[7];
+            $text = $data[6];
+            $video = $data[9];
 
             $code = new CodeDetail();
 
@@ -57,6 +60,7 @@ class generateCodeDetail extends Command
             $code->number = $number;
             $code->type = $type;
             $code->text = $text;
+            $code->video = $video;
             $code->created_at = Carbon::today();
             $code->updated_at = Carbon::today();
 

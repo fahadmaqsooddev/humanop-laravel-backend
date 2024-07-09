@@ -46,7 +46,7 @@ class CodeDetail extends Model
         foreach ($Stylekeys['top_two_keys'] as $index => $style_key) {
             $style_key_code = strtoupper($style_key);
 
-            $style_code_text = self::where('code', $style_key_code)->where('number', $index + 1)->first(['text', 'public_name', 'number']);
+            $style_code_text = self::where('code', $style_key_code)->where('number', $index + 1)->first(['text', 'public_name', 'number', 'video']);
 
             $style_code_detail[] = $style_code_text;
         }
@@ -54,7 +54,7 @@ class CodeDetail extends Model
         foreach ($featureKeys['top_two_keys'] as $feature_key) {
             $feature_key_code = strtoupper($feature_key);
 
-            $feature_code_text = self::where('code', $feature_key_code)->first(['text', 'public_name']);
+            $feature_code_text = self::where('code', $feature_key_code)->first(['text', 'public_name', 'video']);
 
             $feature_code_detail[] = $feature_code_text;
         }
@@ -62,13 +62,13 @@ class CodeDetail extends Model
         foreach ($communicationCode as $communication_key) {
             $communication_key_code = strtoupper($communication_key);
 
-            $communication_code_text = self::where('code', $communication_key_code)->first(['text', 'public_name']);
+            $communication_code_text = self::where('code', $communication_key_code)->first(['text', 'public_name', 'video']);
 
             $communication_code_detail[] = $communication_code_text;
         }
 
         $alchemy_key_code = strtoupper($alchemyCode['code']);
-        $alchemy_code = self::where('code', $alchemy_key_code)->first(['text', 'public_name']);
+        $alchemy_code = self::where('code', $alchemy_key_code)->first(['text', 'public_name', 'video']);
 
         $alchemy_code_deatil = [
             'image' => $alchemyCode['image'],
@@ -76,9 +76,9 @@ class CodeDetail extends Model
             'public_name' => $alchemy_code['public_name'],
         ];
 
-        $perception_life = self::where('id', 38)->first(['text', 'public_name']);
-        $polarity_code_detail = self::where('id', $polarityCode)->first(['text', 'public_name']);
-        $energy_code_detail = self::where('id', $energyCode)->first(['text', 'public_name']);
+        $perception_life = self::where('id', 38)->first(['text', 'public_name', 'video']);
+        $polarity_code_detail = self::where('id', $polarityCode)->first(['text', 'public_name', 'video']);
+        $energy_code_detail = self::where('id', $energyCode)->first(['text', 'public_name', 'video']);
 
         $results = [
             'style_code_details' => $style_code_detail,
