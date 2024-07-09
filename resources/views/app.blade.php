@@ -31,6 +31,7 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
+  @stack('css')
   <link href="{{ URL::asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
   <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
   <link href="{{ URL::asset('assets/css/custom.css') }}" rel="stylesheet" />
