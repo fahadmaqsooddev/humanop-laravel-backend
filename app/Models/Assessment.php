@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
 
 class Assessment extends Model
 {
     use HasFactory;
+
+    protected $appends = ['assessment_status'];
 
     public function __construct(array $attributes = array())
     {
@@ -21,11 +24,25 @@ class Assessment extends Model
         parent::__construct($attributes);
     }
 
+    // relations
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    // appends
+    public function getAssessmentStatusAttribute(){
+
+        return ($this->page > 0 ? "Incomplete" : "Complete");
+    }
+
+    // Accessor
+    public function getCreatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y/m/d');
+    }
+
+    // queries
     public static function createAssessment($data = null)
     {
         return self::create($data);
@@ -443,6 +460,21 @@ class Assessment extends Model
         ];
 
         return $topKeys;
+    }
+
+    public static function assessmentsPaginated($request = null){
+
+        $order_by = isset($request['order_by']) ? $request['order_by'] : "created_at";
+        $order = isset($request['order']) ? $request['order'] : "DESC";
+
+
+        $assessments = self::where('user_id', Helpers::getUser()->id)
+
+            ->select(['id','page','created_at'])
+
+            ->orderBy($order_by, $order);
+
+        return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
     }
 
 }

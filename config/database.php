@@ -211,8 +211,8 @@ return [
         ],
         'Assessment' => [
             'table' => 'assessments',
-            'fillable' => ['user_id', 'page','sa','ma','jo','lu','ven','mer','so','de','dom','fe','gre','lun','nai','ne','pow','sp','tra','van','wil','g','s','c','em','ins','int','mov'],
-            'hidden' => ['created_at','updated_at']
+            'fillable' => ['user_id', 'page','sa','ma','jo','lu','ven','mer','so','de','dom','fe','gre','lun','nai','ne','pow','sp','tra','van','wil','g','s','c','em','ins','int','mov','created_at'],
+            'hidden' => ['updated_at']
         ],
         'AssessmentDetail' => [
             'table' => 'assessment_details',
