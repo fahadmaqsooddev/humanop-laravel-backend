@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\DailyTip;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TipRecord;
@@ -17,6 +18,11 @@ class DailyTip extends Model
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
+    }
+
+    public function tip(){
+
+        return $this->hasOne(TipRecord::class,'tip_id','id')->whereNot('user_id', Helpers::getUser()->id);
     }
 
     public static function getTip()
@@ -42,6 +48,15 @@ class DailyTip extends Model
 //            return $tip;
 //        }
 
+    }
+
+
+
+    public static function dailyTip(){
+
+        return self::whereDoesntHave('tip')->inRandomOrder()
+
+            ->first();
     }
 
 }
