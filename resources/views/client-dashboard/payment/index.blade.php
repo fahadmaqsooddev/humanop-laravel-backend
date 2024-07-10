@@ -158,7 +158,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: '{{ route("check_coupon") }}',
+                    url: '{{ url("check_coupon") }}',
                     method: 'POST',
                     data: $(this).serialize(),
                     headers: {
