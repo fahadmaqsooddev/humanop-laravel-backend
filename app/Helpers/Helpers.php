@@ -147,5 +147,22 @@ class Helpers
 
     }
 
+    public static function explodeAgeRangeIntoAge($request = null){
+
+        if (isset($request['age_range']) && !empty($request['age_range'])){
+
+            $age = explode('-',$request['age_range']);
+
+            $request['age_min'] = isset($age[0]) ? $age[0] : 0;
+
+            $request['age_max'] = isset($age[1]) ? $age[1] : 0;
+
+            return $request;
+
+        }
+
+        return $request;
+    }
+
 }
 

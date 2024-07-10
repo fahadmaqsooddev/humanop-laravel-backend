@@ -21,6 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $ClientUserNamespace = 'App\Http\Controllers\User';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $EnterpriseNamespace = 'App\Http\Controllers\User';
+    protected $ApiClientAuthController = 'App\Http\Controllers\Api\ClientController';
 
 
     /**
@@ -62,6 +63,13 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->EnterpriseNamespace)
                 ->group(base_path('routes/admin_routes/enterprise_web.php'));
+
+
+            // Api's
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->ApiClientAuthController)
+                ->group(base_path('routes/client_apis/auth_api.php'));
         });
     }
 
