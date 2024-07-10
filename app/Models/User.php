@@ -9,10 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Assessment;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles;
 
@@ -23,6 +24,17 @@ class User extends Authenticatable
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
         parent::__construct($attributes);
     }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
