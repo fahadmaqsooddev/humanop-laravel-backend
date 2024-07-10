@@ -11,6 +11,7 @@ use App\Http\Controllers\ClientController\NetworkController;
 use App\Http\Controllers\ClientController\BillingController;
 use App\Http\Controllers\ClientController\SettingController;
 use App\Http\Controllers\ClientController\CouponController;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +48,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
 
     Route::post('/check-coupon',[CouponController::class, 'checkCoupon'])->name('check_coupon');
+
+    Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
 });

@@ -17,15 +17,12 @@
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
                             <div class="card" style="text-align: center">
-
+                                <div>
+                                    <a href="{{url('client/generate-pdf/'. $id)}}" target="_blank" class="btn btn-sm float-end mt-4 mb-4 text-white mx-4" style="background-color: #f2661c">PDF</a>
+                                </div>
                                 <div class="card-body p-3 ">
-
-                                    <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}"
-                                                                              style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
-                                    </div>
-                                    <div class="text-white">“Advanced Human Assessment Technology for a Better
-                                        Mankind”
-                                    </div>
+                                    <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}" style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/></div>
+                                    <div class="text-white">“Advanced Human Assessment Technology for a Better Mankind”</div>
                                     <h1 class="text-white">ULT Summary Report</h1>
                                     <h4 class="text-white">{{$user['first_name']}} {{$user['last_name']}}, {{$user['gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
                                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
