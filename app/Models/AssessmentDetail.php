@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,5 +28,14 @@ class AssessmentDetail extends Model
     public static function getDetail($id = null)
     {
         return self::where('assessment_id', $id)->get();
+    }
+
+    public static function assessmentAnswers($request = null, $assessment_id = null){
+
+        $assessment_answers = self::where('assessment_id', $assessment_id)
+
+            ->select(['id','assessment_id','question','answer']);
+
+        return Helpers::pagination($assessment_answers, $request->input('pagination'), $request->input('per_page'));
     }
 }
