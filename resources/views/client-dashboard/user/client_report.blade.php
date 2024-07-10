@@ -27,38 +27,8 @@
                                         Mankind”
                                     </div>
                                     <h1 class="text-white">ULT Summary Report</h1>
-                                    <h4 class="text-white">{{$user['first_name']}} {{$user['last_name']}}
-                                        , {{$user['gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
+                                    <h4 class="text-white">{{$user['first_name']}} {{$user['last_name']}}, {{$user['gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
                                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="0"
-                                                class="active"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                                            @foreach($reports['style_code_details'] as $key => $report)
-                                                <li data-target="#carouselExampleIndicators"
-                                                    data-slide-to="{{$key + 4}}"></li>
-                                            @endforeach
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="6"></li>
-                                            @foreach($reports['feature_code_details'] as $key => $report)
-                                                <li data-target="#carouselExampleIndicators"
-                                                    data-slide-to="{{$key + 7}}"></li>
-                                            @endforeach
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="9"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="10"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="11"></li>
-                                            @foreach($reports['communication_code_details'] as $key => $report)
-                                                <li data-target="#carouselExampleIndicators"
-                                                    data-slide-to="{{$key + 12}}"></li>
-                                            @endforeach
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="16"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="17"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="18"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="19"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="20"></li>
-                                            <li data-target="#carouselExampleIndicators" data-slide-to="21"></li>
-                                        </ol>
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
                                                 <p class="slider-padding">The ULT Performance Report serves to identify
@@ -84,14 +54,23 @@
                                                     you use your natural talents versus learned talents you gain energy.
                                                     Maximizing your fuel efficiency allows you to access your true self
                                                     and enjoy life in the process.</p>
-                                                <video class="slider-padding mb-5 " width="1100" height="550" controls
-                                                       muted>
-                                                    <source
-                                                        src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"
-                                                        type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo100')" data-toggle="collapse" href="#intro_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="intro_video">
+                                                    <video id="myVideo100" class="slider-padding mb-5 videoStop" width="1100" height="550"
+                                                           controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <p class="slider-padding">This advanced human assessment curriculum and
@@ -105,19 +84,29 @@
                                                     intrinsic value in fortifying relationships, seeking a career,
                                                     preparing for marriage, selecting a roommate and in better
                                                     understanding yourself and others.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('assets/video/Intro to The Cycle of Life.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo200')" data-toggle="collapse" href="#intro_cycle_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="intro_cycle_video">
+                                                    <video id="myVideo200" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/Intro to The Cycle of Life.mp4')}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c">The ULT Performance
                                                     Report addresses the
                                                     following:</h2>
                                                 <ul class="slider-padding"
-                                                    style="padding-right: 100px;padding-left: 100px">
+                                                    style="padding-left: 140px">
                                                     <li> Your unique natural expression of self</li>
 
                                                     <li>Talents that motivate and prompt you to participate in life</li>
@@ -131,12 +120,22 @@
 
                                                     <li> How much energy you currently have available to succeed</li>
                                                 </ul>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo300')" data-toggle="collapse" href="#cycle_of_life_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="cycle_of_life_video">
+                                                    <video id="myVideo300" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR TRAITS</h2>
@@ -144,24 +143,43 @@
                                                     how nature shows up in you. These traits assist in providing unique
                                                     insight into
                                                     your capabilities and natural talents.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('assets/video/Intro to Traits.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo400')" data-toggle="collapse" href="#trait_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="trait_video">
+                                                    <video id="myVideo400" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source src="{{asset('assets/video/Intro to Traits.mp4')}}"
+                                                                type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             @foreach($reports['style_code_details'] as $report)
                                                 <div class="carousel-item">
                                                     <h2 class="slider-padding"
                                                         style="color: #f2661c;">{{$report['public_name']}}</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
-                                                    <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                           muted>
-                                                        <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                        <source src="mov_bbb.ogg" type="video/ogg">
-                                                        Your browser does not support HTML video.
-                                                    </video>
+                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')" data-toggle="collapse" href="#{{$report['p_name']}}" role="button"
+                                                            aria-expanded="false" aria-controls="collapseExample"
+                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        Video
+                                                    </button>
+                                                    <div class="collapse" id="{{$report['p_name']}}">
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                               controls
+                                                               >
+                                                            <source src="{{asset('assets/video/'. $report['video'])}}"
+                                                                    type="video/mp4">
+                                                            <source src="mov_bbb.ogg" type="video/ogg">
+                                                            Your browser does not support HTML video.
+                                                        </video>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
@@ -191,24 +209,44 @@
                                                     What motivates or drives
                                                     you requires you choose those listed below in order of
                                                     proficiency.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo111')" data-toggle="collapse" href="#motivation_video" role="button"
+                                                         aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="motivation_video">
+                                                    <video id="myVideo111" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             @foreach($reports['feature_code_details'] as $report)
                                                 <div class="carousel-item">
                                                     <h2 class="slider-padding"
                                                         style="color: #f2661c;">{{$report['public_name']}}</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
-                                                    <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                           muted>
-                                                        <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                        <source src="mov_bbb.ogg" type="video/ogg">
-                                                        Your browser does not support HTML video.
-                                                    </video>
+                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')" data-toggle="collapse" href="#{{$report['p_name']}}" role="button"
+                                                            aria-expanded="false" aria-controls="collapseExample"
+                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        Video
+                                                    </button>
+                                                    <div class="collapse" id="{{$report['p_name']}}">
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                               controls
+                                                               >
+                                                            <source src="{{asset('assets/video/'. $report['video'])}}"
+                                                                    type="video/mp4">
+                                                            <source src="mov_bbb.ogg" type="video/ogg">
+                                                            Your browser does not support HTML video.
+                                                        </video>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
@@ -235,12 +273,21 @@
                                                     tolerance is so that you can better understand your own boundaries
                                                     and those
                                                     around you.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo222')" data-toggle="collapse" href="#alchemy_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="alchemy_video">
+                                                    <video id="myVideo222" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source src="{{asset('assets/video/Intro to Alchemy.mp4')}}"
+                                                                type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOU HAVE A
@@ -250,12 +297,22 @@
                                                         style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
                                                 </div>
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')" data-toggle="collapse" href="#{{$reports['alchemy_code_details']['p_name']}}" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="{{$reports['alchemy_code_details']['p_name']}}">
+                                                    <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR COMMUNICATION
@@ -283,12 +340,22 @@
                                                     follow. When all
                                                     are open, a memory is
                                                     established.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo333')" data-toggle="collapse" href="#communication_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="communication_video">
+                                                    <video id="myVideo333" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/Intro to Communication Style.mp4')}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             @foreach($reports['communication_code_details'] as $report)
                                                 <div class="carousel-item">
@@ -296,35 +363,64 @@
                                                         style="color: #f2661c;">YOU are
                                                         primarily {{$report['public_name']}} centered</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
-                                                    <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                           muted>
-                                                        <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                        <source src="mov_bbb.ogg" type="video/ogg">
-                                                        Your browser does not support HTML video.
-                                                    </video>
+                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')" data-toggle="collapse" href="#{{$report['p_name']}}" role="button"
+                                                            aria-expanded="false" aria-controls="collapseExample"
+                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        Video
+                                                    </button>
+                                                    <div class="collapse" id="{{$report['p_name']}}">
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                               controls
+                                                               >
+                                                            <source src="{{asset('assets/video/'. $report['video'])}}"
+                                                                    type="video/mp4">
+                                                            <source src="mov_bbb.ogg" type="video/ogg">
+                                                            Your browser does not support HTML video.
+                                                        </video>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR PERCEPTION OF
                                                     LIFE</h2>
                                                 <p class="slider-padding">{{$reports['perception_life']['text']}}</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo444')" data-toggle="collapse" href="#perception_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="perception_video">
+                                                    <video id="myVideo444" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source src="{{asset('assets/video/Perception of Life Intro.mp4')}}"
+                                                                type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding"
                                                     style="color: #f2661c;">{{$reports['polarity_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['polarity_code_detail']['text']}}</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo{{$reports['polarity_code_detail']['id']}}')" data-toggle="collapse" href="#{{$reports['polarity_code_detail']['p_name']}}" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="{{$reports['polarity_code_detail']['p_name']}}">
+                                                    <video id="myVideo{{$reports['polarity_code_detail']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source
+                                                            src="{{asset('assets/video/'. $reports['polarity_code_detail']['video'])}}"
+                                                            type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR ENERGY POOL</h2>
@@ -341,23 +437,40 @@
                                                     toxic abuse. The need for fortifying your presentation can be met by
                                                     living a more naturally suited
                                                     life.</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo555')" data-toggle="collapse" href="#energy_video" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="energy_video">
+                                                    <video id="myVideo555" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source src="{{asset('assets/video/Intro to Energy Pool.mp4')}}" type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding"
                                                     style="color: #f2661c;">{{$reports['energy_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['energy_code_detail']['text']}}</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
+                                                <button onclick="pauseVideo('myVideo{{$reports['energy_code_detail']['id']}}')" data-toggle="collapse" href="#{{$reports['energy_code_detail']['p_name']}}" role="button"
+                                                        aria-expanded="false" aria-controls="collapseExample"
+                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                    Video
+                                                </button>
+                                                <div class="collapse" id="{{$reports['energy_code_detail']['p_name']}}">
+                                                    <video id="myVideo{{$reports['energy_code_detail']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                           >
+                                                        <source src="{{asset('assets/video/'. $reports['energy_code_detail']['video'])}}" type="video/mp4">
+                                                        <source src="mov_bbb.ogg" type="video/ogg">
+                                                        Your browser does not support HTML video.
+                                                    </video>
+                                                </div>
+
                                             </div>
                                             <div class="carousel-item">
                                                 <p class="slider-padding">
@@ -399,12 +512,6 @@
                                                 <p class="slider-padding">Your practitioner
                                                     is {{\Illuminate\Support\Facades\Auth::user()['first_name']}} {{\Illuminate\Support\Facades\Auth::user()['last_name']}}
                                                     <br>{{\Illuminate\Support\Facades\Auth::user()['email']}}</p>
-                                                <video class="slider-padding mb-5" width="1100" height="550" controls
-                                                       muted>
-                                                    <source src="{{asset('video.mp4')}}" type="video/mp4">
-                                                    <source src="mov_bbb.ogg" type="video/ogg">
-                                                    Your browser does not support HTML video.
-                                                </video>
                                             </div>
                                             <div class="carousel-item">
                                                 <p class="slider-padding">For internal use only. <br>Compatibility
@@ -419,19 +526,17 @@
                                                 <p class="slider-padding">TEP {{$reports['ep'] * 2}}</p>
                                             </div>
                                         </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                        <a class="carousel-control-prev" href="#carouselExampleIndicators" onclick="pauseAllVideos()" role="button"
                                            data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
                                         </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                        <a class="carousel-control-next" href="#carouselExampleIndicators" onclick="pauseAllVideos()" role="button"
                                            data-slide="next">
                                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -457,6 +562,32 @@
         $('.carousel').carousel({
             interval: false,
         });
+    </script>
+    <script>
+        // Get all video elements
+        var videos = document.querySelectorAll('.videoStop');
+
+        // Function to pause all videos except the one with the given ID
+        function pauseAllVideos(exceptId) {
+            videos.forEach(function(video) {
+                if (video.id !== exceptId) {
+                    video.pause();
+                }
+            });
+        }
+
+        // Function to toggle video play/pause on button click
+        function pauseVideo(videoId) {
+            var video = document.getElementById(videoId);
+            if (video.paused) {
+                pauseAllVideos(videoId); // Pause all other videos
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+
     </script>
 @endpush
 

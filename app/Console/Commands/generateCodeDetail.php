@@ -51,6 +51,7 @@ class generateCodeDetail extends Command
             $type = $data[5];
             $text = $data[6];
             $video = $data[9];
+            $p_name = $data[10];
 
             $code = new CodeDetail();
 
@@ -61,6 +62,7 @@ class generateCodeDetail extends Command
             $code->type = $type;
             $code->text = $text;
             $code->video = $video;
+            $code->p_name = $p_name;
             $code->created_at = Carbon::today();
             $code->updated_at = Carbon::today();
 
