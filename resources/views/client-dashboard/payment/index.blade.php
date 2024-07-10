@@ -158,7 +158,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: '{{ url("check_coupon") }}',
+                    url: 'https://saas.humanoptech.com/check_coupon',
                     method: 'POST',
                     data: $(this).serialize(),
                     headers: {
