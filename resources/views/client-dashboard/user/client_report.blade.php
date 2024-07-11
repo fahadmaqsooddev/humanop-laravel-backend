@@ -147,7 +147,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="trait_video">
-                                                    <video id="myVideo400" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo400" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source src="{{asset('assets/video/Intro to Traits.mp4')}}"
                                                                 type="video/mp4">
@@ -168,7 +168,7 @@
                                                         Video
                                                     </button>
                                                     <div class="collapse" id="{{$report['p_name']}}">
-                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
                                                                >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
@@ -213,7 +213,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="motivation_video">
-                                                    <video id="myVideo111" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo111" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source
                                                             src="{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}"
@@ -235,7 +235,7 @@
                                                         Video
                                                     </button>
                                                     <div class="collapse" id="{{$report['p_name']}}">
-                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
                                                                >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
@@ -277,7 +277,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="alchemy_video">
-                                                    <video id="myVideo222" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo222" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source src="{{asset('assets/video/Intro to Alchemy.mp4')}}"
                                                                 type="video/mp4">
@@ -301,7 +301,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="{{$reports['alchemy_code_details']['p_name']}}">
-                                                    <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source
                                                             src="{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}"
@@ -344,7 +344,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="communication_video">
-                                                    <video id="myVideo333" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo333" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source
                                                             src="{{asset('assets/video/Intro to Communication Style.mp4')}}"
@@ -367,7 +367,7 @@
                                                         Video
                                                     </button>
                                                     <div class="collapse" id="{{$report['p_name']}}">
-                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5" width="1100" height="550"
+                                                        <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
                                                                >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
@@ -389,7 +389,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="perception_video">
-                                                    <video id="myVideo444" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo444" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source src="{{asset('assets/video/Perception of Life Intro.mp4')}}"
                                                                 type="video/mp4">
@@ -409,7 +409,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="{{$reports['polarity_code_detail']['p_name']}}">
-                                                    <video id="myVideo{{$reports['polarity_code_detail']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo{{$reports['polarity_code_detail']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source
                                                             src="{{asset('assets/video/'. $reports['polarity_code_detail']['video'])}}"
@@ -441,7 +441,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="energy_video">
-                                                    <video id="myVideo555" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo555" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source src="{{asset('assets/video/Intro to Energy Pool.mp4')}}" type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -460,7 +460,7 @@
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="{{$reports['energy_code_detail']['p_name']}}">
-                                                    <video id="myVideo{{$reports['energy_code_detail']['id']}}" class="slider-padding mb-5" width="1100" height="550" controls
+                                                    <video id="myVideo{{$reports['energy_code_detail']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
                                                            >
                                                         <source src="{{asset('assets/video/'. $reports['energy_code_detail']['video'])}}" type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -565,11 +565,9 @@
         var videos = document.querySelectorAll('.videoStop');
 
         // Function to pause all videos except the one with the given ID
-        function pauseAllVideos(exceptId) {
+        function pauseAllVideos() {
             videos.forEach(function(video) {
-                if (video.id !== exceptId) {
-                    video.pause();
-                }
+                video.pause();
             });
         }
 
@@ -584,6 +582,13 @@
             }
         }
 
+        // Pause all videos when carousel controls are clicked
+        document.querySelector('.carousel-control-prev').addEventListener('click', function() {
+            pauseAllVideos();
+        });
+        document.querySelector('.carousel-control-next').addEventListener('click', function() {
+            pauseAllVideos();
+        });
 
     </script>
 @endpush
