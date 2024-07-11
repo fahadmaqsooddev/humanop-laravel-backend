@@ -2,10 +2,11 @@
 
 namespace App\Models\Admin\Coupon;
 
+use App\Helpers\Helpers;
+use App\Models\Admin\Coupon\CouponRedemption;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Models\Admin\Coupon\CouponRedemption;
 
 class Coupon extends Model
 {
@@ -80,6 +81,30 @@ class Coupon extends Model
 
             return ['success' => "Congratulations! You've Won a Special Discount", 'status' => 200, 'amount' => $dis_amount];
         }
+    }
+
+    public static function redeemCouponCodeForApi($code = null, $original_amount = null){
+
+        $coupon = self::where('coupon', $code)->first();
+
+        if ($coupon){
+
+            if ($coupon['remaining_redemption'] != 0){
+
+                return CouponRedemption::checkOrCreateCouponRedemption($coupon, $original_amount);
+
+            }else{
+
+                $message = "Coupon has expired.";
+            }
+
+        }else{
+
+            $message = "Coupon Code Invalid";
+        }
+
+        return Helpers::validationResponse($message);
+
     }
 
 }

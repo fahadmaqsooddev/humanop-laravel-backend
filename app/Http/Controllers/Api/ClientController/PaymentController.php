@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CheckoutPaymentRequest;
+use App\Http\Requests\Api\Client\RedeemCouponRequest;
+use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
+use Illuminate\Http\Request;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -47,5 +50,21 @@ class PaymentController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function redeemCoupon(RedeemCouponRequest $request){
+
+        try {
+
+            $original_amount = StripeSetting::getSingle();
+
+            $response = Coupon::redeemCouponCodeForApi($request->input('coupon_code'), $original_amount['amount']);
+
+            return $response;
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 }

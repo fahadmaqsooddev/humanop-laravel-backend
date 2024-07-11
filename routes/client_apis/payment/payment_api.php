@@ -13,3 +13,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('payment_checkout', 'PaymentController@paymentCheckout');
+Route::post('redeem_coupon', 'PaymentController@redeemCoupon');

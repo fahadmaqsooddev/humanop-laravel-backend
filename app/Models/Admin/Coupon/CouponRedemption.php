@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Coupon;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,33 @@ class CouponRedemption extends Model
         $coupon['user_id'] = Auth::user()['id'];
 
         return self::create($coupon);
+
+    }
+
+    public static function checkOrCreateCouponRedemption($coupon = null, $original_amount = null){
+
+        $coupon_found = CouponRedemption::where([['coupon_id', $coupon->id],['user_id', Helpers::getUser()->id]])->exists();
+
+        if (!$coupon_found){
+
+            self::create(['coupon_id' => $coupon->id, 'user_id' => Helpers::getUser()->id]);
+
+            if ($coupon['limit'] > 0) {
+
+                $coupon->decrement('remaining_redemption');
+            }
+
+            $dis_amount = (int)$original_amount - ((int)$coupon['discount'] / 100 * (int)$original_amount);
+
+            $data = ['amount' => (int)$dis_amount];
+
+            return Helpers::successResponse("Congratulations! You've Won a Special Discount", $data);
+
+        }else{
+
+            return Helpers::validationResponse("You have already used this coupon.");
+
+        }
 
     }
 }
