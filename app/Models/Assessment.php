@@ -477,4 +477,9 @@ class Assessment extends Model
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
     }
 
+    public static function getGridForApi($id = null)
+    {
+        return self::whereId($id)->where('user_id', Helpers::getUser()->id)->first();
+    }
+
 }

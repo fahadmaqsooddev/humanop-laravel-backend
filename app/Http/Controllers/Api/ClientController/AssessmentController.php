@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
+use App\Http\Requests\Api\Client\GridRequest;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
 use Illuminate\Http\Request;
@@ -37,6 +38,20 @@ class AssessmentController extends Controller
             $assessment_answers = AssessmentDetail::assessmentAnswers($request, $request->input('assessment_id'));
 
             return Helpers::successResponse('Assessment Answers', $assessment_answers, $request->input('pagination'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function grid(GridRequest $request){
+
+        try {
+
+            $grid = Assessment::getGridForApi($request->input('assessment_id'));
+
+            return Helpers::successResponse('User grid data', $grid);
 
         }catch (\Exception $exception){
 
