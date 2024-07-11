@@ -4,7 +4,7 @@
     <style>
         .slider-padding {
             padding: 10px 120px 20px 120px;
-            text-align: start;
+            text-align: justify;
             color: white;
         }
     </style>
@@ -99,7 +99,7 @@
                                                 </div>
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 class="slider-padding" style="color: #f2661c">The ULT Performance
+                                                <h2 style="color: #f2661c">The ULT Performance
                                                     Report addresses the
                                                     following:</h2>
                                                 <ul class="slider-padding"
