@@ -98,4 +98,18 @@ class AuthController extends Controller
         }
 
     }
+
+    public function logoutClient(){
+
+        try {
+
+            $this->auth->logout();
+
+            return Helpers::successResponse('User logged out successfully');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }

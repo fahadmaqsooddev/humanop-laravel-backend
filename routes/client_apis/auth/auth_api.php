@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login-client','AuthController@loginClient');
 Route::post('register-client', 'AuthController@registerClient');
+Route::post('logout-client', 'AuthController@logoutClient');
