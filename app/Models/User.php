@@ -51,7 +51,9 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        if (str_contains(request()->path(), 'api')){
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 
     // scope
@@ -111,7 +113,7 @@ class User extends Authenticatable implements JWTSubject
         $age = explode('-', $data['age_range']);
         $data['age_min'] = $age[0];
         $data['age_max'] = $age[1];
-//        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
 
         $user = self::create($data);
 
@@ -124,7 +126,7 @@ class User extends Authenticatable implements JWTSubject
         $data['age_min'] = $age[0];
         $data['age_max'] = $age[1];
         $data['status'] = 1;
-//        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Hash::make($data['password']);
 
         $user = self::create($data);
 
