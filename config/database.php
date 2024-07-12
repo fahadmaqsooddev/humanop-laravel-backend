@@ -192,7 +192,7 @@ return [
         'User' => [
             'table' => 'users',
             'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin'],
-            'hidden' => ['created_at','updated_at','remember_token','password']
+            'hidden' => ['created_at','updated_at','remember_token']
         ],
         'Page' => [
             'table' => 'pages',

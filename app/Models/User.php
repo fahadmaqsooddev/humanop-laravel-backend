@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -161,16 +162,37 @@ class User extends Authenticatable implements JWTSubject
 
         $user = self::whereId($id)->selection()->first();
 
-        $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "Male" : "Female");
+        $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
 
         return $user;
     }
 
     public static function createClient($data = null){
 
+        $data['gender'] = $data['gender'] === 'male' ? 2 : 1;
+
         $data['is_admin'] = 2; // 2 for client
 
         return self::create($data);
+
+    }
+
+    public static function updateUserProfile($request = null){
+
+        $user_id = Helpers::getUser()->id;
+
+        $request['gender'] = $request['gender'] === 'male' ? 2 : 1;
+
+        self::whereId($user_id)->update($request);
+
+        return self::user($user_id);
+    }
+
+    public static function updateUserPassword($password = null){
+
+        $user = self::whereId(Helpers::getUser()->id)->first();
+
+        $user->update(['password' => $password]);
 
     }
 }
