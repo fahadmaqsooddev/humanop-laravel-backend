@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -14,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
     public function __construct(array $attributes = array())
     {

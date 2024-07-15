@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -83,5 +84,22 @@ class UserController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function deleteProfile(){
+
+        try {
+
+            User::whereId(Helpers::getUser()->id)->delete();
+
+            Session::flush();
+
+            return Helpers::successResponse('User deleted successfully');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }
