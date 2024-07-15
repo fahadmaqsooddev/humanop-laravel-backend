@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
 use App\Http\Requests\Api\Client\GridRequest;
+use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
 use Illuminate\Http\Request;
@@ -65,7 +66,12 @@ class AssessmentController extends Controller
 
             $status = Assessment::assessmentStatusForApi();
 
-            $data = ['assessment_page_number' => $status];
+            $assessment_price = StripeSetting::getSingle();
+
+            $data = [
+                'assessment_page_number' => $status,
+                'assessment_price' => ($assessment_price->amount ?? 0)
+            ];
 
             return Helpers::successResponse('Assessment Status', $data);
 

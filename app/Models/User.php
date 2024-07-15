@@ -17,6 +17,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
+    protected $appends = ['user_picture_url'];
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -63,6 +65,12 @@ class User extends Authenticatable implements JWTSubject
     public function scopeSelection($query){
 
         return $query->select(['id','first_name','last_name','gender','email','phone','is_admin']);
+    }
+
+    // appends
+    public function getUserPictureUrlAttribute(){
+
+        return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
     }
 
 
