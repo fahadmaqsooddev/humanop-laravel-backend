@@ -77,7 +77,7 @@ class UserController extends Controller
 
             $reports = Assessment::getReport($id);
             $user = Auth::user();
-            return view('client-dashboard.user.client_report', compact('reports', 'user'));
+            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id'));
 
         }catch (\Exception $exception)
         {
