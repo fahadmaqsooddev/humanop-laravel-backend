@@ -78,6 +78,11 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
     }
 
+    public static function getAssessmentIds()
+    {
+        return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
+    }
+
     public static function allAssessment()
     {
         return self::with('user')->where('page', 0)->get();

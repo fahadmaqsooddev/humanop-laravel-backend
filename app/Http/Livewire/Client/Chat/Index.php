@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Client\Chat;
 use Livewire\Component;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
+use App\Helpers\Assessments\AssessmentHelper;
+
 class Index extends Component
 {
     public $userMessage = '';
@@ -13,8 +15,11 @@ class Index extends Component
 
     public function sendMessage(){
        if(isset($this->userMessage)){
-           $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
+           $assessments = AssessmentHelper::getAssessments();
+
+           $this->messages[] = ['type' => 'user', 'text' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments];
+                dd($this->messages);
            $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-response',['query' => $this->userMessage]);
 
 
