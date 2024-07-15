@@ -31,7 +31,7 @@
                         <label class="form-check-label text-white">{{ $answer['answer'] }}</label>
                         @if($answer['image'] !== 'NULL')
                             <br>
-                            <img src="{{ asset($answer['image']) }}" alt="Image for {{ $answer['answer'] }}">
+                            <img src="{{ asset('/images/q'.$answer['image']) }}" alt="Image for {{ $answer['answer'] }}">
                         @endif
                     </div>
                 @endforeach
