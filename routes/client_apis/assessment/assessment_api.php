@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('all-assessments','AssessmentController@allAssessments');
 Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
 Route::get('grid', 'AssessmentController@grid');
+Route::get('assessment-status', 'AssessmentController@assessmentStatus');

@@ -482,4 +482,9 @@ class Assessment extends Model
         return self::whereId($id)->where('user_id', Helpers::getUser()->id)->first();
     }
 
+    public static function assessmentStatusForApi()
+    {
+        return self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first()->page ?? 0;
+    }
+
 }

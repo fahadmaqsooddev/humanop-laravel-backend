@@ -58,4 +58,20 @@ class AssessmentController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
+    public function assessmentStatus(){
+
+        try {
+
+            $status = Assessment::assessmentStatusForApi();
+
+            $data = ['assessment_page_number' => $status];
+
+            return Helpers::successResponse('Assessment Status', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }
