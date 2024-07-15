@@ -222,7 +222,7 @@
                             </li>
                             <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
-                                   @if(\App\Models\Assessment::getLastPage() > 0)
+                                   @if(\App\Models\Assessment::getLastPage() > 0 || \App\Models\Assessment::getLastPage() === null)
                                    href="{{ route('test_play') }}"
                                    @else
                                    href="{{ route('stripe_checkout') }}"
