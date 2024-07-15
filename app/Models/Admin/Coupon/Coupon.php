@@ -25,6 +25,11 @@ class Coupon extends Model
         return self::first();
     }
 
+    public static function getSingleCoupon($coupon = null)
+    {
+        return self::where('coupon', $coupon)->first();
+    }
+
     public static function getCoupon()
     {
         return self::orderBy('created_at', 'desc');

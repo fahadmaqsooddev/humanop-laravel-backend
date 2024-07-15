@@ -31,6 +31,11 @@ class Assessment extends Model
         return self::create($data);
     }
 
+    public static function createAssessmentData($userId = null)
+    {
+        return self::create(['user_id' => $userId]);
+    }
+
     public static function updateAssessment($data = null, $id = null)
     {
         return self::find($id)->update($data);
