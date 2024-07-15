@@ -34,7 +34,7 @@ class PaymentController extends Controller
                 Stripe::setApiKey($key['api_key']);
 
                 Charge::create([
-                    'amount' => ($request['amount'] * 100), // Amount in cents
+                    'amount' => ($request['price'] * 100), // Amount in cents
                     'currency' => 'usd',
                     'source' => $request->input('stripe_token'),
                     'description' => 'Test Payment',
