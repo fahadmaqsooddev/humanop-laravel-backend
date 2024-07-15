@@ -34,7 +34,7 @@ class generateAnswerData extends Command
 
 //        Schema::disableForeignKeyConstraints();
 
-        DB::table('answers')->truncate();
+//        DB::table('answers')->truncate();
         $csvFile = fopen(base_path("public/answers.csv"), "r");
 
         $firstline = true;
