@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\StripeSetting\StripeSetting;
@@ -27,7 +28,7 @@ class PaymentController extends Controller
         }catch (\Exception $exception)
         {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+            return Helpers::serverErrorResponse($exception->getMessage());
 
         }
     }
@@ -61,17 +62,33 @@ class PaymentController extends Controller
 
             $assessment = Assessment::createAssessmentData($user['id']);
 
-            Payment::createPayment($coupon['id'], $user['id'], $discount_amount, $stripe['amount'], $assessment['id']);
-            
+            Payment::createPayment($coupon, $user['id'], $discount_amount, $stripe['amount'], $assessment['id']);
+
             DB::commit();
 
             return redirect()->route('test_play')->with('success', 'Payment successful!');
 
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
-            return redirect()->route('stripe_checkout')->with('error', $e->getMessage());
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function PaymentHistory()
+    {
+        try {
+
+            $payment_history = Payment::getPaymentHistory();
+
+            return view('client-dashboard.payment.payment_history', compact('payment_history'));
+
+        }catch (\Exception $exception)
+        {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 }

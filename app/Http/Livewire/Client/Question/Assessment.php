@@ -30,7 +30,6 @@ class Assessment extends Component
         $this->offset = $this->currentPage * 3;
     }
 
-
     public function updateOrder($orderedIds)
     {
         $answer = Answer::where('id', $orderedIds[0]['value'])->first();
@@ -87,10 +86,6 @@ class Assessment extends Component
         //calculation ends
         $this->emitSelf('questionsUpdated', $this->questions );
     }
-
-
-
-
 
     public function updatedQuestions($updatedQuestions,$answers)
     {
@@ -203,7 +198,7 @@ class Assessment extends Component
             $existingAssessment = AssessmentModal::where('user_id', $userId)->latest()->first();
 
 
-            if ($existingAssessment && ($this->offset > 0)) {
+            if ($existingAssessment) {
 
                 $this->offset += 3;
                 $oldResult = $existingAssessment->toArray();
@@ -238,12 +233,13 @@ class Assessment extends Component
 
                 $existingAssessment->update($resultArray);
                  $this->assessmentId = $existingAssessment->id;
-            } else {
-                $this->offset += 3;
-                $finalAssessment = array_merge(['user_id' => $userId, 'page' => $this->offset / 3], $codeArray);
-                $assessmentId = AssessmentModal::create($finalAssessment);
-                $this->assessmentId = $assessmentId->id;
             }
+//            else {
+//                $this->offset += 3;
+//                $finalAssessment = array_merge(['user_id' => $userId, 'page' => $this->offset / 3], $codeArray);
+//                $assessmentId = AssessmentModal::create($finalAssessment);
+//                $this->assessmentId = $assessmentId->id;
+//            }
 
 
             foreach ($this->answers as $data) {
