@@ -33,7 +33,7 @@ class Assessment extends Model
     // appends
     public function getAssessmentStatusAttribute(){
 
-        return ($this->page > 0 ? "Incomplete" : "Complete");
+        return ($this->page > 0 || $this->page === null ? "Incomplete" : "Complete");
     }
 
     // Accessor

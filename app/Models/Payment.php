@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,28 @@ class Payment extends Model
     {
 
         return self::with('users', 'coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
+
+    }
+
+    public static function createPaymentFromApi($data = null)
+    {
+        return self::create($data);
+    }
+
+    public static function paginatedPaymentHistory($request = null,$user_id = null)
+    {
+        $payments = self::where('user_id', $user_id)->with(['coupons' => function($q){
+
+            $q->select(['id','discount']);
+
+        },'assessments' => function($q){
+
+            $q->select(['id','page']);
+
+        }])
+            ->orderBy('created_at', 'DESC');
+
+        return Helpers::pagination($payments, $request['pagination'], $request['per_page']);
 
     }
 }
