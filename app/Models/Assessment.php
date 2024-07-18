@@ -90,7 +90,7 @@ class Assessment extends Model
 
     public static function abandonedAssessment()
     {
-        return self::with('user')->where('page', '>', 0)->get();
+        return self::with('user')->where('page', null)->orderBy('created_at', 'DESC')->get();
     }
 
     public static function getReport($id = null)
