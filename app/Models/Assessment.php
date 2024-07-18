@@ -61,6 +61,7 @@ class Assessment extends Model
     public static function getLastPage()
     {
         $page = self::where('user_id', Auth::user()->id)->select(['page'])->latest()->first();
+
         if ($page) {
             return $page->page;
         } else {
@@ -494,7 +495,16 @@ class Assessment extends Model
 
     public static function assessmentStatusForApi()
     {
-        return self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first()->page ?? 0;
+        $status = self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first();
+
+        if ($status){
+
+            return $status->page === null ? false : $status->page;
+
+        }else{
+
+            return false;
+        }
     }
 
 }
