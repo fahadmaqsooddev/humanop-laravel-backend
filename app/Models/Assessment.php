@@ -25,7 +25,7 @@ class Assessment extends Model
     }
 
     // relations
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -70,7 +70,7 @@ class Assessment extends Model
 
     public static function getGrid($id = null)
     {
-        return self::whereId($id)->where('user_id', Auth::user()['id'])->first();
+        return self::whereId($id)->first();
     }
 
     public static function getAssessment()
@@ -85,17 +85,19 @@ class Assessment extends Model
 
     public static function allAssessment()
     {
-        return self::with('user')->where('page', 0)->get();
+        return self::with('users')->where('page', 0)->get();
     }
 
     public static function abandonedAssessment()
     {
-        return self::with('user')->where('page', null)->orderBy('created_at', 'DESC')->get();
+        return self::with('users')->where('page', null)->orderBy('created_at', 'DESC')->get();
     }
 
     public static function getReport($id = null)
     {
-        $assessment = self::whereId($id)->where('user_id', Auth::user()['id'])->first();
+        $assessment = self::whereId($id)->with(['users' => function ($q) {
+            $q->select(['id', 'first_name', 'last_name', 'gender']);
+        }])->first();
 
         $topTwoKeysStyle = self::getStyles($assessment);
         $topTwoKeysFeature = self::getFeatures($assessment);
@@ -126,7 +128,7 @@ class Assessment extends Model
             $energy_code = 16;
         }
 
-        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep);
+        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
 
         return $code_detail;
     }

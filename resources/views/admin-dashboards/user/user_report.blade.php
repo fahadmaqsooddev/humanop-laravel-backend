@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 @push('css')
     {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">--}}
     <style>
@@ -18,7 +18,7 @@
                         <div class="col-12">
                             <div class="card" style="text-align: center">
                                 <div>
-                                    <a href="{{url('client/generate-pdf/'. $id)}}" target="_blank" class="btn btn-sm float-end mt-4 mb-4 text-white mx-4" style="background-color: #f2661c">PDF</a>
+                                    <a href="{{url('admin/generate-pdf/'. $id)}}" target="_blank" class="btn btn-sm float-end mt-4 mb-4 text-white mx-4" style="background-color: #f2661c">PDF</a>
                                 </div>
                                 <div class="card-body p-3 ">
                                     <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}" style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/></div>
@@ -60,7 +60,7 @@
                                                 <div class="collapse" id="intro_video">
                                                     <video id="myVideo100" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                            controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"
                                                             type="video/mp4">
@@ -89,7 +89,7 @@
                                                 </button>
                                                 <div class="collapse" id="intro_cycle_video">
                                                     <video id="myVideo200" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/Intro to The Cycle of Life.mp4')}}"
                                                             type="video/mp4">
@@ -125,7 +125,7 @@
                                                 </button>
                                                 <div class="collapse" id="cycle_of_life_video">
                                                     <video id="myVideo300" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}"
                                                             type="video/mp4">
@@ -148,7 +148,7 @@
                                                 </button>
                                                 <div class="collapse" id="trait_video">
                                                     <video id="myVideo400" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source src="{{asset('assets/video/Intro to Traits.mp4')}}"
                                                                 type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -170,7 +170,7 @@
                                                     <div class="collapse" id="{{$report['p_name']}}">
                                                         <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
-                                                               >
+                                                        >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
                                                                     type="video/mp4">
                                                             <source src="mov_bbb.ogg" type="video/ogg">
@@ -207,14 +207,14 @@
                                                     you requires you choose those listed below in order of
                                                     proficiency.</p>
                                                 <button onclick="pauseVideo('myVideo111')" data-toggle="collapse" href="#motivation_video" role="button"
-                                                         aria-expanded="false" aria-controls="collapseExample"
+                                                        aria-expanded="false" aria-controls="collapseExample"
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
                                                 </button>
                                                 <div class="collapse" id="motivation_video">
                                                     <video id="myVideo111" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}"
                                                             type="video/mp4">
@@ -237,7 +237,7 @@
                                                     <div class="collapse" id="{{$report['p_name']}}">
                                                         <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
-                                                               >
+                                                        >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
                                                                     type="video/mp4">
                                                             <source src="mov_bbb.ogg" type="video/ogg">
@@ -278,7 +278,7 @@
                                                 </button>
                                                 <div class="collapse" id="alchemy_video">
                                                     <video id="myVideo222" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source src="{{asset('assets/video/Intro to Alchemy.mp4')}}"
                                                                 type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -302,7 +302,7 @@
                                                 </button>
                                                 <div class="collapse" id="{{$reports['alchemy_code_details']['p_name']}}">
                                                     <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}"
                                                             type="video/mp4">
@@ -345,7 +345,7 @@
                                                 </button>
                                                 <div class="collapse" id="communication_video">
                                                     <video id="myVideo333" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/Intro to Communication Style.mp4')}}"
                                                             type="video/mp4">
@@ -369,7 +369,7 @@
                                                     <div class="collapse" id="{{$report['p_name']}}">
                                                         <video id="myVideo{{$report['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550"
                                                                controls
-                                                               >
+                                                        >
                                                             <source src="{{asset('assets/video/'. $report['video'])}}"
                                                                     type="video/mp4">
                                                             <source src="mov_bbb.ogg" type="video/ogg">
@@ -390,7 +390,7 @@
                                                 </button>
                                                 <div class="collapse" id="perception_video">
                                                     <video id="myVideo444" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source src="{{asset('assets/video/Perception of Life Intro.mp4')}}"
                                                                 type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -410,7 +410,7 @@
                                                 </button>
                                                 <div class="collapse" id="{{$reports['polarity_code_detail']['p_name']}}">
                                                     <video id="myVideo{{$reports['polarity_code_detail']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source
                                                             src="{{asset('assets/video/'. $reports['polarity_code_detail']['video'])}}"
                                                             type="video/mp4">
@@ -442,7 +442,7 @@
                                                 </button>
                                                 <div class="collapse" id="energy_video">
                                                     <video id="myVideo555" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source src="{{asset('assets/video/Intro to Energy Pool.mp4')}}" type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
                                                         Your browser does not support HTML video.
@@ -461,7 +461,7 @@
                                                 </button>
                                                 <div class="collapse" id="{{$reports['energy_code_detail']['p_name']}}">
                                                     <video id="myVideo{{$reports['energy_code_detail']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                           >
+                                                    >
                                                         <source src="{{asset('assets/video/'. $reports['energy_code_detail']['video'])}}" type="video/mp4">
                                                         <source src="mov_bbb.ogg" type="video/ogg">
                                                         Your browser does not support HTML video.

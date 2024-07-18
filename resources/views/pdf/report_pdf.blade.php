@@ -18,8 +18,8 @@
                                     Mankind”
                                 </div>
                                 <h1 class="text-white">ULT Summary Report</h1>
-                                <h4 class="text-white">{{$user['first_name']}} {{$user['last_name']}}
-                                    , {{$user['gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
+                                <h4 class="text-white">{{$reports['user_name']}}
+                                    , {{$reports['user_gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
                                 <div class="text-white mt-4" style="text-align: justify">
                                     The ULT Performance Report serves to identify those aspects about you that
                                     define and direct your best
