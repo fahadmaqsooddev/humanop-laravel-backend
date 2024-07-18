@@ -70,7 +70,7 @@ class Assessment extends Model
 
     public static function getGrid($id = null)
     {
-        return self::whereId($id)->where('user_id', Auth::user()['id'])->first();
+        return self::whereId($id)->first();
     }
 
     public static function getAssessment()
@@ -85,7 +85,7 @@ class Assessment extends Model
 
     public static function allAssessment()
     {
-        return self::with('user')->where('page', 0)->get();
+        return self::with('users')->where('page', 0)->get();
     }
 
     public static function abandonedAssessment()

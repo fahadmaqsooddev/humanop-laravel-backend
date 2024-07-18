@@ -49,7 +49,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
         Route::get('/user-detail/{id}', [AdminController::class, 'userDetail'])->name('admin_user_detail');
         Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
-        Route::get('/grid', [AdminController::class, 'grid'])->name('admin_grid');
+        Route::get('/user-grid/{id}', [AdminController::class, 'grid'])->name('admin_user_grid');
         Route::get('/user-report/{id}', [AdminController::class, 'report'])->name('admin_user_report');
         Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('admin_generate_pdf');
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');

@@ -134,11 +134,13 @@ class AdminController extends Controller
         }
     }
 
-    public function grid()
+    public function grid($id)
     {
         try {
 
-            return view('admin-dashboards.grid');
+            $grid = Assessment::getGrid($id);
+
+            return view('admin-dashboards.user.user_grid', compact('grid'));
 
         } catch (\Exception $exception) {
 
@@ -152,7 +154,7 @@ class AdminController extends Controller
         try {
 
             $reports = Assessment::getReport($id);
-            
+
             return view('admin-dashboards.user.user_report', compact('reports', 'id'));
 
         }catch (\Exception $exception)
