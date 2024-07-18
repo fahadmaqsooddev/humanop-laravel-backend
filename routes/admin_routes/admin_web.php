@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\TipController;
 use App\Http\Controllers\AdminControllers\CouponController;
+use App\Http\Controllers\AdminControllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +61,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
         Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
+        Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
+
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {

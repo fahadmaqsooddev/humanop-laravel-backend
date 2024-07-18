@@ -61,8 +61,8 @@
                                 <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
                                        href="{{ route('admin_all_users') }}">
-                                        <span class="sidenav-mini-icon"> U </span>
-                                        <span class="sidenav-normal"> Users </span>
+                                        <span class="sidenav-mini-icon"> C </span>
+                                        <span class="sidenav-normal"> Client </span>
                                     </a>
                                 </li>
                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
@@ -136,18 +136,25 @@
                                                     <span class="sidenav-normal"> Resources Content </span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item {{ (Request::is('client/daily-tip') ? 'active' : '') }}">
-                                                <a class="nav-link {{ (Request::is('client/daily-tip') ? 'active' : '') }}"
+                                            <li class="nav-item {{ (Request::is('admin/daily-tip') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/daily-tip') ? 'active' : '') }}"
                                                    href="{{ route('admin_daily_tip') }}">
                                                     <span class="sidenav-mini-icon text-xs"> D </span>
                                                     <span class="sidenav-normal"> Daily Tips </span>
                                                 </a>
                                             </li>
-                                            <li class="nav-item {{ (Request::is('client/all-coupons') ? 'active' : '') }}">
-                                                <a class="nav-link {{ (Request::is('client/all-coupons') ? 'active' : '') }}"
+                                            <li class="nav-item {{ (Request::is('admin/all-coupons') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/all-coupons') ? 'active' : '') }}"
                                                    href="{{ route('admin_all_coupon') }}">
                                                     <span class="sidenav-mini-icon text-xs"> C </span>
                                                     <span class="sidenav-normal"> Coupons </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active' : '') }}"
+                                                   href="{{ route('admin_payment_history') }}">
+                                                    <span class="sidenav-mini-icon"> P </span>
+                                                    <span class="sidenav-normal"> Payment History </span>
                                                 </a>
                                             </li>
                                         </ul>

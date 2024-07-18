@@ -55,4 +55,11 @@ class Payment extends Model
         return self::where('user_id', $user_id)->with('coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
 
     }
+
+    public static function getAllPaymentHistory()
+    {
+
+        return self::with('users', 'coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
+
+    }
 }
