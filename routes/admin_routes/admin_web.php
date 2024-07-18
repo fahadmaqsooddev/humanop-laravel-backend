@@ -49,7 +49,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/user-detail/{id}', [AdminController::class, 'userDetail'])->name('admin_user_detail');
         Route::get('/user-info/{id}', [AdminController::class, 'userInfo'])->name('admin_user_info');
         Route::get('/grid', [AdminController::class, 'grid'])->name('admin_grid');
-        Route::get('/user-answer/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
+        Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
     });
 

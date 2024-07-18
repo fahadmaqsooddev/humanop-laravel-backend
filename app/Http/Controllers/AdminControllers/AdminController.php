@@ -164,7 +164,7 @@ class AdminController extends Controller
     {
         try {
             $user = User::getSingleUser($id);
-            return view('admin-dashboards.user_info', compact('user'));
+            return view('admin-dashboards.user.user_info', compact('user'));
 
         } catch (\Exception $exception) {
 
@@ -177,7 +177,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.user_detail', compact('id'));
+            return view('admin-dashboards.user.user_detail', compact('id'));
 
         } catch (\Exception $exception) {
 
@@ -191,7 +191,7 @@ class AdminController extends Controller
         try {
             $assessments = Assessment::allAssessment();
 
-            return view('admin-dashboards.all_users', compact('assessments'));
+            return view('admin-dashboards.user.all_users', compact('assessments'));
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
