@@ -58,7 +58,7 @@
                                             <p id="error_message"></p>
                                             <label class="form-label fs-4 text-white">Do you have any Coupon</label>
                                             <div class="form-group mt-4">
-                                                <input style="background-color: #0f1534;" class="form-control text-white"
+                                                <input style="background-color: #0f1534;" class="form-control text-white getCoupon"
                                                        type="text" name="coupon" maxlength="9"
                                                        placeholder="enter coupon code">
                                             </div>
@@ -85,6 +85,8 @@
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <label for="" class="text-white">Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Card Holder Name"
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                    <input type="text" hidden name="coupon" class="form-control coupon" placeholder="Enter Card Holder Name"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
 
                                 </div>
@@ -153,12 +155,21 @@
 
     <script>
         $(document).ready(function () {
+
+            $('.updateBtn').on('click', function ()
+            {
+
+                var coupon = $('.getCoupon').val();
+
+                $('.coupon').val(coupon);
+            });
+
             // Set up the AJAX request
             $('#checkCoupon').on('submit', function (e) {
                 e.preventDefault();
 
                 $.ajax({
-                    url: 'https://saas.humanoptech.com/client/check-coupon',
+                    url: '{{ route("check_coupon") }}',
                     method: 'POST',
                     data: $(this).serialize(),
                     headers: {

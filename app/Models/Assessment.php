@@ -48,6 +48,11 @@ class Assessment extends Model
         return self::create($data);
     }
 
+    public static function createAssessmentData($userId = null)
+    {
+        return self::create(['user_id' => $userId]);
+    }
+
     public static function updateAssessment($data = null, $id = null)
     {
         return self::find($id)->update($data);
@@ -71,6 +76,11 @@ class Assessment extends Model
     public static function getAssessment()
     {
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+    }
+
+    public static function getAssessmentIds()
+    {
+        return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
     public static function allAssessment()

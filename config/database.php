@@ -244,5 +244,10 @@ return [
             'fillable' => ['number', 'code', 'image'],
             'hidden' => ['created_at','updated_at']
         ],
+        'Payment' => [
+            'table' => 'payments',
+            'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id'],
+            'hidden' => ['created_at','updated_at']
+        ],
     ]
 ];
