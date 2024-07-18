@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\GridRequest;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class AssessmentController extends Controller
@@ -74,6 +75,20 @@ class AssessmentController extends Controller
             ];
 
             return Helpers::successResponse('Assessment Status', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function questions(){
+
+        try {
+
+            $questions = Question::paginatedQuestions();
+
+            return Helpers::successResponse('Questions', $questions, true);
 
         }catch (\Exception $exception){
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -20,11 +21,19 @@ class Question extends Model
         parent::__construct($attributes);
     }
 
+    // relations
     public function answers()
     {
         return $this->hasMany(Answer::class, 'question_id');
     }
 
+    public function subQuestionsForApi(){
+
+        return $this->hasMany(Question::class,'question_id','id')->whereNotNull('question_id');
+    }
+
+
+    // query
     public static function allQuestion()
     {
         return self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
@@ -118,4 +127,47 @@ class Question extends Model
         ]);
 
     }
+
+    public static function paginatedQuestions($offset = 0, $limit = 3){
+
+        $questions = self::whereIn('gender', [Helpers::getUser()->gender, 0])
+
+            ->whereNull('question_id')
+
+            ->where('active', 1)
+
+            ->with(['subQuestionsForApi.answers.subAnswerCodes','answers.answerCodes'])
+
+            ->orderBy('id',"ASC")
+
+            ->paginate(3)->toArray();
+
+        $final_questions = [];
+
+        foreach ($questions['data'] as $key => $question){
+
+            $temp_array = [];
+
+            $sub_questions = $question['sub_questions_for_api'];
+
+            unset($question['sub_questions_for_api']);
+
+            array_push($temp_array, $question);
+
+            foreach ($sub_questions as $sub_question){
+
+                array_push($temp_array, $sub_question);
+
+            }
+
+            $final_questions[$key] = $temp_array[array_rand($temp_array)];
+
+        }
+
+        $questions['data'] = $final_questions;
+
+        return $questions;
+
+    }
+
 }
