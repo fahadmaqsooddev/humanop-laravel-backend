@@ -262,6 +262,13 @@
                                     <span class="sidenav-normal"> Billing </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ (Request::is('client/payment-history') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/payment-history') ? 'active' : '') }}"
+                                   href="{{ route('payment_history') }}">
+                                    <span class="sidenav-mini-icon"> P </span>
+                                    <span class="sidenav-normal"> Payment History </span>
+                                </a>
+                            </li>
                             <li class="nav-item {{ (Request::is('client/setting') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/setting') ? 'active' : '') }}"
                                    href="{{ route('setting') }}">
