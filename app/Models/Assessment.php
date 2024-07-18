@@ -170,14 +170,15 @@ class Assessment extends Model
             'so' => $third_row_so,
         ];
 
-        $highlightStyle = [];
-        foreach ($style as $key => $value) {
-            if ($value > 4) {
-                $highlightStyle[$key] = $value;
-            }
-        }
+        // Sort $third_row_style in descending order based on values
+        arsort($third_row_style);
 
-        $topKeysStyle = self::getGridKeys($highlightStyle, $third_row_style);
+        // Get the first two elements from the sorted array
+        $top_two = array_slice($third_row_style, 0, 2, true);
+
+        $topKeysStyle = [
+            'top_two_keys' => array_keys($top_two),
+        ];
 
         return $topKeysStyle;
     }
