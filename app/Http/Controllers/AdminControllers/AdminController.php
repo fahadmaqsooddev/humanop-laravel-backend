@@ -147,6 +147,22 @@ class AdminController extends Controller
         }
     }
 
+    public function report($id)
+    {
+        try {
+
+            $reports = Assessment::getReport($id);
+            
+            return view('admin-dashboards.user.user_report', compact('reports', 'id'));
+
+        }catch (\Exception $exception)
+        {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
     public function haiChat()
     {
         try {
