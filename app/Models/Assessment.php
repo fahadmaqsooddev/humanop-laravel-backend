@@ -623,8 +623,8 @@ class Assessment extends Model
 
             $answer = Answer::where('answer_id', $answer_id)->first();
 
-            $data['answer'] = $answer->answer;
-            $data['question'] = $answer->question->question;
+            $data['answer'] = $answer->answer ?? null;
+            $data['question'] = $answer->question->question ?? null;
 
             AssessmentDetail::createAssessmentDetail($data);
         }
