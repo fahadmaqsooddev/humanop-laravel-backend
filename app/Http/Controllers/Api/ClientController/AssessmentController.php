@@ -111,4 +111,19 @@ class AssessmentController extends Controller
         }
 
     }
+
+    public function userReport(){
+
+        try {
+
+            $reports = Assessment::getReport(43);
+
+            return Helpers::successResponse('User assessment report', $reports);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

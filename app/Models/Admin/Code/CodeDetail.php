@@ -67,12 +67,12 @@ class CodeDetail extends Model
             $communication_code_detail[] = $communication_code_text;
         }
 
-        $alchemy_key_code = strtoupper($alchemyCode['code']);
+        $alchemy_key_code = strtoupper($alchemyCode['code'] ?? null);
         $alchemy_code = self::where('code', $alchemy_key_code)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
         $alchemy_code_deatil = [
-            'id' => $alchemyCode['id'],
-            'image' => $alchemyCode['image'],
+            'id' => $alchemyCode['id'] ?? null,
+            'image' => $alchemyCode['image'] ?? null,
             'text' => $alchemy_code['text'],
             'public_name' => $alchemy_code['public_name'],
             'video' => $alchemy_code['video'],
