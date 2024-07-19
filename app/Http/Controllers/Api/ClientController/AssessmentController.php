@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
 use App\Http\Requests\Api\Client\AssessmentSubmitRequest;
 use App\Http\Requests\Api\Client\GridRequest;
+use App\Http\Requests\Api\Client\UserReportRequest;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
@@ -112,11 +113,11 @@ class AssessmentController extends Controller
 
     }
 
-    public function userReport(){
+    public function userReport(UserReportRequest $request){
 
         try {
 
-            $reports = Assessment::getReport(43);
+            $reports = Assessment::getReport($request->input('assessment_id'));
 
             return Helpers::successResponse('User assessment report', $reports);
 

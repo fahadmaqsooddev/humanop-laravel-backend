@@ -73,10 +73,10 @@ class CodeDetail extends Model
         $alchemy_code_deatil = [
             'id' => $alchemyCode['id'] ?? null,
             'image' => $alchemyCode['image'] ?? null,
-            'text' => $alchemy_code['text'],
-            'public_name' => $alchemy_code['public_name'],
-            'video' => $alchemy_code['video'],
-            'p_name' => $alchemy_code['p_name'],
+            'text' => $alchemy_code['text'] ?? null,
+            'public_name' => $alchemy_code['public_name'] ?? null,
+            'video' => $alchemy_code['video'] ?? null,
+            'p_name' => $alchemy_code['p_name'] ?? null,
         ];
 
         $perception_life = self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
@@ -93,8 +93,8 @@ class CodeDetail extends Model
             'energy_code_detail' => $energy_code_detail,
             'pv' => $pv,
             'ep' => $ep,
-            'user_name' => $user['first_name'] . ' ' . $user['last_name'],
-            'user_gender' => $user['gender'],
+            'user_name' => $user ? $user['first_name'] . ' ' . $user['last_name'] : "",
+            'user_gender' => $user['gender'] ?? null,
         ];
 
         return $results;
