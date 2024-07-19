@@ -22,7 +22,7 @@ class Index extends Component
            $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
            $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments]);
-           
+
            $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
            $this->emit('updateAiMessage');
 
@@ -32,7 +32,6 @@ class Index extends Component
     }
 
     public function sendRequestFromGuzzle($method = null, $route_name = null, $body = []) {
-        dd($body);
         $authorization = Request::header('Authorization');
         $queryArray = [
             'headers' => ['Authorization' => $authorization],
