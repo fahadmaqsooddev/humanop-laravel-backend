@@ -43,7 +43,7 @@ class CodeDetail extends Model
         $feature_code_detail = [];
         $communication_code_detail = [];
 
-        foreach ($Stylekeys['top_two_keys'] as $index => $style_key) {
+        foreach ($Stylekeys['top_two_keys'] ?? null as $index => $style_key) {
             $style_key_code = strtoupper($style_key);
 
             $style_code_text = self::where('code', $style_key_code)->where('number', $index + 1)->first(['id', 'text', 'public_name', 'number', 'video', 'p_name']);
@@ -51,7 +51,7 @@ class CodeDetail extends Model
             $style_code_detail[] = $style_code_text;
         }
 
-        foreach ($featureKeys['top_two_keys'] as $feature_key) {
+        foreach ($featureKeys['top_two_keys'] ?? null as $feature_key) {
             $feature_key_code = strtoupper($feature_key);
 
             $feature_code_text = self::where('code', $feature_key_code)->first(['id', 'text', 'public_name', 'video', 'p_name']);

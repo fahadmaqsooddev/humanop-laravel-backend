@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Stripe\Charge;
 use Stripe\Stripe;
+use Stripe\StripeClient;
 
 class PaymentController extends Controller
 {
@@ -25,8 +26,7 @@ class PaymentController extends Controller
 
             return view('client-dashboard.payment.index', compact('stripe'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
@@ -49,12 +49,37 @@ class PaymentController extends Controller
 
             $discount_amount = $request['amount'];
 
-            Charge::create([
-                'amount' => $discount_amount*100, // Amount in cents
+            $charge = Charge::create([
+                'amount' => $discount_amount * 100, // Amount in cents
                 'currency' => 'usd',
                 'source' => $request->stripeToken,
                 'description' => 'Test Payment',
             ]);
+
+            $stripe = new StripeClient($key['api_key']);
+
+//            $payment_method = $stripe->paymentMethods->create([
+//                'type' => 'card',
+//                'card' => [
+//                    'number' => $request['cardNumber'],
+//                    'exp_month' => $request['expMonth'],
+//                    'exp_year' => $request['expYear'],
+//                    'cvc' => $request['cvc'],
+//                ],
+//            ]);
+
+            $stripe->paymentMethods->attach(
+                'pm_card_visa',
+                ['customer' => $user['stripe_id']]
+            );
+
+//            $stripe_customer = $stripe->paymentMethods->all([
+//                'type' => 'card',
+//                'limit' => 1,
+//                'customer' => $user['stripe_id'],
+//            ]);
+//
+//            dd($stripe_customer);
 
             $coupon = Coupon::getSingleCoupon($request['coupon']);
 
@@ -84,8 +109,7 @@ class PaymentController extends Controller
 
             return view('client-dashboard.payment.payment_history', compact('payment_history'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
