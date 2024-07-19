@@ -136,7 +136,7 @@ class Question extends Model
 
             ->where('active', 1)
 
-            ->with(['subQuestionsForApi.answers.subAnswerCodes','answers.answerCodes'])
+            ->with(['subQuestionsForApi.answers','answers'])
 
             ->orderBy('id',"ASC")
 

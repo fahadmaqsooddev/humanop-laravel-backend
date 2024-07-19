@@ -507,4 +507,125 @@ class Assessment extends Model
         }
     }
 
+    public static function submitQuestionAnswers($answer_ids = []){
+
+        $multipleAnswersArray = [];
+
+        $codeA = [];
+
+        if(!empty($answer_ids)) {
+
+            foreach ($answer_ids as $answer_id) {
+
+                if(is_array($answer_id)){
+
+                    foreach ($answer_id as $answer){
+
+                        $i = 3;
+
+                        $answerCode = AnswerCode::where('answer_id', ($answer['answer_id'] ?? $answer['id'] ))->select(['code', 'number'])->first();
+
+                        if ($answerCode) {
+                            $number = (int)$answerCode->number + $i;
+                            $code = strtolower($answerCode->code);
+
+                            if (array_key_exists($code, $multipleAnswersArray)) {
+
+                                $multipleAnswersArray[$code] += $number;
+                            } else {
+                                $multipleAnswersArray[$code] = $number;
+                            }
+                            $i--;
+                        }
+
+                    }
+                }else{
+
+                    $codes = AnswerCode::where('answer_id', $answer_id)->get();
+
+                    foreach ($codes as $code) {
+                        $codeA[$code['code']] = $code['number'];
+                    }
+                }
+            }
+        }
+
+        $userId = Helpers::getUser()->id;
+
+        $codeArray = [];
+
+        foreach ($codeA as $code => $value) {
+
+            $lowercaseCode = strtolower($code);
+
+            if (!isset($codeArray[$lowercaseCode])) {
+                $codeArray[$lowercaseCode] = 0;
+            }
+
+            if ($value !== '') {
+                $codeArray[$lowercaseCode] += $value;
+            }
+        }
+
+
+        $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
+
+        if ($existingAssessment) {
+
+            $oldResult = $existingAssessment->toArray();
+
+            $resultArray = [];
+
+            if(!empty($multipleAnswersArray)){
+                $codeArray =  array_merge($multipleAnswersArray,$codeArray);
+            }
+
+            foreach ($codeArray as $key => $value) {
+                if ($value !== '') {
+                    $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+                } else {
+                    $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
+                }
+            }
+
+
+            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender',[Helpers::getUser()->gender, 0])
+
+                ->where('active', 1)
+
+                ->count() / 3) ?? 0;
+
+            $current_page = $existingAssessment->page =+ 1;
+
+            if($totalPages == $current_page){
+
+                $resultArray['page'] = 0;
+
+            }else{
+
+                $resultArray['page'] = $current_page;
+
+            }
+
+            $resultArray['page'] = $current_page;
+
+            $existingAssessment->update($resultArray);
+        }
+
+
+        foreach ($answer_ids as $answer_id) {
+
+            $data['user_id'] = $userId;
+            $data['assessment_id'] = $existingAssessment->id;
+
+            $answer = Answer::where('answer_id', $answer_id)->first();
+
+            $data['answer'] = $answer->answer;
+            $data['question'] = $answer->question->question;
+
+            AssessmentDetail::createAssessmentDetail($data);
+        }
+
+    }
+
 }

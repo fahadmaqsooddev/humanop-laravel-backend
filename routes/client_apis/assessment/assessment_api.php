@@ -17,3 +17,4 @@ Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
 Route::get('grid', 'AssessmentController@grid');
 Route::get('assessment-status', 'AssessmentController@assessmentStatus');
 Route::get('questions', 'AssessmentController@questions');
+Route::post('submit-assessment', 'AssessmentController@submitAnswers');

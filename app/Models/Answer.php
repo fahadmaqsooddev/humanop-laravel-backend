@@ -15,4 +15,9 @@ class Answer extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
         parent::__construct($attributes);
     }
+
+    public function question(){
+
+        return $this->belongsTo(Question::class,'question_id','id');
+    }
 }

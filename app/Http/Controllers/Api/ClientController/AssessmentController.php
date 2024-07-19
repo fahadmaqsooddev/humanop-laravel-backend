@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
+use App\Http\Requests\Api\Client\AssessmentSubmitRequest;
 use App\Http\Requests\Api\Client\GridRequest;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
@@ -94,5 +95,20 @@ class AssessmentController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function submitAnswers(AssessmentSubmitRequest $request){
+
+        try {
+
+            Assessment::submitQuestionAnswers($request->input('answer_ids'));
+
+            return Helpers::successResponse("Assessment submitted successfully");
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }
