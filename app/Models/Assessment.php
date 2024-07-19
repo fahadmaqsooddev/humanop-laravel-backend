@@ -526,7 +526,7 @@ class Assessment extends Model
 
                         $i = 3;
 
-                        $answerCode = AnswerCode::where('answer_id', ($answer['answer_id'] ?? $answer['id'] ))->select(['code', 'number'])->first();
+                        $answerCode = AnswerCode::where('answer_id', $answer)->select(['code', 'number'])->first();
 
                         if ($answerCode) {
                             $number = (int)$answerCode->number + $i;
