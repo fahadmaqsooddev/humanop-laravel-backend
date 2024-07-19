@@ -37,7 +37,7 @@ class CodeDetail extends Model
 
     }
 
-    public static function getCodeDeatil($Stylekeys = null, $featureKeys = null, $alchemyCode = null, $communicationCode = null, $polarityCode = null, $energyCode = null, $pv = null, $ep = null)
+    public static function getCodeDeatil($Stylekeys = null, $featureKeys = null, $alchemyCode = null, $communicationCode = null, $polarityCode = null, $energyCode = null, $pv = null, $ep = null, $user = null)
     {
         $style_code_detail = [];
         $feature_code_detail = [];
@@ -93,6 +93,8 @@ class CodeDetail extends Model
             'energy_code_detail' => $energy_code_detail,
             'pv' => $pv,
             'ep' => $ep,
+            'user_name' => $user['first_name'] . ' ' . $user['last_name'],
+            'user_gender' => $user['gender'],
         ];
 
         return $results;

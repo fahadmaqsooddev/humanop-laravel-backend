@@ -11,7 +11,6 @@ class PDFController extends Controller
 {
     public function generatePDF($id)
     {
-        $user = Auth::user();
 
         $reports = Assessment::getReport($id);
 
@@ -26,9 +25,9 @@ class PDFController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('user', 'reports'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $pdf->loadView('pdf.report_pdf', compact('reports'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
 
-        $filename = $user['first_name']. ' ' .$user['last_name'] . '_report.pdf';
+        $filename = $reports['user_name']. '_report.pdf';
 
         return $pdf->stream($filename);
     }

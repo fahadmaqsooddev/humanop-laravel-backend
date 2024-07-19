@@ -134,13 +134,31 @@ class AdminController extends Controller
         }
     }
 
-    public function grid()
+    public function grid($id)
     {
         try {
 
-            return view('admin-dashboards.grid');
+            $grid = Assessment::getGrid($id);
+
+            return view('admin-dashboards.user.user_grid', compact('grid'));
 
         } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function report($id)
+    {
+        try {
+
+            $reports = Assessment::getReport($id);
+
+            return view('admin-dashboards.user.user_report', compact('reports', 'id'));
+
+        }catch (\Exception $exception)
+        {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -164,7 +182,7 @@ class AdminController extends Controller
     {
         try {
             $user = User::getSingleUser($id);
-            return view('admin-dashboards.user_info', compact('user'));
+            return view('admin-dashboards.user.user_info', compact('user'));
 
         } catch (\Exception $exception) {
 
@@ -177,7 +195,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.user_detail', compact('id'));
+            return view('admin-dashboards.user.user_detail', compact('id'));
 
         } catch (\Exception $exception) {
 
@@ -191,7 +209,7 @@ class AdminController extends Controller
         try {
             $assessments = Assessment::allAssessment();
 
-            return view('admin-dashboards.all_users', compact('assessments'));
+            return view('admin-dashboards.user.all_users', compact('assessments'));
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());

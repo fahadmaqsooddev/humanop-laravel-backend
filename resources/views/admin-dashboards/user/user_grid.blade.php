@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .greenBox
     {
@@ -548,3 +548,4 @@
         </div>
     </div>
 @endsection
+

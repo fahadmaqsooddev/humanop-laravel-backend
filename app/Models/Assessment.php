@@ -25,7 +25,7 @@ class Assessment extends Model
     }
 
     // relations
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -71,7 +71,7 @@ class Assessment extends Model
 
     public static function getGrid($id = null)
     {
-        return self::whereId($id)->where('user_id', Auth::user()['id'])->first();
+        return self::whereId($id)->first();
     }
 
     public static function getAssessment()
@@ -86,17 +86,19 @@ class Assessment extends Model
 
     public static function allAssessment()
     {
-        return self::with('user')->where('page', 0)->get();
+        return self::with('users')->where('page', 0)->get();
     }
 
     public static function abandonedAssessment()
     {
-        return self::with('user')->where('page', null)->orderBy('created_at', 'DESC')->get();
+        return self::with('users')->where('page', null)->orderBy('created_at', 'DESC')->get();
     }
 
     public static function getReport($id = null)
     {
-        $assessment = self::whereId($id)->where('user_id', Auth::user()['id'])->first();
+        $assessment = self::whereId($id)->with(['users' => function ($q) {
+            $q->select(['id', 'first_name', 'last_name', 'gender']);
+        }])->first();
 
         $topTwoKeysStyle = self::getStyles($assessment);
         $topTwoKeysFeature = self::getFeatures($assessment);
@@ -127,7 +129,7 @@ class Assessment extends Model
             $energy_code = 16;
         }
 
-        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep);
+        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
 
         return $code_detail;
     }
@@ -169,14 +171,15 @@ class Assessment extends Model
             'so' => $third_row_so,
         ];
 
-        $highlightStyle = [];
-        foreach ($style as $key => $value) {
-            if ($value > 4) {
-                $highlightStyle[$key] = $value;
-            }
-        }
+        // Sort $third_row_style in descending order based on values
+        arsort($third_row_style);
 
-        $topKeysStyle = self::getGridKeys($highlightStyle, $third_row_style);
+        // Get the first two elements from the sorted array
+        $top_two = array_slice($third_row_style, 0, 2, true);
+
+        $topKeysStyle = [
+            'top_two_keys' => array_keys($top_two),
+        ];
 
         return $topKeysStyle;
     }

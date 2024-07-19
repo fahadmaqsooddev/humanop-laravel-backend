@@ -128,7 +128,7 @@
                                 <div class="mt-3">
                                     <div>
                                         <label for="name" class="text-white">Age Group</label>
-                                        <select class="form-control" name="age_range" id="age_range">
+                                        <select class="form-control" name="age_range" id="age_range" style="background-color: #0F1535; color: white; border-radius: 12px;">
                                             <option value="5-6">5-6</option>
                                             <option value="7-11">7-11</option>
                                             <option value="12-15">12-15</option>
