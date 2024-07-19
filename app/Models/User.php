@@ -55,9 +55,9 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-        if (str_contains(request()->path(), 'api')){
+//        if (str_contains(request()->path(), 'api')){
             $this->attributes['password'] = Hash::make($value);
-        }
+//        }
     }
 
     // scope
