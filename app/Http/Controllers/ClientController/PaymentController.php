@@ -25,23 +25,10 @@ class PaymentController extends Controller
         try {
 
             $stripe_setting = StripeSetting::getSingle();
+
             $user = User::getSingleUser(Auth::user()['id']);
 
-            $key = StripeSetting::getSingle();
-
-            $stripe = new StripeClient($key['api_key']);
-
-            if (!empty($user['payment_method']))
-            {
-                $payment_method = $stripe->paymentMethods->retrieve($user['payment_method'], []);
-
-                $card = $payment_method['card'];
-            }else
-            {
-                $card = null;
-            }
-
-            return view('client-dashboard.payment.index', compact('card', 'stripe_setting'));
+            return view('client-dashboard.payment.index', compact('user', 'stripe_setting'));
 
         } catch (\Exception $exception) {
 
@@ -55,6 +42,7 @@ class PaymentController extends Controller
         DB::beginTransaction();
 
         try {
+            dd($request->all());
 
             $user = Auth::user();
 

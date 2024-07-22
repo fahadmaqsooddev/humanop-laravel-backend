@@ -99,7 +99,7 @@
                                            class="form-control card-number"
                                            placeholder="Enter You Card Number"
                                            name="cardNumber" id="cardNumber"
-                                           value="{{$card ? '************'.$card['last4'] : ''}}"
+                                           value="{{$user['pm_last_four'] ? '************'.$user['pm_last_four'] : ''}}"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 </div>
                                 <div class="row">
@@ -119,7 +119,7 @@
                                             <label for="expMonth" class="text-white">Expiration Month</label>
                                             <input type="text" class="form-control card-expiry-month" placeholder='MM'
                                                    maxlength="2"
-                                                   size='2' value="{{$card ? '0'.$card['exp_month'] : ''}}"
+                                                   size='2' value="{{$user['pm_exp_month'] ? '0'.$user['pm_exp_month'] : ''}}"
                                                    name="expMonth" id="expMonth"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         </div>
@@ -129,7 +129,7 @@
                                             <label for="expYear" class="text-white">Expiration Year</label>
                                             <input type="text" class="form-control card-expiry-year" placeholder='YYYY'
                                                    maxlength="4"
-                                                   size='4' value="{{$card ? $card['exp_year'] : ''}}"
+                                                   size='4' value="{{$user['pm_exp_year'] ? $user['pm_exp_year'] : ''}}"
                                                    name="expYear" id="expYear"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         </div>
