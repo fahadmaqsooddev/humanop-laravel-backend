@@ -128,7 +128,7 @@ class Question extends Model
 
     }
 
-    public static function paginatedQuestions($offset = 0, $limit = 3){
+    public static function paginatedQuestions(){
 
         $questions = self::whereIn('gender', [Helpers::getUser()->gender, 0])
 

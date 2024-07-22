@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\AssessmentAnswersRequest;
 use App\Http\Requests\Api\Client\AssessmentSubmitRequest;
 use App\Http\Requests\Api\Client\GridRequest;
+use App\Http\Requests\Api\Client\QuestionsRequest;
 use App\Http\Requests\Api\Client\UserReportRequest;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
@@ -84,13 +85,22 @@ class AssessmentController extends Controller
         }
     }
 
-    public function questions(){
+    public function questions(QuestionsRequest $request){
 
         try {
 
-            $questions = Question::paginatedQuestions();
+            $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
 
-            return Helpers::successResponse('Questions', $questions, true);
+            if($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')){
+
+                $questions = Question::paginatedQuestions();
+
+                return Helpers::successResponse('Questions', $questions, true);
+
+            }else{
+
+                return Helpers::validationResponse('Invalid page number');
+            }
 
         }catch (\Exception $exception){
 
