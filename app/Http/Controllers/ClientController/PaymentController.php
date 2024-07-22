@@ -45,32 +45,33 @@ class PaymentController extends Controller
 
             $user = Auth::user();
 
-            $user->createOrGetStripeCustomer();
-
             $key = StripeSetting::getSingle();
 
             Stripe::setApiKey($key['api_key']);
 
             $discount_amount = $request['amount'];
 
-            Charge::create([
-                'amount' => $discount_amount * 100, // Amount in cents
-                'currency' => 'usd',
-                'source' => $request->stripeToken,
-                'description' => 'Test Payment',
-            ]);
+            $user->createOrGetStripeCustomer();
+
+            if (!empty($user['pm_last_four']))
+            {
+
+                $user->charge($discount_amount * 100, $user['payment_method'], [
+                    'currency' => 'usd',
+                    'description' => 'Test Payment',
+                ]);
+
+            }else
+            {
+                Charge::create([
+                    'amount' => $discount_amount * 100, // Amount in cents
+                    'currency' => 'usd',
+                    'source' => $request->stripeToken,
+                    'description' => 'Test Payment',
+                ]);
+            }
 
             $stripe = new StripeClient($key['api_key']);
-
-//            $payment_method = $stripe->paymentMethods->create([
-//                'type' => 'card',
-//                'card' => [
-//                    'number' => $request['cardNumber'],
-//                    'exp_month' => $request['expMonth'],
-//                    'exp_year' => $request['expYear'],
-//                    'cvc' => $request['cvc'],
-//                ],
-//            ]);
 
             $payment_method = $stripe->paymentMethods->attach(
                 'pm_card_visa',
@@ -78,12 +79,6 @@ class PaymentController extends Controller
             );
 
             User::updateUserPaymentMethod($payment_method);
-
-//            $stripe_customer = $stripe->paymentMethods->all([
-//                'type' => 'card',
-//                'limit' => 1,
-//                'customer' => $user['stripe_id'],
-//            ]);
 
             $coupon = Coupon::getSingleCoupon($request['coupon']);
 
