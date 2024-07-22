@@ -11,7 +11,7 @@
                                 <span class="mask bg-gradient-dark"></span>
                                 <div class="card-body position-relative z-index-1 p-3">
                                     <i class="fas fa-wifi text-white p-2"></i>
-                                    <h5 class="text-white mt-4 pb-2">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;{{$card['last4']}}</h5>
+                                    <h5 class="text-white mt-4 pb-2">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;{{$card ? $card['last4'] : '****'}}</h5>
                                     <div class="d-flex">
                                         <div class="d-flex">
 {{--                                            <div class="me-4">--}}
@@ -20,7 +20,7 @@
 {{--                                            </div>--}}
                                             <div>
                                                 <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                                                <h6 class="text-white mb-0">{{$card['exp_month']}}/{{$card['exp_year']}}</h6>
+                                                <h6 class="text-white mb-0">{{$card ? $card['exp_month'] : '**'}}/{{$card ? $card['exp_year'] : '****'}}</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -28,7 +28,7 @@
                                         <div class="d-flex">
                                             <div>
                                                 <p class="text-white text-sm opacity-8 mb-0">LAST USED</p>
-                                                <h6 class="text-white mb-0">{{\Illuminate\Support\Carbon::parse($user['updated_at'])->format('m/d/Y')}}</h6>
+                                                <h6 class="text-white mb-0">{{$card ? \Illuminate\Support\Carbon::parse($user['updated_at'])->format('m/d/Y') : '**/**/****'}}</h6>
                                             </div>
                                         </div>
                                         <div class="ms-auto w-20 d-flex align-items-end justify-content-end">

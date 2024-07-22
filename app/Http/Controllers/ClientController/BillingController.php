@@ -22,9 +22,15 @@ class BillingController extends Controller
 
             $stripe = new StripeClient($key['api_key']);
 
-            $payment_method = $stripe->paymentMethods->retrieve($user['payment_method'], []);
+            if (!empty($user['payment_method']))
+            {
+                $payment_method = $stripe->paymentMethods->retrieve($user['payment_method'], []);
 
-            $card = $payment_method['card'];
+                $card = $payment_method['card'];
+            }else
+            {
+                $card = null;
+            }
 
             return view('client-dashboard.billing.index', compact('card', 'user'));
 
