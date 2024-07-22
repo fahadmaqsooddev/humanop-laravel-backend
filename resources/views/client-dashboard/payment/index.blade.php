@@ -78,7 +78,7 @@
                             <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
                             <form role="form" action="{{route('process_payment')}}" method="post"
                                   class="require-validation"
-                                  data-cc-on-file="false"
+                                  data-cc-on-file="{{ $user['pm_last_four'] ? 'true' : 'false' }}"
                                   data-stripe-publishable-key="{{ $stripe_setting['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">

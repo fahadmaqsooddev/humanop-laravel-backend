@@ -39,22 +39,6 @@ class UserController extends Controller
         }
     }
 
-    public function answers($id)
-    {
-        try {
-
-            $assessment_details = AssessmentDetail::getDetail($id);
-
-            return view('client-dashboard.user.client_answer', compact('assessment_details'));
-
-        }catch (\Exception $exception)
-        {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
-    }
-
     public function grid($id)
     {
         try {
