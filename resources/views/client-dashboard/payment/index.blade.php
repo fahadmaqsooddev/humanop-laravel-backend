@@ -58,13 +58,15 @@
                                             <p id="error_message"></p>
                                             <label class="form-label fs-4 text-white">Do you have any Coupon</label>
                                             <div class="form-group mt-4">
-                                                <input style="background-color: #0f1534;" class="form-control text-white getCoupon"
+                                                <input style="background-color: #0f1534;"
+                                                       class="form-control text-white getCoupon"
                                                        type="text" name="coupon" maxlength="9"
                                                        placeholder="enter coupon code">
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">
+                                    <button type="submit"
+                                            class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">
                                         Submit
                                     </button>
                                 </div>
@@ -77,25 +79,27 @@
                             <form role="form" action="{{route('process_payment')}}" method="post"
                                   class="require-validation"
                                   data-cc-on-file="false"
-                                  data-stripe-publishable-key="{{ $stripe['public_key'] }}" id="payment-form">
+                                  data-stripe-publishable-key="{{ $stripe_setting['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
                                     <input type="text" class="form-control" hidden name="amount"
-                                           value="{{$stripe['amount']}}" id="amount"
+                                           value="{{$stripe_setting['amount']}}" id="amount"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <label for="" class="text-white">Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Card Holder Name"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                    <input type="text" hidden name="coupon" class="form-control coupon" placeholder="Enter Card Holder Name"
+                                    <input type="text" hidden name="coupon" class="form-control coupon"
+                                           placeholder="Enter Card Holder Name"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
 
                                 </div>
                                 <div class="mb-3">
                                     <label for="cardNumber" class="text-white">Card Number</label>
-                                    <input autocomplete='off' type="text" maxlength="16" size='16'
+                                    <input autocomplete='off' maxlength="16" size='16'
                                            class="form-control card-number"
                                            placeholder="Enter You Card Number"
                                            name="cardNumber" id="cardNumber"
+                                           value="{{$card ? '************'.$card['last4'] : ''}}"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                 </div>
                                 <div class="row">
@@ -115,7 +119,7 @@
                                             <label for="expMonth" class="text-white">Expiration Month</label>
                                             <input type="text" class="form-control card-expiry-month" placeholder='MM'
                                                    maxlength="2"
-                                                   size='2'
+                                                   size='2' value="{{$card ? '0'.$card['exp_month'] : ''}}"
                                                    name="expMonth" id="expMonth"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         </div>
@@ -125,7 +129,7 @@
                                             <label for="expYear" class="text-white">Expiration Year</label>
                                             <input type="text" class="form-control card-expiry-year" placeholder='YYYY'
                                                    maxlength="4"
-                                                   size='4'
+                                                   size='4' value="{{$card ? $card['exp_year'] : ''}}"
                                                    name="expYear" id="expYear"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         </div>
@@ -135,7 +139,7 @@
                                 <div class="text-center">
                                     <button type="submit" class="btn w-100 my-4 mb-2" id="discount_amount"
                                             style="background-color: #f2661c;color:white">Pay Now
-                                        (${{$stripe['amount']}})
+                                        (${{$stripe_setting['amount']}})
                                     </button>
                                 </div>
 
@@ -156,8 +160,7 @@
     <script>
         $(document).ready(function () {
 
-            $('.updateBtn').on('click', function ()
-            {
+            $('.updateBtn').on('click', function () {
 
                 var coupon = $('.getCoupon').val();
 
@@ -186,11 +189,11 @@
                             $('#success_message').html("<div class='alert alert-success'>" + response.success + "</div>");
 
                             // Hide success message after 2 seconds
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('#success_message').html("");
                             }, 2000);
 
-                        } else if(response.status == 202) {
+                        } else if (response.status == 202) {
                             window.location.href = "{{route('test_play')}}";
                         } else {
                             $('#discount_amount').text('Pay Now ($' + discountedAmount + ')');
@@ -198,7 +201,7 @@
                             $('#error_message').html("<div class='alert alert-danger'>" + response.error + "</div>");
 
                             // Hide error message after 2 seconds
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('#error_message').html("");
                             }, 2000);
                         }
@@ -248,7 +251,6 @@
                     }
                 });
 
-                console.log($form.data('stripe-publishable-key'));
                 if (!$form.data('cc-on-file')) {
                     e.preventDefault();
                     Stripe.setPublishableKey($form.data('stripe-publishable-key'));
@@ -268,6 +270,7 @@
             --------------------------------------------
             --------------------------------------------*/
             function stripeResponseHandler(status, response) {
+
                 if (response.error) {
                     $('.error')
                         .removeClass('hide')

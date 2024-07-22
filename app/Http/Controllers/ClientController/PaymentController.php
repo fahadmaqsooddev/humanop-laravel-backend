@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Assessment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stripe\BaseStripeClient;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -23,9 +24,24 @@ class PaymentController extends Controller
     {
         try {
 
-            $stripe = StripeSetting::getSingle();
+            $stripe_setting = StripeSetting::getSingle();
+            $user = User::getSingleUser(Auth::user()['id']);
 
-            return view('client-dashboard.payment.index', compact('stripe'));
+            $key = StripeSetting::getSingle();
+
+            $stripe = new StripeClient($key['api_key']);
+
+            if (!empty($user['payment_method']))
+            {
+                $payment_method = $stripe->paymentMethods->retrieve($user['payment_method'], []);
+
+                $card = $payment_method['card'];
+            }else
+            {
+                $card = null;
+            }
+
+            return view('client-dashboard.payment.index', compact('card', 'stripe_setting'));
 
         } catch (\Exception $exception) {
 
@@ -74,7 +90,7 @@ class PaymentController extends Controller
                 ['customer' => $user['stripe_id']]
             );
 
-            User::updateUserPaymentMethod($payment_method['id']);
+            User::updateUserPaymentMethod($payment_method);
 
 //            $stripe_customer = $stripe->paymentMethods->all([
 //                'type' => 'card',
