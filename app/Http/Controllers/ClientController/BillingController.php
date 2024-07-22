@@ -4,6 +4,10 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin\StripeSetting\StripeSetting;
+use Stripe\StripeClient;
 
 class BillingController extends Controller
 {
@@ -12,7 +16,17 @@ class BillingController extends Controller
     {
         try {
 
-            return view('client-dashboard.billing.index');
+            $user = User::getSingleUser(Auth::user()['id']);
+
+            $key = StripeSetting::getSingle();
+
+            $stripe = new StripeClient($key['api_key']);
+
+            $payment_method = $stripe->paymentMethods->retrieve($user['payment_method'], []);
+
+            $card = $payment_method['card'];
+
+            return view('client-dashboard.billing.index', compact('card', 'user'));
 
         }catch (\Exception $exception)
         {
@@ -21,5 +35,5 @@ class BillingController extends Controller
 
         }
     }
-    
+
 }

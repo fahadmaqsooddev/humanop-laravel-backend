@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
 use App\Models\Payment;
+use App\Models\User;
 use App\Models\Assessment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,7 @@ class PaymentController extends Controller
 
             $discount_amount = $request['amount'];
 
-            $charge = Charge::create([
+            Charge::create([
                 'amount' => $discount_amount * 100, // Amount in cents
                 'currency' => 'usd',
                 'source' => $request->stripeToken,
@@ -68,18 +69,18 @@ class PaymentController extends Controller
 //                ],
 //            ]);
 
-            $stripe->paymentMethods->attach(
+            $payment_method = $stripe->paymentMethods->attach(
                 'pm_card_visa',
                 ['customer' => $user['stripe_id']]
             );
+
+            User::updateUserPaymentMethod($payment_method['id']);
 
 //            $stripe_customer = $stripe->paymentMethods->all([
 //                'type' => 'card',
 //                'limit' => 1,
 //                'customer' => $user['stripe_id'],
 //            ]);
-//
-//            dd($stripe_customer);
 
             $coupon = Coupon::getSingleCoupon($request['coupon']);
 

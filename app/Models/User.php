@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
@@ -202,6 +203,17 @@ class User extends Authenticatable implements JWTSubject
         $user = self::whereId(Helpers::getUser()->id)->first();
 
         $user->update(['password' => $password]);
+
+    }
+
+    public static function updateUserPaymentMethod($paymentMethodId = null)
+    {
+
+        $user_id = Auth::user()['id'];
+
+        $user = self::whereId($user_id)->first();
+
+        return $user->update(['payment_method' => $paymentMethodId]);
 
     }
 }
