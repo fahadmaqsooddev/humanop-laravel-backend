@@ -78,7 +78,7 @@
                             <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
                             <form role="form" action="{{route('process_payment')}}" method="post"
                                   class="require-validation"
-                                  data-cc-on-file="{{ $user['pm_last_four'] ? 'true' : 'false' }}"
+                                  data-cc-on-file="false"
                                   data-stripe-publishable-key="{{ $stripe_setting['public_key'] }}" id="payment-form">
                                 @csrf
                                 <div class="mb-3">
@@ -251,16 +251,27 @@
                     }
                 });
 
-                if (!$form.data('cc-on-file')) {
-                    e.preventDefault();
-                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                    Stripe.createToken({
-                        number: $('.card-number').val(),
-                        cvc: $('.card-cvc').val(),
-                        exp_month: $('.card-expiry-month').val(),
-                        exp_year: $('.card-expiry-year').val()
-                    }, stripeResponseHandler);
+                var cardNumber = $('.card-number').val();
+                var cardCVC = $('.card-cvc').val();
+                var cardExpiryMonth = $('.card-expiry-month').val();
+                var cardExpiryYear = $('.card-expiry-year').val();
+
+                var storedCardNumber = '************' + '{{ $user['pm_last_four'] }}';
+                var firstTwelveDigits = storedCardNumber.substr(0, 12);
+
+                if (cardNumber.substr(0, 12) !== firstTwelveDigits) {
+                    if (!$form.data('cc-on-file')) {
+                        e.preventDefault();
+                        Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+                        Stripe.createToken({
+                            number: cardNumber,
+                            cvc: cardCVC,
+                            exp_month: cardExpiryMonth,
+                            exp_year: cardExpiryYear
+                        }, stripeResponseHandler);
+                    }
                 }
+
 
             });
 
