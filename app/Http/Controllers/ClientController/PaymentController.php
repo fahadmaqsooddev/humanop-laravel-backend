@@ -42,7 +42,6 @@ class PaymentController extends Controller
         DB::beginTransaction();
 
         try {
-            dd($request->all());
 
             $user = Auth::user();
 

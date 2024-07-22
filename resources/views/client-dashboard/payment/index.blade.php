@@ -119,7 +119,7 @@
                                             <label for="expMonth" class="text-white">Expiration Month</label>
                                             <input type="text" class="form-control card-expiry-month" placeholder='MM'
                                                    maxlength="2"
-                                                   size='2' value="{{$user['pm_exp_month'] ? '0'.$user['pm_exp_month'] : ''}}"
+                                                   size='2' value="{{$user['pm_exp_month'] ? $user['pm_exp_month'] : ''}}"
                                                    name="expMonth" id="expMonth"
                                                    style="background-color: #0F1535; color: white; border-radius: 15px;">
                                         </div>
