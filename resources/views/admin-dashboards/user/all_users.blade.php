@@ -3,6 +3,18 @@
     .borderAdd{
         border-bottom: none;
     }
+    .green {
+        background-color: green !important;
+    }
+    .red {
+        background-color: red !important;
+    }
+    .yellow {
+        background-color: yellow !important;
+    }
+    .bg-green {
+        background-color: lightgreen !important;
+    }
 </style>
 @section('content')
     <div class="row mt-4">
@@ -54,52 +66,36 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center borderAdd">Styles</th>
-                                <th class="text-center borderAdd">Green</th>
-                                <th class="text-center borderAdd">Red</th>
-                                <th class="text-center borderAdd">B-Green</th>
+                                <th class="text-center borderAdd">Color</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="text-center borderAdd">SA</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">MA</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">JO</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">LU</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">VEN</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">MER</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">SO</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             </tbody>
@@ -110,82 +106,56 @@
                             <thead class="thead-light">
                             <tr>
                                 <th class="text-center borderAdd">Features</th>
-                                <th class="text-center borderAdd">Green</th>
-                                <th class="text-center borderAdd">Red</th>
-                                <th class="text-center borderAdd">Yellow</th>
+                                <th class="text-center borderAdd">Color</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="text-center borderAdd">DE</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">DOM</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">FE</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">GRE</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">LUN</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">NAI</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">NE</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">POW</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">SP</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">TRA</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">VAN</td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             <tr>
                                 <td class="text-center borderAdd">WIL</td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                                <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                                 <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
                             </tr>
                             </tbody>
@@ -229,6 +199,8 @@
 
 @push('js')
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
             searchable: true,
@@ -238,6 +210,18 @@
         document.querySelector('.clickBtn').addEventListener('click', function () {
             const advanceFilterSearch = document.querySelector('.advanceFilterSearch');
             advanceFilterSearch.classList.toggle('d-none');
+        });
+
+        $(document).ready(function() {
+            $('.form-check-input').on('click', function() {
+                const colors = ['green', 'red', 'yellow', 'bg-green', ''];
+                const currentIndex = $(this).data('color-index') || 0;
+                const nextIndex = (currentIndex + 1) % colors.length;
+
+                $(this).removeClass(colors[currentIndex]);
+                $(this).addClass(colors[nextIndex]);
+                $(this).data('color-index', nextIndex);
+            });
         });
 
     </script>
