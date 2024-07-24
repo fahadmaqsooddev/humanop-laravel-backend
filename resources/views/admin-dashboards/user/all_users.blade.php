@@ -77,17 +77,5 @@
             advanceFilterSearch.classList.toggle('d-none');
         });
 
-        $(document).ready(function () {
-            $('.form-check-input').on('click', function () {
-                const colors = ['green', 'red', 'yellow', 'bg-green', ''];
-                const currentIndex = $(this).data('color-index') || 0;
-                const nextIndex = (currentIndex + 1) % colors.length;
-
-                $(this).removeClass(colors[currentIndex]);
-                $(this).addClass(colors[nextIndex]);
-                $(this).data('color-index', nextIndex);
-            });
-        });
-
     </script>
 @endpush

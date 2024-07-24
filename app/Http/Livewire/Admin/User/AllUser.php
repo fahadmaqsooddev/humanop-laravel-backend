@@ -10,6 +10,7 @@ class AllUser extends Component
 {
     use WithPagination;
 
+    public $code;
     public $name = '';
     public $email = '';
     public $age = '';
@@ -34,9 +35,15 @@ class AllUser extends Component
         $this->searchFilter();
     }
 
+    public function selectCode($select_code)
+    {
+        $this->code = $select_code;
+
+    }
+
     public function searchFilter()
     {
-        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age)->paginate($this->perPage);
+        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age);
 
     }
 

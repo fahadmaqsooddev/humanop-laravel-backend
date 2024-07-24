@@ -40,141 +40,96 @@
                 Search
             </button>
         </div>
-        <div class="d-flex mt-4 advanceFilterSearch d-none">
-            <div class="input-group ms-md-4 pe-md-4">
-                <table class="table table-flush">
-                    <thead class="thead-light">
-                    <tr>
-                        <th class="text-center borderAdd">Styles</th>
-                        <th class="text-center borderAdd">Color</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-center borderAdd">SA</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">MA</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">JO</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">LU</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">VEN</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">MER</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">SO</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="advanceFilterSearch d-none" style="padding-top: 50px !important;">
+            <div class="row mt-4 ms-md-2 pe-md-2">
+                <div class="col-8">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-flush" style="border-collapse: separate">
+                                <thead class="thead-light">
+                                <tr>
+                                    @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_code)
+                                        <th class="text-center border border-white cursor-pointer ">
+                                            {{ strtoupper($select_code) }}
+                                        </th>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="input-group ms-md-4 pe-md-4">
-                <table class="table table-flush">
-                    <thead class="thead-light">
-                    <tr>
-                        <th class="text-center borderAdd">Features</th>
-                        <th class="text-center borderAdd">Color</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-center borderAdd">DE</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">DOM</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">FE</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">GRE</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">LUN</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">NAI</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">NE</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">POW</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">SP</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">TRA</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">VAN</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center borderAdd">WIL</td>
-                        <td class="text-center borderAdd"><input type="checkbox" value="" class="form-check-input"></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="row mt-2 ms-md-2 pe-md-2">
+                <div class="col-11">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-flush" style="border-collapse: separate">
+                                <thead class="thead-light">
+                                <tr>
+                                    @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_code)
+                                        <th class="text-center border border-white cursor-pointer">
+                                            {{ strtoupper($select_code) }}
+                                        </th>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2 ms-md-2 pe-md-2">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-flush" style="border-collapse: separate">
+                                <thead class="thead-light">
+                                <tr>
+                                    @foreach(['em', 'ins', 'int', 'mov'] as $select_code)
+                                        <th class="text-center border border-white cursor-pointer">
+                                            {{ strtoupper($select_code) }}
+                                        </th>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div>
-        <div class="table-responsive" style="margin-top: 90px">
-            <table class="table table-flush" id="datatable-search">
-                <thead class="thead-light">
+    <div class="table-responsive w-100">
+        <table class="table table-flush" id="datatable-search">
+            <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Date & Time</th>
+                <th>Practitioner</th>
+                <th>Project</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($assessments as $assessment)
                 <tr>
-                    <th>Name</th>
-                    <th>Date & Time</th>
-                    <th>Practitioner</th>
-                    <th>Project</th>
-                    <th>Email</th>
-                    <th></th>
+                    <td class="text-sm font-weight-normal">{{$assessment['users']['first_name'].' '.$assessment['users']['last_name']}} </td>
+                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'])->format('Y/m/d')}}</td>
+                    <td class="text-sm font-weight-normal">Null</td>
+                    <td class="text-sm font-weight-normal">Null</td>
+                    <td class="text-sm font-weight-normal">{{$assessment['users']['email']}}</td>
+                    <td class="text-sm font-weight-normal"><a
+                            href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
+                            style="background-color: #f2661c; color: white"
+                            class="btn btn-sm float-end mt-2 mb-0">View</a>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                @foreach($assessments as $assessment)
-                    <tr>
-                        <td class="text-sm font-weight-normal">{{$assessment['users']['first_name'].' '.$assessment['users']['last_name']}} </td>
-                        <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'])->format('Y/m/d')}}</td>
-                        <td class="text-sm font-weight-normal">Null</td>
-                        <td class="text-sm font-weight-normal">Null</td>
-                        <td class="text-sm font-weight-normal">{{$assessment['users']['email']}}</td>
-                        <td class="text-sm font-weight-normal"><a
-                                href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
-                                style="background-color: #f2661c; color: white"
-                                class="btn btn-sm float-end mt-2 mb-0">View</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-            {{ $assessments->links() }}
-        </div>
+            @endforeach
+            </tbody>
+        </table>
+{{--        {{ $assessments->links() }}--}}
     </div>
 </div>
 

@@ -118,7 +118,7 @@ class Assessment extends Model
             });
         }
 
-        return $query;
+        return $query->get();
     }
 
     public static function abandonedAssessment()
