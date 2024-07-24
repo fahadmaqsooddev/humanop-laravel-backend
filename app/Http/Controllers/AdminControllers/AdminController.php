@@ -207,9 +207,9 @@ class AdminController extends Controller
     public function allUsers()
     {
         try {
-            $assessments = Assessment::allAssessment();
-
-            return view('admin-dashboards.user.all_users', compact('assessments'));
+            
+            return view('admin-dashboards.user.all_users');
+            
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
