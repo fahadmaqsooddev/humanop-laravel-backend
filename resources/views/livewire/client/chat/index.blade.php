@@ -13,7 +13,7 @@
             @csrf
             <div class="chatbox-input" style="margin-bottom: 50px">
                 <input type="text" wire:model.defer="userMessage" id="userMessage"  placeholder="Type your message here...">
-                <button type="submit" id="submitBtn" disabled>&#9658;</button>
+                <button type="submit" id="submitBtn" >&#9658;</button>
             </div>
         </form>
     </div>
@@ -28,15 +28,6 @@
         }
 
         document.addEventListener('livewire:load', function () {
-            $('#userMessage').on('input',function(){
-                if ($(this).val().trim() !== '') {
-                    console.log('not empty');
-                    $('#submitBtn').prop('disabled',false);
-                }else{
-                    console.log('empty');
-                    $('#submitBtn').prop('disabled',true);
-                }
-            });
             const submitBtn = document.getElementById('submitBtn');
             $('#submitBtn').on('click', function () {
 

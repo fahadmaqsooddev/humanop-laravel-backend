@@ -12,22 +12,32 @@ class Index extends Component
     public $userMessage = '';
     public $messages = [];
 
+    protected $listeners = ['chatMessage'];
+
+    public function chatMessage($message)
+    {
+        $this->userMessage = $message;
+    }
 
     public function sendMessage(){
 
        if(isset($this->userMessage)){
 
-           $assessments = AssessmentHelper::getAssessments();
+           if ($this->userMessage !== '')
+           {
 
-           $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
+               $assessments = AssessmentHelper::getAssessments();
 
-           $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments]);
+               $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
-           $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
-           $this->emit('updateAiMessage');
+               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments]);
+
+               $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
+               $this->emit('updateAiMessage');
 
 
-           $this->userMessage = '';
+               $this->userMessage = '';
+           }
        }
     }
 

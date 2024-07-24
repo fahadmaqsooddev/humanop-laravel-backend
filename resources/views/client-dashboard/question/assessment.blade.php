@@ -21,6 +21,9 @@
         position: absolute;
         margin-left: -1.3em;
     }
+    .form-check-input:checked[type="checkbox"] {
+        background-image: linear-gradient(310deg, #f2661c 0%, #f2661c 100%);
+    }
 </style>
 @section('content')
 

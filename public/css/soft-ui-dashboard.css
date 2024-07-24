@@ -2943,9 +2943,9 @@ textarea.form-control-lg {
   background-color: transparent;
   border-color: transparent;
 }
-.form-check-input:checked[type=checkbox] {
-  background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);
-}
+/*.form-check-input:checked[type=checkbox] {*/
+/*  background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);*/
+/*}*/
 .form-check-input:checked[type=radio] {
   background-image: linear-gradient(310deg, #141727 0%, #3A416F 100%);
 }

@@ -206,6 +206,8 @@
             </div>
             <div class="row mt-lg-4 mt-2">
                 <div class="fixed-plugin">
+                <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
+                          class="form-control text-white messageChat mb-2" placeholder="Type your message here..."></textarea>
                     <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
                        class="btn col-12 fixed-plugin-button">H.A.I CHAT INTERFACE</a>
                     <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">
@@ -261,3 +263,13 @@
 {{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
     </div>
 @endsection
+@push('javascript')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
+
+            var message = document.querySelector('.messageChat').value;
+            Livewire.emit('chatMessage', message);
+        });
+    </script>
+@endpush
