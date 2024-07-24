@@ -72,9 +72,17 @@ class AssessmentController extends Controller
 
             $assessment_price = StripeSetting::getSingle();
 
+            $user = Helpers::getUser();
+
             $data = [
                 'assessment_page_number' => $status,
-                'assessment_price' => ($assessment_price->amount ?? 0)
+                'assessment_price' => ($assessment_price->amount ?? 0),
+                'user' => [
+                    'last_four_digits' => $user['pm_last_four'],
+                    'exp_month' => $user['pm_exp_month'],
+                    'exp_year' => $user['pm_exp_year'],
+                    'name' => $user['card_name'],
+                ]
             ];
 
             return Helpers::successResponse('Assessment Status', $data);

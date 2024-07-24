@@ -25,7 +25,12 @@ class CheckoutPaymentRequest extends FormRequest
     {
         return [
             'price' => 'required|numeric',
-            'stripe_token' => 'required',
+            'card_name' => 'required',
+            'card_number' => 'required',
+            'exp_month' => 'required',
+            'exp_year' => 'required',
+            'cvc' => 'required'
+
         ];
     }
 

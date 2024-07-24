@@ -215,7 +215,6 @@ class User extends Authenticatable implements JWTSubject
 
     public static function updateUserPaymentMethod($paymentMethod = null)
     {
-
         $user_id = Auth::user()['id'];
 
         $user = self::whereId($user_id)->first();
@@ -250,5 +249,21 @@ class User extends Authenticatable implements JWTSubject
             ->get();
 
         return $users;
+    }
+
+    public static function updateUserPaymentMethodFromApi($paymentMethod = null, $request = null)
+    {
+
+        self::whereId(Helpers::getUser()->id)->update([
+
+            'payment_method' => $paymentMethod['id'],
+            'pm_type' => $paymentMethod['card']['brand'],
+            'pm_last_four' => $paymentMethod['card']['last4'],
+            'pm_exp_month' => '0'.$paymentMethod['card']['exp_month'],
+            'pm_exp_year' => $paymentMethod['card']['exp_year'],
+            'card_name' => $request->input('card_name')
+
+        ]);
+
     }
 }

@@ -502,7 +502,7 @@ class Assessment extends Model
 
         if ($status){
 
-            return $status->page === null ? false : $status->page;
+            return $status->page === null ? 0 : $status->page;
 
         }else{
 

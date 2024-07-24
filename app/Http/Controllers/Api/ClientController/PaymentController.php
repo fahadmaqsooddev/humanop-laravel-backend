@@ -10,8 +10,10 @@ use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Stripe\Charge;
 use Stripe\Stripe;
 
@@ -38,12 +40,28 @@ class PaymentController extends Controller
 
                 Stripe::setApiKey($stripe['api_key']);
 
-                Charge::create([
-                    'amount' => ($request['price'] * 100), // Amount in cents
-                    'currency' => 'usd',
-                    'source' => $request->input('stripe_token'),
-                    'description' => 'Test Payment',
-                ]);
+                if (Str::contains($request->input('card_number'),'*') && $user['payment_method']){
+
+                    $user->charge($request->input('price') * 100, $user['payment_method'], [
+                        'currency' => 'usd',
+                        'description' => 'Test Payment',
+                    ]);
+
+                }else{
+
+                    $payment_method = $stripe->paymentMethods->attach(
+                        'pm_card_visa',
+                        ['customer' => $user['stripe_id']]
+                    );
+
+                    $user->charge($request->input('price') * 100, $payment_method['id'], [
+                        'currency' => 'usd',
+                        'description' => 'Test Payment',
+                    ]);
+
+                    User::updateUserPaymentMethodFromApi($payment_method, $request);
+
+                }
 
                 $assessment = Assessment::createAssessmentData($user['id']);
 
