@@ -249,5 +249,21 @@ return [
             'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id'],
             'hidden' => ['created_at','updated_at']
         ],
+        'Upload' => [
+
+            'table' => 'uploads',
+            'fillable' => ['name','path','extension','hash','pre_fill'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
+        ],
+        'Story' => [
+            'table' => 'stories',
+            'fillable' => ['user_id','upload_id','created_at'],
+            'hidden' => ['updated_at','deleted_at']
+        ],
+        'StoryView' => [
+            'table' => 'story_views',
+            'fillable' => ['user_id','story_id'],
+            'hidden' => ['created_at','updated_at']
+        ]
     ]
 ];

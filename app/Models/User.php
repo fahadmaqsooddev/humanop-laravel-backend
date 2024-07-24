@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Client\Story\Story;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -72,6 +74,11 @@ class User extends Authenticatable implements JWTSubject
     public function getUserPictureUrlAttribute(){
 
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function stories(){
+
+        return $this->hasMany(Story::class, 'user_id','id');
     }
 
 
@@ -221,5 +228,27 @@ class User extends Authenticatable implements JWTSubject
             'pm_exp_year' => $paymentMethod['card']['exp_year'],
         ]);
 
+    }
+
+    public static function storyUsers(){
+
+        $users = self::whereHas('stories', function ($q){
+
+            return $q->where('created_at', ">", Carbon::now()->subDay());
+        })
+
+            ->with('stories', function($q){
+
+                $q->select(['id','user_id']);
+
+            })
+
+            ->whereNot('id', Helpers::getWebUser()->id)
+
+            ->select(['id','first_name', 'last_name'])
+
+            ->get();
+
+        return $users;
     }
 }

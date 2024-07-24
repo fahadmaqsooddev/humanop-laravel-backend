@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -162,6 +163,71 @@ class Helpers
         }
 
         return $request;
+    }
+
+    public static function getWebUser(){
+
+        return Auth::guard('web')->user();
+    }
+
+    public static function getImage($pic,$original_default = null, $is_original_name = 0){
+        if(!empty($pic)){
+
+            $upload = Upload::find($pic);
+
+            if (!empty($upload)){
+
+                $path = url('/') . '/media/files/' . $upload->hash . '/' .$upload->name;
+                $path_thumbnail = url('/') . '/media/thumbnails/' . $upload->hash . '/' .$upload->name;
+
+                if ($is_original_name){
+
+                    $original_name = $upload['original_name'];
+
+                    return array('url' => $path, 'thumbnail_url' => $path_thumbnail, 'original_name' => $original_name);
+
+                }
+
+                return array('url' => $path, 'thumbnail_url' => $path_thumbnail);
+
+            }else{ // if upload not found then return the default url
+
+                if ($original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png"){
+
+                    $path = url('/') . '/media/files/' . 'original_default' .'/' .$original_default;
+
+                    $path_thumbnail = url('/') . '/media/thumbnails/' . 'thumbnail_default'. '/' .$original_default;
+
+                    return array('url' => $path, 'thumbnail_url' => $path_thumbnail);
+                }
+            }
+
+        }else{
+            if ($original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png"
+                || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png"){
+
+                $path = url('/') . '/media/files/' . 'original_default' .'/' .$original_default;
+
+                $path_thumbnail = url('/') . '/media/thumbnails/' . 'thumbnail_default'. '/' .$original_default;
+
+                return array('url' => $path, 'thumbnail_url' => $path_thumbnail);
+            }
+        }
+    }
+
+    public static function getVideo($video, $is_original_name = 0){
+        if(!empty($video)){
+            $upload = Upload::find($video);
+            $path = url('/') . '/media/videos/' . $upload->hash . '/' .$upload->name;
+
+            if ($is_original_name){
+
+                $original_name = $upload['original_name'];
+
+                return array('path' => $path, 'original_name' => $original_name);
+
+            }
+        }
     }
 
 }

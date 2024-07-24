@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/storage/upload_thumbnails
+/storage/uploads

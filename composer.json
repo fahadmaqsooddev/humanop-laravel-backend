@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4",
+        "intervention/image": "^2.7",
         "laravel/cashier": "14.0",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.15",

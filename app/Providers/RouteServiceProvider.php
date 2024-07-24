@@ -22,6 +22,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $EnterpriseNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
+    protected $UploadControllerNamespace = 'App\Http\Controllers';
 
 
     /**
@@ -63,6 +64,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->EnterpriseNamespace)
                 ->group(base_path('routes/admin_routes/enterprise_web.php'));
+
+            Route::middleware('web')
+                ->prefix('media')
+                ->namespace($this->UploadControllerNamespace)
+                ->group(base_path('routes/file_routes/file_routes.php'));
 
 
             // Api's
