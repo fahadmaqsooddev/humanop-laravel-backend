@@ -4,20 +4,14 @@
         border-bottom: none;
     }
 
-    .green {
+    .bg-green {
         background-color: green !important;
     }
-
-    .red {
+    .bg-red {
         background-color: red !important;
     }
-
-    .yellow {
+    .bg-yellow {
         background-color: yellow !important;
-    }
-
-    .bg-green {
-        background-color: lightgreen !important;
     }
 
     .modal-close-btn {
@@ -77,5 +71,47 @@
             advanceFilterSearch.classList.toggle('d-none');
         });
 
+        function changeStayleBackgroundColor(element) {
+            if (!element.clickCount) {
+                element.clickCount = 0;
+            }
+
+            element.clickCount++;
+
+            switch (element.clickCount % 4) {
+                case 1:
+                    element.className = "text-center border border-white cursor-pointer bg-green";
+                    break;
+                case 2:
+                    element.className = "text-center border border-white cursor-pointer bg-red";
+                    break;
+                case 3:
+                    element.className = "text-center border cursor-pointer border-success";
+                    break;
+                default:
+                    element.className = "text-center border border-white cursor-pointer";
+            }
+        }
+        function changeFeatureBackgroundColor(element) {
+            if (!element.clickCount) {
+                element.clickCount = 0;
+            }
+
+            element.clickCount++;
+
+            switch (element.clickCount % 4) {
+                case 1:
+                    element.className = "text-center border border-white cursor-pointer bg-green";
+                    break;
+                case 2:
+                    element.className = "text-center border border-white cursor-pointer bg-red";
+                    break;
+                case 3:
+                    element.className = "text-center border cursor-pointer bg-yellow";
+                    break;
+                default:
+                    element.className = "text-center border border-white cursor-pointer";
+            }
+        }
     </script>
 @endpush

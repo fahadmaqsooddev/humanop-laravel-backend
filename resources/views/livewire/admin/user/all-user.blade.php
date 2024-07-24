@@ -49,7 +49,7 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer ">
+                                        <th class="text-center border border-white cursor-pointer" onclick="changeStayleBackgroundColor(this)">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
@@ -68,26 +68,7 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer">
-                                            {{ strtoupper($select_code) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2 ms-md-2 pe-md-2">
-                <div class="col-4">
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-flush" style="border-collapse: separate">
-                                <thead class="thead-light">
-                                <tr>
-                                    @foreach(['em', 'ins', 'int', 'mov'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer">
+                                        <th class="text-center border border-white cursor-pointer" onclick="changeFeatureBackgroundColor(this)">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
