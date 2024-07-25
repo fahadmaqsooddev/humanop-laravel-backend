@@ -14,8 +14,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Stripe\BaseStripeClient;
 use Stripe\Charge;
 use Stripe\Stripe;
+use Stripe\StripeClient;
 
 class PaymentController extends Controller
 {
@@ -38,7 +40,7 @@ class PaymentController extends Controller
 
             if ($stripe){
 
-                Stripe::setApiKey($stripe['api_key']);
+                $stripe = new StripeClient($stripe['api_key']);
 
                 if (Str::contains($request->input('card_number'),'*') && $user['payment_method']){
 
