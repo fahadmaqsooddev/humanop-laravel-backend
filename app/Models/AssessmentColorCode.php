@@ -38,7 +38,6 @@ class AssessmentColorCode extends Model
 
     public static function createStylesCodeAndColor($assessment = null)
     {
-        dd($assessment);
 
         $styles = [
             'sa' => $assessment['sa'],
