@@ -40,7 +40,7 @@
                 Search
             </button>
         </div>
-        <div class="advanceFilterSearch d-none" style="padding-top: 50px !important;">
+        <div class="advanceFilterSearch" style="padding-top: 50px !important;">
             <div class="row mt-4 ms-md-2 pe-md-2">
                 <div class="col-8">
                     <div class="card">
@@ -49,7 +49,7 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer" onclick="changeStayleBackgroundColor(this)">
+                                        <th class="text-center border border-white cursor-pointer" onclick="changeStyleBackgroundColor(this, '{{ $select_code }}')">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
@@ -68,7 +68,7 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer" onclick="changeFeatureBackgroundColor(this)">
+                                        <th class="text-center border border-white cursor-pointer" onclick="changeFeatureBackgroundColor(this, '{{ $select_code }}')">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
@@ -113,4 +113,3 @@
 {{--        {{ $assessments->links() }}--}}
     </div>
 </div>
-

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Assessment;
 
 class AssessmentColorCode extends Model
 {
@@ -15,6 +16,12 @@ class AssessmentColorCode extends Model
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
+    }
+
+    // relations
+    public function assessments()
+    {
+        return $this->belongsTo(Assessment::class, 'assessment_id', 'id');
     }
 
     public static function createStylesCodeAndColor($assessment = null)
