@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\Helpers;
 use Carbon\Carbon;
+use FontLib\Table\Type\name;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -84,9 +85,40 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
-    public static function allAssessment()
+    public static function allAssessment($name = null, $email = null, $age_range = null)
     {
-        return self::with('users')->where('page', 0)->get();
+        $query = self::where('page', 0);
+
+        if ($name) {
+            $query = $query->whereHas('users', function ($query) use ($name) {
+                $query->where(function ($q) use ($name) {
+                    $q->whereRaw("concat(first_name, ' ', last_name) like ?", "%{$name}%")
+                        ->orWhereRaw("concat(last_name, ' ', first_name) like ?", "%{$name}%");
+                });
+            });
+        }
+
+        if ($email) {
+            $query = $query->whereHas('users', function ($query) use ($email) {
+                $query->where(function ($q) use ($email) {
+                    $q->where('email', 'like', '%'.$email.'%');
+                });
+            });
+        }
+
+        if ($age_range) {
+            $age = explode('-', $age_range);
+            $age_min = $age[0];
+            $age_max = $age[1];
+            $query = $query->whereHas('users', function ($query) use ($age_min, $age_max) {
+                $query->where(function ($q) use ($age_min, $age_max) {
+                    $q->where('age_min', 'like', '%'.$age_min.'%')
+                        ->where('age_max', 'like', '%'.$age_max.'%');
+                });
+            });
+        }
+
+        return $query->get();
     }
 
     public static function abandonedAssessment()
