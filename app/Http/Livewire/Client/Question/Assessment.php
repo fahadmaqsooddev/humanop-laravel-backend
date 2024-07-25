@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Client\Question;
 use App\Models\Answer;
 use App\Models\AnswerCode;
 use App\Models\AssessmentDetail;
+use App\Models\AssessmentColorCode;
 use App\Models\Question;
 use Livewire\Component;
 use App\Models\Assessment as AssessmentModal;
@@ -224,15 +225,21 @@ class Assessment extends Component
 
                        $resultArray['page'] = 0;
 
+                    $existingAssessment->update($resultArray);
+                    $this->assessmentId = $existingAssessment->id;
+
+                    AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+                    AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
                    }else{
 
                        $resultArray['page'] = $this->offset / 3;
 
+                    $existingAssessment->update($resultArray);
+                    $this->assessmentId = $existingAssessment->id;
+
                    }
-
-
-                $existingAssessment->update($resultArray);
-                 $this->assessmentId = $existingAssessment->id;
             }
 //            else {
 //                $this->offset += 3;

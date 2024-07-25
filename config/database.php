@@ -264,6 +264,11 @@ return [
             'table' => 'story_views',
             'fillable' => ['user_id','story_id'],
             'hidden' => ['created_at','updated_at']
+        ],
+        'AssessmentColorCode' => [
+            'table' => 'assessment_color_code',
+            'fillable' => ['assessment_id','code','code_color'],
+            'hidden' => ['created_at','updated_at']
         ]
     ]
 ];

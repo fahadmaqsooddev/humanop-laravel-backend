@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\AssessmentColorCode;
 
 class Assessment extends Model
 {
@@ -31,14 +32,21 @@ class Assessment extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function assessmentColorCodes()
+    {
+        return $this->hasMany(AssessmentColorCode::class, 'assessment_id', 'id');
+    }
+
     // appends
-    public function getAssessmentStatusAttribute(){
+    public function getAssessmentStatusAttribute()
+    {
 
         return ($this->page > 0 || $this->page === null ? "Incomplete" : "Complete");
     }
 
     // Accessor
-    public function getCreatedAtAttribute($value){
+    public function getCreatedAtAttribute($value)
+    {
 
         return Carbon::parse($value)->format('Y/m/d');
     }
@@ -85,24 +93,24 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
-    public static function allAssessment($name = null, $email = null, $age_range = null)
+    public static function allAssessment($name = null, $email = null, $age_range = null, $code = null, $code_color = null)
     {
         $query = self::where('page', 0);
 
+        // Filter by name
         if ($name) {
             $query = $query->whereHas('users', function ($query) use ($name) {
                 $query->where(function ($q) use ($name) {
-                    $q->whereRaw("concat(first_name, ' ', last_name) like ?", "%{$name}%")
-                        ->orWhereRaw("concat(last_name, ' ', first_name) like ?", "%{$name}%");
+                    $q->whereRaw("concat(first_name, ' ', last_name) like ?", ["%{$name}%"])
+                        ->orWhereRaw("concat(last_name, ' ', first_name) like ?", ["%{$name}%"]);
                 });
             });
         }
 
+        // Filter by email
         if ($email) {
             $query = $query->whereHas('users', function ($query) use ($email) {
-                $query->where(function ($q) use ($email) {
-                    $q->where('email', 'like', '%'.$email.'%');
-                });
+                $query->where('email', 'like', '%' . $email . '%');
             });
         }
 
@@ -111,10 +119,16 @@ class Assessment extends Model
             $age_min = $age[0];
             $age_max = $age[1];
             $query = $query->whereHas('users', function ($query) use ($age_min, $age_max) {
-                $query->where(function ($q) use ($age_min, $age_max) {
-                    $q->where('age_min', 'like', '%'.$age_min.'%')
-                        ->where('age_max', 'like', '%'.$age_max.'%');
-                });
+                $query->where('age_min', 'like', '%' . $age_min . '%')
+                    ->where('age_max', 'like', '%' . $age_max . '%');
+            });
+        }
+
+        // Filter by code and code color
+        if ($code && $code_color) {
+            $query = $query->whereHas('assessmentColorCodes', function ($query) use ($code, $code_color) {
+                $query->where('code', $code)
+                    ->where('code_color', $code_color);
             });
         }
 
@@ -382,8 +396,7 @@ class Assessment extends Model
                 'top_two_keys' => $topTwoKeys,
                 'next_two_keys' => $nextTwoKeys,
             ];
-        }
-        else {
+        } else {
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
         }
 
@@ -494,8 +507,7 @@ class Assessment extends Model
 
             $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
             $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
-        }
-        else {
+        } else {
             $topTwoKeys = array_keys($unique_filtered_keys);
             $nextTwoKeys = [];
         }
@@ -508,16 +520,15 @@ class Assessment extends Model
         return $topKeys;
     }
 
-    public static function assessmentsPaginated($request = null){
+    public static function assessmentsPaginated($request = null)
+    {
 
         $order_by = isset($request['order_by']) ? $request['order_by'] : "created_at";
         $order = isset($request['order']) ? $request['order'] : "DESC";
 
 
         $assessments = self::where('user_id', Helpers::getUser()->id)
-
-            ->select(['id','page','created_at'])
-
+            ->select(['id', 'page', 'created_at'])
             ->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
@@ -532,29 +543,30 @@ class Assessment extends Model
     {
         $status = self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first();
 
-        if ($status){
+        if ($status) {
 
             return $status->page === null ? 0 : $status->page;
 
-        }else{
+        } else {
 
             return false;
         }
     }
 
-    public static function submitQuestionAnswers($answer_ids = []){
+    public static function submitQuestionAnswers($answer_ids = [])
+    {
 
         $multipleAnswersArray = [];
 
         $codeA = [];
 
-        if(!empty($answer_ids)) {
+        if (!empty($answer_ids)) {
 
             foreach ($answer_ids as $answer_id) {
 
-                if(is_array($answer_id)){
+                if (is_array($answer_id)) {
 
-                    foreach ($answer_id as $answer){
+                    foreach ($answer_id as $answer) {
 
                         $i = 3;
 
@@ -574,7 +586,7 @@ class Assessment extends Model
                         }
 
                     }
-                }else{
+                } else {
 
                     $codes = AnswerCode::where('answer_id', $answer_id)->get();
 
@@ -611,8 +623,8 @@ class Assessment extends Model
 
             $resultArray = [];
 
-            if(!empty($multipleAnswersArray)){
-                $codeArray =  array_merge($multipleAnswersArray,$codeArray);
+            if (!empty($multipleAnswersArray)) {
+                $codeArray = array_merge($multipleAnswersArray, $codeArray);
             }
 
             foreach ($codeArray as $key => $value) {
@@ -624,19 +636,17 @@ class Assessment extends Model
             }
 
 
-            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender',[Helpers::getUser()->gender, 0])
+            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 0])
+                        ->where('active', 1)
+                        ->count() / 3) ?? 0;
 
-                ->where('active', 1)
+            $current_page = $existingAssessment->page = +1;
 
-                ->count() / 3) ?? 0;
-
-            $current_page = $existingAssessment->page =+ 1;
-
-            if($totalPages == $current_page){
+            if ($totalPages == $current_page) {
 
                 $resultArray['page'] = 0;
 
-            }else{
+            } else {
 
                 $resultArray['page'] = $current_page;
 
