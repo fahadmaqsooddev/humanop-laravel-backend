@@ -40,7 +40,7 @@ class PaymentController extends Controller
 
             if ($stripe){
 
-                $stripe = new StripeClient($stripe['api_key']);
+                $stripe_client = new StripeClient($stripe['api_key']);
 
                 if (Str::contains($request->input('card_number'),'*') && $user['payment_method']){
 
@@ -51,7 +51,7 @@ class PaymentController extends Controller
 
                 }else{
 
-                    $payment_method = $stripe->paymentMethods->attach(
+                    $payment_method = $stripe_client->paymentMethods->attach(
                         'pm_card_visa',
                         ['customer' => $user['stripe_id']]
                     );
