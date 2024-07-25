@@ -124,7 +124,7 @@
 
 
 
-    {{--        Forms--}}
+    {{--  MODAL      Forms--}}
 
     <div>
         <div class="modal fade" id="create-story-form-modal" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>

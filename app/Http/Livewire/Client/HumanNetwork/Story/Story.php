@@ -95,9 +95,7 @@ class Story extends Component
 
         $this->user = Helpers::getWebUser();
 
-        $this->story_users = User::storyUsers()->sortBy(function ($storyUser){
-            return $storyUser->is_viewed;
-        });
+        $this->story_users = User::storyUsers();
 
         $this->logged_in_user_stories = \App\Models\Client\Story\Story::loggedInUserStory();
 

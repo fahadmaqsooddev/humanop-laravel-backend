@@ -264,6 +264,21 @@ return [
             'table' => 'story_views',
             'fillable' => ['user_id','story_id'],
             'hidden' => ['created_at','updated_at']
-        ]
+        ],
+        'Post' => [
+            'table' => 'posts',
+            'fillable' => ['description','upload_id','user_id','approve'],
+            'hidden' => ['deleted_at','created_at','updated_at'],
+        ],
+        'PostLike' => [
+            'table' => 'post_likes',
+            'fillable' => ['post_id','user_id','post_comment_id'],
+            'hidden' => ['created_at','updated_at'],
+        ],
+        'PostComment' => [
+            'table' => 'post_comments',
+            'fillable' => ['comment','post_id','user_id'],
+            'hidden' => ['deleted_at','created_at','updated_at'],
+        ],
     ]
 ];
