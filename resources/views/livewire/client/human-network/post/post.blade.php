@@ -1,5 +1,11 @@
 <div>
 
+    <style>
+        .form-control{
+            color: black;
+        }
+    </style>
+
     <div class="row mt-2">
 
         <div class="text-center mx-auto w-50">
@@ -52,6 +58,50 @@
                             <img alt="Image placeholder" src="{{$post['photo_url']['url']}}" class="img-fluid border-radius-lg shadow-lg w-50">
                         </div>
                     @endif
+
+{{--                    If Post is shared--}}
+
+                    @if($post['sharedPost'])
+
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center border-bottom py-3">
+                            <div class="d-flex align-items-center">
+                                <a href="javascript:;">
+                                    <img src="{{ $post['sharedPost']['user']['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}" class="avatar" alt="profile-image">
+                                </a>
+                                <div class="mx-3">
+                                    <a href="javascript:;" class="text-dark font-weight-600 text-sm">{{$post['sharedPost']['user'] ? $post['sharedPost']['user']['first_name'] . ' ' . $post['sharedPost']['user']['last_name'] : "John Snow" }}</a>
+                                    <small class="d-block text-muted">{{$post['sharedPost']['created_at']}}</small>
+                                </div>
+                            </div>
+                            <div class="text-end ms-auto">
+                                @if($logged_in_user->id === $post->user_id)
+
+                                @else
+
+                                    <button type="button" class="btn btn-sm bg-gradient-primary mb-0">
+                                        <i class="fas fa-plus pe-2"></i> Follow
+                                    </button>
+
+                                @endif
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-4 text-white">
+                                {{$post['sharedPost']['description']}}
+                            </p>
+                            @if($post['sharedPost']['photo_url'] ?? null)
+                                <div class="mx-auto">
+                                    <img alt="Image placeholder" src="{{$post['sharedPost']['photo_url']['url'] ?? null}}" class="img-fluid border-radius-lg shadow-lg w-50">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    @endif
+
+
+
                     <div class="row align-items-center px-2 mt-4 mb-2">
                         <div class="col-sm-6">
                             <div class="d-flex text-white">
@@ -63,27 +113,29 @@
                                     <i class="ni ni-chat-round me-1 cursor-pointer"></i>
                                     <span class="text-sm me-3">{{$post['post_comments_count']}}</span>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <a wire:click="sharePost({{$post->id}})" class="d-flex align-items-center text-white">
                                     <i class="ni ni-curved-next me-1 cursor-pointer"></i>
-                                    <span class="text-sm me-2">12</span>
-                                </div>
+                                    <span class="text-sm me-2">{{$post['post_shares_count']}}</span>
+                                </a>
                             </div>
                         </div>
                         <div class="col-sm-6 d-none d-sm-block">
                             <div class="d-flex align-items-center justify-content-sm-end">
                                 <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0)" class="avatar avatar-xs rounded-circle text-primary">
-                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-5.jpg') }}" class="text-">
-                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}" class="rounded-circle">
-                                    </a>
-                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">
-                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">
-                                    </a>
-                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">
-                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}" class="rounded-circle">
-                                    </a>
+                                    @foreach($post['postShares'] as $post_share)
+                                        <a href="javascript:void(0)" class="avatar avatar-xs rounded-circle text-primary">
+    {{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-5.jpg') }}" class="text-">--}}
+                                            <img alt="Image placeholder" src="{{ $post_share['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-3.jpg') }}" class="rounded-circle">
+                                        </a>
+                                    @endforeach
+{{--                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">--}}
+{{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">--}}
+{{--                                    </a>--}}
+{{--                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">--}}
+{{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}" class="rounded-circle">--}}
+{{--                                    </a>--}}
                                 </div>
-                                <small class="ps-2 font-weight-bold text-white">and 30+ more</small>
+{{--                                <small class="ps-2 font-weight-bold text-white">and 30+ more</small>--}}
                             </div>
                         </div>
                         <hr class="horizontal dark my-3">
@@ -442,6 +494,47 @@
     </div>
 
 
+    <div>
+        <div class="modal fade" id="share-post-modal" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share Post</h5>
+                        <button type="button" wire:click="$emit('postShareModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                    </div>
+                    <form wire:submit.prevent="saveSharedPost">
+                        <div class="modal-body">
+
+                            <p>{{$single_post->description ?? ""}}</p>
+
+                            @if($single_post['photo_url'] ?? null)
+                                <img src="{{$single_post['photo_url']['thumbnail_url'] ?? ""}}" width="50%">
+                            @endif
+
+                            <br>
+
+                            <label>Description</label>
+                            <textarea type="text" wire:model="shared_post_description" class="form-control" ></textarea>
+
+                            @error('shared_post_description')
+                                <p class="text-danger">{{$message}}</p>
+                            @enderror
+
+                            <input type="text" wire:model="post_id">
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">share</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Because she competes with no one, no one can compete with her. --}}
 </div>
 
@@ -450,6 +543,7 @@
 <script>
     window.livewire.on('toggleCreatePostFormModal', () => $('#create-post-modal').modal('toggle'));
     window.livewire.on('toggleEditPostFormModal', () => $('#edit-post-modal').modal('toggle'));
+    window.livewire.on('toggleSharePostFormModal', () => $('#share-post-modal').modal('toggle'));
     window.livewire.on('hideSuccessAlert', () => { setTimeout(function (){
         $('.alert-success').fadeOut('fast');
     }, 3000)})

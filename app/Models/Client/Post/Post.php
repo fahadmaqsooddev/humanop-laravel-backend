@@ -42,6 +42,16 @@ class Post extends Model
         return $this->hasMany(PostComment::class,'post_id','id');
     }
 
+    public function sharedPost(){
+
+        return $this->belongsTo(Post::class,'post_id', 'id');
+    }
+
+    public function postShares(){
+
+        return $this->hasMany(Post::class,'post_id','id');
+    }
+
 
     // appends
     public function getPhotoUrlAttribute(){
@@ -77,13 +87,21 @@ class Post extends Model
 
         }, 'postComments' => function($q){
 
-            $q->with('user:id,first_name,last_name')->limit(2)->latest()
+            $q->with('user:id,first_name,last_name')->latest()
 
                 ->withCount('commentLikes');
 
+        }, 'sharedPost' => function($q){
+
+            $q->with('user:id,first_name,last_name');
+
+        }, 'postShares' => function($q){
+
+            $q->with('user:id');
+
         }])
 
-            ->withCount(['postLikes', 'postComments'])
+            ->withCount(['postLikes', 'postComments', 'postShares'])
 
             ->latest()
 

@@ -13,14 +13,14 @@ class Post extends Component
 {
     use WithFileUploads;
 
-    protected $listeners = ['createPostModal' => 'toggleCreatePostModal'];
+    protected $listeners = ['createPostModal' => 'toggleCreatePostModal', 'postShareModal' => 'toggleSharePostModel'];
 
     protected $rules = [
         'description' => 'required|max:1000',
         'post_image' => 'nullable|image||mimes:jpg,png,jpeg|max:3072'
     ];
 
-    public $description, $post_image, $posts = [], $post_comment, $logged_in_user, $post_id;
+    public $description, $post_image, $posts = [], $post_comment, $logged_in_user, $post_id, $shared_post_description, $single_post;
 
     public function toggleCreatePostModal(){
 
@@ -129,6 +129,40 @@ class Post extends Component
     public function deleteComment($comment_id){
 
         PostComment::whereId($comment_id)->delete();
+    }
+
+    public function toggleSharePostModel(){
+
+        $this->emit('toggleSharePostFormModal');
+    }
+
+    public function sharePost($post_id){
+
+        $this->single_post = \App\Models\Client\Post\Post::post($post_id);
+
+        $this->emit('toggleSharePostFormModal');
+
+        $this->post_id = $this->single_post->id ?? null;
+
+    }
+
+    public function saveSharedPost(){
+
+        $this->validate(['shared_post_description' => 'required']);
+
+        $data['description'] = $this->shared_post_description;
+
+        $data['post_id'] = $this->post_id;
+
+        \App\Models\Client\Post\Post::createPost($data);
+
+        $this->emit('toggleSharePostFormModal');
+
+        $this->reset();
+
+        session()->flash('success', "Post shared successfully");
+
+        $this->emit('hideSuccessAlert');
     }
 
     public function render()
