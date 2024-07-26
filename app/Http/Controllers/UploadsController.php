@@ -49,7 +49,7 @@ class UploadsController extends Controller
         if (!File::exists($path)){
             // abort 404;
 //            $path = base_path() . '/public/assets/image/image_placeholder.png';
-            $path = storage_path() . '/default_images/original/image_placeholder.png';
+            $path = storage_path() . '/default_images/image_placeholder.png';
             $file = File::get($path);
             $type = File::mimeType($path);
             $response = Response::make($file,200);
