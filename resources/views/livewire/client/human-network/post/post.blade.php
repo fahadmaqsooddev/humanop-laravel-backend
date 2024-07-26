@@ -96,7 +96,7 @@
                             </p>
                             @if($post['sharedPost']['photo_url'] ?? null)
                                 <div class="mx-auto">
-                                    <img alt="Image placeholder" src="{{$post['sharedPost']['photo_url']['url'] ?? null}}" class="img-fluid border-radius-lg shadow-lg w-50">
+                                    <img alt="Image placeholder" src="{{$post['sharedPost']['photo_url']['url'] ?? null}}" class="img-fluid border-radius-lg shadow-lg w-100">
                                 </div>
                             @endif
                         </div>
