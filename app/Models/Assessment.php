@@ -640,21 +640,26 @@ class Assessment extends Model
                         ->where('active', 1)
                         ->count() / 3) ?? 0;
 
-            $current_page = $existingAssessment->page = +1;
+            $current_page = $existingAssessment->page + 1;
 
             if ($totalPages == $current_page) {
 
                 $resultArray['page'] = 0;
 
+                $existingAssessment->update($resultArray);
+
+                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
             } else {
 
                 $resultArray['page'] = $current_page;
 
+                $existingAssessment->update($resultArray);
+
             }
 
-            $resultArray['page'] = $current_page;
-
-            $existingAssessment->update($resultArray);
         }
 
 
