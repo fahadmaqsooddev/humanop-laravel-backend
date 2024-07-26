@@ -74,11 +74,10 @@
             fixedHeight: true
         });
 
-        document.querySelector('.clickBtn').addEventListener('click', function () {
-            const advanceFilterSearch = document.querySelector('.advanceFilterSearch');
-            advanceFilterSearch.classList.toggle('d-none');
+        $('.clickBtn').on('click', function () {
+            $('.advanceFilterSearch').toggle();
         });
-
+        
         function changeStyleBackgroundColor(element, code) {
             if (!element.clickCount) {
                 element.clickCount = 0;
