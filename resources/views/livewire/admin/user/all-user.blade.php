@@ -40,7 +40,7 @@
                 Filters
             </button>
         </div>
-        <div class="advanceFilterSearch" style="padding-top: 50px !important;">
+        <div class="advanceFilterSearch d-none" style="padding-top: 50px !important;">
             <div class="row mt-4 ms-md-2 pe-md-2">
                 <div class="col-8">
                     <div class="card">
