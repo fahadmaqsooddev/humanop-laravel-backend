@@ -106,7 +106,11 @@
                             <button wire:click="$emit('addStoryModal')" class="avatar avatar-lg border-1 rounded-circle bg-gradient-primary">
                                 <i class="fas fa-plus text-white"></i>
                             </button>
-                            <p class="mb-0 text-sm text-white" style="margin-top:6px;">Add story</p>
+                            @if($logged_in_user_stories)
+                                <p wire:click="viewStoryModal({{$user->id}})" class="mb-0 text-sm text-white" style="margin-top:6px; cursor: pointer;">View Story</p>
+                            @else
+                                <p class="mb-0 text-sm text-white" style="margin-top:6px;">Add story</p>
+                            @endif
                         </div>
                         @foreach($story_users as $story_user)
                             <div class="col-lg-1 col-md-2 col-sm-3 col-4 text-center">
@@ -143,7 +147,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="submit" class="btn bg-gradient-primary">Upload</button>
                         </div>
 
                     </form>

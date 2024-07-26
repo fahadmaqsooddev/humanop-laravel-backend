@@ -4,6 +4,10 @@
         .form-control{
             color: black;
         }
+
+        .text-orange{
+            color: #f2661c;
+        }
     </style>
 
     <div class="row mt-2">
@@ -22,7 +26,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center border-bottom py-3">
                     <div class="d-flex align-items-center">
-                        <a href="javascript:;">
+                        <a href="javascript:void(0);">
                             <img src="{{ $post['user']['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}" class="avatar" alt="profile-image">
                         </a>
                         <div class="mx-3">
@@ -55,7 +59,7 @@
                     </p>
                     @if($post['photo_url'])
                         <div class="mx-auto">
-                            <img alt="Image placeholder" src="{{$post['photo_url']['url']}}" class="img-fluid border-radius-lg shadow-lg w-50">
+                            <img alt="Image placeholder" src="{{$post['photo_url']['url']}}" class="img-fluid border-radius-lg shadow-lg w-100">
                         </div>
                     @endif
 
@@ -106,7 +110,7 @@
                         <div class="col-sm-6">
                             <div class="d-flex text-white">
                                 <a wire:click='postLike({{$post->id}})' class="d-flex align-items-center text-white">
-                                    <i class="ni ni-like-2 me-1 cursor-pointer {{ $post['is_post_liked'] ? "text-primary" : "text-white" }}"></i>
+                                    <i class="ni ni-like-2 me-1 cursor-pointer {{ $post['is_post_liked'] ? "text-orange" : "text-white" }}"></i>
                                     <span class="text-sm me-3">{{$post['post_likes_count']}}</span>
                                 </a>
                                 <div class="d-flex align-items-center">
@@ -148,7 +152,7 @@
                                 <img alt="Image placeholder" class="avatar rounded-circle" src="{{ $comment['user'] ? $comment['user']['user_picture_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">
                             </div>
                             <div class="flex-grow-1 ms-3">
-                                <p class="h5 mt-0">
+                                <p class="h5 mt-0 text-white" style="font-size: 12px; font-weight: 600;">
                                     <b>
                                         {{$comment['user'] ? $comment['user']['first_name'] . ' ' . $comment['user']['last_name'] : ""}}
                                     </b>
@@ -162,10 +166,10 @@
                                     </span>
                                 </p>
 
-                                <p class="text-sm text-white">{{$comment['comment']}}</p>
+                                <span class="text-sm text-white">{{$comment['comment']}}</span>
                                 <div class="d-flex text-white">
-                                    <a wire:click='commentLikes($comment->id)'>
-                                        <i class="ni ni-like-2 me-1 cursor-pointer {{$comment['is_liked_comment'] ? "text-primary" : "text-white"}}"></i>
+                                    <a wire:click='commentLikes({{$comment->id}})'>
+                                        <i class="ni ni-like-2 me-1 cursor-pointer {{$comment['is_liked_comment'] ? "text-orange" : "text-white"}}"></i>
                                     </a>
                                     <span class="text-sm me-2">{{$comment['comment_likes_count']}} likes</span>
 {{--                                    <div>--}}
@@ -185,8 +189,8 @@
                                     <div class="input-group">
                                         <textarea wire:model="post_comment" class="form-control" aria-label="With textarea" rows="1" placeholder="Comment as {{$logged_in_user->first_name}}"></textarea>
                                         <div class="input-group-prepend">
-                                            <a  type="button" wire:click="createPostComment({{$post->id}})" class="input-group text-primary p-3" style="font-size: 30px; cursor:pointer">
-                                                <i class="ni ni-curved-next"></i>
+                                            <a  type="button" wire:click="createPostComment({{$post->id}})" class="input-group text-orange p-3" style="font-size: 30px; cursor:pointer">
+                                                <i class="ni ni-send"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -444,7 +448,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">post</button>
+                            <button type="submit" class="btn bg-gradient-primary">post</button>
                         </div>
 
                     </form>
@@ -471,8 +475,11 @@
                             <p class="text-danger">{{$message}}</p>
                             @enderror
 
-                            <label>Image</label>
-                            <input type="file" wire:model="post_image" class="form-control">
+
+                            @if(!$is_shared_post)
+                                <label>Image</label>
+                                <input type="file" wire:model="post_image" class="form-control">
+                            @endif
 
                             @error('post_image')
                             <p class="text-danger">{{$message}}</p>
@@ -484,7 +491,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">post</button>
+                            <button type="submit" class="btn bg-gradient-primary">post</button>
                         </div>
 
                     </form>
@@ -520,12 +527,12 @@
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
 
-                            <input type="text" wire:model="post_id">
+                            <input type="text" wire:model="post_id" hidden>
 
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">share</button>
+                            <button type="submit" class="btn bg-gradient-primary">share</button>
                         </div>
 
                     </form>

@@ -20,7 +20,8 @@ class Post extends Component
         'post_image' => 'nullable|image||mimes:jpg,png,jpeg|max:3072'
     ];
 
-    public $description, $post_image, $posts = [], $post_comment, $logged_in_user, $post_id, $shared_post_description, $single_post;
+    public $description, $post_image, $posts = [], $post_comment, $logged_in_user,
+        $post_id, $shared_post_description, $single_post, $is_shared_post;
 
     public function toggleCreatePostModal(){
 
@@ -36,6 +37,9 @@ class Post extends Component
         $this->description = $post->description;
 
         $this->post_id = $post->id;
+
+        $this->is_shared_post = (!empty($post->post_id) ? true : false);
+
     }
 
     public function addPost(){

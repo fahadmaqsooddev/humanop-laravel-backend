@@ -59,19 +59,23 @@ class Story extends Model
 
         $data['user_id'] = Helpers::getWebUser()->id;
 
-        Log::info(['da' => $data]);
-
         self::create($data);
     }
 
     public static function loggedInUserStory(){
 
-        return self::where('user_id', Helpers::getWebUser()->id)->first();
+        return self::where('user_id', Helpers::getWebUser()->id)
+
+            ->where('created_at', ">", Carbon::now()->subDay())
+
+            ->first();
     }
 
     public static function userStories($user_id = null){
 
         return self::has('user')->with('user')
+
+            ->where('created_at', ">", Carbon::now()->subDay())
 
             ->where('user_id', $user_id)
 

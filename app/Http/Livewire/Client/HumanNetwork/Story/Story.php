@@ -76,7 +76,7 @@ class Story extends Component
 
         }else{
 
-            Log::info('Error');
+            session()->flash('Something went wrong');
         }
 
     }
