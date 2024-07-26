@@ -7,11 +7,19 @@
     .bg-green {
         background-color: green !important;
     }
+    .bg-none {
+        background-color: transparent  !important;
+    }
+
     .bg-red {
         background-color: red !important;
     }
+
     .bg-yellow {
         background-color: yellow !important;
+    }
+    .border-green {
+        border: 1px solid green !important;
     }
 
     .modal-close-btn {
@@ -90,11 +98,12 @@
                     break;
                 case 3:
                     element.className = "text-center border cursor-pointer border-success";
-                    color = 'success';
+                    color = 'border-green';
                     break;
-                default:
-                    element.className = "text-center border border-white cursor-pointer";
-                    color = '';
+                case 4:
+                    element.className = "text-center border border-white cursor-pointer bg-none";
+                    color = 'none';
+                    break;
             }
 
             element.setAttribute('data_color', color);
@@ -122,9 +131,10 @@
                     element.className = "text-center border cursor-pointer bg-red";
                     color = 'red';
                     break;
-                default:
-                    element.className = "text-center border border-white cursor-pointer";
-                    color = '';
+                case 4:
+                    element.className = "text-center border border-white cursor-pointer bg-none";
+                    color = 'none';
+                    break;
             }
 
             element.setAttribute('data_color', color);

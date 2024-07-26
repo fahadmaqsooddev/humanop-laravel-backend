@@ -17,6 +17,7 @@ class AllUser extends Component
     public $age = '';
     protected $assessments = [];
     public $perPage = 10;
+    public $selectedCells = [];
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectCode'];
 
@@ -41,7 +42,7 @@ class AllUser extends Component
 
     public function selectCode($select_code, $select_code_color)
     {
-
+        $this->selectedCells[$select_code] = $select_code_color;
         $this->code = $select_code;
         $this->color = $select_code_color;
         $this->searchFilter();
@@ -59,6 +60,8 @@ class AllUser extends Component
     {
         return view('livewire.admin.user.all-user', [
             'assessments' => $this->assessments,
+            'selectedCells' => $this->selectedCells
         ]);
     }
+
 }
