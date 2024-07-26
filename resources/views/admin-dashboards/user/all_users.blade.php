@@ -74,10 +74,20 @@
             fixedHeight: true
         });
 
-        $('.clickBtn').on('click', function () {
-            $('.advanceFilterSearch').toggle();
+        document.addEventListener('livewire:load', function () {
+            // Initial jQuery logic
+            $('.clickBtn').on('click', function () {
+                $('.advanceFilterSearch').toggle();
+            });
+
+            // Reapply jQuery logic after Livewire updates
+            Livewire.hook('message.processed', (message, component) => {
+                $('.clickBtn').off('click').on('click', function () {
+                    $('.advanceFilterSearch').toggle();
+                });
+            });
         });
-        
+
         function changeStyleBackgroundColor(element, code) {
             if (!element.clickCount) {
                 element.clickCount = 0;
