@@ -74,6 +74,11 @@
             fixedHeight: true
         });
 
+        document.querySelector('.clickBtn').addEventListener('click', function () {
+            const advanceFilterSearch = document.querySelector('.advanceFilterSearch');
+            advanceFilterSearch.classList.toggle('d-none');
+        });
+
         function changeStyleBackgroundColor(element, code) {
             if (!element.clickCount) {
                 element.clickCount = 0;

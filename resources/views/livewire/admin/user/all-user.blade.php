@@ -154,12 +154,3 @@
         {{--        {{ $assessments->links() }}--}}
     </div>
 </div>
-@push('js')
-    <script>
-        document.querySelector('.clickBtn').addEventListener('click', function () {
-            alert(1);
-            const advanceFilterSearch = document.querySelector('.advanceFilterSearch');
-            advanceFilterSearch.classList.toggle('d-none');
-        });
-    </script>
-@endpush
