@@ -10,23 +10,28 @@ class AllUser extends Component
 {
     use WithPagination;
 
-    public $code;
+    public $code = '';
+    public $color = '';
     public $name = '';
     public $email = '';
     public $age = '';
     protected $assessments = [];
     public $perPage = 10;
+    public $selectedCells = [];
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['selectCode'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
         'email' => ['except' => ''],
         'age' => ['except' => ''],
+        'code' => ['except' => ''],
+        'color' => ['except' => ''],
     ];
 
     public function mount()
     {
-        $this->fill(request()->only('name', 'email', 'age'));
+        $this->fill(request()->only('name', 'email', 'age', 'code', 'color'));
         $this->searchFilter();
     }
 
@@ -35,23 +40,28 @@ class AllUser extends Component
         $this->searchFilter();
     }
 
-    public function selectCode($select_code)
+    public function selectCode($select_code, $select_code_color)
     {
+        $this->selectedCells[$select_code] = $select_code_color;
         $this->code = $select_code;
+        $this->color = $select_code_color;
+        $this->searchFilter();
 
     }
 
     public function searchFilter()
     {
-        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age);
+
+        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age, $this->code, $this->color);
 
     }
 
     public function render()
     {
-
         return view('livewire.admin.user.all-user', [
             'assessments' => $this->assessments,
+            'selectedCells' => $this->selectedCells
         ]);
     }
+
 }

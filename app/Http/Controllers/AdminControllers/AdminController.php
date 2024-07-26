@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
+use App\Models\AssessmentColorCode;
 
 class AdminController extends Controller
 {
@@ -140,7 +141,9 @@ class AdminController extends Controller
 
             $grid = Assessment::getGrid($id);
 
-            return view('admin-dashboards.user.user_grid', compact('grid'));
+            $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
+
+            return view('admin-dashboards.user.user_grid', compact('grid', 'grid_code_color'));
 
         } catch (\Exception $exception) {
 
@@ -207,9 +210,9 @@ class AdminController extends Controller
     public function allUsers()
     {
         try {
-            
+
             return view('admin-dashboards.user.all_users');
-            
+
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());

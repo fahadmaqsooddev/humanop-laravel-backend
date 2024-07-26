@@ -280,5 +280,10 @@ return [
             'fillable' => ['comment','post_id','user_id'],
             'hidden' => ['deleted_at','created_at','updated_at'],
         ],
+        'AssessmentColorCode' => [
+            'table' => 'assessment_color_code',
+            'fillable' => ['assessment_id','code','code_color'],
+            'hidden' => ['created_at','updated_at']
+        ]
     ]
 ];

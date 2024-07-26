@@ -37,7 +37,7 @@
         </div>
         <div class="pe-md-4">
             <button class="btn btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background-color: #f2661c">Advance
-                Search
+                Filters
             </button>
         </div>
         <div class="advanceFilterSearch d-none" style="padding-top: 50px !important;">
@@ -49,13 +49,34 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer" onclick="changeStayleBackgroundColor(this)">
+                                        @php
+                                            $colorClass = 'bg-none'; // Default to no background color
+                                            if (isset($selectedCells[$select_code])) {
+                                                switch ($selectedCells[$select_code]) {
+                                                    case 'green':
+                                                        $colorClass = 'bg-green';
+                                                        break;
+                                                    case 'red':
+                                                        $colorClass = 'bg-red';
+                                                        break;
+                                                    case 'border-green':
+                                                        $colorClass = 'border-success';
+                                                        break;
+                                                    case 'none':
+                                                        $colorClass = 'bg-none';
+                                                        break;
+                                                }
+                                            }
+                                        @endphp
+                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
+                                            onclick="changeStyleBackgroundColor(this, '{{ $select_code }}')">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
                                 </tr>
                                 </thead>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -68,7 +89,27 @@
                                 <thead class="thead-light">
                                 <tr>
                                     @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_code)
-                                        <th class="text-center border border-white cursor-pointer" onclick="changeFeatureBackgroundColor(this)">
+                                        @php
+                                            $colorClass = 'bg-none'; // Default to no background color
+                                            if (isset($selectedCells[$select_code])) {
+                                                switch ($selectedCells[$select_code]) {
+                                                    case 'green':
+                                                        $colorClass = 'bg-green';
+                                                        break;
+                                                    case 'red':
+                                                        $colorClass = 'bg-red';
+                                                        break;
+                                                    case 'yellow':
+                                                        $colorClass = 'bg-yellow';
+                                                        break;
+                                                    case 'none':
+                                                        $colorClass = 'bg-none';
+                                                        break;
+                                                }
+                                            }
+                                        @endphp
+                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
+                                            onclick="changeFeatureBackgroundColor(this, '{{ $select_code }}')">
                                             {{ strtoupper($select_code) }}
                                         </th>
                                     @endforeach
@@ -110,7 +151,6 @@
             @endforeach
             </tbody>
         </table>
-{{--        {{ $assessments->links() }}--}}
+        {{--        {{ $assessments->links() }}--}}
     </div>
 </div>
-

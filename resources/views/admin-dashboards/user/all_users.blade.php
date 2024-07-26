@@ -7,11 +7,19 @@
     .bg-green {
         background-color: green !important;
     }
+    .bg-none {
+        background-color: transparent  !important;
+    }
+
     .bg-red {
         background-color: red !important;
     }
+
     .bg-yellow {
         background-color: yellow !important;
+    }
+    .border-green {
+        border: 1px solid green !important;
     }
 
     .modal-close-btn {
@@ -66,52 +74,71 @@
             fixedHeight: true
         });
 
-        document.querySelector('.clickBtn').addEventListener('click', function () {
-            const advanceFilterSearch = document.querySelector('.advanceFilterSearch');
-            advanceFilterSearch.classList.toggle('d-none');
+        $('.clickBtn').on('click', function () {
+            $('.advanceFilterSearch').toggle();
         });
-
-        function changeStayleBackgroundColor(element) {
+        
+        function changeStyleBackgroundColor(element, code) {
             if (!element.clickCount) {
                 element.clickCount = 0;
             }
 
             element.clickCount++;
 
+            let color;
             switch (element.clickCount % 4) {
                 case 1:
                     element.className = "text-center border border-white cursor-pointer bg-green";
+                    color = 'green';
                     break;
                 case 2:
                     element.className = "text-center border border-white cursor-pointer bg-red";
+                    color = 'red';
                     break;
                 case 3:
                     element.className = "text-center border cursor-pointer border-success";
+                    color = 'border-green';
                     break;
-                default:
-                    element.className = "text-center border border-white cursor-pointer";
+                case 4:
+                    element.className = "text-center border border-white cursor-pointer bg-none";
+                    color = 'none';
+                    break;
             }
+
+            element.setAttribute('data_color', color);
+            Livewire.emit('selectCode', code, color);
         }
-        function changeFeatureBackgroundColor(element) {
+
+        function changeFeatureBackgroundColor(element, code) {
             if (!element.clickCount) {
                 element.clickCount = 0;
             }
 
             element.clickCount++;
 
+            let color;
             switch (element.clickCount % 4) {
                 case 1:
                     element.className = "text-center border border-white cursor-pointer bg-green";
+                    color = 'green';
                     break;
                 case 2:
-                    element.className = "text-center border border-white cursor-pointer bg-red";
+                    element.className = "text-center border border-white cursor-pointer bg-yellow";
+                    color = 'yellow';
                     break;
                 case 3:
-                    element.className = "text-center border cursor-pointer bg-yellow";
+                    element.className = "text-center border cursor-pointer bg-red";
+                    color = 'red';
                     break;
-                default:
-                    element.className = "text-center border border-white cursor-pointer";
+                case 4:
+                    element.className = "text-center border border-white cursor-pointer bg-none";
+                    color = 'none';
+                    break;
             }
+
+            element.setAttribute('data_color', color);
+            Livewire.emit('selectCode', code, color);
         }
+
     </script>
 @endpush
