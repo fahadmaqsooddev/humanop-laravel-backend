@@ -543,9 +543,9 @@ class Assessment extends Model
     {
         $status = self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first();
 
-        if ($status) {
+        if ($status && $status->page !== 0) {
 
-            return $status->page === null ? 0 : $status->page;
+            return ($status->page === null ? 0 : $status->page);
 
         } else {
 
