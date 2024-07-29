@@ -225,21 +225,21 @@ class Assessment extends Component
 
                        $resultArray['page'] = 0;
 
-                    $existingAssessment->update($resultArray);
-                    $this->assessmentId = $existingAssessment->id;
-
-                    AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-
-                    AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
-
                    }else{
 
                        $resultArray['page'] = $this->offset / 3;
 
-                    $existingAssessment->update($resultArray);
-                    $this->assessmentId = $existingAssessment->id;
-
                    }
+
+                $existingAssessment->update($resultArray);
+                $this->assessmentId = $existingAssessment->id;
+
+                AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+
+                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
             }
 //            else {
 //                $this->offset += 3;

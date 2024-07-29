@@ -16,6 +16,7 @@ use Stripe\BaseStripeClient;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\StripeClient;
+use App\Models\AssessmentColorCode;
 
 class PaymentController extends Controller
 {
@@ -85,6 +86,10 @@ class PaymentController extends Controller
             $stripe = StripeSetting::getSingle();
 
             $assessment = Assessment::createAssessmentData($user['id']);
+
+            AssessmentColorCode::createStylesCodeAndColor($assessment);
+
+            AssessmentColorCode::createFeaturesCodeAndColor($assessment);
 
             Payment::createPayment($coupon, $user['id'], $discount_amount, $stripe['amount'], $assessment['id']);
 
