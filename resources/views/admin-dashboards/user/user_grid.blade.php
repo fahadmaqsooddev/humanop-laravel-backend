@@ -35,7 +35,8 @@
             $third_row_mov = $grid['mov'] * $second_row_mov;
 
             $communication_third_style_array = [$third_row_em, $third_row_ins, $third_row_int, $third_row_mov];
-            $communication_third_style = max($communication_third_style_array);@endphp
+            $communication_third_style = max($communication_third_style_array);
+        @endphp
 
         <div class="row mt-4">
             <div class="col-8">
@@ -220,16 +221,16 @@
                                 <td class="text-sm font-weight-normal text-center border border-white {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}">{{$grid['mov']}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_em ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_em}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_ins ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_ins}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_int ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_int}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_mov ==  $communication_style ? 'greenBox' : ''}}">{{$second_row_mov}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_em ==  $communication_style ? 'green' : ''}}">{{$second_row_em}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_ins ==  $communication_style ? 'green' : ''}}">{{$second_row_ins}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_int ==  $communication_style ? 'green' : ''}}">{{$second_row_int}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_mov ==  $communication_style ? 'green' : ''}}">{{$second_row_mov}}</td>
                             </tr>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'greenBox' : (($third_row_em < 30 || $third_row_em > 300) ? 'redBox' : '') }}">{{$third_row_em}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'greenBox' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'redBox' : '') }}">{{$third_row_ins}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'greenBox' : (($third_row_int < 30 || $third_row_int > 300) ? 'redBox' : '') }}">{{$third_row_int}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'greenBox' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'redBox' : '') }}">{{$third_row_mov}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_em > 29 && $third_row_em < 301 && $third_row_em == $communication_third_style) ? 'green' : (($third_row_em < 30 || $third_row_em > 300) ? 'red' : '') }}">{{$third_row_em}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_ins > 29 && $third_row_ins < 301 && $third_row_ins == $communication_third_style) ? 'green' : (($third_row_ins < 30 || $third_row_ins > 300) ? 'red' : '') }}">{{$third_row_ins}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_int > 29 && $third_row_int < 301 && $third_row_int == $communication_third_style) ? 'green' : (($third_row_int < 30 || $third_row_int > 300) ? 'red' : '') }}">{{$third_row_int}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{($third_row_mov > 29 && $third_row_mov < 301 && $third_row_mov == $communication_third_style) ? 'green' : (($third_row_mov < 30 || $third_row_mov > 300) ? 'red' : '') }}">{{$third_row_mov}}</td>
                             </tr>
                             </tbody>
                         </table>
