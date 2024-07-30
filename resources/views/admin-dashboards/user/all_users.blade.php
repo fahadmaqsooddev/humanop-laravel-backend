@@ -17,6 +17,7 @@
 
     .bg-yellow {
         background-color: yellow !important;
+        color: black !important;
     }
     .border-green {
         border: 1px solid green !important;
@@ -116,7 +117,7 @@
             }
 
             element.setAttribute('data_color', color);
-            Livewire.emit('selectCode', code, color);
+            Livewire.emit('selectStyleCode', code, color);
         }
 
         function changeFeatureBackgroundColor(element, code) {
@@ -147,8 +148,13 @@
             }
 
             element.setAttribute('data_color', color);
-            Livewire.emit('selectCode', code, color);
+            Livewire.emit('selectFeatureCode', code, color);
         }
+
+        // function changeStyleCodeNumber(select_num) {
+        //
+        //     Livewire.emit('selectCodeNum', select_num);
+        // }
 
     </script>
 @endpush
