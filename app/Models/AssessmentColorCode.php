@@ -36,6 +36,11 @@ class AssessmentColorCode extends Model
         return $code_color;
     }
 
+    public static function deleteAssessemntColorCodeData($assessment = null)
+    {
+        self::where('assessment_id', $assessment['id'])->delete();
+    }
+
     public static function createStylesCodeAndColor($assessment = null)
     {
 
@@ -148,6 +153,7 @@ class AssessmentColorCode extends Model
 
     public static function createFeaturesCodeAndColor($assessment = null)
     {
+
         $features = [
             'de' => $assessment['de'],
             'dom' => $assessment['dom'],

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Http\Controllers\Controller;
 use App\Models\AssessmentDetail;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -45,7 +46,9 @@ class UserController extends Controller
 
             $grid = Assessment::getGrid($id);
 
-            return view('client-dashboard.user.client_grid', compact('grid'));
+            $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
+
+            return view('client-dashboard.user.client_grid', compact('grid', 'grid_code_color'));
 
         }catch (\Exception $exception)
         {
