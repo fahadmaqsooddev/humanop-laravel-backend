@@ -46,8 +46,8 @@
 
                         @else
 
-                            <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{($post->user->is_follow ?? null) ? "bg-secondary" : "bg-gradient-primary"}} mb-0">
-                                <i class="fas fa-plus pe-2"></i>
+                            <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{($post->user->is_follow ?? null) ? "bg-secondary" : "bg-gradient-primary"}} mb-0" style="color: white;">
+{{--                                <i class='fas fa-plus pe-2'></i>--}}
                                 {{$post->user->is_follow ? "Following" : "Follow"}}
                             </button>
 
@@ -84,8 +84,8 @@
 
                                 @else
 
-                                    <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{$post->user->is_follow ? "bg-secondary" : "bg-gradient-primary"}} mb-0">
-                                        <i class="fas fa-plus pe-2"></i>
+                                    <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{$post->user->is_follow ? "bg-secondary" : "bg-gradient-primary"}} mb-0" style="color: white">
+{{--                                        <i class='fas fa-plus pe-2'></i>--}}
                                         {{$post->user->is_follow ? "Following" : "Follow"}}
                                     </button>
 
