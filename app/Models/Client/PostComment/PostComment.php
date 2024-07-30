@@ -3,11 +3,13 @@
 namespace App\Models\Client\PostComment;
 
 use App\Helpers\Helpers;
+use App\Http\Livewire\Client\HumanNetwork\Post\Post;
 use App\Models\Client\PostLike\PostLike;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Session;
 
 class PostComment extends Model
 {
@@ -35,6 +37,11 @@ class PostComment extends Model
         return $this->hasMany(PostLike::class,'post_comment_id','id');
     }
 
+    public function post(){
+
+        return $this->belongsTo(Post::class,'post_id','id');
+    }
+
 
     // appends
     public function getIsLikedCommentAttribute(){
@@ -43,8 +50,38 @@ class PostComment extends Model
     }
 
     // query
-    public static function createPostComment($data = null){
+    public static function createPostComment($data = null, $comment_id = null){
 
-        self::create($data);
+        $comment = self::whereid($comment_id)->first();
+
+        if ($comment){
+
+            $comment->update(['comment' => $data['comment']]);
+
+        }else{
+
+            self::create($data);
+        }
+
+    }
+
+    public static function getPostComments($post_id = null){
+
+        $comments = self::where('post_id', $post_id)
+
+            ->with('user:id,first_name,last_name')
+
+            ->withCount('commentLikes')
+
+            ->get();
+
+        Session::put(['post_comments' => $comments]);
+
+        return $comments;
+    }
+
+    public static function singleComment($comment_id = null){
+
+        return self::whereId($comment_id)->first();
     }
 }
