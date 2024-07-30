@@ -284,6 +284,11 @@ return [
             'table' => 'assessment_color_code',
             'fillable' => ['assessment_id','code','code_color'],
             'hidden' => ['created_at','updated_at']
+        ],
+        'Follow' => [
+            'table' => 'follows',
+            'fillable' => ['user_id','follow_id'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

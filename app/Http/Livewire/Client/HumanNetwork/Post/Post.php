@@ -15,7 +15,6 @@ class Post extends Component
     use WithFileUploads;
 
     protected $listeners = ['createPostModal' => 'toggleCreatePostModal',
-
         'postShareModal' => 'toggleSharePostModel', 'postCommentsModal' => 'togglePostCommentsModal'];
 
     protected $rules = [
@@ -213,6 +212,11 @@ class Post extends Component
 
         $this->post_comments = PostComment::getPostComments($this->post_id);
 
+    }
+
+    public function followUser($user_id){
+
+        \App\Models\Client\Follow\Follow::addFollow($user_id);
     }
 
     public function render()

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['user_picture_url'];
+    protected $appends = ['user_picture_url', 'is_follow'];
 
     public function __construct(array $attributes = array())
     {
@@ -76,13 +77,22 @@ class User extends Authenticatable implements JWTSubject
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
     }
 
+    public function getIsFollowAttribute(){
+
+        return $this->followed()->where('user_id', Helpers::getWebUser()->id)->exists();
+    }
+
+
+    // relations
     public function stories(){
 
         return $this->hasMany(Story::class, 'user_id','id');
     }
 
+    public function followed(){
 
-    // relations
+        return $this->HasMany(Follow::class,'follow_id', 'id');
+    }
 
     public function assessments()
     {

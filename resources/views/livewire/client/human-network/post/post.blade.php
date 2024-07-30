@@ -46,8 +46,9 @@
 
                         @else
 
-                            <button type="button" class="btn btn-sm bg-gradient-primary mb-0">
-                                <i class="fas fa-plus pe-2"></i> Follow
+                            <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{($post->user->is_follow ?? null) ? "bg-secondary" : "bg-gradient-primary"}} mb-0">
+                                <i class="fas fa-plus pe-2"></i>
+                                {{$post->user->is_follow ? "Following" : "Follow"}}
                             </button>
 
                         @endif
@@ -79,12 +80,13 @@
                                 </div>
                             </div>
                             <div class="text-end ms-auto">
-                                @if($logged_in_user->id === $post->user_id)
+                                @if($logged_in_user->id === $post['sharedPost']['user_id'])
 
                                 @else
 
-                                    <button type="button" class="btn btn-sm bg-gradient-primary mb-0">
-                                        <i class="fas fa-plus pe-2"></i> Follow
+                                    <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{$post->user->is_follow ? "bg-secondary" : "bg-gradient-primary"}} mb-0">
+                                        <i class="fas fa-plus pe-2"></i>
+                                        {{$post->user->is_follow ? "Following" : "Follow"}}
                                     </button>
 
                                 @endif
