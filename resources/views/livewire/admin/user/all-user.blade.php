@@ -186,7 +186,7 @@
             @foreach($assessments as $assessment)
                 <tr>
                     <td class="text-sm font-weight-normal">{{$assessment['users']['first_name'].' '.$assessment['users']['last_name']}} </td>
-                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'])->format('Y/m/d')}}</td>
+                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">{{$assessment['users']['email']}}</td>

@@ -166,7 +166,7 @@ class Assessment extends Model
             }
         }
 
-        return $query->get();
+        return $query->orderBy('updated_at', 'desc')->get();
     }
 
     public static function abandonedAssessment()
