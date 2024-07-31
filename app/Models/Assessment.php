@@ -93,8 +93,10 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
-    public static function allAssessment($name = null, $email = null, $age_range = null, $code = null, $code_color = null)
+    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
     {
+//        dd($style_code, $style_code_color, $style_number, $feature_code, $feature_code_color, $feature_number);
+
         $query = self::where('page', 0);
 
         // Filter by name
@@ -125,10 +127,23 @@ class Assessment extends Model
         }
 
         // Filter by code and code color
-        if ($code && $code_color) {
-            $query = $query->whereHas('assessmentColorCodes', function ($query) use ($code, $code_color) {
-                $query->where('code', $code)
-                    ->where('code_color', $code_color);
+        if ($style_code && $style_code_color) {
+            $parts = explode('-', $style_number);
+            $style_num = $parts[1];
+            $query = $query->whereHas('assessmentColorCodes', function ($query) use ($style_code, $style_code_color, $style_num) {
+                $query->where('code', $style_code)
+                    ->where('code_color', $style_code_color)
+                    ->where('code_number', $style_num);
+            });
+        }
+
+        if ($feature_code && $feature_code_color) {
+            $parts = explode('-', $feature_number);
+            $feature_num = $parts[1];
+            $query = $query->whereHas('assessmentColorCodes', function ($query) use ($feature_code, $feature_code_color, $feature_num) {
+                $query->where('code', $feature_code)
+                    ->where('code_color', $feature_code_color)
+                    ->where('code_number', $feature_num);
             });
         }
 

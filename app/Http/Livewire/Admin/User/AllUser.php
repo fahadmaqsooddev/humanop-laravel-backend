@@ -50,32 +50,32 @@ class AllUser extends Component
 
     public function selectStyleCode($select_style_code, $select_style_code_color)
     {
-
         $this->selectedStyleCells[$select_style_code] = $select_style_code_color;
         $this->style_code = $select_style_code;
         $this->style_color = $select_style_code_color;
+        $this->style_number = '';
         $this->searchFilter();
-
     }
 
     public function selectFeatureCode($select_feature_code, $select_feature_code_color)
     {
-
         $this->selectedFeatureCells[$select_feature_code] = $select_feature_code_color;
         $this->feature_code = $select_feature_code;
         $this->feature_color = $select_feature_code_color;
+        $this->feature_number = '';
         $this->searchFilter();
-
     }
 
     public function selectFeatureNumber($selectNum)
     {
         $this->feature_number = $selectNum;
+        $this->searchFilter();
     }
 
     public function selectStyleNumber($selectNum)
     {
         $this->style_number = $selectNum;
+        $this->searchFilter();
     }
 
 //    public function selectCodeNum($selectNum)
@@ -89,14 +89,11 @@ class AllUser extends Component
 
     public function searchFilter()
     {
-
-        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color);
-
+        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
     }
 
     public function render()
     {
-
         return view('livewire.admin.user.all-user', [
             'assessments' => $this->assessments,
             'selectedStyleCells' => $this->selectedStyleCells,
