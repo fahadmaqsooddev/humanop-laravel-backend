@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Assessment;
+use App\Helpers\Helpers;
 
 class QuestionController extends Controller
 {
@@ -20,9 +21,19 @@ class QuestionController extends Controller
     {
         try {
 
-            $questions = Question::getQuestion();
+            $user = Helpers::getWebUser();
 
-            return view('client-dashboard.question.assessment', compact('questions'));
+            $assessmentCheck = Helpers::checkAssessment($user['id']);
+
+            if($assessmentCheck == true)
+            {
+                return redirect()->route('stripe_checkout');
+            }else
+            {
+                $questions = Question::getQuestion();
+
+                return view('client-dashboard.question.assessment', compact('questions'));
+            }
 
         } catch (\Exception $exception) {
 

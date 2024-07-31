@@ -88,6 +88,11 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
     }
 
+    public static function singleAssessment($user_id = null)
+    {
+        return self::where('user_id', $user_id)->latest()->first();
+    }
+
     public static function getAssessmentIds()
     {
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();

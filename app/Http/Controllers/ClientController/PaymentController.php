@@ -25,11 +25,21 @@ class PaymentController extends Controller
     {
         try {
 
-            $stripe_setting = StripeSetting::getSingle();
+            $user = Helpers::getWebUser();
 
-            $user = User::getSingleUser(Auth::user()['id']);
+            $assessmentCheck = Helpers::checkAssessment($user['id']);
 
-            return view('client-dashboard.payment.index', compact('user', 'stripe_setting'));
+            if($assessmentCheck == false)
+            {
+                return redirect()->route('test_play');
+            }else
+            {
+                $stripe_setting = StripeSetting::getSingle();
+
+                $user = User::getSingleUser($user['id']);
+
+                return view('client-dashboard.payment.index', compact('user', 'stripe_setting'));
+            }
 
         } catch (\Exception $exception) {
 
@@ -40,11 +50,13 @@ class PaymentController extends Controller
 
     public function processPayment(Request $request)
     {
+
+
         DB::beginTransaction();
 
         try {
 
-            $user = Auth::user();
+            $user = Helpers::getWebUser();
 
             $key = StripeSetting::getSingle();
 
@@ -86,7 +98,7 @@ class PaymentController extends Controller
             $stripe = StripeSetting::getSingle();
 
             $assessment = Assessment::createAssessmentData($user['id']);
-            
+
             $assessment_data = Assessment::where('id', $assessment['id'])->first();
 
             AssessmentColorCode::createStylesCodeAndColor($assessment_data);
