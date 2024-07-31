@@ -117,6 +117,8 @@
             }
 
             element.setAttribute('data_color', color);
+            localStorage.setItem('color',color);
+            localStorage.setItem('code',code);
             Livewire.emit('selectStyleCode', code, color);
         }
 
@@ -148,13 +150,22 @@
             }
 
             element.setAttribute('data_color', color);
+            localStorage.setItem('color',color);
+            localStorage.setItem('code',code);
             Livewire.emit('selectFeatureCode', code, color);
         }
 
-        // function changeStyleCodeNumber(select_num) {
-        //
-        //     Livewire.emit('selectCodeNum', select_num);
-        // }
+        function changeStyleCodeNumber(select_num) {
+            let currentColor = localStorage.getItem('color');
+            let currentCode = localStorage.getItem('code');
+            Livewire.emit('selectStyleNumber', select_num,currentColor,currentCode);
+        }
+
+        function changeFeatureCodeNumber(select_num) {
+            let currentColor = localStorage.getItem('color');
+            let currentCode = localStorage.getItem('code');
+            Livewire.emit('selectFeatureNumber', select_num,currentColor,currentCode);
+        }
 
     </script>
 @endpush

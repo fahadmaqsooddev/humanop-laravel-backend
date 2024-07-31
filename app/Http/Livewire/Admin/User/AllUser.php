@@ -24,7 +24,7 @@ class AllUser extends Component
     public $selectedStyleCells = [];
     public $selectedFeatureCells = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode', 'selectCodeNum'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -66,26 +66,21 @@ class AllUser extends Component
         $this->searchFilter();
     }
 
-    public function selectFeatureNumber($selectNum)
+    public function selectFeatureNumber($selectNum, $selectColor, $selectCode)
     {
         $this->feature_number = $selectNum;
+        $this->feature_code = $selectCode;
+        $this->feature_color = $selectColor;
         $this->searchFilter();
     }
 
-    public function selectStyleNumber($selectNum)
+    public function selectStyleNumber($selectNum, $selectColor, $selectCode)
     {
         $this->style_number = $selectNum;
+        $this->style_color = $selectColor;
+        $this->style_code = $selectCode;
         $this->searchFilter();
     }
-
-//    public function selectCodeNum($selectNum)
-//    {
-//        $this->number = $selectNum;
-//
-//        dd($this->style_color)
-//        $this->searchFilter();
-//
-//    }
 
     public function searchFilter()
     {

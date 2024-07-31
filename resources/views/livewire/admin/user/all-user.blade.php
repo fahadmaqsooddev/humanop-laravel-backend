@@ -53,8 +53,7 @@
                                             $parts = explode('-', $select_num);
                                             $number_part = $parts[1];
                                         @endphp
-{{--                                        <th class="text-center border cursor-pointer {{ $number === $select_num ? 'bg-yellow' : '' }}" onclick="changeStyleCodeNumber('{{ $select_num }}')" wire:click="selectNumber('{{ $select_num }}')">--}}
-                                        <th class="text-center border cursor-pointer {{ $style_number === $select_num ? 'bg-yellow' : '' }}" wire:click="selectStyleNumber('{{ $select_num }}')">
+                                        <th class="text-center border cursor-pointer {{ $style_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeStyleCodeNumber('{{ $select_num }}')">
                                             {{ strtoupper($number_part) }}
                                         </th>
                                     @endforeach
@@ -118,7 +117,7 @@
                                             $parts = explode('-', $select_num);
                                             $number_part = $parts[1];
                                         @endphp
-                                        <th class="text-center border cursor-pointer {{ $feature_number === $select_num ? 'bg-yellow' : '' }}" wire:click="selectFeatureNumber('{{ $select_num }}')">
+                                        <th class="text-center border cursor-pointer {{ $feature_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeFeatureCodeNumber('{{ $select_num }}')">
                                             {{ strtoupper($number_part) }}
                                         </th>
                                     @endforeach

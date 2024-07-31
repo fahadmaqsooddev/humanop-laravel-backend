@@ -137,8 +137,10 @@ class Assessment extends Model
             $parts = explode('-', $style_number);
             if (isset($parts[1])) {
                 $style_num = $parts[1];
-                $query->whereHas('assessmentColorCodes', function ($query) use ($style_num) {
-                    $query->where('code_number', $style_num);
+                $query->whereHas('assessmentColorCodes', function ($query) use ($style_num, $style_code, $style_code_color) {
+                    $query->where('code', $style_code)
+                        ->where('code_color', $style_code_color)
+                        ->where('code_number', $style_num);
                 });
             }
         }
@@ -156,8 +158,10 @@ class Assessment extends Model
             $parts = explode('-', $feature_number);
             if (isset($parts[1])) {
                 $feature_num = $parts[1];
-                $query->whereHas('assessmentColorCodes', function ($query) use ($feature_num) {
-                    $query->where('code_number', $feature_num);
+                $query->whereHas('assessmentColorCodes', function ($query) use ($feature_num, $feature_code, $feature_code_color) {
+                    $query->where('code', $feature_code)
+                        ->where('code_color', $feature_code_color)
+                        ->where('code_number', $feature_num);
                 });
             }
         }

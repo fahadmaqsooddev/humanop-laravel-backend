@@ -123,29 +123,32 @@ class AssessmentColorCode extends Model
         }
 
         // Create entries for styles greater than 4
-        foreach ($style_greater_than_4 as $key => $style) {
+        foreach ($style_greater_than_4 as $key => $style_num) {
             self::create([
                 'assessment_id' => $assessment['id'],
                 'code' => $key,
                 'code_color' => 'green',
+                'code_number' => $style_num,
             ]);
         }
 
         // Create entries for styles equal to 0
-        foreach ($style_equal_to_0 as $key => $style) {
+        foreach ($style_equal_to_0 as $key => $style_num) {
             self::create([
                 'assessment_id' => $assessment['id'],
                 'code' => $key,
                 'code_color' => 'red',
+                'code_number' => $style_num,
             ]);
         }
 
         // Create entries for styles border green
-        foreach ($style_border_green as $key => $style) {
+        foreach ($style_border_green as $key => $style_num) {
             self::create([
                 'assessment_id' => $assessment['id'],
                 'code' => $key,
                 'code_color' => 'border-green',
+                'code_number' => $style_num,
             ]);
         }
 
@@ -322,7 +325,7 @@ class AssessmentColorCode extends Model
             }
         }
 
-        $redKeys = array_keys($filtered_keys_red);
+        $redKeys = $filtered_keys_red;
 
         if (count($filtered_keys) < 2) {
             // Get the matching keys and their values from $third_row_feature
@@ -398,30 +401,47 @@ class AssessmentColorCode extends Model
 
         }
 
+        $matchedTopTwoFeatures = [];
+        foreach ($topTwoKeys as $key) {
+            if (array_key_exists($key, $features)) {
+                $matchedTopTwoFeatures[$key] = $features[$key];
+            }
+        }
+
         // Create entries for features top two
-        foreach ($topTwoKeys as $feature) {
+        foreach ($matchedTopTwoFeatures as $key => $feature) {
             self::create([
                 'assessment_id' => $assessment['id'],
-                'code' => $feature,
+                'code' => $key,
                 'code_color' => 'green',
+                'code_number' => $feature,
             ]);
         }
 
+        $matchedNextTwoFeatures = [];
+        foreach ($nextTwoKeys as $key) {
+            if (array_key_exists($key, $features)) {
+                $matchedNextTwoFeatures[$key] = $features[$key];
+            }
+        }
+
         // Create entries for features top two
-        foreach ($nextTwoKeys as $feature) {
+        foreach ($matchedNextTwoFeatures as $key => $feature) {
             self::create([
                 'assessment_id' => $assessment['id'],
-                'code' => $feature,
+                'code' => $key,
                 'code_color' => 'yellow',
+                'code_number' => $feature
             ]);
         }
 
         // Create entries for features top two
-        foreach ($redKeys as $feature) {
+        foreach ($redKeys as $key => $feature) {
             self::create([
                 'assessment_id' => $assessment['id'],
-                'code' => $feature,
+                'code' => $key,
                 'code_color' => 'red',
+                'code_number' => $feature,
             ]);
         }
 

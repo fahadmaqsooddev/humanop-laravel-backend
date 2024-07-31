@@ -282,7 +282,7 @@ return [
         ],
         'AssessmentColorCode' => [
             'table' => 'assessment_color_code',
-            'fillable' => ['assessment_id','code','code_color'],
+            'fillable' => ['assessment_id','code','code_color','code_number'],
             'hidden' => ['created_at','updated_at']
         ]
     ]
