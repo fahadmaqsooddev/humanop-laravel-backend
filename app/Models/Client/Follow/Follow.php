@@ -3,6 +3,7 @@
 namespace App\Models\Client\Follow;
 
 use App\Helpers\Helpers;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,11 @@ class Follow extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
 
         parent::__construct($attributes);
+    }
+
+    public function follower(){
+
+        return $this->belongsTo(User::class,'follow_id','id');
     }
 
     public static function addFollow($follow_id = null){
@@ -36,5 +42,19 @@ class Follow extends Model
             self::create($data);
         }
 
+    }
+
+    public static function followers(){
+
+        return self::where('user_id', Helpers::getWebUser()->id)
+
+            ->with('follower:id,first_name,last_name')
+
+            ->get();
+    }
+
+    public static function followerExists($follow_id = null){
+
+        return self::where('user_id', Helpers::getWebUser()->id)->where('follow_id', $follow_id)->exists();
     }
 }

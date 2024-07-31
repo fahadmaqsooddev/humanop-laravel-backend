@@ -289,6 +289,16 @@ return [
             'table' => 'follows',
             'fillable' => ['user_id','follow_id'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'MessageThread' => [
+            'table' => 'message_threads',
+            'fillable' => ['sender_id','receiver_id','updated_at'],
+            'hidden' => ['deleted_at','created_at']
+        ],
+        'Message' => [
+            'table' => 'messages',
+            'fillable' => ['sender_id','message','upload_id','is_read','message_thread_id'],
+            'hidden' => ['updated_at','created_at']
         ]
     ]
 ];

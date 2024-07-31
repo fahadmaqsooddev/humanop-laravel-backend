@@ -12,6 +12,7 @@ use App\Http\Controllers\ClientController\BillingController;
 use App\Http\Controllers\ClientController\SettingController;
 use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ClientController\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +52,5 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
 
     Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
+    Route::get('messages', [MessageController::class,'index'])->name('messages');
 });
