@@ -86,10 +86,12 @@ class PaymentController extends Controller
             $stripe = StripeSetting::getSingle();
 
             $assessment = Assessment::createAssessmentData($user['id']);
+            
+            $assessment_data = Assessment::where('id', $assessment['id'])->first();
 
-            AssessmentColorCode::createStylesCodeAndColor($assessment);
+            AssessmentColorCode::createStylesCodeAndColor($assessment_data);
 
-            AssessmentColorCode::createFeaturesCodeAndColor($assessment);
+            AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
 
             Payment::createPayment($coupon, $user['id'], $discount_amount, $stripe['amount'], $assessment['id']);
 
