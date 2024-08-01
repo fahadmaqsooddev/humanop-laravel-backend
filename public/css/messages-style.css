@@ -37,29 +37,40 @@ body {
     display: flex;
     margin: 8px 20px;
     height: 40px;
+    /*display: flex;*/
+    justify-content: center;
 }
 
 .messenger-search-form input {
-    width:100%;
+    width:70%;
     padding: 8px;
     border: 1px solid #000000;
+    border-left: none;
     font-size: 14px;
-    background-color: #e0e0e0;
-    border-radius: 4px 0 0 4px;
+    /*background-color: #e0e0e0;*/
+    border-radius: 0 4px 4px 0;
+    text-align: center;
 }
 
 .messenger-search-form button {
-    padding: 8px 16px;
-    border: none;
-    background-color: #ba1919;
-    color: #fff;
-    border-radius: 0 4px 4px 0;
-    font-size: 16px;
-    cursor: pointer;
+    border-radius: 50px 0px 0px 50px;
+    border: 1px solid black;
+    border-right: none;
+    background-color: white;
+    color: grey;
+    padding: 5px;
+    /*padding: 8px 16px;*/
+    /*border: none;*/
+    /*background-color: #ba1919;*/
+    /*color: #fff;*/
+    /*border-radius: 0 4px 4px 0;*/
+    /*font-size: 16px;*/
+    /*cursor: pointer;*/
 }
 
 .messenger-search-form button:hover {
-    background-color: #c73131;
+    background-color: grey;
+    color: white;
 }
 
 .head-undecided h4{

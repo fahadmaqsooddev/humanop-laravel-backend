@@ -3,10 +3,10 @@
         <div class="side-bar">
             <h3 style="background-color: #0f1534;">Messages & Followers</h3>
             <form class="messenger-search-form">
-                <input wire:model="filter_text" type="text" id="serch-input" placeholder="Search by name">
-                <button type="submit" style="background-color: #0f1534;">
+                <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+                <input wire:model="filter_text" type="text" id="serch-input" placeholder="Search by name">
             </form>
             <div>
 
@@ -51,7 +51,7 @@
                             </div>
                             <div class="chatlist cursor-pointer" wire:click="messages({{$chat->id}}, {{$chat['user_data'] ?? null}})" style="background-color: #0f1534;">
                                 <div class="chatlist-header">
-                                    <span style="font-size: 16px; padding:8px; font-weight: 600">
+                                    <span style="font-size: 15px; padding:8px; font-weight: 600">
                                         {{$chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name']}}
                                         &nbsp;
                                     </span>
@@ -102,7 +102,7 @@
                         ...
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" wire:click="deleteChat({{$chat_user['id'] ?? null}})">Delete</a>
+                        <a class="dropdown-item" wire:click="deleteChat({{$chat_user['id'] ?? null}})">Delete Chat</a>
                     </div>
                 </div>
 
@@ -141,8 +141,8 @@
 
             <div class="messenger-container">
 
-                <div class="messenger-header text-center" id="messenger-header">
-                    <p>Select</p>
+                <div class="messenger-header text-center pt-2" id="messenger-header">
+                    <p>Select the chat to display messages</p>
                 </div>
 
                 <div class="messenger-messages" id="messenger-messages">
