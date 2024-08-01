@@ -116,7 +116,7 @@
                                     <span class="text-sm me-3">{{$post['post_likes_count']}}</span>
                                 </a>
                                 <div class="d-flex align-items-center">
-                                    <i class="ni ni-chat-round me-1 cursor-pointer"></i>
+                                    <i wire:click="showComments({{$post->id}})" class="ni ni-chat-round me-1 cursor-pointer"></i>
                                     <span class="text-sm me-3">{{$post['post_comments_count']}}</span>
                                 </div>
                                 <a wire:click="sharePost({{$post->id}})" class="d-flex align-items-center text-white">
@@ -542,26 +542,28 @@
 
     <div>
         <div class="modal fade" id="post-comments-modal" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Post Comment's</h5>
                         <button type="button" wire:click="$emit('postCommentsModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                     </div>
 
-                    <div class="p-2" style="padding-left: 15px;">
-                        @if(empty($post_comments[0]))
-                            <p class="text-center">No comments ...</p>
-                        @endif
+                    <div class="modal-body">
 
-                    @foreach($post_comments as $comment)
+                        <div class="p-2" style="padding-left: 15px;">
+                            @if(empty($post_comments[0]))
+                                <p class="text-center">No comments ...</p>
+                            @endif
 
-                        <div class="d-flex p-1">
-                            <div class="flex-shrink-0">
-                                <img alt="Image placeholder" class="avatar rounded-circle" src="{{ $comment['user'] ? $comment['user']['user_picture_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">
-                            </div>
-                            <div class="flex-grow-1">
-                                <div class="text-black-50" style="padding: 5px; border-radius: 9px; width: max-content; background-color: #ebe6e6;max-width: 423px; word-wrap: break-word;">
+                            @foreach($post_comments as $comment)
+
+                                <div class="d-flex p-1">
+                                    <div class="flex-shrink-0">
+                                        <img alt="Image placeholder" class="avatar rounded-circle" src="{{ $comment['user'] ? $comment['user']['user_picture_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="text-black-50" style="padding: 5px; border-radius: 9px; width: max-content; background-color: #ebe6e6;max-width: 423px; word-wrap: break-word;">
                                     <span class="h5 mt-0" style="font-size: 12px; font-weight: 600;">
                                         <b>
                                             {{$comment['user'] ? $comment['user']['first_name'] . ' ' . $comment['user']['last_name'] : ""}}
@@ -579,20 +581,20 @@
                                             @endif
                                             </span>
                                     </span>
-                                    <br>
+                                            <br>
 
-                                    <span class="text-sm">{{$comment['comment']}}</span>
+                                            <span class="text-sm">{{$comment['comment']}}</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <a wire:click='commentLikes({{$comment->id}})'>
+                                                <i class="ni ni-like-2 me-1 cursor-pointer {{$comment['is_liked_comment'] ? "text-orange" : "text-secondary"}}"></i>
+                                            </a>
+                                            <span class="text-sm me-2">{{$comment['comment_likes_count']}} likes</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex">
-                                    <a wire:click='commentLikes({{$comment->id}})'>
-                                        <i class="ni ni-like-2 me-1 cursor-pointer {{$comment['is_liked_comment'] ? "text-orange" : "text-secondary"}}"></i>
-                                    </a>
-                                    <span class="text-sm me-2">{{$comment['comment_likes_count']}} likes</span>
-                                </div>
-                            </div>
-                        </div>
 
-                    @endforeach
+                            @endforeach
 
                             <div class="d-flex mt-4">
                                 <div class="flex-shrink-0">
@@ -609,7 +611,7 @@
                                             </div>
                                         </div>
 
-{{--                                        <input wire:model="post_id" hidden>--}}
+                                        {{--                                        <input wire:model="post_id" hidden>--}}
 
                                         @error('post_comment')
                                         <span class="text-danger">{{$message}}</span>
@@ -617,6 +619,8 @@
                                     </form>
                                 </div>
                             </div>
+
+                        </div>
 
                     </div>
 
