@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\RedeemCouponRequest;
 use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -66,6 +67,12 @@ class PaymentController extends Controller
                 }
 
                 $assessment = Assessment::createAssessmentData($user['id']);
+
+                $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+                AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+                AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
 
                 $coupon = Coupon::getSingleCoupon($request['coupon']);
 

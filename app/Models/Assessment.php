@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Helpers\Helpers;
 use Carbon\Carbon;
-use FontLib\Table\Type\name;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
-use App\Models\AssessmentColorCode;
 
 class Assessment extends Model
 {
@@ -690,19 +688,27 @@ class Assessment extends Model
 
                 $resultArray['page'] = 0;
 
-                $existingAssessment->update($resultArray);
+//                $existingAssessment->update($resultArray);
 
-                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-
-                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+//                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+//
+//                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
             } else {
 
                 $resultArray['page'] = $current_page;
 
-                $existingAssessment->update($resultArray);
+//                $existingAssessment->update($resultArray);
 
             }
+
+            $existingAssessment->update($resultArray);
+
+            AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+
+            AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+            AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
         }
 
