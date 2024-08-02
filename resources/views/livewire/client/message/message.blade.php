@@ -31,7 +31,7 @@
                                 <div class="chatlist cursor-pointer" wire:click="messages('',{{$follower['follower'] ?? null}})" style="background-color: #0f1534;">
                                     <div class="chatlist-header">
                                         <span style="font-size: 16px; padding:8px; font-weight: 600">
-                                            {{$follower['follower']['first_name'] . ' ' . $follower['follower']['last_name']}}
+                                            {{$follower['follower'] ? $follower['follower']['first_name'] . ' ' . $follower['follower']['last_name'] : ""}}
                                         </span>
                                     </div>
                                 </div>
