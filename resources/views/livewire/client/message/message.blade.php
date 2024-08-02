@@ -46,6 +46,7 @@
 
                         @foreach($chats as $chat)
                         <div class="messages-list">
+                            @if($chat['user_data'])
                             <div class="chathead">
                                 <img src="{{$chat['user_data']['user_picture_url'] ?? null}}" class="img-fluid">
                             </div>
@@ -63,6 +64,7 @@
                                     {{ $chat['lastMessage'] ? strlen($chat['lastMessage']['message']) > 30 ? substr($chat['lastMessage']['message'], 0, 30) . "..." : substr($chat['lastMessage']['message'], 0, 30)  : null}}
                                 </span>
                             </div>
+                            @endif
                         </div>
                         @endforeach
                     </div>
