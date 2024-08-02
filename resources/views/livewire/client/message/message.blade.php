@@ -47,12 +47,12 @@
                         @foreach($chats as $chat)
                         <div class="messages-list">
                             <div class="chathead">
-                                <img src="{{$chat['user_data']['user_picture_url']}}" class="img-fluid">
+                                <img src="{{$chat['user_data']['user_picture_url'] ?? null}}" class="img-fluid">
                             </div>
                             <div class="chatlist cursor-pointer" wire:click="messages({{$chat->id}}, {{$chat['user_data'] ?? null}})" style="background-color: #0f1534;">
                                 <div class="chatlist-header">
                                     <span style="font-size: 15px; padding:8px; font-weight: 600">
-                                        {{$chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name']}}
+                                        {{$chat['user_data']  ? $chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name'] : ""}}
                                         &nbsp;
                                     </span>
                                     <span style="font-size: 10px;display: flex; justify-content: end; padding:8px;">
