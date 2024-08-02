@@ -570,13 +570,13 @@
                                         </b>
 
                                         <span>
-                                                @if($comment->user_id === $logged_in_user->id)
+                                            @if($comment->user_id === $logged_in_user->id)
                                                 &nbsp;<a wire:confirm="Are you sure you want to delete comment ?" wire:click="deleteComment({{$comment->id}})" class="text-danger small">
-                                                        <i class="fa fa-trash-o me-1 cursor-pointer"></i>
+                                                        <i class="fa fa-trash me-1 cursor-pointer"></i>
                                                     </a>
 
                                                 &nbsp;<a wire:click="editComment({{$comment->id}})" class="text-orange small">
-                                                        <i class="fa fa-pencil-square-o me-1 cursor-pointer"></i>
+                                                        <i class="fa fa-pencil me-1 cursor-pointer"></i>
                                                     </a>
                                             @endif
                                             </span>
