@@ -15,6 +15,8 @@ class AllUser extends Component
     public $style_color = '';
     public $feature_color = '';
     public $feature_number = '';
+    public $feature_carousel_index = '';
+    public $style_carousel_index = '';
     public $style_number = '';
     public $name = '';
     public $email = '';
@@ -34,12 +36,14 @@ class AllUser extends Component
         'feature_code' => ['except' => ''],
         'style_color' => ['except' => ''],
         'feature_color' => ['except' => ''],
+        'feature_carousel_index' => ['except' => ''],
+        'style_carousel_index' => ['except' => ''],
 //        'number' => ['except' => ''],
     ];
 
     public function mount()
     {
-        $this->fill(request()->only('name', 'email', 'age', 'style_code', 'style_color', 'feature_code', 'feature_color'));
+        $this->fill(request()->only('name', 'email', 'age', 'style_code', 'style_color', 'feature_code', 'feature_color','feature_carousel_index','style_carousel_index'));
         $this->searchFilter();
     }
 
@@ -66,19 +70,23 @@ class AllUser extends Component
         $this->searchFilter();
     }
 
-    public function selectFeatureNumber($selectNum, $selectColor, $selectCode)
+    public function selectFeatureNumber($selectNum, $index, $selectColor, $selectCode)
     {
+
         $this->feature_number = $selectNum;
         $this->feature_code = $selectCode;
         $this->feature_color = $selectColor;
+        $this->feature_carousel_index = $index;
+
         $this->searchFilter();
     }
 
-    public function selectStyleNumber($selectNum, $selectColor, $selectCode)
+    public function selectStyleNumber($selectNum, $index, $selectColor, $selectCode)
     {
         $this->style_number = $selectNum;
         $this->style_color = $selectColor;
         $this->style_code = $selectCode;
+        $this->style_carousel_index = $index;
         $this->searchFilter();
     }
 

@@ -54,6 +54,20 @@
         border-color: #f2661c !important;
     }
 
+    .carousel-control-next {
+        margin-right: -35px !important;
+        width: 36px !important;
+        background-color: #f2661c !important;
+        height: 52px !important;
+    }
+
+    .carousel-control-prev {
+        margin-right: -35px !important;
+        width: 36px !important;
+        background-color: #f2661c !important;
+        height: 52px !important;
+    }
+
 </style>
 @section('content')
     <div class="row mt-4">
@@ -155,16 +169,18 @@
             Livewire.emit('selectFeatureCode', code, color);
         }
 
-        function changeStyleCodeNumber(select_num) {
+        function changeStyleCodeNumber(selectNum, index) {
+
             let currentColor = localStorage.getItem('color');
             let currentCode = localStorage.getItem('code');
-            Livewire.emit('selectStyleNumber', select_num,currentColor,currentCode);
+
+            Livewire.emit('selectStyleNumber', selectNum, index, currentColor, currentCode);
         }
 
-        function changeFeatureCodeNumber(select_num) {
+        function changeFeatureCodeNumber(select_num, index) {
             let currentColor = localStorage.getItem('color');
             let currentCode = localStorage.getItem('code');
-            Livewire.emit('selectFeatureNumber', select_num,currentColor,currentCode);
+            Livewire.emit('selectFeatureNumber', select_num, index, currentColor, currentCode);
         }
 
     </script>

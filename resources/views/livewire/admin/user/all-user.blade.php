@@ -42,29 +42,45 @@
         </div>
         <div class="advanceFilterSearch" style="padding-top: 50px !important;">
             <div class="row mt-4 ms-md-2 pe-md-2 {{ $style_color ? 'd-block' : 'd-none' }}">
-                <div class="col-8">
+                <div class="col-2">
                     <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-flush" style="border-collapse: separate">
-                                <thead class="thead-light">
-                                <tr>
-                                    @foreach(['style-0','style-1','style-2','style-3','style-4','style-5','style-6','style-7','style-8','style-9'] as $select_num)
-                                        @php
-                                            $parts = explode('-', $select_num);
-                                            $number_part = $parts[1];
-                                        @endphp
-                                        <th class="text-center border cursor-pointer {{ $style_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeStyleCodeNumber('{{ $select_num }}')">
-                                            {{ strtoupper($number_part) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                            </table>
-
+                        <div id="carouselExampleControls1" class="carousel slide" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                @foreach(array_chunk(['style-0','style-1','style-2','style-3','style-4','style-5','style-6','style-7','style-8','style-9'], 2) as $index => $chunk)
+                                    <div class="carousel-item {{ $index === ($style_carousel_index ? $style_carousel_index : 0) ? 'active' : '' }}">
+                                        <div class="table-responsive" style="margin-left: 35px !important;">
+                                            <table class="table table-flush" style="border-collapse: separate">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    @foreach($chunk as $select_num)
+                                                        @php
+                                                            $parts = explode('-', $select_num);
+                                                            $number_part = $parts[1];
+                                                        @endphp
+                                                        <th class="text-center border cursor-pointer {{ $style_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeStyleCodeNumber('{{ $select_num }}', {{$index}})">
+                                                            {{ strtoupper($number_part) }}
+                                                        </th>
+                                                    @endforeach
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row mt-1 ms-md-2 pe-md-2">
                 <div class="col-8">
                     <div class="card">
@@ -92,43 +108,58 @@
                                                 }
                                             }
                                         @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
-                                            onclick="changeStyleBackgroundColor(this, '{{ $select_style_code }}')">
+                                        <th class="text-center border cursor-pointer {{ $colorClass }}" onclick="changeStyleBackgroundColor(this, '{{ $select_style_code }}')">
                                             {{ strtoupper($select_style_code) }}
                                         </th>
                                     @endforeach
                                 </tr>
                                 </thead>
                             </table>
-
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row mt-4 ms-md-2 pe-md-2 {{ $feature_color ? 'd-block' : 'd-none' }}">
-                <div class="col-4">
+                <div class="col-2">
                     <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-flush" style="border-collapse: separate">
-                                <thead class="thead-light">
-                                <tr>
-                                    @foreach(['feature-0','feature-1','feature-2','feature-3','feature-4'] as $select_num)
-                                        @php
-                                            $parts = explode('-', $select_num);
-                                            $number_part = $parts[1];
-                                        @endphp
-                                        <th class="text-center border cursor-pointer {{ $feature_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeFeatureCodeNumber('{{ $select_num }}')">
-                                            {{ strtoupper($number_part) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                            </table>
-
+                        <div id="carouselExampleControls2" class="carousel slide" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                @foreach(array_chunk(['feature-0','feature-1','feature-2','feature-3','feature-4','feature-5'], 2) as $index => $chunk)
+                                    <div class="carousel-item {{ $index === ($feature_carousel_index ? $feature_carousel_index : 0) ? 'active' : '' }}">
+                                        <div class="table-responsive" style="margin-left: 35px !important;">
+                                            <table class="table table-flush" style="border-collapse: separate">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    @foreach($chunk as $select_num)
+                                                        @php
+                                                            $parts = explode('-', $select_num);
+                                                            $number_part = $parts[1];
+                                                        @endphp
+                                                        <th class="text-center border cursor-pointer {{ $feature_number === $select_num ? 'bg-yellow' : '' }}" onclick="changeFeatureCodeNumber('{{ $select_num }}', {{$index}})">
+                                                            {{ strtoupper($number_part) }}
+                                                        </th>
+                                                    @endforeach
+                                                </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row mt-1 ms-md-2 pe-md-2">
                 <div class="col-11">
                     <div class="card">
@@ -156,8 +187,7 @@
                                                 }
                                             }
                                         @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
-                                            onclick="changeFeatureBackgroundColor(this, '{{ $select_feature_code }}')">
+                                        <th class="text-center border cursor-pointer {{ $colorClass }}" onclick="changeFeatureBackgroundColor(this, '{{ $select_feature_code }}')">
                                             {{ strtoupper($select_feature_code) }}
                                         </th>
                                     @endforeach
