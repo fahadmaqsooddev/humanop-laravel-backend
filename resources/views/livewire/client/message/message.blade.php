@@ -26,7 +26,7 @@
                         @foreach($followers as $follower)
                             <div class="messages-list">
                                 <div class="chathead">
-                                    <img src="{{$follower['follower']['user_picture_url']}}" class="img-fluid">
+                                    <img src="{{$follower['follower']['user_picture_url'] ?? null}}" class="img-fluid">
                                 </div>
                                 <div class="chatlist cursor-pointer" wire:click="messages('',{{$follower['follower'] ?? null}})" style="background-color: #0f1534;">
                                     <div class="chatlist-header">
