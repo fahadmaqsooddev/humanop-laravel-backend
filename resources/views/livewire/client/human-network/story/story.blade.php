@@ -107,14 +107,16 @@
                                 <i class="fas fa-plus text-white"></i>
                             </button>
                             @if($logged_in_user_stories)
-                                <p wire:click="viewStoryModal({{$user->id}})" class="mb-0 text-sm text-white" style="margin-top:6px; cursor: pointer;">View Story</p>
+                                <br>
+                                <a href="{{url('/client/stories') . '?id=' . $user->id}}" class="mb-0 text-sm text-white" style="margin-top:6px; cursor: pointer;">View Story</a>
                             @else
                                 <p class="mb-0 text-sm text-white" style="margin-top:6px;">Add story</p>
                             @endif
                         </div>
                         @foreach($story_users as $story_user)
                             <div class="col-lg-1 col-md-2 col-sm-3 col-4 text-center">
-                                <a style="cursor: pointer;" wire:click="viewStoryModal({{$story_user->id}})" class="avatar avatar-lg rounded-circle border-1 border-primary {{$story_user['stories'][0]['is_viewed'] ? "" : "bg-gradient-primary"}}">
+{{--                                <a style="cursor: pointer;" wire:click="viewStoryModal({{$story_user->id}})" class="avatar avatar-lg rounded-circle border-1 border-primary {{$story_user['stories'][0]['is_viewed'] ? "" : "bg-gradient-primary"}}">--}}
+                                <a href="{{url('/client/stories') . '?id=' . $story_user->id}}" style="cursor: pointer;" class="avatar avatar-lg rounded-circle border-1 border-primary {{$story_user['stories'][0]['is_viewed'] ? "" : "bg-gradient-primary"}}">
                                     <img alt="Image placeholder" class="p-1" src="{{ $story_user->user_picture_url }}">
                                 </a>
                                 <p class="mb-0 text-sm text-white">{{$story_user->first_name . ' ' . $story_user->last_name}}</p>

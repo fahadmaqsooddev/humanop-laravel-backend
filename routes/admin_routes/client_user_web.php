@@ -13,6 +13,7 @@ use App\Http\Controllers\ClientController\SettingController;
 use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ClientController\MessageController;
+use App\Http\Controllers\ClientController\StoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,4 +54,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
     Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
     Route::get('messages', [MessageController::class,'index'])->name('messages');
+
+    Route::get('/stories', [StoryController::class,'stories'])->name('stories');
 });

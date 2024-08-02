@@ -92,6 +92,6 @@ class Story extends Model
 
             ->where('user_id', $user_id)
 
-            ->first();
+            ->get();
     }
 }

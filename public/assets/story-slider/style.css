@@ -1,0 +1,211 @@
+:root {
+    --background-color: linear-gradient(30deg, rgb(100,241,84),rgb(92,92,229),rgb(111,30,30));
+    --slide-width: 400px;
+    --slide-shadow: 0 4px 20px 2px rgba(0, 0, 0, 0.4);
+    --slide-thumb-height: 3px;
+    --slide-thumb-default-color: rgba(0, 0, 0, 0.4);
+    --slide-thumb-active-color: rgba(255, 255, 255, 0.9);
+}
+
+body {
+    /*background: var(--background-color);*/
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.main-nav {
+    flex: 1;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.main-nav button:hover {
+    width: 60px;
+    height: 60px;
+}
+
+.slide {
+    box-shadow: var(--slide-width);
+    display: grid;
+    margin: 20px auto;
+    max-width: var(--slide-width);
+
+}
+
+.slide-items {
+    border-radius: 5px;
+    grid-area: 1/1;
+    overflow: hidden;
+    position: relative;
+}
+
+.slide-items img {
+    width: 450px;
+    height: 700px;
+}
+
+.slide-items>* {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+}
+
+.slide-items .active {
+    opacity: 1;
+    pointer-events: initial;
+    position: relative;
+}
+
+.slide-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 0.2fr 0.5fr 1.3fr 2.7fr 0.7fr 0.6fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "slide-thumbs slide-thumbs"
+        "username username"
+        "slide-prev slide-next"
+        "slide-prev slide-next"
+        "slide-prev slide-next"
+        "slide-prev like-forward";
+    z-index: 1;
+    grid-area: 1/1;
+}
+
+.slide-thumbs {
+    display: flex;
+    grid-area: slide-thumbs;
+}
+
+.slide-thumb-item {
+    background-color: var(--slide-thumb-default-color);
+    border-radius: 3px;
+    display: block;
+    flex: 1;
+    height: var(--slide-thumb-height);
+    margin: 5px;
+    overflow: hidden;
+}
+
+.slide-thumb-item.active::after {
+    animation: thumb 5s forwards linear;
+    background-color: var(--slide-thumb-active-color);
+    border-radius: 3px;
+    content: '';
+    display: block;
+    height: inherit;
+    transform: translateX(-100%);
+}
+
+.slide-next,
+.slide-prev {
+    opacity: 0;
+    --webkit-appearance: button;
+    --webkit-tap-highlight-color: rgba(213, 25, 25, 0);
+}
+
+.slide-next {
+    grid-area: slide-next;
+}
+
+.slide-prev {
+    grid-area: slide-prev;
+}
+
+@keyframes thumb {
+    to {
+        transform: initial;
+    }
+}
+
+.username {
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    grid-area: username;
+    justify-content: space-between;
+}
+
+.username img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.username span {
+    color: rgb(255, 255, 255);
+}
+
+.like-forward {
+    grid-area: like-forward;
+}
+
+.head1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.head1 p {
+    color: white;
+    font-size: large;
+    margin: 10px 0 0 0;
+}
+
+.head1 p#time{
+    font-size: medium;
+    margin-top: 12px;
+}
+
+.head2 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.head2 button {
+   background-color: rgba(0, 0, 0, 0);
+   border: none;
+   cursor: pointer;
+}
+
+.head2 button img {
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.like-forward button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.like-forward img{
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.like-forward {
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 15px;
+}
