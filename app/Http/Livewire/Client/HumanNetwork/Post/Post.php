@@ -6,14 +6,17 @@ use App\Helpers\Helpers;
 use App\Models\Client\PostComment\PostComment;
 use App\Models\Client\PostLike\PostLike;
 use App\Models\Upload\Upload;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use function Symfony\Component\Translation\t;
 
 class Post extends Component
 {
     use WithFileUploads;
 
-    protected $listeners = ['createPostModal' => 'toggleCreatePostModal', 'postShareModal' => 'toggleSharePostModel'];
+    protected $listeners = ['createPostModal' => 'toggleCreatePostModal',
+        'postShareModal' => 'toggleSharePostModel', 'postCommentsModal' => 'togglePostCommentsModal'];
 
     protected $rules = [
         'description' => 'required|max:1000',
@@ -21,7 +24,16 @@ class Post extends Component
     ];
 
     public $description, $post_image, $posts = [], $post_comment, $logged_in_user,
-        $post_id, $shared_post_description, $single_post, $is_shared_post;
+        $post_id, $shared_post_description, $single_post, $is_shared_post, $post_comments = [], $comment_id;
+
+    public function updatingPostComment(){
+
+        $this->post_comments = Session::get('post_comments', function (){
+
+            return PostComment::getPostComments($this->post_id);
+
+        });
+    }
 
     public function toggleCreatePostModal(){
 
@@ -63,9 +75,11 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post created successfully");
+        toastr()->success("Post created successfully");
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post created successfully");
+//
+//        $this->emit('hideSuccessAlert');
     }
 
     public function postLike($post_id){
@@ -74,9 +88,9 @@ class Post extends Component
 
     }
 
-    public function createPostComment($post_id){
+    public function createPostComment($post_id = null){
 
-//        $this->validate(['post_comment' => 'required']);
+        $this->validate(['post_comment' => 'required']);
 
         $data['comment'] = $this->post_comment;
 
@@ -84,23 +98,29 @@ class Post extends Component
 
         $data['post_id'] = $post_id;
 
-        PostComment::createPostComment($data);
+        PostComment::createPostComment($data, $this->comment_id);
 
-        $this->reset();
+        $this->reset(['post_comment']);
 
-        session()->flash('success', "Comment posted successfully");
+        $this->post_comments = PostComment::getPostComments($post_id);
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Comment posted successfully");
+//
+//        $this->emit('hideSuccessAlert');
     }
 
     public function commentLikes($comment_id = null){
 
         PostLike::createCommentLike($comment_id);
+
+        $this->post_comments = PostComment::getPostComments($this->post_id);
     }
 
     public function deletePost($post_id){
 
         \App\Models\Client\Post\Post::deletePost($post_id);
+
+        toastr()->success('Post deleted');
     }
 
     public function updatePost(){
@@ -124,15 +144,19 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post updated successfully");
+        toastr()->success("Post updated successfully");
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post updated successfully");
+//
+//        $this->emit('hideSuccessAlert');
 
     }
 
     public function deleteComment($comment_id){
 
         PostComment::whereId($comment_id)->delete();
+
+        $this->post_comments = PostComment::getPostComments($this->post_id);
     }
 
     public function toggleSharePostModel(){
@@ -164,9 +188,44 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post shared successfully");
+        toastr()->success('Post shared');
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post shared successfully");
+//
+//        $this->emit('hideSuccessAlert');
+    }
+
+    public function showComments($post_id){
+
+        $this->emit('togglePostCommentsModal');
+
+        $this->post_id = $post_id;
+
+        $this->reset('post_comment');
+
+        $this->resetErrorBag();
+
+        $this->post_comments = PostComment::getPostComments($post_id);
+    }
+
+    public function togglePostCommentsModal(){
+
+        $this->emit('togglePostCommentsModal');
+    }
+
+    public function editComment($comment_id){
+
+        $this->post_comment = PostComment::singleComment($comment_id)->comment ?? null;
+
+        $this->comment_id = $comment_id;
+
+        $this->post_comments = PostComment::getPostComments($this->post_id);
+
+    }
+
+    public function followUser($user_id){
+
+        \App\Models\Client\Follow\Follow::addFollow($user_id);
     }
 
     public function render()

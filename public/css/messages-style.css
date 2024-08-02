@@ -1,0 +1,249 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.body-container {
+    display: flex;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.side-bar {
+    width: 250px;
+    flex-grow: 1;
+    margin: 1% 1%;
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.side-bar h3 {
+    margin: 0px 0px 0px 0px;
+    color: #fff;
+    text-align: center;
+    background-color: #ba1919;
+    border-radius: 8px 8px 0 0;
+    padding: 10px;
+}
+
+.messenger-search-form {
+    display: flex;
+    margin: 8px 20px;
+    height: 40px;
+    /*display: flex;*/
+    justify-content: center;
+}
+
+.messenger-search-form input {
+    width:70%;
+    padding: 8px;
+    border: 1px solid #000000;
+    border-left: none;
+    font-size: 14px;
+    /*background-color: #e0e0e0;*/
+    border-radius: 0 4px 4px 0;
+    text-align: center;
+}
+
+.messenger-search-form button {
+    border-radius: 50px 0px 0px 50px;
+    border: 1px solid black;
+    border-right: none;
+    background-color: white;
+    color: grey;
+    padding: 11px;
+    /*padding: 8px 16px;*/
+    /*border: none;*/
+    /*background-color: #ba1919;*/
+    /*color: #fff;*/
+    /*border-radius: 0 4px 4px 0;*/
+    /*font-size: 16px;*/
+    /*cursor: pointer;*/
+}
+
+.messenger-search-form button:hover {
+    /*background-color: grey;*/
+    /*color: white;*/
+}
+
+.head-undecided h4{
+    text-align: center;
+    border: 2px solid black;
+    margin: 0px 20px;
+    border-radius: 4px;
+}
+
+.messages-list {
+    display: flex;
+    /* background-color: aqua; */
+    margin: 10px 20px;
+    gap: 20px;
+}
+
+.chathead {
+    flex: 1;
+    /*margin-left: 20px;*/
+    /*margin-top: 8px;*/
+    background-color: rgb(228, 222, 222);
+    max-width: 60px;
+    max-height: 60px;
+    /*padding: 20px;*/
+    border-radius: 4px;
+}
+
+.chatlist {
+    background-color: #ba1919;
+    color:white;
+    border-radius: 4px;
+    flex: 2;
+    margin-right: 10px;
+}
+
+.chatlist-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatlist-header h4{
+    margin: 10px;
+    color: white;
+}
+
+.chatlist-header p{
+    margin :10px;
+    font-size: 10px;
+}
+
+.chatlist p{
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.messenger-container {
+    flex-grow: 6;
+    margin: 1% 1%;
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    background-color: rgb(241, 241, 242);    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 550px;
+    /* justify-content: space-between; */
+}
+
+.messenger-messages {
+    height: 80%;
+    overflow-y: auto;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(241, 241, 242);
+}
+
+.message {
+    margin: 4px 0;
+    padding: 8px;
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.user-message {
+    background-color: #ffffff;
+    color: #000000;
+    margin-left: 15%;
+    width: fit-content;
+    align-self: flex-end;
+}
+
+.ai-message {
+    background-color: #0f1534;
+    color: #fff;
+    margin-right: 15%;
+    width: fit-content;
+    align-self: flex-start;
+}
+
+.messenger-input-form {
+    display: flex;
+    height: 40px;
+    width: 99%;
+    margin: auto;
+}
+
+.messenger-input-form input {
+    width:100%;
+    padding: 8px;
+    border: 1px solid #000000;
+    font-size: 16px;
+    background-color: #e0e0e0;
+    border-radius: 4px 0 0 4px;
+}
+
+.messenger-input-form button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #ba1919;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.messenger-input-form button:hover {
+    background-color: #c73131;
+}
+
+.messenger-header {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    text-align: center;
+    background-color: #0f1534;
+    border-radius: 8px 8px 0 0;
+    padding: 0px 8px;
+}
+
+.messenger-header p {
+    flex-grow: 2;
+}
+
+.messenger-header span {
+    font-size: 16px;
+    padding:8px;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+}
+
+.messenger-opener {
+    color: #fff;
+    background-color: #000000;
+    /* font-size: 18px; */
+    /* padding: 8px; */
+    border-radius: 100%;
+    cursor: pointer;
+    position: fixed;
+    bottom: 4%;
+    right: 3%;
+}
+
+.messenger-opener img {
+    max-width: 60px;
+    height: auto;
+}
+
+.messenger-opener img:hover {
+    max-width: 65px;
+}
+
+.messenger-opener:active {
+    color: #afafaf;
+}
+

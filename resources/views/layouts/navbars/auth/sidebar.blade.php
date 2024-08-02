@@ -257,6 +257,13 @@
                                     <span class="sidenav-normal"> Human Network </span>
                                 </a>
                             </li>
+                            <li class="nav-item {{ (Request::is('client/messages') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/messages') ? 'active' : '') }}"
+                                   href="{{ route('messages') }}">
+                                    <span class="sidenav-mini-icon"> M </span>
+                                    <span class="sidenav-normal"> Messages </span>
+                                </a>
+                            </li>
                             <li class="nav-item {{ (Request::is('client/billing') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/billing') ? 'active' : '') }}"
                                    href="{{ route('billing') }}">

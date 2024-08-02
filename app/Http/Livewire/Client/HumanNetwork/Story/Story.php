@@ -56,13 +56,9 @@ class Story extends Component
 
         $this->validate();
 
-        Log::info($this->story_photo);
-
         if ($this->story_photo){
 
             $upload_id = Upload::uploadFile($this->story_photo, 200, 200, 'base64Image', 'png', true);
-
-            Log::info(['uplo' => $upload_id]);
 
             $data['upload_id'] = $upload_id;
 
@@ -70,13 +66,15 @@ class Story extends Component
 
             $this->emit('toggleCreateStoryFormModal');
 
-            session()->flash('success', 'Story Uploaded successfully');
+            toastr()->success('Story Uploaded successfully');
 
-            $this->emit('hideSuccessAlert');
+//            session()->flash('success', );
+//
+//            $this->emit('hideSuccessAlert');
 
         }else{
 
-            session()->flash('Something went wrong');
+            toastr()->error("Something went wrong");
         }
 
     }
@@ -86,6 +84,8 @@ class Story extends Component
         if(\App\Models\Client\Story\Story::where('user_id', Helpers::getWebUser()->id)->whereId($id)->delete()){
 
             $this->emit('toggleViewStoryFormModal');
+
+            toastr()->success('Story deleted successfully');
         }
 
     }
