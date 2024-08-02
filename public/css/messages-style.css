@@ -58,7 +58,7 @@ body {
     border-right: none;
     background-color: white;
     color: grey;
-    padding: 5px;
+    padding: 11px;
     /*padding: 8px 16px;*/
     /*border: none;*/
     /*background-color: #ba1919;*/
@@ -69,8 +69,8 @@ body {
 }
 
 .messenger-search-form button:hover {
-    background-color: grey;
-    color: white;
+    /*background-color: grey;*/
+    /*color: white;*/
 }
 
 .head-undecided h4{

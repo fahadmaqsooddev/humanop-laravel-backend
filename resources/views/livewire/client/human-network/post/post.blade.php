@@ -37,11 +37,11 @@
                     <div class="text-end ms-auto">
                         @if($logged_in_user->id === $post->user_id)
 
-                            <button wire:click="editPost({{$post->id}})" type="button" class="btn bg-gradient-primary mb-0">
-                                <i class="fa fa-pencil-square-o pe-2"></i>
+                            <button wire:click="editPost({{$post->id}})" type="button" class="btn bg-gradient-primary mb-0 text-white">
+                                <i class="fa fa-pencil"></i>
                             </button>
                             <button wire:click="deletePost({{$post->id}})" wire:confirm="Are you sure you want to delete this post?" type="button" class="btn btn-danger mb-0">
-                                <i class="fa fa-trash-o"></i>
+                                <i class="fa fa-trash"></i>
                             </button>
 
                         @else
@@ -71,7 +71,7 @@
                     <div class="card">
                         <div class="card-header d-flex align-items-center border-bottom py-3">
                             <div class="d-flex align-items-center">
-                                <a href="javascript:;">
+                                <a href="javascript:void(0);">
                                     <img src="{{ $post['sharedPost']['user']['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}" class="avatar" alt="profile-image">
                                 </a>
                                 <div class="mx-3">
