@@ -513,7 +513,7 @@
                             <p>{{$single_post->description ?? ""}}</p>
 
                             @if($single_post['photo_url'] ?? null)
-                                <img src="{{$single_post['photo_url']['thumbnail_url'] ?? ""}}" width="50%">
+                                <img src="{{$single_post['photo_url']['url'] ?? ""}}" width="25%">
                             @endif
 
                             <br>

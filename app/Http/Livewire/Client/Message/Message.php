@@ -63,7 +63,7 @@ class Message extends Component
 
         }else{
 
-            \session()->flash('error',"Follow first to send message");
+            toastr()->error("Follow first to send message", '');
         }
 
     }

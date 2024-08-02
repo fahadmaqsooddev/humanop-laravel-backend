@@ -9,6 +9,7 @@ use App\Models\Upload\Upload;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use function Symfony\Component\Translation\t;
 
 class Post extends Component
 {
@@ -74,9 +75,11 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post created successfully");
+        toastr()->success("Post created successfully");
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post created successfully");
+//
+//        $this->emit('hideSuccessAlert');
     }
 
     public function postLike($post_id){
@@ -116,6 +119,8 @@ class Post extends Component
     public function deletePost($post_id){
 
         \App\Models\Client\Post\Post::deletePost($post_id);
+
+        toastr()->success('Post deleted');
     }
 
     public function updatePost(){
@@ -139,9 +144,11 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post updated successfully");
+        toastr()->success("Post updated successfully");
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post updated successfully");
+//
+//        $this->emit('hideSuccessAlert');
 
     }
 
@@ -181,9 +188,11 @@ class Post extends Component
 
         $this->reset();
 
-        session()->flash('success', "Post shared successfully");
+        toastr()->success('Post shared');
 
-        $this->emit('hideSuccessAlert');
+//        session()->flash('success', "Post shared successfully");
+//
+//        $this->emit('hideSuccessAlert');
     }
 
     public function showComments($post_id){
