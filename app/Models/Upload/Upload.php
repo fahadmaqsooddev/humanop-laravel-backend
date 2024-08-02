@@ -106,7 +106,9 @@ class Upload extends Model
 
         }else if ($type === 'video'){
 
-            $upload_success = Storage::disk('videos')->put($date_append . $filename, file_get_contents($file));
+//            $upload_success = Storage::disk('videos')->put($date_append . $filename, file_get_contents($file));
+
+            $upload_success = $file->storeAs("",$date_append . $filename ,['disk' => 'videos']);
 
         }else{
 

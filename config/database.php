@@ -257,7 +257,7 @@ return [
         ],
         'Story' => [
             'table' => 'stories',
-            'fillable' => ['user_id','upload_id','created_at'],
+            'fillable' => ['user_id','upload_id','created_at','file_type'],
             'hidden' => ['updated_at','deleted_at']
         ],
         'StoryView' => [

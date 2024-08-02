@@ -171,7 +171,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex content-center">
-                            <img class="w-100" src="{{$stories['photo_url']['url'] ?? null}}" alt="Story">
+                            <img class="w-100" src="{{$stories['upload_url']['url'] ?? null}}" alt="Story">
                         </div>
                     </div>
                     @if($stories && $stories['user_id'] === \App\Helpers\Helpers::getWebUser()->id)

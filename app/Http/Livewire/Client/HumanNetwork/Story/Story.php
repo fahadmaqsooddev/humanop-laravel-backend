@@ -21,7 +21,8 @@ class Story extends Component
     protected $listeners = ['addStoryModal' => 'toggleCreateStoryModal', 'viewStoryModal' => 'toggleViewStoryModal'];
 
     protected $rules = [
-        'story_photo' => 'required|image|mimes:jpg,png,jpeg|max:3072'
+        'story_photo' => 'required',
+//        'video' => 'nullable|mimetypes:video/mp4|max:10240',
     ];
 
     protected $messages = [
@@ -56,11 +57,27 @@ class Story extends Component
 
         $this->validate();
 
+        $upload_id = "";
+
         if ($this->story_photo){
 
-            $upload_id = Upload::uploadFile($this->story_photo, 200, 200, 'base64Image', 'png', true);
+            $extension = $this->story_photo->extension() ?? null;
+
+            if ($extension){
+
+                $thumbnail_height_width = $extension === 'mp4' ? "" : 200;
+
+                $type = $extension === 'mp4' ? "video" : "base64Image";
+
+                $resize =  $extension === 'mp4' ? false : true;
+
+                $upload_id = Upload::uploadFile($this->story_photo, $thumbnail_height_width, $thumbnail_height_width, $type, $extension, $resize);
+
+            }
 
             $data['upload_id'] = $upload_id;
+
+            $data['file_type'] = $type === 'video' ? "video" : "image";
 
             \App\Models\Client\Story\Story::addStory($data);
 

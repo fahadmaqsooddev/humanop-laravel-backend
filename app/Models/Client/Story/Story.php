@@ -15,7 +15,7 @@ class Story extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['photo_url','is_viewed'];
+    protected $appends = ['upload_url','is_viewed'];
 
     public function __construct(array $attributes = [])
     {
@@ -37,9 +37,22 @@ class Story extends Model
     }
 
     // appends
-    public function getPhotoUrlAttribute(){
+    public function getUploadUrlAttribute(){
 
-        return Helpers::getImage($this->upload_id);
+        if ($this->file_type === 'image'){
+
+            return Helpers::getImage($this->upload_id);
+
+        }elseif ($this->file_type === 'video'){
+
+            return Helpers::getVideo($this->upload_id, 1);
+
+        }else{
+
+            return [];
+        }
+
+
     }
 
     public function getIsViewedAttribute(){
