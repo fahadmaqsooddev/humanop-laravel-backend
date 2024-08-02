@@ -138,9 +138,11 @@
                         <h5 class="modal-title">Add Story</h5>
                         <button type="button" wire:click="$emit('addStoryModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                     </div>
+
                     <form wire:submit.prevent="uploadStory">
                         <div class="modal-body">
-                            <input type="file" wire:model="story_photo" class="form-control">
+                            <input type="file" accept="video/mp4, image/png, image/jpg, image/jpeg, image/svg, image/gif"
+                                   wire:model="story_photo" class="form-control">
                             @error('story_photo')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
