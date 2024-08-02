@@ -88,51 +88,90 @@ class Assessment extends Model
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
     }
 
+    public static function singleAssessment($user_id = null)
+    {
+        return self::where('user_id', $user_id)->latest()->first();
+    }
+
     public static function getAssessmentIds()
     {
         return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
     }
 
-    public static function allAssessment($name = null, $email = null, $age_range = null, $code = null, $code_color = null)
+    public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
     {
         $query = self::where('page', 0);
 
         // Filter by name
         if ($name) {
-            $query = $query->whereHas('users', function ($query) use ($name) {
-                $query->where(function ($q) use ($name) {
-                    $q->whereRaw("concat(first_name, ' ', last_name) like ?", ["%{$name}%"])
-                        ->orWhereRaw("concat(last_name, ' ', first_name) like ?", ["%{$name}%"]);
-                });
+            $query->whereHas('users', function ($query) use ($name) {
+                $query->whereRaw("concat(first_name, ' ', last_name) like ?", ["%{$name}%"])
+                    ->orWhereRaw("concat(last_name, ' ', first_name) like ?", ["%{$name}%"]);
             });
         }
 
         // Filter by email
         if ($email) {
-            $query = $query->whereHas('users', function ($query) use ($email) {
+            $query->whereHas('users', function ($query) use ($email) {
                 $query->where('email', 'like', '%' . $email . '%');
             });
         }
 
+        // Filter by age range
         if ($age_range) {
             $age = explode('-', $age_range);
-            $age_min = $age[0];
-            $age_max = $age[1];
-            $query = $query->whereHas('users', function ($query) use ($age_min, $age_max) {
-                $query->where('age_min', 'like', '%' . $age_min . '%')
-                    ->where('age_max', 'like', '%' . $age_max . '%');
+            if (count($age) == 2) {
+                $age_min = $age[0];
+                $age_max = $age[1];
+                $query->whereHas('users', function ($query) use ($age_min, $age_max) {
+                    $query->whereBetween('age', [$age_min, $age_max]);
+                });
+            }
+        }
+
+        // Filter by style code and style code color
+        if ($style_code && $style_code_color) {
+            $query->whereHas('assessmentColorCodes', function ($query) use ($style_code, $style_code_color) {
+                $query->where('code', $style_code)
+                    ->where('code_color', $style_code_color);
             });
         }
 
-        // Filter by code and code color
-        if ($code && $code_color) {
-            $query = $query->whereHas('assessmentColorCodes', function ($query) use ($code, $code_color) {
-                $query->where('code', $code)
-                    ->where('code_color', $code_color);
+        // Filter by style number
+        if ($style_number) {
+            $parts = explode('-', $style_number);
+            if (isset($parts[1])) {
+                $style_num = $parts[1];
+                $query->whereHas('assessmentColorCodes', function ($query) use ($style_num, $style_code, $style_code_color) {
+                    $query->where('code', $style_code)
+                        ->where('code_color', $style_code_color)
+                        ->where('code_number', $style_num);
+                });
+            }
+        }
+
+        // Filter by feature code and feature code color
+        if ($feature_code && $feature_code_color) {
+            $query->whereHas('assessmentColorCodes', function ($query) use ($feature_code, $feature_code_color) {
+                $query->where('code', $feature_code)
+                    ->where('code_color', $feature_code_color);
             });
         }
 
-        return $query->get();
+        // Filter by feature number
+        if ($feature_number) {
+            $parts = explode('-', $feature_number);
+            if (isset($parts[1])) {
+                $feature_num = $parts[1];
+                $query->whereHas('assessmentColorCodes', function ($query) use ($feature_num, $feature_code, $feature_code_color) {
+                    $query->where('code', $feature_code)
+                        ->where('code_color', $feature_code_color)
+                        ->where('code_number', $feature_num);
+                });
+            }
+        }
+
+        return $query->orderBy('updated_at', 'desc')->get();
     }
 
     public static function abandonedAssessment()

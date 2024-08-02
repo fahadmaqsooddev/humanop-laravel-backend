@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use App\Models\Assessment;
 
 class Helpers
 {
@@ -168,6 +169,15 @@ class Helpers
     public static function getWebUser(){
 
         return Auth::guard('web')->user();
+    }
+
+    public static function checkAssessment($user_id = null)
+    {
+        $assessment = Assessment::singleAssessment($user_id);
+        if ($assessment && $assessment['page'] === 0)
+            return true;
+        else
+            return false;
     }
 
     public static function getImage($pic,$original_default = null, $is_original_name = 0){

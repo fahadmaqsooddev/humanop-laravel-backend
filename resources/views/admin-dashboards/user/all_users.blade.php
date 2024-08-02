@@ -17,6 +17,7 @@
 
     .bg-yellow {
         background-color: yellow !important;
+        color: black !important;
     }
     .border-green {
         border: 1px solid green !important;
@@ -116,7 +117,9 @@
             }
 
             element.setAttribute('data_color', color);
-            Livewire.emit('selectCode', code, color);
+            localStorage.setItem('color',color);
+            localStorage.setItem('code',code);
+            Livewire.emit('selectStyleCode', code, color);
         }
 
         function changeFeatureBackgroundColor(element, code) {
@@ -147,7 +150,21 @@
             }
 
             element.setAttribute('data_color', color);
-            Livewire.emit('selectCode', code, color);
+            localStorage.setItem('color',color);
+            localStorage.setItem('code',code);
+            Livewire.emit('selectFeatureCode', code, color);
+        }
+
+        function changeStyleCodeNumber(select_num) {
+            let currentColor = localStorage.getItem('color');
+            let currentCode = localStorage.getItem('code');
+            Livewire.emit('selectStyleNumber', select_num,currentColor,currentCode);
+        }
+
+        function changeFeatureCodeNumber(select_num) {
+            let currentColor = localStorage.getItem('color');
+            let currentCode = localStorage.getItem('code');
+            Livewire.emit('selectFeatureNumber', select_num,currentColor,currentCode);
         }
 
     </script>
