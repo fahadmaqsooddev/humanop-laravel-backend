@@ -17,4 +17,4 @@ Route::post('create-story', 'StoryController@createStory');
 Route::delete('delete-story', 'StoryController@deleteStory');
 Route::get('user-stories','StoryController@userStories');
 Route::post('story-viewed', 'StoryController@storyViewed');
-Route::get('story_views', 'StoryController@storyViews');
+Route::get('story-views', 'StoryController@storyViews');
