@@ -27,7 +27,7 @@ class GoogleController extends Controller
             if($finduser){
 
                 Auth::login($finduser);
-                
+
             }else{
                 $newUser = User::create([
                     'email' => $user->email,
@@ -35,12 +35,13 @@ class GoogleController extends Controller
                     'last_name' => $user->user['family_name'],
                     'google_id'=> $user->id,
                     'password' => $user->id,
+                    'is_admin' => 2,
                 ]);
 
                 Auth::login($newUser);
 
             }
-            
+
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $e) {
