@@ -37,7 +37,7 @@
                             </div>
                         @endif
                         <div class="card-header text-center pt-4">
-                            <h5 class="text-white">Register With</h5>
+                            <h5 class="text-white">Login With</h5>
                         </div>
                         <div class="css-mgpqwz d-flex justify-content-center">
                             <div class="" style="margin-right: 20px;">
