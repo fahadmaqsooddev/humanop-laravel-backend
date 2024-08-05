@@ -22,7 +22,12 @@ class GoogleController extends Controller
 
             $user = Socialite::driver('google')->user();
 
-            dd($user);
+            $name = explode(' ', $user->name);
+
+            $first_name = $name[0];
+            $last_name = $name[1];
+
+            dd($user, $first_name, $last_name);
             
             $finduser = User::where('google_id', $user->id)->first();
 
