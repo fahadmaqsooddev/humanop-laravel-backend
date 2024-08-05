@@ -27,9 +27,7 @@ class GoogleController extends Controller
             if($finduser){
 
                 Auth::login($finduser);
-
-                return redirect()->route('client_dashboard');
-
+                
             }else{
                 $newUser = User::create([
                     'email' => $user->email,
@@ -41,8 +39,9 @@ class GoogleController extends Controller
 
                 Auth::login($newUser);
 
-                return redirect()->route('client_dashboard');
             }
+            
+            return redirect()->route('client_dashboard');
 
         } catch (\Exception $e) {
             dd($e->getMessage());
