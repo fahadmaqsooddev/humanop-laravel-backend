@@ -3,6 +3,7 @@
 namespace App\Models\Client\StoryView;
 
 use App\Helpers\Helpers;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,13 @@ class StoryView extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
 
         parent::__construct($attributes);
+    }
+
+    // relation
+
+    public function user(){
+
+        return $this->belongsTo(User::class,'user_id','id');
     }
 
 
