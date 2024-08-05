@@ -79,7 +79,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getIsFollowAttribute(){
 
-        return $this->followed()->where('user_id', Helpers::getWebUser()->id)->exists();
+        return $this->followed()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
     }
 
 

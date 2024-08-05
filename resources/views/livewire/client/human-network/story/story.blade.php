@@ -145,15 +145,20 @@
                         <div class="modal-body">
                             <input type="file" accept="video/mp4, image/png, image/jpg, image/jpeg, image/svg, image/gif"
                                    wire:model="story_photo" class="form-control">
+                            <span wire:loading.flex wire:target="story_photo">
+                                Image Uploading ...
+                            </span>
                             @error('story_photo')
                                 <p class="text-danger">{{$message}}</p>
                             @enderror
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-primary">Upload</button>
+                            <button type="submit" class="btn bg-gradient-primary">Upload
+                                <span wire:loading wire:target="uploadStory">
+                                </span>
+                            </button>
                         </div>
-
                     </form>
                 </div>
             </div>
