@@ -20,7 +20,7 @@ class Post extends Component
 
     protected $rules = [
         'description' => 'required|max:1000',
-        'post_image' => 'nullable|image||mimes:jpg,png,jpeg|max:3072'
+        'post_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
     ];
 
     public $description, $post_image, $posts = [], $post_comment, $logged_in_user,
