@@ -14,6 +14,7 @@ use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ClientController\MessageController;
 use App\Http\Controllers\ClientController\StoryController;
+use App\Http\Controllers\GoogleAuth\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ use App\Http\Controllers\ClientController\StoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
@@ -48,12 +52,12 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
 
-    Route::post('/check-coupon',[CouponController::class, 'checkCoupon'])->name('check_coupon');
+    Route::post('/check-coupon', [CouponController::class, 'checkCoupon'])->name('check_coupon');
 
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
 
     Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
-    Route::get('messages', [MessageController::class,'index'])->name('messages');
+    Route::get('messages', [MessageController::class, 'index'])->name('messages');
 
-    Route::get('/stories', [StoryController::class,'stories'])->name('stories');
+    Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
 });
