@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 
 class Story extends Model
 {
@@ -57,7 +56,7 @@ class Story extends Model
 
     public function getIsViewedAttribute(){
 
-        return $this->storyViews()->where('user_id', Helpers::getWebUser()->id)->exists() ? 1 : 0;
+        return $this->storyViews()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists() ? 1 : 0;
     }
 
 
@@ -70,7 +69,7 @@ class Story extends Model
     // query
     public static function addStory($data){
 
-        $data['user_id'] = Helpers::getWebUser()->id;
+        $data['user_id'] = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
         self::create($data);
     }
@@ -93,5 +92,10 @@ class Story extends Model
             ->where('user_id', $user_id)
 
             ->get();
+    }
+
+    public static function deleteStory($id = null){
+
+        self::whereId($id)->delete();
     }
 }

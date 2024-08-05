@@ -23,7 +23,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $EnterpriseNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
-
+    protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
 
     /**
      * The controller namespace for the application.
@@ -96,6 +96,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/library_resources/library_resource_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->HumanNetworkNamespace)
+                ->group(base_path('routes/client_apis/post/post_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->HumanNetworkNamespace)
+                ->group(base_path('routes/client_apis/story/story_api.php'));
         });
     }
 
