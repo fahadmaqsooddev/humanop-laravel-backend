@@ -14,7 +14,6 @@ class ClientController extends Controller
     public function index()
     {
         try {
-            dd(1);
 
             $user = Auth::user();
 
