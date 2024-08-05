@@ -98,4 +98,9 @@ class Story extends Model
 
         self::whereId($id)->delete();
     }
+
+    public static function story($story_id = null){
+
+        return self::whereId($story_id)->first();
+    }
 }
