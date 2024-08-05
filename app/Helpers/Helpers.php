@@ -179,9 +179,17 @@ class Helpers
         $assessment = Assessment::singleAssessment($user_id);
 
         if (!empty($assessment))
+        {
             return false;
-        else
+        }
+        elseif (!empty($assessment) && $assessment['page'] === 0)
+        {
             return true;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public static function getImage($pic, $original_default = null, $is_original_name = 0)
