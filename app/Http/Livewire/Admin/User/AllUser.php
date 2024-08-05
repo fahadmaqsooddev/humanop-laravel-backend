@@ -21,10 +21,10 @@ class AllUser extends Component
     public $name = '';
     public $email = '';
     public $age = '';
-    protected $assessments = [];
     public $perPage = 10;
     public $selectedStyleCells = [];
     public $selectedFeatureCells = [];
+    protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber'];
 
@@ -38,7 +38,6 @@ class AllUser extends Component
         'feature_color' => ['except' => ''],
         'feature_carousel_index' => ['except' => ''],
         'style_carousel_index' => ['except' => ''],
-//        'number' => ['except' => ''],
     ];
 
     public function mount()
