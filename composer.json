@@ -13,6 +13,7 @@
         "laravel/cashier": "14.0",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.15",
+        "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.6",
         "livewire/livewire": "^2.12",
         "php-open-source-saver/jwt-auth": "^2.1",
