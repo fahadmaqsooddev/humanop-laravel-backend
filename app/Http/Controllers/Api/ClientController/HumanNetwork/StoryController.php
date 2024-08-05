@@ -113,9 +113,9 @@ class StoryController extends Controller
 
         try {
 
-            StoryView::addStoryView($request->input('id'));
+            $story_views = StoryView::storyViews($request->input('id'));
 
-            return Helpers::successResponse('Story viewed');
+            return Helpers::successResponse('Story viewed', $story_views);
 
         }catch (\Exception $exception){
 
