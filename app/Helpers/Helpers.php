@@ -180,11 +180,12 @@ class Helpers
 
         if (!empty($assessment))
         {
+            if ($assessment['page'] === 0)
+            {
+                return true;
+            }
+            
             return false;
-        }
-        elseif (!empty($assessment) && $assessment['page'] === 0)
-        {
-            return true;
         }
         else
         {
