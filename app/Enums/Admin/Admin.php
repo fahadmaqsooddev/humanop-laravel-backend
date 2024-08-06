@@ -9,4 +9,10 @@ final class Admin
     const IS_ADMIN = 1;
 
     const IS_CUSTOMER = 2;
+
+    const IS_MALE = 2;
+
+    const IS_FEMALE = 1;
+    
+    const IS_BOTH = 2;
 }

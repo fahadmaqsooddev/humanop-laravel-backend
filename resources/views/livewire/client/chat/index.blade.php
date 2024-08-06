@@ -2,9 +2,14 @@
     <div class="chatbox">
         <div class="chatbox-content" id="chatbox-content">
             @foreach($messages as $message)
-                <div style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
+                <div
+                    style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
                     <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
-                        {{ $message['text'] }}
+                        @if($message['type'] === 'user')
+                            {{ $message['text'] }}
+                        @elseif($message['type'] === 'bot')
+                            {!! $message['text'] !!}
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -12,8 +17,9 @@
         <form wire:submit.prevent="sendMessage">
             @csrf
             <div class="chatbox-input" style="margin-bottom: 50px">
-                <input type="text" wire:model.defer="userMessage" id="userMessage"  placeholder="Type your message here...">
-                <button type="submit" id="submitBtn" >&#9658;</button>
+                <input type="text" wire:model.defer="userMessage" id="userMessage"
+                       placeholder="Type your message here...">
+                <button type="submit" id="submitBtn">&#9658;</button>
             </div>
         </form>
     </div>
@@ -31,25 +37,25 @@
             const submitBtn = document.getElementById('submitBtn');
             $('#submitBtn').on('click', function () {
 
-                    let userMsg = $('#userMessage').val();
-                    if (userMsg.trim() !== '') {
-                        $('#chatbox-content').append(`<div style="display: flex; justify-content: flex-end">
+                let userMsg = $('#userMessage').val();
+                if (userMsg.trim() !== '') {
+                    $('#chatbox-content').append(`<div style="display: flex; justify-content: flex-end">
                         <div class="message user-message">` + userMsg + `</div>
                     </div>`);
-                    }
-                    $('#userMessage').val('');
+                }
+                $('#userMessage').val('');
 
-                    $('#chatbox-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
+                $('#chatbox-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
                     <div id="chatDots">
                         <span class="chatDot"></span>
                         <span class="chatDot"></span>
                         <span class="chatDot"></span>
                     </div>
                 </div>`);
-                    scrollToBottom();
+                scrollToBottom();
             });
 
-            Livewire.on('updateAiMessage', function() {
+            Livewire.on('updateAiMessage', function () {
                 scrollToBottom();
             });
         });
