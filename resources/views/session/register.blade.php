@@ -139,8 +139,8 @@
                                         <select class="form-control" name="gender" id="gender" name="user_type"
                                                 style="background-color: #0F1535; color: white; border-radius: 12px;">
                                             <option value="" selected hidden>Gender</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
+                                            <option value="2">Male</option>
+                                            <option value="1">Female</option>
                                         </select>
                                         @error('gender')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
