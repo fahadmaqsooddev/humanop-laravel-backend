@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
+
 
 class SessionController extends Controller
 {
@@ -24,15 +26,25 @@ class SessionController extends Controller
 
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $attributes = request()->validate([
             'email'=>'required|email',
-            'password'=>'required'
+            'password'=>'required',
         ]);
 
         if(Auth::attempt($attributes))
         {
+            if (isset($request['remember']) && !empty($request['remember']))
+            {
+                setcookie("email", $attributes['email'], 30*time()+3600);
+                setcookie("password", $attributes['password'], 30*time()+3600);
+            }else
+            {
+                setcookie("email", "");
+                setcookie("password", "");
+            }
+
             return redirect()->route('admin_dashboard');
         }
 
