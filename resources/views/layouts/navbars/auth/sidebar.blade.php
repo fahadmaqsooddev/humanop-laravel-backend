@@ -230,7 +230,7 @@
                             <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
                                    href="{{ route('stripe_checkout') }}">
-                                    <span class="sidenav-mini-icon"> </span>
+                                    <span class="sidenav-mini-icon"> A </span>
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>
                             </li>
@@ -421,7 +421,7 @@
                             <li class="nav-item {{ (Request::is('')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('')  ? 'active' : '') }}"
                                    href="{{ url('enterprise-team-dashboard') }}">
-                                    <span class="sidenav-mini-icon"></span>
+                                    <span class="sidenav-mini-icon"> T </span>
                                     <span class="sidenav-normal"> Team Dashboard </span>
                                 </a>
                             </li>
