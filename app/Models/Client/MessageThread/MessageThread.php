@@ -49,13 +49,13 @@ class MessageThread extends Model
     // appends
     public function getUserDataAttribute(){
 
-        if ($this->sender_id === Helpers::getWebUser()->id){
+        if ($this->sender_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)){
 
-            return $this->receiver;
+            return $this->receiver()->select('id','first_name','last_name')->first();
 
-        }else if ($this->receiver_id === Helpers::getWebUser()->id){
+        }else if ($this->receiver_id === (Helpers::getWebUser()->id || Helpers::getUser()->id)){
 
-            return $this->sender;
+            return $this->sender()->select('id','first_name','last_name')->first();
 
         }else{
 
@@ -100,11 +100,13 @@ class MessageThread extends Model
 
         }
 
-         $chats = $chats->has('lastMessage')->where(function ($q){
+        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
-            $q->where('sender_id', Helpers::getWebUser()->id)
+         $chats = $chats->has('lastMessage')->where(function ($q) use ($logged_in_user_id){
 
-                ->orWhere('receiver_id', Helpers::getWebUser()->id);
+            $q->where('sender_id', $logged_in_user_id)
+
+                ->orWhere('receiver_id', $logged_in_user_id);
 
         })
             ->orderBy('updated_at', 'DESC')
@@ -120,7 +122,7 @@ class MessageThread extends Model
 
     public static function createOrGetMessageThread($user_id = null){
 
-        $logged_in_user_id = Helpers::getWebUser()->id;
+        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
         $message_thread = self::where(function ($q) use ($user_id){
 
@@ -144,6 +146,7 @@ class MessageThread extends Model
             ]);
 
         }else{
+
             $message_thread->update(['updated_at' => Carbon::now()]);
         }
 
@@ -153,7 +156,7 @@ class MessageThread extends Model
 
     public static function deleteMessageThread($user_id = null){
 
-        $logged_in_user_id = Helpers::getWebUser()->id;
+        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
         self::where(function ($q) use ($user_id){
 
@@ -168,6 +171,12 @@ class MessageThread extends Model
                 ->orWhere('receiver_id', $logged_in_user_id);
 
         })->delete();
+
+    }
+
+    public static function deleteMessageThreadFromApi($thread_id = null){
+
+        self::whereId($thread_id)->delete();
 
     }
 }

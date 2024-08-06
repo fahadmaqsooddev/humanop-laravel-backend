@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers\Api\ClientController;
+
+use App\Helpers\Helpers;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\Messages\DeleteChatRequest;
+use App\Http\Requests\Api\Client\Messages\MessagesRequest;
+use App\Http\Requests\Api\Client\Messages\SendMessageRequest;
+use App\Models\Client\Message\Message;
+use App\Models\Client\MessageThread\MessageThread;
+use Illuminate\Http\Request;
+
+class MessageController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    public function chats(){
+
+        try {
+
+            $all_chats = MessageThread::chats();
+
+            return Helpers::successResponse('User chats', $all_chats);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function sendMessage(SendMessageRequest $request){
+
+        try {
+
+            $message = new Message();
+
+            $dataArray = $request->only($message->getFillable());
+
+            $thread = MessageThread::createOrGetMessageThread($request->input('receiver_id'));
+
+            $dataArray['message_thread_id'] = $thread->id ?? null;
+
+            $dataArray['sender_id'] = Helpers::getUser()->id;
+
+            Message::createMessage($dataArray);
+
+            return Helpers::successResponse('Message sent');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function messages(MessagesRequest $request){
+
+        try {
+
+            $messages = Message::threadMessages($request->input('message_thread_id'));
+
+            return Helpers::successResponse('Thread messages', $messages);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function deleteChat(DeleteChatRequest $request){
+
+        try {
+
+            MessageThread::deleteMessageThreadFromApi();
+
+            return Helpers::successResponse('Chat deleted');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+}
