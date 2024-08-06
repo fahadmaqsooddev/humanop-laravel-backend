@@ -27,6 +27,7 @@ class RegisterController extends Controller
     {
         try {
 
+
             $dataArray = $request->only($this->user->getFillable());
 
             $dataArray['age_range'] = $request['age_range'];
@@ -42,6 +43,16 @@ class RegisterController extends Controller
             session()->flash('success', 'Your account has been created.');
 
             Auth::login($user);
+
+            if (isset($request['remember']) && !empty($request['remember']))
+            {
+                setcookie("email", $request['email'], 30*time()+3600);
+                setcookie("password", $request['password'], 30*time()+3600);
+            }else
+            {
+                setcookie("email", "");
+                setcookie("password", "");
+            }
 
             return redirect()->route('client_dashboard');
 
