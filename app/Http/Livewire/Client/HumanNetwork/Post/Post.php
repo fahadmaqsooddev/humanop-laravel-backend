@@ -69,6 +69,8 @@ class Post extends Component
 
         $data['description'] = $this->description;
 
+        $data['user_id'] = Helpers::getWebUser()->id;
+
         \App\Models\Client\Post\Post::createPost($data);
 
         $this->emit('toggleCreatePostFormModal');

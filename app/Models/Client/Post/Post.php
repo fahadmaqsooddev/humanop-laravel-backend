@@ -61,7 +61,7 @@ class Post extends Model
 
     public function getIsPostLikedAttribute(){
 
-        return $this->postLikes()->where('user_id', Helpers::getWebUser()->id)->exists();
+        return $this->postLikes()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
     }
 
     // accessor
@@ -74,9 +74,7 @@ class Post extends Model
     // query
     public static function createPost($data = null){
 
-        $data['user_id'] = Helpers::getWebUser()->id;
-
-        self::create($data);
+        return self::create($data);
     }
 
     public static function allPosts(){
@@ -115,11 +113,42 @@ class Post extends Model
 
     public static function post($post_id = null){
 
-        return self::whereId($post_id)->first();
+        return self::with('user:id,first_name,last_name')->whereId($post_id)->first();
     }
 
     public static function updatePost($data = null, $post_id = null){
 
-        self::whereId($post_id)->update($data);
+        $post = self::whereId($post_id)->first();
+
+        $post->update($data);
+
+        return $post->refresh();
+    }
+
+    public static function allPostsForApi($request = null){
+
+        $order_by = isset($request->order_by) ? $request->order_by : "id";
+
+        $order = isset($request->order) ? $request->order : "DESC";
+
+        $all_posts = self::with(['user' => function($q){
+
+            $q->select(['id','first_name','last_name']);
+
+        }, 'sharedPost' => function($q){
+
+            $q->with('user:id,first_name,last_name');
+
+        }, 'postShares' => function($q){
+
+            $q->with('user:id');
+
+        }])
+
+            ->withCount(['postLikes', 'postComments', 'postShares'])
+
+            ->orderBy($order_by, $order);
+
+        return Helpers::pagination($all_posts, $request->input('pagination'), $request->input('per_page'));
     }
 }
