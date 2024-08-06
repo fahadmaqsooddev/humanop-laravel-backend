@@ -53,7 +53,7 @@
 {{--                                    </button>--}}
 {{--                                </a>--}}
 {{--                            </div>--}}
-                            <div class="" style="margin-right: 20px;">
+                            <div>
                                 <a href="{{ url('auth/google') }}">
                                     <button class="btn btn-primary  p-2 border border-radius-lg border-gray-800"
                                             type="button"
