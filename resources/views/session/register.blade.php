@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="form-check form-switch mt-4">
-                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                             <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember
                                 me</label>
                         </div>
