@@ -83,7 +83,10 @@ class Assessment extends Model
 
     public static function getAssessment()
     {
-        return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return static::where('user_id', Helpers::getWebUser()->id)
+            ->where('page', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     public static function singleAssessment($user_id = null)
