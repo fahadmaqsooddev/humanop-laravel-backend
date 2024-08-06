@@ -46,7 +46,7 @@ class PostComment extends Model
     // appends
     public function getIsLikedCommentAttribute(){
 
-        return $this->commentLikes()->where('user_id', Helpers::getWebUser()->id)->exists();
+        return $this->commentLikes()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
     }
 
     // query
@@ -75,13 +75,18 @@ class PostComment extends Model
 
             ->get();
 
-        Session::put(['post_comments' => $comments]);
+        Helpers::getWebUser() ? Session::put(['post_comments' => $comments]) : "";
 
         return $comments;
     }
 
     public static function singleComment($comment_id = null){
 
-        return self::whereId($comment_id)->first();
+        return self::with('user:id,first_name,last_name')->whereId($comment_id)->first();
+    }
+
+    public static function deleteComment($id = null){
+
+        self::whereId($id)->delete();
     }
 }

@@ -104,6 +104,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespace)
                 ->group(base_path('routes/client_apis/story/story_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->ApiClientController)
+                ->group(base_path('routes/client_apis/messages/message_api.php'));
         });
     }
 
