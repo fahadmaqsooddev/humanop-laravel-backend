@@ -65,4 +65,29 @@ class PostLike extends Model
         }
 
     }
+
+    public static function createPostLikeForApi($request = null){
+
+        $data['user_id'] = Helpers::getUser()->id;
+
+        isset($request->post_id) ? $data['post_id'] = $request->input('post_id') : $data['post_comment_id'] = $request->input('comment_id');
+
+        $post_like = self::where($data)->first();
+
+        if ($request->input('type') === 'like'){
+
+            if (!$post_like){
+
+                self::create($data);
+            }
+
+        }else if ($request->input('type') === 'unlike'){
+
+            if ($post_like){
+
+                $post_like->delete();
+            }
+        }
+
+    }
 }
