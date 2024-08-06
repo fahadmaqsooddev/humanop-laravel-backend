@@ -96,10 +96,8 @@
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="text-white">Email</label>
-
                                     <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                           value="" name="email" id="email" value="{{ old('email') }}"
-                                           required
+                                           name="email" id="email" value="{{ old('email') }}"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     @error('email')
                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -107,10 +105,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="name" class="text-white">Password</label>
-
                                     <input type="password" class="form-control" placeholder="Password"
                                            aria-label="Password"
-                                           value="" name="password" id="password" required
+                                           name="password" id="password"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     @error('password')
                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
