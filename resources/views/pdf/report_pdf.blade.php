@@ -164,9 +164,24 @@
                                     are open, a memory is
                                     established.</p>
 
-                                @foreach($reports['communication_code_details'] as $report)
-                                    <h2 class="mt-4"
-                                        style="color: #f2661c; text-align: justify">YOU are primarily {{$report['public_name']}} centered</h2>
+                                @foreach($reports['communication_code_details'] as $key => $report)
+                                    @if($key == 0)
+                                        <h2 class="slider-padding"
+                                            style="color: #f2661c; text-align: justify">YOU are
+                                            primarily {{$report['public_name']}} centered</h2>
+                                    @elseif($key == 1)
+                                        <h2 class="slider-padding"
+                                            style="color: #f2661c; text-align: justify">YOU are
+                                            secondly {{$report['public_name']}} centered</h2>
+                                    @elseif($key == 2)
+                                        <h2 class="slider-padding"
+                                            style="color: #f2661c; text-align: justify">YOU are
+                                            thirdly {{$report['public_name']}} centered</h2>
+                                    @else
+                                        <h2 class="slider-padding"
+                                            style="color: #f2661c; text-align: justify">YOU are
+                                            lastly {{$report['public_name']}} centered</h2>
+                                    @endif
                                     <p class="text-white" style="text-align: justify">{{$report['text']}}</p>
                                 @endforeach
 
@@ -221,6 +236,9 @@
 
                                 <p class="text-white mt-4" style="text-align: justify; padding-bottom: 20px; border-bottom: 2px solid #f2661c">Your practitioner is {{\Illuminate\Support\Facades\Auth::user()['first_name']}} {{\Illuminate\Support\Facades\Auth::user()['last_name']}} <br>{{\Illuminate\Support\Facades\Auth::user()['email']}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">For internal use only. <br>Compatibility values for BR {{\Illuminate\Support\Facades\Auth::user()['gender'] == 1 ? '(F)' : '(M)'}} Interval</p>
+                                <p class="text-white mt-4" style="text-align: justify">S {{$style_position}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">F {{$feature_position}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">Alch {{$alchl_code}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">PV {{$reports['pv'] > 0 ? '+' : ''}} {{$reports['pv']}}  REP ARC {{$reports['pv'] - $reports['ep']}} to +{{$reports['pv'] + $reports['ep']}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">REP {{$reports['ep']}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">TEP {{$reports['ep'] * 2}}</p>

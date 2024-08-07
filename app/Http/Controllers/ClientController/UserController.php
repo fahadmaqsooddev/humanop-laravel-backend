@@ -66,8 +66,14 @@ class UserController extends Controller
         try {
 
             $reports = Assessment::getReport($id);
+            $alchl_code = Assessment::getAlchlCode($id);
+
+            $style_position = AssessmentColorCode::getStylePosition($id);
+            $feature_position = AssessmentColorCode::getFeaturePosition($id);
+
             $user = Auth::user();
-            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id'));
+
+            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id', 'style_position', 'feature_position','alchl_code'));
 
         }catch (\Exception $exception)
         {
