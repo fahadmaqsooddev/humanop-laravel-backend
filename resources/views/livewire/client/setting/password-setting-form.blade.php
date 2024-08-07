@@ -5,7 +5,7 @@
     @include('layouts.message')
     <form wire:submit.prevent="submitForm" class="mb-4">
         <div class="card-body pt-0">
-            @if(\Illuminate\Support\Facades\Auth::user()['google_id'] == '' && \Illuminate\Support\Facades\Auth::user()['password_set'] == 2)
+            @if(\Illuminate\Support\Facades\Auth::user()['password_set'] == 1)
                 <label class="form-label text-white">Current password</label>
                 <div class="form-group">
                     <input style="background-color: #0f1534;" wire:model="current_password"

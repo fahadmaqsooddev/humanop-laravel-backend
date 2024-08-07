@@ -26,7 +26,7 @@ class PasswordSettingForm extends Component
         ];
 
         // Add current_password to data if google_id is empty and password_set is 2
-        if ($webUser->google_id == '' && $webUser->password_set == 2) {
+        if ($webUser->password_set == 1) {
             $data['current_password'] = $this->current_password;
         }
 
@@ -45,8 +45,11 @@ class PasswordSettingForm extends Component
                 }
             }
 
-            // Update password
-            User::updateUser(['password' => Hash::make($this->password)], $webUser->id);
+            $updateData = ['password' => $this->password];
+            $updateData['password_set'] = 1;
+
+            User::updateUser($updateData, $webUser->id);
+
             session()->flash('success', 'Password Changed Successfully!');
 
         } catch (\Exception $e) {

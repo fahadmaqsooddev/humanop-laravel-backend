@@ -36,6 +36,7 @@ class GoogleController extends Controller
                     'google_id'=> $user->id,
                     'password' => $user->id,
                     'is_admin' => 2,
+                    'password_set' => 2,
                 ]);
 
                 Auth::login($newUser);
