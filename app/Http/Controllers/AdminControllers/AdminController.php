@@ -157,8 +157,12 @@ class AdminController extends Controller
         try {
 
             $reports = Assessment::getReport($id);
+            $alchl_code = Assessment::getAlchlCode($id);
 
-            return view('admin-dashboards.user.user_report', compact('reports', 'id'));
+            $style_position = AssessmentColorCode::getStylePosition($id);
+            $feature_position = AssessmentColorCode::getFeaturePosition($id);
+            
+            return view('admin-dashboards.user.user_report', compact('reports', 'id','alchl_code','style_position','feature_position'));
 
         }catch (\Exception $exception)
         {

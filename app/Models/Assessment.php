@@ -463,6 +463,18 @@ class Assessment extends Model
         return $alchemyCodeDetail;
     }
 
+    public static function getAlchlCode($assessment_id = null)
+    {
+        $assessment = self::whereId($assessment_id)->first(['g','s','c']);
+
+        $gold = $assessment['g'];
+        $silver = $assessment['s'];
+        $copper = $assessment['c'];
+        $alchemy = $gold . '' . $silver . '' . $copper;
+
+        return $alchemy;
+    }
+
     public static function getEnergy($assessment = null)
     {
         $communications = [
