@@ -21,6 +21,11 @@
         <div class="col-12 col-lg-8">
             <button class="btn bg-gradient-primary" wire:click="$emit('createPostModal')"> <i class="fas fa-plus pe-2"></i> Create Post</button>
 
+{{--            hidden--}}
+            <button id="create_post" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#create-post-modal" hidden>
+                Create Post
+            </button>
+
             @foreach($posts as $post)
 
             <div class="card">
@@ -39,6 +44,11 @@
 
                             <button wire:click="editPost({{$post->id}})" type="button" class="btn bg-gradient-primary mb-0 text-white">
                                 <i class="fa fa-pencil"></i>
+
+{{--                                hidden--}}
+                                <button id="edit_post" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#edit-post-modal" hidden>
+                                    Edit Post
+                                </button>
                             </button>
                             <button wire:click="deletePost({{$post->id}})" wire:confirm="Are you sure you want to delete this post?" type="button" class="btn btn-danger mb-0">
                                 <i class="fa fa-trash"></i>
@@ -118,11 +128,21 @@
                                 <div class="d-flex align-items-center">
                                     <i wire:click="showComments({{$post->id}})" class="ni ni-chat-round me-1 cursor-pointer"></i>
                                     <span class="text-sm me-3">{{$post['post_comments_count']}}</span>
+
+{{--                                    Hidden--}}
+                                    <button id="post_comments" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#post-comments-modal" hidden>
+                                        Post Comments
+                                    </button>
                                 </div>
                                 <a wire:click="sharePost({{$post->id}})" class="d-flex align-items-center text-white">
                                     <i class="ni ni-curved-next me-1 cursor-pointer"></i>
                                     <span class="text-sm me-2">{{$post['post_shares_count']}}</span>
                                 </a>
+
+{{--                                Hidden--}}
+                                <button id="share_post" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#share-post-modal" hidden>
+                                    Share Post
+                                </button>
                             </div>
                         </div>
                         <div class="col-sm-6 d-none d-sm-block">
@@ -629,19 +649,24 @@
         </div>
     </div>
 
-
     {{-- Because she competes with no one, no one can compete with her. --}}
 </div>
 
 @push('javascript')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    window.livewire.on('toggleCreatePostFormModal', () => $('#create-post-modal').modal('toggle'));
-    window.livewire.on('toggleEditPostFormModal', () => $('#edit-post-modal').modal('toggle'));
-    window.livewire.on('toggleSharePostFormModal', () => $('#share-post-modal').modal('toggle'));
-    window.livewire.on('togglePostCommentsModal', () => $('#post-comments-modal').modal('toggle'));
+    window.livewire.on('toggleCreatePostFormModal', () => {
+
+        $('create_post').click()
+
+        // $('#create-post-modal').modal('toggle')
+    })
+    window.livewire.on('toggleEditPostFormModal', () => $('#edit_post').click())
+    window.livewire.on('toggleSharePostFormModal', () => $('#share_post').click())
+    window.livewire.on('togglePostCommentsModal', () => $('#post_comments').click())
     window.livewire.on('hideSuccessAlert', () => { setTimeout(function (){
         $('.alert-success').fadeOut('fast');
     }, 3000)})
+
 </script>
 @endpush

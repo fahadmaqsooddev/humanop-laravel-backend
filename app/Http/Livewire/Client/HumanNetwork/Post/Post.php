@@ -184,6 +184,8 @@ class Post extends Component
 
         $data['post_id'] = $this->post_id;
 
+        $data['user_id'] = Helpers::getWebUser()->id;
+
         \App\Models\Client\Post\Post::createPost($data);
 
         $this->emit('toggleSharePostFormModal');

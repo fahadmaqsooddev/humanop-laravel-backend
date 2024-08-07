@@ -106,6 +106,11 @@
                             <button wire:click="$emit('addStoryModal')" class="avatar avatar-lg border-1 rounded-circle bg-gradient-primary">
                                 <i class="fas fa-plus text-white"></i>
                             </button>
+
+{{--                            Hidden--}}
+                            <button id="create_story" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#create-story-form-modal" hidden>
+                                Share Post
+                            </button>
                             @if($logged_in_user_stories)
                                 <br>
                                 <a href="{{url('/client/stories') . '?id=' . $user->id}}" class="mb-0 text-sm text-white" style="margin-top:6px; cursor: pointer;">View Story</a>
@@ -197,8 +202,8 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        window.livewire.on('toggleCreateStoryFormModal', () => $('#create-story-form-modal').modal('toggle'));
-        window.livewire.on('toggleViewStoryFormModal', () => $('#view-story-modal').modal('toggle'));
+        window.livewire.on('toggleCreateStoryFormModal', () => $('#create_story').click());
+        // window.livewire.on('toggleViewStoryFormModal', () => $('#view-story-modal').modal('toggle'));
         window.livewire.on('hideSuccessAlert', () => { setTimeout(function (){
             $('.alert-success').fadeOut('fast');
         }, 3000)})
