@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Helpers\Helpers;
 
 class PasswordSettingRequest extends FormRequest
 {
@@ -30,8 +31,17 @@ class PasswordSettingRequest extends FormRequest
      */
     public function rules(){
 
+        $password = '';
+
+        if (Helpers::getWebUser()->password_set == 1)
+        {
+            $password = 'required';
+        }else{
+            $password = 'nullable';
+        }
+
         return [
-            'current_password' => 'required',
+            'current_password' => $password,
             'password' => [
                 'required',
                 'string',
