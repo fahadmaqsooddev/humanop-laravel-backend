@@ -53,7 +53,10 @@ class Message extends Component
 
             $data['sender_id'] = Helpers::getWebUser()->id;
 
-            \App\Models\Client\Message\Message::createMessage($data);
+            if (strlen(trim($this->message)) > 0){
+
+                \App\Models\Client\Message\Message::createMessage($data);
+            }
 
             $this->reset('message');
 
