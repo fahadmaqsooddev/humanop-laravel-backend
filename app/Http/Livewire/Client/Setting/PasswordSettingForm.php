@@ -7,47 +7,54 @@ use Illuminate\Support\Facades\Hash;
 use App\Traits\HandlesValidationErrors;
 use App\Models\User;
 use App\Http\Requests\Admin\Setting\PasswordSettingRequest;
-
 use Livewire\Component;
+use App\Helpers\Helpers;
 
 class PasswordSettingForm extends Component
 {
 
     use HandlesValidationErrors;
 
-    public $current_password,$password,$confirm_password;
+    public $current_password, $password, $confirm_password;
 
-    public function submitForm(){
-
+    public function submitForm()
+    {
+        $webUser = Helpers::getWebUser();
         $data = [
-            'current_password' => $this->current_password,
             'password' => $this->password,
             'confirm_password' => $this->confirm_password
         ];
 
-        if($this->customValidation(new PasswordSettingRequest($data),$data)){return;};
+        // Add current_password to data if google_id is empty and password_set is 2
+        if ($webUser->password_set == 1) {
+            $data['current_password'] = $this->current_password;
+        }
 
-        try{
+        if ($this->customValidation(new PasswordSettingRequest($data), $data)) {
+            return;
+        }
 
-            $passCheck = User::checkPassword($this->current_password, Auth::user()->id);
+        try {
+            // Check current password if needed
+            if (isset($data['current_password'])) {
+                $passCheck = User::checkPassword($this->current_password, $webUser->id);
 
-            if($passCheck){
-
-                User::updateUser(['password' => Hash::make($this->password)],Auth::user()->id);
-                session()->flash('success', 'Password Changed Successfully!');
-
-            }else{
-
-                session()->flash('error', 'Current Password Not Matched');
-
+                if (!$passCheck) {
+                    session()->flash('error', 'Current Password Not Matched');
+                    return;
+                }
             }
-        }
-        catch (\Expectation $e){
 
+            $updateData = ['password' => $this->password];
+            $updateData['password_set'] = 1;
+
+            User::updateUser($updateData, $webUser->id);
+
+            session()->flash('success', 'Password Changed Successfully!');
+
+        } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
-
         }
-
     }
 
     public function render()

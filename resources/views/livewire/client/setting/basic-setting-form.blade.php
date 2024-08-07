@@ -1,6 +1,6 @@
 <div class="card mt-4" id="basic-info">
     <div class="card-header">
-        <h5>Basic Info</h5>
+        <h5 class="text-white">Basic Info</h5>
     </div>
     @include('layouts.message')
     <form wire:submit.prevent="submitForm" >
@@ -12,47 +12,47 @@
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="firstName"
                                wire:model.defer="user.first_name"
-                               class="form-control" type="text">
+                               class="form-control text-white" type="text">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label text-white">Last Name</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="lastName" wire:model.defer="user.last_name"
-                               class="form-control" type="text" placeholder="{{$user['last_name']}}">
+                               class="form-control text-white" type="text" placeholder="{{$user['last_name']}}">
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-6">
-                    <label class="form-label mt-4">Email</label>
+                    <label class="form-label mt-4 text-white">Email</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="email" wire:model.defer="user.email"
-                               class="form-control" type="email" placeholder="{{$user['email']}}">
+                               class="form-control text-white" type="email" placeholder="{{$user['email']}}">
                     </div>
                 </div>
                 <div class="col-6">
-                    <label class="form-label mt-4">Phone Number</label>
+                    <label class="form-label mt-4 text-white">Phone Number</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="phone" wire:model.defer="user.phone"
-                               class="form-control" type="text" placeholder="{{$user['phone']}}">
+                               class="form-control text-white" type="text" placeholder="{{$user['phone']}}">
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
-                    <label class="form-label mt-4">I'm</label>
-                    <select class="form-control" wire:model.defer="user.gender" >
+                    <label class="form-label mt-4 text-white">I'm</label>
+                    <select class="form-control text-white" style="background-color: #0f1534;" wire:model.defer="user.gender" >
                         <option value="2">Male</option>
                         <option value="1">Female</option>
                     </select>
                 </div>
 
                 <div class="col-sm-4 col-6 w-50">
-                    <label class="form-label mt-4">Age Group</label>
-                    <select class="form-control" wire:model.defer="user.age_range" >
+                    <label class="form-label mt-4 text-white">Age Group</label>
+                    <select class="form-control text-white" style="background-color: #0f1534;" wire:model.defer="user.age_range" >
                         <option value="5-6">5-6</option>
                         <option value="7-11">7-11</option>
                         <option value="12-15">12-15</option>

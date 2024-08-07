@@ -136,9 +136,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function updateUser($data = null, $id = null){
 
-        $user = self::find($id)->update($data);
-
-        return $user;
+        return self::find($id)->update($data);
 
     }
 
