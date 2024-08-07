@@ -102,7 +102,11 @@ class MessageThread extends Model
 
         $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
-         $chats = $chats->has('lastMessage')->where(function ($q) use ($logged_in_user_id){
+         $chats = $chats->where(function ($q){
+
+             $q->has('sender')->orHas('receiver');
+
+         })->where(function ($q) use ($logged_in_user_id){
 
             $q->where('sender_id', $logged_in_user_id)
 

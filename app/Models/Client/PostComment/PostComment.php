@@ -67,7 +67,7 @@ class PostComment extends Model
 
     public static function getPostComments($post_id = null){
 
-        $comments = self::where('post_id', $post_id)
+        $comments = self::has('user')->where('post_id', $post_id)
 
             ->with('user:id,first_name,last_name')
 

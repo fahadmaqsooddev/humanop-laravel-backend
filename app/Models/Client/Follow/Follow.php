@@ -46,7 +46,7 @@ class Follow extends Model
 
     public static function followers(){
 
-        return self::where('user_id', Helpers::getWebUser()->id)
+        return self::has('follower')->where('user_id', Helpers::getWebUser()->id)
 
             ->with('follower:id,first_name,last_name')
 

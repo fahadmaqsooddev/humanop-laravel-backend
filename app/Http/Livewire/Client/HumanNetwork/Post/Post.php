@@ -44,20 +44,6 @@ class Post extends Component
         $this->emit('toggleCreatePostFormModal');
     }
 
-    public function editPost($post_id){
-
-        $post = \App\Models\Client\Post\Post::post($post_id);
-
-        $this->emit('toggleEditPostFormModal');
-
-        $this->description = $post->description;
-
-        $this->post_id = $post->id;
-
-        $this->is_shared_post = (!empty($post->post_id) ? true : false);
-
-    }
-
     public function addPost(){
 
         $this->validate();
@@ -110,9 +96,6 @@ class Post extends Component
 
         $this->post_comments = PostComment::getPostComments($post_id);
 
-//        session()->flash('success', "Comment posted successfully");
-//
-//        $this->emit('hideSuccessAlert');
     }
 
     public function commentLikes($comment_id = null){
@@ -127,6 +110,27 @@ class Post extends Component
         \App\Models\Client\Post\Post::deletePost($post_id);
 
         toastr()->success('Post deleted');
+    }
+
+    public function editPost($post_id){
+
+        $post = \App\Models\Client\Post\Post::post($post_id);
+
+        if ($post){
+
+            $this->emit('toggleEditPostFormModal');
+
+            $this->description = $post->description;
+
+            $this->post_id = $post->id;
+
+            $this->is_shared_post = (!empty($post->post_id) ? true : false);
+
+        }else{
+
+            toastr()->error('Post does not exists');
+        }
+
     }
 
     public function updatePost(){
@@ -151,10 +155,6 @@ class Post extends Component
         $this->reset();
 
         toastr()->success("Post updated successfully");
-
-//        session()->flash('success', "Post updated successfully");
-//
-//        $this->emit('hideSuccessAlert');
 
     }
 
@@ -197,10 +197,6 @@ class Post extends Component
         $this->reset();
 
         toastr()->success('Post shared');
-
-//        session()->flash('success', "Post shared successfully");
-//
-//        $this->emit('hideSuccessAlert');
     }
 
     public function showComments($post_id){
