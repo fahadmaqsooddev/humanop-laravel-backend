@@ -143,7 +143,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Story</h5>
-                        <button type="button" wire:click="$emit('addStoryModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+{{--                        <button type="button" wire:click="$emit('addStoryModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>--}}
+                        <a type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                           aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
                     </div>
 
                     <form wire:submit.prevent="uploadStory">

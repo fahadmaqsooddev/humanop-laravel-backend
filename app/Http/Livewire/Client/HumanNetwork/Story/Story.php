@@ -34,6 +34,8 @@ class Story extends Component
 
     public function toggleCreateStoryModal(){
 
+        $this->reset();
+
         $this->resetValidation();
 
         $this->emit('toggleCreateStoryFormModal');

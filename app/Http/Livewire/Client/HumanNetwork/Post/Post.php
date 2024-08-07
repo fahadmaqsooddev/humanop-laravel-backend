@@ -37,6 +37,10 @@ class Post extends Component
 
     public function toggleCreatePostModal(){
 
+        $this->reset();
+
+        $this->resetValidation();
+
         $this->emit('toggleCreatePostFormModal');
     }
 

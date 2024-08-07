@@ -444,7 +444,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Create Post</h5>
-                        <button type="button" wire:click="$emit('createPostModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <a type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                           aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+{{--                        <button type="button" wire:click="$emit('createPostModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>--}}
                     </div>
                     <form wire:submit.prevent="addPost">
                         <div class="modal-body">
@@ -458,6 +462,9 @@
 
                             <label>Image</label>
                             <input type="file" wire:model="post_image" class="form-control">
+                            <span wire:loading.flex wire:target="post_image">
+                                Image Uploading ...
+                            </span>
 
                             @error('post_image')
                                 <p class="text-danger">{{$message}}</p>
@@ -466,7 +473,11 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-primary">post</button>
+                            <button type="submit" class="btn bg-gradient-primary">post
+                                <span wire:loading wire:target="addPost">
+                                </span>
+                            </button>
+
                         </div>
 
                     </form>
@@ -481,13 +492,18 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Post</h5>
-                        <button type="button" wire:click="$emit('postEditModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <a type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                           aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+{{--                        <button type="button" wire:click="$emit('postEditModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>--}}
                     </div>
                     <form wire:submit.prevent="updatePost">
                         <div class="modal-body">
 
                             <label>Description</label>
                             <textarea type="text" wire:model="description" class="form-control" ></textarea>
+
 
                             @error('description')
                             <p class="text-danger">{{$message}}</p>
@@ -497,6 +513,9 @@
                             @if(!$is_shared_post)
                                 <label>Image</label>
                                 <input type="file" wire:model="post_image" class="form-control">
+                                <span wire:loading.flex wire:target="post_image">
+                                Image Uploading ...
+                            </span>
                             @endif
 
                             @error('post_image')
@@ -509,7 +528,10 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-primary">post</button>
+                            <button type="submit" class="btn bg-gradient-primary">post
+                                <span wire:loading wire:target="updatePost">
+                                </span>
+                            </button>
                         </div>
 
                     </form>
@@ -525,7 +547,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Share Post</h5>
-                        <button type="button" wire:click="$emit('postShareModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <a type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                           aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+{{--                        <button type="button" wire:click="$emit('postShareModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>--}}
                     </div>
                     <form wire:submit.prevent="saveSharedPost">
                         <div class="modal-body">
@@ -550,7 +576,10 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-primary">share</button>
+                            <button type="submit" class="btn bg-gradient-primary">share
+                                <span wire:loading wire:target="saveSharedPost">
+                                </span>
+                            </button>
                         </div>
 
                     </form>
@@ -566,7 +595,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Post Comment's</h5>
-                        <button type="button" wire:click="$emit('postCommentsModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        <a type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                           aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+{{--                        <button type="button" wire:click="$emit('postCommentsModal')" class="close btn btn-close text-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>--}}
                     </div>
 
                     <div class="modal-body">
@@ -657,7 +690,7 @@
 <script>
     window.livewire.on('toggleCreatePostFormModal', () => {
 
-        $('create_post').click()
+        $('#create_post').click()
 
         // $('#create-post-modal').modal('toggle')
     })
