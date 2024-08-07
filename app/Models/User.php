@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
@@ -99,6 +100,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Assessment::class, 'user_id', 'id');
     }
 
+    public function feedback(){
+
+        return $this->hasOne(Client\Feedback\Feedback::class,'user_id','id');
+    }
+
+    // query
     public function isAdmin()
     {
         return $this->role_id == 1;
@@ -284,5 +291,24 @@ class User extends Authenticatable implements JWTSubject
             ->select(['id','first_name','last_name'])
 
             ->first();
+    }
+
+    public static function updateUserIsFeedback(){
+
+        $user = self::whereId(Helpers::getWebUser()->id)->select(['id','is_feedback','is_admin'])->first();
+
+        if (!$user->feedback && $user->is_admin === 2){
+
+            if ($user->is_feedback === 3 || $user->is_feedback === 2){
+
+                $user->decrement('is_feedback', 1);
+
+            }else if ($user->is_feedback === 1){
+
+                $user->update(['is_feedback' => 3]);
+            }
+
+        }
+
     }
 }

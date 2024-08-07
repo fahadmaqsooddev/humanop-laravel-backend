@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -44,6 +45,8 @@ class SessionController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
+
+            User::updateUserIsFeedback();
 
             return redirect()->route('admin_dashboard');
         }

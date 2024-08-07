@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\ClientController;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\AssessmentDetail;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Feedback\Feedback;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -72,5 +75,22 @@ class UserController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
+    }
+
+    public function userFeedback(Request $request){
+
+        try {
+
+            $feedback = new Feedback();
+
+            $dataArray = $request->only($feedback->getFillable());
+
+            Feedback::storeClientFeedback($dataArray);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }

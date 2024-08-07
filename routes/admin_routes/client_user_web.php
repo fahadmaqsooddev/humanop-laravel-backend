@@ -60,4 +60,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
 
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
+
+    Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('user-feedback');
 });

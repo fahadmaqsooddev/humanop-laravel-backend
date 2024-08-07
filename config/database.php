@@ -191,7 +191,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id'],
+            'fillable' => ['first_name','last_name','email','password','phone','age_min','age_max','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -299,6 +299,11 @@ return [
             'table' => 'messages',
             'fillable' => ['sender_id','message','upload_id','is_read','message_thread_id'],
             'hidden' => ['updated_at','created_at']
+        ],
+        'Feedback' => [
+            'table' => 'feedbacks',
+            'fillable' => ['comment','user_id'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];

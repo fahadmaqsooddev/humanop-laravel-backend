@@ -135,3 +135,7 @@
                 </div>
     </main>
 @endsection
+
+<script>
+    localStorage.removeItem('modal_open_time'); // when user logs out then feedback modal value turns to false
+</script>
