@@ -121,7 +121,7 @@
                                         <div class="numbers" style="display: flex; align-items: center; height: 100%;">
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold"
                                                style="color: white;">
-                                                Alchemic Boudaries</p>
+                                                Alchemic Boundaries</p>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -221,7 +221,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="introduction-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -234,7 +234,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="trait-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to Traits.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -247,7 +247,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="cycle-of-life-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to The Cycle of Life.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -260,7 +260,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="motivation-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -268,12 +268,12 @@
             </div>
         </div>
     </div>
-    {{--   Alchemic Boudaries Models   --}}
+    {{--   Alchemic Boundaries Models   --}}
     <div class="modal fade" id="alchemy" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="alchemy-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to Alchemy.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -286,7 +286,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="communication-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to Communication Style.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -294,12 +294,12 @@
             </div>
         </div>
     </div>
-    {{--   Energy Pool  Models   --}}
+    {{--   Energy Pool Models   --}}
     <div class="modal fade" id="energy" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video width="765" height="515" controls>
+                    <video id="energy-video" width="765" height="515" controls>
                         <source src="{{ asset('assets/video/Intro to Energy Pool.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -312,8 +312,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <iframe width="765" height="515" src="{{asset('assets/video/Perception of Life Intro.mp4')}} "
-                            allowfullscreen frameborder="0"></iframe>
+                    <video id="life-video" width="765" height="515" controls>
+                        <source src="{{ asset('assets/video/Perception of Life Intro.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -337,6 +339,31 @@
     <script src="{{ URL::asset('assets/js/plugins/chartjs.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/plugins/threejs.js') }}"></script>
     <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modals = [
+                {id: 'introduction', videoId: 'introduction-video'},
+                {id: 'trait', videoId: 'trait-video'},
+                {id: 'cycle_of_life', videoId: 'cycle-of-life-video'},
+                {id: 'motivation', videoId: 'motivation-video'},
+                {id: 'alchemy', videoId: 'alchemy-video'},
+                {id: 'communication', videoId: 'communication-video'},
+                {id: 'energy', videoId: 'energy-video'},
+                {id: 'life', videoId: 'life-video'}
+            ];
+
+            modals.forEach(function(modal) {
+                var modalElement = document.getElementById(modal.id);
+                var videoElement = document.getElementById(modal.videoId);
+
+                modalElement.addEventListener('hide.bs.modal', function () {
+                    if (videoElement) {
+                        videoElement.pause();
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 

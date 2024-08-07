@@ -96,7 +96,11 @@ class Assessment extends Model
 
     public static function getAssessmentIds()
     {
-        return static::where('user_id', Auth::id())->orderBy('created_at', 'desc')->pluck('id')->toArray();
+        return static::where('user_id', Helpers::getWebUser()->id)
+            ->where('page', 0)
+            ->orderBy('created_at', 'desc')
+            ->pluck('id')
+            ->toArray();
     }
 
     public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
