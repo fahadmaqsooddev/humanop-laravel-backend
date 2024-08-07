@@ -157,6 +157,13 @@
                                                     <span class="sidenav-normal"> Payment History </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item {{ (Request::is('admin/feedback') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/feedback') ? 'active' : '') }}"
+                                                   href="{{ route('feedback') }}">
+                                                    <span class="sidenav-mini-icon"> F </span>
+                                                    <span class="sidenav-normal"> User Feedback </span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

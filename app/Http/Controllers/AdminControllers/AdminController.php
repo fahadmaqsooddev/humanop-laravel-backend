@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
+use App\Models\Client\Feedback\Feedback;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Assessment;
@@ -255,5 +256,20 @@ class AdminController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
+    }
+
+    public function userFeedback(){
+
+        try {
+
+            $feedbacks = Feedback::userFeedbacks();
+
+            return view('admin-dashboards.user-feedback.index', compact('feedbacks'));
+
+        }catch (\Exception $exception){
+
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
+        }
+
     }
 }

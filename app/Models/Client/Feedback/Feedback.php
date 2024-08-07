@@ -20,10 +20,23 @@ class Feedback extends Model
         parent::__construct($attributes);
     }
 
+    // relation
+    public function user(){
+
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+
+    // query
     public static function storeClientFeedback($data = null){
 
         $data['user_id'] = Helpers::getWebUser()->id;
 
         self::create($data);
+    }
+
+    public static function userFeedbacks(){
+
+        return self::has('user')->with('user')->paginate(10);
     }
 }

@@ -65,6 +65,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
         Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
         Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
+        Route::get('feedback', [AdminController::class,'userFeedback'])->name('feedback');
 
     });
 
