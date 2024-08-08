@@ -122,7 +122,7 @@ class AssessmentColorCode extends Model
                         }
                         break;
                     case 'mer':
-                        if ($assessment['ven'] > 2 && $assessment['sa'] > 4 && $third_row_mer > 30) {
+                        if ($assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row_mer > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
