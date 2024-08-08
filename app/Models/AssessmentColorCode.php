@@ -25,6 +25,13 @@ class AssessmentColorCode extends Model
         return $this->belongsTo(Assessment::class, 'assessment_id', 'id');
     }
 
+    // scope
+
+    public function scopeSelection($query){
+
+        return $query->select(['id', 'assessment_id', 'code', 'code_color', 'code_number']);
+    }
+
     public static function getCodeColor($assessmentId = null)
     {
         $assessmentCodeColors = self::where('assessment_id', $assessmentId)->get();
@@ -115,7 +122,7 @@ class AssessmentColorCode extends Model
                         }
                         break;
                     case 'mer':
-                        if ($assessment['ven'] > 2 && $assessment['sa'] > 4 && $third_row_mer > 30) {
+                        if ($assessment['ven'] > 4 && $assessment['sa'] > 4 && $third_row_mer > 30) {
                             $style_border_green[$key] = $style;
                         }
                         break;
@@ -506,7 +513,7 @@ class AssessmentColorCode extends Model
         $feature_highlighted = array_values($matched);
 
         $feature_highlighted_string = implode(',', $feature_highlighted);
-        
+
         return $feature_highlighted_string;
 
     }
