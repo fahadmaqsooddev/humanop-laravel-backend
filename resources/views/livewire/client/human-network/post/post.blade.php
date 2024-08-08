@@ -94,9 +94,9 @@
 
                                 @else
 
-                                    <button wire:click="followUser({{$post->user_id}})" type="button" class="btn btn-sm  {{($post->user->is_follow ?? null) ? "bg-secondary" : "bg-gradient-primary"}} mb-0" style="color: white">
+                                    <button wire:click="followUser({{$post['sharedPost']->user_id}})" type="button" class="btn btn-sm  {{($post['sharedPost']->user->is_follow ?? null) ? "bg-secondary" : "bg-gradient-primary"}} mb-0" style="color: white">
 {{--                                        <i class='fas fa-plus pe-2'></i>--}}
-                                        {{$post->user ? $post->user->is_follow ? "Following" : "Follow" : "Follow"}}
+                                        {{$post['sharedPost']->user ? $post['sharedPost']->user->is_follow ? "Following" : "Follow" : "Follow"}}
                                     </button>
 
                                 @endif
@@ -154,69 +154,21 @@
                                             <img alt="Image placeholder" src="{{ $post_share['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-3.jpg') }}" class="rounded-circle">
                                         </a>
                                     @endforeach
-{{--                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Audrey Love">--}}
-{{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}" class="rounded-circle">--}}
-{{--                                    </a>--}}
-{{--                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-toggle="tooltip" data-original-title="Michael Lewis">--}}
-{{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}" class="rounded-circle">--}}
-{{--                                    </a>--}}
                                 </div>
-{{--                                <small class="ps-2 font-weight-bold text-white">and 30+ more</small>--}}
                             </div>
                         </div>
                         <hr class="horizontal dark">
                     </div>
                     <!-- Comments -->
                     <div class="mb-1">
-{{--                        @foreach($post['postComments'] as $comment)--}}
-{{--                        <div class="d-flex text-white">--}}
-{{--                            <div class="flex-shrink-0">--}}
-{{--                                <img alt="Image placeholder" class="avatar rounded-circle" src="{{ $comment['user'] ? $comment['user']['user_picture_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">--}}
-{{--                            </div>--}}
-{{--                            <div class="flex-grow-1 ms-3">--}}
-{{--                                <p class="h5 mt-0 text-white" style="font-size: 12px; font-weight: 600;">--}}
-{{--                                    <b>--}}
-{{--                                        {{$comment['user'] ? $comment['user']['first_name'] . ' ' . $comment['user']['last_name'] : ""}}--}}
-{{--                                    </b>--}}
-
-{{--                                    <span>--}}
-{{--                                        @if($comment->user_id === $logged_in_user->id)--}}
-{{--                                            <a wire:confirm="Are you sure you want to delete comment ?" wire:click="deleteComment({{$comment->id}})" class="text-danger small">--}}
-{{--                                                <i class="fa fa-trash-o me-1 cursor-pointer"></i>--}}
-{{--                                            </a>--}}
-{{--                                        @endif--}}
-{{--                                    </span>--}}
-{{--                                </p>--}}
-
-{{--                                <span class="text-sm text-white">{{$comment['comment']}}</span>--}}
-{{--                                <div class="d-flex text-white">--}}
-{{--                                    <a wire:click='commentLikes({{$comment->id}})'>--}}
-{{--                                        <i class="ni ni-like-2 me-1 cursor-pointer {{$comment['is_liked_comment'] ? "text-orange" : "text-white"}}"></i>--}}
-{{--                                    </a>--}}
-{{--                                    <span class="text-sm me-2">{{$comment['comment_likes_count']}} likes</span>--}}
-{{--                                    <div>--}}
-{{--                                        <i class="ni ni-curved-next me-1 cursor-pointer"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <span class="text-sm me-2">2 shares</span>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        @endforeach--}}
                         <div class="d-flex">
                             <div class="flex-shrink-0">
                                 <img alt="Image placeholder" class="avatar rounded-circle me-3" src="{{ \App\Helpers\Helpers::getWebUser()['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}">
                             </div>
                             <div class="flex-grow-1 my-auto">
-{{--                                <form>--}}
-                                    <div class="">
-                                        <div wire:click="showComments({{$post->id}})" class="form-control text-secondary cursor-pointer">Comment as {{$logged_in_user->first_name}}</div>
-{{--                                        <div class="input-group-prepend">--}}
-{{--                                            <a  type="button" wire:click="createPostComment({{$post->id}})" class="input-group text-orange p-3" style="font-size: 30px; cursor:pointer">--}}
-{{--                                                <i class="ni ni-send"></i>--}}
-{{--                                            </a>--}}
-{{--                                        </div>--}}
-                                    </div>
-{{--                                </form>--}}
+                                <div class="">
+                                    <div wire:click="showComments({{$post->id}})" class="form-control text-secondary cursor-pointer">Comment as {{$logged_in_user->first_name}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
