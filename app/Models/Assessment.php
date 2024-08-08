@@ -49,6 +49,13 @@ class Assessment extends Model
         return Carbon::parse($value)->format('Y/m/d');
     }
 
+    // scope
+    public function scopeSelection($query)
+    {
+
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov']);
+    }
+
     // queries
     public static function createAssessment($data = null)
     {
@@ -83,9 +90,13 @@ class Assessment extends Model
 
     public static function getAssessment()
     {
-        return static::where('user_id', Helpers::getWebUser()->id)
+        return static::with(['assessmentColorCodes' => function ($query) {
+            $query->selection();
+        }])
+            ->where('user_id', Helpers::getWebUser()->id)
             ->where('page', 0)
             ->orderBy('created_at', 'desc')
+            ->selection()
             ->get();
     }
 
@@ -465,7 +476,7 @@ class Assessment extends Model
 
     public static function getAlchlCode($assessment_id = null)
     {
-        $assessment = self::whereId($assessment_id)->first(['g','s','c']);
+        $assessment = self::whereId($assessment_id)->first(['g', 's', 'c']);
 
         $gold = $assessment['g'];
         $silver = $assessment['s'];

@@ -6,6 +6,8 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use App\Helpers\Assessments\AssessmentHelper;
+use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 
 class Index extends Component
 {
@@ -27,15 +29,13 @@ class Index extends Component
            {
 
                $assessments = AssessmentHelper::getAssessments();
-
+               $assessmentDetails = Assessment::getAssessment();
                $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
-               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments]);
+               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails]);
 
                $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
                $this->emit('updateAiMessage');
-
-
                $this->userMessage = '';
            }
        }
