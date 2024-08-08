@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use Carbon\Carbon;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['user_picture_url', 'is_follow'];
+    protected $appends = ['user_picture_url', 'is_follow','connection_status'];
 
     public function __construct(array $attributes = array())
     {
@@ -83,6 +83,27 @@ class User extends Authenticatable implements JWTSubject
         return $this->followed()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
     }
 
+    public function getConnectionStatusAttribute(){
+
+        if ($this->sentConnectionRequest()->exists()){
+
+            return 2; // sent connection request
+
+        }elseif ($this->recevivedConnectionRequest()->exists()){
+
+            return 3; // received connection request
+
+        }elseif($this->confirmedConnectionRequest()->exists()){
+
+            return 1; // confirm connection request
+
+        }else{
+
+            return 0;
+        }
+
+    }
+
 
     // relations
     public function stories(){
@@ -103,6 +124,27 @@ class User extends Authenticatable implements JWTSubject
     public function feedback(){
 
         return $this->hasOne(Client\Feedback\Feedback::class,'user_id','id');
+    }
+
+    public function sentConnectionRequest(){
+
+        return $this->hasOne(Connection::class,'friend_id','id')
+
+            ->where('user_id', Helpers::getWebUser()->id)->where('status', 0);
+    }
+
+    public function recevivedConnectionRequest(){
+
+        return $this->hasOne(Connection::class,'user_id','id')
+
+            ->where('friend_id', Helpers::getWebUser()->id)->where('status', 0);
+    }
+
+    public function confirmedConnectionRequest(){
+
+        return $this->hasOne(Connection::class,'friend_id','id')
+
+            ->where('user_id', Helpers::getWebUser()->id)->where('status', 1);
     }
 
     // query
@@ -308,5 +350,30 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
+    }
+
+    public static function allClients($search_name = null){
+
+        $users = self::query();
+
+        if (!empty($search_name)){
+
+            $users = $users->where(function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        }
+
+        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)
+
+            ->get();
+
+        return $users;
     }
 }

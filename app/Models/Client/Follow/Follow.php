@@ -25,6 +25,11 @@ class Follow extends Model
         return $this->belongsTo(User::class,'follow_id','id');
     }
 
+    public function user(){
+
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
     public static function addFollow($follow_id = null){
 
         $data['follow_id'] = $follow_id;
@@ -44,17 +49,61 @@ class Follow extends Model
 
     }
 
-    public static function followers(){
+    public static function following($search_name = null){
 
-        return self::has('follower')->where('user_id', Helpers::getWebUser()->id)
+        $following = self::query();
+
+        if ($search_name){
+
+            $following = $following->whereHas('follower', function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        }
+
+        $following = $following->has('follower')->where('user_id', Helpers::getWebUser()->id)
 
             ->with('follower:id,first_name,last_name')
 
             ->get();
+
+        return $following;
     }
 
     public static function followerExists($follow_id = null){
 
         return self::where('user_id', Helpers::getWebUser()->id)->where('follow_id', $follow_id)->exists();
+    }
+
+    public static function followers($search_name = null){
+
+        $followers = self::query();
+
+        if ($search_name){
+
+            $followers = $followers->whereHas('user', function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+        }
+
+        $followers = $followers->has('user')->where('follow_id', Helpers::getWebUser()->id)
+
+            ->with('user:id,first_name,last_name')
+
+            ->get();
+
+        return $followers;
     }
 }

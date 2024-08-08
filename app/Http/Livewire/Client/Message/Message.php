@@ -32,7 +32,7 @@ class Message extends Component
 
         });
 
-        $this->followers = Follow::followers();
+        $this->followers = Follow::following();
 
         return view('livewire.client.message.message');
     }

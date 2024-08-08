@@ -165,7 +165,7 @@
 
         var now = new Date();
 
-        var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
+        var modal_open_time = now.setMinutes(now.getMinutes() + 2); // add 30 minutes in login time to open modal
 
         var local_storage_time = localStorage.getItem('modal_open_time');
 

@@ -304,6 +304,11 @@ return [
             'table' => 'feedbacks',
             'fillable' => ['comment','user_id'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'Connection' => [
+            'table' => 'connections',
+            'fillable' => ['status', 'friend_id','user_id'],
+            'hidden' => ['updated_at', 'created_at'],
         ]
     ]
 ];

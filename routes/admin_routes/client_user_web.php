@@ -48,7 +48,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('user_grid');
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
     Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
-    Route::get('/human-network', [NetworkController::class, 'network'])->name('human_network');
+    Route::get('/newsfeed', [NetworkController::class, 'network'])->name('newsfeed');
     Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
 
@@ -62,4 +62,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
 
     Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('user-feedback');
+    Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('follow');
+    Route::get('/connections', [NetworkController::class, 'connection'])->name('connections');
+
 });
