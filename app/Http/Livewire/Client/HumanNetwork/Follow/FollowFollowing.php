@@ -8,7 +8,7 @@ use Livewire\Component;
 class FollowFollowing extends Component
 {
 
-    public $followers, $followings, $follower_search;
+    public $followers = [], $followings = [], $follower_search;
 
     public function render()
     {

@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Connection extends Component
 {
-    public $users = [], $search_connection_name, $connection_requests, $search_request_name;
+    public $users = [], $search_connection_name, $connection_requests = [], $search_request_name;
 
     public function updatingSearchConnectionName($value){
 
