@@ -33,6 +33,7 @@ class Assessment extends Component
 
     public function updateOrder($orderedIds)
     {
+        
         $answer = Answer::where('id', $orderedIds[0]['value'])->first();
 
         $questionId = $answer->question_id;
@@ -46,7 +47,7 @@ class Assessment extends Component
             foreach ($orderedIds as $order) {
 
                 // Find the answer within the question's 'answers' array
-                $answerKey = array_search($order['value'], array_column($this->questions[$questionKey]['answers'],  'id'));
+                $answerKey = array_search($order['value'], array_column($this->questions[$questionKey]['answers'], 'id'));
 
                 if ($answerKey !== false) {
                     // Append the answer to the new answers array
@@ -65,15 +66,15 @@ class Assessment extends Component
         $i = 3;
         $this->energyArr[$questionId] = [];
         foreach ($orderedIds as $id) {
-            if($answer->answer_id){
-                $subAnswer = Answer::where('id',$id['value'])->first();
+            if ($answer->answer_id) {
+                $subAnswer = Answer::where('id', $id['value'])->first();
                 $answerCode = AnswerCode::where('answer_id', $subAnswer->answer_id)->select(['code', 'number'])->first();
-            }else{
+            } else {
                 $answerCode = AnswerCode::where('answer_id', $id['value'])->select(['code', 'number'])->first();
             }
 
             if ($answerCode) {
-                $number = (int) $answerCode->number + $i;
+                $number = (int)$answerCode->number + $i;
                 $code = strtolower($answerCode->code);
 
                 if (array_key_exists($code, $this->energyArr[$questionId])) {
@@ -84,11 +85,12 @@ class Assessment extends Component
                 $i--;
             }
         }
+
         //calculation ends
-        $this->emitSelf('questionsUpdated', $this->questions );
+        $this->emitSelf('questionsUpdated', $this->questions);
     }
 
-    public function updatedQuestions($updatedQuestions,$answers)
+    public function updatedQuestions($updatedQuestions, $answers)
     {
         $this->questions = $updatedQuestions;
         $this->answers = $answers;
@@ -96,6 +98,7 @@ class Assessment extends Component
 
     protected function mergeEnergyArr()
     {
+
         $mergedArr = [];
 
         foreach ($this->energyArr as $questionArr) {
@@ -115,76 +118,70 @@ class Assessment extends Component
 
     public function updateAssessment()
     {
-        $filteredQuestions = array_filter($this->questions, function($question) {
+        $filteredQuestions = array_filter($this->questions, function ($question) {
             return $question['multiple'] == 0;
         });
 
+        if (count($filteredQuestions) != count($this->answers)) {
+            $this->emit('scrollToTop');
+            $this->skipRender();
+            return;
+        }
 
+        $multipleQuestions = array_filter($this->questions, function ($question) {
+            return $question['multiple'] == 1;
+        });
 
+        if (!empty($this->energyArr) || !empty($multipleQuestions)) {
 
-            if(count($filteredQuestions) != count($this->answers)) {
-                $this->emit('scrollToTop');
-                $this->skipRender();
-                return;
-            }
-
-        if(empty($this->energyArr)) {
-            $multipleQuestions = array_filter($this->questions, function ($question) {
-                return $question['multiple'] == 1;
-            });
+            $energy_array_keys = array_keys($this->energyArr);
 
             //calculation
             foreach ($multipleQuestions as $key => $q) {
-                $i = 3;
-                $this->energyArr[$q['id']] = [];
+                if (!in_array($q['id'], $energy_array_keys)) {
+                    $i = 3;
+                    $this->energyArr[$q['id']] = [];
 
-                foreach ($q['answers'] as $answer) {
+                    foreach ($q['answers'] as $answer) {
 
-                    $answerCode = AnswerCode::where('answer_id', ($answer['answer_id'] ?? $answer['id'] ))->select(['code', 'number'])->first();
+                        $answerCode = AnswerCode::where('answer_id', ($answer['answer_id'] ?? $answer['id']))->select(['code', 'number'])->first();
 
-                    if ($answerCode) {
-                        $number = (int)$answerCode->number + $i;
-                        $code = strtolower($answerCode->code);
+                        if ($answerCode) {
+                            $number = (int)$answerCode->number + $i;
+                            $code = strtolower($answerCode->code);
 
-                        if (array_key_exists($code, $this->energyArr[$q['id']])) {
-                            $this->energyArr[$q['id']][$code] += $number;
-                        } else {
-                            $this->energyArr[$q['id']][$code] = $number;
+                            if (array_key_exists($code, $this->energyArr[$q['id']])) {
+                                $this->energyArr[$q['id']][$code] += $number;
+                            } else {
+                                $this->energyArr[$q['id']][$code] = $number;
+                            }
+                            $i--;
                         }
-                        $i--;
                     }
                 }
             }
-        }
-        if(!empty($this->energyArr)){
-            $energyValues =  $this->mergeEnergyArr();
-            $this->energyArr = [];
-        }
 
+            $energyValues = $this->mergeEnergyArr();
+
+            $this->energyArr = [];
+
+        }
 
         //end of calculation
 
-         try {
-             $totalPages = ceil($this->totalQuestion / $this->limit);
-
-             $userId = Auth::user()->id;
-
-
+        try {
+            $totalPages = ceil($this->totalQuestion / $this->limit);
+            $userId = Auth::user()->id;
             $codeArray = [];
-
-
             ksort($this->answers);
-
 
             foreach ($this->answers as $item) {
                 foreach ($item['answer_codes'] as $code => $value) {
                     $lowercaseCode = strtolower($code);
 
-
                     if (!isset($codeArray[$lowercaseCode])) {
                         $codeArray[$lowercaseCode] = 0;
                     }
-
 
                     if ($value !== '') {
                         $codeArray[$lowercaseCode] += $value;
@@ -192,23 +189,18 @@ class Assessment extends Component
                 }
             }
 
-
             $this->updateQuestion();
 
-
             $existingAssessment = AssessmentModal::where('user_id', $userId)->latest()->first();
-
 
             if ($existingAssessment) {
 
                 $this->offset += 3;
                 $oldResult = $existingAssessment->toArray();
-
-
                 $resultArray = [];
 
-                if(!empty($energyValues)){
-                    $codeArray =  array_merge($energyValues,$codeArray);
+                if (!empty($energyValues)) {
+                    $codeArray = array_merge($energyValues, $codeArray);
                 }
 
                 foreach ($codeArray as $key => $value) {
@@ -219,12 +211,9 @@ class Assessment extends Component
                     }
                 }
 
+                if ($totalPages == $this->offset / 3) {
 
-
-                if($totalPages == $this->offset / 3){
-
-                       $resultArray['page'] = 0;
-
+                    $resultArray['page'] = 0;
                     $existingAssessment->update($resultArray);
                     $this->assessmentId = $existingAssessment->id;
 
@@ -232,14 +221,13 @@ class Assessment extends Component
                     AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
                     AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
-                   }else{
+                } else {
 
-                       $resultArray['page'] = $this->offset / 3;
-
+                    $resultArray['page'] = $this->offset / 3;
                     $existingAssessment->update($resultArray);
                     $this->assessmentId = $existingAssessment->id;
 
-                   }
+                }
             }
 //            else {
 //                $this->offset += 3;
@@ -255,25 +243,23 @@ class Assessment extends Component
                 AssessmentDetail::createAssessmentDetail($data);
             }
 
-              $this->answers = [];
-              $this->multiple = false;
-//            dd($this->answers);
+            $this->answers = [];
+            $this->multiple = false;
         } catch (\Exception $exception) {
             session()->flash('error', $exception->getMessage());
         }
     }
 
 
-
     public function updateQuestion()
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
-        if(!$this->questions){
+        if (!$this->questions) {
             return redirect()->route('all_assessment');
         }
     }
 
-    public function selectAnswer($questionId, $answerId, $answerCodes,$question,$answer)
+    public function selectAnswer($questionId, $answerId, $answerCodes, $question, $answer)
     {
 
         $codes = [];
@@ -281,14 +267,14 @@ class Assessment extends Component
         foreach ($codeArr as $code) {
             $codes[$code['code']] = $code['number'];
         }
-        $this->answers[$questionId] = ['question' => $question,'answer' => $answer,'answer_id' => $answerId, 'answer_codes' => $codes];
+        $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
 
         $this->skipRender();
     }
 
     public function render()
     {
-        if(!$this->multiple){
+        if (!$this->multiple) {
             $this->updateQuestion();
         }
         return view('livewire.client.question.assessment', ['questions' => $this->questions]);
