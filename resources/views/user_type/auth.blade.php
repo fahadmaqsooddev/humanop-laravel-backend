@@ -144,7 +144,7 @@
 <script>
 
     var is_admin = {{\App\Helpers\Helpers::getWebUser()->is_admin ?? 0}};
-    var feedback_exists = "{{\App\Helpers\Helpers::getWebUser()->feedback()->exists()}}";
+    var feedback_exists = "{{\App\Helpers\Helpers::getWebUser()->feedback()->exists() ?? ""}}";
     var is_feedback = {{\App\Helpers\Helpers::getWebUser()->is_feedback ?? 3}};
 
     console.log(is_admin, feedback_exists, is_feedback);
@@ -165,7 +165,7 @@
 
         var now = new Date();
 
-        var modal_open_time = now.setMinutes(now.getMinutes() + 2);
+        var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
 
         var local_storage_time = localStorage.getItem('modal_open_time');
 
