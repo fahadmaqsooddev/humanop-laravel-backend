@@ -7,6 +7,11 @@
             text-align: justify;
             color: white;
         }
+        .slide-padding {
+            padding: 10px 120px 0px 120px;
+            text-align: justify;
+            color: white;
+        }
     </style>
 @endpush
 @section('content')
@@ -354,11 +359,25 @@
                                                     </video>
                                                 </div>
                                             </div>
-                                            @foreach($reports['communication_code_details'] as $report)
+                                            @foreach($reports['communication_code_details'] as $key => $report)
                                                 <div class="carousel-item">
-                                                    <h2 class="slider-padding"
-                                                        style="color: #f2661c;">YOU are
-                                                        primarily {{$report['public_name']}} centered</h2>
+                                                    @if($key == 0)
+                                                        <h2 class="slider-padding"
+                                                            style="color: #f2661c;">YOU are
+                                                            primarily {{$report['public_name']}} centered</h2>
+                                                    @elseif($key == 1)
+                                                        <h2 class="slider-padding"
+                                                            style="color: #f2661c;">YOU are
+                                                            secondly {{$report['public_name']}} centered</h2>
+                                                    @elseif($key == 2)
+                                                        <h2 class="slider-padding"
+                                                            style="color: #f2661c;">YOU are
+                                                            thirdly {{$report['public_name']}} centered</h2>
+                                                    @else
+                                                        <h2 class="slider-padding"
+                                                            style="color: #f2661c;">YOU are
+                                                            lastly {{$report['public_name']}} centered</h2>
+                                                    @endif
                                                     <p class="slider-padding">{{$report['text']}}</p>
                                                     <button onclick="pauseVideo('myVideo{{$report['id']}}')" data-toggle="collapse" href="#{{$report['p_name']}}" role="button"
                                                             aria-expanded="false" aria-controls="collapseExample"
@@ -515,12 +534,15 @@
                                                     values for
                                                     BR {{\Illuminate\Support\Facades\Auth::user()['gender'] == 1 ? '(F)' : '(M)'}}
                                                     Interval</p>
-                                                <p class="slider-padding">
+                                                <p class="slide-padding">S {{$style_position}}</p>
+                                                <p class="slide-padding">F {{$feature_position}}</p>
+                                                <p class="slide-padding">Alch {{$alchl_code}}</p>
+                                                <p class="slide-padding">
                                                     PV {{$reports['pv'] > 0 ? '+' : ''}} {{$reports['pv']}} REP
                                                     ARC {{$reports['pv'] - $reports['ep']}} to
                                                     +{{$reports['pv'] + $reports['ep']}}</p>
-                                                <p class="slider-padding">REP {{$reports['ep']}}</p>
-                                                <p class="slider-padding">TEP {{$reports['ep'] * 2}}</p>
+                                                <p class="slide-padding">REP {{$reports['ep']}}</p>
+                                                <p class="slide-padding">TEP {{$reports['ep'] * 2}}</p>
                                             </div>
                                         </div>
                                         <a class="carousel-control-prev" href="#carouselExampleIndicators" onclick="pauseAllVideos()" role="button"

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Assessment;
+use function Symfony\Component\Mime\Test\Constraint\toString;
 
 class AssessmentColorCode extends Model
 {
@@ -122,6 +123,7 @@ class AssessmentColorCode extends Model
             }
         }
 
+//        dd($style_greater_than_4);
         // Create entries for styles greater than 4
         foreach ($style_greater_than_4 as $key => $style_num) {
             self::create([
@@ -226,99 +228,86 @@ class AssessmentColorCode extends Model
                 case 'de':
                     if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['de'] > 2 && $assessment['ma'] < 5) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 )) {
+                    } elseif (($assessment['de'] > 2 && $assessment['ma'] < 5) && ($assessment['sa'] < 5 || $assessment['jo'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'dom':
                     if (($assessment['dom'] > 2 && ($assessment['sa'] > 4 || $assessment['ma'] > 4)) || ($assessment['dom'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['dom'] > 2 && ($assessment['sa'] < 5 && $assessment['ma'] < 5)) && ($assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['sa'] < 5 || $assessment['jo'] < 5)) {
+                    } elseif (($assessment['dom'] > 2 && ($assessment['sa'] < 5 && $assessment['ma'] < 5)) && ($assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['sa'] < 5 || $assessment['jo'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'fe':
                     if (($assessment['fe'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['fe'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $assessment['ven'] > 4 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['fe'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+                    } elseif (($assessment['fe'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'gre':
                     if (($assessment['gre'] > 2 && ($assessment['jo'] > 6)) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['so'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['gre'] > 2 && ($assessment['jo'] < 6)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
+                    } elseif (($assessment['gre'] > 2 && ($assessment['jo'] < 6)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'lun':
                     if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5) && ($assessment['ven'] < 5 || $assessment['jo'] < 5)) {
+                    } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5) && ($assessment['ven'] < 5 || $assessment['jo'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'nai':
                     if (($assessment['nai'] > 2 && $assessment['so'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['nai'] > 2 && $assessment['so'] < 5)) {
+                    } elseif (($assessment['nai'] > 2 && $assessment['so'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'ne':
                     if (($assessment['ne'] > 2 && ($assessment['sa'] > 4 || $assessment['lu'] > 4 || $assessment['ven'] > 4)) || ($assessment['ne'] > 2 && $assessment['ma'] > 4 && $assessment['mer'] > 4 && $assessment['ven'] > 4 && $assessment['jo'] > 4 && $assessment['lu'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif(($assessment['ne'] > 2 && ($assessment['sa'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['ne'] < 5 || $assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['jo'] < 5 || $assessment['lu'] < 5)){
+                    } elseif (($assessment['ne'] > 2 && ($assessment['sa'] < 5 && $assessment['lu'] < 5 && $assessment['ven'] < 5)) && ($assessment['ne'] < 5 || $assessment['ma'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['jo'] < 5 || $assessment['lu'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'pow':
                     if (($assessment['pow'] > 2 && ($assessment['jo'] > 4 || $assessment['mer'] > 4)) || ($assessment['pow'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['pow'] > 2 && ($assessment['jo'] < 5 && $assessment['mer'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
+                    } elseif (($assessment['pow'] > 2 && ($assessment['jo'] < 5 && $assessment['mer'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'sp':
                     if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
+                    } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
                         $filtered_keys_red[$key] = $value;
-                    }
-                    elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+                    } elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'tra':
                     if (($assessment['tra'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4)) || ($assessment['tra'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $assessment['mer'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+                    } elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'van':
                     if (($assessment['van'] > 2 && ($assessment['jo'] > 4 || $assessment['ven'] > 4 || $assessment['mer'] > 4 || $assessment['so'] > 4)) || ($assessment['van'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $assessment['mer'] > 4 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['van'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5 && $assessment['mer'] < 5 && $assessment['so'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
+                    } elseif (($assessment['van'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5 && $assessment['mer'] < 5 && $assessment['so'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5 || $assessment['ven'] < 5 || $assessment['sa'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
                 case 'wil':
                     if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $assessment['ven'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    }
-                    elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5)) {
+                    } elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -346,23 +335,22 @@ class AssessmentColorCode extends Model
 
             $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
             $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
-        }
-        else {
+        } else {
             // Count the occurrences of each value
             $value_counts = array_count_values($filtered_keys);
 
             // Filter unique values
-            $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+            $unique_filtered_keys = array_filter($filtered_keys, function ($value) use ($value_counts) {
                 return $value_counts[$value] === 1;
             });
 
             // Filter remaining values (including repeating ones)
-            $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
+            $remaining_keys = array_filter($filtered_keys, function ($value) use ($value_counts) {
                 return $value_counts[$value] > 1 || $value_counts[$value] === 1;
             });
 
             // Removing the unique values from the remaining_keys array
-            $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
+            $remaining_keys = array_filter($remaining_keys, function ($value) use ($value_counts) {
                 return $value_counts[$value] > 1;
             });
 
@@ -393,8 +381,7 @@ class AssessmentColorCode extends Model
 
                 $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
                 $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
-            }
-            else {
+            } else {
                 $topTwoKeys = array_keys($unique_filtered_keys);
                 $nextTwoKeys = [];
             }
@@ -444,6 +431,83 @@ class AssessmentColorCode extends Model
                 'code_number' => $feature,
             ]);
         }
+
+    }
+
+    public static function getStylePosition($assessment_id = null)
+    {
+
+        $styles = [
+            'sa' => 1,
+            'ma' => 2,
+            'jo' => 3,
+            'lu' => 4,
+            'ven' => 5,
+            'mer' => 6,
+            'so' => 7,
+        ];
+
+        $assessment_code_colors = self::where('assessment_id', $assessment_id)
+            ->whereIn('code_color', ['green', 'border-green'])
+            ->get(['code']);
+
+        $matched = [];
+
+        foreach ($assessment_code_colors as $codeObj) {
+            $code = $codeObj->code; // Assuming 'code' is the column name
+            if (isset($styles[$code])) {
+                $matched[$code] = $styles[$code];
+            }
+        }
+
+        asort($matched);
+
+        $style_highlighted = array_values($matched);
+
+        $style_highlighted_string = implode(',', $style_highlighted);
+
+        return $style_highlighted_string;
+
+    }
+
+    public static function getFeaturePosition($assessment_id = null)
+    {
+
+        $features = [
+            'de' => 1,
+            'dom' => 2,
+            'fe' => 3,
+            'gre' => 4,
+            'lun' => 5,
+            'nai' => 6,
+            'ne' => 7,
+            'pow' => 8,
+            'sp' => 9,
+            'tra' => 10,
+            'van' => 11,
+            'wil' => 12,
+        ];
+
+        $assessment_code_colors = self::where('assessment_id', $assessment_id)
+            ->where('code_color', 'green')
+            ->get(['code']);
+
+        $matched = [];
+
+        foreach ($assessment_code_colors as $codeObj) {
+            $code = $codeObj->code; // Assuming 'code' is the column name
+            if (isset($features[$code])) {
+                $matched[$code] = $features[$code];
+            }
+        }
+
+        asort($matched);
+
+        $feature_highlighted = array_values($matched);
+
+        $feature_highlighted_string = implode(',', $feature_highlighted);
+        
+        return $feature_highlighted_string;
 
     }
 }
