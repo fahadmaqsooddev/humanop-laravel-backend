@@ -164,6 +164,13 @@
                                                     <span class="sidenav-normal"> User Feedback </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item {{ (Request::is('admin/podcast') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/podcast') ? 'active' : '') }}"
+                                                   href="{{ route('podcast') }}">
+                                                    <span class="sidenav-mini-icon"> P </span>
+                                                    <span class="sidenav-normal"> Podcast </span>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

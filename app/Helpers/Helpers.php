@@ -184,7 +184,7 @@ class Helpers
             {
                 return true;
             }
-            
+
             return false;
         }
         else
@@ -244,7 +244,6 @@ class Helpers
         if (!empty($video)) {
             $upload = Upload::find($video);
             $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
-
             if ($is_original_name) {
 
                 $original_name = $upload['original_name'];
