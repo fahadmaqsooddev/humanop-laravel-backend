@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\TipRecord;
+use App\Models\Admin\Podcast\Podcast;
 
 class ClientController extends Controller
 {
@@ -15,6 +16,7 @@ class ClientController extends Controller
     {
         try {
 
+            $podcast = PodcastVideo::getPodcast();
 
             $user = Auth::user();
 
@@ -22,7 +24,7 @@ class ClientController extends Controller
 
             $tip = DailyTip::getSingleTip($tip_records);
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast'));
 
         }catch (\Exception $exception)
         {
