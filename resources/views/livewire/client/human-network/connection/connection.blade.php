@@ -23,8 +23,15 @@
             </div>
             <div class="col-6">
 
-                <input type="search" wire:model="search_connection_name" class="form-control" placeholder="Find connections">
-                {{--                <label class="form-label" for="datatable-search-input">Search</label>--}}
+                <div class="input-group ms-md-4 pe-md-4">
+                     <span style="background-color: #0f1534;color: white;" class="input-group-text">
+                         <i class="fas fa-search" aria-hidden="true"></i>
+                     </span>
+                    <input type="text" wire:model.debounce="search_connection_name"
+                           class="" style="background-color: #0f1534; color: white;border: 1px solid white;
+                           border-left: 0px; padding: 5px; width: 75%; border-radius: 0 5px 5px 0;"
+                           placeholder="Search user to connect">
+                </div>
 
             </div>
 
