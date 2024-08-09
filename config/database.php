@@ -267,8 +267,8 @@ return [
         ],
         'Post' => [
             'table' => 'posts',
-            'fillable' => ['description','upload_id','user_id','approve','post_id'],
-            'hidden' => ['deleted_at','created_at','updated_at'],
+            'fillable' => ['description','upload_id','user_id','approve','post_id','created_at'],
+            'hidden' => ['deleted_at','updated_at'],
         ],
         'PostLike' => [
             'table' => 'post_likes',
