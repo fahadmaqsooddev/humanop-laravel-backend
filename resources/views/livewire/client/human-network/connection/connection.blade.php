@@ -94,10 +94,6 @@
                                 </div>
 
                             </div>
-{{--                            <h1>--}}
-{{--                                {{$user->first_name . ' ' . $user->last_name}}--}}
-{{--                            </h1>--}}
-
                         @endforeach
                         </div>
 
@@ -129,9 +125,6 @@
                                                     <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: small; font-weight: 900;">Accept</a>
                                                 </div>
 
-                                                {{--                                            <a href="#" class="btn"><img src="connect.png" style="width: 16px; height: 16px;" alt=""> Connection</a>--}}
-                                                {{--                                            <a href="#" class="btn"><img src="follow.png" style="width: 16px; height: 16px;" alt=""> Follow</a>--}}
-
                                                 <div class="p-2">
                                                     <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: small; font-weight: 900;">Cancel</a>
                                                 </div>
@@ -141,7 +134,6 @@
                                     </div>
 
                                 </div>
-                                {{--                                <button class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user_id}},'accept')">Accept</button>--}}
 
                             @endforeach
 
