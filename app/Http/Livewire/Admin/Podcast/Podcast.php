@@ -19,7 +19,7 @@ class Podcast extends Component
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
-        'podcast_video' => 'nullable|mimetypes:video/mp4'
+        'podcast_video' => 'nullable|mimetypes:video/mp4|max:10240'
     ];
 
     public function mount()
