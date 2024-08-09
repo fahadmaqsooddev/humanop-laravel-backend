@@ -172,13 +172,15 @@
         if(local_storage_time === null){
 
             localStorage.setItem('modal_open_time', modal_open_time);
+
+            local_storage_time = localStorage.getItem('modal_open_time');
         }
 
         let intervalID = setInterval(function (){
 
             var now_date_minute = Math.floor(new Date().getMinutes());
 
-            var local_storage_date_minute = Math.floor(new Date(modal_open_time).getMinutes());
+            var local_storage_date_minute = Math.floor(new Date(local_storage_time).getMinutes());
 
             if (local_storage_date_minute === now_date_minute){
 
