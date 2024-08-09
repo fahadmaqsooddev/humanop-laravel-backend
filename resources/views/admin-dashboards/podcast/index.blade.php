@@ -57,7 +57,7 @@
                                 <div class="row">
                                     <div class="numbers mt-3">
                                         <iframe class="col-lg-12 col-md-12" height="220"
-                                                src="{{$podcast['video_url']['path']}}"></iframe>
+                                                src="{{$podcast['video_url'] ? $podcast['video_url']['path'] : ''}}}}"></iframe>
                                         <h5 class="font-weight-bolder mb-0">
                                             <span class="text-success text-sm font-weight-bolder"></span>
                                         </h5>
