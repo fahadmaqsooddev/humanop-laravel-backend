@@ -41,4 +41,9 @@ class Connection extends Component
 
         \App\Models\Client\Connection\Connection::connectUnConnect($data);
     }
+
+    public function followUser($user_id){
+
+        \App\Models\Client\Follow\Follow::addFollow($user_id);
+    }
 }
