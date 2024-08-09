@@ -61,6 +61,8 @@ class Story extends Component
 
         $upload_id = "";
 
+        $type = '';
+
         if ($this->story_photo){
 
             $extension = $this->story_photo->extension() ?? null;
