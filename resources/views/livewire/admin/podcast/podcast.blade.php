@@ -53,11 +53,15 @@
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    @include('layouts.message')
+{{--                                    @include('layouts.message')--}}
                                     <div class="form-group mt-4">
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                type="file" wire:model.defer="podcast_video">
                                         <span class="mt-2" wire:loading.flex wire:target="podcast_video">Video Uploading ...</span>
+
+                                        @error('podcast_video')
+                                        <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
