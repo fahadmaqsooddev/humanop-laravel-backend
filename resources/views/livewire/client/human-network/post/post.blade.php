@@ -175,6 +175,14 @@
                 </div>
             </div>
             @endforeach
+
+            <div class="pt-3 d-flex justify-content-center">
+                @if($posts->hasMorePages())
+                    <button class="btn" wire:click.prevent="loadMore" style="background-color: #f2661c; color: white; width: 60%; margin: auto;">
+                        Load more
+                    </button>
+                @endif
+            </div>
         </div>
 
 

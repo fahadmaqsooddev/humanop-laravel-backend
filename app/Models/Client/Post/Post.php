@@ -77,7 +77,7 @@ class Post extends Model
         return self::create($data);
     }
 
-    public static function allPosts(){
+    public static function allPosts($per_page = 10){
 
         return self::with(['user' => function($q){
 
@@ -103,7 +103,7 @@ class Post extends Model
 
             ->latest()
 
-            ->get();
+            ->paginate($per_page);
     }
 
     public static function deletePost($post_id = null){

@@ -12,7 +12,7 @@ class Connection extends Component
 
     public function loadMore(){
 
-        return $this->per_page += 10;
+        return $this->per_page += $this->per_page;
     }
 
     public function updatingSearchConnectionName($value){

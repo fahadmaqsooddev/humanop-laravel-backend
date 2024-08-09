@@ -9,7 +9,6 @@ use App\Models\Upload\Upload;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use function Symfony\Component\Translation\t;
 
 class Post extends Component
 {
@@ -23,8 +22,14 @@ class Post extends Component
         'post_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
     ];
 
-    public $description, $post_image, $posts = [], $post_comment, $logged_in_user,
-        $post_id, $shared_post_description, $single_post, $is_shared_post, $post_comments = [], $comment_id;
+    public $description, $post_image, $post_comment, $logged_in_user,
+        $post_id, $shared_post_description, $single_post, $is_shared_post, $post_comments = [], $comment_id,
+        $per_page = 5;
+
+    public function loadMore(){
+
+        return $this->per_page += $this->per_page;
+    }
 
     public function updatingPostComment(){
 
@@ -235,10 +240,10 @@ class Post extends Component
     public function render()
     {
 
-        $this->posts = \App\Models\Client\Post\Post::allPosts();
+        $posts = \App\Models\Client\Post\Post::allPosts($this->per_page);
 
         $this->logged_in_user = Helpers::getWebUser();
 
-        return view('livewire.client.human-network.post.post');
+        return view('livewire.client.human-network.post.post', ['posts' => $posts]);
     }
 }
