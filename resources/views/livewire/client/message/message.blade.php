@@ -1,7 +1,7 @@
 <div>
     <div class="body-container">
         <div class="side-bar">
-            <h3 style="background-color: #0f1534;">Messages & Followers</h3>
+            <h3 style="background-color: #0f1534; font-size: 21px; padding: 13px;">Messages & Connections</h3>
             <form class="messenger-search-form">
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -15,7 +15,7 @@
                         <a class="nav-link active bg-dark text-light" data-toggle="tab" href="#tabs-1" role="tab">Messages</a>
                     </li>
                     <li class="nav-item w-50">
-                        <a class="nav-link bg-dark text-light" data-toggle="tab" href="#tabs-2" role="tab">Followers</a>
+                        <a class="nav-link bg-dark text-light" data-toggle="tab" href="#tabs-2" role="tab">Connections</a>
                     </li>
                 </ul>
 
@@ -23,15 +23,15 @@
 
                 <div class="tab-content">
                     <div class="tab-pane" id="tabs-2" role="tabpanel">
-                        @foreach($followers as $follower)
+                        @foreach($connections as $connection)
                             <div class="messages-list">
                                 <div class="chathead">
-                                    <img src="{{$follower['follower']['user_picture_url'] ?? null}}" class="img-fluid">
+                                    <img src="{{$connection['friend']['user_picture_url'] ?? null}}" class="img-fluid">
                                 </div>
-                                <div class="chatlist cursor-pointer" wire:click="messages('',{{$follower['follower'] ?? null}})" style="background-color: #0f1534;">
+                                <div class="chatlist cursor-pointer" wire:click="messages('',{{$connection['friend'] ?? null}})" style="background-color: #0f1534;">
                                     <div class="chatlist-header">
                                         <span style="font-size: 16px; padding:8px; font-weight: 600">
-                                            {{$follower['follower'] ? $follower['follower']['first_name'] . ' ' . $follower['follower']['last_name'] : ""}}
+                                            {{$connection['friend'] ? $connection['friend']['first_name'] . ' ' . $connection['friend']['last_name'] : ""}}
                                         </span>
                                     </div>
                                 </div>

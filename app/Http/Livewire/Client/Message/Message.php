@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Client\Message;
 
 use App\Helpers\Helpers;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Support\Facades\Session;
@@ -10,7 +11,7 @@ use Livewire\Component;
 
 class Message extends Component
 {
-    public $chats = [], $message, $chat_user_id, $messages = [], $logged_in_user_id, $chat_user, $followers,
+    public $chats = [], $message, $chat_user_id, $messages = [], $logged_in_user_id, $chat_user, $connections = [],
 
     $filter_text;
 
@@ -32,16 +33,18 @@ class Message extends Component
 
         });
 
-        $this->followers = Follow::following();
+        $this->connections = Connection::userConnections();
+
+//        $this->followers = Follow::following();
 
         return view('livewire.client.message.message');
     }
 
     public function sendMessage(){
 
-        $follow = Follow::followerExists($this->chat_user_id);
+        $connection_exists = Connection::connectionExists($this->chat_user_id);
 
-        if ($follow){
+        if ($connection_exists){
 
             $thread = MessageThread::createOrGetMessageThread($this->chat_user_id);
 
@@ -66,7 +69,7 @@ class Message extends Component
 
         }else{
 
-            toastr()->error("Follow first to send message", '');
+            toastr()->error("Connect first to send message", '');
         }
 
     }

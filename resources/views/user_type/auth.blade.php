@@ -116,8 +116,8 @@
                                                 <span class="text-success">Feedback sent</span>
                                             </div>
 
-                                            <textarea id="comment-value" class="comment-box" placeholder="Add a Comment..." required></textarea>
-                                            <button type="submit" onclick="submitFeedBackForm()" class="btn updateBtn" style="inline-size: 100%;">Submit Now</button>
+                                            <textarea id="comment-value" rows="5" class="comment-box" placeholder="Add a Comment..." required></textarea>
+                                            <button type="submit" onclick="submitFeedBackForm()" class="btn" style="inline-size: 100%;background-color: #f2661c;color: white;">Submit Now</button>
 
                                         </form>
                                     </div>

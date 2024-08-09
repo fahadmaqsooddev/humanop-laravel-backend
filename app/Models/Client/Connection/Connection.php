@@ -26,6 +26,11 @@ class Connection extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
 
+    public function friend(){
+
+        return $this->belongsTo(User::class,'friend_id','id');
+    }
+
 
     // query
     public static function connectUnConnect($data = null){
@@ -110,6 +115,29 @@ class Connection extends Model
             ->get();
 
         return $connection_requests;
+    }
+
+    public static function userConnections(){
+
+        $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+
+        return self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
+
+            ->where('status', 1)
+
+            ->get();
+
+    }
+
+    public static function connectionExists($friend_id = null){
+
+        $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+
+        return self::where('user_id', $user_id)
+
+            ->where('status', 1)
+
+            ->where('friend_id', $friend_id)->exists();
     }
 
 }

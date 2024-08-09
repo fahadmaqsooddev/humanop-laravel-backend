@@ -47,7 +47,7 @@
 
                                 <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">
 
-                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
+                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$follow->user->user_picture_url ?? null}}" alt=""
@@ -72,9 +72,9 @@
 
                                                 <div class="p-2">
                                                     @if($follow['user']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$follow->user->id ?? null}})">Following</a>
+                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$follow->user->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn" wire:click="followUser({{$follow->user->id ?? null}})" style='background-color: #f2661c;color: white;'>Follow</a>
+                                                        <a class="btn updateBtn" wire:click="followUser({{$follow->user->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 
@@ -103,7 +103,7 @@
 
                                 <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">
 
-                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
+                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$following->follower->user_picture_url ?? null}}" alt=""
@@ -128,9 +128,9 @@
 
                                                 <div class="p-2">
                                                     @if($following['follower']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$following->follower->id ?? null}})">Following</a>
+                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$following->follower->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn" wire:click="followUser({{$following->follower->id ?? null}})" style='background-color: #f2661c;color: white;'>Follow</a>
+                                                        <a class="btn updateBtn" wire:click="followUser({{$following->follower->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 
