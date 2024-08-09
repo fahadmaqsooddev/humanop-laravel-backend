@@ -15,13 +15,15 @@ class ClientController extends Controller
     {
         try {
 
+            $podcast = Podcast::getPodcast();
+
             $user = Auth::user();
 
             $tip_records = TipRecord::getTipRecord();
 
             $tip = DailyTip::getSingleTip($tip_records);
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast'));
 
         }catch (\Exception $exception)
         {

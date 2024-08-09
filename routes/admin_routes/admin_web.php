@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\TipController;
 use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\PaymentController;
+use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
         Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
         Route::get('feedback', [AdminController::class,'userFeedback'])->name('feedback');
+        Route::get('podcast', [PodcastController::class,'podcast'])->name('podcast');
 
     });
 
