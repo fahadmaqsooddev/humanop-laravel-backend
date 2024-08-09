@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Connection extends Component
 {
-    public $search_connection_name, $connection_requests = [], $search_request_name, $per_page = 10;
+    public $search_connection_name, $connection_requests = [], $search_request_name, $per_page = 12;
 
     public function loadMore(){
 
