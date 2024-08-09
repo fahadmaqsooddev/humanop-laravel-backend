@@ -16,7 +16,7 @@ class ClientController extends Controller
     {
         try {
 
-            $podcast = PodcastVideo::getPodcast();
+            $podcast = Podcast::getPodcast();
 
             $user = Auth::user();
 
