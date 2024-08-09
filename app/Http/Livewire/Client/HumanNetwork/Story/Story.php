@@ -59,7 +59,7 @@ class Story extends Component
 
         $this->validate();
 
-        $upload_id = "";
+        $upload_id = null;
 
         $type = '';
 
