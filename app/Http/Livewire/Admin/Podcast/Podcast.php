@@ -14,12 +14,20 @@ class Podcast extends Component
     use WithFileUploads;
 
     public $podcast_video;
+    public $video;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
-        'podcast_video' => 'nullable|mimetypes:video/mp4|max:10240'
+        'podcast_video' => 'nullable|mimetypes:video/mp4'
     ];
+
+    public function mount()
+    {
+        $podcast = PodcastVideo::getPodcast();
+
+        $this->video = $podcast ? $podcast['video_url']['path'] : '';
+    }
 
     public function updatePodcast(){
 
@@ -28,7 +36,6 @@ class Podcast extends Component
         $data = [];
 
         if ($this->podcast_video){
-
 
             $upload_id = Upload::uploadFile($this->podcast_video, '', '', 'video');
 
@@ -50,6 +57,9 @@ class Podcast extends Component
 
     public function render()
     {
+
+        $this->mount();
+
         return view('livewire.admin.podcast.podcast');
     }
 }
