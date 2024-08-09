@@ -84,7 +84,7 @@
                                 <td class="text-sm font-weight-normal text-center {{ $grid_code_color && isset($grid_code_color['ven']) && $grid_code_color['ven'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('ven', array_keys($grid_code_color))) {{ $grid_code_color['ven'] }} @endif">{{$third_row_ven = $grid['ven'] * $second_row_ven}}</td>
                                 <td class="text-sm font-weight-normal text-center {{ $grid_code_color && isset($grid_code_color['mer']) && $grid_code_color['mer'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('mer', array_keys($grid_code_color))) {{ $grid_code_color['mer'] }} @endif">{{$third_row_mer = $grid['mer'] * $second_row_mer}}</td>
                                 <td class="text-sm font-weight-normal text-center {{ $grid_code_color && isset($grid_code_color['so']) && $grid_code_color['so'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('so', array_keys($grid_code_color))) {{ $grid_code_color['so'] }} @endif">0</td>
-                                <td class="text-sm font-weight-normal text-center border ">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer + $third_row_so}}</td>
+                                <td class="text-sm font-weight-normal text-center border ">{{$third_row_sa + $third_row_ma + $third_row_jo + $third_row_lu + $third_row_ven + $third_row_mer}}</td>
                             </tr>
                             </tbody>
                         </table>
