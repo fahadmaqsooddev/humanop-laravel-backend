@@ -8,7 +8,12 @@ use Livewire\Component;
 
 class Connection extends Component
 {
-    public $users = [], $search_connection_name, $connection_requests = [], $search_request_name;
+    public $search_connection_name, $connection_requests = [], $search_request_name, $per_page = 10;
+
+    public function loadMore(){
+
+        return $this->per_page += 10;
+    }
 
     public function updatingSearchConnectionName($value){
 
@@ -19,11 +24,11 @@ class Connection extends Component
     public function render()
     {
 
-        $this->users = User::allClients($this->search_connection_name);
+        $users = User::allClients($this->search_connection_name, $this->per_page);
 
         $this->connection_requests = \App\Models\Client\Connection\Connection::connectionRequests($this->search_connection_name);
 
-        return view('livewire.client.human-network.connection.connection');
+        return view('livewire.client.human-network.connection.connection', ['users' => $users]);
     }
 
     public function connectUnConnectUser($id, $type){

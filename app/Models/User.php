@@ -130,21 +130,21 @@ class User extends Authenticatable implements JWTSubject
 
         return $this->hasOne(Connection::class,'friend_id','id')
 
-            ->where('user_id', Helpers::getWebUser()->id)->where('status', 0);
+            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
     }
 
     public function recevivedConnectionRequest(){
 
         return $this->hasOne(Connection::class,'user_id','id')
 
-            ->where('friend_id', Helpers::getWebUser()->id)->where('status', 0);
+            ->where('friend_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
     }
 
     public function confirmedConnectionRequest(){
 
         return $this->hasOne(Connection::class,'friend_id','id')
 
-            ->where('user_id', Helpers::getWebUser()->id)->where('status', 1);
+            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 1);
     }
 
     // query
@@ -352,7 +352,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function allClients($search_name = null){
+    public static function allClients($search_name = null, $per_page = 10){
 
         $users = self::query();
 
@@ -372,7 +372,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)
 
-            ->get();
+            ->paginate($per_page);
 
         return $users;
     }
