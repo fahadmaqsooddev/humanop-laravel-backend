@@ -67,7 +67,7 @@ class Follow extends Model
 
         }
 
-        $following = $following->has('follower')->where('user_id', Helpers::getWebUser()->id)
+        $following = $following->has('follower')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
 
             ->with('follower:id,first_name,last_name')
 
@@ -98,12 +98,85 @@ class Follow extends Model
             });
         }
 
-        $followers = $followers->has('user')->where('follow_id', Helpers::getWebUser()->id)
+        $followers = $followers->has('user')->where('follow_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
 
             ->with('user:id,first_name,last_name')
 
             ->get();
 
         return $followers;
+    }
+
+    public static function followUnFollowForApi($request = null){
+
+        $data['follow_id'] = $request['follow_id'];
+
+        $data['user_id'] = Helpers::getUser()->id;
+
+        if ($request['type'] === 'follow'){
+
+            $follow = self::where('follow_id', $data['follow_id'])->where('user_id', $data['user_id'])->exists();
+
+            if (!$follow){
+
+                self::create($data);
+            }
+
+        }else if ($request['type'] === "un-follow"){
+
+            self::where('follow_id', $data['follow_id'])->where('user_id', $data['user_id'])->delete();
+
+        }
+
+    }
+
+    public static function paginatedFollowing($request = null){
+
+        $following = self::query();
+
+        $following = $following->when($request->input('name'), function ($q, $search_name){
+
+            $q->whereHas('follower', function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+        });
+
+
+        $following = $following->has('follower')->where('user_id', Helpers::getUser()->id)
+
+            ->with('follower:id,first_name,last_name');
+
+        return Helpers::pagination($following, $request->input('pagination'), $request->input('per_page'));
+    }
+
+    public static function paginatedFollowers($request = null){
+
+        $followers = self::query();
+
+        $followers = $followers->when($request->input('name'), function ($q, $search_name){
+
+            $q->whereHas('user', function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        });
+
+        $followers = $followers->has('user')->where('follow_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
+
+            ->with('user:id,first_name,last_name');
+
+        return Helpers::pagination($followers, $request->input('pagination'), $request->input('per_page'));
     }
 }

@@ -140,4 +140,35 @@ class Connection extends Model
             ->where('friend_id', $friend_id)->exists();
     }
 
+    public static function paginatedConnectionRequests($request = null){
+
+        $connection_requests = self::query();
+
+        $connection_requests = $connection_requests->when($request->input('name'), function ($q, $name){
+
+            $q->whereHas('user', function ($q) use ($name){
+
+                $q->where('first_name', 'LIKE', "%$name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
+
+            });
+
+        });
+
+        $connection_requests = $connection_requests->has('user')
+
+            ->with('user:id,first_name,last_name')
+
+            ->where('friend_id', Helpers::getUser()->id)
+
+            ->where('status', 0)
+
+            ->latest();
+
+        return Helpers::pagination($connection_requests, $request->input('pagination'), $request->input('per_page'));
+    }
+
 }

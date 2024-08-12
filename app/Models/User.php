@@ -376,4 +376,27 @@ class User extends Authenticatable implements JWTSubject
 
         return $users;
     }
+
+    public static function allPaginatedClients($request = null){
+
+        $users = self::query();
+
+        $users = $users->when($request->input('name'), function ($q, $search_name){
+
+            $q->where(function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        });
+
+        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
+
+        return Helpers::pagination($users, $request->input('pagination'),$request->input('per_page'));
+    }
 }
