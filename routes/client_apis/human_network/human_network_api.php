@@ -18,3 +18,4 @@ Route::get('following', 'HumanNetworkController@following');
 Route::post('connect-unconnect', 'HumanNetworkController@connectUnconnect');
 Route::get('users', 'HumanNetworkController@users');
 Route::get('connection-requests', 'HumanNetworkController@connectionRequests');
+Route::get('connections', 'HumanNetworkController@connections');

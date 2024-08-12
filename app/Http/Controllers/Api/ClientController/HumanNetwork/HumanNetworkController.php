@@ -108,4 +108,19 @@ class HumanNetworkController extends Controller
         }
 
     }
+
+    public function connections(Request $request){
+
+        try {
+
+            $connections = Connection::userPaginatedConnections($request);
+
+            return Helpers::successResponse('Connections', $connections, $request->input('pagination'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

@@ -119,13 +119,25 @@ class Connection extends Model
 
     public static function userConnections(){
 
-        $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+        $user_id = Helpers::getWebUser()->id;
 
         return self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
 
             ->where('status', 1)
 
             ->get();
+
+    }
+
+    public static function userPaginatedConnections($request = null){
+
+        $user_id = Helpers::getUser()->id;
+
+        $connections = self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
+
+            ->where('status', 1);
+
+        return Helpers::pagination($connections, $request->input('pagination'), $request->input('per_page'));
 
     }
 
