@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
@@ -398,5 +399,17 @@ class User extends Authenticatable implements JWTSubject
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
 
         return Helpers::pagination($users, $request->input('pagination'),$request->input('per_page'));
+    }
+
+    public static function deletedClients(){
+
+        return self::where('is_admin', Admin::IS_CUSTOMER)
+
+            ->where('is_permanently_deleted', 0)
+
+            ->onlyTrashed()
+
+            ->get();
+
     }
 }

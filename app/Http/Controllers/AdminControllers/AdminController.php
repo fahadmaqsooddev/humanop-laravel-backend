@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
@@ -162,7 +163,7 @@ class AdminController extends Controller
 
             $style_position = AssessmentColorCode::getStylePosition($id);
             $feature_position = AssessmentColorCode::getFeaturePosition($id);
-            
+
             return view('admin-dashboards.user.user_report', compact('reports', 'id','alchl_code','style_position','feature_position'));
 
         }catch (\Exception $exception)
@@ -269,6 +270,19 @@ class AdminController extends Controller
             $feedbacks = Feedback::userFeedbacks();
 
             return view('admin-dashboards.user-feedback.index', compact('feedbacks'));
+
+        }catch (\Exception $exception){
+
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
+        }
+
+    }
+
+    public function deletedClients(){
+
+        try {
+
+            return view('admin-dashboards.user.deleted_user');
 
         }catch (\Exception $exception){
 
