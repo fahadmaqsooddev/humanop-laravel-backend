@@ -5,7 +5,13 @@
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
            aria-hidden="true" id="iconSidenav"></i>
         <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
-            <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
+            <span class="humanopLogo">
+    <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
+</span>
+            <span class="humanopMiniLogo d-none">
+    <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100" style="margin-left: 10px; width: 77px"
+         alt="main_logo">
+</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -49,13 +55,13 @@
                                 </a>
                             </li>
                             @if(Auth::user()->hasRole('super admin'))
-                            <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
-                                   href="{{ route('admin_all_sub_admins') }}">
-                                    <span class="sidenav-mini-icon"></span>
-                                    <span class="sidenav-normal"> Sub Admins </span>
-                                </a>
-                            </li>
+                                <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
+                                       href="{{ route('admin_all_sub_admins') }}">
+                                        <span class="sidenav-mini-icon"></span>
+                                        <span class="sidenav-normal"> Sub Admins </span>
+                                    </a>
+                                </li>
                             @endif
                             @can('users')
                                 <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
@@ -266,7 +272,7 @@
                             <li class="nav-item ">
                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
-                                    <span class="sidenav-mini-icon"> HN </span>
+                                    <span class="sidenav-mini-icon"> H </span>
                                     <span class="sidenav-normal"> Human Network <b class="caret"></b></span>
                                 </a>
                                 <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
@@ -531,3 +537,13 @@
         </ul>
     </div>
 </aside>
+@push('javascript')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.querySelector('.sidenav-toggler-inner').addEventListener('click', function () {
+            // Toggle visibility of logos
+            $('.humanopLogo').toggleClass('d-none');
+            $('.humanopMiniLogo').toggleClass('d-none');
+        });
+    </script>
+@endpush
