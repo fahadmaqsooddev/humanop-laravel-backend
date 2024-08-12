@@ -21,6 +21,11 @@
 </style>
 @section('content')
     <div>
+        <div>
+            <a href="{{url('client/generate-grid-pdf/'. $grid['id'])}}" target="_blank"
+               class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
+               style="background-color: #f2661c">PDF</a>
+        </div>
         @php
             $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
             $second_row_ins = $grid['ma'] + $grid['ven'] + $grid['mer'];

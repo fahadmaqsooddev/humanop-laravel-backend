@@ -53,6 +53,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/user-grid/{id}', [AdminController::class, 'grid'])->name('admin_user_grid');
         Route::get('/user-report/{id}', [AdminController::class, 'report'])->name('admin_user_report');
         Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('admin_generate_pdf');
+        Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('admin_generate_grid_pdf');
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
     });

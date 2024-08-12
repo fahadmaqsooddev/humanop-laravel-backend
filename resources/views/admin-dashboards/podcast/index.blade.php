@@ -48,5 +48,24 @@
         </div>
     </div>
 @endsection
+@push('javascript')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to pause the video and reload the page
+        function pauseVideoAndReload() {
+            var video = document.getElementById('podcastVideo');
+            video.pause();  // Pause the video
+            window.location.reload();  // Reload the page
+        }
 
+        // Example: Call the function when the video ends
+        var video = document.getElementById('podcastVideo');
+        video.onended = function() {
+            pauseVideoAndReload();
+        };
+
+        // Example: Call the function when a button is clicked
+        document.getElementById('someButton').addEventListener('click', pauseVideoAndReload);
+    </script>
+@endpush
 
