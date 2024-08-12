@@ -8,7 +8,6 @@ use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
-use App\Models\Client\Post\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
