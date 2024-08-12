@@ -81,7 +81,7 @@
 {{--        <button><img src="{{asset('assets/story-slider/icons/rightArrow.png')}}" alt="" id="next-story"></button>--}}
     </div>
     <div style="padding: 30px;">
-        <a href="{{url('/client/human-network')}}" style="color: white; text-decoration: none;font-size: 30px;">
+        <a href="{{url('/client/newsfeed')}}" style="color: white; text-decoration: none;font-size: 30px;">
             <i class="fa fa-times" aria-hidden="true"></i>
         </a>
     </div>

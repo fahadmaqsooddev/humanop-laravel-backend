@@ -151,7 +151,7 @@
                                     @foreach($post['postShares'] as $post_share)
                                         <a href="javascript:void(0)" class="avatar avatar-xs rounded-circle text-primary">
     {{--                                        <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-5.jpg') }}" class="text-">--}}
-                                            <img alt="Image placeholder" src="{{ $post_share['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-3.jpg') }}" class="rounded-circle">
+                                            <img alt="Image placeholder" src="{{ $post_share['user']['user_picture_url'] ?? URL::asset('assets/img/team-3.jpg') }}" class="rounded-circle">
                                         </a>
                                     @endforeach
                                 </div>
