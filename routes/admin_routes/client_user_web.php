@@ -55,6 +55,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::post('/check-coupon', [CouponController::class, 'checkCoupon'])->name('check_coupon');
 
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
+    Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('generate_pdf');
 
     Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
