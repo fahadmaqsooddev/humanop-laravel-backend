@@ -21,8 +21,10 @@
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="numbers mt-3">
-                                    <iframe class="col-lg-12 col-md-12" height="220"
-                                            src="{{$video}}"></iframe>
+                                    <video id="podcastVideo" height="220" controls>
+                                        <source src="{{$video}}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                     <h5 class="font-weight-bolder mb-0">
                                         <span class="text-success text-sm font-weight-bolder"></span>
                                     </h5>

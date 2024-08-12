@@ -53,7 +53,7 @@ class Assessment extends Model
     public function scopeSelection($query)
     {
 
-        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov']);
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page']);
     }
 
     // queries
@@ -85,7 +85,7 @@ class Assessment extends Model
 
     public static function getGrid($id = null)
     {
-        return self::whereId($id)->first();
+        return self::whereId($id)->with('users')->first();
     }
 
     public static function getAssessment()

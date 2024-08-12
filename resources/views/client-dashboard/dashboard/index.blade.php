@@ -175,9 +175,10 @@
                                     <div class="row">
                                         <div class="">
                                             <div class="numbers mt-3">
-                                                <iframe class="col-lg-12 col-md-12" height="220"
-                                                        src="{{$podcast ? $podcast['video_url']['path'] : ''}}"
-                                                        frameborder="0"></iframe>
+                                                <video id="podcastVideo" height="220" controls>
+                                                    <source src="{{$podcast ? $podcast['video_url']['path'] : ''}}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
                                                 <h5 class="font-weight-bolder mb-0">
                                                     <span class="text-success text-sm font-weight-bolder"></span>
                                                 </h5>
@@ -265,6 +266,23 @@
 @endsection
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to pause the video and reload the page
+        function pauseVideoAndReload() {
+            var video = document.getElementById('podcastVideo');
+            video.pause();  // Pause the video
+            window.location.reload();  // Reload the page
+        }
+
+        // Example: Call the function when the video ends
+        var video = document.getElementById('podcastVideo');
+        video.onended = function() {
+            pauseVideoAndReload();
+        };
+
+        // Example: Call the function when a button is clicked
+        document.getElementById('someButton').addEventListener('click', pauseVideoAndReload);
+    </script>
     <script>
         document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
 
