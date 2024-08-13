@@ -25,11 +25,12 @@
                     <td class="text-sm font-weight-normal">{{$user['first_name'] . ' ' . $user['last_name']}}</td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
                     <td>
-                        <button wire:click="restoreUser({{$user->id}})" class="btn updateBtn" title="restore">
+                        <button onclick="confirmBoxForRestoreUser({{$user->id}})" class="btn updateBtn" title="restore">
                             <i class="fa-solid fa-rotate-right"></i>
                         </button>
 
-                        <button wire:click="deleteUserPermanently({{$user->id}})" class="btn btn-danger" title="delete permanently">
+                        <button class="btn btn-danger" title="delete permanently"
+                        onclick="confirmBoxForPermanentDelete({{$user->id}})">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </td>
@@ -45,10 +46,56 @@
 
 <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
 <script>
     const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
         searchable: true,
         fixedHeight: true
     });
+
+    function confirmBoxForPermanentDelete(user_id){
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn bg-gradient-danger m-2',
+                cancelButton:  'btn bg-gradient-primary m-2',
+            },
+            buttonsStyling: false,
+            background : '#3442b4',
+        })
+        swalWithBootstrapButtons.fire({
+            title: '<span style="color: white;">Are you sure?</span>',
+            html: "<span style='color: white;'>Want to delete user permanently!</span>",
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+        }).then((result) => {
+            if(result.isConfirmed){
+                window.livewire.emit('deleteUser', [user_id])
+            }
+        })
+    }
+
+    function confirmBoxForRestoreUser(user_id){
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn bg-gradient-primary m-2',
+                cancelButton:  'btn bg-gradient-danger m-2',
+            },
+            buttonsStyling: false,
+            background : '#3442b4',
+        })
+        swalWithBootstrapButtons.fire({
+            title: '<span style="color: white;">Are you sure?</span>',
+            html: "<span style='color: white;'>Want to restore user!</span>",
+            showCancelButton: true,
+            confirmButtonText: 'Restore',
+        }).then((result) => {
+            if(result.isConfirmed){
+                window.livewire.emit('restoreUser', [user_id])
+            }
+        })
+    }
+
 </script>

@@ -8,6 +8,8 @@ use Livewire\Component;
 class DeletedUsers extends Component
 {
 
+    protected $listeners = ['deleteUser' => 'deleteUserPermanently', 'restoreUser' => 'restoreUser'];
+
     public function render()
     {
 
@@ -23,7 +25,6 @@ class DeletedUsers extends Component
 
     public function deleteUserPermanently($id)
     {
-
         User::onlyTrashed()->whereId($id)->update(['is_permanently_deleted' => 1]);
     }
 }
