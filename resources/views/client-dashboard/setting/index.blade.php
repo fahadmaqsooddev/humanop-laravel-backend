@@ -124,20 +124,22 @@
                         <h5 class="text-white">Delete Account</h5>
                         <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please be certain.</p>
                     </div>
-                    <div class="card-body d-sm-flex pt-0">
-                        <div class="d-flex align-items-center mb-sm-0 mb-4">
-                            <div>
-                                <div class="form-check form-switch mb-0">
-                                    <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0">
-                                </div>
-                            </div>
-                            <div class="ms-2">
-                                <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                <span class="text-xs d-block">I want to delete my account.</span>
-                            </div>
+                    <div class="card-body d-sm-flex pt-0 justify-content-end">
+{{--                        <div class="d-flex align-items-center mb-sm-0 mb-4">--}}
+{{--                            <div>--}}
+{{--                                <div class="form-check form-switch mb-0">--}}
+{{--                                    <input style="background-color: orange;" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="ms-2">--}}
+{{--                                <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>--}}
+{{--                                <span class="text-xs d-block">I want to delete my account.</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <button class="btn btn-outline-secondary mb-0 ms-auto" type="button" name="button">Deactivate</button>--}}
+                        <div>
+                            <button onclick="confirmBoxForDeleteAccount()" class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account</button>
                         </div>
-                        <button class="btn btn-outline-secondary mb-0 ms-auto" type="button" name="button">Deactivate</button>
-                        <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account</button>
                     </div>
                 </div>
             </div>
@@ -147,6 +149,7 @@
 @endsection
 
 @push('js')
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
     <script>
         if (document.getElementById('choices-gender')) {
@@ -266,5 +269,44 @@
             };
             reader.readAsDataURL(input.files[0]);
         };
+
+
+        function confirmBoxForDeleteAccount(){
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton:  'btn bg-gradient-primary m-2',
+                },
+                buttonsStyling: false,
+                background : '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete your account !</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if(result.isConfirmed){
+
+                    $.ajax({
+                        url: '{{ route("delete_account") }}',
+                        method: 'POST',
+                        data: null,
+                        headers: {
+                            'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        },
+                        success: function (response) {
+                            window.location.href = "{{route('login')}}";
+                        },
+                        error: function (response) {
+
+                            console.log(response);
+
+                        }
+                    });
+                }
+            })
+        }
     </script>
 @endpush
