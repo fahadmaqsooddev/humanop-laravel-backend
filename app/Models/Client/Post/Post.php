@@ -108,7 +108,7 @@ class Post extends Model
 
     public static function deletePost($post_id = null){
 
-        self::whereId($post_id)->where('user_id', Helpers::getWebUser()->id)->delete();
+        self::whereId($post_id)->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->delete();
     }
 
     public static function post($post_id = null){
