@@ -8,6 +8,7 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -146,6 +147,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Connection::class,'friend_id','id')
 
             ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 1);
+    }
+
+    public function colorCodes(){
+
+        return $this->hasManyThrough(AssessmentColorCode::class,Assessment::class,'user_id','assessment_id','id','id');
     }
 
     // query
@@ -353,7 +359,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function allClients($search_name = null, $per_page = 10){
+    public static function allClients($search_name = null, $per_page = 12, $style_feature_code = null, $alchemy_codes_array = []){
 
         $users = self::query();
 
@@ -366,6 +372,28 @@ class User extends Authenticatable implements JWTSubject
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
 
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        }
+
+        if (!empty($style_feature_code)){
+
+            $users = $users->whereHas('colorCodes', function ($q) use ($style_feature_code){
+
+                $q->where('code', $style_feature_code)->where('code_color', 'green');
+
+            });
+
+        }
+
+        if (!empty($alchemy_codes_array)){
+
+            $sqlArray = '(' . join(',', $alchemy_codes_array) . ')';
+
+            $users = $users->whereHas('assessments', function ($q) use ($sqlArray){
+
+                $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
 
             });
 
@@ -412,4 +440,5 @@ class User extends Authenticatable implements JWTSubject
             ->get();
 
     }
+
 }

@@ -17,9 +17,14 @@ class AlchemyCode extends Model
 
         parent::__construct($attributes);
     }
-    
+
     public static function getCodeDeatil($code)
     {
         return self::where('number', $code)->first();
+    }
+
+    public static function getNumbersFromCode($code = null){
+
+        return self::where('code', $code)->pluck('number')->toArray();
     }
 }

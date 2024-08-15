@@ -3,16 +3,24 @@
 namespace App\Http\Livewire\Client\HumanNetwork\Connection;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\User;
 use Livewire\Component;
 
 class Connection extends Component
 {
-    public $search_connection_name, $connection_requests = [], $search_request_name, $per_page = 12;
+    public $search_connection_name, $connection_requests = [], $search_request_name, $per_page = 12,
+        $style_feature_color_codes, $alchemy_color_codes, $style_code, $alchemy_code, $filter_alchemy_codes_array = [];
 
     public function loadMore(){
 
         return $this->per_page += $this->per_page;
+    }
+
+    public function updatingAlchemyCode($value){
+
+        $this->filter_alchemy_codes_array = AlchemyCode::getNumbersFromCode($value);
     }
 
     public function updatingSearchConnectionName($value){
@@ -24,7 +32,11 @@ class Connection extends Component
     public function render()
     {
 
-        $users = User::allClients($this->search_connection_name, $this->per_page);
+        $this->style_feature_color_codes = CodeDetail::styleAndFeatureCode();
+
+        $this->alchemy_color_codes = CodeDetail::alchemyCodes();
+
+        $users = User::allClients($this->search_connection_name, $this->per_page, $this->style_code, $this->filter_alchemy_codes_array);
 
         $this->connection_requests = \App\Models\Client\Connection\Connection::connectionRequests($this->search_connection_name);
 

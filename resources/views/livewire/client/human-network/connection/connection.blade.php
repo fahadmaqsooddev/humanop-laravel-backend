@@ -23,18 +23,65 @@
             </div>
             <div class="col-6">
 
-                <div class="input-group ms-md-4 pe-md-4">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="input-group ms-md-4 pe-md-4">
                      <span style="background-color: #0f1534;color: white;" class="input-group-text">
                          <i class="fas fa-search" aria-hidden="true"></i>
                      </span>
-                    <input type="text" wire:model.debounce="search_connection_name"
-                           class="" style="background-color: #0f1534; color: white;border: 1px solid white;
+                            <input type="text" wire:model.debounce="search_connection_name"
+                                   class="" style="background-color: #0f1534; color: white;border: 1px solid white;
                            border-left: 0px; padding: 5px; width: 75%; border-radius: 0 5px 5px 0;"
-                           placeholder="Search user to connect">
+                                   placeholder="Search user to connect">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7"></div>
+                    <div class="col-4">
+                        <button class="btn btn-sm mt-4 mb-4 text-sm text-white"
+                                data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                                style="background-color: #f2661c; padding: 5px 14px 5px 14px; border-radius: 7px;">
+                            <b>Advance Filters</b>
+                        </button>
+                    </div>
+
                 </div>
 
             </div>
 
+        </div>
+        <div class="row pt-1">
+            <div class="collapse" id="collapseExample" wire:ignore.self>
+                <div class="float-end w-100">
+
+                    <div class="row">
+
+                        <div class="col-3"></div>
+
+                        <div class="col-4">
+                            <select class="form-control text-white" style="background-color: #0f1535" wire:model="style_code">
+                                <option value="">Search by style and feature</option>
+                                @foreach($style_feature_color_codes as $code)
+                                    <option value="{{$code->code}}">{{$code->public_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <select wire:model="alchemy_code" class="form-control text-white" style="background-color: #0f1535">
+                                <option value="">Search by alchemy code</option>
+                                @foreach($alchemy_color_codes as $code)
+                                    <option value="{{$code->code}}">{{$code->public_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -57,7 +104,7 @@
                                     <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                         <div class="card-img flex-grow-5">
                                             <img src="{{$user->user_picture_url}}" alt=""
-                                                 style="width: 100px; height: 100px; border-radius: 100%; margin:0 10%; cursor: pointer; justify-content: center;">
+                                                 style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                         </div>
                                         <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
                                             {{$user->first_name . ' ' . $user->last_name}}
@@ -92,7 +139,7 @@
 
                             @if($users->hasMorePages())
                                 <button class="btn"  wire:click.prevent="loadMore"
-                                        style="background-color: #f2661c; color: white; width: 60%; margin: auto;">
+                                        style="background-color: #f2661c; color: white; width: 60%; margin: auto; font-weight: 600;">
                                     Load more
                                 </button>
                             @endif
@@ -115,8 +162,8 @@
                                     <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
-                                                <img src="{{$user->user_picture_url}}" alt=""
-                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:0 10%; cursor: pointer; justify-content: center;">
+                                                <img src="{{$connection_request->user->user_picture_url ?? null}}" alt=""
+                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                             </div>
                                             <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">
                                                 {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}
