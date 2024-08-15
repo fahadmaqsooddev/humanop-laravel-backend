@@ -55,6 +55,24 @@
         }
     }
 
+    .like,
+    .dislike {
+        display: inline-block;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    .dislike:hover,
+    .like:hover {
+        color: #f2661c;
+        transition: all .2s ease-in-out;
+        transform: scale(1.1);
+    }
+
+    .active {
+        color: #f2661c;
+    }
+
 </style>
 @section('content')
     <div class="container-fluid">
@@ -261,7 +279,6 @@
                 </div>
             </div>
         </section>
-{{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
     </div>
 @endsection
 @push('javascript')

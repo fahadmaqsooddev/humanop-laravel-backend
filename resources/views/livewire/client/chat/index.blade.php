@@ -2,15 +2,29 @@
     <div class="chatbox">
         <div class="chatbox-content" id="chatbox-content">
             @foreach($messages as $message)
-                <div
-                    style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
-                    <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
-                        @if($message['type'] === 'user')
+                <div style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
+                    @if($message['type'] === 'user')
+                        <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
                             {{ $message['text'] }}
-                        @elseif($message['type'] === 'bot')
-                            {!! $message['text'] !!}
-                        @endif
-                    </div>
+                        </div>
+                    @elseif($message['type'] === 'bot')
+                        <div class="d-flex flex-column">
+                            <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
+                                {!! $message['text'] !!}
+                            </div>
+                            <div class="rating d-flex mb-2">
+                                <!-- Thumbs up -->
+                                <div class="like grow {{ $likeActive ? 'active' : '' }}" wire:click="like">
+                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <!-- Thumbs down -->
+                                <div class="dislike grow {{ $dislikeActive ? 'active' : '' }}" id="thumbDown"
+                                     wire:click="dislike">
+                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>
@@ -24,6 +38,7 @@
         </form>
     </div>
 </div>
+
 
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -52,10 +67,6 @@
                         <span class="chatDot"></span>
                     </div>
                 </div>`);
-                scrollToBottom();
-            });
-
-            Livewire.on('updateAiMessage', function () {
                 scrollToBottom();
             });
         });
