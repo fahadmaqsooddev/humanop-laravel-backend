@@ -265,7 +265,7 @@ class Assessment extends Component
 
         $codes = [];
         $codeArr = json_decode(stripslashes($answerCodes), true);
-//        dd($codeArr);
+        dd($codeArr);
 
         foreach ($codeArr as $code) {
             $codes[$code['code']] = $code['number'];
