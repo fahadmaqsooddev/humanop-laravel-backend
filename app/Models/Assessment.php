@@ -365,7 +365,7 @@ class Assessment extends Model
                     }
                     break;
                 case 'gre':
-                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6)) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['so'] > 4)) {
+                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4)) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['so'] > 4)) {
                         $filtered_keys[$key] = $value;
                     } elseif (($assessment['gre'] > 2 && ($assessment['jo'] < 6)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
                         $filtered_keys_red[$key] = $value;

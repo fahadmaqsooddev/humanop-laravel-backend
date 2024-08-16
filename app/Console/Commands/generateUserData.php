@@ -164,12 +164,20 @@ class generateUserData extends Command
                                 $question = Question::singleQuestion($recordData[2]);
                                 $answer = Answer::singleAnswer($recordData[3]);
 
+<<<<<<< Updated upstream
+=======
+                                dd($question, $answer);
+>>>>>>> Stashed changes
                                 if (!empty($question))
                                 {
                                     AssessmentDetail::create([
                                         'user_id' => $userId,
                                         'assessment_id' => $assessment['id'],
+<<<<<<< Updated upstream
 //                                        'question' => $question['question'],
+=======
+                                        'question' => $question['question'],
+>>>>>>> Stashed changes
                                         'answer' => $answer['answer'],
                                     ]);
                                 }
