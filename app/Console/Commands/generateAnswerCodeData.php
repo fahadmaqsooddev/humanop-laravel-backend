@@ -36,7 +36,7 @@ class generateAnswerCodeData extends Command
 
         Schema::disableForeignKeyConstraints();
 
-        $csvFile = fopen(base_path("public/ans_codes.csv"), "r");
+        $csvFile = fopen(base_path("public/new_ans_codes.csv"), "r");
 
         $firstline = true;
 

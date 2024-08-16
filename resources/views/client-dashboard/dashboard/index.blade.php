@@ -24,6 +24,7 @@
     #chatDots {
         margin: 32px;
     }
+
     .chatDot {
         width: 10px;
         height: 10px;
@@ -32,15 +33,18 @@
         margin: 1px;
         border-radius: 50%;
     }
+
     .chatDot:nth-child(1) {
-         animation: bounce 1s infinite;
-     }
+        animation: bounce 1s infinite;
+    }
+
     .chatDot:nth-child(2) {
-         animation: bounce 1s infinite .2s;
-     }
+        animation: bounce 1s infinite .2s;
+    }
+
     .chatDot:nth-child(3) {
-         animation: bounce 1s infinite .4s;
-     }
+        animation: bounce 1s infinite .4s;
+    }
 
 
     @keyframes bounce {
@@ -53,6 +57,24 @@
         100% {
             transform: translateY(0px);
         }
+    }
+
+    .like,
+    .dislike {
+        display: inline-block;
+        cursor: pointer;
+        margin: 10px;
+    }
+
+    .dislike:hover,
+    .like:hover {
+        color: #f2661c;
+        transition: all .2s ease-in-out;
+        transform: scale(1.1);
+    }
+
+    .active {
+        color: #f2661c;
     }
 
 </style>
@@ -76,7 +98,8 @@
                         <p class="mb-0 font-weight-bold text-sm text-white">
                             Optimal Trait To Be In Right Now:
                         </p>
-                        <p class="text-white text-sm col-12">Perceptive Trait (Thinking) For Strategy and Problem Solving
+                        <p class="text-white text-sm col-12">Perceptive Trait (Thinking) For Strategy and Problem
+                            Solving
                             Activities</p>
                     </div>
                 </div>
@@ -85,12 +108,18 @@
                         <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1">
-                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c" class="text-white btn btn-lg">Access Your<br> Results</button>
+                                    <button
+                                        style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                        class="text-white btn btn-lg">Access Your<br> Results
+                                    </button>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link mb-0 px-0 py-1 ">
-                                    <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c" class=" ms-2 text-white btn btn-lg" >Get Free Pro<br> Access!</button>
+                                    <button
+                                        style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                        class=" ms-2 text-white btn btn-lg">Get Free Pro<br> Access!
+                                    </button>
                                 </a>
                             </li>
                         </ul>
@@ -101,106 +130,113 @@
     </div>
     <div class="container-fluid">
         <section class="py-3">
-            <div class="row mt-lg-4 mt-2">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;">
-                        <div class="card-body p-3">
-                            <h5 class="text-white">Daily Tip</h5>
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
-                                {{ $tip ? $tip['title'] : '' }}
-                            </p>
-                            <div class="description-container" style="max-height: 200px; overflow-y: auto;">
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
-                                    {{ $tip ? $tip['description'] : '' }}
+            <div class="row">
+                <div class="mt-lg-4 mt-2 col-3">
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 375px;">
+                            <div class="card-body p-3">
+                                <h5 class="text-white">Daily Tip</h5>
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
+                                    {{ $tip ? $tip['title'] : '' }}
                                 </p>
+                                <div class="description-container" style="max-height: 200px; overflow-y: auto;">
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
+                                        {{ $tip ? $tip['description'] : '' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 375px;">
+                            <div class="card-body p-3">
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> LIBRARY
+                                    OF
+                                    RESOURCES & TRAININGS</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> New Updatesl</p>
+                                <br>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More Conflit Resolution
+                                    Strategies</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Optimizing Your Space
+                                    Training
+                                    Added</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Updated Dreivers
+                                    Trainings</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
-                        <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
-                                STATS</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Communication Styles</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;">
-                        <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
-                                OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities that
-                                support your motivational drivers</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
-                                Role</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days based on
-                                your traits</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
-                                Movement</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-lg-4 mt-2">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;">
-                        <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> LIBRARY OF
-                                RESOURCES & TRAININGS</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> New Updatesl</p>
-                            <br>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More Conflit Resolution
-                                Strategies</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Optimizing Your Space Training
-                                Added</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Updated Dreivers Trainings</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
-                        <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
-                                HumanOp Integration Podcast</p>
-                            <div class="card mb-4"
-                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="">
-                                            <div class="numbers mt-3">
-                                                <video id="podcastVideo" height="220" controls>
-                                                    <source src="{{$podcast ? $podcast['video_url']['path'] : ''}}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                                <h5 class="font-weight-bolder mb-0">
-                                                    <span class="text-success text-sm font-weight-bolder"></span>
-                                                </h5>
+                <div class="mt-lg-4 mt-2 col-6">
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 575px;border-radius: 3rem !important;">
+                            <div class="card-body p-3">
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
+                                    HumanOp Integration Podcast</p>
+                                <div class="card mb-4"
+                                     style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="">
+                                                <div class="numbers mt-3">
+                                                    <iframe class="col-lg-12 col-md-12" style="height: 430px"
+                                                            src="https://app.hiro.fm/embed/65c95c9f355f13001914ccab"
+                                                            frameborder="0"></iframe>
+                                                    <h5 class="font-weight-bolder mb-0">
+                                                        <span class="text-success text-sm font-weight-bolder"></span>
+                                                    </h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-4 text-end">
+                                            <div class="col-4 text-end">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 175px;">
+                            <div class="card-body p-3">
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP I'M
+                                    HAVING A CHALLENGE</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
+                                    SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card" style="height: 375px;">
-                        <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP I'M
-                                HAVING A CHALLENGE</p>
-                            <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
-                                SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+                <div class="mt-lg-4 mt-2 col-3">
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 375px;">
+                            <div class="card-body p-3">
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
+                                    OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities that
+                                    support your motivational drivers</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
+                                    Role</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days based
+                                    on
+                                    your traits</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
+                                    Movement</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-6 mb-4">
+                        <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
+                            <div class="card-body p-3">
+                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
+                                    STATS</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Communication Styles</p>
+                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -208,7 +244,8 @@
             <div class="row mt-lg-4 mt-2">
                 <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
-                          class="form-control text-white messageChat mb-2" placeholder="Type your message here..."></textarea>
+                          class="form-control text-white messageChat mb-2"
+                          placeholder="Type your message here..."></textarea>
                     <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
                        class="btn col-12 fixed-plugin-button">H.A.I CHAT INTERFACE</a>
                     <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">
@@ -255,13 +292,16 @@
                                     </div>
                                 </div>
                             </div>
-                                @livewire('client.chat.index')
+                            @livewire('client.chat.index')
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-{{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
+<<<<<<< Updated upstream
+=======
+        {{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
+>>>>>>> Stashed changes
     </div>
 @endsection
 @push('javascript')
@@ -276,7 +316,7 @@
 
         // Example: Call the function when the video ends
         var video = document.getElementById('podcastVideo');
-        video.onended = function() {
+        video.onended = function () {
             pauseVideoAndReload();
         };
 

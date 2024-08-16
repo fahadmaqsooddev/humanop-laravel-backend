@@ -13,8 +13,29 @@ class Index extends Component
 {
     public $userMessage = '';
     public $messages = [];
+    public $likeActive = false;
+    public $dislikeActive = false;
+    public $dislikeClickedOnce = false;
 
     protected $listeners = ['chatMessage'];
+
+    public function like()
+    {
+        $this->likeActive = true;
+        $this->dislikeActive = false;
+        $this->dislikeClickedOnce = false; // Reset dislike click counter
+    }
+
+    public function dislike()
+    {
+            $this->likeActive = false;
+            $this->dislikeActive = true;
+    }
+
+    public function showModal()
+    {
+
+    }
 
     public function chatMessage($message)
     {

@@ -17,4 +17,9 @@ class AnswerCode extends Model
 
         parent::__construct($attributes);
     }
+
+    public static function getAnswerCode($answer_id = null)
+    {
+        return self::where('answer_id', $answer_id)->get(['code', 'number']);
+    }
 }
