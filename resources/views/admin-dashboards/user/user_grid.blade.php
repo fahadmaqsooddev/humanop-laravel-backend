@@ -220,10 +220,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['em'] < 7 || $grid['em'] > 12 ? 'redBox' : ''}}">{{$grid['em']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'redBox' : ''}}">{{$grid['ins']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['int'] < 7 || $grid['int'] > 12 ? 'redBox' : ''}}">{{$grid['int']}}</td>
-                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'redBox' : ''}}">{{$grid['mov']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['em'] < 7 || $grid['em'] > 12 ? 'red' : ''}}">{{$grid['em']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['ins'] < 7 || $grid['ins'] > 12 ? 'red' : ''}}">{{$grid['ins']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['int'] < 7 || $grid['int'] > 12 ? 'red' : ''}}">{{$grid['int']}}</td>
+                                <td class="text-sm font-weight-normal text-center border border-white {{$grid['mov'] < 7 || $grid['mov'] > 12 ? 'red' : ''}}">{{$grid['mov']}}</td>
                             </tr>
                             <tr>
                                 <td class="text-sm font-weight-normal text-center border border-white {{ $second_row_em ==  $communication_style ? 'green' : ''}}">{{$second_row_em}}</td>

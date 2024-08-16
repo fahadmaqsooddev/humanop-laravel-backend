@@ -34,6 +34,11 @@ class Answer extends Model
         return self::where('question_id', $id)->get();
     }
 
+    public static function singleAnswer($id = null)
+    {
+        return self::whereId($id)->first();
+    }
+
     public static function updateAnswer($data = null,$id = null)
     {
         if($id){
