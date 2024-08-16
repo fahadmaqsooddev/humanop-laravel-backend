@@ -32,7 +32,7 @@
                      </span>
                             <input type="text" wire:model.debounce="search_connection_name"
                                    class="" style="background-color: #0f1534; color: white;border: 1px solid white;
-                           border-left: 0px; padding: 5px; width: 75%; border-radius: 0 5px 5px 0;"
+                           border-left: 0px; padding: 5px; width: 84%; border-radius: 0 5px 5px 0;"
                                    placeholder="Search user to connect">
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="row">
                     <div class="col-7"></div>
                     <div class="col-4">
-                        <button class="btn btn-sm mt-4 mb-4 text-sm text-white"
+                        <button class="btn btn-sm float-end mt-4 mb-4 text-white clickBtn"
                                 data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
                                 style="background-color: #f2661c; padding: 5px 14px 5px 14px; border-radius: 7px;">
                             <b>Advance Filters</b>
@@ -58,10 +58,10 @@
 
                     <div class="row">
 
-                        <div class="col-3"></div>
+                        <div class="col-2"></div>
 
-                        <div class="col-4">
-                            <select class="form-control text-white" style="background-color: #0f1535" wire:model="style_code">
+                        <div class="col-5">
+                            <select class="form-control text-white" style="background-color: #0f1535;width: 90%;" wire:model="style_code">
                                 <option value="">Search by style and feature</option>
                                 @foreach($style_feature_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
@@ -69,8 +69,8 @@
                             </select>
                         </div>
 
-                        <div class="col-4">
-                            <select wire:model="alchemy_code" class="form-control text-white" style="background-color: #0f1535">
+                        <div class="col-5">
+                            <select wire:model="alchemy_code" class="form-control text-white" style="background-color: #0f1535;width: 90%;">
                                 <option value="">Search by alchemy code</option>
                                 @foreach($alchemy_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
@@ -111,23 +111,23 @@
                                         </h5>
                                         <div class="d-flex flex-row justify-content-center flex-1" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
-                                            <div class="p-2">
+                                            <div class="p-1">
                                                 @if($user['connection_status'] === 0)
-                                                    <a class="btn" wire:loading wire:target="connectUnConnectUser" wire:click="connectUnConnectUser({{$user->id}},'connect')" style='border: 1px solid #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box; color: #f2661c; font-size: small; font-weight: 900;'>Connect</a>
+                                                    <a class="btn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'connect')" style='border: 1px solid #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box; color: #f2661c; font-size: x-small; font-weight: 900;'>Connect</a>
                                                 @elseif($user['connection_status'] === 1)
-                                                    <a class="btn updateBtn" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="background-color: #f2661c; color: white;font-size: small; font-weight: 900;">Connected</a>
+                                                    <a class="btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="background-color: #f2661c; color: white;font-size: x-small; font-weight: 900;">Connected</a>
                                                 @elseif($user['connection_status'] === 2)
-                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: small; font-weight: 900;">Pending</a>
+                                                    <a class="btn btn-secondary btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
                                                 @elseif($user['connection_status'] === 3)
-                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: small; font-weight: 900;">Accept</a>
+                                                    <a class="btn btn-success btn-sm" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
                                                 @endif
                                             </div>
 
-                                            <div class="p-2">
+                                            <div class="p-1">
                                                 @if($user['is_follow'])
-                                                    <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$user->id}},'connect')" style="font-size: small; font-weight: 900;">Following</a>
+                                                    <a class="btn btn-secondary btn-sm" wire:click="followUser({{$user->id}},'connect')" style="font-size: x-small; font-weight: 900;">Following</a>
                                                 @else
-                                                    <a class="btn updateBtn" wire:click="followUser({{$user->id}},'un-connect')" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
+                                                    <a class="btn updateBtn btn-sm" wire:click="followUser({{$user->id}},'un-connect')" style='background-color: #f2661c;color: white;font-size: x-small; font-weight: 900;'>Follow</a>
                                                 @endif
                                             </div>
 
