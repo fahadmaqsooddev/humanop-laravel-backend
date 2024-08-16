@@ -110,7 +110,7 @@
                 <td class="{{ $grid_code_color && isset($grid_code_color['lu']) && $grid_code_color['lu'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('lu', array_keys($grid_code_color))) {{ $grid_code_color['lu'] }} @endif">{{$grid['lu']}}</td>
                 <td class="{{ $grid_code_color && isset($grid_code_color['ven']) && $grid_code_color['ven'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('ven', array_keys($grid_code_color))) {{ $grid_code_color['ven'] }} @endif">{{$grid['ven']}}</td>
                 <td class="{{ $grid_code_color && isset($grid_code_color['mer']) && $grid_code_color['mer'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('mer', array_keys($grid_code_color))) {{ $grid_code_color['mer'] }} @endif">{{$grid['mer']}}</td>
-                <td class="{{ $grid_code_color && isset($grid_code_color['so']) && $grid_code_color['so'] == 'border-green' ? 'border-green' : 'border' }}">{{$grid['so']}}</td>
+                <td class="{{ $grid_code_color && isset($grid_code_color['so']) && $grid_code_color['so'] == 'border-green' ? 'border-green' : 'border' }} @if(in_array('so', array_keys($grid_code_color))) {{ $grid_code_color['so'] }} @endif">{{$grid['so']}}</td>
                 <td class="empty-block"></td>
                 <td class="empty-block"></td>
                 <td class="empty-block"></td>
