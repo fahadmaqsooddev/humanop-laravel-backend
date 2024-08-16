@@ -164,7 +164,6 @@ class generateUserData extends Command
                                 $question = Question::singleQuestion($recordData[2]);
                                 $answer = Answer::singleAnswer($recordData[3]);
 
-                                dd($question, $answer);
                                 if (!empty($question)) {
                                     AssessmentDetail::create([
                                         'user_id' => $userId,
