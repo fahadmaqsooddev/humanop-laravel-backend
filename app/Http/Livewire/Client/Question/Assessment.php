@@ -33,7 +33,7 @@ class Assessment extends Component
 
     public function updateOrder($orderedIds)
     {
-        
+
         $answer = Answer::where('id', $orderedIds[0]['value'])->first();
 
         $questionId = $answer->question_id;
@@ -122,6 +122,7 @@ class Assessment extends Component
             return $question['multiple'] == 0;
         });
 
+//        dd(count($filteredQuestions), count($this->answers));
         if (count($filteredQuestions) != count($this->answers)) {
             $this->emit('scrollToTop');
             $this->skipRender();
@@ -264,10 +265,13 @@ class Assessment extends Component
 
         $codes = [];
         $codeArr = json_decode(stripslashes($answerCodes), true);
+
         foreach ($codeArr as $code) {
             $codes[$code['code']] = $code['number'];
         }
         $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
+
+        dd($this->answers);
 
         $this->skipRender();
     }

@@ -13,9 +13,9 @@
             @if($question['multiple'] == 1)
                 <ul class="mb-5" wire:sortable="updateOrder" style="list-style: none">
                     @foreach($question['answers'] as $key => $answer)
-                        <li class="mb-4" wire:sortable.item="{{$answer['id'] }}" wire:sortable.handle>
-                            <div class="w-100 pl-3">
-                                <span class="number text-white">{{ $key + 1 }}</span> <span class="bg-white" style="color: black;cursor: pointer;width: 400px;"> {{ $answer['answer'] }}</span>
+                        <li class="mb-4 w-75" wire:sortable.item="{{$answer['id'] }}" wire:sortable.handle>
+                            <div class="w-50 pl-3 p-2" style="border-radius: 4px; background-color: white">
+                                <span class="number p-2 text-white" style="background-color: #f2661c; margin-left: -8px; border-radius: 10% 50% 50% 10%">{{ $key + 1 }} )</span> <span class="bg-white" style="color: black;cursor: pointer;width: 400px;"> {{ $answer['answer'] }}</span>
                             </div>
                         </li>
                     @endforeach
