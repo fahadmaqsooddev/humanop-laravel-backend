@@ -61,30 +61,18 @@
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$follow->user->user_picture_url ?? null}}" alt=""
-                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:0 10%; cursor: pointer; justify-content: center;">
+                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                             </div>
                                             <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
                                                 {{$follow->user ? $follow->user->first_name . ' ' . $follow->user->last_name : ""}}
                                             </h5>
                                             <div class="d-flex flex-row justify-content-center flex-1" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
-                                                {{--                                                <div class="p-2">--}}
-                                                {{--                                                    @if($user['connection_status'] === 0)--}}
-                                                {{--                                                        <a class="btn updateBtn" wire:loading wire:target="connectUnConnectUser" wire:click="connectUnConnectUser({{$user->id}},'connect')" style='background-color: #f2661c;color: white;'>Connect</a>--}}
-                                                {{--                                                    @elseif($user['connection_status'] === 1)--}}
-                                                {{--                                                        <a class="btn btn-primary" wire:click="connectUnConnectUser({{$user->id}},'un-connect')">Connected</a>--}}
-                                                {{--                                                    @elseif($user['connection_status'] === 2)--}}
-                                                {{--                                                        <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$user->id}},'un-connect')">Pending</a>--}}
-                                                {{--                                                    @elseif($user['connection_status'] === 3)--}}
-                                                {{--                                                        <a class="btn btn-success" wire:click="connectUnConnectUser({{$user->id}},'accept')">Accept</a>--}}
-                                                {{--                                                    @endif--}}
-                                                {{--                                                </div>--}}
-
                                                 <div class="p-2">
                                                     @if($follow['user']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$follow->user->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
+                                                        <a class="btn btn-secondary btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn" wire:click="followUser({{$follow->user->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
+                                                        <a class="btn updateBtn btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 
@@ -117,7 +105,7 @@
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$following->follower->user_picture_url ?? null}}" alt=""
-                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:0 10%; cursor: pointer; justify-content: center;">
+                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                             </div>
                                             <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
                                                 {{$following->follower ? $following->follower->first_name . ' ' . $following->follower->last_name : ""}}
@@ -138,9 +126,9 @@
 
                                                 <div class="p-2">
                                                     @if($following['follower']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary" wire:loading wire:target="connectUnConnectUser" wire:click="followUser({{$following->follower->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
+                                                        <a class="btn btn-secondary btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn" wire:click="followUser({{$following->follower->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
+                                                        <a class="btn updateBtn btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 
