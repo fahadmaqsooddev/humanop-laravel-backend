@@ -14,7 +14,7 @@ class Index extends Component
     public $userMessage = '';
     public $messages = [];
     public $likeActive = false;
-//    public $dislikeActive = false;
+    public $dislikeActive = false;
     public $dislikeClickedOnce = false;
     public $lastMessage;
 
@@ -23,15 +23,15 @@ class Index extends Component
     public function like()
     {
         $this->likeActive = true;
-//        $this->dislikeActive = false;
+        $this->dislikeActive = false;
         $this->dislikeClickedOnce = false; // Reset dislike click counter
     }
 
-    public function dislike()
+    public function dislike($id)
     {
 
             $this->likeActive = false;
-//            $this->dislikeActive = true;
+            $this->dislikeActive = true;
 
             if(!$this->dislikeClickedOnce){ // works for first like
 
@@ -40,6 +40,8 @@ class Index extends Component
                 $this->userMessage = $this->lastMessage;
 
                 $this->sendMessage(1);
+
+                $this->emit('scrollDownAndDislikeButton', ['id' => $id]);
 
             }else{ // works on second like
 
@@ -64,11 +66,11 @@ class Index extends Component
                $assessments = AssessmentHelper::getAssessments();
                $assessmentDetails = Assessment::getAssessment();
 
-               $this->messages[] = ['type' => 'user', 'text' => $this->userMessage, 'is_dislike' => false];
+               $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
                $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-               $this->messages[] = ['type' => 'bot', 'text' => $aiReply, 'is_dislike' => $is_repeat_answer];
+               $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
 
                $this->emit('updateAiMessage');
                $this->lastMessage = $this->userMessage;
