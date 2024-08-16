@@ -77,6 +77,37 @@
         color: #f2661c;
     }
 
+    .modal-close-btn {
+        background: #f2661c;
+        border: none;
+        color: white;
+        font-weight: bold;
+        font-size: x-large;
+        float: right;
+        border-radius: 3px;
+        padding: 0px 10px 1px 10px;
+    }
+
+    .pagination {
+        float: right;
+        margin-right: 24px;
+    }
+
+    .page-link {
+        background: none !important;
+    }
+
+    .page-link:hover {
+        background: #f2661c !important;
+        color: white !important;
+    }
+
+    .page-item.active .page-link {
+        background: #f2661c !important;
+        color: white !important;
+        border-color: #f2661c !important;
+    }
+
 </style>
 @section('content')
 
@@ -300,32 +331,62 @@
             </div>
         </section>
 
-        <!-- Modal -->
-{{--        2nd dislike question modal--}}
-        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-{{--        <div>--}}
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content" style="background-color: #0f1535;">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-white" id="exampleModalLabel">Describe your question briefly to us</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <textarea rows="4" class="form-control" id="message-text" placeholder="Type your question here..."></textarea>
+        <!-- 2nd dislike question Modal -->
+        {{--        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"--}}
+        {{--             aria-labelledby="exampleModalMessageTitle" aria-hidden="true">--}}
+        {{--            <div class="modal-dialog modal-dialog-centered" role="document">--}}
+        {{--                <div class="modal-content" style="background-color: #0f1535;">--}}
+        {{--                    <div class="modal-header">--}}
+        {{--                        <h5 class="modal-title text-white" id="exampleModalLabel">Describe your question briefly to--}}
+        {{--                            us</h5>--}}
+        {{--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">--}}
+        {{--                            <span aria-hidden="true"></span>--}}
+        {{--                        </button>--}}
+        {{--                    </div>--}}
+        {{--                    <div class="modal-body">--}}
+        {{--                        <form>--}}
+        {{--                            <div class="form-group">--}}
+        {{--                                <textarea rows="4" class="form-control" id="message-text"--}}
+        {{--                                          placeholder="Type your question here..."></textarea>--}}
+        {{--                            </div>--}}
+        {{--                        </form>--}}
+        {{--                    </div>--}}
+        {{--                    <div class="modal-footer">--}}
+        {{--                        <button type="button" class="btn bg-gradient-primary">Send</button>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalMessage" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label fs-4 text-white">Describe your question briefly to
+                                        us</label>
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <form>
+                                        <div class="form-group mt-4">
+                                <textarea rows="4" class="form-control text-white" style="background-color: #0f1535" id="message-text"
+                                          placeholder="Type your question here..."></textarea>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-{{--                        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>--}}
-                        <button type="button" class="btn bg-gradient-primary">Send</button>
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Send
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
     </div>
 @endsection

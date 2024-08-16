@@ -271,7 +271,7 @@ class Assessment extends Component
         }
         $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
 
-//        dd($this->answers);
+        dd(count($this->answers));
 
         $this->skipRender();
     }
