@@ -169,7 +169,7 @@ class generateUserData extends Command
                                     AssessmentDetail::create([
                                         'user_id' => $userId,
                                         'assessment_id' => $assessment['id'],
-                                        'question' => $question['question'],
+//                                        'question' => $question['question'],
                                         'answer' => $answer['answer'],
                                     ]);
                                 }
