@@ -263,6 +263,7 @@ class Assessment extends Component
     public function selectAnswer($questionId, $answerId, $answerCodes, $question, $answer)
     {
 
+        dd($answerCodes);
         $codes = [];
         $codeArr = json_decode(stripslashes($answerCodes), true);
         foreach ($codeArr as $code) {
