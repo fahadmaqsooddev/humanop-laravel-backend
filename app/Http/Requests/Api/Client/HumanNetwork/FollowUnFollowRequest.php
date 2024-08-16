@@ -25,7 +25,7 @@ class FollowUnFollowRequest extends FormRequest
     {
         return [
             'follow_id' => 'required|exists:users,id,deleted_at,NULL',
-            'type' => 'required|in:follow,unfollow',
+            'type' => 'required|in:follow,un-follow',
         ];
     }
 }

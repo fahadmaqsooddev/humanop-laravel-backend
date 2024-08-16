@@ -122,7 +122,6 @@ class Assessment extends Component
             return $question['multiple'] == 0;
         });
 
-        dd(count($filteredQuestions), count($this->answers));
         if (count($filteredQuestions) != count($this->answers)) {
             $this->emit('scrollToTop');
             $this->skipRender();
@@ -269,9 +268,8 @@ class Assessment extends Component
         foreach ($codeArr as $code) {
             $codes[$code['code']] = $code['number'];
         }
-        $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
 
-        $this->answers = $this->answers;
+        $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
 
         $this->skipRender();
     }

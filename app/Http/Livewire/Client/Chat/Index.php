@@ -27,7 +27,7 @@ class Index extends Component
         $this->dislikeClickedOnce = false; // Reset dislike click counter
     }
 
-    public function dislike()
+    public function dislike($id)
     {
 
             $this->likeActive = false;
@@ -40,6 +40,8 @@ class Index extends Component
                 $this->userMessage = $this->lastMessage;
 
                 $this->sendMessage(1);
+
+                $this->emit('scrollDownAndDislikeButton', ['id' => $id]);
 
             }else{ // works on second like
 
