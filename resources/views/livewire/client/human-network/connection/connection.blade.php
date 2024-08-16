@@ -170,12 +170,12 @@
                                             </h5>
                                             <div class="d-flex flex-row justify-content-center flex-1" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
-                                                <div class="p-2">
-                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: small; font-weight: 900;">Accept</a>
+                                                <div class="p-1">
+                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
                                                 </div>
 
-                                                <div class="p-2">
-                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: small; font-weight: 900;">Cancel</a>
+                                                <div class="p-1">
+                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: x-small; font-weight: 900;">Cancel</a>
                                                 </div>
 
                                             </div>
