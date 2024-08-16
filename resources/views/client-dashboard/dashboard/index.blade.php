@@ -298,10 +298,6 @@
                 </div>
             </div>
         </section>
-<<<<<<< Updated upstream
-=======
-        {{--        @include('client-dashboard.dashboard.resources.views.layouts.footers.auth.footer')--}}
->>>>>>> Stashed changes
     </div>
 @endsection
 @push('javascript')
