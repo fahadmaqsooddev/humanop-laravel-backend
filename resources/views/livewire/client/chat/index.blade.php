@@ -27,7 +27,7 @@
                                     <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
                                 </div>
                                 <!-- Thumbs down -->
-                                <div class="dislike grow {{ $dislikeActive ? 'active' : '' }}" id="thumbDown"
+                                <div class="dislike grow {{ $message['is_dislike'] ? 'active' : '' }}" id="thumbDown"
                                      wire:click="dislike">
                                     <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
                                 </div>
