@@ -10,7 +10,7 @@
     <div class="chatbox">
         <div class="chatbox-content" id="chatbox-content">
 
-            @foreach($messages as $message)
+            @foreach($messages as $key => $message)
                 <div style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
                     @if($message['type'] === 'user')
                         <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
@@ -27,8 +27,8 @@
                                     <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
                                 </div>
                                 <!-- Thumbs down -->
-                                <div class="dislike grow {{ $message['is_dislike'] ? 'active' : '' }}" id="thumbDown"
-                                     wire:click="dislike">
+                                <div class="dislike grow" id="thumbDown_{{$key}}"
+                                     wire:click="dislike({{$key}})">
                                     <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
         </div>
 
 {{--        This loader works for when user dislikes the AI chat answer --}}
-        <div style="display: flex; justify-content:flex-start">
+        <div style="display: flex; justify-content:flex-start;">
             <div id="chatDots" wire:loading wire:target="dislike">
                 <span class="chatDot"></span>
                 <span class="chatDot"></span>
@@ -93,11 +93,18 @@
     </script>
 
     <script>
-        window.Livewire.on('showUserAnswerModal', function ($q){
+        window.Livewire.on('showUserAnswerModal', function (){
 
             $('.fixed-plugin-close-button').click();
 
             $('#chat_ai_question_modal').click();
+        })
+
+        window.Livewire.on('scrollDownAndDislikeButton', function (e){
+
+            $('#thumbDown_'+e.id).addClass('active');
+
+            scrollToBottom();
         })
     </script>
 @endpush
