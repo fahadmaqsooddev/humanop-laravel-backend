@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Client\Chat;
 
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Models\Assessment;
-use App\Models\AssessmentColorCode;
 
 class Index extends Component
 {
@@ -16,6 +16,7 @@ class Index extends Component
     public $likeActive = false;
     public $dislikeActive = false;
     public $dislikeClickedOnce = false;
+    public $lastMessage;
 
     protected $listeners = ['chatMessage'];
 
@@ -28,13 +29,24 @@ class Index extends Component
 
     public function dislike()
     {
+
             $this->likeActive = false;
             $this->dislikeActive = true;
-    }
 
-    public function showModal()
-    {
+            if(!$this->dislikeClickedOnce){ // works for first like
 
+                $this->dislikeClickedOnce = true;
+
+                $this->userMessage = $this->lastMessage;
+
+                $this->sendMessage(1);
+
+            }else{ // works on second like
+
+                $this->dislikeClickedOnce = false;
+
+                $this->emit('showUserAnswerModal');
+            }
     }
 
     public function chatMessage($message)
@@ -42,7 +54,7 @@ class Index extends Component
         $this->userMessage = $message;
     }
 
-    public function sendMessage(){
+    public function sendMessage($is_repeat_answer = 0){
 
        if(isset($this->userMessage)){
 
@@ -51,12 +63,15 @@ class Index extends Component
 
                $assessments = AssessmentHelper::getAssessments();
                $assessmentDetails = Assessment::getAssessment();
+
                $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
 
-               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails]);
+               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
                $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
+
                $this->emit('updateAiMessage');
+               $this->lastMessage = $this->userMessage;
                $this->userMessage = '';
            }
        }
