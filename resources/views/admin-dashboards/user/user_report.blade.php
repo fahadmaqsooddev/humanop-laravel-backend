@@ -293,11 +293,14 @@
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOU HAVE A
-                                                    "{{$reports['alchemy_code_details']['public_name']}} Alchemy"</h2>
-                                                <div class="mt-4" style="border: 0px solid #ccc;"><img
+                                                    "{{$reports['alchemy_code_details']['public_name']}}"</h2>
+                                                @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
+                                                <div class="mt-4" style="border: 0px solid #ccc;">
+                                                    <img
                                                         src="{{asset('assets/'.$reports['alchemy_code_details']['image'])}}"
                                                         style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
                                                 </div>
+                                                @endif
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
                                                 <button onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')" data-toggle="collapse" href="#{{$reports['alchemy_code_details']['p_name']}}" role="button"
                                                         aria-expanded="false" aria-controls="collapseExample"

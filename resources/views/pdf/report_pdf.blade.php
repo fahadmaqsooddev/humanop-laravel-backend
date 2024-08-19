@@ -136,11 +136,13 @@
                                     around you.</p>
 
                                 <h2 class="mt-4" style="color: #f2661c; text-align: justify">YOU HAVE A
-                                    "{{$reports['alchemy_code_details']['public_name']}} Alchemy"</h2>
+                                    "{{$reports['alchemy_code_details']['public_name']}}"</h2>
+                                @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
                                 <div class="mt-4" ><img
-                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/'. $reports['alchemy_code_details']['image']))) }}"
+                                        src="{{'assets/'. $reports['alchemy_code_details']['image'] }}"
                                         style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
                                 </div>
+                                @endif
                                 <p class="text-white mt-4"
                                    style="text-align: justify">{{$reports['alchemy_code_details']['text']}}</p>
 
