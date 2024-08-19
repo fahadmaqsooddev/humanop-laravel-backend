@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
+use App\Models\Client\Feedback\Feedback;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -95,6 +97,27 @@ class UserController extends Controller
             Session::flush();
 
             return Helpers::successResponse('User deleted successfully');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function userFeedback(StoreUserFeedback $request){
+
+        try {
+
+            $feedback = new Feedback();
+
+            $dataArray = $request->only($feedback->getFillable());
+
+            $dataArray['user_id'] = Helpers::getUser()->id;
+
+            Feedback::storeClientFeedback($dataArray);
+
+            return Helpers::successResponse('Your feedback successfully submitted');
 
         }catch (\Exception $exception){
 

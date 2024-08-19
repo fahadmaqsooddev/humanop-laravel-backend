@@ -16,3 +16,4 @@ Route::get('user-profile', 'UserController@userProfile');
 Route::post('update-user-profile', 'UserController@updateUserProfile');
 Route::post('change-password', 'UserController@changePassword');
 Route::delete('delete-profile', 'UserController@deleteProfile');
+Route::post('user-feedback', 'UserController@userFeedback');

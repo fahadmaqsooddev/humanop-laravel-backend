@@ -91,6 +91,8 @@ class UserController extends Controller
 
             $dataArray = $request->only($feedback->getFillable());
 
+            $dataArray['user_id'] = Helpers::getWebUser()->id;
+
             Feedback::storeClientFeedback($dataArray);
 
         }catch (\Exception $exception){

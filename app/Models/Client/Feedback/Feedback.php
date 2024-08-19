@@ -30,8 +30,6 @@ class Feedback extends Model
     // query
     public static function storeClientFeedback($data = null){
 
-        $data['user_id'] = Helpers::getWebUser()->id;
-
         self::create($data);
     }
 
