@@ -13,31 +13,33 @@ class Podcast extends Component
 
     use WithFileUploads;
 
-    public $podcast_video;
-    public $video;
+    public $podcast_audio;
+    public $audio;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
-        'podcast_video' => 'nullable|mimetypes:video/mp4|max:10240'
+        'podcast_audio' => 'nullable|file|mimes:audio/mp3'
     ];
 
     public function mount()
     {
         $podcast = PodcastVideo::getPodcast();
 
-        $this->video = $podcast ? $podcast['video_url']['path'] : '';
+        $this->audio = $podcast ? $podcast['audio_url']['path'] : '';
+
+        dd($this->audio);
     }
 
     public function updatePodcast(){
 
-        $this->validate();
+//        $this->validate();
 
         $data = [];
 
-        if ($this->podcast_video){
+        if ($this->podcast_audio){
 
-            $upload_id = Upload::uploadFile($this->podcast_video, '', '', 'video');
+            $upload_id = Upload::uploadFile($this->podcast_audio, '', '', 'audio');
 
             $data['upload_id'] = $upload_id;
         }
@@ -51,7 +53,7 @@ class Podcast extends Component
 
     public function resetForm()
     {
-        $this->reset('podcast_video'); // Clear the podcast_video input
+        $this->reset('podcast_audio'); // Clear the podcast_audio input
         $this->resetValidation(); // Clear validation errors
     }
 

@@ -62,7 +62,11 @@ class Upload extends Model
         if ($type === 'video'){
 
             $folder = storage_path('videos');
-        }else{
+        }elseif ($type === 'audio'){
+
+            $folder = storage_path('audios');
+        }
+        else{
 
             $folder = storage_path('uploads');
         }
@@ -83,6 +87,10 @@ class Upload extends Model
         }else if ($type === 'video'){
 
             $filename = Str::random(10) . '.mp4';
+
+        }else if ($type === 'audio'){
+
+            $filename = Str::random(10) . '.mp3';
 
         }else if ($type === 'gif'){
 
@@ -110,6 +118,10 @@ class Upload extends Model
 
             $upload_success = $file->storeAs("",$date_append . $filename ,['disk' => 'videos']);
 
+        }else if ($type === 'audio'){
+
+            $upload_success = $file->storeAs("",$date_append . $filename ,['disk' => 'audios']);
+
         }else{
 
             $upload_success = $file->move($folder, $date_append . $filename);
@@ -133,7 +145,8 @@ class Upload extends Model
 
             $thumbnail->save(storage_path('upload_thumbnails') . '/' . $date_append . $filename);
 
-        }else if ($type == 'svg' || $type == 'gif'){
+        }
+        else if ($type == 'svg' || $type == 'gif'){
 
             File::copy($folder .'/'. ($date_append . $filename),storage_path('upload_thumbnails') . '/' . $date_append . $filename);
 

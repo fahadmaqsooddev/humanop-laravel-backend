@@ -10,7 +10,7 @@ class Podcast extends Model
 {
     use HasFactory;
 
-    protected $appends = ['video_url'];
+    protected $appends = ['audio_url'];
 
     public function __construct(array $attributes = [])
     {
@@ -22,9 +22,9 @@ class Podcast extends Model
     }
 
     // appends
-    public function getVideoUrlAttribute(){
+    public function getAudioUrlAttribute(){
 
-        return Helpers::getVideo($this->upload_id, 1);
+        return Helpers::getAudio($this->upload_id, 1);
     }
 
     public static function getPodcast()

@@ -28,3 +28,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('files/{hash}/{name}', 'UploadsController@get_file');
 Route::get('thumbnails/{hash}/{name}', 'UploadsController@get_file_thumbnail');
 Route::get('videos/{hash}/{name}', 'UploadsController@get_video');
+Route::get('audios/{hash}/{name}', 'UploadsController@get_audio');

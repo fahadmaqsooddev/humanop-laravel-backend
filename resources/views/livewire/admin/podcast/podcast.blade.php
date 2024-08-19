@@ -22,7 +22,7 @@
                             <div class="row">
                                 <div class="numbers mt-3">
                                     <video id="podcastVideo" height="220" controls>
-                                        <source src="{{$video}}" type="video/mp4">
+                                        <source src="{{$audio}}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
                                     <h5 class="font-weight-bolder mb-0">
@@ -58,10 +58,10 @@
 {{--                                    @include('layouts.message')--}}
                                     <div class="form-group mt-4">
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               type="file" wire:model.defer="podcast_video">
-                                        <span class="mt-2" wire:loading.flex wire:target="podcast_video">Video Uploading ...</span>
+                                               type="file" wire:model.defer="podcast_audio">
+                                        <span class="mt-2" wire:loading.flex wire:target="podcast_audio">Audio File Uploading ...</span>
 
-                                        @error('podcast_video')
+                                        @error('podcast_audio')
                                         <p class="text-danger">{{$message}}</p>
                                         @enderror
                                     </div>
