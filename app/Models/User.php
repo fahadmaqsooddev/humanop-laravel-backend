@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
+use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
@@ -421,6 +422,34 @@ class User extends Authenticatable implements JWTSubject
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
 
             });
+
+        });
+
+        $users = $users->when($request->input('style_feature_code'), function ($q, $style_feature_code){
+
+            $q->whereHas('colorCodes', function ($q) use ($style_feature_code){
+
+                $q->where('code', $style_feature_code)->where('code_color', 'green');
+
+            });
+
+        });
+
+        $users = $users->when($request->input('alchemy_code'), function ($q, $alchemy_code){
+
+            $alchemy_codes_array = AlchemyCode::getNumbersFromCode($alchemy_code);
+
+            if (isset($alchemy_codes_array[0])){
+
+                $sqlArray = '(' . join(',', $alchemy_codes_array) . ')';
+
+                $q->whereHas('assessments', function ($q) use ($sqlArray){
+
+                    $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
+
+                });
+
+            }
 
         });
 

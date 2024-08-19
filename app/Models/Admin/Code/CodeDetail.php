@@ -103,13 +103,13 @@ class CodeDetail extends Model
 
     public static function styleAndFeatureCode(){
 
-        return self::whereIn('type', ['Style', 'Feature'])->get()->unique('public_name');
+        return self::whereIn('type', ['Style', 'Feature'])->select(['id','code','public_name'])->get()->unique('public_name');
 
     }
 
     public static function alchemyCodes(){
 
-        return self::where('type', 'Alchemy')->get()->unique('public_name');
+        return self::where('type', 'Alchemy')->select(['id','code','public_name'])->get()->unique('public_name');
 
     }
 }

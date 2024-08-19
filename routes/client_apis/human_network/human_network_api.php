@@ -19,3 +19,5 @@ Route::post('connect-unconnect', 'HumanNetworkController@connectUnconnect');
 Route::get('users', 'HumanNetworkController@users');
 Route::get('connection-requests', 'HumanNetworkController@connectionRequests');
 Route::get('connections', 'HumanNetworkController@connections');
+Route::get('style-feature-codes', 'HumanNetworkController@styleFeatureCodes');
+Route::get('alchemy-codes', 'HumanNetworkController@alchemyCodes');

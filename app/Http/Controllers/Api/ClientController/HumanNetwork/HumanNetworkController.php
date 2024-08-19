@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\HumanNetwork\ConnectUnConnectRequest;
 use App\Http\Requests\Api\Client\HumanNetwork\FollowUnFollowRequest;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\User;
@@ -121,5 +122,37 @@ class HumanNetworkController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function styleFeatureCodes(){
+
+        try {
+
+            $style_feature_codes = CodeDetail::styleAndFeatureCode();
+
+            $style_feature_codes = array_values($style_feature_codes->toArray());
+
+            return Helpers::successResponse('Style and Feature codes', $style_feature_codes);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function alchemyCodes(){
+
+        try {
+
+            $alchemy_codes = CodeDetail::alchemyCodes();
+
+            $alchemy_codes = array_values($alchemy_codes->toArray());
+
+            return Helpers::successResponse('Style and Feature codes', $alchemy_codes);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 }
