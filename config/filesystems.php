@@ -58,6 +58,11 @@ return [
             'root' => storage_path('videos'),
         ],
 
+        'audios' => [
+            'driver' => 'local',
+            'root' => storage_path('audios'),
+        ],
+
     ],
 
     /*

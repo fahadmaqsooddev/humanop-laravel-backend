@@ -332,31 +332,6 @@
         </section>
 
         <!-- 2nd dislike question Modal -->
-        {{--        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"--}}
-        {{--             aria-labelledby="exampleModalMessageTitle" aria-hidden="true">--}}
-        {{--            <div class="modal-dialog modal-dialog-centered" role="document">--}}
-        {{--                <div class="modal-content" style="background-color: #0f1535;">--}}
-        {{--                    <div class="modal-header">--}}
-        {{--                        <h5 class="modal-title text-white" id="exampleModalLabel">Describe your question briefly to--}}
-        {{--                            us</h5>--}}
-        {{--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">--}}
-        {{--                            <span aria-hidden="true"></span>--}}
-        {{--                        </button>--}}
-        {{--                    </div>--}}
-        {{--                    <div class="modal-body">--}}
-        {{--                        <form>--}}
-        {{--                            <div class="form-group">--}}
-        {{--                                <textarea rows="4" class="form-control" id="message-text"--}}
-        {{--                                          placeholder="Type your question here..."></textarea>--}}
-        {{--                            </div>--}}
-        {{--                        </form>--}}
-        {{--                    </div>--}}
-        {{--                    <div class="modal-footer">--}}
-        {{--                        <button type="button" class="btn bg-gradient-primary">Send</button>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
         <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalMessage" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">

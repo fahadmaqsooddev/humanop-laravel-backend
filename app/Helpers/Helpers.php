@@ -254,5 +254,20 @@ class Helpers
         }
     }
 
+    public static function getAudio($audio, $is_original_name = 0)
+    {
+        if (!empty($audio)) {
+            $upload = Upload::find($audio);
+            $path = url('/') . '/media/audios/' . $upload->hash . '/' . $upload->name;
+            if ($is_original_name) {
+
+                $original_name = $upload['original_name'];
+
+                return array('path' => $path, 'original_name' => $original_name);
+
+            }
+        }
+    }
+
 }
 
