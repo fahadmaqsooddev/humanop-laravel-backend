@@ -134,4 +134,27 @@ class PaymentController extends Controller
         }
 
     }
+
+    public static function billing(){
+
+        try {
+
+            $user = Helpers::getUser();
+
+            $data = [
+                'last_four_digits' => $user['pm_last_four'],
+                'exp_month' => $user['pm_exp_month'],
+                'exp_year' => $user['pm_exp_year'],
+                'name' => $user['card_name'],
+                'last_used' => $user->payments()->latest()->first()->created_at ?? null,
+            ];
+
+            return Helpers::successResponse('Billing information', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

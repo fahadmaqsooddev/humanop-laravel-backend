@@ -155,6 +155,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasManyThrough(AssessmentColorCode::class,Assessment::class,'user_id','assessment_id','id','id');
     }
 
+    public function payments(){
+
+        return $this->hasMany(Payment::class,'user_id','id');
+    }
+
     // query
     public function isAdmin()
     {
