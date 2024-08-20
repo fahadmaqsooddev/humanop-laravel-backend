@@ -53,7 +53,7 @@ class MessageThread extends Model
 
             return $this->receiver()->select('id','first_name','last_name')->first();
 
-        }else if ($this->receiver_id === (Helpers::getWebUser()->id || Helpers::getUser()->id)){
+        }else if ($this->receiver_id === (Helpers::getWebUser()->id ?? Helpers::getUser()->id)){
 
             return $this->sender()->select('id','first_name','last_name')->first();
 

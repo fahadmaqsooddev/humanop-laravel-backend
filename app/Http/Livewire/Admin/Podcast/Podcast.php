@@ -11,7 +11,6 @@ class Podcast extends Component
     use WithFileUploads;
 
     public $podcast_url, $latest_podcast;
-    public $audio;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
