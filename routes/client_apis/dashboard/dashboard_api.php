@@ -13,3 +13,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('daily_tip', 'DashboardController@dailyTip');
+Route::get('podcast', 'DashboardController@latestPodcast');

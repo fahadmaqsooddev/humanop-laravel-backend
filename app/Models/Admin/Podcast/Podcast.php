@@ -10,8 +10,6 @@ class Podcast extends Model
 {
     use HasFactory;
 
-    protected $appends = ['audio_url'];
-
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -19,12 +17,6 @@ class Podcast extends Model
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
 
         parent::__construct($attributes);
-    }
-
-    // appends
-    public function getAudioUrlAttribute(){
-
-        return Helpers::getAudio($this->upload_id, 1);
     }
 
     public static function getPodcast()

@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\TipRecord;
-use Illuminate\Http\Request;
+use App\Models\Admin\Podcast\Podcast;
 
 class DashboardController extends Controller
 {
@@ -27,5 +26,20 @@ class DashboardController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function latestPodcast(){
+
+        try {
+
+            $podcast = Podcast::getPodcast();
+
+            return Helpers::successResponse('Podcast url', $podcast);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }
