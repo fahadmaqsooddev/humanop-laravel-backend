@@ -76,7 +76,7 @@ class MessageController extends Controller
 
         try {
 
-            MessageThread::deleteMessageThreadFromApi();
+            MessageThread::deleteMessageThreadFromApi($request->input('message_thread_id'));
 
             return Helpers::successResponse('Chat deleted');
 
