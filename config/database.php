@@ -314,6 +314,21 @@ return [
             'table' => 'podcast',
             'fillable' => ['upload_id'],
             'hidden' => ['updated_at', 'created_at'],
+        ],
+        'HaiChat' => [
+            'table' => 'haichat',
+            'fillable' => ['user_id','query','answer','likedislike'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
+        'ClientQuery' => [
+            'table' => 'client_query',
+            'fillable' => ['user_id','query','response'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
+        'QueryAnswer' => [
+            'table' => 'query_answer',
+            'fillable' => ['query_id','answer','approved'],
+            'hidden' => ['updated_at', 'created_at'],
         ]
     ]
 ];

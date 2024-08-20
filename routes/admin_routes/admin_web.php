@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminControllers\TipController;
 use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\PodcastController;
+use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
         Route::get('/deleted-clients', [AdminController::class,'deletedClients'])->name('deleted_clients');
+        Route::get('/client-queries', [ClientQueryController::class,'clientQuery'])->name('admin_client_queries');
     });
 
     Route::group(['middleware' => ['permission:cms']], function () {

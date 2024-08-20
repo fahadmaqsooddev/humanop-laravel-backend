@@ -8,47 +8,37 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Models\Assessment;
+use App\Models\HAIChai\HaiChat;
 
 class Index extends Component
 {
     public $userMessage = '';
-    public $messages = [];
-    public $likeActive = false;
-    public $dislikeActive = false;
-    public $dislikeClickedOnce = false;
     public $lastMessage;
 
     protected $listeners = ['chatMessage'];
 
-    public function like()
+    public function like($id)
     {
-        $this->likeActive = true;
-        $this->dislikeActive = false;
-        $this->dislikeClickedOnce = false; // Reset dislike click counter
+        $chat = HaiChat::getSingleChat($id);
+        HaiChat::updateChat($chat['id'], 2);
     }
 
-    public function dislike($id)
+    public function dislike($chatId)
     {
+        $chat = HaiChat::getSingleChat($chatId);
 
-            $this->likeActive = false;
-            $this->dislikeActive = true;
+        if ($chat['likedislike'] == 3 || $chat['likedislike'] == 2) {
 
-            if(!$this->dislikeClickedOnce){ // works for first like
+            HaiChat::updateChat($chat['id'], 1);
 
-                $this->dislikeClickedOnce = true;
+            $this->userMessage = $this->lastMessage;
+            $this->sendMessage(1);
 
-                $this->userMessage = $this->lastMessage;
+        } else {
 
-                $this->sendMessage(1);
-
-                $this->emit('scrollDownAndDislikeButton', ['id' => $id]);
-
-            }else{ // works on second like
-
-                $this->dislikeClickedOnce = false;
-
-                $this->emit('showUserAnswerModal');
-            }
+            HaiChat::updateChat($chat['id'], 0);
+            $this->emit('showUserAnswerModal');
+        }
     }
 
     public function chatMessage($message)
@@ -56,30 +46,28 @@ class Index extends Component
         $this->userMessage = $message;
     }
 
-    public function sendMessage($is_repeat_answer = 0){
+    public function sendMessage($is_repeat_answer = 0)
+    {
 
-       if(isset($this->userMessage)){
+        if (isset($this->userMessage)) {
 
-           if ($this->userMessage !== '')
-           {
+            if ($this->userMessage !== '') {
 
-               $assessments = AssessmentHelper::getAssessments();
-               $assessmentDetails = Assessment::getAssessment();
+                $assessments = AssessmentHelper::getAssessments();
+                $assessmentDetails = Assessment::getAssessment();
 
-               $this->messages[] = ['type' => 'user', 'text' => $this->userMessage];
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-               $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/llm-data',['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
-
-               $this->messages[] = ['type' => 'bot', 'text' => $aiReply];
-
-               $this->emit('updateAiMessage');
-               $this->lastMessage = $this->userMessage;
-               $this->userMessage = '';
-           }
-       }
+                HaiChat::createChat($this->userMessage, $aiReply);
+                $this->emit('updateAiMessage');
+                $this->lastMessage = $this->userMessage;
+                $this->userMessage = '';
+            }
+        }
     }
 
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = []) {
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
         $authorization = Request::header('Authorization');
         $queryArray = [
             'headers' => ['Authorization' => $authorization],
@@ -88,12 +76,14 @@ class Index extends Component
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
         $route = $route_name;
         $response = $client->request($method, $route, $queryArray);
-//        $statusCode = $response->getStatusCode();
         $response_body = json_decode($response->getBody()->getContents(), true);
         return $response_body;
     }
 
-    public function render() {
-        return view('livewire.client.chat.index', ['messages' => $this->messages]);
+    public function render()
+    {
+
+        $chats = HaiChat::getChat();
+        return view('livewire.client.chat.index', ['messages' => $chats]);
     }
 }

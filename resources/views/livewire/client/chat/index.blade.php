@@ -2,44 +2,38 @@
 
     <div>
         <!-- Button trigger modal -->
-        <button type="button" id="chat_ai_question_modal" class="btn bg-gradient-success btn-block mb-3" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" hidden>
+        <button type="button" id="chat_ai_question_modal" class="btn bg-gradient-success btn-block mb-3"
+                data-bs-toggle="modal" data-bs-target="#exampleModalMessage" hidden>
             2nd dislike question modal
         </button>
     </div>
 
+
     <div class="chatbox">
         <div class="chatbox-content" id="chatbox-content">
-
             @foreach($messages as $key => $message)
-                <div style="display: flex; justify-content: {{ $message['type'] === 'user' ? 'flex-end' : 'flex-start' }}">
-                    @if($message['type'] === 'user')
-                        <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
-                            {{ $message['text'] }}
+                <div class="message user-message flex-end">
+                    {{ $message['query'] }}
+                </div>
+                <div class="flex-start">
+                    <div class="message bot-message">
+                        {!! $message['answer'] !!}
+                    </div>
+                    <div class="rating d-flex mb-2">
+                        <!-- Thumbs up -->
+                        <div class="like grow {{ $message['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $message['id'] }})">
+                            <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
                         </div>
-                    @elseif($message['type'] === 'bot')
-                        <div class="d-flex flex-column">
-                            <div class="message {{ $message['type'] === 'user' ? 'user-message' : 'bot-message' }}">
-                                {!! $message['text'] !!}
-                            </div>
-                            <div class="rating d-flex mb-2">
-                                <!-- Thumbs up -->
-                                <div class="like grow {{ $likeActive ? 'active' : '' }}" wire:click="like">
-                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
-                                </div>
-                                <!-- Thumbs down -->
-                                <div class="dislike grow" id="thumbDown_{{$key}}"
-                                     wire:click="dislike({{$key}})">
-                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
-                                </div>
-                            </div>
+                        <!-- Thumbs down -->
+                        <div class="dislike grow {{ $message['likedislike'] == 1 || $message['likedislike'] == 0 ? 'active' : '' }}"
+                             wire:click="dislike({{ $message['id'] }})">
+                            <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
                         </div>
-                    @endif
+                    </div>
                 </div>
             @endforeach
-
         </div>
 
-{{--        This loader works for when user dislikes the AI chat answer --}}
         <div style="display: flex; justify-content:flex-start;">
             <div id="chatDots" wire:loading wire:target="dislike">
                 <span class="chatDot"></span>
@@ -93,18 +87,18 @@
     </script>
 
     <script>
-        window.Livewire.on('showUserAnswerModal', function (){
+        window.Livewire.on('showUserAnswerModal', function () {
 
             $('.fixed-plugin-close-button').click();
 
             $('#chat_ai_question_modal').click();
         })
 
-        window.Livewire.on('scrollDownAndDislikeButton', function (e){
-
-            $('#thumbDown_'+e.id).addClass('active');
-
-            scrollToBottom();
-        })
+        // window.Livewire.on('scrollDownAndDislikeButton', function (e) {
+        //
+        //     $('#thumbDown_' + e.id).addClass('active');
+        //
+        //     scrollToBottom();
+        // })
     </script>
 @endpush
