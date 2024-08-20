@@ -297,8 +297,8 @@ return [
         ],
         'Message' => [
             'table' => 'messages',
-            'fillable' => ['sender_id','message','upload_id','is_read','message_thread_id'],
-            'hidden' => ['updated_at','created_at']
+            'fillable' => ['sender_id','message','upload_id','is_read','message_thread_id','created_at'],
+            'hidden' => ['updated_at']
         ],
         'Feedback' => [
             'table' => 'feedbacks',
