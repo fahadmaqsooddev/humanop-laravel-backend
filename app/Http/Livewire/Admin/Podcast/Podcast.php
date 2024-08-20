@@ -4,63 +4,48 @@ namespace App\Http\Livewire\Admin\Podcast;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\Upload\Upload;
-use App\Helpers\Helpers;
-use App\Models\Admin\Podcast\Podcast as PodcastVideo;
 
 class Podcast extends Component
 {
 
     use WithFileUploads;
 
-    public $podcast_audio;
+    public $podcast_url, $latest_podcast;
     public $audio;
 
     protected $listeners = ['toggleCreatePodcastFormModal' => 'resetForm'];
 
     protected $rules = [
-        'podcast_audio' => 'nullable|file|mimes:audio/mp3'
+        'podcast_url' => ['required','url', 'regex:/(app.hiro.fm)/']
     ];
 
-    public function mount()
-    {
-        $podcast = PodcastVideo::getPodcast();
-
-        $this->audio = $podcast ? $podcast['audio_url']['path'] : '';
-
-        dd($this->audio);
-    }
+    protected $messages = [
+        'podcast_url.required' => 'Podcast url is required',
+        'podcast_url.url' => 'Podcast must be a url',
+        'podcast_url.regex' => 'Podcast url must be a hiro.fm embedded link',
+    ];
 
     public function updatePodcast(){
 
-//        $this->validate();
+        $this->validate();
 
-        $data = [];
-
-        if ($this->podcast_audio){
-
-            $upload_id = Upload::uploadFile($this->podcast_audio, '', '', 'audio');
-
-            $data['upload_id'] = $upload_id;
-        }
-
-        PodcastVideo::createVideo($data);
+        \App\Models\Admin\Podcast\Podcast::updatePodcastUrl($this->podcast_url);
 
         $this->emit('toggleCreatePodcastFormModal');
 
-        session()->flash('success', "Podcast updated successfully");
+        toastr()->success( "Podcast updated successfully");
     }
 
     public function resetForm()
     {
-        $this->reset('podcast_audio'); // Clear the podcast_audio input
+        $this->reset('podcast_url'); // Clear the podcast_audio input
         $this->resetValidation(); // Clear validation errors
     }
 
     public function render()
     {
 
-        $this->mount();
+        $this->latest_podcast = \App\Models\Admin\Podcast\Podcast::adminLatestPodcastUrl();
 
         return view('livewire.admin.podcast.podcast');
     }

@@ -312,7 +312,7 @@ return [
         ],
         'Podcast' => [
             'table' => 'podcast',
-            'fillable' => ['upload_id'],
+            'fillable' => ['embedded_url','user_id'],
             'hidden' => ['updated_at', 'created_at'],
         ]
     ]

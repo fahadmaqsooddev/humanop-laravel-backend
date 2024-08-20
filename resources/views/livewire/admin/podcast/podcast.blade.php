@@ -12,28 +12,55 @@
             </div>
         </div>
         <div class="row">
-            <div class="card" style="height: 425px;border-radius: 2rem !important;">
+            <div class="card" style="height: content-box;border-radius: 2rem !important;">
+
+                <div class="container">
+
+                    <div class="row justify-content-between p-2">
+                        <div class="col-6">
+                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
+                                HumanOp Integration Podcast
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            @if($latest_podcast)
+                            <button type="button" data-bs-toggle="modal"
+                                    data-bs-target="#podcastModal" style="background-color: #f2661c; color: white"
+                                    class="btn btn-sm float-end mt-2 mb-0">
+                                update
+                            </button>
+                            @else
+                                <button type="button" data-bs-toggle="modal"
+                                        data-bs-target="#podcastModal" style="background-color: #f2661c; color: white"
+                                        class="btn btn-sm float-end mt-2 mb-0">
+                                    create
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="card-body p-3">
-                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
-                        HumanOp Integration Podcast</p>
-                    <div class="card mb-4"
+                    <div class="card mb-4 justify-content-center"
                          style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                         <div class="card-body p-3">
                             <div class="row">
-                                <div class="numbers mt-3">
-                                    <video id="podcastVideo" height="220" controls>
-                                        <source src="{{$audio}}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        <span class="text-success text-sm font-weight-bolder"></span>
-                                    </h5>
+                                <div class="numbers mt-3 d-flex justify-content-center">
+                                    @if($latest_podcast)
+                                    <iframe height="600" width="500"
+                                        src="{{$latest_podcast->embedded_url}}">
+                                    </iframe>
+                                    @else
+                                        <p class="text-center text-white">There is not any podcast uploaded yet.
+                                            Want to <a type="button" data-bs-toggle="modal"
+                                                       data-bs-target="#podcastModal" style="text-decoration: underline">
+                                                upload
+                                            </a> ?
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
-                            <button type="button" data-bs-toggle="modal"
-                                    data-bs-target="#podcastModal" style="background-color: #f2661c; color: white"
-                                    class="btn btn-sm float-end mt-2 mb-0">update
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -55,19 +82,18 @@
                                             aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-{{--                                    @include('layouts.message')--}}
                                     <div class="form-group mt-4">
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               type="file" wire:model.defer="podcast_audio">
-                                        <span class="mt-2" wire:loading.flex wire:target="podcast_audio">Audio File Uploading ...</span>
+                                               type="url" wire:model.defer="podcast_url"
+                                               placeholder="Add your podcast's Hiro.FM embedded link here">
 
-                                        @error('podcast_audio')
-                                        <p class="text-danger">{{$message}}</p>
+                                        @error('podcast_url')
+                                            <p class="text-danger">{{$message}}</p>
                                         @enderror
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Upload
                                 Podcast <span wire:loading wire:target="updatePodcast">
                                 </span>
                             </button>
@@ -85,7 +111,7 @@
 
             $('#podcastModal').modal('toggle')
 
-        }, 2000)})
+        }, 1000)})
 
     </script>
 @endpush

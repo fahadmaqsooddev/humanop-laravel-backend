@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Admin\Podcast\Podcast;
 
 class PodcastController extends Controller
@@ -13,9 +12,7 @@ class PodcastController extends Controller
     {
         try {
 
-            $podcast = Podcast::getPodcast();
-
-            return view('admin-dashboards.podcast.index', compact('podcast'));
+            return view('admin-dashboards.podcast.index');
 
         } catch (\Exception $exception) {
 

@@ -29,7 +29,7 @@ class Podcast extends Model
 
     public static function getPodcast()
     {
-        return self::get()->last();
+        return self::latest()->first();
     }
 
     public static function createVideo($data = null)
@@ -47,5 +47,28 @@ class Podcast extends Model
             return self::create($data);
         }
 
+    }
+
+    public static function updatePodcastUrl($url = null){
+
+        $podcast = self::where('user_id', Helpers::getWebUser()->id)->first();
+
+        if ($podcast){
+
+            $podcast->update(['embedded_url' => $url]);
+
+        }else{
+
+            self::create([
+                'user_id' => Helpers::getWebUser()->id,
+                'embedded_url' => $url,
+            ]);
+        }
+
+    }
+
+    public static function adminLatestPodcastUrl(){
+
+        return self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
     }
 }
