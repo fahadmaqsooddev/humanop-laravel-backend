@@ -58,7 +58,7 @@
                                 <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
                                        href="{{ route('admin_all_sub_admins') }}">
-                                        <span class="sidenav-mini-icon"></span>
+                                        <span class="sidenav-mini-icon"> SA </span>
                                         <span class="sidenav-normal"> Sub Admins </span>
                                     </a>
                                 </li>
@@ -71,6 +71,13 @@
                                         <span class="sidenav-normal"> Client </span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{ (Request::is('client-queries') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('client-queries') ? 'active' : '') }}"
+                                       href="{{ route('admin_client_queries') }}">
+                                        <span class="sidenav-mini-icon"> CQ </span>
+                                        <span class="sidenav-normal"> Client Queries </span>
+                                    </a>
+                                </li>
                                 <li class="nav-item {{ (Request::is('deleted-clients') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('deleted-clients') ? 'active' : '') }}"
                                        href="{{ route('deleted_clients') }}">
@@ -81,7 +88,7 @@
                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
                                        href="{{ route('admin_abandoned_assessment') }}">
-                                        <span class="sidenav-mini-icon"> A </span>
+                                        <span class="sidenav-mini-icon"> AA </span>
                                         <span class="sidenav-normal"> Abandoned Assessment </span>
                                     </a>
                                 </li>
@@ -117,42 +124,42 @@
                                             <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
                                                    href="{{ route('admin_manage_code') }}">
-                                                    <span class="sidenav-mini-icon"> C </span>
+                                                    <span class="sidenav-mini-icon"> CM </span>
                                                     <span class="sidenav-normal"> Codes Manage </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                    href="{{ url('#') }}">
-                                                    <span class="sidenav-mini-icon text-xs"> V </span>
+                                                    <span class="sidenav-mini-icon text-xs"> VB </span>
                                                     <span class="sidenav-normal"> Video Buckets </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
                                                    href="{{ route('admin_web_pages') }}">
-                                                    <span class="sidenav-mini-icon text-xs"> W </span>
+                                                    <span class="sidenav-mini-icon text-xs"> WP </span>
                                                     <span class="sidenav-normal"> Web Pages </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
                                                    href="{{ route('admin_cms') }}">
-                                                    <span class="sidenav-mini-icon"> A </span>
+                                                    <span class="sidenav-mini-icon"> AM </span>
                                                     <span class="sidenav-normal"> Assets Management </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                    href="{{ url('#') }}">
-                                                    <span class="sidenav-mini-icon text-xs"> R </span>
+                                                    <span class="sidenav-mini-icon text-xs"> RC </span>
                                                     <span class="sidenav-normal"> Resources Content </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('admin/daily-tip') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/daily-tip') ? 'active' : '') }}"
                                                    href="{{ route('admin_daily_tip') }}">
-                                                    <span class="sidenav-mini-icon text-xs"> D </span>
+                                                    <span class="sidenav-mini-icon text-xs"> DT </span>
                                                     <span class="sidenav-normal"> Daily Tips </span>
                                                 </a>
                                             </li>
@@ -166,14 +173,14 @@
                                             <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active' : '') }}"
                                                    href="{{ route('admin_payment_history') }}">
-                                                    <span class="sidenav-mini-icon"> P </span>
+                                                    <span class="sidenav-mini-icon"> PH </span>
                                                     <span class="sidenav-normal"> Payment History </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('admin/feedback') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/feedback') ? 'active' : '') }}"
                                                    href="{{ route('feedback') }}">
-                                                    <span class="sidenav-mini-icon"> F </span>
+                                                    <span class="sidenav-mini-icon"> UF </span>
                                                     <span class="sidenav-normal"> User Feedback </span>
                                                 </a>
                                             </li>

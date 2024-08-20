@@ -341,26 +341,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Describe your question briefly to
-                                        us</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <form>
-                                        <div class="form-group mt-4">
-                                <textarea rows="4" class="form-control text-white" style="background-color: #0f1535" id="message-text"
-                                          placeholder="Type your question here..."></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Send
-                            </button>
-                        </div>
+                        @livewire('client.client-query.client-query')
                     </div>
                 </div>
             </div>
@@ -394,5 +375,9 @@
             var message = document.querySelector('.messageChat').value;
             Livewire.emit('chatMessage', message);
         });
+
+        window.Livewire.on('hideModal', function () {
+            $('#exampleModalMessage').modal('hide');
+        })
     </script>
 @endpush
