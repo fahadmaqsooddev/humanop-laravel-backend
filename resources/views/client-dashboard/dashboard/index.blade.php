@@ -207,7 +207,7 @@
                                 <div class="card mb-4"
                                      style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                                     <div class="card-body p-3">
-                                        @if($podcast)
+                                        @if($podcast && !empty($podcast->embedded_url))
                                         <div class="row">
                                             <div class="">
                                                 <div class="numbers mt-3">

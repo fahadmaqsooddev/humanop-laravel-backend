@@ -47,7 +47,7 @@
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="numbers mt-3 d-flex justify-content-center">
-                                    @if($latest_podcast)
+                                    @if($latest_podcast && !empty($latest_podcast->embedded_url))
                                     <iframe height="600" width="500"
                                         src="{{$latest_podcast->embedded_url}}">
                                     </iframe>
