@@ -88,17 +88,14 @@
 
     <script>
         window.Livewire.on('showUserAnswerModal', function () {
-
+            // Close any open plugin modal
             $('.fixed-plugin-close-button').click();
 
-            $('#chat_ai_question_modal').click();
-        })
+            // Trigger the modal to show
+            $('#exampleModalMessage').modal('show'); // Assuming you're using Bootstrap's modal
 
-        // window.Livewire.on('scrollDownAndDislikeButton', function (e) {
-        //
-        //     $('#thumbDown_' + e.id).addClass('active');
-        //
-        //     scrollToBottom();
-        // })
+            // Alternatively, if you're not using Bootstrap, you might need to trigger the modal using custom jQuery:
+            // $('#chat_ai_question_modal').click();
+        });
     </script>
 @endpush

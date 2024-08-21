@@ -34,7 +34,8 @@ class HaiChat extends Model
         return self::create([
             'user_id' => Helpers::getWebUser()->id,
             'query' => $query,
-            'answer' => $reply,
+            'answer' => $reply[0],
+            'likedislike' => $reply[1],
         ]);
     }
 
