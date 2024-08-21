@@ -11,6 +11,14 @@ class ClientQuery extends Component
 {
 
     public $query;
+    public $chat;
+    protected $listeners = ['clientQueryShow' => 'refreshClientQuery'];
+
+
+    public function refreshClientQuery($chat)
+    {
+        $this->chat = $chat;
+    }
 
     public function submitForm()
     {
@@ -26,8 +34,10 @@ class ClientQuery extends Component
             session()->flash('error', $exception->getMessage());
         }
     }
+
     public function render()
     {
+//        dd(1);
         return view('livewire.client.client-query.client-query');
     }
 }

@@ -10,7 +10,9 @@
             @include('layouts.message')
             <form wire:submit.prevent="submitForm" >
                 <div class="form-group mt-4">
-                    <textarea rows="4" class="form-control text-white" style="background-color: #0f1535" wire:model.defer="query"
+                    <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">{{$chat['query'] ?? null}}</span>
+                    <div class="text-white mt-2">{!! $chat['answer'] ?? null !!}</div>
+                    <textarea rows="4" class="form-control text-white mt-4" style="background-color: #0f1535" wire:model.defer="query"
                               id="message-text" placeholder="Type your question here..."></textarea>
                 </div>
                 <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Send Query</button>
