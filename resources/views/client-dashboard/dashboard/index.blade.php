@@ -211,7 +211,7 @@
                                         <div class="row">
                                             <div class="">
                                                 <div class="numbers mt-3">
-                                                    <iframe class="col-lg-12 col-md-12" style="height: 430px; width: 600px;"
+                                                    <iframe class="col-lg-12 col-md-12" style="height: 430px; width: 100%;"
                                                             src="{{$podcast->embedded_url}}"
                                                             frameborder="0"></iframe>
                                                     <h5 class="font-weight-bolder mb-0">
