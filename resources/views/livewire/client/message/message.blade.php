@@ -115,9 +115,9 @@
                 @foreach($messages as $message)
 
                     @if($message['sender_id'] === $logged_in_user_id)
-                        <div class="message user-message">{{$message['message']}}</div>
+                        <div class="chat-message user-chat-message">{{$message['message']}}</div>
                     @else
-                        <div class="message ai-message">{{$message['message']}}</div>
+                        <div class="chat-message ai-message">{{$message['message']}}</div>
                     @endif
                 @endforeach
 
