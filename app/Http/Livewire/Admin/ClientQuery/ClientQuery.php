@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Admin\ClientQuery;
 
+use App\Models\HAIChai\QueryAnswer;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\HAIChai\ClientQuery as Query;
 
@@ -12,19 +15,14 @@ class ClientQuery extends Component
     protected $listeners = ['refreshQuery' => 'handleRefreshQuery'];
 
     public function handleRefreshQuery(){
-        $this->getQueries();
 
-    }
-
-    public function getQueries(){
-        $this->queries = Query::getQueries();
+        $this->render();
     }
 
     public function render()
     {
-        $this->getQueries();
-        return view('livewire.admin.client-query.client-query', [
-        'queries' => $this->queries,
-        ]);
+        $this->queries = Query::getQueries();
+
+        return view('livewire.admin.client-query.client-query');
     }
 }

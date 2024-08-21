@@ -27,8 +27,10 @@ class QueryAnswerForm extends Component
 
             session()->flash('success', "Answer submit successfully");
 
-//            $this->emit('modalHide', $this->queryId);
-            $this->emit('refreshQuery');
+            $this->emitUp('refreshQuery');
+
+            $this->emit('closeAnswerModal', ['id' =>$this->queryId]);
+
 
         }catch (\Exception $exception)
         {

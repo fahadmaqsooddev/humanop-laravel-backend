@@ -19,10 +19,10 @@
                        data-bs-target="#answerQueryModal{{$query['id']}}" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">Answer</a>
                 </td>
             </tr>
-            @livewire('admin.client-query.query-answer-form', ['queryId' => $query['id']])
+            @livewire('admin.client-query.query-answer-form', ['queryId' => $query['id']], key($query->id))
 
         @endforeach
         </tbody>
     </table>
-</div>
 
+</div>

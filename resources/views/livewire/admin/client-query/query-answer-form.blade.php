@@ -8,14 +8,14 @@
                         <div class="col-12">
                             <label class="form-label fs-4 text-white">Query Answer</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                    aria-label="Close">
+                                    aria-label="Close" id="close-answer-modal-button-{{$query['id']}}">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             @include('layouts.message')
                             <form wire:submit.prevent="submitForm">
                                 <div class="form-group mt-4">
                                     <label class="form-label fs-6 text-white">Client Query:</label>
-                                    <span style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$query['query']}}</span>
+                                    <span style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$query['query'] ?? null}}</span>
                                     <label class="form-label fs-6 text-white mt-4">Answer:</label>
                                     <textarea rows="4" class="form-control text-white mt-2" style="background-color: #0f1535"
                                               wire:model.defer="answer" id="message-text"
@@ -35,3 +35,11 @@
     </div>
 </div>
 
+@push('javascript')
+<script>
+    window.Livewire.on('closeAnswerModal', function (e) {
+
+        $('#close-answer-modal-button-' + e.id).click();
+    })
+</script>
+@endpush
