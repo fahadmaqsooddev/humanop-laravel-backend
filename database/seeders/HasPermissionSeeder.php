@@ -15,6 +15,13 @@ class HasPermissionSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        DB::table('model_has_permissions')->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $hasPermission = [
             [
                 'permission_id' => 1,
@@ -48,6 +55,24 @@ class HasPermissionSeeder extends Seeder
             ],
             [
                 'permission_id' => 6,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1,
+
+            ],
+            [
+                'permission_id' => 7,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1,
+
+            ],
+            [
+                'permission_id' => 8,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1,
+
+            ],
+            [
+                'permission_id' => 9,
                 'model_type' => 'App\Models\User',
                 'model_id' => 1,
 

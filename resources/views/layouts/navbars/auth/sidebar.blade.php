@@ -71,6 +71,17 @@
                                         <span class="sidenav-normal"> Client </span>
                                     </a>
                                 </li>
+                            @endcan
+                            @can('abandonedAssessment')
+                                <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
+                                       href="{{ route('admin_abandoned_assessment') }}">
+                                        <span class="sidenav-mini-icon"> AA </span>
+                                        <span class="sidenav-normal"> Abandoned Assessment </span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('clientQueries')
                                 <li class="nav-item {{ (Request::is('client-queries') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('client-queries') ? 'active' : '') }}"
                                        href="{{ route('admin_client_queries') }}">
@@ -78,18 +89,13 @@
                                         <span class="sidenav-normal"> Client Queries </span>
                                     </a>
                                 </li>
+                            @endcan
+                            @can('deletedClient')
                                 <li class="nav-item {{ (Request::is('deleted-clients') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('deleted-clients') ? 'active' : '') }}"
                                        href="{{ route('deleted_clients') }}">
                                         <span class="sidenav-mini-icon"> DC </span>
                                         <span class="sidenav-normal"> Deleted Clients </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
-                                    <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
-                                       href="{{ route('admin_abandoned_assessment') }}">
-                                        <span class="sidenav-mini-icon"> AA </span>
-                                        <span class="sidenav-normal"> Abandoned Assessment </span>
                                     </a>
                                 </li>
                             @endcan

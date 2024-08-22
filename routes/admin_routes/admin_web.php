@@ -56,10 +56,20 @@ use Illuminate\Support\Facades\Route;
         Route::get('/generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('admin_generate_pdf');
         Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('admin_generate_grid_pdf');
         Route::get('/user-answers/{id}', [AdminController::class, 'userAnswer'])->name('admin_user_answer');
-        Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
-        Route::get('/deleted-clients', [AdminController::class,'deletedClients'])->name('deleted_clients');
-        Route::get('/client-queries', [ClientQueryController::class,'clientQuery'])->name('admin_client_queries');
+
     });
+
+     Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
+         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+     });
+
+     Route::group(['middleware' => ['permission:deletedClient']], function () {
+         Route::get('/deleted-clients', [AdminController::class,'deletedClients'])->name('deleted_clients');
+     });
+
+     Route::group(['middleware' => ['permission:clientQueries']], function () {
+         Route::get('/client-queries', [ClientQueryController::class,'clientQuery'])->name('admin_client_queries');
+     });
 
     Route::group(['middleware' => ['permission:cms']], function () {
         Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
