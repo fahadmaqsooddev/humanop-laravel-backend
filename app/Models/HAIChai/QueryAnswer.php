@@ -34,7 +34,7 @@ class QueryAnswer extends Model
 
     public static function unApprovedQueries($perPage = 10){
 
-        return self::has('question')->where('approved', 0)->with('question')->latest()->paginate($perPage);
+        return self::has('question')->where('approved', 0)->with('question')->latest()->paginate($perPage)->setPath(route('admin_approve_queries'));
     }
 
     public static function approveAnswer($id = null){
