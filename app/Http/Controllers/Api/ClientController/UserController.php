@@ -7,11 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
+use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -120,6 +123,82 @@ class UserController extends Controller
             return Helpers::successResponse('Your feedback successfully submitted');
 
         }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function googleLoginSignup(GoogleLoginSignupRequest $request){
+
+        try {
+
+            $user = Socialite::driver('google')->userFromToken($request->input('google_access_token'));
+
+            if ($user){
+
+                $finduser = User::where('google_id', $user->id)->orWhere('email', $user->email)->first();
+
+                if($finduser){
+
+                    $token = Auth::guard('api')->login($finduser);
+
+                    $user_data = User::user($finduser->id);
+
+                    $data = [
+
+                        'user' => $user_data,
+
+                        'authorization' => [
+
+                            'token' => $token,
+
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                    $message = "LoggedIn successfully";
+
+                }else{
+
+                    $newUser = User::create([
+                        'email' => $user->email,
+                        'first_name' => $user->user['given_name'] ?? "",
+                        'last_name' => $user->user['family_name'] ?? "",
+                        'google_id'=> $user->id,
+                        'password' => $user->id,
+                        'is_admin' => 2,
+                        'password_set' => 2,
+                    ]);
+
+                    $token = Auth::guard('api')->login($newUser);
+
+                    $user_data = User::user($newUser->id);
+
+                    $data = [
+
+                        'user' => $user_data,
+
+                        'authorization' => [
+
+                            'token' => $token,
+
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                    $message = "Signup successfully";
+
+                }
+
+                return Helpers::successResponse($message, $data);
+
+            }else{
+
+                return Helpers::validationResponse('User not found on google');
+            }
+
+        }catch(\Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
