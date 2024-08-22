@@ -77,6 +77,12 @@ class HasPermissionSeeder extends Seeder
                 'model_id' => 1,
 
             ],
+            [
+                'permission_id' => 10,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1,
+
+            ],
         ];
         DB::table('model_has_permissions')->insert($hasPermission);
     }

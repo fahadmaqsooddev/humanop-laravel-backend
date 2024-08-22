@@ -127,6 +127,11 @@
                                class="form-check-input"
                                wire:model.defer="permission.abandonedAssessment">
                         <label class="form-check-label text-white">Abandoned Assessment</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.defer="permission.approveQueries">
+                        <label class="form-check-label text-white">Approve Queries</label>
                     </div>
                 </div>
 

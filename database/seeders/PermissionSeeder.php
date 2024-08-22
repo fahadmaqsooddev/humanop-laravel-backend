@@ -78,6 +78,12 @@ class PermissionSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'name' => 'approveQueries',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ];
         DB::table('permissions')->insert($permission);
     }

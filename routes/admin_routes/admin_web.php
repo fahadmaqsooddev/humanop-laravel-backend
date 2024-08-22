@@ -71,7 +71,9 @@ use Illuminate\Support\Facades\Route;
          Route::get('/client-queries', [ClientQueryController::class,'clientQuery'])->name('admin_client_queries');
      });
 
-     Route::get('/approve-queries', [ClientQueryController::class,'approveQueries'])->name('admin_approve_queries');
+     Route::group(['middleware' => ['permission:approveQueries']], function () {
+         Route::get('/approve-queries', [ClientQueryController::class,'approveQueries'])->name('admin_approve_queries');
+     });
 
     Route::group(['middleware' => ['permission:cms']], function () {
         Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
