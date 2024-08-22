@@ -161,7 +161,7 @@
         </div>
     </div>
     @if($admin_answer && !empty($admin_answer['question']))
-    <div class="container p-2">
+    <div class="container p-2" style="margin-left: 30px; width: 93%;">
         <div class="row card card-body text-white">
             <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
