@@ -55,10 +55,12 @@
                 </td>
             </tr>
 
+{{--            edit query answer--}}
             <livewire:admin.approve-query.edit-query :queryId="$query->id" :question="$query['question']"
                                                      :answer="$query['answer']" :wire:key="'edit-query-modal-'.$query->id">
 
 
+{{--            view full question/answer--}}
             @if(strlen($query['answer']) > 30 || strlen($query['question']['query'] ?? null) > 30)
                 <livewire:admin.approve-query.view-query :queryId="$query->id" :question="$query['question']"
                                                      :answer="$query['answer']" :wire:key="'view-query-modal-'.$query->id">
