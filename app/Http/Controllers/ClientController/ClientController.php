@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
+use App\Models\HAIChai\QueryAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -24,7 +25,9 @@ class ClientController extends Controller
 
             $tip = DailyTip::getSingleTip($tip_records);
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast'));
+            $admin_answer = QueryAnswer::userQueryAnswer();
+
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer'));
 
         }catch (\Exception $exception)
         {

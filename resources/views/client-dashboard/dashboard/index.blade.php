@@ -160,8 +160,25 @@
             </div>
         </div>
     </div>
+    @if($admin_answer && !empty($admin_answer['question']))
+    <div class="container p-2">
+        <div class="row card card-body text-white">
+            <div>
+                <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
+                    Your Query : {{$admin_answer['question']['query'] ?? null}}
+                </span>
+            </div>
+            <div>
+                <div class="text-white mt-2">
+                    <span> Answer : </span>
+                    {{$admin_answer->answer}}
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="container-fluid">
-        <section class="py-3">
+        <section class=""> {{-- py-3 --}}
             <div class="row">
                 <div class="mt-lg-4 mt-2 col-3">
                     <div class="col-lg-12 col-md-6 mb-4">

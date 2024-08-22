@@ -90,6 +90,15 @@
                                     </a>
                                 </li>
                             @endcan
+{{--                            @can('clientQueries')--}}
+                                <li class="nav-item {{ (Request::is('approve-queries') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('approve-queries') ? 'active' : '') }}"
+                                       href="{{ route('admin_approve_queries') }}">
+                                        <span class="sidenav-mini-icon"> AQ </span>
+                                        <span class="sidenav-normal"> Approve Queries </span>
+                                    </a>
+                                </li>
+{{--                            @endcan--}}
                             @can('deletedClient')
                                 <li class="nav-item {{ (Request::is('deleted-clients') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('deleted-clients') ? 'active' : '') }}"

@@ -19,4 +19,16 @@ class ClientQueryController extends Controller
             session()->flash('error', $exception->getMessage());
         }
     }
+
+    public function approveQueries()
+    {
+        try {
+
+            return view('admin-dashboards.approve-queries.index');
+
+        }catch (\Exception $exception)
+        {
+            session()->flash('error', $exception->getMessage());
+        }
+    }
 }

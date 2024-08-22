@@ -2,6 +2,8 @@
 
 namespace App\Models\HAIChai;
 
+use App\Helpers\Helpers;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,11 +19,56 @@ class QueryAnswer extends Model
         parent::__construct($attributes);
     }
 
+    public function question(){
+
+        return $this->belongsTo(ClientQuery::class,'query_id','id');
+    }
+
     public static function createAnswer($queryId = null, $answer = null)
     {
         return self::create([
             'query_id' => $queryId,
             'answer' => $answer,
         ]);
+    }
+
+    public static function unApprovedQueries(){
+
+        return self::has('question')->where('approved', 0)->with('question')->latest()->get();
+    }
+
+    public static function approveAnswer($id = null){
+
+        self::whereId($id)->update(['approved' => 1]);
+    }
+
+    public static function singleAnswer($id){
+
+        return self::whereId($id)->first();
+    }
+
+    public static function updateQueryAnswer($data = null, $id = null){
+
+        self::approveAnswer($id);
+
+        self::whereId($id)->update($data);
+    }
+
+    public static function userQueryAnswer(){
+
+        return self::whereHas('question', function ($q){
+
+            $q->where('user_id', Helpers::getWebUser()->id)
+
+                ->where('response', 1);
+
+        })
+            ->with('question')
+
+            ->where('approved', 1)
+
+            ->latest()
+
+            ->first();
     }
 }
