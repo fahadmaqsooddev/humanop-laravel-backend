@@ -15,6 +15,14 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        DB::table('permissions')->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+
         $permission = [
             [
                 'name' => 'users',
@@ -48,6 +56,24 @@ class PermissionSeeder extends Seeder
             ],
             [
                 'name' => 'projects',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'clientQueries',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'deletedClient',
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'abandonedAssessment',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()

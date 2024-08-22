@@ -85,7 +85,17 @@
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.users">
-                        <label class="form-check-label text-white">Users</label>
+                        <label class="form-check-label text-white">Client</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.defer="permission.deletedClient">
+                        <label class="form-check-label text-white">Deleted Client</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.defer="permission.clientQueries">
+                        <label class="form-check-label text-white">Client Queries</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
@@ -112,6 +122,11 @@
                                class="form-check-input"
                                wire:model.defer="permission.projects">
                         <label class="form-check-label text-white">Projects</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.defer="permission.abandonedAssessment">
+                        <label class="form-check-label text-white">Abandoned Assessment</label>
                     </div>
                 </div>
 
