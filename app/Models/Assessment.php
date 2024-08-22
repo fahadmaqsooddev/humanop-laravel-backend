@@ -600,6 +600,7 @@ class Assessment extends Model
 
 
         $assessments = self::where('user_id', Helpers::getUser()->id)
+            ->where('page', 0)
             ->select(['id', 'page', 'created_at'])
             ->orderBy($order_by, $order);
 
