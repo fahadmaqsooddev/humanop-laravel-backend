@@ -32,9 +32,9 @@ class QueryAnswer extends Model
         ]);
     }
 
-    public static function unApprovedQueries(){
+    public static function unApprovedQueries($perPage = 10){
 
-        return self::has('question')->where('approved', 0)->with('question')->latest()->get();
+        return self::has('question')->where('approved', 0)->with('question')->latest()->paginate($perPage);
     }
 
     public static function approveAnswer($id = null){

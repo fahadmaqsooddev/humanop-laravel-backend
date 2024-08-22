@@ -33,6 +33,8 @@
         </tbody>
     </table>
 
+    {{$unApprovedQueries->links('pagination.table-pagination')}}
+
 </div>
 
 {{--@push('js')--}}
