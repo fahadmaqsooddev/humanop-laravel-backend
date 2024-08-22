@@ -216,6 +216,7 @@
                 <th>Project</th>
                 <th>Email</th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -231,6 +232,13 @@
                             style="background-color: #f2661c; color: white"
                             class="btn btn-sm float-end mt-2 mb-0">View</a>
                     </td>
+                    <td class="text-sm font-weight-normal">
+                        <a onclick="adminLoggedInToUserAccount({{$assessment['users']['id'] ?? null}}, '{{$assessment['users']['first_name'] ?? null}}')"
+                            style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
+                            class="btn btn-sm float-end mt-2 mb-0">
+                            Login
+                        </a>
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -238,3 +246,31 @@
         {{--        {{ $assessments->links() }}--}}
     </div>
 </div>
+
+@push('js')
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
+    <script>
+        function adminLoggedInToUserAccount(id, name){
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton:  'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background : '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to log in as "+name+"</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Log in',
+            }).then((result) => {
+                if(result.isConfirmed){
+                    window.livewire.emit('logInAdminAsUser', id)
+                }
+            })
+
+        }
+    </script>
+@endpush

@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\User;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Assessment;
 use Livewire\WithPagination;
@@ -26,7 +28,7 @@ class AllUser extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -92,6 +94,18 @@ class AllUser extends Component
     public function searchFilter()
     {
         $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
+    }
+
+    public function logInAdminAsUser($id = null){
+
+        $user = User::whereId($id)->first();
+
+        Auth::guard('web')->logout();
+
+        Auth::guard('web')->login($user);
+
+        return redirect('client/dashboard');
+
     }
 
     public function render()
