@@ -280,8 +280,8 @@
                             <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
                                    href="{{ route('stripe_checkout') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Assessment.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Assessment.png')}}"></span>
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/assessment.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/assessment.png')}}"></span>
                                     <span class="sidenav-normal"> Assessment </span>
                                 </a>
                             </li>
@@ -367,8 +367,8 @@
                             <li class="nav-item {{ (Request::is('client/billing') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/billing') ? 'active' : '') }}"
                                    href="{{ route('billing') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Billing.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Billing.png')}}"></span>
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/billing.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/billing.png')}}"></span>
                                     <span class="sidenav-normal"> Billing </span>
                                 </a>
                             </li>
