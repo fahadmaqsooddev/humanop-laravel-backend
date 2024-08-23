@@ -108,71 +108,88 @@
     }
 
 </style>
-<div class="fixed-plugin">
-
-    <div style="position: fixed; right: 30px; bottom: 20px; z-index: 99; cursor: pointer;">
-        <div style="border-radius:50%; width: 70px; height: 70px; background-color: #f2661c; color: blue; padding-left: 5px;">
-            <span style="font-size: 42px;" class="fixed-plugin-button">🐇</span>
-        </div>
-    </div>
-    <div class="card shadow-lg blur" style="background-color: #0f1534 !important;">
-        <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
-            <h5 class="text-center text-white">H.A.I CHAT INTERFACE</h5>
-            <div class="float-start d-flex">
-                <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
-                <div class="header-info text-white">
-                    <div class="header-title">Need help?</div>
-                    <div class="header-subtitle">We reply immediately</div>
-                </div>
-            </div>
-            <div class="float-end mt-4">
-                <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                    <i class="fa fa-close"></i>
-                </button>
-            </div>
-            <!-- End Toggle Button -->
-        </div>
-        <div class="d-flex">
-            <div class="col-3">
-                <div class="chatbox">
-                    <div class="chatbox-content" style="background-color: #f2661c">
-                        <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">
-                            <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>
-                            <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>
-                        </div>
-                        <hr>
-                        <div class="mt-4">
-                            <h5 class="text-white text-bold">Today chat</h5>
-                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                Set Permissions for Directory</p>
-                        </div>
-                        <div class="mt-4">
-                            <h5 class="text-white text-bold">Yesterday chat</h5>
-                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                Permission Denied Error Troubleshooting</p>
-                        </div>
-                        <div class="mt-4">
-                            <h5 class="text-white text-bold">Previous 30 Days chat</h5>
-                            <p class="text-white chat-hover" style="font-size: 13px; cursor: pointer;">
-                                Merge Videos with FFmpeg</p>
-                        </div>
+<div>
+    <div style="position: fixed; right: 30px; bottom: 20px; z-index: 100000; cursor: pointer;">
+        <div class="card shadow-lg blur chatBoxShow d-none" style="background-color: lightgrey !important;">
+            <div class="card-header pb-0 pt-3" style="background-color: lightgrey; width: 500px">
+                <div class="d-flex" style="justify-content: space-between">
+                    <h5 style="color: #f2661c; font-weight: bold; font-size: 25px">H.A.I CHAT INTERFACE</h5>
+                    <div class="">
+                        <button class="btn btn-link chatBoxClose"
+                                style="background-color: #f2661c;color: white;padding: 3px 8px 3px 8px;border-radius: 8px;width: 32px; height: 32px; font-size: 20px">
+                            <i class="fa fa-close"></i>
+                        </button>
                     </div>
                 </div>
+
+                <div class="chatbox">
+                    <div class="chatbox-content" id="chatbox-content">
+                        <div style="display: flex; justify-content: end">
+                            <div class="message chat-message">Hello! Welcome to HumanOp, where we help individuals and
+                                organizations unlock their full potential. We're excited to have you on board!
+                            </div>
+                        </div>
+                        <div class="flex-start">
+                            <div class="message chat-reply-message">Hello! Welcome to HumanOp, where we help individuals
+                                and
+                                organizations unlock their full potential. We're excited to have you on board!
+
+                                At HumanOp, we believe that understanding your unique design and applying this
+                                understanding to your life can help you effortlessly access and operate from within your
+                                individual zone-of-genius.
+                            </div>
+                            <div class="rating d-flex mb-2">
+                                <!-- Thumbs up -->
+                                <div class="like grow ">
+                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <!-- Thumbs down -->
+                                <div class="dislike grow ">
+                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="display: flex; justify-content:flex-start;">
+                        <div id="chatDots" wire:loading wire:target="dislike">
+                            <span class="chatDot"></span>
+                            <span class="chatDot"></span>
+                            <span class="chatDot"></span>
+                        </div>
+                    </div>
+                    <form wire:submit.prevent="sendMessage">
+                        @csrf
+                        <div class="chatbox-input">
+                            <input type="text" wire:model.defer="userMessage" id="userMessage"
+                                   placeholder="Type your message here...">
+                            <button type="submit" id="submitBtn">&#9658;</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            @livewire('client.chat.index')
+        </div>
+        <div class="chatBoxx d-block" style="position: fixed; right: 30px; bottom: 20px;cursor: pointer;">
+            <div style="border-radius:50%; width: 70px; height: 70px; background-color: #f2661c; color: blue; padding-left: 5px;">
+                <span style="font-size: 42px;" >🐇</span>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
-
-        var message = document.querySelector('.messageChat').value;
-        Livewire.emit('chatMessage', message);
+    document.querySelector('.chatBoxx').addEventListener('click', function () {
+        document.querySelector('.chatBoxShow').classList.remove('d-none');
+        document.querySelector('.chatBoxShow').classList.add('d-block');
+        document.querySelector('.chatBoxx').classList.remove('d-block');
+        document.querySelector('.chatBoxx').classList.add('d-none');
     });
 
-    window.Livewire.on('hideModal', function () {
-        $('#exampleModalMessage').modal('hide');
-    })
+    document.querySelector('.chatBoxClose').addEventListener('click', function () {
+        document.querySelector('.chatBoxShow').classList.remove('d-block');
+        document.querySelector('.chatBoxShow').classList.add('d-none');
+        document.querySelector('.chatBoxx').classList.remove('d-none');
+        document.querySelector('.chatBoxx').classList.add('d-block');
+    });
 </script>

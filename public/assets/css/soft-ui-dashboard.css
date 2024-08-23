@@ -20350,6 +20350,23 @@ fieldset:disabled .btn {
     align-self: flex-start;
 }
 
+.chat-reply-message {
+    margin-top: 15px;
+    margin-left: 13px;
+    width: 520px;
+    background-color: #0f1535;
+    color: white;
+    align-self: flex-start;
+}
+
+.chat-message {
+    margin-top: 15px;
+    margin-left: 13px;
+    background-color: #f2661c;
+    color: white;
+    text-align: start;
+}
+
 .user-message {
     margin-top: 30px;
     margin-bottom: 30px;
