@@ -149,19 +149,69 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="display: flex; justify-content: end">
+                            <div class="message chat-message">Hello! Welcome to HumanOp, where we help individuals and
+                                organizations unlock their full potential. We're excited to have you on board!
+                            </div>
+                        </div>
+                        <div class="flex-start">
+                            <div class="message chat-reply-message">Hello! Welcome to HumanOp, where we help individuals
+                                and
+                                organizations unlock their full potential. We're excited to have you on board!
+
+                                At HumanOp, we believe that understanding your unique design and applying this
+                                understanding to your life can help you effortlessly access and operate from within your
+                                individual zone-of-genius.
+                            </div>
+                            <div class="rating d-flex mb-2">
+                                <!-- Thumbs up -->
+                                <div class="like grow ">
+                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <!-- Thumbs down -->
+                                <div class="dislike grow ">
+                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: end">
+                            <div class="message chat-message">Hello! Welcome to HumanOp, where we help individuals and
+                                organizations unlock their full potential. We're excited to have you on board!
+                            </div>
+                        </div>
+                        <div class="flex-start">
+                            <div class="message chat-reply-message">Hello! Welcome to HumanOp, where we help individuals
+                                and
+                                organizations unlock their full potential. We're excited to have you on board!
+
+                                At HumanOp, we believe that understanding your unique design and applying this
+                                understanding to your life can help you effortlessly access and operate from within your
+                                individual zone-of-genius.
+                            </div>
+                            <div class="rating d-flex mb-2">
+                                <!-- Thumbs up -->
+                                <div class="like grow ">
+                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <!-- Thumbs down -->
+                                <div class="dislike grow ">
+                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-                    <div style="display: flex; justify-content:flex-start;">
-                        <div id="chatDots" wire:loading wire:target="dislike">
-                            <span class="chatDot"></span>
-                            <span class="chatDot"></span>
-                            <span class="chatDot"></span>
-                        </div>
-                    </div>
-                    <form wire:submit.prevent="sendMessage">
+{{--                    <div style="display: flex; justify-content:flex-start;">--}}
+{{--                        <div id="chatDots" wire:loading wire:target="dislike">--}}
+{{--                            <span class="chatDot"></span>--}}
+{{--                            <span class="chatDot"></span>--}}
+{{--                            <span class="chatDot"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <form>
                         @csrf
                         <div class="chatbox-input">
-                            <input type="text" wire:model.defer="userMessage" id="userMessage"
+                            <input type="text"id="userMessage"
                                    placeholder="Type your message here...">
                             <button type="submit" id="submitBtn">&#9658;</button>
                         </div>
