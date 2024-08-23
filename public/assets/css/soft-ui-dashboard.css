@@ -22256,19 +22256,6 @@ hr.horizontal.gray-light {
   margin-left: 1.35rem;
 }
 
-/*.navbar-vertical .navbar-nav .nav-item .collapse .nav .nav-item .nav-link:before,*/
-/*.navbar-vertical .navbar-nav .nav-item .collapsing .nav .nav-item .nav-link:before {*/
-/*  content: "";*/
-/*  position: absolute;*/
-/*  left: -18px;*/
-/*  top: 50%;*/
-/*  transform: translate(0, -50%);*/
-/*  height: 5px;*/
-/*  width: 5px;*/
-/*  border-radius: 1.5rem;*/
-/*  background: #f2661c;*/
-/*}*/
-
 .navbar-vertical .navbar-nav .nav-item .collapse .nav .nav-item .nav-link.active,
 .navbar-vertical .navbar-nav .nav-item .collapsing .nav .nav-item .nav-link.active {
   color: white;
