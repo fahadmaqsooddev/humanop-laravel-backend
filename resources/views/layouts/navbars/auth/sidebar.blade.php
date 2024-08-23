@@ -311,7 +311,7 @@
                                             <a class="nav-link {{ (Request::is('connections') ? 'active' : '') }}"
                                                href="{{ route('connections', ['type' => 'connection']) }}">
                                                 <span class="sidenav-mini-icon"> FC</span>
-                                                <span class="sidenav-normal">Find and Connect others</span>
+                                                <span class="sidenav-normal">Find Connects</span>
                                             </a>
                                         </li>
                                         <li class="nav-item {{ (Request::is('client/messages') ? 'active' : '') }}">
