@@ -26,7 +26,8 @@ class HaiChat extends Model
 
     public static function getChat()
     {
-        return self::where('user_id', Helpers::getWebUser()->id)->get(['id','query','answer','likedislike']);
+        return self::whereDate('created_at', Carbon::today())
+            ->where('user_id', Helpers::getWebUser()->id)->get(['id','query','answer','likedislike']);
     }
 
     public static function createChat($query = null, $reply = null)
