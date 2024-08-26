@@ -17,6 +17,7 @@ class Assessment extends Component
     public $limit = 3;
     public $answers = [];
     public $energyArr = [];
+    public $sortingQuestionAnswer = [];
     public $questions;
     public $multiple = false;
     public $currentPage = 0;
@@ -33,6 +34,7 @@ class Assessment extends Component
 
     public function updateOrder($orderedIds)
     {
+
 
         $answer = Answer::where('id', $orderedIds[0]['value'])->first();
 
@@ -52,10 +54,12 @@ class Assessment extends Component
                 if ($answerKey !== false) {
                     // Append the answer to the new answers array
                     $newAnswers[] = $this->questions[$questionKey]['answers'][$answerKey];
+
                 }
             }
-
             // Assign the new ordered answers array back to the question
+            $this->sortingQuestionAnswer[$questionId] =  $newAnswers;
+
             $this->questions[$questionKey]['answers'] = $newAnswers;
         }
 
@@ -84,7 +88,10 @@ class Assessment extends Component
                 }
                 $i--;
             }
+
+
         }
+
 
         //calculation ends
         $this->emitSelf('questionsUpdated', $this->questions);
@@ -132,6 +139,9 @@ class Assessment extends Component
             return $question['multiple'] == 1;
         });
 
+        $userId = Auth::user()->id;
+        $existingAssessment = AssessmentModal::where('user_id', $userId)->latest()->first();
+
         if (!empty($this->energyArr) || !empty($multipleQuestions)) {
 
             $energy_array_keys = array_keys($this->energyArr);
@@ -157,8 +167,25 @@ class Assessment extends Component
                             }
                             $i--;
                         }
+
                     }
+                    $this->sortingQuestionAnswer[$q['id']] = $q['answers'];
                 }
+            }
+
+            foreach ($this->sortingQuestionAnswer as $key => $sortAnswer)
+            {
+                $getQuestion = Question::where('id', $key)->first();
+
+                foreach ($sortAnswer as $sort)
+                {
+                    $data['user_id'] = Auth::user()->id;
+                    $data['assessment_id'] = $existingAssessment['id'];
+                    $data['question'] = $getQuestion['question'];
+                    $data['answer'] = $sort['answer'];
+                    AssessmentDetail::createAssessmentDetail($data);
+                }
+
             }
 
             $energyValues = $this->mergeEnergyArr();
@@ -171,7 +198,6 @@ class Assessment extends Component
 
         try {
             $totalPages = ceil($this->totalQuestion / $this->limit);
-            $userId = Auth::user()->id;
             $codeArray = [];
             ksort($this->answers);
 
@@ -190,8 +216,6 @@ class Assessment extends Component
             }
 
             $this->updateQuestion();
-
-            $existingAssessment = AssessmentModal::where('user_id', $userId)->latest()->first();
 
             if ($existingAssessment) {
 
@@ -229,13 +253,6 @@ class Assessment extends Component
 
                 }
             }
-//            else {
-//                $this->offset += 3;
-//                $finalAssessment = array_merge(['user_id' => $userId, 'page' => $this->offset / 3], $codeArray);
-//                $assessmentId = AssessmentModal::create($finalAssessment);
-//                $this->assessmentId = $assessmentId->id;
-//            }
-
 
             foreach ($this->answers as $data) {
                 $data['user_id'] = Auth::user()->id;
