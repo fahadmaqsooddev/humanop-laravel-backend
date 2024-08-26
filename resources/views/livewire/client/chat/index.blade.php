@@ -91,6 +91,8 @@
             // Close any open plugin modal
             $('.fixed-plugin-close-button').click();
 
+            $('.chatBoxClose').click();
+
             // Trigger the modal to show
             $('#exampleModalMessage').modal('show'); // Assuming you're using Bootstrap's modal
 

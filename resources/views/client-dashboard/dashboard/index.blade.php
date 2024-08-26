@@ -395,6 +395,7 @@
 
         window.Livewire.on('hideModal', function () {
             $('#exampleModalMessage').modal('hide');
+            $('#add_feedback').click();
         })
 
         document.querySelector('.haiChatBtn').addEventListener('click', function () {
