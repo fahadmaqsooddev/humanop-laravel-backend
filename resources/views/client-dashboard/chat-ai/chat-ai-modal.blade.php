@@ -224,8 +224,10 @@
 {{--            </div>--}}
 {{--        </div>--}}
         <div class="chatBoxx d-block" style="position: fixed; right: 30px; bottom: 20px;cursor: pointer;">
-            <div style="border-radius:50%; width: 70px; height: 70px; background-color: #f2661c; color: blue; padding-left: 5px;">
-                <span style="font-size: 42px;" >🐇</span>
+            <div style="border-radius:50%; width: 75px; height: 75px; background-color: #f2661c; color: blue; padding-left: 12px;padding-top: 8px">
+                <span style="font-size: 42px;" >
+                    <img style="width: 50px" src="{{asset('assets/img/rabbit.png')}}">
+                </span>
             </div>
         </div>
     </div>
