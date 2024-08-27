@@ -81,7 +81,12 @@
                         <span class="chatDot"></span>
                     </div>
                 </div>`);
-                scrollToBottom();
+
+                // scroll to bottom
+                var objDiv = document.getElementById("chatbox-content");
+                objDiv.scrollTop = objDiv.scrollHeight;
+
+                // scrollToBottom();
             });
         });
     </script>

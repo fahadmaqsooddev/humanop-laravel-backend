@@ -390,7 +390,28 @@
         document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
 
             var message = document.querySelector('.messageChat').value;
+
             Livewire.emit('chatMessage', message);
+        });
+
+        document.querySelector('.messageChat').addEventListener('keypress', function(e) {
+
+            if (e.key === 'Enter' && e.shiftKey) {
+
+                $('.fixed-plugin-button').click();
+
+                var message = document.querySelector('.messageChat').value;
+
+                Livewire.emit('chatMessage', message);
+
+                setTimeout(function (){
+
+                    $('#submitBtn').click()
+
+                    $('#messageChat').val('');
+                },1000);
+
+            }
         });
 
         window.Livewire.on('hideModal', function () {

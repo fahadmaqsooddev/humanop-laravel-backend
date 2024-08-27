@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Messages\DeleteChatRequest;
 use App\Http\Requests\Api\Client\Messages\MessagesRequest;
 use App\Http\Requests\Api\Client\Messages\SendMessageRequest;
+use App\Models\Client\Connection\Connection;
 use App\Models\Client\Message\Message;
 use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Http\Request;
@@ -41,15 +42,24 @@ class MessageController extends Controller
 
             $dataArray = $request->only($message->getFillable());
 
-            $thread = MessageThread::createOrGetMessageThread($request->input('receiver_id'));
+            $connection_exists = Connection::connectionExists($this->chat_user_id);
 
-            $dataArray['message_thread_id'] = $thread->id ?? null;
+            if ($connection_exists) {
 
-            $dataArray['sender_id'] = Helpers::getUser()->id;
+                $thread = MessageThread::createOrGetMessageThread($request->input('receiver_id'));
 
-            Message::createMessage($dataArray);
+                $dataArray['message_thread_id'] = $thread->id ?? null;
 
-            return Helpers::successResponse('Message sent');
+                $dataArray['sender_id'] = Helpers::getUser()->id;
+
+                Message::createMessage($dataArray);
+
+                return Helpers::successResponse('Message sent');
+
+            }else{
+
+                return Helpers::validationResponse('Connect first to send message');
+            }
 
         }catch (\Exception $exception){
 

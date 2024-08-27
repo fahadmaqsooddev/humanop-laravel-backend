@@ -240,9 +240,6 @@
         document.querySelector('.chatBoxx').classList.remove('d-block');
         document.querySelector('.chatBoxx').classList.add('d-none');
 
-        var message = document.querySelector('.messageChat').value;
-        Livewire.emit('chatMessage', message);
-
     });
 
     document.querySelector('.chatBoxClose').addEventListener('click', function () {
