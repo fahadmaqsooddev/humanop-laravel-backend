@@ -115,6 +115,12 @@ class HumanNetworkController extends Controller
 
             $connections = Connection::userPaginatedConnections($request);
 
+            foreach ($connections as $connection){
+
+                $connection->setAppends(['thread_id']);
+            }
+
+
             return Helpers::successResponse('Connections', $connections, $request->input('pagination'));
 
         }catch (\Exception $exception){

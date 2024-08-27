@@ -3,6 +3,7 @@
 namespace App\Models\Client\Connection;
 
 use App\Helpers\Helpers;
+use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class Connection extends Model
 {
     use HasFactory;
+
+    protected $appends = [];
 
     public function __construct(array $attributes = [])
     {
@@ -29,6 +32,20 @@ class Connection extends Model
     public function friend(){
 
         return $this->belongsTo(User::class,'friend_id','id');
+    }
+
+    // appends
+    public function getThreadIdAttribute(){
+
+        return MessageThread::where(function ($q){
+
+            $q->where('sender_id', $this->friend_id)->where('receiver_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
+
+        })->orWhere(function ($q){
+
+            $q->where('sender_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id))->where('receiver_id', $this->friend_id);
+
+        })->first()->id ?? null;
     }
 
 
