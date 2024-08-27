@@ -42,7 +42,7 @@ class MessageController extends Controller
 
             $dataArray = $request->only($message->getFillable());
 
-            $connection_exists = Connection::connectionExists($this->chat_user_id);
+            $connection_exists = Connection::connectionExists($request->input('receiver_id'));
 
             if ($connection_exists) {
 
