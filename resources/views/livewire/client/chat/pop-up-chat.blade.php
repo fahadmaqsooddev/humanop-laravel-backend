@@ -14,7 +14,7 @@
             </div>
 
             <div class="chatbox">
-                <div class="chatbox-content" id="chatbox-content">
+                <div class="chatbox-content" id="chatbox-content-pop-up">
 
                     @foreach($chats as $chat)
 
@@ -54,9 +54,9 @@
                 <form wire:submit.prevent="sendMessage">
                     @csrf
                     <div class="chatbox-input">
-                        <input type="text" wire:model.defer="userMessage" id="userMessage"
+                        <input type="text" wire:model.defer="userMessage" id="userMessage-pop-up"
                                placeholder="Type your message here...">
-                        <button type="submit" id="submitBtn">&#9658;</button>
+                        <button type="submit" id="submitBtn-pop-up">&#9658;</button>
                     </div>
                 </form>
             </div>
@@ -64,3 +64,36 @@
     </div>
 
 </div>
+
+@push('javascript')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function scrollToBottom() {
+            const chatboxContent = $('#chatbox-content-pop-up');
+            chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
+        }
+
+        document.addEventListener('livewire:load', function () {
+            const submitBtn = document.getElementById('submitBtn-pop-up');
+            $('#submitBtn-pop-up').on('click', function () {
+
+                let userMsg = $('#userMessage-pop-up').val();
+                if (userMsg.trim() !== '') {
+                    $('#chatbox-content-pop-up').append(`<div style="display: flex; justify-content: flex-end">
+                        <div class="message user-message">` + userMsg + `</div>
+                    </div>`);
+                }
+                $('#userMessage-pop-up').val('');
+
+                $('#chatbox-content-pop-up').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
+                    <div id="chatDots">
+                        <span class="chatDot"></span>
+                        <span class="chatDot"></span>
+                        <span class="chatDot"></span>
+                    </div>
+                </div>`);
+                scrollToBottom();
+            });
+        });
+    </script>
+@endpush
