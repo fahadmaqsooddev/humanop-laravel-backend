@@ -59,6 +59,7 @@ class Index extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
+                dd($aiReply);
                 HaiChat::createChat($this->userMessage, $aiReply);
                 $this->emit('updateAiMessage');
                 $this->lastMessage = $this->userMessage;
