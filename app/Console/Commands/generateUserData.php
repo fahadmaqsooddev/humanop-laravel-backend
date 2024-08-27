@@ -161,17 +161,17 @@ class generateUserData extends Command
                                     }
                                     fclose($ansCodesFile); // Close the ans_codes file after processing
                                 }
-//                                $question = Question::singleQuestion($recordData[2]);
-//                                $answer = Answer::singleAnswer($recordData[3]);
-//
-//                                if (!empty($question)) {
-//                                    AssessmentDetail::create([
-//                                        'user_id' => $userId,
-//                                        'assessment_id' => $assessment['id'],
-//                                        'question' => $question['question'],
-//                                        'answer' => $answer['answer'],
-//                                    ]);
-//                                }
+                                $question = Question::singleQuestion($recordData[2]);
+                                $answer = Answer::singleAnswer($recordData[3]);
+
+                                if (!empty($question)) {
+                                    AssessmentDetail::create([
+                                        'user_id' => $userId,
+                                        'assessment_id' => $assessment['id'],
+                                        'question' => $question['question'],
+                                        'answer' => $answer['answer'],
+                                    ]);
+                                }
                             }
                         }
                         fclose($recordsFile); // Close the records file after processing
