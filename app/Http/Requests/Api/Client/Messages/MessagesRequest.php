@@ -24,7 +24,7 @@ class MessagesRequest extends FormRequest
     public function rules()
     {
         return [
-            'message_thread_id' => 'required|exists:message_threads,id',
+            'message_thread_id' => 'nullable|exists:message_threads,id',
         ];
     }
 }
