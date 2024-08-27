@@ -233,11 +233,16 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     document.querySelector('.chatBoxx').addEventListener('click', function () {
         document.querySelector('.chatBoxShow').classList.remove('d-none');
         document.querySelector('.chatBoxShow').classList.add('d-block');
         document.querySelector('.chatBoxx').classList.remove('d-block');
         document.querySelector('.chatBoxx').classList.add('d-none');
+
+        var message = document.querySelector('.messageChat').value;
+        Livewire.emit('chatMessage', message);
+
     });
 
     document.querySelector('.chatBoxClose').addEventListener('click', function () {

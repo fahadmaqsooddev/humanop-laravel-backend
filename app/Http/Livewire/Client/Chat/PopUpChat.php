@@ -14,6 +14,8 @@ class PopUpChat extends Component
 {
     public $chats = [], $userMessage, $lastMessage;
 
+    protected $listeners = ['chatMessage'];
+
     public function like($id)
     {
         $chat = HaiChat::getSingleChat($id);
