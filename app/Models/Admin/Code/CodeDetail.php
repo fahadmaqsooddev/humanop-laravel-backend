@@ -9,6 +9,8 @@ class CodeDetail extends Model
 {
     use HasFactory;
 
+    protected $appends = ['video_url'];
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -18,6 +20,17 @@ class CodeDetail extends Model
         parent::__construct($attributes);
     }
 
+//    append
+    public function getVideoUrlAttribute(){
+
+        if (!empty($this->video)){
+
+            return asset('assets/video/') . $this->video;
+        }
+    }
+
+
+    // query
     public static function allCodes()
     {
         return self::all();
