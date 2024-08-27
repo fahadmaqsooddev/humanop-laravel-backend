@@ -24,6 +24,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
+    protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
 
     /**
      * The controller namespace for the application.
@@ -112,6 +113,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->HumanNetworkNamespace)
                 ->group(base_path('routes/client_apis/human_network/human_network_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->ChatAiNamespace)
+                ->group(base_path('routes/client_apis/chat_ai/chat_ai_api.php'));
         });
     }
 

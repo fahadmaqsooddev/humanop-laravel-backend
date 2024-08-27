@@ -93,7 +93,7 @@ class Assessment extends Model
         return static::with(['assessmentColorCodes' => function ($query) {
             $query->selection();
         }])
-            ->where('user_id', Helpers::getWebUser()->id)
+            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
             ->where('page', 0)
             ->orderBy('created_at', 'desc')
             ->selection()
@@ -107,7 +107,7 @@ class Assessment extends Model
 
     public static function getAssessmentIds()
     {
-        return static::where('user_id', Helpers::getWebUser()->id)
+        return static::where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
             ->where('page', 0)
             ->orderBy('created_at', 'desc')
             ->pluck('id')

@@ -9,7 +9,7 @@ class AssessmentHelper
 {
     public static function getAssessments()
     {
-        $user_id = Auth::user()['id'];
+//        $user_id = Auth::user()['id'] ;
 
         $assessments = Assessment::getAssessmentIds();
 

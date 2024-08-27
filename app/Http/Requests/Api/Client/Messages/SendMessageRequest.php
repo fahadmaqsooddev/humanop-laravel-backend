@@ -32,8 +32,8 @@ class SendMessageRequest extends FormRequest
     public function messages()
     {
         return [
-            'message_thread_id.required' => 'Message thread id is required',
-            'message_thread_id.exists' => 'Message thread id does not exists',
+            'receiver_id.required' => 'Message thread id is required',
+            'receiver_id.exists' => 'Message thread id does not exists',
             'message.required' => 'Message is required',
             'message.max' => 'Message character exceeded',
         ];
