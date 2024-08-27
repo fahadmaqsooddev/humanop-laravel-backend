@@ -1,21 +1,20 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
-    .greenBox
-    {
+    .greenBox {
         background-color: green !important;
     }
-    .redBox
-    {
+
+    .redBox {
         background-color: red !important;
     }
-    .lightGreenBox
-    {
+
+    .lightGreenBox {
         background-color: yellow !important;
         color: black !important;
         font-weight: bold !important;
     }
-    .border-green
-    {
+
+    .border-green {
         border: 2px solid green !important;
     }
 </style>
@@ -40,7 +39,7 @@
             $third_row_lu = $grid['lu'] * $second_row_lu;
             $third_row_ven = $grid['ven'] * $second_row_ven;
             $third_row_mer = $grid['mer'] * $second_row_mer;
-            $third_row_so = 10 * $grid['so'];
+            $third_row_so = 0;
 
             // Initialize variables based on $grid values
             $de = $grid['de'];
@@ -254,60 +253,31 @@
                 $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
             }
             else {
-
-                // Count the occurrences of each value
-                $value_counts = array_count_values($filtered_keys);
-
-                // Filter unique values
-                $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] === 1;
-                });
-
-                // Filter remaining values (including repeating ones)
-                $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] > 1 || $value_counts[$value] === 1;
-                });
-
-                // Removing the unique values from the remaining_keys array
-                $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] > 1;
-                });
-
-                if (!empty($remaining_keys)) {
-                    // Find the highest and second highest values
-                    $values = array_values($remaining_keys);
-                    $highest_value = max($values);
-                    $second_highest_value = count(array_diff($values, [$highest_value])) ? max(array_diff($values, [$highest_value])) : null;
-
-                    // Separate arrays for highest and second-highest values
-                    $highest_array = [];
-                    $second_highest_array = [];
-
-                    foreach ($remaining_keys as $key => $value) {
-                        if ($value == $highest_value) {
-                            $highest_array[$key] = $value;
-                        } elseif ($value == $second_highest_value) {
-                            $second_highest_array[$key] = $value;
-                        }
+                $greater_than_three_filtered_keys = [];
+                foreach ($filtered_keys as $key => $value) {
+                    if ($value > 3) { // Check if the value is greater than 3
+                        $greater_than_three_filtered_keys[$key] = $value;
                     }
+                }
 
-                    $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($highest_array)));
+                // Get keys that are in $filtered_keys but not in $greater_than_three_filtered_keys
+                $remainingFilterKeys = array_diff_key($filtered_keys, $greater_than_three_filtered_keys);
+
+                $firstHighestArrayValue = [];
+                $remainingHighestArrayValue = [];
+                if (count($greater_than_three_filtered_keys) > 1 || count($greater_than_three_filtered_keys) == 1) {
+                    $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($greater_than_three_filtered_keys)));
                     arsort($firstHighestArrayValue);
-                    $secondHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($second_highest_array)));
-                    arsort($secondHighestArrayValue);
-
-                    $allValuesGets = array_merge($unique_filtered_keys, $firstHighestArrayValue, $secondHighestArrayValue);
-
-                    $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
-                    $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
                 }
-                else {
-                    $topTwoKeys = array_keys($unique_filtered_keys);
-                    $nextTwoKeys = [];
+                if (count($remainingFilterKeys) != 0){
+                    $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
+                    arsort($remainingHighestArrayValue);
                 }
+                $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
+
+                $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
+                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
             }
-
-
 
             $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
             $second_row_ins = $grid['ma'] + $grid['ven'] + $grid['mer'];
@@ -327,18 +297,32 @@
 
         <div class="row mt-4">
             <div class="col-8">
-                <div class="card" >
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white" id="style_sa" onmousemove="changeColorStyleSA()" onmouseout="clearColorStyleSA()">SA</th>
-                                <th class="text-center border border-white" id="style_ma" onmousemove="changeColorStyleMA()" onmouseout="clearColorStyleMA()">MA</th>
-                                <th class="text-center border border-white" id="style_jo" onmousemove="changeColorStyleJO()" onmouseout="clearColorStyleJO()">JO</th>
-                                <th class="text-center border border-white" id="style_lu" onmousemove="changeColorStyleLU()" onmouseout="clearColorStyleLU()">LU</th>
-                                <th class="text-center border border-white" id="style_ven" onmousemove="changeColorStyleVEN()" onmouseout="clearColorStyleVEN()">VEN</th>
-                                <th class="text-center border border-white" id="style_mer" onmousemove="changeColorStyleMER()" onmouseout="clearColorStyleMER()">MER</th>
-                                <th class="text-center border border-white" id="style_so" onmousemove="changeColorStyleSO()" onmouseout="clearColorStyleSO()">SO</th>
+                                <th class="text-center border border-white" id="style_sa"
+                                    onmousemove="changeColorStyleSA()" onmouseout="clearColorStyleSA()">SA
+                                </th>
+                                <th class="text-center border border-white" id="style_ma"
+                                    onmousemove="changeColorStyleMA()" onmouseout="clearColorStyleMA()">MA
+                                </th>
+                                <th class="text-center border border-white" id="style_jo"
+                                    onmousemove="changeColorStyleJO()" onmouseout="clearColorStyleJO()">JO
+                                </th>
+                                <th class="text-center border border-white" id="style_lu"
+                                    onmousemove="changeColorStyleLU()" onmouseout="clearColorStyleLU()">LU
+                                </th>
+                                <th class="text-center border border-white" id="style_ven"
+                                    onmousemove="changeColorStyleVEN()" onmouseout="clearColorStyleVEN()">VEN
+                                </th>
+                                <th class="text-center border border-white" id="style_mer"
+                                    onmousemove="changeColorStyleMER()" onmouseout="clearColorStyleMER()">MER
+                                </th>
+                                <th class="text-center border border-white" id="style_so"
+                                    onmousemove="changeColorStyleSO()" onmouseout="clearColorStyleSO()">SO
+                                </th>
                                 <th class="text-center border border-white">#</th>
                             </tr>
                             </thead>
@@ -360,7 +344,9 @@
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['lu'] == 0 ? 'redBox' : ($grid['lu'] > 4 ? 'greenBox text-dark' : ($grid['jo'] > 4 && $grid['ven'] > 4 && $third_row_lu > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_lu}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['ven'] == 0 ? 'redBox' : ($grid['ven'] > 4 ? 'greenBox text-dark' : ($grid['lu'] > 4 && $grid['mer'] > 4 && $third_row_ven > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_ven}}</td>
                                 <td class="text-sm font-weight-normal text-center border {{ $grid['mer'] == 0 ? 'redBox' : ($grid['mer'] > 4 ? 'greenBox text-dark' : ($grid['ven'] > 4 && $grid['sa'] > 4 && $third_row_mer > 30 ? 'border-success' : 'border-white')) }}">{{$second_row_mer}}</td>
-                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">0</td>
+                                <td class="text-sm font-weight-normal text-center border {{ $grid['so'] == 0 ? 'redBox' : ($grid['so'] > 4 ? 'greenBox' : '') }}">
+                                    0
+                                </td>
                                 <td class="text-sm font-weight-normal text-center border border-white">{{$second_row_sa + $second_row_ma + $second_row_jo + $second_row_lu + $second_row_ven + $second_row_mer}}</td>
                             </tr>
                             <tr>
@@ -381,23 +367,47 @@
         </div>
         <div class="row mt-4">
             <div class="col-11">
-                <div class="card" >
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-center border border-white" id="feature_de" onmousemove="changeColorFeatureDE()" onmouseout="clearColorFeatureDE()">DE</th>
-                                <th class="text-center border border-white" id="feature_dom" onmousemove="changeColorFeatureDOM()" onmouseout="clearColorFeatureDOM()">DOM</th>
-                                <th class="text-center border border-white" id="feature_fe" onmousemove="changeColorFeatureFE()" onmouseout="clearColorFeatureFE()">FE</th>
-                                <th class="text-center border border-white" id="feature_gre" onmousemove="changeColorFeatureGRE()" onmouseout="clearColorFeatureGRE()">GRE</th>
-                                <th class="text-center border border-white" id="feature_lun" onmousemove="changeColorFeatureLUN()" onmouseout="clearColorFeatureLUN()">LUN</th>
-                                <th class="text-center border border-white" id="feature_nai" onmousemove="changeColorFeatureNAI()" onmouseout="clearColorFeatureNAI()">NAI</th>
-                                <th class="text-center border border-white" id="feature_ne" onmousemove="changeColorFeatureNE()" onmouseout="clearColorFeatureNE()">NE</th>
-                                <th class="text-center border border-white" id="feature_pow" onmousemove="changeColorFeaturePOW()" onmouseout="clearColorFeaturePOW()">POW</th>
-                                <th class="text-center border border-white" id="feature_sp" onmousemove="changeColorFeatureSP()" onmouseout="clearColorFeatureSP()">SP</th>
-                                <th class="text-center border border-white" id="feature_tra" onmousemove="changeColorFeatureTRA()" onmouseout="clearColorFeatureTRA()">TRA</th>
-                                <th class="text-center border border-white" id="feature_van" onmousemove="changeColorFeatureVAN()" onmouseout="clearColorFeatureVAN()">VAN</th>
-                                <th class="text-center border border-white" id="feature_wil" onmousemove="changeColorFeatureWIL()" onmouseout="clearColorFeatureWIL()">WIL</th>
+                                <th class="text-center border border-white" id="feature_de"
+                                    onmousemove="changeColorFeatureDE()" onmouseout="clearColorFeatureDE()">DE
+                                </th>
+                                <th class="text-center border border-white" id="feature_dom"
+                                    onmousemove="changeColorFeatureDOM()" onmouseout="clearColorFeatureDOM()">DOM
+                                </th>
+                                <th class="text-center border border-white" id="feature_fe"
+                                    onmousemove="changeColorFeatureFE()" onmouseout="clearColorFeatureFE()">FE
+                                </th>
+                                <th class="text-center border border-white" id="feature_gre"
+                                    onmousemove="changeColorFeatureGRE()" onmouseout="clearColorFeatureGRE()">GRE
+                                </th>
+                                <th class="text-center border border-white" id="feature_lun"
+                                    onmousemove="changeColorFeatureLUN()" onmouseout="clearColorFeatureLUN()">LUN
+                                </th>
+                                <th class="text-center border border-white" id="feature_nai"
+                                    onmousemove="changeColorFeatureNAI()" onmouseout="clearColorFeatureNAI()">NAI
+                                </th>
+                                <th class="text-center border border-white" id="feature_ne"
+                                    onmousemove="changeColorFeatureNE()" onmouseout="clearColorFeatureNE()">NE
+                                </th>
+                                <th class="text-center border border-white" id="feature_pow"
+                                    onmousemove="changeColorFeaturePOW()" onmouseout="clearColorFeaturePOW()">POW
+                                </th>
+                                <th class="text-center border border-white" id="feature_sp"
+                                    onmousemove="changeColorFeatureSP()" onmouseout="clearColorFeatureSP()">SP
+                                </th>
+                                <th class="text-center border border-white" id="feature_tra"
+                                    onmousemove="changeColorFeatureTRA()" onmouseout="clearColorFeatureTRA()">TRA
+                                </th>
+                                <th class="text-center border border-white" id="feature_van"
+                                    onmousemove="changeColorFeatureVAN()" onmouseout="clearColorFeatureVAN()">VAN
+                                </th>
+                                <th class="text-center border border-white" id="feature_wil"
+                                    onmousemove="changeColorFeatureWIL()" onmouseout="clearColorFeatureWIL()">WIL
+                                </th>
                                 <th class="text-center border border-white">#</th>
                             </tr>
                             </thead>
@@ -455,7 +465,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-5">
-                <div class="card" >
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -489,7 +499,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-5">
-                <div class="card" >
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -527,7 +537,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-5">
-                <div class="card" >
+                <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">

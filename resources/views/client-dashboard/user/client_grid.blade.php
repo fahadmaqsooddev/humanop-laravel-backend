@@ -40,7 +40,7 @@
             $third_row_lu = $grid['lu'] * $second_row_lu;
             $third_row_ven = $grid['ven'] * $second_row_ven;
             $third_row_mer = $grid['mer'] * $second_row_mer;
-            $third_row_so = 10 * $grid['so'];
+            $third_row_so = 0;
 
             // Initialize variables based on $grid values
             $de = $grid['de'];
