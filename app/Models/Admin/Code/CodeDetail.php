@@ -25,7 +25,7 @@ class CodeDetail extends Model
 
         if (!empty($this->video)){
 
-            return asset('assets/video/') . $this->video;
+            return asset('assets/video') .'/'. $this->video;
         }
     }
 
