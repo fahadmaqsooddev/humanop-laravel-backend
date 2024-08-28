@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,5 +71,17 @@ class QueryAnswer extends Model
             ->latest()
 
             ->first();
+    }
+
+    public static function updateBucketFromApprovedAnswer($id = null){
+
+        $answer = self::whereId($id)->with('question')->first();
+
+        $body = [
+            'question' => $answer['question']['query'] ?? null,
+            'answer' => $answer->answer ?? null,
+        ];
+
+        GuzzleHelpers::sendRequestFromGuzzle('post','http://44.201.128.253:8000/qa_bucket',$body);
     }
 }

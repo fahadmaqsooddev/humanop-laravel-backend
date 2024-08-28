@@ -25,6 +25,8 @@ class ApproveQuery extends Component
     public function approveAnswer($id){
 
         QueryAnswer::approveAnswer($id);
+
+        QueryAnswer::updateBucketFromApprovedAnswer($id);
     }
 
     public function rerenderUnApprovedQueries(){
