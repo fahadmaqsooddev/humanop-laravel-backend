@@ -197,7 +197,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6 mb-4">
-                        <div class="card" style="height: 375px;">
+                        <div class="card" style="height: 430px;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> LIBRARY
                                     OF
@@ -252,7 +252,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6 mb-4">
-                        <div class="card" style="height: 175px;">
+                        <div class="card" style="height: 230px;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP I'M
                                     HAVING A CHALLENGE</p>
@@ -283,7 +283,7 @@
                     </div>
                     <div class="col-lg-12 col-md-6 mb-4">
                         <a href="{{ $assessment && $assessment['id'] ? route('user_report', $assessment['id']) : '#' }}">
-                            <div class="card" style="height: 375px; border-radius: 3rem !important;">
+                            <div class="card" style="height: 430px">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                         STATS</p>
