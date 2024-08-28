@@ -546,7 +546,7 @@ class Assessment extends Model
         $copper = $assessment['c'];
         $alchemy = $gold . '' . $silver . '' . $copper;
         $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
-        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
+        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
 
         return $publicName;
     }
