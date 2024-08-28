@@ -290,6 +290,54 @@ class Assessment extends Model
         return $topKeysStyle;
     }
 
+    public static function getTopThreeStyles($assessment = null)
+    {
+        $style = [
+            'sa' => $assessment['sa'],
+            'ma' => $assessment['ma'],
+            'jo' => $assessment['jo'],
+            'lu' => $assessment['lu'],
+            'ven' => $assessment['ven'],
+            'mer' => $assessment['mer'],
+            'so' => $assessment['so'],
+        ];
+
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row_sa = $assessment['sa'] * $second_row_sa;
+        $third_row_ma = $assessment['ma'] * $second_row_ma;
+        $third_row_jo = $assessment['jo'] * $second_row_jo;
+        $third_row_lu = $assessment['lu'] * $second_row_lu;
+        $third_row_ven = $assessment['ven'] * $second_row_ven;
+        $third_row_mer = $assessment['mer'] * $second_row_mer;
+        $third_row_so = 10 * $assessment['so'];
+
+        $third_row_style = [
+            'sa' => $third_row_sa,
+            'ma' => $third_row_ma,
+            'jo' => $third_row_jo,
+            'lu' => $third_row_lu,
+            'ven' => $third_row_ven,
+            'mer' => $third_row_mer,
+            'so' => $third_row_so,
+        ];
+
+        // Sort $third_row_style in descending order based on values
+        arsort($third_row_style);
+
+        // Get the first two elements from the sorted array
+        $topThreeStylesKeys = array_keys(array_slice($third_row_style, 0, 3, true));
+
+        $styles = CodeDetail::getPublicNames($topThreeStylesKeys);
+
+        return $styles;
+    }
+
     public static function getFeatures($assessment = null)
     {
         $features = [
@@ -324,7 +372,7 @@ class Assessment extends Model
             'de' => $assessment['de'] * $second_row_de,
             'dom' => $assessment['dom'] * $second_row_dom,
             'fe' => $assessment['fe'] * $second_row_fe,
-            'gre' => $assessment['gre'] * ($assessment['jo'] + $assessment['mer']),
+            'gre' => $assessment['gre'] * $second_row_gre,
             'lun' => $assessment['lun'] * $second_row_lun,
             'nai' => $assessment['nai'] * $second_row_nai,
             'ne' => $assessment['ne'] * $second_row_ne,
@@ -491,6 +539,18 @@ class Assessment extends Model
         return $alchemyCodeDetail;
     }
 
+    public static function getAlchemyPublicName($assessment = null)
+    {
+        $gold = $assessment['g'];
+        $silver = $assessment['s'];
+        $copper = $assessment['c'];
+        $alchemy = $gold . '' . $silver . '' . $copper;
+        $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
+        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
+
+        return $publicName;
+    }
+
     public static function getAlchlCode($assessment_id = null)
     {
         $assessment = self::whereId($assessment_id)->first(['g', 's', 'c']);
@@ -551,6 +611,7 @@ class Assessment extends Model
 
     public static function getGridKeys($filtered_keys = null, $third_row_feature = null)
     {
+
         $greater_than_three_filtered_keys = [];
         foreach ($filtered_keys as $key => $value) {
             if ($value > 3) { // Check if the value is greater than 3
@@ -571,6 +632,7 @@ class Assessment extends Model
             $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
             arsort($remainingHighestArrayValue);
         }
+
         $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
 
         $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
