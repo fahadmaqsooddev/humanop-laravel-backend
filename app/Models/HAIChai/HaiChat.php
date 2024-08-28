@@ -24,11 +24,25 @@ class HaiChat extends Model
         return self::whereId($id)->first();
     }
 
-    public static function getChat()
+    public static function getChat($days_old_chat = 0)
     {
-        return self::whereDate('created_at', Carbon::today())
-            ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
+
+        $chats = self::query();
+
+        if ($days_old_chat > 0){
+
+            $chats = $chats->whereDate('created_at', '>', Carbon::now()->subDays($days_old_chat));
+
+        }else{
+
+            $chats = $chats->whereDate('created_at', Carbon::now()->subDays($days_old_chat));
+        }
+
+            $chats = $chats->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
+
             ->get(['id','query','answer','likedislike']);
+
+        return $chats;
     }
 
     public static function createChat($query = null, $reply = null)

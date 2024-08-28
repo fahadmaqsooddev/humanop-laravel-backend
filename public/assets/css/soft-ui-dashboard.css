@@ -20280,7 +20280,7 @@ fieldset:disabled .btn {
 /* Chat box css add*/
 .chatbox {
     width: 100%;
-    height: 600px;
+    height: 480px;
     display: flex;
     flex-direction: column;
 }
@@ -20429,6 +20429,12 @@ fieldset:disabled .btn {
     background-color: #f2661c;
 }
 .chat-hover:hover {
+    background-color: #0f1534;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.chat-history {
     background-color: #0f1534;
     border-radius: 8px;
     padding: 10px;

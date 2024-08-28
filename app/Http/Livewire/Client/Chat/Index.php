@@ -12,7 +12,7 @@ use App\Models\HAIChai\HaiChat;
 
 class Index extends Component
 {
-    public $userMessage = '';
+    public $userMessage = '', $chatFilter = 0;
     public $lastMessage;
 
     protected $listeners = ['chatMessage', 'sendMessage'];
@@ -81,10 +81,18 @@ class Index extends Component
         return $response_body;
     }
 
+    public function filterChats($days){
+
+        $this->chatFilter = $days;
+    }
+
     public function render()
     {
 
-        $chats = HaiChat::getChat();
+        $chats = HaiChat::getChat($this->chatFilter);
+
+        $this->emit('scrollToBottom');
+
         return view('livewire.client.chat.index', ['messages' => $chats]);
     }
 }
