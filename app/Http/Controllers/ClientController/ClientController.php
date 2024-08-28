@@ -15,7 +15,7 @@ class ClientController extends Controller
 
     public function index()
     {
-        try {
+//        try {
 
             $podcast = Podcast::getPodcast();
 
@@ -36,11 +36,11 @@ class ClientController extends Controller
 
             return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer','topThreeStyles','topTwoFeatures','boundary','topCommunication','assessment'));
 
-        }catch (\Exception $exception)
-        {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
+//        }catch (\Exception $exception)
+//        {
+//
+//            return redirect()->back()->with('error', $exception->getMessage());
+//
+//        }
     }
 }
