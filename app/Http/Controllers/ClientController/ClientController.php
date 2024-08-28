@@ -10,12 +10,13 @@ use App\Models\TipRecord;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
+
 class ClientController extends Controller
 {
 
     public function index()
     {
-//        try {
+       try {
 
             $podcast = Podcast::getPodcast();
 
@@ -25,22 +26,22 @@ class ClientController extends Controller
 
             $tip = DailyTip::getSingleTip($tip_records);
 
-            $assessment = Assessment::singleAssessment($user['id']);
-            $topThreeStyles = Assessment::getTopThreeStyles($assessment);
-            $topFeatures = Assessment::getFeatures($assessment);
-            $boundary = Assessment::getAlchemyPublicName($assessment);
-            $communication = Assessment::getEnergy($assessment);
-            $topTwoFeatures = CodeDetail::getPublicNames($topFeatures['top_two_keys']);
-            $topCommunication = CodeDetail::getSinglePublicName($communication[0]);
             $admin_answer = QueryAnswer::userQueryAnswer();
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer','topThreeStyles','topTwoFeatures','boundary','topCommunication','assessment'));
+            $assessment = Assessment::singleAssessment($user['id']);
+            $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
+            $topCommunication = $communication != null ? CodeDetail::getSinglePublicName($communication[0]) : [];
 
-//        }catch (\Exception $exception)
-//        {
-//
-//            return redirect()->back()->with('error', $exception->getMessage());
-//
-//        }
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
     }
 }
