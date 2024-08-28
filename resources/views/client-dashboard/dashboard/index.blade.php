@@ -297,21 +297,21 @@
                                 </div>
                                 <p class="text-sm" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
                                 <div class="d-flex" style="margin-top: -10px">
-                                    @foreach($topTwoFeatures as $index => $feature)
-                                        <p class="fw-bold" style="color: #f2661c">
-                                            {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}
-                                        </p>
-                                    @endforeach
+{{--                                    @foreach($topTwoFeatures as $index => $feature)--}}
+{{--                                        <p class="fw-bold" style="color: #f2661c">--}}
+{{--                                            {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}--}}
+{{--                                        </p>--}}
+{{--                                    @endforeach--}}
                                 </div>
-{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>--}}
-{{--                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">--}}
-{{--                                    {{ $boundary['public_name'] }}--}}
-{{--                                </p>--}}
-{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>--}}
-{{--                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">--}}
-{{--                                    {{ $topCommunication['public_name'] }}--}}
-{{--                                </p>--}}
-{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>--}}
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
+                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    {{ $boundary['public_name'] }}
+                                </p>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
+                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    {{ $topCommunication['public_name'] }}
+                                </p>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
                             </div>
                         </div>
                         </a>
