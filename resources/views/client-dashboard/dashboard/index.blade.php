@@ -303,15 +303,15 @@
                                         </p>
                                     @endforeach
                                 </div>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
-                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                    {{ $boundary['public_name'] }}
-                                </p>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
-                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                    {{ $topCommunication['public_name'] }}
-                                </p>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>--}}
+{{--                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">--}}
+{{--                                    {{ $boundary['public_name'] }}--}}
+{{--                                </p>--}}
+{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>--}}
+{{--                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">--}}
+{{--                                    {{ $topCommunication['public_name'] }}--}}
+{{--                                </p>--}}
+{{--                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>--}}
                             </div>
                         </div>
                         </a>
