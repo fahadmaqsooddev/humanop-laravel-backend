@@ -282,7 +282,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6 mb-4">
-                        <a href="{{$assessment['id'] ? route('user_report',$assessment['id'])  : '#'}}">
+                        <a href="#">
                         <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
