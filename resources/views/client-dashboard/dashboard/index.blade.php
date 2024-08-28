@@ -289,19 +289,19 @@
                                     STATS</p>
                                     <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                 <div class="d-flex" style="margin-top: -10px">
-                                    @foreach($topThreeStyles as $index => $style)
-                                        <p class="fw-bold" style="color: #f2661c">
-                                            {{ $style['public_name'] }}{{ $index < count($topThreeStyles) - 1 ? ', ' : '' }}
-                                        </p>
-                                    @endforeach
+{{--                                    @foreach($topThreeStyles as $index => $style)--}}
+{{--                                        <p class="fw-bold" style="color: #f2661c">--}}
+{{--                                            {{ $style['public_name'] }}{{ $index < count($topThreeStyles) - 1 ? ', ' : '' }}--}}
+{{--                                        </p>--}}
+{{--                                    @endforeach--}}
                                 </div>
                                 <p class="text-sm" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
                                 <div class="d-flex" style="margin-top: -10px">
-{{--                                    @foreach($topTwoFeatures as $index => $feature)--}}
-{{--                                        <p class="fw-bold" style="color: #f2661c">--}}
-{{--                                            {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}--}}
-{{--                                        </p>--}}
-{{--                                    @endforeach--}}
+                                    @foreach($topTwoFeatures as $index => $feature)
+                                        <p class="fw-bold" style="color: #f2661c">
+                                            {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}
+                                        </p>
+                                    @endforeach
                                 </div>
                                 <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
                                 <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
