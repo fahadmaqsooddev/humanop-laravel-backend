@@ -13,17 +13,18 @@ class CodeDetail extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
 //    append
-    public function getVideoUrlAttribute(){
+    public function getVideoUrlAttribute()
+    {
 
-        if (!empty($this->video)){
+        if (!empty($this->video)) {
 
             return asset('assets/video') .'/'. $this->video;
         }
@@ -114,15 +115,34 @@ class CodeDetail extends Model
 
     }
 
-    public static function styleAndFeatureCode(){
+    public static function styleAndFeatureCode()
+    {
 
-        return self::whereIn('type', ['Style', 'Feature'])->select(['id','code','public_name'])->get()->unique('public_name');
+        return self::whereIn('type', ['Style', 'Feature'])->select(['id', 'code', 'public_name'])->get()->unique('public_name');
 
     }
 
-    public static function alchemyCodes(){
+    public static function alchemyCodes()
+    {
 
-        return self::where('type', 'Alchemy')->select(['id','code','public_name'])->get()->unique('public_name');
+        return self::where('type', 'Alchemy')->select(['id', 'code', 'public_name'])->get()->unique('public_name');
 
+    }
+
+    public static function getPublicNames($codekeys = null)
+    {
+        $publicName = [];
+        foreach ($codekeys as $codeKey) {
+            $key = strtoupper($codeKey);
+            $keyPublicName = self::where('code', $key)->where('number', 1)->first('public_name');
+            $publicName[] = $keyPublicName;
+        }
+
+        return $publicName;
+    }
+
+    public static function getSinglePublicName($codeKey = null)
+    {
+        return self::where('code', $codeKey)->where('number', 1)->first('public_name');
     }
 }

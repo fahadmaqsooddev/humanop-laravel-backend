@@ -161,21 +161,21 @@
         </div>
     </div>
     @if($admin_answer && !empty($admin_answer['question']))
-    <div class="container p-2" style="margin-left: 30px; width: 93%;">
-        <div class="row card card-body text-white">
-            <div>
+        <div class="container p-2" style="margin-left: 30px; width: 93%;">
+            <div class="row card card-body text-white">
+                <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
                     Your Query : {{$admin_answer['question']['query'] ?? null}}
                 </span>
-            </div>
-            <div>
-                <div class="text-white mt-2">
-                    <span> Answer : </span>
-                    {{$admin_answer->answer}}
+                </div>
+                <div>
+                    <div class="text-white mt-2">
+                        <span> Answer : </span>
+                        {{$admin_answer->answer}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
     <div class="container-fluid">
         <section class=""> {{-- py-3 --}}
@@ -225,21 +225,23 @@
                                      style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                                     <div class="card-body p-3">
                                         @if($podcast && !empty($podcast->embedded_url))
-                                        <div class="row">
-                                            <div class="">
-                                                <div class="numbers mt-3">
-                                                    <iframe class="col-lg-12 col-md-12" style="height: 430px; width: 100%;"
-                                                            src="{{$podcast->embedded_url}}"
-                                                            frameborder="0"></iframe>
-                                                    <h5 class="font-weight-bolder mb-0">
-                                                        <span class="text-success text-sm font-weight-bolder"></span>
-                                                    </h5>
+                                            <div class="row">
+                                                <div class="">
+                                                    <div class="numbers mt-3">
+                                                        <iframe class="col-lg-12 col-md-12"
+                                                                style="height: 430px; width: 100%;"
+                                                                src="{{$podcast->embedded_url}}"
+                                                                frameborder="0"></iframe>
+                                                        <h5 class="font-weight-bolder mb-0">
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+
                                                 </div>
                                             </div>
-                                            <div class="col-4 text-end">
-
-                                            </div>
-                                        </div>
                                         @else
                                             <p class="text-center text-white">No podcast is uploaded yet</p>
                                         @endif
@@ -280,17 +282,39 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6 mb-4">
+                        <a href="{{$assessment['id'] ? route('user_report',$assessment['id'])  : '#'}}">
                         <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                     STATS</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Communication Styles</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
+                                <div class="d-flex" style="margin-top: -10px">
+                                    @foreach($topThreeStyles as $index => $style)
+                                        <p class="fw-bold" style="color: #f2661c">
+                                            {{ $style['public_name'] }}{{ $index < count($topThreeStyles) - 1 ? ', ' : '' }}
+                                        </p>
+                                    @endforeach
+                                </div>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
+                                <div class="d-flex" style="margin-top: -10px">
+                                    @foreach($topTwoFeatures as $index => $feature)
+                                        <p class="fw-bold" style="color: #f2661c">
+                                            {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}
+                                        </p>
+                                    @endforeach
+                                </div>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
+                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    {{ $boundary['public_name'] }}
+                                </p>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
+                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    {{ $topCommunication['public_name'] }}
+                                </p>
+                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
                             </div>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -394,7 +418,7 @@
             Livewire.emit('chatMessage', message);
         });
 
-        document.querySelector('.messageChat').addEventListener('keypress', function(e) {
+        document.querySelector('.messageChat').addEventListener('keypress', function (e) {
 
             if (e.key === 'Enter' && e.shiftKey) {
 
@@ -404,12 +428,12 @@
 
                 Livewire.emit('chatMessage', message);
 
-                setTimeout(function (){
+                setTimeout(function () {
 
                     $('#submitBtn').click()
 
                     $('#messageChat').val('');
-                },1000);
+                }, 1000);
 
             }
         });
