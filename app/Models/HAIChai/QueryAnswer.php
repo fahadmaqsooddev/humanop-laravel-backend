@@ -58,7 +58,7 @@ class QueryAnswer extends Model
 
         return self::whereHas('question', function ($q){
 
-            $q->where('user_id', Helpers::getWebUser()->id)
+            $q->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)
 
                 ->where('response', 1);
 

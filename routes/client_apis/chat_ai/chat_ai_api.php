@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('ai-chat', 'ChatAiController@aiChat');
 Route::post('ask-question', 'ChatAiController@askQuestion');
 Route::post('like-dislike-ai-reply', 'ChatAiController@likeDislikeAiReply');
+Route::post('client-query', 'ChatAiController@clientQuery');
+Route::get('client-query-answer', 'ChatAiController@clientQueryAnswer');
