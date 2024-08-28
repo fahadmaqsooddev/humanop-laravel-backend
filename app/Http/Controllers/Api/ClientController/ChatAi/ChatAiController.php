@@ -8,8 +8,11 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
+use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Models\Assessment;
+use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
+use App\Models\HAIChai\QueryAnswer;
 
 class ChatAiController extends Controller
 {
@@ -62,6 +65,36 @@ class ChatAiController extends Controller
             HaiChat::likeDisLikeAiReply($request);
 
             return Helpers::successResponse('Chat successfully ' . $request->type . 'd');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function clientQuery(StoreClientQueryRequest $request){
+
+        try {
+
+            ClientQuery::createQuery(Helpers::getUser()->id, $request->input('query'));
+
+            return Helpers::successResponse('Query submitted');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public static function clientQueryAnswer(){
+
+        try {
+
+            $client_answer = QueryAnswer::userQueryAnswer();
+
+            return Helpers::successResponse('Query answer', $client_answer);
 
         }catch (\Exception $exception){
 
