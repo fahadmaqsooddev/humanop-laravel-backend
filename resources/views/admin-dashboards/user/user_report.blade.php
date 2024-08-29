@@ -302,22 +302,24 @@
                                                 </div>
                                                 @endif
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
-                                                <button onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')" data-toggle="collapse" href="#{{$reports['alchemy_code_details']['p_name']}}" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
-                                                        class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                        style="background-color: #f2661c; padding: 12px 63px;">Watch
-                                                    Video
-                                                </button>
-                                                <div class="collapse" id="{{$reports['alchemy_code_details']['p_name']}}">
-                                                    <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
-                                                    >
-                                                        <source
-                                                            src="{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}"
-                                                            type="video/mp4">
-                                                        <source src="mov_bbb.ogg" type="video/ogg">
-                                                        Your browser does not support HTML video.
-                                                    </video>
-                                                </div>
+                                                @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
+                                                    <button onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')" data-toggle="collapse" href="#{{$reports['alchemy_code_details']['p_name']}}" role="button"
+                                                            aria-expanded="false" aria-controls="collapseExample"
+                                                            class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                            style="background-color: #f2661c; padding: 12px 63px;">Watch
+                                                        Video
+                                                    </button>
+                                                    <div class="collapse" id="{{$reports['alchemy_code_details']['p_name']}}">
+                                                        <video id="myVideo{{$reports['alchemy_code_details']['id']}}" class="slider-padding mb-5 videoStop" width="1100" height="550" controls
+                                                        >
+                                                            <source
+                                                                src="{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}"
+                                                                type="video/mp4">
+                                                            <source src="mov_bbb.ogg" type="video/ogg">
+                                                            Your browser does not support HTML video.
+                                                        </video>
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="carousel-item">
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR COMMUNICATION
