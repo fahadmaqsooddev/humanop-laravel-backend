@@ -41,6 +41,8 @@ class QueryAnswer extends Model
     public static function approveAnswer($id = null){
 
         self::whereId($id)->update(['approved' => 1]);
+
+        self::updateBucketFromApprovedAnswer($id);
     }
 
     public static function singleAnswer($id){
