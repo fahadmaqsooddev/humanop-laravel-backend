@@ -114,10 +114,15 @@
 
         <form wire:submit.prevent="sendMessage">
             @csrf
-            <div class="chatbox-input" style="margin-bottom: 50px">
+            <div class="chatbox-input" style="margin-bottom: 50px;">
                 <input type="text" wire:model="userMessage" id="userMessage"
-                       placeholder="Type your message here...">
-                <button type="submit" id="submitBtn">&#9658;</button>
+                       placeholder="Talk with Pi">
+                <button type="submit" id="submitBtn">
+{{--                    &#9658;--}}
+                    <div style="background-color: darkgreen; color: white; border-radius: 50%; padding: 10px;">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </div>
+                </button>
             </div>
         </form>
     </div>
