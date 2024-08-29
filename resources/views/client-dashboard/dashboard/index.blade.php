@@ -92,7 +92,7 @@
         float: right;
         margin-right: 24px;
     }
-
+ 
     .page-link {
         background: none !important;
     }
@@ -111,55 +111,60 @@
 </style>
 @section('content')
 
-    <div class="container-fluid">
+
+    <div class="parent px-lg-5">
+    <div class="container-fluid px-0    ">
         <div class="page-header min-height-100 border-radius-xl">
         </div>
-        <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
-            <div class="row gx-4">
-                <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
-                        <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
-                             class="w-100 border-radius-lg shadow-sm">
+        <div class="card card-body blur shadow-blur  mt-n6 ">
+            <div class="d-flex justify-content-between flex-wrap">
+
+                <div class="d-flex">
+                    <div class="col-auto pb-sm-4">
+                        <div class="avatar avatar-xl avatar-icon  ">
+                            <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
+                                class="w-100 border-radius-lg shadow-sm  ">
+                        </div>
+                    </div>
+            
+
+                    <div class="d-flex   ">
+                        <div class="h-100">
+                            <h5 class="mb-1 text-white">
+                                {{$user['first_name']}}  {{$user['last_name']}}
+                            </h5>
+                            <p class="mb-0 font-weight-bold text-sm text-white">
+                                Optimal Trait To Be In Right Now:
+                            </p>
+                            <p class="  text-white  word-break text-sm col-12" >Perceptive Trait (Thinking) For Strategy and Problem
+                                Solving
+                                Activities</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-auto my-auto">
-                    <div class="h-100">
-                        <h5 class="mb-1 text-white">
-                            {{$user['first_name']}}  {{$user['last_name']}}
-                        </h5>
-                        <p class="mb-0 font-weight-bold text-sm text-white">
-                            Optimal Trait To Be In Right Now:
-                        </p>
-                        <p class="text-white text-sm col-12">Perceptive Trait (Thinking) For Strategy and Problem
-                            Solving
-                            Activities</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6  ms-sm-auto me-sm-0 mx-auto mt-3">
-                    <div class="nav-wrapper position-relative end-0">
-                        <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1">
+
+                <div class="d-flex   ">
+                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   " role="tablist">
+                            <div class="nav-item">
                                     <button
                                         style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class="text-white btn btn-lg">Access Your<br> Results
+                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
                                     </button>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link mb-0 px-0 py-1 ">
+                            </div>
+
+                            <div class="nav-item">
                                     <button
                                         style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class=" ms-2 text-white btn btn-lg">Get Free Pro<br> Access!
+                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br> Access!
                                     </button>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
     @if($admin_answer && !empty($admin_answer['question']))
         <div class="container p-2" style="margin-left: 30px; width: 93%;">
             <div class="row card card-body text-white">
@@ -177,11 +182,19 @@
             </div>
         </div>
     @endif
-    <div class="container-fluid">
-        <section class=""> {{-- py-3 --}}
+
+ <!-- main features section -->
+    <div class="container-fluid px-0 ">
+        <section class=""> {{-- py-3 --}} 
+            
             <div class="row">
-                <div class="mt-lg-4 mt-2 col-3">
-                    <div class="col-lg-12 col-md-6 mb-4">
+
+
+
+
+                <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
+                    
+                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                         <div class="card" style="height: 375px;">
                             <div class="card-body p-3">
                                 <h5 class="text-white">Daily Tip</h5>
@@ -195,9 +208,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-6 mb-4">
-                        <div class="card" style="height: 430px;">
+                    </div> 
+
+                    <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                        <div class="card" style="height: 375px;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> LIBRARY
                                     OF
@@ -214,9 +228,13 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
-                <div class="mt-lg-4 mt-2 col-6">
-                    <div class="col-lg-12 col-md-6 mb-4">
+
+
+
+                <div class="mt-lg-4 mt-2 col-lg-6 col-sm-12 col-md-12 ">
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
                         <div class="card" style="height: 575px;border-radius: 1rem !important;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
@@ -251,8 +269,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-6 mb-4">
-                        <div class="card" style="height: 230px;">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                        <div class="card" style="height: 175px;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP I'M
                                     HAVING A CHALLENGE</p>
@@ -262,8 +281,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-lg-4 mt-2 col-3">
-                    <div class="col-lg-12 col-md-6 mb-4">
+
+
+
+
+
+                <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
+                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                         <div class="card" style="height: 375px;">
                             <div class="card-body p-3">
                                 <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
@@ -281,11 +305,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-6 mb-4">
-                        <a href="{{ $assessment && $assessment['id'] ? route('user_report', $assessment['id']) : '#' }}">
-                            <div class="card" style="height: 430px">
-                                <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
+                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                        <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
+                            <div class="card-body p-3">
+                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                         STATS</p>
                                     <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                     <div class="d-flex" style="margin-top: -10px">
@@ -316,12 +339,14 @@
                                         {{ $topCommunication['public_name'] ?? '' }}
                                     </p>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
-                                </div>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
+
+
+
             <div class="row mt-lg-4 mt-2">
                 <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
@@ -329,7 +354,9 @@
                           placeholder="Type your message here..."></textarea>
                     <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
                        class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a>
-                    <div class="card shadow-lg blur" style="background-color: #0f1534 !important;z-index: 1111111">
+
+                       <!-- H.A.I CHAT INTERFACE -->
+                    <div class="card shadow-lg blur m-0 px-0" style="background-color: #0f1534 !important;z-index: 1111111">
                         <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
                             <div class="row">
                                 <div class="col-2">
@@ -354,6 +381,8 @@
                             </div>
                             <!-- End Toggle Button -->
                         </div>
+
+                        <!-- sidebar of chatbot -->
                         <div class="d-flex">
                             @livewire('client.chat.index')
                         </div>
@@ -376,6 +405,8 @@
 
 
     </div>
+    </div>
+   
 @endsection
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

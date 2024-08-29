@@ -75,15 +75,20 @@
     </div>
 {{--    @endempty--}}
     <div class="chatbox">
-        <div class="chatbox-content" id="chatbox-content">
+        <div class="chatbox-content d-flex flex-column justify-content-between" id="chatbox-content">
             @foreach($messages as $key => $message)
-                <div class="message user-message flex-end">
+
+            <!-- user side message  -->
+                <div class="message user-message ">
                     {{ $message['query'] }}
                 </div>
-                <div class="flex-start">
+
+             <!-- chatbot side message  -->
+                <div class="">
                     <div class="message bot-message">
                         {!! $message['answer'] !!}
                     </div>
+                    <!-- rating -->
                     <div class="rating d-flex mb-2">
                         <!-- Thumbs up -->
                         <div class="like grow {{ $message['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $message['id'] }})">

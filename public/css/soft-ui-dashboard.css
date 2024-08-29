@@ -20242,7 +20242,7 @@ hr.horizontal.gray-light {
 }
 .navbar-vertical.navbar-expand-xs.fixed-start {
   left: 0;
-    background: linear-gradient(178.68deg, rgba(6, 11, 38, 0.94) 31.88%, rgba(26, 31, 55, 0) 100%);
+    background: linear-gradient(178.68deg, rgba(6, 11, 38, 0.94) 31.88%, rgb(30, 29, 76));
 }
 .navbar-vertical.navbar-expand-xs.fixed-end {
   right: 0;

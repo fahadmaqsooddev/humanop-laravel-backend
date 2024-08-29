@@ -1,13 +1,76 @@
 .background_image{
     /* color: var(--chakra-colors-gray-800); */
-    background-repeat: ;
+    /* background-repeat: ;
     background-attachment: ;
     background-origin: ;
     background-clip: ;
-    background-color: ;
+    background-color: ; */
     transition-property: background-color;
     transition-duration: var(--chakra-transition-duration-normal);
     line-height: var(--chakra-lineHeights-base);
     background-image: url('../img/background-body-admin.05c0b5b9.png');
     background-size: cover;
 }
+
+.top_pannel{
+    padding-bottom:40px ;
+}
+
+.user-pannel-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.features-card{
+    flex-direction: column;
+}
+
+@media (max-width: 575px) {
+    /* .avatar-icon{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    } */
+
+    .fs-15px{
+        font-size: 15px;
+    }
+    .fs-5px{
+        font-size: 8px;
+    }
+  }
+  
+  /* tablet view */
+  @media (min-width: 576px) and (max-width: 767px) { 
+    .features-card{
+        flex-direction: row ; 
+        justify-content:end;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .features-card{
+        flex-direction: row ; 
+        justify-content:space-around;
+    }
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    
+   
+  }
+  
+  @media (min-width: 1200px) {
+    
+  }
+
+
+
+
+
+
+
+
+

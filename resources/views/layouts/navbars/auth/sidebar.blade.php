@@ -1,4 +1,4 @@
-<aside
+<aside style="z-index: 9999;"
     class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
     id="sidenav-main">
     <div class="sidenav-header">
