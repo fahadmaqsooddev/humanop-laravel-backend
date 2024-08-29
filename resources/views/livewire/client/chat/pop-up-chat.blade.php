@@ -55,8 +55,12 @@
                     @csrf
                     <div class="chatbox-input">
                         <input type="text" wire:model.defer="userMessage" id="userMessage-pop-up"
-                               placeholder="Type your message here...">
-                        <button type="submit" id="submitBtn-pop-up">&#9658;</button>
+                               placeholder="Talk with Pi">
+                        <button type="submit" id="submitBtn-pop-up">
+                            <div style="background-color: darkgreen; color: white; border-radius: 50%; padding: 10px;">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                            </div>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -68,6 +72,7 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
         function scrollToBottom() {
             const chatboxContent = $('#chatbox-content-pop-up');
             chatboxContent.scrollTop(chatboxContent[0].scrollHeight);

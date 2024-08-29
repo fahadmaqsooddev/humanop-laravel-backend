@@ -242,6 +242,10 @@
         document.querySelector('.chatBoxx').classList.remove('d-block');
         document.querySelector('.chatBoxx').classList.add('d-none');
 
+        // keep chat box scrollbar to bottom
+        var objDiv = document.getElementById("chatbox-content-pop-up");
+        objDiv.scrollTop = objDiv.scrollHeight;
+
     });
 
     document.querySelector('.chatBoxClose').addEventListener('click', function () {
