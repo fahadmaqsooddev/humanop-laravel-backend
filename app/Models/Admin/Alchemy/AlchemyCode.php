@@ -9,6 +9,8 @@ class AlchemyCode extends Model
 {
     use HasFactory;
 
+    protected $appends = ['image_url'];
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -18,6 +20,15 @@ class AlchemyCode extends Model
         parent::__construct($attributes);
     }
 
+    // append
+    public function getImageUrlAttribute(){
+
+        return asset('assets') . '/' . $this->image;
+
+    }
+
+
+    // query
     public static function getCodeDeatil($code)
     {
         return self::where('number', $code)->first();
