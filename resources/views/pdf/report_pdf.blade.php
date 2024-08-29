@@ -140,7 +140,7 @@
                                 @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
                                     <div class="mt-4" style="border: 0px solid #ccc;">
                                         <img
-                                            src="{{asset('assets/'.$reports['alchemy_code_details']['image'])}}"
+                                            src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/' . $reports['alchemy_code_details']['image']))) }}"
                                             style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
                                     </div>
                                 @endif
