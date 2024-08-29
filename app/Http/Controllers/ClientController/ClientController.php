@@ -31,6 +31,7 @@ class ClientController extends Controller
             $assessment = Assessment::singleAssessment($user['id']);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            dd($topFeatures);
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
