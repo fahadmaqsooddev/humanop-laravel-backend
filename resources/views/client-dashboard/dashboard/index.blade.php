@@ -92,7 +92,7 @@
         float: right;
         margin-right: 24px;
     }
- 
+
     .page-link {
         background: none !important;
     }
@@ -111,204 +111,195 @@
 </style>
 @section('content')
 
-
     <div class="parent px-lg-5">
-    <div class="container-fluid px-0    ">
-        <div class="page-header min-height-100 border-radius-xl">
-        </div>
-        <div class="card card-body blur shadow-blur  mt-n6 ">
-            <div class="d-flex justify-content-between flex-wrap">
+        <div class="container-fluid px-0">
+            <div class="page-header min-height-100 border-radius-xl">
+            </div>
+            <div class="card card-body blur shadow-blur  mt-n6 ">
+                <div class="d-flex justify-content-between flex-wrap">
 
-                <div class="d-flex">
-                    <div class="col-auto pb-sm-4">
-                        <div class="avatar avatar-xl avatar-icon  ">
-                            <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm  ">
+                    <div class="d-flex">
+                        <div class="col-auto pb-sm-4">
+                            <div class="avatar avatar-xl avatar-icon  ">
+                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
+                                     class="w-100 border-radius-lg shadow-sm  ">
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="h-100">
+                                <h5 class="mb-1 text-white">
+                                    {{$user['first_name']}}  {{$user['last_name']}}
+                                </h5>
+                                <p class="mb-0 font-weight-bold text-sm text-white">
+                                    Optimal Trait To Be In Right Now:
+                                </p>
+                                <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
+                                    Strategy and Problem
+                                    Solving
+                                    Activities</p>
+                            </div>
                         </div>
                     </div>
-            
 
-                    <div class="d-flex   ">
-                        <div class="h-100">
-                            <h5 class="mb-1 text-white">
-                                {{$user['first_name']}}  {{$user['last_name']}}
-                            </h5>
-                            <p class="mb-0 font-weight-bold text-sm text-white">
-                                Optimal Trait To Be In Right Now:
-                            </p>
-                            <p class="  text-white  word-break text-sm col-12" >Perceptive Trait (Thinking) For Strategy and Problem
-                                Solving
-                                Activities</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex   ">
-                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   " role="tablist">
+                    <div class="d-flex">
+                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
+                             role="tablist">
                             <div class="nav-item">
-                                    <button
-                                        style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
-                                    </button>
+                                <button
+                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
+                                </button>
                             </div>
 
                             <div class="nav-item">
-                                    <button
-                                        style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br> Access!
-                                    </button>
+                                <button
+                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br> Access!
+                                </button>
                             </div>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
-    @if($admin_answer && !empty($admin_answer['question']))
-        <div class="container p-2" style="margin-left: 30px; width: 93%;">
-            <div class="row card card-body text-white">
-                <div>
+        @if($admin_answer && !empty($admin_answer['question']))
+            <div class="container p-2 mt-2">
+                <div class="row card card-body text-white">
+                    <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
                     Your Query : {{$admin_answer['question']['query'] ?? null}}
                 </span>
-                </div>
-                <div>
-                    <div class="text-white mt-2">
-                        <span> Answer : </span>
-                        {{$admin_answer->answer}}
+                    </div>
+                    <div>
+                        <div class="text-white mt-2">
+                            <span> Answer : </span>
+                            {{$admin_answer->answer}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     @endif
 
- <!-- main features section -->
-    <div class="container-fluid px-0 ">
-        <section class=""> {{-- py-3 --}} 
-            
-            <div class="row">
+    <!-- main features section -->
+        <div class="container-fluid px-0 ">
+            <section class=""> {{-- py-3 --}}
 
-
-
-
-                <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
-                    
-                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;">
-                            <div class="card-body p-3">
-                                <h5 class="text-white">Daily Tip</h5>
-                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
-                                    {{ $tip ? $tip['title'] : '' }}
-                                </p>
-                                <div class="description-container" style="max-height: 200px; overflow-y: auto;">
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
-                                        {{ $tip ? $tip['description'] : '' }}
+                <div class="row">
+                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
+                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                            <div class="card" style="height: 375px;">
+                                <div class="card-body p-3">
+                                    <h5 class="text-white">Daily Tip</h5>
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
+                                        {{ $tip ? $tip['title'] : '' }}
                                     </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-
-                    <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;">
-                            <div class="card-body p-3">
-                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> LIBRARY
-                                    OF
-                                    RESOURCES & TRAININGS</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> New Updatesl</p>
-                                <br>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More Conflit Resolution
-                                    Strategies</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Optimizing Your Space
-                                    Training
-                                    Added</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Updated Dreivers
-                                    Trainings</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-
-
-
-                <div class="mt-lg-4 mt-2 col-lg-6 col-sm-12 col-md-12 ">
-                    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                        <div class="card" style="height: 575px;border-radius: 1rem !important;">
-                            <div class="card-body p-3">
-                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP -
-                                    HumanOp Integration Podcast</p>
-                                <div class="card mb-4"
-                                     style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                                    <div class="card-body p-3">
-                                        @if($podcast && !empty($podcast->embedded_url))
-                                            <div class="row">
-                                                <div class="">
-                                                    <div class="numbers mt-3">
-                                                        <iframe class="col-lg-12 col-md-12"
-                                                                style="height: 430px; width: 100%;"
-                                                                src="{{$podcast->embedded_url}}"
-                                                                frameborder="0"></iframe>
-                                                        <h5 class="font-weight-bolder mb-0">
-                                                            <span
-                                                                class="text-success text-sm font-weight-bolder"></span>
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 text-end">
-
-                                                </div>
-                                            </div>
-                                        @else
-                                            <p class="text-center text-white">No podcast is uploaded yet</p>
-                                        @endif
+                                    <div class="description-container" style="max-height: 200px; overflow-y: auto;">
+                                        <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
+                                            {{ $tip ? $tip['description'] : '' }}
+                                        </p>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
+                        <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                            <div class="card" style="height: 430px;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                        LIBRARY
+                                        OF
+                                        RESOURCES & TRAININGS</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> New Updatesl</p>
+                                    <br>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More Conflit Resolution
+                                        Strategies</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Optimizing Your Space
+                                        Training
+                                        Added</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Updated Dreivers
+                                        Trainings</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-lg-4 mt-2 col-lg-6 col-sm-12 col-md-12 ">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                            <div class="card" style="height: 575px;border-radius: 1rem !important;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
+                                        -
+                                        HumanOp Integration Podcast</p>
+                                    <div class="card mb-4"
+                                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                        <div class="card-body p-3">
+                                            @if($podcast && !empty($podcast->embedded_url))
+                                                <div class="row">
+                                                    <div class="">
+                                                        <div class="numbers mt-3">
+                                                            <iframe class="col-lg-12 col-md-12"
+                                                                    style="height: 430px; width: 100%;"
+                                                                    src="{{$podcast->embedded_url}}"
+                                                                    frameborder="0"></iframe>
+                                                            <h5 class="font-weight-bolder mb-0">
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 text-end">
+
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <p class="text-center text-white">No podcast is uploaded yet</p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                            <div class="card" style="height: 230px;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
+                                        I'M
+                                        HAVING A CHALLENGE</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
+                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                        <div class="card" style="height: 175px;">
-                            <div class="card-body p-3">
-                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP I'M
-                                    HAVING A CHALLENGE</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
-                                    SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
+                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                            <div class="card" style="height: 375px;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
+                                        OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities
+                                        that
+                                        support your motivational drivers</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
+                                        Role</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days
+                                        based
+                                        on
+                                        your traits</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
+                                        Movement</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
-                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;">
-                            <div class="card-body p-3">
-                                <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
-                                    OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities that
-                                    support your motivational drivers</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
-                                    Role</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days based
-                                    on
-                                    your traits</p>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
-                                    Movement</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;" style="border-radius: 3rem !important;">
-                            <div class="card-body p-3">
-                            <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
+                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
+                            <div class="card" style="height: 430px;" style="border-radius: 3rem !important;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                         STATS</p>
                                     <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                     <div class="d-flex" style="margin-top: -10px">
@@ -339,74 +330,72 @@
                                         {{ $topCommunication['public_name'] ?? '' }}
                                     </p>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                                </div>
+                                </a>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-
-
-            <div class="row mt-lg-4 mt-2">
-                <div class="fixed-plugin">
+                    <div class="row mt-lg-4 mt-2">
+                        <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
                           class="form-control text-white messageChat mb-2"
                           placeholder="Type your message here..."></textarea>
-                    <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
-                       class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a>
+                            <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
+                               class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a>
 
-                       <!-- H.A.I CHAT INTERFACE -->
-                    <div class="card shadow-lg blur m-0 px-0" style="background-color: #0f1534 !important;z-index: 1111111">
-                        <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
-                            <div class="row">
-                                <div class="col-2">
-                                    <div class="float-start d-flex">
-                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
-                                        <div class="header-info text-white">
-                                            <div class="header-title">Need help?</div>
-                                            <div class="header-subtitle">We reply immediately</div>
+                            <!-- H.A.I CHAT INTERFACE -->
+                            <div class="card shadow-lg blur m-0 px-0"
+                                 style="background-color: #0f1534 !important;z-index: 1111111">
+                                <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="float-start d-flex">
+                                                <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar"
+                                                     class="avatar">
+                                                <div class="header-info text-white">
+                                                    <div class="header-title">Need help?</div>
+                                                    <div class="header-subtitle">We reply immediately</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-8 text-center">
+                                            <h5 class="text-center text-white">H.A.I CHAT INTERFACE</h5>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="float-end mt-4">
+                                                <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- End Toggle Button -->
                                 </div>
-                                <div class="col-8 text-center">
-                                    <h5 class="text-center text-white">H.A.I CHAT INTERFACE</h5>
-                                </div>
-                                <div class="col-2">
-                                    <div class="float-end mt-4">
-                                        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                    </div>
+
+                                <!-- sidebar of chatbot -->
+                                <div class="d-flex">
+                                    @livewire('client.chat.index')
                                 </div>
                             </div>
-                            <!-- End Toggle Button -->
-                        </div>
-
-                        <!-- sidebar of chatbot -->
-                        <div class="d-flex">
-                            @livewire('client.chat.index')
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 2nd dislike question Modal -->
-        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalMessage" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                        @livewire('client.client-query.client-query')
+            <!-- 2nd dislike question Modal -->
+            <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalMessage" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                            @livewire('client.client-query.client-query')
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-    </div>
-   
+
 @endsection
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
