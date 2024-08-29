@@ -99,7 +99,8 @@
                                 <li class="nav-item {{ (Request::is('approve-queries') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('approve-queries') ? 'active' : '') }}"
                                        href="{{ route('admin_approve_queries') }}">
-                                        <span class="sidenav-mini-icon"> AQ </span>
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Following.png')}}"></span>
+                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Following.png')}}"></span>
                                         <span class="sidenav-normal"> Approve Queries </span>
                                     </a>
                                 </li>
