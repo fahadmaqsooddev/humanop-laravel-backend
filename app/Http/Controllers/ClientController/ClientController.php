@@ -33,10 +33,11 @@ class ClientController extends Controller
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $preception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
             $topCommunication = $communication != null ? CodeDetail::getSinglePublicName($communication[0]) : [];
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception'));
 
         } catch (\Exception $exception) {
 
