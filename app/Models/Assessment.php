@@ -497,6 +497,7 @@ class Assessment extends Model
 
         if (count($filtered_keys) < 2) {
 
+            dd($filtered_keys);
             // Get the matching keys and their values from $third_row_feature
             $matchingKeys = array_intersect_key($third_row_feature, array_flip(array_keys($filtered_keys)));
             arsort($matchingKeys);
