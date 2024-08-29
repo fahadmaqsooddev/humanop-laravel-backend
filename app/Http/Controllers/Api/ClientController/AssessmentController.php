@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Client\QuestionsRequest;
 use App\Http\Requests\Api\Client\UserReportRequest;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\AssessmentDetail;
 use App\Models\Question;
 use Illuminate\Http\Request;
@@ -137,7 +138,20 @@ class AssessmentController extends Controller
 
             $reports = Assessment::getReport($request->input('assessment_id'));
 
-            return Helpers::successResponse('User assessment report', $reports);
+            $alchemy_code = Assessment::getAlchlCode($request->input('assessment_id'));
+
+            $style_position = AssessmentColorCode::getStylePosition($request->input('assessment_id'));
+
+            $feature_position = AssessmentColorCode::getFeaturePosition($request->input('assessment_id'));
+
+            $data = [
+                'reports' => $reports,
+                'alchemy_code' => $alchemy_code,
+                'style_position' => $style_position,
+                'feature_position' => $feature_position
+            ];
+
+            return Helpers::successResponse('User assessment report', $data);
 
         }catch (\Exception $exception){
 
