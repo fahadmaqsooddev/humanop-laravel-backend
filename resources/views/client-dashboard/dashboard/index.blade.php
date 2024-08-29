@@ -426,7 +426,7 @@
 
         document.querySelector('.messageChat').addEventListener('keypress', function (e) {
 
-            if (e.key === 'Enter' && e.shiftKey) {
+            if (e.key === '\n' && e.ctrlKey) {
 
                 $('.fixed-plugin-button').click();
 
