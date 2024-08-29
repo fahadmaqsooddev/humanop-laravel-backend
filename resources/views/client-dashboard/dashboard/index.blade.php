@@ -205,7 +205,7 @@
                         </div>
 
                         <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 430px;">
+                            <div class="card" style="height: 450px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
                                         LIBRARY
@@ -264,7 +264,7 @@
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                            <div class="card" style="height: 230px;">
+                            <div class="card" style="height: 220px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
                                         I'M
@@ -297,7 +297,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 430px;" style="border-radius: 3rem !important;">
+                            <div class="card" style="height: 450px;" style="border-radius: 3rem !important;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                         STATS</p>
