@@ -1,34 +1,36 @@
-<div class="d-flex">
-<div class="col-3">
-    <div class="chatbox">
+<div class="d-flex container-fluid vh-100  px-0  ">
+
+<div class="col-4 col-lg-3  ">
+
+    <div class="chatbox h-100">
         <div class="chatbox-content" style="background-color: #f2661c">
-            <div class="mt-4 chat-hover d-flex" style="cursor: pointer;">
-                <i class="fa fa-plus" style="color: white; margin-top: 8px"></i>
-                <h5 class="text-white text-bold" style="margin-left: 12px">New chat</h5>
+            <div class="mt-4 chat-hover d-flex align-items-center justify-content-center" style="cursor: pointer;">
+                <i class="fa fa-plus pb-2 me-1" style="color: white;"></i>
+                <h5 class="text-white text-bold fs-10px" style="">New chat</h5>
             </div>
             <hr>
 
             <div class="mt-4">
-                <h5 class="text-white text-bold">Today chat</h5>
-                <p class="text-white {{$chatFilter === 0 ? "chat-history" : ""}}" wire:click="filterChats(0)" style="font-size: 13px; cursor: pointer;">
+                <h5 class="text-white text-bold fs-10px">Today chat</h5>
+                <p class="text-white fs-7px {{$chatFilter === 0 ? "chat-history" : ""}}" wire:click="filterChats(0)" style="cursor: pointer;">
                     click to load today's chat
                 </p>
             </div>
             <div class="mt-4">
-                <h5 class="text-white text-bold">Yesterday chat</h5>
-                <p class="text-white {{$chatFilter === 2 ? "chat-history" : ""}}" wire:click="filterChats(2)" style="font-size: 13px; cursor: pointer;">
+                <h5 class="text-white text-bold fs-10px">Yesterday chat</h5>
+                <p class="text-white fs-7px {{$chatFilter === 2 ? "chat-history" : ""}}" wire:click="filterChats(2)" style="cursor: pointer;">
                     click to load yesterday chat
                 </p>
             </div>
             <div class="mt-4">
-                <h5 class="text-white text-bold">Previous 5 Days chat</h5>
-                <p class="text-white {{$chatFilter === 5 ? "chat-history" : ""}}" wire:click="filterChats(5)" style="font-size: 13px; cursor: pointer;">
+                <h5 class="text-white text-bold fs-10px">Previous 5 Days chat</h5>
+                <p class="text-white fs-7px {{$chatFilter === 5 ? "chat-history" : ""}}" wire:click="filterChats(5)" style="cursor: pointer;">
                     click to load previous 5 days chat
                 </p>
             </div>
             <div class="mt-4">
-                <h5 class="text-white text-bold">Previous 7 Days chat</h5>
-                <p class="text-white {{$chatFilter === 7 ? "chat-history" : ""}}" wire:click="filterChats(7)" style="font-size: 13px; cursor: pointer;">
+                <h5 class="text-white text-bold fs-10px">Previous 7 Days chat</h5>
+                <p class="text-white  fs-7px {{$chatFilter === 7 ? "chat-history" : ""}}" wire:click="filterChats(7)" style="cursor: pointer;">
                     click to load previous 7 days chat
                 </p>
             </div>
@@ -36,9 +38,7 @@
     </div>
 </div>
 
-<div class="col-9">
-
-    <div>
+<div>
         <!-- Button trigger modal -->
         <button type="button" id="chat_ai_question_modal" class="btn bg-gradient-success btn-block mb-3"
                 data-bs-toggle="modal" data-bs-target="#exampleModalMessage" hidden>
@@ -46,42 +46,53 @@
         </button>
     </div>
 
+<div class="col-8 col-lg-9 px-0 d-flex flex-column  ">
 
-{{--    @empty($messages)--}}
-    <div class="row justify-content-center p-3" id="suggestion_text_box">
-        <div class="col-2" onclick="suggestionQueries('What can you tell me about myself?')" style="border: 1px solid #f2661c; border-radius: 7px; padding: 7px 2px 0 7px; cursor: pointer;">
-            <div class="d-flex align-items-center text-center h-100">
-                <p style="font-size: 12px;">What can you tell me about myself?</p>
+
+
+
+ {{--    @empty($messages)--}}
+    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center  p-2 " id="suggestion_text_box">
+
+        <div class="d-flex text-center  p-0   w-20 h-100  text-wrap" onclick="suggestionQueries('What can you tell me about myself?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+
+            <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">
+                <p class="prompt-text fs-7px" >What can you tell me about myself?</p>
             </div>
         </div>
         &nbsp;&nbsp;&nbsp;
-        <div class="col-2" onclick="suggestionQueries('How to use this platform?')" style="border: 1px solid #f2661c; border-radius: 7px; padding: 7px 2px 0 7px; cursor: pointer;">
-            <div class="d-flex align-items-center text-center h-100">
-                <p style="font-size: 12px;">How to use this platform?</p>
+
+        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  " onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?</p>
             </div>
         </div>
+
         &nbsp;&nbsp;&nbsp;
-        <div class="col-2" onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')" style="border: 1px solid #f2661c; border-radius: 7px; padding: 7px 2px 0 7px; cursor: pointer;">
-            <div class="d-flex align-items-center text-center h-100">
-                <p style="font-size: 12px;">Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?</p>
+        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap " onclick="suggestionQueries('How to use this platform?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                <p class="prompt-text fs-7px">How to use this platform?</p>
             </div>
         </div>
+        
         &nbsp;&nbsp;&nbsp;
-        <div class="col-2" onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')" style="border: 1px solid #f2661c; border-radius: 7px; padding: 7px 2px 0 7px; cursor: pointer;">
-            <div class="d-flex align-items-center text-center h-100">
-                <p style="font-size: 12px;">How to optimize my actions to be in alignment with my highest self?</p>
+        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap " onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my highest self?</p>
             </div>
         </div>
     </div>
-{{--    @endempty--}}
-    <div class="chatbox">
-        <div class="chatbox-content d-flex flex-column justify-content-between" id="chatbox-content">
+    
+
+ {{--    @endempty--}}
+    <div class="chatbox  position-relative">
+        <div class="chatbox-content  d-flex flex-column justify-content-between" id="chatbox-content">
             @foreach($messages as $key => $message)
 
             <!-- user side message  -->
                 <div class="message user-message ">
                     {{ $message['query'] }}
-                </div>
+                </div>  
 
              <!-- chatbot side message  -->
                 <div class="">
@@ -112,20 +123,23 @@
             </div>
         </div>
 
-        <form wire:submit.prevent="sendMessage">
+        
+    </div>
+    <form wire:submit.prevent="sendMessage " class=" m-0">
             @csrf
-            <div class="chatbox-input" style="margin-bottom: 50px;">
+            <div class="chatbox-input  position-absolute bottom-0 right-0 w-75" >
                 <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"
-                       placeholder="Talk with Pi">
+                placeholder="Talk with Pi">
                 <button type="submit" id="submitBtn" style="border-radius: 0 30px 30px 0">
                     <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
                         <i class="fa fa-phone" aria-hidden="true"></i>
                     </div>
                 </button>
             </div>
+                
         </form>
-    </div>
 </div>
+
 </div>
 
 
@@ -198,5 +212,8 @@
 
             $("#chatbox-content").animate({ scrollTop: objDiv.scrollHeight }, "slow");
         });
+
+ 
+
     </script>
 @endpush

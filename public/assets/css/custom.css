@@ -26,6 +26,19 @@
     flex-direction: column;
 }
 
+#suggestion_text_box{
+    width: 100%;
+    height: auto;
+    color: white;
+}
+.prompt-suggestion{
+    height: 40%;
+}
+.prompt-text{
+    font-size: small;
+}
+
+
 @media (max-width: 575px) {
     /* .avatar-icon{
         display: flex;
@@ -37,9 +50,33 @@
     .fs-15px{
         font-size: 15px;
     }
-    .fs-5px{
-        font-size: 8px;
+    .fs-13px{
+        font-size: 13px;
     }
+    .fs-10px{
+        font-size: 10px;
+    }
+
+    .fs-7px{
+        font-size: 7px;
+    }
+    .fs-5px{
+        font-size: 5px;
+    }
+    .fs-3px{
+        font-size: 3px;
+    }
+    .fs-2px{
+        font-size: 2px;
+    }
+    #suggestion_text_box{
+        display: none !important;
+    
+    }
+    .chatbox-input{
+        
+    }
+
   }
   
   /* tablet view */
