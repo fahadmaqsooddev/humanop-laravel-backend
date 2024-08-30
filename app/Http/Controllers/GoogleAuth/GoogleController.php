@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\GoogleAuth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\DailyTip\DailyTip;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class GoogleController extends Controller
                 Auth::login($newUser);
 
             }
+
+            DailyTip::updateUserDailyTip();
 
             return redirect()->route('client_dashboard');
 
