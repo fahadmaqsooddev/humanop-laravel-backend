@@ -28,7 +28,7 @@ class ClientController extends Controller
 
             $admin_answer = QueryAnswer::userQueryAnswer();
 
-            $assessment = Assessment::singleAssessment($user['id']);
+            $assessment = Assessment::getLatestAssessment($user['id']);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
