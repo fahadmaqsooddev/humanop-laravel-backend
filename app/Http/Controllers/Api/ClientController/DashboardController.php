@@ -54,6 +54,7 @@ class DashboardController extends Controller
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $perception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
             $topCommunication = $communication != null ? CodeDetail::getSinglePublicName($communication[0]) : [];
 
@@ -62,7 +63,8 @@ class DashboardController extends Controller
                 'topThreeStyles' => $topThreeStyles,
                 'boundry' => $boundary,
                 'topTwoFeatures' => $topTwoFeatures,
-                'topCommunication' => $topCommunication
+                'topCommunication' => $topCommunication,
+                'perception' => $perception
             ];
 
             return Helpers::successResponse('core stats', $data);
