@@ -197,7 +197,7 @@
 {{--                                    </p>--}}
                                     <div class="description-container" style="max-height: 300px; overflow-y: auto;">
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
-                                            {!! $tip['description'] !!}
+                                            {!! $tip['description'] ?? null !!}
                                         </p>
                                     </div>
                                 </div>
