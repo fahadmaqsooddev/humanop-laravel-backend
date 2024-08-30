@@ -17,3 +17,4 @@ Route::post('ask-question', 'ChatAiController@askQuestion');
 Route::post('like-dislike-ai-reply', 'ChatAiController@likeDislikeAiReply');
 Route::post('client-query', 'ChatAiController@clientQuery');
 Route::get('client-query-answer', 'ChatAiController@clientQueryAnswer');
+Route::get('chat_history', 'ChatAiController@chatHistory');

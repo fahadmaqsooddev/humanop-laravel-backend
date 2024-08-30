@@ -35,6 +35,8 @@ class AuthController extends Controller
 
                 $user_data = User::user(Helpers::getUser()->id);
 
+                User::updateUserIsFeedback();
+
                 $data = [
                     'user' => $user_data,
                     'authorization' => [

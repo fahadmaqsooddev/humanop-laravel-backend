@@ -25,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['user_picture_url', 'is_follow','connection_status'];
+    protected $appends = ['user_picture_url', 'is_follow','connection_status','feedback_submitted'];
 
     public function __construct(array $attributes = array())
     {
@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query){
 
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin']);
+        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback']);
     }
 
     // appends
@@ -105,6 +105,11 @@ class User extends Authenticatable implements JWTSubject
             return 0;
         }
 
+    }
+
+    public function getFeedbackSubmittedAttribute(){
+
+        return $this->feedback()->exists();
     }
 
 
@@ -348,7 +353,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function updateUserIsFeedback(){
 
-        $user = self::whereId(Helpers::getWebUser()->id)->select(['id','is_feedback','is_admin'])->first();
+        $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select(['id','is_feedback','is_admin'])->first();
 
         if (!$user->feedback && $user->is_admin === 2){
 

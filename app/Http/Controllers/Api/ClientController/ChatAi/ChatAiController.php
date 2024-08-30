@@ -13,6 +13,7 @@ use App\Models\Assessment;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\QueryAnswer;
+use Illuminate\Http\Request;
 
 class ChatAiController extends Controller
 {
@@ -22,11 +23,11 @@ class ChatAiController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function aiChat(){
+    public function aiChat(Request $request){
 
         try {
 
-            $ai_chat = HaiChat::getChat();
+            $ai_chat = HaiChat::getChat($request->input('days_old'));
 
             return Helpers::successResponse("Your today's chat with AI", $ai_chat);
 
@@ -88,7 +89,7 @@ class ChatAiController extends Controller
 
     }
 
-    public static function clientQueryAnswer(){
+    public function clientQueryAnswer(){
 
         try {
 
