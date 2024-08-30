@@ -22,9 +22,7 @@ class ClientController extends Controller
 
             $user = Helpers::getWebUser();
 
-            $tip_records = TipRecord::getTipRecord();
-
-            $tip = DailyTip::getSingleTip($tip_records);
+            $tip = DailyTip::getSingleTip();
 
             $admin_answer = QueryAnswer::userQueryAnswer();
 
