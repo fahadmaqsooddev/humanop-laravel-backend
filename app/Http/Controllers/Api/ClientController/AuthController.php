@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\User;
 use Hamcrest\BaseDescription;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,8 @@ class AuthController extends Controller
                 $user_data = User::user(Helpers::getUser()->id);
 
                 User::updateUserIsFeedback();
+
+                DailyTip::updateUserDailyTip();
 
                 $data = [
                     'user' => $user_data,

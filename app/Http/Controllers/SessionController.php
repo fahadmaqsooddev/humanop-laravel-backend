@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,8 @@ class SessionController extends Controller
                 setcookie("email", "");
                 setcookie("password", "");
             }
+
+            DailyTip::updateUserDailyTip();
 
             User::updateUserIsFeedback();
 

@@ -2,7 +2,10 @@
 
 namespace App\Models\Admin\DailyTip;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Models\Assessment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TipRecord;
@@ -35,28 +38,51 @@ class DailyTip extends Model
         return self::create($data);
     }
 
-    public static function getSingleTip($tiprecords = null)
+    public static function getSingleTip()
     {
 
-        $tip = self::whereNotIn('id', $tiprecords)->inRandomOrder()->first();
+        $tip = self::where('user_id', Helpers::getWebUser()->id)->first();
 
         return $tip;
-//        if ($tip != null)
-//        {
-//            TipRecord::createTip($tip['id']);
-//
-//            return $tip;
-//        }
 
     }
 
 
-
     public static function dailyTip(){
 
-        return self::whereDoesntHave('tip')->inRandomOrder()
+        return self::where('user_id', Helpers::getUser()->id)->first();
+    }
 
-            ->first();
+    public static function updateUserDailyTip(){
+
+        $today_tip = self::where('user_id', Helpers::getUser()->id ?? Helpers::getWebUser()->id)
+
+            ->whereDate('updated_at', Carbon::today())->exists();
+
+        if (!$today_tip){
+
+            $assessmentDetails = Assessment::getAssessment();
+
+            $body = ['assessment_details' => $assessmentDetails];
+
+            $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
+
+            $tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
+
+            if ($tip){
+
+                $tip->update(['description' => $daily_tip]);
+
+            }else{
+
+                self::create([
+                    'user_id' => Helpers::getWebUser()->id ?? Helpers::getUser()->id,
+                    'description' => $daily_tip
+                ]);
+            }
+
+        }
+
     }
 
 }

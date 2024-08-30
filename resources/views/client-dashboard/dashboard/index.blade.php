@@ -192,12 +192,12 @@
                             <div class="card" style="height: 375px;">
                                 <div class="card-body p-3">
                                     <h5 class="text-white">Daily Tip</h5>
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
-                                        {{ $tip ? $tip['title'] : '' }}
-                                    </p>
-                                    <div class="description-container" style="max-height: 200px; overflow-y: auto;">
+{{--                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">--}}
+{{--                                        {{ $tip ? $tip['title'] : '' }}--}}
+{{--                                    </p>--}}
+                                    <div class="description-container" style="max-height: 300px; overflow-y: auto;">
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
-                                            {{ $tip ? $tip['description'] : '' }}
+                                            {!! $tip['description'] !!}
                                         </p>
                                     </div>
                                 </div>
