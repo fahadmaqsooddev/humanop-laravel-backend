@@ -165,7 +165,7 @@
         </div>
 
         @if($admin_answer && !empty($admin_answer['question']))
-            <div class="container p-2 mt-2">
+            <div class="container-fluid p-2 mt-2">
                 <div class="row card card-body text-white">
                     <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
@@ -330,6 +330,9 @@
                                         {{ $topCommunication['public_name'] ?? '' }}
                                     </p>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                        {{ $preception == 40 ? "Sees what's not working" : ($preception == 41 ? "Sees what's working and not working." : ($preception == 42 ? "Sees what's working" : '')) }}
+                                    </p>
                                 </div>
                                 </a>
                             </div>
