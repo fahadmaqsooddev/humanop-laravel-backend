@@ -63,7 +63,7 @@ class ChatAiController extends Controller
 
         try {
 
-            HaiChat::likeDisLikeAiReply($request);
+            HaiChat::likeDisLikeAiReply($request, $request->input('type'));
 
             return Helpers::successResponse('Chat successfully ' . $request->type . 'd');
 
