@@ -89,7 +89,7 @@
         @csrf
         <div class="chatbox-input right-0 w-100" >
             <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"
-                   placeholder="Talk with HAI">
+                   placeholder="Talk with Hai">
             <button type="submit" id="submitBtn" style="border-radius: 0 30px 30px 0">
                 <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
                     <i class="fa fa-phone" aria-hidden="true"></i>
