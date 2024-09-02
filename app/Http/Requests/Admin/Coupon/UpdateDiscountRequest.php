@@ -25,7 +25,7 @@ class UpdateDiscountRequest extends FormRequest
     {
         return [
             'discount' => 'required',
-            'limit' => 'required',
+            'limit' => 'nullable',
         ];
     }
 
@@ -33,7 +33,6 @@ class UpdateDiscountRequest extends FormRequest
     {
         return [
             'discount.required' => 'discount is required',
-            'limit.required' => 'discount limit is required',
         ];
     }
 }

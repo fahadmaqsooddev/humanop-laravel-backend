@@ -12,7 +12,7 @@
             @foreach($coupons as $coupon)
                 <tr>
                     <td class="text-sm font-weight-normal">{{$coupon['discount']}}% </td>
-                    <td class="text-sm font-weight-normal">{{$coupon['limit']}} </td>
+                    <td class="text-sm font-weight-normal">{{$coupon['limit'] ?? 'Unlimited' }} </td>
                     <td class="text-sm font-weight-normal">{{$coupon['coupon']}} </td>
                 </tr>
             @endforeach

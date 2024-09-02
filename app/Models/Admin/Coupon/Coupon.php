@@ -7,6 +7,7 @@ use App\Models\Admin\Coupon\CouponRedemption;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Assessment;
 
 class Coupon extends Model
 {
@@ -47,45 +48,75 @@ class Coupon extends Model
 
     public static function checkCouponCode($data = null, $original_amount = null)
     {
-        $coupon = self::where('coupon', $data['coupon'])->first();
+        // Find the coupon by code
+        $coupon = self::where('coupon', $data['coupon'] ?? '')->first();
 
+        // Check if the coupon exists
         if (empty($coupon)) {
             return ['error' => "Coupon Code Invalid", 'amount' => $original_amount];
         }
 
-        if($coupon['remaining_redemption'] == 0)
-        {
+        // Check if the coupon has remaining redemptions
+        if ($coupon['remaining_redemption'] === 0) {
             return ['error' => "Coupon has expired.", 'amount' => $original_amount];
         }
 
-        $checkCouponRedemption = CouponRedemption::checkRedemption($coupon['id']);
-
-        if ($checkCouponRedemption) {
+        // Check if the coupon has already been redeemed by the user
+        if (CouponRedemption::checkRedemption($coupon['id'])) {
             return ['error' => "You have already used this coupon.", 'amount' => $original_amount];
         }
 
-        if ($coupon['discount'] == 100) {
-            CouponRedemption::createRedemption($coupon['id']);
+        // Calculate discount amount
+        $discount_amount = $original_amount - ($coupon['discount'] / 100 * $original_amount);
+        $discount_amount = (int) $discount_amount;
 
-            if ($coupon['limit'] > 0) {
-                $coupon['remaining_redemption'] -= 1;
-                $coupon->update();
-            }
-
-            return ['status' => 202];
-        } else {
-            $dis_amount = $original_amount - ($coupon['discount'] / 100 * $original_amount);
-            $dis_amount = (int) $dis_amount;
-
-            CouponRedemption::createRedemption($coupon['id']);
-
-            if ($coupon['limit'] > 0) {
-                $coupon['remaining_redemption'] -= 1;
-                $coupon->update();
-            }
-
-            return ['success' => "Congratulations! You've Won a Special Discount", 'status' => 200, 'amount' => $dis_amount];
+        // Handle unlimited coupon usage
+        if (is_null($coupon['limit']) && $coupon['discount'] == 100) {
+            Assessment::createAssessmentData(Helpers::getWebUser()->id);
+            return [
+                'success' => "Congratulations! You've Won a Special Discount",
+                'status' => 202
+            ];
         }
+
+        // Handle 100% discount with limited usage
+        if ($coupon['discount'] == 100) {
+            Assessment::createAssessmentData(Helpers::getWebUser()->id);
+            CouponRedemption::createRedemption($coupon['id']);
+
+            // Decrement remaining redemptions if there's a limit
+            if ($coupon['limit'] !== null && $coupon['limit'] > 0) {
+                $coupon->decrement('remaining_redemption');
+            }
+
+            return [
+                'success' => "Congratulations! You've Won a Special Discount",
+                'status' => 202
+            ];
+        }
+
+        // Handle general limited coupon usage
+        if ($coupon['limit'] !== null) {
+            CouponRedemption::createRedemption($coupon['id']);
+
+            // Decrement remaining redemptions if there's a limit
+            if ($coupon['limit'] > 0) {
+                $coupon->decrement('remaining_redemption');
+            }
+
+            return [
+                'success' => "Congratulations! You've Won a Special Discount",
+                'status' => 200,
+                'amount' => $discount_amount
+            ];
+        }
+
+        // If no special case was matched, return the discounted amount
+        return [
+            'success' => "Congratulations! You've Won a Special Discount",
+            'status' => 200,
+            'amount' => $discount_amount
+        ];
     }
 
     public static function redeemCouponCodeForApi($code = null, $original_amount = null){
