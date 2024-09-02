@@ -14,7 +14,7 @@
             </div>
 
             <div class="chatbox">
-                <div class="chatbox-content" id="chatbox-content-pop-up">
+                <div class="chatbox-content" style="max-height: 500px" id="chatbox-content-pop-up">
 
                     @foreach($chats as $chat)
 
@@ -55,7 +55,7 @@
                     @csrf
                     <div class="chatbox-input">
                         <input type="text" wire:model.defer="userMessage" id="userMessage-pop-up" style="border-radius: 30px 0 0 30px"
-                               placeholder="Talk with Pi">
+                               placeholder="Talk with HAI">
                         <button type="submit" id="submitBtn-pop-up" style="border-radius: 0 30px 30px 0">
                             <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
                                 <i class="fa fa-phone" aria-hidden="true"></i>
