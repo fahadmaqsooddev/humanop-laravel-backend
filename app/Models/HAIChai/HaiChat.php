@@ -24,7 +24,7 @@ class HaiChat extends Model
         return self::whereId($id)->first();
     }
 
-    public static function getChat($days_old_chat = 0)
+    public static function getChat($days_old_chat = 0, $is_latest = 0)
     {
 
         $chats = self::query();
@@ -36,6 +36,11 @@ class HaiChat extends Model
         }else{
 
             $chats = $chats->whereDate('created_at', Carbon::now()->subDays($days_old_chat));
+        }
+
+        if ($is_latest){
+
+            $chats = $chats->latest();
         }
 
             $chats = $chats->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))

@@ -74,7 +74,7 @@
                 <p class="prompt-text fs-7px">How to use this platform?</p>
             </div>
         </div>
-        
+
         &nbsp;&nbsp;&nbsp;
         <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap " onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
             <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
@@ -82,17 +82,44 @@
             </div>
         </div>
     </div>
-    
+
 
  {{--    @endempty--}}
+    <form wire:submit.prevent="sendMessage " class=" m-0">
+        @csrf
+        <div class="chatbox-input right-0 w-100" >
+            <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"
+                   placeholder="Talk with Pi">
+            <button type="submit" id="submitBtn" style="border-radius: 0 30px 30px 0">
+                <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                </div>
+            </button>
+        </div>
+
+    </form>
     <div class="chatbox  position-relative">
+
+        <div style="display: flex; justify-content:flex-start;">
+            <div id="chatDots" wire:loading wire:target="dislike">
+                <span class="chatDot"></span>
+                <span class="chatDot"></span>
+                <span class="chatDot"></span>
+            </div>
+        </div>
+
         <div class="chatbox-content  d-flex flex-column justify-content-between" id="chatbox-content">
+
+            <div id="chatbox-new-content">
+
+            </div>
+
             @foreach($messages as $key => $message)
 
             <!-- user side message  -->
                 <div class="message user-message ">
                     {{ $message['query'] }}
-                </div>  
+                </div>
 
              <!-- chatbot side message  -->
                 <div class="">
@@ -115,29 +142,8 @@
             @endforeach
         </div>
 
-        <div style="display: flex; justify-content:flex-start;">
-            <div id="chatDots" wire:loading wire:target="dislike">
-                <span class="chatDot"></span>
-                <span class="chatDot"></span>
-                <span class="chatDot"></span>
-            </div>
-        </div>
 
-        
     </div>
-    <form wire:submit.prevent="sendMessage " class=" m-0">
-            @csrf
-            <div class="chatbox-input  position-absolute bottom-0 right-0 w-75" >
-                <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"
-                placeholder="Talk with Pi">
-                <button type="submit" id="submitBtn" style="border-radius: 0 30px 30px 0">
-                    <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
-                        <i class="fa fa-phone" aria-hidden="true"></i>
-                    </div>
-                </button>
-            </div>
-                
-        </form>
 </div>
 
 </div>
@@ -153,18 +159,21 @@
 
         document.addEventListener('livewire:load', function () {
             const submitBtn = document.getElementById('submitBtn');
-            $('#submitBtn').on('click', function () {
+
+            $('#submitBtn').on('click', function (event) {
+
+                event.preventDefault();
 
                 let userMsg = $('#userMessage').val();
 
                 if (userMsg.trim() !== '') {
-                    $('#chatbox-content').append(`<div style="display: flex; justify-content: flex-end">
+                    $('#chatbox-new-content').append(`<div style="display: flex; justify-content: flex-end">
                         <div class="message user-message">` + userMsg + `</div>
                     </div>`);
                 }
                 $('#userMessage').val('');
 
-                $('#chatbox-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
+                $('#chatbox-new-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
                     <div id="chatDots">
                         <span class="chatDot"></span>
                         <span class="chatDot"></span>
@@ -172,11 +181,6 @@
                     </div>
                 </div>`);
 
-                // scroll to bottom
-                var objDiv = document.getElementById("chatbox-content");
-                objDiv.scrollTop = objDiv.scrollHeight;
-
-                // scrollToBottom();
             });
         });
     </script>
@@ -205,15 +209,6 @@
                 $('#submitBtn').click();
             }, 1000)
         }
-
-        window.livewire.on('scrollToBottom', function (){
-
-            var objDiv = document.getElementById("chatbox-content");
-
-            $("#chatbox-content").animate({ scrollTop: objDiv.scrollHeight }, "slow");
-        });
-
- 
 
     </script>
 @endpush

@@ -89,7 +89,7 @@ class Index extends Component
     public function render()
     {
 
-        $chats = HaiChat::getChat($this->chatFilter);
+        $chats = HaiChat::getChat($this->chatFilter, 1);
 
         $this->emit('scrollToBottom');
 

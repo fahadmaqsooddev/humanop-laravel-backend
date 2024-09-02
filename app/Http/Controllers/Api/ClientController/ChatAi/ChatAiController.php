@@ -27,7 +27,7 @@ class ChatAiController extends Controller
 
         try {
 
-            $ai_chat = HaiChat::getChat($request->input('days_old'));
+            $ai_chat = HaiChat::getChat($request->input('days_old'), $request->input('is_latest'));
 
             return Helpers::successResponse("Your today's chat with AI", $ai_chat);
 

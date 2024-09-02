@@ -20285,7 +20285,7 @@ fieldset:disabled .btn {
     flex-direction: column;
 
   }
-  
+
 
 .chatbox-header {
     background: linear-gradient(135deg, #007bff, #00aaff);
@@ -20336,12 +20336,12 @@ fieldset:disabled .btn {
     overflow-y: auto;
 }
 /* .chatbox-content {
-  -ms-overflow-style: none;  
-  scrollbar-width: none;  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .chatbox-content::-webkit-scrollbar {
-  display: none; 
+  display: none;
 } */
 
 
@@ -20417,7 +20417,7 @@ fieldset:disabled .btn {
 
 .chatbox-input {
     display: flex;
-    border-top: 1px solid #ddd;
+    /*border-top: 1px solid #ddd;*/
 }
 
 .chatbox-input input {
