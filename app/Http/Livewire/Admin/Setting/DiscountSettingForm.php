@@ -12,12 +12,11 @@ class DiscountSettingForm extends Component
 
     protected $rules = [
         'discount' => 'required',
-        'limit' => 'required',
+        'limit' => 'nullable',
     ];
 
     protected $messages = [
         'discount.required' => 'Discount is required',
-        'limit.required' => 'Discount limit is required',
     ];
 
 
