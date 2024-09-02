@@ -85,7 +85,7 @@
 
 
  {{--    @endempty--}}
-    <form wire:submit.prevent="sendMessage " class=" m-0">
+    <form wire:submit.prevent="sendMessage" class="m-0">
         @csrf
         <div class="chatbox-input right-0 w-100" >
             <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"
@@ -110,7 +110,7 @@
 
         <div class="chatbox-content  d-flex flex-column justify-content-between" id="chatbox-content">
 
-            <div id="chatbox-new-content">
+            <div id="chatbox-new-content" wire:ignore.self>
 
             </div>
 
@@ -160,9 +160,7 @@
         document.addEventListener('livewire:load', function () {
             const submitBtn = document.getElementById('submitBtn');
 
-            $('#submitBtn').on('click', function (event) {
-
-                event.preventDefault();
+            $('#submitBtn').on('click', function () {
 
                 let userMsg = $('#userMessage').val();
 
