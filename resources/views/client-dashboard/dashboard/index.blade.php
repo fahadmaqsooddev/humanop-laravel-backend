@@ -195,11 +195,11 @@
 {{--                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">--}}
 {{--                                        {{ $tip ? $tip['title'] : '' }}--}}
 {{--                                    </p>--}}
-                                    <div class="description-container" style="max-height: 300px; overflow-y: auto;">
+                                    <div class="description-container" style="max-height: 300px;">
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['description']))
 
-                                                @if(strlen($tip['description']) > 260)
+                                                @if(strlen($tip['description']) > 265)
 
                                                     {!! substr($tip['description'], 0, 260)!!}
 
