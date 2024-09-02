@@ -14,7 +14,7 @@
             </div>
 
             <div class="chatbox">
-                <div class="chatbox-content" style="max-height: 500px" id="chatbox-content-pop-up">
+                <div class="chatbox-content" id="chatbox-content-pop-up">
 
                     @foreach($chats as $chat)
 
