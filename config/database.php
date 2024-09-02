@@ -246,8 +246,8 @@ return [
         ],
         'Payment' => [
             'table' => 'payments',
-            'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id'],
-            'hidden' => ['created_at','updated_at']
+            'fillable' => ['user_id', 'coupon_id', 'discount_price', 'total_price', 'assessment_id','created_at'],
+            'hidden' => ['updated_at']
         ],
         'Upload' => [
 

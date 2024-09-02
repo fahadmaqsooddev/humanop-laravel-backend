@@ -687,7 +687,7 @@ class Assessment extends Model
 
     public static function getGridForApi($id = null)
     {
-        return self::whereId($id)->where('user_id', Helpers::getUser()->id)->first();
+        return self::with('assessmentColorCodes')->whereId($id)->where('user_id', Helpers::getUser()->id)->first();
     }
 
     public static function assessmentStatusForApi()
