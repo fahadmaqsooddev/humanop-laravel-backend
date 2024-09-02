@@ -197,7 +197,26 @@
 {{--                                    </p>--}}
                                     <div class="description-container" style="max-height: 300px; overflow-y: auto;">
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
-                                            {!! $tip['description'] ?? null !!}
+                                            @if($tip && !empty($tip['description']))
+
+                                                @if(strlen($tip['description']) > 300)
+
+                                                    {!! substr($tip['description'], 0, 300)!!}
+
+                                                &nbsp;&nbsp;
+                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read more...
+                                                    </a>
+
+                                                @else
+
+                                                    {!! $tip['description'] !!}
+
+                                                @endif
+
+                                            @else
+
+                                            @endif
                                         </p>
                                     </div>
                                 </div>
@@ -380,7 +399,10 @@
                                 </div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </section>
+
 
             <!-- 2nd dislike question Modal -->
             <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog"
@@ -389,6 +411,28 @@
                     <div class="modal-content">
                         <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
                             @livewire('client.client-query.client-query')
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="dailyTipModal" tabindex="-1" role="dialog"
+                 aria-labelledby="dailyTipModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label fs-4 text-white">Daily Tip</label>
+                                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <p>{!! $tip['description'] ?? null !!}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
