@@ -199,9 +199,9 @@
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['description']))
 
-                                                @if(strlen($tip['description']) > 300)
+                                                @if(strlen($tip['description']) > 260)
 
-                                                    {!! substr($tip['description'], 0, 300)!!}
+                                                    {!! substr($tip['description'], 0, 260)!!}
 
                                                 &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
