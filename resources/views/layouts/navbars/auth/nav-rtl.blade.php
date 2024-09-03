@@ -1,6 +1,6 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
-    <div class="container-fluid py-1 px-3">
+<nav class="navbar navbar-main  navbar-expand-lg mt-4 top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky" id="navbarBlur" data-scroll="true">
+    <div class="container-fluid py-1 px-3 navbar-container  ">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 ">
         <li class="breadcrumb-item text-sm ps-2"><a class="opacity-5 text-dark" href="javascript:;">لوحات القيادة</a></li>
@@ -8,16 +8,14 @@
         </ol>
         <h6 class="font-weight-bolder mb-0">RTL</h6>
     </nav>
-    <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none me-3">
+    <div class="sidenav-toggler sidenav-toggler-inner d-flex me-3">
         <a href="javascript:;" class="nav-link text-body p-0">
         <div class="sidenav-toggler-inner">
-            <i class="sidenav-toggler-line"></i>
-            <i class="sidenav-toggler-line"></i>
-            <i class="sidenav-toggler-line"></i>
+            <i class="fa fa-angle-right" ></i>
         </div>
         </a>
     </div>
-    <div class="collapse navbar-collapse mt-sm-0 mt-2 px-0" id="navbar">
+    <div class="collapse navbar-collapse  mt-sm-0 mt-2 px-0" id="navbar">
         <div class="me-md-auto pe-md-3 d-flex align-items-center">
         <div class="input-group">
             <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
@@ -34,10 +32,8 @@
         <li class="nav-item d-xl-none pe-3 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
             <div class="sidenav-toggler-inner">
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-                <i class="sidenav-toggler-line"></i>
-            </div>
+            <i class="fa fa-angle-right" ></i>
+
             </a>
         </li>
         <li class="nav-item px-3 d-flex align-items-center">
@@ -123,3 +119,6 @@
     </div>
 </nav>
 <!-- End Navbar -->
+<script>
+
+ </script>

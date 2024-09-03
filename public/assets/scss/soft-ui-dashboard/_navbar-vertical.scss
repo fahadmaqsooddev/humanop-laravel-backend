@@ -474,7 +474,7 @@
     }
 
     &.rtl {
-      .sidenav:hover {
+      .sidenav:hover{
         & + .main-content {
           margin-right: $navbar-vertical-open-width + 1.5 !important;
         }

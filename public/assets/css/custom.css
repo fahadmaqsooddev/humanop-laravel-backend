@@ -37,6 +37,36 @@
 .prompt-text{
     font-size: small;
 }
+.sign-out-btn{
+    background-color: rgb(210, 102, 34);
+}
+.navbar>.container-fluid{
+    display:flex;
+flex-direction: row-reverse;
+
+}
+#nav-toggle{
+    background-color: rgb(28, 31, 54);
+    border-radius: 0 8px 8px 0 !important;
+}
+#nav-toggle-icon{
+    color: rgb(210, 102, 34);
+}
+.sidenav:hover{
+    transition: none !important;
+    transform: none !important;
+}
+.sidenav-header:hover {
+    transition: none !important;
+    transform: none !important;
+}
+aside:hover {
+    transition: none !important;
+    transform: none !important;
+}
+
+
+
 
 
 @media (max-width: 575px) {
@@ -76,6 +106,13 @@
     .chatbox-input{
         
     }
+    .navbar>.container-fluid{
+    flex-direction: row;
+    }
+    #nav-toggle{
+
+        
+    }
 
   }
   
@@ -98,10 +135,7 @@
     
    
   }
-  
-  @media (min-width: 1200px) {
-    
-  }
+
 
 
 
