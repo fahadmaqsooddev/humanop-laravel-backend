@@ -122,14 +122,15 @@
                     <div class="d-flex">
                         <div class="col-auto pb-sm-4">
                             <div class="avatar avatar-xl avatar-icon  ">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
+                                <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}" height="80" alt="profile_image"
                                      class="w-100 border-radius-lg shadow-sm  ">
                             </div>
                         </div>
                         <div class="d-flex">
                             <div class="h-100">
+                                <a href="{{route('setting')}}">
                                 <h5 class="mb-1 text-white">
-                                    {{$user['first_name']}}  {{$user['last_name']}}
+                                    {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
                                 </h5>
                                 <p class="mb-0 font-weight-bold text-sm text-white">
                                     Optimal Trait To Be In Right Now:
@@ -138,6 +139,7 @@
                                     Strategy and Problem
                                     Solving
                                     Activities</p>
+                                </a>
                             </div>
                         </div>
                     </div>

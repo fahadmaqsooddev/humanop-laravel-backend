@@ -25,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['user_picture_url', 'is_follow','connection_status','feedback_submitted'];
+    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'];
 
     public function __construct(array $attributes = array())
     {
@@ -111,7 +111,9 @@ class User extends Authenticatable implements JWTSubject
 
         return $this->feedback()->exists();
     }
-
+    public function getPhotoUrlAttribute(){
+        return Helpers::getImage($this->image_id);
+    }
 
     // relations
     public function stories(){
