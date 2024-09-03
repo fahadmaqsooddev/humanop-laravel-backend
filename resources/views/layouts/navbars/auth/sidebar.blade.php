@@ -448,7 +448,7 @@
                                                         style="width: 18px; margin-right: 10px"
                                                         src="{{URL::asset('assets/icons/Messages.png')}}"></span>
                                                 <span class="sidenav-normal"><img
-                                                        style="width: 18px; margin-right: 10px"
+                                                        style="width: 18px;margin-left: 28px; margin-right: 10px"
                                                         src="{{URL::asset('assets/icons/Messages.png')}}"></span>
                                                 <span class="sidenav-normal"> Messages </span>
                                             </a>
@@ -501,6 +501,16 @@
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/NewsFeed.png')}}"></span>
                                     <span class="sidenav-normal"> Newsfeed </span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ (Request::is('client/pricing') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/pricing') ? 'active' : '') }}"
+                                   href="{{ route('client_pricing') }}">
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Pricing.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Pricing.png')}}"></span>
+                                    <span class="sidenav-normal"> Pricing </span>
                                 </a>
                             </li>
                             <li class="nav-item {{ (Request::is('client/billing') ? 'active' : '') }}">

@@ -20851,7 +20851,7 @@ label,
 }
 
 .icon-xs i {
-  top: -4px;
+  top: 7px !important;
   font-size: .5rem;
 }
 
