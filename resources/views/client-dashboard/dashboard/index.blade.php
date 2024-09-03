@@ -112,7 +112,7 @@
 @section('content')
 
     <div class="parent px-lg-5">
-        
+
         <div class="container-fluid px-0">
             <div class="page-header min-height-100 border-radius-xl">
             </div>
@@ -245,7 +245,6 @@
                         </div>
 
                     </div>
-
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
                         <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
@@ -300,8 +299,6 @@
                             </div>
                         </div>
                     </div>
-                    
-
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: 375px;">
@@ -362,7 +359,6 @@
 
                         </div>
                     </div>
-
                     <div class="row mt-lg-4 mt-2">
                         <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
