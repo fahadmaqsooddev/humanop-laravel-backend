@@ -26,7 +26,8 @@
                                     <a href="{{url('admin/generate-pdf/'. $id)}}" target="_blank" class="btn btn-sm float-end mt-4 mb-4 text-white mx-4" style="background-color: #f2661c">PDF</a>
                                 </div>
                                 <div class="card-body p-3 ">
-                                    <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}" style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/></div>
+                                    
+                                    <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}" style="background:#351a0d; padding: 0px; max-width: 150px;border-radius: 5px"/></div>
                                     <div class="text-white">“Advanced Human Assessment Technology for a Better Mankind”</div>
                                     <h1 class="text-white">ULT Summary Report</h1>
                                     <h4 class="text-white">{{$reports['user_name']}}, {{$reports['user_gender'] == 0 ? 'Male' : 'Female'}}, Interval</h4>
@@ -298,7 +299,7 @@
                                                 <div class="mt-4" style="border: 0px solid #ccc;">
                                                     <img
                                                         src="{{asset('assets/'.$reports['alchemy_code_details']['image'])}}"
-                                                        style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
+                                                        style="background:#351a0d; padding: 0px; border-radius: 5px" class="w-90"/>
                                                 </div>
                                                 @endif
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
