@@ -1,7 +1,8 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard ', 'childFolder' => 'none'])
 @section('content')
     <div class="page-header position-relative m-3 border-radius-xl">
-        <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines" class="position-absolute opacity-6 start-0 top-0 w-100">
+        <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines"
+             class="position-absolute opacity-6 start-0 top-0 w-100">
         <div class="container pb-lg-9 pb-10 pt-4 postion-relative z-index-2">
             <div class="row">
                 <div class="col-md-6 mx-auto text-center">
@@ -26,70 +27,87 @@
                                 </div>
                                 <div class="card-body text-lg-start text-center pt-0">
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/assessmentIcon.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">1 Assessment every 90 days</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/tips.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Daily Tip</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/1 action item.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">1 Action Item</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Basic results only.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Basic Results</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/action plan.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Action Plan</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Training Strategies</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                 style="width: 12px; margin-top: 3px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Renewal System</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Early Releases</span>
                                         </div>
                                     </div>
-                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}"
+                                       class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -106,70 +124,87 @@
                                 </div>
                                 <div class="card-body text-lg-start text-center pt-0">
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/assessmentIcon.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">1 Assessment every 90 days</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/multiple tips.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Multiple Tips</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/3 action item.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">3 Action Items</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Detailed Results.png')}}"
+                                                 style="width: 15px; margin-top: 8px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Detailed Results</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/action plan.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Action Plan</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Training Strategies</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                 style="width: 12px; margin-top: 3px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Renewal System</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <i class="fas fa-minus"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Early Releases</span>
                                         </div>
                                     </div>
-                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}"
+                                       class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
@@ -186,70 +221,87 @@
                                 </div>
                                 <div class="card-body text-lg-start text-center pt-0">
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/action plan.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Licensing Model</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/multiple tips.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Multiple Daily Tips</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/HAI Feature.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">HAI Feature</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Gamification.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Gamification</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Training Strategies</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                 style="width: 12px; margin-top: 3px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Renewal System</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/action plan.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Action Plan</span>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-lg-start justify-content-center p-2">
-                                        <div class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <i class="fas fa-check opacity-10"></i>
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
                                             <span class="ps-3">Early Releases</span>
                                         </div>
                                     </div>
-                                    <a href="{{route('stripe_checkout')}}" class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                    <a href="{{route('stripe_checkout')}}"
+                                       class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
                                         Join
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
