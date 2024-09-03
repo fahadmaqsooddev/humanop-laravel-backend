@@ -19,28 +19,28 @@
                     <div class="card mb-4" style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                         <div class="card-body p-3">
                             <div class="row">
-                                <div class="col-lg-3">
-                                    <p class="font-weight-bold" style="color: white;">Name</p>
+                                <div class="col-4">
+                                    <p class="font-weight-bold" style="color: white;">Name:</p>
                                 </div>
-                                <div class="col">
+                                <div class="col-8">
                                     <p class="font-weight-bold" style="color: white;">{{$user['first_name'].' '.$user['last_name']}}</p>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3">
-                                    <p class="font-weight-bold" style="color: white;">Email</label>
+                                <div class="col-4">
+                                    <p class="font-weight-bold" style="color: white;">Email:</label>
                                 </div>
-                                <div class="col">
+                                <div class="col-8">
                                     <p class="font-weight-bold" style="color: white;">{{$user['email']}}</p>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3">
-                                    <p class="font-weight-bold" style="color: white;">Gender</p>
+                                <div class="col-4">
+                                    <p class="font-weight-bold" style="color: white;">Gender:</p>
                                 </div>
-                                <div class="col">
+                                <div class="col-8">
                                     <p class="font-weight-bold" style="color: white;">{{($user['gender'] == 0 ? 'Both' : ($user['gender'] == 1 ? 'Female' : ($user['gender'] == 2 ? 'Male' : ''))) }}</p>
                                 </div>
                             </div>

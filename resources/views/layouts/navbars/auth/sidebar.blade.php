@@ -1,4 +1,4 @@
-<aside style="z-index: 9999; overflow:visible !important;"
+<!-- <aside style="z-index: 9999; overflow:visible !important;"
        class="sidenav   navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
     <div class="d-flex">
@@ -748,7 +748,7 @@
         @endif
         </ul>
         </div>
-</aside>
+</aside> -->
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

@@ -7,7 +7,7 @@
         <input type="hidden" wire:model.defer="user.id">
         <div class="card-body pt-0">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label class="form-label text-white">First Name</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="firstName"
@@ -15,8 +15,8 @@
                                class="form-control text-white" type="text">
                     </div>
                 </div>
-                <div class="col-6">
-                    <label class="form-label text-white">Last Name</label>
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label  mt-4 mt-md-0 text-white">Last Name</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="lastName" wire:model.defer="user.last_name"
                                class="form-control text-white" type="text" placeholder="{{$user['last_name']}}">
@@ -24,15 +24,16 @@
                 </div>
             </div>
 
+
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-white">Email</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="email" wire:model.defer="user.email"
                                class="form-control text-white" type="email" placeholder="{{$user['email']}}">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-white">Phone Number</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="phone" wire:model.defer="user.phone"
@@ -72,7 +73,7 @@
 
 
             </div>
-            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Update Info</button>
+            <button type="submit" class="btn btn-sm  float-end mt-4 mb-3 text-white" style="background-color: #f2661c">Update Info</button>
         </div>
 
     </form>
