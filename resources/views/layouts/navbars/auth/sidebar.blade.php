@@ -1,7 +1,8 @@
-<aside style="z-index: 9999;"
-    class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
+<aside style="z-index: 9999; overflow:visible !important;"
+    class="sidenav   navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
     id="sidenav-main">
-    <div class="sidenav-header">
+    <div class="d-flex" >
+       <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
            aria-hidden="true" id="iconSidenav"></i>
         <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
@@ -13,7 +14,21 @@
          alt="main_logo">
 </span>
         </a>
+    </div> 
+
+        <div class="sidenav-toggler sidenav-toggler-inner d-flex   ">
+            <a href="javascript:;" class="nav-link text-body p-0">
+                <div class="sidenav-toggler-inner" >
+                    <button id="nav-toggle" class="btn rounded-0">
+                        <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
+     
+                    </button>
+                </div>
+            </a>
+        </div>
     </div>
+    
+    
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
@@ -43,6 +58,7 @@
                                 </g>
                             </svg>
                         </div>
+                        
                         <span class="nav-link-text ms-1">Admin</span>
                     </a>
                     <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
@@ -345,7 +361,7 @@
                                         <li class="nav-item {{ (Request::is('client/messages') ? 'active' : '') }}">
                                             <a class="nav-link {{ (Request::is('client/messages') ? 'active' : '') }}"
                                                href="{{ route('messages') }}">
-                                                <span class="sidenav-mini-icon"<img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Messages.png')}}"></span>
+                                                <span class="sidenav-mini-icon" ><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Messages.png')}}"></span>
                                                 <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/Messages.png')}}"></span>
                                                 <span class="sidenav-normal"> Messages </span>
                                             </a>
@@ -410,8 +426,21 @@
                                     <span class="sidenav-normal"> Setting </span>
                                 </a>
                             </li>
+                            <li class="nav-item rounded sign-out-btn me-3 mt-3">
+                                <a class="nav-link"
+                                   href="{{ url('/logout')}}">
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
+                                    <span class="sidenav-normal text-bold  "> Sign Out </span>
+                                </a>
+                            </li>
+                         
+            </ul>
+        </div>
+                            </li>
                         </ul>
                     </div>
+                    
                 </li>
             @else
                 <li class="nav-item">
@@ -610,5 +639,16 @@
             $('.humanopLogo').toggleClass('d-none');
             $('.humanopMiniLogo').toggleClass('d-none');
         });
+
+//         function disableAnimations() {
+//   const elements = document.querySelectorAll('*');
+
+//   elements.forEach(element => {
+//     element.style.transition = 'none';
+//     element.style.animation = 'none';
+//   });
+// }
+
+
     </script>
 @endpush

@@ -30,16 +30,19 @@
             </ol>
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>
-        <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none ">
+        <!-- <div class="sidenav-toggler sidenav-toggler-inner d-flex  ">
             <a href="javascript:;" class="nav-link text-body p-0">
-                <div class="sidenav-toggler-inner">
-                    <i class="sidenav-toggler-line"></i>
-                    <i class="sidenav-toggler-line"></i>
-                    <i class="sidenav-toggler-line"></i>
+                <div class="sidenav-toggler-inner" >
+                    <button id="nav-toggle" class="btn rounded-pill">
+                        <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
+     
+                    </button>
                 </div>
             </a>
-        </div>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
+        </div> -->
+
+        <!-- sign out  -->
+        <!-- <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
                     <a href="{{ url('/logout')}}" class="nav-link font-weight-bold px-0" style="color: white;">
@@ -57,7 +60,23 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
+
     </div>
 </nav>
 <!-- End Navbar -->
+ <script>
+const button = document.getElementById('nav-toggle');
+const icon = document.getElementById('nav-toggle-icon');
+
+button.addEventListener('click', () => {
+    if (icon.classList.contains('fa-angle-left')) {
+        icon.classList.remove('fa-angle-left');
+        icon.classList.add('fa-angle-right');
+    } else {
+        icon.classList.remove('fa-angle-right');
+        icon.classList.add('fa-angle-left');
+    }
+});
+
+ </script>

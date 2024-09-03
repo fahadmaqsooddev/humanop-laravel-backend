@@ -112,6 +112,7 @@
 @section('content')
 
     <div class="parent px-lg-5">
+        
         <div class="container-fluid px-0">
             <div class="page-header min-height-100 border-radius-xl">
             </div>
@@ -224,7 +225,7 @@
                         </div>
 
                         <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 450px;">
+                            <div class="card" style="height: 540px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
                                         LIBRARY
@@ -244,79 +245,10 @@
                         </div>
 
                     </div>
-                    <div class="mt-lg-4 mt-2 col-lg-6 col-sm-12 col-md-12 ">
+
+                    <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                            <div class="card" style="height: 575px;border-radius: 1rem !important;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
-                                        -
-                                        HumanOp Integration Podcast</p>
-                                    <div class="card mb-4"
-                                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                                        <div class="card-body p-3">
-                                            @if($podcast && !empty($podcast->embedded_url))
-                                                <div class="row">
-                                                    <div class="">
-                                                        <div class="numbers mt-3">
-                                                            <iframe class="col-lg-12 col-md-12"
-                                                                    style="height: 430px; width: 100%;"
-                                                                    src="{{$podcast->embedded_url}}"
-                                                                    frameborder="0"></iframe>
-                                                            <h5 class="font-weight-bolder mb-0">
-                                                            <span
-                                                                class="text-success text-sm font-weight-bolder"></span>
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-
-                                                    </div>
-                                                </div>
-                                            @else
-                                                <p class="text-center text-white">No podcast is uploaded yet</p>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                            <div class="card" style="height: 220px;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
-                                        I'M
-                                        HAVING A CHALLENGE</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
-                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
-                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 375px;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
-                                        OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities
-                                        that
-                                        support your motivational drivers</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
-                                        Role</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days
-                                        based
-                                        on
-                                        your traits</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
-                                        Movement</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 450px;" style="border-radius: 3rem !important;">
+                        <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
                                         STATS</p>
@@ -353,10 +285,84 @@
                                         {{ $preception == 40 ? "Sees what's not working" : ($preception == 41 ? "Sees what's working and not working." : ($preception == 42 ? "Sees what's working" : '')) }}
                                     </p>
                                 </div>
-                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                            <div class="card" style="height: 420px;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
+                                        I'M
+                                        HAVING A CHALLENGE</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
+                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+
+                    <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
+                        <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
+                            <div class="card" style="height: 375px;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
+                                        OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities
+                                        that
+                                        support your motivational drivers</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
+                                        Role</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days
+                                        based
+                                        on
+                                        your traits</p>
+                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
+                                        Movement</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
+
+                            <div class="card" style="height: 550px;border-radius: 1rem !important;">
+                                <div class="card-body p-3">
+                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
+                                        -
+                                        HumanOp Integration Podcast</p>
+                                    <div class="card mb-4"
+                                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                        <div class="card-body p-0">
+                                            @if($podcast && !empty($podcast->embedded_url))
+                                                <div class="row">
+                                                    <div class="">
+                                                        <div class="numbers mt-3">
+                                                            <iframe class="col-lg-12 col-md-12"
+                                                                    style="height: 400px; width: 100%;"
+                                                                    src="{{$podcast->embedded_url}}"
+                                                                    frameborder="0"></iframe>
+                                                            <h5 class="font-weight-bolder mb-0">
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 text-end">
+
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <p class="text-center text-white">No podcast is uploaded yet</p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div class="row mt-lg-4 mt-2">
                         <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
