@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 
 @section('content')
-    <div class="container-fluid my-3 py-3">
+    <div class="container-fluid my-0 py-0">
         <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="bruce" class="w-100 border-radius-lg shadow-sm">
+                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="bruce" class="w-80 w-md-100 border-radius-lg shadow-sm">
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">

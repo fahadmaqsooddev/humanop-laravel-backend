@@ -14,7 +14,9 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
+
                 <div class="col-lg-5 col-sm-5">
                     <a data-bs-toggle="modal"
                        data-bs-target="#introduction">
@@ -161,7 +163,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-5 col-sm-5">
+                <div class="col-lg-5 col-sm-5 mt-4 mt-md-0">
                     <a data-bs-toggle="modal"
                        data-bs-target="#communication">
                         <div class="card"
@@ -220,8 +222,8 @@
     <div class="modal fade" id="introduction" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="introduction-video" width="765" height="515" controls>
+                <div class="modal-body" style="background-color: #0f1535;  border-radius: 9px">
+                    <video id="introduction-video"  controls>
                         <source src="{{ asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -234,7 +236,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="trait-video" width="765" height="515" controls>
+                    <video id="trait-video" controls>
                         <source src="{{ asset('assets/video/Intro to Traits.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -247,7 +249,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="cycle-of-life-video" width="765" height="515" controls>
+                    <video id="cycle-of-life-video" controls>
                         <source src="{{ asset('assets/video/Intro to The Cycle of Life.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -260,7 +262,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="motivation-video" width="765" height="515" controls>
+                    <video id="motivation-video" controls>
                         <source src="{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -273,7 +275,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="alchemy-video" width="765" height="515" controls>
+                    <video id="alchemy-video" controls>
                         <source src="{{ asset('assets/video/Intro to Alchemy.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -286,7 +288,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="communication-video" width="765" height="515" controls>
+                    <video id="communication-video" controls>
                         <source src="{{ asset('assets/video/Intro to Communication Style.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -299,7 +301,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="energy-video" width="765" height="515" controls>
+                    <video id="energy-video" controls>
                         <source src="{{ asset('assets/video/Intro to Energy Pool.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -312,7 +314,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <video id="life-video" width="765" height="515" controls>
+                    <video id="life-video" controls>
                         <source src="{{ asset('assets/video/Perception of Life Intro.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
