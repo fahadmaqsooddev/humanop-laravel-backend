@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,8 @@ class RegisterController extends Controller
             session()->flash('success', 'Your account has been created.');
 
             Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
 
             if (isset($request['remember']) && !empty($request['remember']))
             {
