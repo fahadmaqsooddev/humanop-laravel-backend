@@ -17,4 +17,9 @@ class Plan extends Model
 
         parent::__construct($attributes);
     }
+
+    public static function singlePlan($plan_id = null){
+
+        return self::where('plan_id', $plan_id)->first();
+    }
 }

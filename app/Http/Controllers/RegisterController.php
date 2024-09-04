@@ -6,10 +6,8 @@ use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
+use Illuminate\Support\Facades\DB;
 use Stripe\BaseStripeClient;
-use Stripe\Stripe;
-use App\Models\Admin\StripeSetting\StripeSetting;
-use Stripe\StripeClient;
 
 class RegisterController extends Controller
 {
@@ -28,6 +26,8 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
+        DB::beginTransaction();
+
         try {
 
             $dataArray = $request->only($this->user->getFillable());
@@ -43,27 +43,8 @@ class RegisterController extends Controller
             }
 
             session()->flash('success', 'Your account has been created.');
+
             Auth::login($user);
-
-            $user = Helpers::getWebUser();
-            $key = StripeSetting::getSingle();
-            Stripe::setApiKey($key['api_key']);
-            $stripe = new StripeClient($key['api_key']);
-
-            $payment_method = $stripe->paymentMethods->attach(
-                'pm_card_visa',
-                ['customer' => $user['stripe_id']]
-            );
-
-            if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
-
-                $user->subscription('main')->swapAndInvoice($request->input('plan_id'));
-
-            }else{
-
-                $user->newSubscription('main' , $request->input('plan_id'))->create($payment_method !== null ? $payment_method->id : '');
-
-            }
 
             if (isset($request['remember']) && !empty($request['remember'])) {
                 setcookie("email", $request['email'], 30 * time() + 3600);
@@ -73,9 +54,14 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
+            Helpers::AfterRegistrationPayment();
+            DB::commit();
+
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

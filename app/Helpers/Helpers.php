@@ -10,6 +10,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
+use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Models\Client\Plan\Plan;
+use Stripe\BaseStripeClient;
+use Stripe\Stripe;
+use Stripe\StripeClient;
 
 class Helpers
 {
@@ -172,6 +177,40 @@ class Helpers
     {
 
         return Auth::guard('web')->user();
+    }
+
+    public static function AfterRegistrationPayment()
+    {
+        $user = self::getUser();
+
+        $key = StripeSetting::getSingle();
+
+        Stripe::setApiKey($key['api_key']);
+
+        $stripe = new StripeClient($key['api_key']);
+
+        $payment_method = $stripe->paymentMethods->attach(
+            'pm_card_visa',
+            ['customer' => $user['stripe_id']]
+        );
+
+        if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
+
+            $user->subscription('main')->swapAndInvoice('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
+        }else{
+
+            $user->newSubscription('main' , 'price_1PuwhBRxOqsngfBOk9G5SYBo')->create($payment_method !== null ? $payment_method->id : '');
+
+        }
+
+        $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
+        $data = [
+            'plan_name' => $plan['name']
+        ];
+
+        return $data;
     }
 
     public static function checkAssessment($user_id = null)
