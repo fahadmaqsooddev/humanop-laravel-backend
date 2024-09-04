@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Client\Feedback\Feedback;
+use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,12 +48,21 @@ class UserController extends Controller
     public function updateUserProfile(UpdateUserProfileRequest $request){
 
         try {
-
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-            $dataArray = $request->only(['first_name','last_name','phone','max_age','min_age','gender']);
+            if ($request->profile_image){
+
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image','png', true);
+                $request->merge(['image_id' => $upload_id]);
+                $dataArray = $request->only(['first_name','last_name','phone','age_max','age_min','gender','image_id']);
+
+            }else{
+                $dataArray = $request->only(['first_name','last_name','phone','age_max','age_min','gender']);
+
+            }
 
             $updated_user = User::updateUserProfile($dataArray);
+
 
             return Helpers::successResponse('User updated successfully', $updated_user);
 
