@@ -4,24 +4,24 @@
 
         <div class="row">
 
-            <div class="col-6">
+            <div class="col-12 col-md-6 nav-tab ">
 
-                <ul class="nav nav-tabs" id="myTab" role="tablist" style="max-width: max-content;">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                <div class="nav nav-tabs border-0" id="myTab" role="tablist" style="max-width: max-content;">
+                    <div class="nav-item" role="presentation">
+                        <button class="nav-link me-2 updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                                 style='background-color: #f2661c;color: white;'
                                 aria-selected="true">Followers</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
+                    </div>
+                    <div class="nav-item" role="presentation">
                         <button class="nav-link updateBtn {{request()->input('type', 'follower') === "following" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
                                 style="background-color: #f2661c;color: white;"
                                 aria-controls="profile-tab-pane" aria-selected="false">Following</button>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
 
                 <div class="input-group ms-md-4 pe-md-4">
                      <span style="background-color: #0f1534;color: white;" class="input-group-text">
@@ -55,7 +55,7 @@
 
                             @foreach($followers as $follow)
 
-                                <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
 
                                     <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
@@ -99,7 +99,7 @@
 
                             @foreach($followings as $following)
 
-                                <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
 
                                     <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
