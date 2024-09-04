@@ -278,16 +278,16 @@ class Assessment extends Component
 
     public function selectAnswer($questionId, $answerId, $answerCodes, $question, $answer)
     {
-
-        $codes = [];
-        $codeArr = json_decode(stripslashes($answerCodes), true);
-
-        foreach ($codeArr as $code) {
-            $codes[$code['code']] = $code['number'];
+        if (isset($this->answers[$questionId]) && $this->answers[$questionId]['answer_id'] == $answerId) {
+            unset($this->answers[$questionId]);
+        } else {
+            $codes = [];
+            $codeArr = json_decode(stripslashes($answerCodes), true);
+            foreach ($codeArr as $code) {
+                $codes[$code['code']] = $code['number'];
+            }
+            $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
         }
-
-        $this->answers[$questionId] = ['question' => $question, 'answer' => $answer, 'answer_id' => $answerId, 'answer_codes' => $codes];
-
         $this->skipRender();
     }
 

@@ -25,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['user_picture_url', 'is_follow','connection_status','feedback_submitted'];
+    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'];
 
     public function __construct(array $attributes = array())
     {
@@ -71,14 +71,17 @@ class User extends Authenticatable implements JWTSubject
     // scope
 
     public function scopeSelection($query){
-
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback']);
+        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id']);
     }
 
     // appends
-    public function getUserPictureUrlAttribute(){
 
+    public function getUserPictureUrlAttribute(){
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function getPhotoUrlAttribute(){
+        return Helpers::getImage($this->image_id,'profile_pic.png');
     }
 
     public function getIsFollowAttribute(){
@@ -108,9 +111,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getFeedbackSubmittedAttribute(){
-
         return $this->feedback()->exists();
     }
+
 
 
     // relations
@@ -249,11 +252,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function user($id = null){
-
         $user = self::whereId($id)->selection()->first();
-
         $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
-
         return $user;
     }
 

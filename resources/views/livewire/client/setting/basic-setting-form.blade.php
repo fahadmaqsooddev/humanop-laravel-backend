@@ -71,10 +71,23 @@
                     </select>
                 </div>
 
-
+                <div class="col-sm-4 col-6 w-50">
+                    <label class="form-label mt-4 text-white">Profile Image</label>
+                    <input type="file" wire:model="profile_image" style="background-color: #0f1534;" class="form-control">
+                </div>
             </div>
             <button type="submit" class="btn btn-sm  float-end mt-4 mb-3 text-white" style="background-color: #f2661c">Update Info</button>
         </div>
 
     </form>
 </div>
+@push('javascript')
+<script>
+    window.livewire.on('userBasicSettingUpdated', updatedUser => {
+        $('#profile_image').attr('src',updatedUser.photo_url.url);
+        $('#firstname').text(updatedUser.first_name);
+        $('#lastname').text(updatedUser.last_name);
+        $('#email').text(updatedUser.email);
+    });
+    </script>
+@endpush

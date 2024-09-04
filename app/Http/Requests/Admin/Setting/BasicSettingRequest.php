@@ -38,6 +38,7 @@ class BasicSettingRequest extends FormRequest
             'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
             'phone' => 'required|string|max:25',
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
         ];
     }
     public function messages()
