@@ -24,7 +24,7 @@ class Answer extends Model
     // appends
     public function getImageUrlAttribute(){
 
-        return $this->image != "NULL" ? asset($this->image) : null;
+        return $this->image != "NULL" ? asset('/images/q/' . $this->image) : null;
     }
 
 
