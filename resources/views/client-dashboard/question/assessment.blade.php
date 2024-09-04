@@ -27,7 +27,7 @@
 </style>
 @section('content')
 
-    <div class="container mt-9" style="padding-left: 200px;">
+    <div class="container mt-9 " >
         @livewire('client.question.assessment')
     </div>
 

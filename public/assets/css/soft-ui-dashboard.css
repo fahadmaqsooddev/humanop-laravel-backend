@@ -20846,12 +20846,12 @@ label,
 }
 
 .icon-xs {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 
 .icon-xs i {
-  top: -4px;
+  top: 7px !important;
   font-size: .5rem;
 }
 

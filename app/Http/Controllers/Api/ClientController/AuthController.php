@@ -81,14 +81,20 @@ class AuthController extends Controller
 
             }
 
+            $token = $this->auth->login($user);
+
+            $user = Helpers::getUser();
+
+            $plan = Helpers::AfterRegistrationPayment($user);
+
             DB::commit();
 
-            $token = $this->auth->login($user);
 
             $data = [
                 'user' => $user,
                 'authorization' => [
                     'token' => $token,
+                    'paln_name' => $plan,
                     'type' => 'bearer',
                 ]
             ];

@@ -64,8 +64,16 @@ aside:hover {
     transition: none !important;
     transform: none !important;
 }
-
-
+.modal-body{
+ 
+}
+.modal-body video{
+    width: 100%;
+    height: auto;
+}
+.modal-content{
+   margin-top: 100px;
+}
 
 
 

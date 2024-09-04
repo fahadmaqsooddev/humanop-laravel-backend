@@ -112,7 +112,7 @@
 @section('content')
 
     <div class="parent px-lg-5">
-        
+
         <div class="container-fluid px-0">
             <div class="page-header min-height-100 border-radius-xl">
             </div>
@@ -122,14 +122,15 @@
                     <div class="d-flex">
                         <div class="col-auto pb-sm-4">
                             <div class="avatar avatar-xl avatar-icon  ">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
+                                <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}" height="80" alt="profile_image"
                                      class="w-100 border-radius-lg shadow-sm  ">
                             </div>
                         </div>
                         <div class="d-flex">
                             <div class="h-100">
+                                <a href="{{route('setting')}}">
                                 <h5 class="mb-1 text-white">
-                                    {{$user['first_name']}}  {{$user['last_name']}}
+                                    {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
                                 </h5>
                                 <p class="mb-0 font-weight-bold text-sm text-white">
                                     Optimal Trait To Be In Right Now:
@@ -138,6 +139,7 @@
                                     Strategy and Problem
                                     Solving
                                     Activities</p>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -245,7 +247,6 @@
                         </div>
 
                     </div>
-
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
                         <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
@@ -300,8 +301,6 @@
                             </div>
                         </div>
                     </div>
-                    
-
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: 375px;">
@@ -362,7 +361,6 @@
 
                         </div>
                     </div>
-
                     <div class="row mt-lg-4 mt-2">
                         <div class="fixed-plugin">
                 <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"

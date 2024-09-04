@@ -1,6 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 
 @section('content')
+
     <div class="container-fluid my-3 py-3">
         <div class="row mb-5">
             <div class="col-lg-3">
@@ -98,16 +99,16 @@
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="bruce" class="w-100 border-radius-lg shadow-sm">
+                                <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}" alt="bruce" height="80" class="w-100 border-radius-lg shadow-sm" id="profile_image">
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
                             <div class="h-100">
                                 <h5 class="mb-1 font-weight-bolder">
-                                    {{$user['first_name']}}  {{$user['last_name']}}
+                                    <span id="firstname"> {{Auth::user()['first_name']}} </span>  <span id="lastname" >{{Auth::user()['last_name']}}</span>
                                 </h5>
                                 <p class="mb-0 font-weight-bold text-sm">
-                                    {{$user['email']}}
+                                    <span id="email" > {{Auth::user()['email']}} </span>
                                 </p>
                             </div>
                         </div>

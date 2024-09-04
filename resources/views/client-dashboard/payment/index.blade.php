@@ -30,11 +30,19 @@
         color: white !important;
         border-color: #f2661c !important;
     }
+    @media (max-width: 575px) {
+    
+        #coupon-btn{
+            width: 100%;
+            margin:0px;
+        }
+    
+    }
 
 </style>
 @section('content')
     <main class="main-content mt-2">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 border-radius-lg"
+        <div class="page-header align-items-start  pt-5 pb-11 border-radius-lg"
              style="background-image: url('assets/img/login.webp');">
             {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
             <div class="container">
@@ -45,10 +53,10 @@
         </div>
         <div class="container">
             @include('layouts.message')
-            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-                <div class="col-xl-8 col-lg-5 col-md-4">
+            <div class="row  mt-n8 justify-content-center">
+                <div class=" col-lg-8 ">
                     <div class="card z-index-0">
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <form id="checkCoupon">
                                 @csrf
                                 <div class="card-body">
@@ -56,7 +64,7 @@
                                         <div class="col-12">
                                             <p id="success_message"></p>
                                             <p id="error_message"></p>
-                                            <label class="form-label fs-4 text-white">Do you have any Coupon</label>
+                                            <label class="form-label fs-3 text-white">Do you have any Coupon</label>
                                             <div class="form-group mt-4">
                                                 <input style="background-color: #0f1534;"
                                                        class="form-control text-white getCoupon"
@@ -65,17 +73,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="submit"
-                                            class="btn updateBtn btn-sm float-end text-white mt-4 mb-0 mx-2">
+                                    <div class="d-flex justify-content-end" >
+                                       <button type="submit"
+                                            class="btn updateBtn   text-white mt-4 " id="coupon-btn" >
                                         Submit
-                                    </button>
+                                    </button> 
+                                    </div>
+                                    
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="card z-index-0 mt-4">
                         <div class="card-body">
-                            <p class="text-white mb-2 text-2xl text-bold">Payment Details</p>
+                            <p class="text-white mb-2 fs-3 text-bold">Payment Details</p>
                             <form role="form" action="{{route('process_payment')}}" method="post"
                                   class="require-validation"
                                   data-cc-on-file="false"

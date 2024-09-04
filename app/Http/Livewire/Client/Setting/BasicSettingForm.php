@@ -2,18 +2,19 @@
 
 namespace App\Http\Livewire\Client\Setting;
 
+use App\Models\Upload\Upload;
 use Livewire\Component;
 use App\Models\User;
 use App\Traits\HandlesValidationErrors;
 use App\Http\Requests\Admin\Setting\BasicSettingRequest;
+use Livewire\WithFileUploads;
 
 class BasicSettingForm extends Component
 {
-    
+    use WithFileUploads;
     use HandlesValidationErrors;
 
-    public $user, $ageRange;
-
+    public $user, $ageRange ,$profile_image;
 
     public function mount($user)
     {
@@ -22,19 +23,26 @@ class BasicSettingForm extends Component
 
     public function submitForm()
     {
-
         if($this->customValidation(new BasicSettingRequest($this->user),$this->user)){return;};
 
         try {
+            $keysToKeep = ['first_name', 'last_name','email','age_min', 'age_max', 'gender', 'phone'];
+
+            if ($this->profile_image){
+                $upload_id = Upload::uploadFile($this->profile_image, 200, 200, 'base64Image','png', true);
+                $this->user['image_id'] = $upload_id;
+                array_push($keysToKeep, 'image_id');
+            }
 
             $age = explode('-', $this->user['age_range']);
             $this->user['age_min'] = $age[0];
             $this->user['age_max'] = $age[1];
 
-            $keysToKeep = ['first_name', 'last_name','email','age_min', 'age_max', 'gender', 'phone'];
             $data = array_intersect_key($this->user, array_flip($keysToKeep));
-
             User::updateUser($data, $this->user['id']);
+            auth()->user()->refresh();
+
+            $this->emit('userBasicSettingUpdated', auth()->user());
 
             session()->flash('success', 'User updated successfully.');
 
@@ -44,7 +52,7 @@ class BasicSettingForm extends Component
 
         }
     }
-    
+
     public function render()
     {
         return view('livewire.client.setting.basic-setting-form');

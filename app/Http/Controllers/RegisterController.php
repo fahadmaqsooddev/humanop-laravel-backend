@@ -7,7 +7,8 @@ use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
-
+use Illuminate\Support\Facades\DB;
+use Stripe\BaseStripeClient;
 
 class RegisterController extends Controller
 {
@@ -26,8 +27,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-        try {
+        DB::beginTransaction();
 
+        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -47,19 +49,25 @@ class RegisterController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-            if (isset($request['remember']) && !empty($request['remember']))
-            {
-                setcookie("email", $request['email'], 30*time()+3600);
-                setcookie("password", $request['password'], 30*time()+3600);
-            }else
-            {
+            if (isset($request['remember']) && !empty($request['remember'])) {
+                setcookie("email", $request['email'], 30 * time() + 3600);
+                setcookie("password", $request['password'], 30 * time() + 3600);
+            } else {
                 setcookie("email", "");
                 setcookie("password", "");
             }
 
+            $user = Helpers::getWebUser();
+            
+            Helpers::AfterRegistrationPayment($user);
+            
+            DB::commit();
+
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
