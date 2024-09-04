@@ -329,6 +329,11 @@ return [
             'table' => 'query_answer',
             'fillable' => ['query_id','answer','approved'],
             'hidden' => ['updated_at', 'created_at'],
+        ],
+        'Plan' => [
+            'table' => 'plans',
+            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency'],
+            'hidden' => ['updated_at', 'created_at'],
         ]
     ]
 ];
