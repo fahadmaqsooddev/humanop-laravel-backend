@@ -23,9 +23,6 @@
 
                                 </div>
                             </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
-                                Answer
-                            </button>
                         </div>
                     </form>
                 </div>

@@ -3,25 +3,61 @@
     {{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">--}}
     <style>
         .slider-padding {
-            padding: 10px 120px 20px 120px;
+            padding: 10px 80px 10px 80px;
             text-align: justify;
             color: white;
         }
-        .slide-padding {
-            padding: 10px 120px 0px 120px;
-            text-align: justify;
-            color: white;
+        video.slider-padding{
+            width:100% !important;
+            height:auto !important;
         }
+        p.slider-padding{
+            padding-bottom:0px;
+
+        }
+        h2.slider-padding{
+    text.align:center;
+        }
+        ul.slider-padding{
+            text-align: start;
+
+        }
+        
+        @media (max-width: 575px) {
+        .slider-padding{
+            padding: 10px 0;
+
+        }
+        img.carousel-image{
+            min-width: 200px;
+            height:70px;
+        }
+        p.slider-padding{
+            padding:0;
+
+        }
+        img.ult-img{
+            min-width: 200px;
+            height:70px;
+        }
+        }
+        @media (min-width: 576px) and (max-width: 767px) { 
+            .slider-padding {
+            padding: 10px 50px;
+            }
+        }
+      
+       
     </style>
 @endpush
 @section('content')
     <div class="row">
         <div class="col-lg-12 position-relative z-index-2">
-            <div class="container-fluid">
+            <div class="container-fluid px-0 px-md-5">
                 <section>
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
-                            <div class="card" style="text-align: center">
+                            <div class="card px-0" style="text-align: center">
                                 <div>
                                     <a href="{{url('client/generate-pdf/'. $id)}}" target="_blank"
                                        class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
@@ -29,16 +65,29 @@
                                 </div>
                                 <div class="card-body p-3 ">
                                     <div style="border: 0px solid #ccc;"><img src="{{asset('assets/img/ultlogo.png')}}"
-                                                                              style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
+                                                                              style="background:#351a0d; padding: 0px;border-radius: 5px" class="w-70 ult-img"/>
                                     </div>
-                                    <div class="text-white">“Advanced Human Assessment Technology for a Better
+                                    <div class="text-white mt-2 fs-10px">“Advanced Human Assessment Technology for a Better
                                         Mankind”
                                     </div>
                                     <h1 class="text-white">ULT Summary Report</h1>
-                                    <h4 class="text-white">{{$reports['user_name']}}
+                                    <h4 class="text-white fs-13px">{{$reports['user_name']}}
                                         , {{$reports['user_gender'] == 2 ? 'Male' : 'Female'}}, Interval</h4>
                                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-intervel="false">
-                                        <div class="carousel-inner">
+                                    <a class="carousel-control-prev align-items-start  py-3 py-md-0 mt-n5 " href="#carouselExampleIndicators"
+                                           onclick="pauseAllVideos()" role="button"
+                                           data-slide="prev" style="height:fit-content;">
+                                            <span class="carousel-control-prev-icon "  aria-hidden="true" ></span>
+                                            <span class="sr-only">Previous</span>
+                                            
+                                        </a>
+                                        <a class="carousel-control-next align-items-start py-3 py-md-0   mt-n5" href="#carouselExampleIndicators"
+                                           onclick="pauseAllVideos()" role="button"
+                                           data-slide="next" style="height:fit-content;">
+                                            <span class="carousel-control-next-icon " aria-hidden="true" ></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                        <div class="carousel-inner  px-0">
                                             <div class="carousel-item active">
                                                 <p class="slider-padding">The ULT Performance Report serves to identify
                                                     those aspects about you that define and direct your best performance
@@ -113,11 +162,11 @@
                                                 </div>
                                             </div>
                                             <div class="carousel-item">
-                                                <h2 style="color: #f2661c">The ULT Performance
+                                                <h2 style="color: #f2661c " class="text-start ms-md-5 ">The ULT Performance
                                                     Report addresses the
                                                     following:</h2>
-                                                <ul class="slider-padding"
-                                                    style="padding-left: 140px">
+                                                <ul class="slider-padding "
+                                                    style="">
                                                     <li> Your unique natural expression of self</li>
 
                                                     <li>Talents that motivate and prompt you to participate in life</li>
@@ -314,10 +363,10 @@
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOU HAVE A
                                                     "{{$reports['alchemy_code_details']['public_name']}}"</h2>
                                                 @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
-                                                    <div class="mt-4" style="border: 0px solid #ccc;">
+                                                    <div class="my-3" style="border: 0px solid #ccc;">
                                                         <img
                                                             src="{{asset('assets/'.$reports['alchemy_code_details']['image'])}}"
-                                                            style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
+                                                            style="background:#351a0d; padding: 0px;  border-radius: 5px" class="carousel-image w-60 w-md-50 "/>
                                                     </div>
                                                 @endif
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
@@ -583,30 +632,19 @@
                                                     values for
                                                     BR {{\Illuminate\Support\Facades\Auth::user()['gender'] == 1 ? '(F)' : '(M)'}}
                                                     Interval</p>
-
-                                                <p class="slide-padding">S {{$style_position}}</p>
-                                                <p class="slide-padding">F {{$feature_position}}</p>
-                                                <p class="slide-padding">Alch {{$alchl_code}}</p>
-                                                <p class="slide-padding">
+                                                        
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">S {{$style_position}}</p>
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">F {{$feature_position}}</p>
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">Alch {{$alchl_code}}</p>
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">
                                                     PV {{$reports['pv'] > 0 ? '+' : ''}} {{$reports['pv']}} REP
                                                     ARC {{$reports['pv'] - $reports['ep']}} to
                                                     +{{$reports['pv'] + $reports['ep']}}</p>
-                                                <p class="slide-padding">REP {{$reports['ep']}}</p>
-                                                <p class="slide-padding">TEP {{$reports['ep'] * 2}}</p>
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">REP {{$reports['ep']}}</p>
+                                                <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">TEP {{$reports['ep'] * 2}}</p>
                                             </div>
                                         </div>
-                                        <a class="carousel-control-prev" href="#carouselExampleIndicators"
-                                           onclick="pauseAllVideos()" role="button"
-                                           data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" href="#carouselExampleIndicators"
-                                           onclick="pauseAllVideos()" role="button"
-                                           data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
+                                        
                                     </div>
                                 </div>
                             </div>

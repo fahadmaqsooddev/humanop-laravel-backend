@@ -19,6 +19,16 @@ class Answer extends Model
         parent::__construct($attributes);
     }
 
+    protected $appends = ['image_url'];
+
+    // appends
+    public function getImageUrlAttribute(){
+
+        return $this->image != "NULL" ? asset('/images/q/' . $this->image) : null;
+    }
+
+
+    // relations
     public function answerCodes()
     {
         return $this->hasMany(AnswerCode::class, 'answer_id', 'id');

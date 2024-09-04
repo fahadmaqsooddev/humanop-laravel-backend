@@ -74,6 +74,16 @@ aside:hover {
 .modal-content{
    margin-top: 100px;
 }
+.remove-scrollbar {
+    overflow: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+  }
+  
+  .remove-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+  }
+  
 
 
 
@@ -111,15 +121,15 @@ aside:hover {
         display: none !important;
     
     }
-    .chatbox-input{
-        
-    }
+    
     .navbar>.container-fluid{
     flex-direction: row;
     }
-    #nav-toggle{
+    .main-post-section button{
 
-        
+        font-size: 7px;
+        font-weight:900 ;
+        padding: 10px 10px;
     }
 
   }
