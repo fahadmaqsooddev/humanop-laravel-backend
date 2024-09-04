@@ -92,9 +92,9 @@ class AuthController extends Controller
 
             $data = [
                 'user' => $user,
+                'plan_name' => $plan,
                 'authorization' => [
                     'token' => $token,
-                    'paln_name' => $plan,
                     'type' => 'bearer',
                 ]
             ];
