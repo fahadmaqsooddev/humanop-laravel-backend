@@ -6,8 +6,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Hash;
+use App\Helpers\Helpers;
 
 
 class SessionController extends Controller
@@ -30,31 +29,35 @@ class SessionController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = request()->validate([
-            'email'=>'required|email',
-            'password'=>'required',
-        ]);
+        try {
+            $attributes = request()->validate([
+                'email'=>'required|email',
+                'password'=>'required',
+            ]);
 
-        if(Auth::attempt($attributes))
-        {
-            if (isset($request['remember']) && !empty($request['remember']))
+            if(Auth::attempt($attributes))
             {
-                setcookie("email", $attributes['email'], 30*time()+3600);
-                setcookie("password", $attributes['password'], 30*time()+3600);
-            }else
-            {
-                setcookie("email", "");
-                setcookie("password", "");
+                if (isset($request['remember']) && !empty($request['remember']))
+                {
+                    setcookie("email", $attributes['email'], 30*time()+3600);
+                    setcookie("password", $attributes['password'], 30*time()+3600);
+                }else
+                {
+                    setcookie("email", "");
+                    setcookie("password", "");
+                }
+                
+                DailyTip::updateUserDailyTip();
+                User::updateUserIsFeedback();
+
+                return redirect()->route('admin_dashboard');
             }
 
-            DailyTip::updateUserDailyTip();
-
-            User::updateUserIsFeedback();
-
-            return redirect()->route('admin_dashboard');
+            return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+        }catch (\Exception $exception)
+        {
+            return back()->withErrors(['msgError' => $exception]);
         }
-
-        return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
     }
 
     public function destroy()
