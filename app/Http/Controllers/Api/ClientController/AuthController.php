@@ -83,7 +83,9 @@ class AuthController extends Controller
 
             $token = $this->auth->login($user);
 
-            $plan = Helpers::AfterRegistrationPayment();
+            $user = Helpers::getUser();
+
+            $plan = Helpers::AfterRegistrationPayment($user);
 
             DB::commit();
 

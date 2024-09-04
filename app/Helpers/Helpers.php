@@ -179,9 +179,8 @@ class Helpers
         return Auth::guard('web')->user();
     }
 
-    public static function AfterRegistrationPayment()
+    public static function AfterRegistrationPayment($user = null)
     {
-        $user = self::getUser();
 
         $key = StripeSetting::getSingle();
 

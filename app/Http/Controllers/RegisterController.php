@@ -54,7 +54,10 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            Helpers::AfterRegistrationPayment();
+            $user = Helpers::getWebUser();
+            
+            Helpers::AfterRegistrationPayment($user);
+            
             DB::commit();
 
             return redirect()->route('client_dashboard');
