@@ -62,12 +62,14 @@ class PaymentController extends Controller
 
             $discount_amount = $request['amount'];
 
+            $payment_method_id = $user->createOrGetStripeCustomer()->toArray()['invoice_settings']['default_payment_method'];
+
             $user->createOrGetStripeCustomer();
 
             if (!empty($user['pm_last_four']))
             {
 
-                $user->charge($discount_amount * 100, $user['payment_method'], [
+                $user->charge($discount_amount * 100, $payment_method_id, [
                     'currency' => 'usd',
                     'description' => 'Test Payment',
                 ]);
