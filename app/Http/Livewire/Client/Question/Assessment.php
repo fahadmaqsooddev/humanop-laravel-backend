@@ -187,7 +187,7 @@ class Assessment extends Component
                 }
 
             }
-
+            $this->sortingQuestionAnswer = [];
             $energyValues = $this->mergeEnergyArr();
 
             $this->energyArr = [];
