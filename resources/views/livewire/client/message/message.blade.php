@@ -26,7 +26,7 @@
                         @foreach($connections as $connection)
                             <div class="messages-list">
                                 <div class="chathead">
-                                    <img src="{{$connection['friend']['user_picture_url'] ?? null}}" class="img-fluid">
+                                    <img src="{{$connection['friend']['photo_url']['thumbnail_url'] ?? null}}" class="img-fluid">
                                 </div>
                                 <div class="chatlist cursor-pointer" wire:click="messages('',{{$connection['friend'] ?? null}})" style="background-color: #0f1534;">
                                     <div class="chatlist-header">
@@ -48,7 +48,7 @@
                         <div class="messages-list">
                             @if($chat['user_data'])
                             <div class="chathead">
-                                <img src="{{$chat['user_data']['user_picture_url'] ?? null}}" class="img-fluid">
+                                <img src="{{$chat['user_data']['photo_url']['thumbnail_url'] ?? null}}" class="img-fluid">
                             </div>
                             <div class="chatlist cursor-pointer" wire:click="messages({{$chat->id}}, {{$chat['user_data'] ?? null}})" style="background-color: #0f1534;">
                                 <div class="chatlist-header">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <img src="{{$chat_user['user_picture_url'] ?? null}}" alt="user picture" style="width: 40px; height: 40px;">
+                <img src="{{$chat_user['photo_url']['thumbnail_url'] ?? null}}" alt="user picture" style="width: 40px; height: 40px;">
             </div>
             <div class="messenger-messages" id="messenger-messages">
 

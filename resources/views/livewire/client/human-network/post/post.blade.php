@@ -8,8 +8,8 @@
         .text-orange {
             color: #f2661c;
         }
-        
-        
+
+
     </style>
 
     <div class="row mt-2">
@@ -36,7 +36,7 @@
                     <div class="card-header d-flex align-items-center border-bottom py-3">
                         <div class="d-flex align-items-center">
                             <a href="javascript:void(0);">
-                                <img src="{{ $post['user']['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}"
+                                <img src="{{ $post['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-4.jpg') }}"
                                     class="avatar" alt="profile-image">
                             </a>
                             <div class="mx-3">
@@ -96,7 +96,7 @@
                                 <div class="card-header d-flex align-items-center border-bottom py-3">
                                     <div class="d-flex align-items-center">
                                         <a href="javascript:void(0);">
-                                            <img src="{{ $post['sharedPost']['user']['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}"
+                                            <img src="{{ $post['sharedPost']['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-4.jpg') }}"
                                                 class="avatar" alt="profile-image">
                                         </a>
                                         <div class="mx-3">
@@ -176,7 +176,7 @@
                                                 {{-- <img alt="Image placeholder"
                                                     src="{{ URL::asset('assets/img/team-5.jpg') }}" class="text-">--}}
                                                 <img alt="Image placeholder"
-                                                    src="{{ $post_share['user']['user_picture_url'] ?? URL::asset('assets/img/team-3.jpg') }}"
+                                                    src="{{ $post_share['user']['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-3.jpg') }}"
                                                     class="rounded-circle">
                                             </a>
                                         @endforeach
@@ -190,7 +190,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0">
                                     <img alt="Image placeholder" class="avatar rounded-circle me-3"
-                                        src="{{ \App\Helpers\Helpers::getWebUser()['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}">
+                                        src="{{ \App\Helpers\Helpers::getWebUser()['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-4.jpg') }}">
                                 </div>
                                 <div class="flex-grow-1 my-auto">
                                     <div class="">
@@ -640,7 +640,7 @@
                                 <div class="d-flex p-1">
                                     <div class="flex-shrink-0">
                                         <img alt="Image placeholder" class="avatar rounded-circle"
-                                            src="{{ $comment['user'] ? $comment['user']['user_picture_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">
+                                            src="{{ $comment['user'] ? $comment['user']['photo_url']['thumbnail_url'] : URL::asset('assets/img/bruce-mars.jpg') }}">
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="text-black-50"
@@ -684,7 +684,7 @@
                             <div class="d-flex mt-4">
                                 <div class="flex-shrink-0">
                                     <img alt="Image placeholder" class="avatar rounded-circle me-3"
-                                        src="{{ \App\Helpers\Helpers::getWebUser()['user_picture_url'] ?? URL::asset('assets/img/team-4.jpg') }}">
+                                        src="{{ \App\Helpers\Helpers::getWebUser()['photo_url']['thumbnail_url'] ?? URL::asset('assets/img/team-4.jpg') }}">
                                 </div>
                                 <div class="flex-grow-1 my-auto">
                                     <form>

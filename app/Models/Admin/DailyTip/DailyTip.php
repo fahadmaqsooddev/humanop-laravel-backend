@@ -5,6 +5,7 @@ namespace App\Models\Admin\DailyTip;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
+use App\Models\Client\Plan\Plan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,7 +56,9 @@ class DailyTip extends Model
 
     public static function updateUserDailyTip(){
 
-        $today_tip = self::where('user_id', Helpers::getUser()->id ?? Helpers::getWebUser()->id)
+        $user = Helpers::getUser() ?? Helpers::getWebUser();
+
+        $today_tip = self::where('user_id', $user->id)
 
             ->whereDate('updated_at', Carbon::today())->exists();
 
@@ -63,7 +66,9 @@ class DailyTip extends Model
 
             $assessmentDetails = Assessment::getAssessment();
 
-            $body = ['assessment_details' => $assessmentDetails];
+            $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
+
+            $body = ['assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 
             $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
 
