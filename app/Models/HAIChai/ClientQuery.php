@@ -22,7 +22,10 @@ class ClientQuery extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
+    public function haiChatMessage()
+    {
+        return $this->belongsTo(HaiChat::class, 'chat_id', 'id');
+    }
     public static function singleQuery($id = null)
     {
         return self::whereId($id)->first();
@@ -33,16 +36,19 @@ class ClientQuery extends Model
         return self::where('response', 0)
             ->with(['users' => function ($q) {
                 $q->select('id', 'first_name', 'last_name', 'email');
-            }])
+            },'haiChatMessage' => function($q) {
+                $q->select('answer');
+            } ])
             ->orderBy('created_at', 'desc')
             ->get();
     }
 
-    public static function createQuery($userId = null, $query = null)
+    public static function createQuery($userId = null, $query = null, $chat_id = null)
     {
         return self::create([
             'user_id' => $userId,
-            'query' => $query
+            'query' => $query,
+            'chat_id' => $chat_id
         ]);
     }
 

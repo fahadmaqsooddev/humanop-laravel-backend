@@ -36,7 +36,7 @@ class PopUpChat extends Component
         } else {
 
             HaiChat::updateChat($chat['id'], 0);
-            $this->emit('clientQueryShow', $chat);
+            $this->emit('clientQueryShow', $chat, $chatId);
             $this->emit('showUserAnswerModal');
         }
     }

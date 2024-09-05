@@ -322,7 +322,7 @@ return [
         ],
         'ClientQuery' => [
             'table' => 'client_query',
-            'fillable' => ['user_id','query','response'],
+            'fillable' => ['user_id','query','response','chat_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'QueryAnswer' => [
