@@ -151,7 +151,7 @@ class Assessment extends Model
             }
         }
 
-        return 'checkout';
+        return 'free';
     }
 
     public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
