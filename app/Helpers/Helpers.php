@@ -210,21 +210,7 @@ class Helpers
 
     public static function checkAssessment($user_id = null)
     {
-        $assessment = Assessment::singleAssessment($user_id);
-
-        if (!empty($assessment))
-        {
-            if ($assessment['page'] === 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return Assessment::checkAssessment($user_id);
     }
 
     public static function getImage($pic, $original_default = null, $is_original_name = 0)

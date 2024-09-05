@@ -27,11 +27,23 @@ class PaymentController extends Controller
 
             $assessmentCheck = Helpers::checkAssessment($user['id']);
 
-            if($assessmentCheck == false)
-            {
+            if ($assessmentCheck == 'free') {
+                $assessment = Assessment::createAssessmentData($user['id'], 1);
+
+                $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+                AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+                AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
                 return redirect()->route('test_play');
-            }else
-            {
+
+            }
+            elseif ($assessmentCheck == 'play') {
+                return redirect()->route('test_play');
+
+            }
+            else {
                 $stripe_setting = StripeSetting::getSingle();
 
                 $user = User::getSingleUser($user['id']);
@@ -66,16 +78,14 @@ class PaymentController extends Controller
 
             $user->createOrGetStripeCustomer();
 
-            if (!empty($user['pm_last_four']))
-            {
+            if (!empty($user['pm_last_four'])) {
 
-                $user->charge($discount_amount * 100, $payment_method_id, [
+                $user->charge($discount_amount * 100, $user['payment_method'] ?? $payment_method_id, [
                     'currency' => 'usd',
                     'description' => 'Test Payment',
                 ]);
 
-            }else
-            {
+            } else {
                 Charge::create([
                     'amount' => $discount_amount * 100, // Amount in cents
                     'currency' => 'usd',
@@ -97,7 +107,7 @@ class PaymentController extends Controller
 
             $stripe = StripeSetting::getSingle();
 
-            $assessment = Assessment::createAssessmentData($user['id']);
+            $assessment = Assessment::createAssessmentData($user['id'], 0);
 
             $assessment_data = Assessment::where('id', $assessment['id'])->first();
 
