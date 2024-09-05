@@ -16,6 +16,10 @@
                                 <div class="form-group mt-4">
                                     <label class="form-label fs-6 text-white">Client Query:</label>
                                     <span style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$query['query'] ?? null}}</span>
+                                    <label class="form-label fs-6 text-white mt-2">HAI Answer:</label>
+                                    <br>
+                                    <span class="mt-2">{!!$query['haiChatMessage']['answer'] ?? null!!}</span>
+                                    <br>
                                     <label class="form-label fs-6 text-white mt-4">Answer:</label>
                                     <textarea rows="4" class="form-control text-white mt-2" style="background-color: #0f1535"
                                               wire:model.defer="answer" id="message-text"
