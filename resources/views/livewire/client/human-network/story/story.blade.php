@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    
+
                     <div class="nav-wrapper ">
                         <ul class="nav nav-pills nav-fill p-1 bg-transparent">
                             <li class="nav-item">
@@ -106,7 +106,7 @@
                     <div class="d-flex">
                         <div class="col-auto pb-sm-4">
                             <div class="avatar avatar-xl avatar-icon  ">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="profile_image"
+                                <img src="{{ $user['photo_url']['thumbnail_url'] ?? null }}" alt="profile_image"
                                      class="w-100 border-radius-lg shadow-sm  ">
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                 <h5 class="mb-1 text-white">
                                     {{$user['first_name']}}  {{$user['last_name']}}
                                 </h5>
-                                
+
                                  <p class="mb-0 font-weight-bold text-sm text-white">
                             CEO / Co-Founder
                         </p>
@@ -143,7 +143,7 @@
                                             </g>
                                         </svg>
                                         Overview</button>
-                                
+
                             </div>
 
                             <div class="nav-item fs-10px mb-3 mb-md-0 ">
@@ -163,7 +163,7 @@
                                             </g>
                                         </svg>
                                         Teams</button>
-                                
+
                             </div>
                             <div class="nav-item fs-10px mb-3 mb-md-0">
                             <button class="ms-1 bg-gradient-primary rounded-3 p-2">
@@ -184,7 +184,7 @@
                                             </g>
                                         </svg>
                                         Projects</button>
-                                
+
                             </div>
                         </div>
                     </div>

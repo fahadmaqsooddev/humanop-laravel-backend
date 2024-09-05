@@ -104,7 +104,7 @@
 
                                     <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                         <div class="card-img flex-grow-5">
-                                            <img src="{{$user->user_picture_url}}" alt=""
+                                            <img src="{{$user['photo_url']['thumbnail_url'] ?? ""}}" alt="profile pic"
                                                  style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                         </div>
                                         <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
@@ -163,7 +163,7 @@
                                     <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
-                                                <img src="{{$connection_request->user->user_picture_url ?? null}}" alt=""
+                                                <img src="{{$connection_request['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""
                                                      style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                             </div>
                                             <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">
