@@ -55,11 +55,11 @@ class DailyTip extends Model
 
     public static function updateUserDailyTip(){
 
-//        $today_tip = self::where('user_id', Helpers::getUser()->id ?? Helpers::getWebUser()->id)
-//
-//            ->whereDate('updated_at', Carbon::today())->exists();
+        $today_tip = self::where('user_id', Helpers::getUser()->id ?? Helpers::getWebUser()->id)
 
-//        if (!$today_tip){
+            ->whereDate('updated_at', Carbon::today())->exists();
+
+        if (!$today_tip){
 
             $assessmentDetails = Assessment::getAssessment();
 
@@ -81,7 +81,7 @@ class DailyTip extends Model
                 ]);
             }
 
-//        }
+        }
 
     }
 
