@@ -23,17 +23,18 @@ class QuestionController extends Controller
 
             $user = Helpers::getWebUser();
 
-            $assessmentCheck = Helpers::checkAssessment($user['id']);
 
-            if($assessmentCheck == true)
-            {
-                return redirect()->route('stripe_checkout');
-            }else
-            {
+//            $assessmentCheck = Helpers::checkAssessment($user['id']);
+
+//            if($assessmentCheck == true)
+//            {
+//                return redirect()->route('stripe_checkout');
+//            }else
+//            {
                 $questions = Question::getQuestion();
 
                 return view('client-dashboard.question.assessment', compact('questions'));
-            }
+//            }
 
         } catch (\Exception $exception) {
 

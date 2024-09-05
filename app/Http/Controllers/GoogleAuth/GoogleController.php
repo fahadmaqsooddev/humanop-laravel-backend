@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Helpers\Helpers;
 
 class GoogleController extends Controller
 {
@@ -29,6 +30,14 @@ class GoogleController extends Controller
 
                 Auth::login($finduser);
 
+                $user = Helpers::getWebUser();
+
+                if (!$user->subscription('main'))
+                {
+                    Helpers::AfterRegistrationPayment($user);
+
+                }
+
             }else{
                 $newUser = User::create([
                     'email' => $user->email,
@@ -41,6 +50,14 @@ class GoogleController extends Controller
                 ]);
 
                 Auth::login($newUser);
+
+                $user = Helpers::getWebUser();
+
+                if (!$user->subscription('main'))
+                {
+                    Helpers::AfterRegistrationPayment($user);
+
+                }
 
             }
 
