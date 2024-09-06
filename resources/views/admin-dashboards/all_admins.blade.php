@@ -13,7 +13,7 @@ padding: 0px 10px 1px 10px;
 }
 </style>
 @section('content')
-    <div class="row mt-4">
+    <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
