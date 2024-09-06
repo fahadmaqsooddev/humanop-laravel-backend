@@ -9,7 +9,7 @@ class AlchemyCode extends Model
 {
     use HasFactory;
 
-    protected $appends = ['image_url','video_url'];
+    protected $appends = ['image_url'];
 
     public function __construct(array $attributes = [])
     {
@@ -24,12 +24,6 @@ class AlchemyCode extends Model
     public function getImageUrlAttribute(){
 
         return asset('assets') . '/' . $this->image;
-
-    }
-
-    public function getVideoUrlAttribute(){
-
-        return asset('assets/video') .'/'. $this->video;
 
     }
 
