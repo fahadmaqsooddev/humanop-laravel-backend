@@ -613,8 +613,14 @@
     {{--   Perception of Life Models   --}}
     <div class="modal fade" id="life" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
+{{--            <div class="modal-header">--}}
+{{--            </div>--}}
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                    <a type="button" class="close float-end text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <br>
 {{--                    <video id="life-video" controls>--}}
 {{--                        <source src="{{ asset('assets/video/Perception of Life Intro.mp4') }}" type="video/mp4">--}}
 {{--                        Your browser does not support the video tag.--}}
@@ -864,5 +870,12 @@
         videoTimeline.addEventListener("mousedown", () => videoTimeline.addEventListener("mousemove", draggableProgressBar));
         document.addEventListener("mouseup", () => videoTimeline.removeEventListener("mousemove", draggableProgressBar));
 
+    </script>
+
+    <script>
+        $('.close').click(function(){
+            $('#video').each(function(){ $(this).get(0).pause();
+            })
+        });
     </script>
 @endpush
