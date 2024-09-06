@@ -3,6 +3,7 @@
 namespace App\Models\Admin\Coupon;
 
 use App\Helpers\Helpers;
+use App\Models\Assessment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,10 @@ class CouponRedemption extends Model
     public static function checkOrCreateCouponRedemption($coupon = null, $original_amount = null){
 
         $coupon_found = CouponRedemption::where([['coupon_id', $coupon->id],['user_id', Helpers::getUser()->id]])->exists();
+
+        if ($coupon['discount'] == 100){
+            Assessment::createAssessmentData(Helpers::getUser()->id);
+        }
 
         if (!$coupon_found){
 
