@@ -740,9 +740,11 @@ class Assessment extends Model
 
                     $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
+                    $current_time = Carbon::now();
+
                     Log::info(['9' => $created_at_90_days]);
 
-                    if ($created_at_90_days->greaterThan(Carbon::today())){ // If user attempting another assessment with in 90 days
+                    if ($current_time->greaterThan($created_at_90_days)){ // If user attempting another assessment with in 90 days
 
                         Log::info(['fa']);
 
