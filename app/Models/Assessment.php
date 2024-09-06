@@ -778,6 +778,14 @@ class Assessment extends Model
 
         }else{ // For 1st assessment
 
+            $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+
+            $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+            AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+            AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
             return 0;
         }
 
