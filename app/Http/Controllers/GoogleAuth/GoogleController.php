@@ -32,6 +32,7 @@ class GoogleController extends Controller
 
                 $user = Helpers::getWebUser();
 
+                dd($user);
                 if (!$user->subscription('main'))
                 {
                     Helpers::AfterRegistrationPayment($user);
@@ -51,17 +52,17 @@ class GoogleController extends Controller
 
                 Auth::login($newUser);
 
-                $user = Helpers::getWebUser();
-
-                if (!$user->subscription('main'))
-                {
-                    Helpers::AfterRegistrationPayment($user);
-
-                }
-
             }
 
             DailyTip::updateUserDailyTip();
+
+            $user = Helpers::getWebUser();
+
+            if (!$user->subscription('main'))
+            {
+                Helpers::AfterRegistrationPayment($user);
+
+            }
 
             return redirect()->route('client_dashboard');
 
