@@ -55,11 +55,18 @@ class CouponRedemption extends Model
 
         if (!$coupon_found){
 
-            self::create(['coupon_id' => $coupon->id, 'user_id' => Helpers::getUser()->id]);
+            if ($coupon['limit'] == null){
+                // if coupon limit is null so user use it unlimited
+            }else{
 
-            if ($coupon['limit'] > 0) {
+                self::create(['coupon_id' => $coupon->id, 'user_id' => Helpers::getUser()->id]);
 
-                $coupon->decrement('remaining_redemption');
+                if ($coupon['limit'] > 0) {
+
+                    $coupon->decrement('remaining_redemption');
+
+                }
+
             }
 
             $dis_amount = (int)$original_amount - ((int)$coupon['discount'] / 100 * (int)$original_amount);
