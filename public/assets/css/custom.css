@@ -83,8 +83,11 @@ aside:hover {
   .remove-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
   }
+  #chatbox-content{
+    /* height: 20px; */
+  }
   
-
+ 
 
 
 @media (max-width: 575px) {
@@ -131,6 +134,13 @@ aside:hover {
         font-weight:900 ;
         padding: 10px 10px;
     }
+    .d1 .d2{
+
+    width: 100%;
+}
+
+
+
 
   }
   

@@ -45,10 +45,10 @@ class SessionController extends Controller
                     setcookie("email", "");
                     setcookie("password", "");
                 }
-                
+
                 $user = Helpers::getWebUser();
                 
-                if (!$user->subscription('main'))
+                if ($user && !$user->subscription('main'))
                 {
                     Helpers::AfterRegistrationPayment($user);
 

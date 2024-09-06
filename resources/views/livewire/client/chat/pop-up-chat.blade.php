@@ -1,3 +1,9 @@
+<style>
+    @media screen (max-width:575px) {
+
+        
+    }
+</style>
 <div>
 
 
