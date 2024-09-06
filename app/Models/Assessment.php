@@ -62,7 +62,7 @@ class Assessment extends Model
         return self::create($data);
     }
 
-    public static function createAssessmentData($userId = null, $type = null)
+    public static function createAssessmentData($userId = null, $type = 0)
     {
 
         return self::create(['user_id' => $userId, 'type' => $type]);
@@ -134,6 +134,7 @@ class Assessment extends Model
                     ->first();
 
                 if ($freeAssessment !== null) {
+
                     $createdAt = \Illuminate\Support\Carbon::parse($freeAssessment->created_at)->addDays(90);
 
                     if ($currentDate->greaterThan($createdAt)) {
@@ -712,16 +713,68 @@ class Assessment extends Model
 
     public static function assessmentStatusForApi()
     {
-        $status = self::where('user_id', Helpers::getUser()->id)->select(['page'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page','type'])->latest()->first();
 
-        if ($status && $status->page !== 0) {
+        // old restriction
+//        if ($status && $status->page !== 0) {
+//
+//            return ($status->page === null ? 0 : $status->page);
+//
+//        } else {
+//
+//            return false;
+//        }
 
-            return ($status->page === null ? 0 : $status->page);
 
-        } else {
+        if($assessment){
 
-            return false;
+            if ($assessment['page'] === 0){ // if assessment is finished
+
+                if ($assessment['type'] === 1){ // assessment is free
+
+                    $created_at_90_days = Carbon::parse($assessment->created_at)->addDays(90);
+
+                    if ($created_at_90_days->greaterThan(Carbon::today())){ // If user attempting another assessment with in 90 days
+
+                        return false;
+
+                    }else{ // If user attempting another assessment after 90 days
+
+                        $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+
+                        $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+                        AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+                        AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
+                        return 0;
+                    }
+
+                }elseif ($assessment['type'] === 0){ // If user last assessment is paid
+
+                    $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+
+                    $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+                    AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+                    AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
+                    return 0;
+                }
+
+            }else{ // For abandoned assessment
+
+                return ($assessment['page'] === null ? 0 : $assessment['page']);
+
+            }
+
+        }else{ // For 1st assessment
+
+            return 0;
         }
+
     }
 
     public static function submitQuestionAnswers($answer_ids = [])
