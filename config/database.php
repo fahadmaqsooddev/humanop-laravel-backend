@@ -334,6 +334,16 @@ return [
             'table' => 'plans',
             'fillable' => ['plan_id','name','billing_method','interval_count','price','currency'],
             'hidden' => ['updated_at', 'created_at'],
-        ]
+        ],
+        'Point' => [
+            'table' => 'points',
+            'fillable' => ['user_id','point'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
+        'PointLog' => [
+            'table' => 'point_logs',
+            'fillable' => ['user_id','point','type'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
     ]
 ];

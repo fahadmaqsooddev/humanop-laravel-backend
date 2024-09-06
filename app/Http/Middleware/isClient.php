@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Helpers\Points\PointHelper;
 class isClient
 {
     /**
@@ -20,12 +20,11 @@ class isClient
 
         if (Auth::check())
         {
-
             if (Auth::user()['is_admin'] == 2)
             {
+                PointHelper::addPointsToLog(Auth::user()['id'],1);
                 return $next($request);
             }else{
-
                 return redirect()->route('admin_dashboard');
             }
 
