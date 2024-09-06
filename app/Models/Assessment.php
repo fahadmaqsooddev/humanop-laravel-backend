@@ -744,7 +744,7 @@ class Assessment extends Model
 
                     Log::info(['9' => $created_at_90_days]);
 
-                    if ($current_time->greaterThan($created_at_90_days)){ // If user attempting another assessment with in 90 days
+                    if ($created_at_90_days->greaterThan($current_time)){ // If user attempting another assessment with in 90 days
 
                         Log::info(['fa']);
 
