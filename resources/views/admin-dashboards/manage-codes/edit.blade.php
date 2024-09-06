@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
-    <div class="row mt-4">
+    <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->

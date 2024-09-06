@@ -6,7 +6,7 @@
     }
 </style>
 @section('content')
-    <div class="row">
+    <div class="row container-fluid">
         <div class="col-lg-7 position-relative z-index-2">
             <div class="mb-4">
                 <div class="card-body p-3">
