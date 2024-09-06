@@ -32,7 +32,6 @@ class GoogleController extends Controller
 
                 $user = Helpers::getWebUser();
 
-                dd($user);
                 if (!$user->subscription('main'))
                 {
                     Helpers::AfterRegistrationPayment($user);

@@ -15,6 +15,7 @@ use App\Models\Client\Plan\Plan;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;
+use App\Models\User;
 
 class Helpers
 {
@@ -187,6 +188,8 @@ class Helpers
         Stripe::setApiKey($key['api_key']);
 
         $stripe = new StripeClient($key['api_key']);
+
+        User::createCustomerAndSubscriptionOnStripe($user);
 
         $payment_method = $stripe->paymentMethods->attach(
             'pm_card_visa',
