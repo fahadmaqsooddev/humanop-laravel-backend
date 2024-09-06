@@ -736,6 +736,8 @@ class Assessment extends Model
 
                 if ($free_assessment){ // assessment is free
 
+                    Log::info(['as' => $free_assessment]);
+
                     $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
                     $current_time = Carbon::now();
