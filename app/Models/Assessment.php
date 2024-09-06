@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use Illuminate\Support\Facades\Log;
 
 class Assessment extends Model
 {
@@ -733,15 +734,23 @@ class Assessment extends Model
 
                     ->where('type', 1)->where('page', 0)->latest()->first();
 
+                Log::info(['as' => $free_assessment]);
+
                 if ($free_assessment){ // assessment is free
 
                     $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
+                    Log::info(['9' => $created_at_90_days]);
+
                     if ($created_at_90_days->greaterThan(Carbon::today())){ // If user attempting another assessment with in 90 days
+
+                        Log::info(['fa']);
 
                         return false;
 
                     }else{ // If user attempting another assessment after 90 days
+
+                        Log::info(['af 9']);
 
                         $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
