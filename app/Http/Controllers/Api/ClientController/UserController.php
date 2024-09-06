@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Client\Plan\Plan;
 
 class UserController extends Controller
 {
@@ -155,9 +156,25 @@ class UserController extends Controller
 
                     $user_data = User::user($finduser->id);
 
+                    $user = Helpers::getUser();
+
+                    if (!$user->hasStripeId()) {
+
+                        User::createCustomerAndSubscriptionOnStripe($user);
+
+                    }
+                    if (!$user->subscription('main'))
+                    {
+                        Helpers::AfterRegistrationPayment($user);
+                    }
+
+                    $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
                     $data = [
 
                         'user' => $user_data,
+
+                        'plan_name' => $plan,
 
                         'authorization' => [
 
@@ -185,9 +202,25 @@ class UserController extends Controller
 
                     $user_data = User::user($newUser->id);
 
+                    $user = Helpers::getUser();
+
+                    if (!$user->hasStripeId()) {
+
+                        User::createCustomerAndSubscriptionOnStripe($user);
+
+                    }
+                    if (!$user->subscription('main'))
+                    {
+                        Helpers::AfterRegistrationPayment($user);
+                    }
+
+                    $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
                     $data = [
 
                         'user' => $user_data,
+
+                        'plan_name' => $plan,
 
                         'authorization' => [
 

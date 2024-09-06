@@ -59,7 +59,7 @@
             </div>
             <div class="username">
                 <div class="head1">
-                    <img src="{{$user->user_picture_url ?? ""}}" alt="" class="dp">
+                    <img src="{{$user['photo_url']['thumbnail_url'] ?? ""}}" alt="" class="dp">
                     <p>{{$user ? $user->first_name . ' ' . $user->last_name : ""}}</p>
                 </div>
                 <div class="head2">

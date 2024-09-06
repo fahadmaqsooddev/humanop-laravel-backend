@@ -205,30 +205,12 @@ class Helpers
 
         $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
 
-        $data = [
-            'plan_name' => $plan['name']
-        ];
-
-        return $data;
+        return $plan['name'];
     }
 
     public static function checkAssessment($user_id = null)
     {
-        $assessment = Assessment::singleAssessment($user_id);
-
-        if (!empty($assessment))
-        {
-            if ($assessment['page'] === 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return Assessment::checkAssessment($user_id);
     }
 
     public static function getImage($pic, $original_default = null, $is_original_name = 0)

@@ -91,6 +91,7 @@ class CodeDetail extends Model
             'text' => $alchemy_code['text'] ?? null,
             'public_name' => $alchemy_code['public_name'] ?? null,
             'video' => $alchemy_code['video'] ?? null,
+            'video_url' => $alchemy_code['video_url'] ?? null,
             'p_name' => $alchemy_code['p_name'] ?? null,
         ];
 

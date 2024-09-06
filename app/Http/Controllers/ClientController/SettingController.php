@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Client\Plan\Plan;
 
 class SettingController extends Controller
 {
@@ -15,9 +16,15 @@ class SettingController extends Controller
     {
         try {
 
-            $user = Auth::user();
+            $user = Helpers::getWebUser();
 
-            return view('client-dashboard.setting.index', compact('user'));
+            $planStatus = $user->subscription('main')['stripe_status'];
+
+            $subscriptionStartDate = $user->subscription('main')['created_at']->format('d/m/Y');
+
+            $plan = Plan::singlePlan($user->subscription('main')['stripe_price']);
+
+            return view('client-dashboard.setting.index', compact('user', 'plan', 'planStatus', 'subscriptionStartDate'));
 
         }catch (\Exception $exception)
         {

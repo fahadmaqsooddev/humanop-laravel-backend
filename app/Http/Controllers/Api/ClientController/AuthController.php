@@ -11,6 +11,7 @@ use App\Models\User;
 use Hamcrest\BaseDescription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Client\Plan\Plan;
 
 class AuthController extends Controller
 {
@@ -40,8 +41,23 @@ class AuthController extends Controller
 
                 DailyTip::updateUserDailyTip();
 
+                $user = Helpers::getUser();
+
+                if (!$user->hasStripeId()) {
+
+                    User::createCustomerAndSubscriptionOnStripe($user);
+
+                }
+                if (!$user->subscription('main'))
+                {
+                    Helpers::AfterRegistrationPayment($user);
+                }
+
+                $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
                 $data = [
                     'user' => $user_data,
+                    'plan_name' => $plan['name'],
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',
@@ -92,9 +108,9 @@ class AuthController extends Controller
 
             $data = [
                 'user' => $user,
+                'plan_name' => $plan,
                 'authorization' => [
                     'token' => $token,
-                    'paln_name' => $plan,
                     'type' => 'bearer',
                 ]
             ];

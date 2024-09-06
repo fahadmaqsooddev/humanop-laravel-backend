@@ -10,21 +10,20 @@ use PHPUnit\Exception;
 class ClientQuery extends Component
 {
 
-    public $query;
-    public $chat;
+    public $query,$chat,$chat_id;
     protected $listeners = ['clientQueryShow' => 'refreshClientQuery'];
 
 
-    public function refreshClientQuery($chat)
+    public function refreshClientQuery($chat,$chat_id)
     {
         $this->chat = $chat;
+        $this->chat_id = $chat_id;
     }
 
     public function submitForm()
     {
         try {
-            QueryModal::createQuery(Helpers::getWebUser()->id, $this->query);
-
+            QueryModal::createQuery(Helpers::getWebUser()->id, $this->query, $this->chat_id);
             session()->flash('success', "Your Query submit successfully");
             $this->query = '';
             $this->emit('hideModal');

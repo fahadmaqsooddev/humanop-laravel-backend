@@ -66,7 +66,7 @@ class PaymentController extends Controller
 
                 }
 
-                $assessment = Assessment::createAssessmentData($user['id']);
+                $assessment = Assessment::createAssessmentData($user['id'], 0);
 
                 $assessment_data = Assessment::where('id', $assessment['id'])->first();
 

@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
 
-
 class SessionController extends Controller
 {
     public function create()
@@ -46,7 +45,15 @@ class SessionController extends Controller
                     setcookie("email", "");
                     setcookie("password", "");
                 }
+
+                $user = Helpers::getWebUser();
                 
+                if ($user && !$user->subscription('main'))
+                {
+                    Helpers::AfterRegistrationPayment($user);
+
+                }
+
                 DailyTip::updateUserDailyTip();
                 User::updateUserIsFeedback();
 
