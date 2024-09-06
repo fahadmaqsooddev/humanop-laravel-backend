@@ -125,7 +125,7 @@ class Coupon extends Model
 
         if ($coupon){
 
-            if ($coupon['remaining_redemption'] != 0){
+            if ($coupon['remaining_redemption'] != 0 || $coupon['remaining_redemption'] == null){
 
                 return CouponRedemption::checkOrCreateCouponRedemption($coupon, $original_amount);
 
