@@ -725,14 +725,17 @@ class Assessment extends Model
 //            return false;
 //        }
 
-
         if($assessment){
 
             if ($assessment['page'] === 0){ // if assessment is finished
 
-                if ($assessment['type'] === 1){ // assessment is free
+                $free_assessment = self::where('user_id', Helpers::getUser()->id)
 
-                    $created_at_90_days = Carbon::parse($assessment->created_at)->addDays(90);
+                    ->where('type', 1)->where('page', 0)->latest()->first();
+
+                if ($free_assessment){ // assessment is free
+
+                    $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
                     if ($created_at_90_days->greaterThan(Carbon::today())){ // If user attempting another assessment with in 90 days
 
@@ -751,7 +754,7 @@ class Assessment extends Model
                         return 0;
                     }
 
-                }elseif ($assessment['type'] === 0){ // If user last assessment is paid
+                }elseif ($assessment['type'] === 0){
 
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
