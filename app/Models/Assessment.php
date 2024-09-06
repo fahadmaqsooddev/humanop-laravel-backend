@@ -736,26 +736,15 @@ class Assessment extends Model
 
                 if ($free_assessment){ // assessment is free
 
-                    Log::info(['as' => $free_assessment]);
-
                     $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
                     $current_time = Carbon::now();
 
-                    Log::info(['9' => $created_at_90_days]);
-                    Log::info(['cu' => $current_time]);
-
-                    Log::info(['ch' => $created_at_90_days->greaterThan($current_time)]);
-
                     if ($created_at_90_days->greaterThan($current_time)){ // If user attempting another assessment with in 90 days
-
-                        Log::info(['fa']);
 
                         return false;
 
                     }else{ // If user attempting another assessment after 90 days
-
-                        Log::info(['af 9']);
 
                         $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
