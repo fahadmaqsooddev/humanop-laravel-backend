@@ -32,7 +32,7 @@ class isClient
 
             Auth::logout();
 
-            return redirect('/login')->with(['error'=>'You\'ve not loged in.']);
+            return redirect('/login')->with(['error'=>'You\'ve not logged in.']);
 
         }
     }

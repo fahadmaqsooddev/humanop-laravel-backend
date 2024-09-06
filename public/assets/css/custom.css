@@ -1,4 +1,4 @@
-.background_image{
+.background_image {
     /* color: var(--chakra-colors-gray-800); */
     /* background-repeat: ;
     background-attachment: ;
@@ -12,82 +12,95 @@
     background-size: cover;
 }
 
-.top_pannel{
-    padding-bottom:40px ;
+.top_pannel {
+    padding-bottom: 40px;
 }
 
-.user-pannel-btn{
+.user-pannel-btn {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.features-card{
+.features-card {
     flex-direction: column;
 }
 
-#suggestion_text_box{
+#suggestion_text_box {
     width: 100%;
     height: auto;
     color: white;
 }
-.prompt-suggestion{
+
+.prompt-suggestion {
     height: 40%;
 }
-.prompt-text{
+
+.prompt-text {
     font-size: small;
 }
-.sign-out-btn{
+
+.sign-out-btn {
     background-color: rgb(210, 102, 34);
 }
-.navbar>.container-fluid{
-    display:flex;
-flex-direction: row-reverse;
+
+.navbar > .container-fluid {
+    display: flex;
+    flex-direction: row-reverse;
 
 }
-#nav-toggle{
-    background-color: rgb(28, 31, 54);
+
+#nav-toggle {
+    background-color: rgb(210, 102, 34);
     border-radius: 0 8px 8px 0 !important;
 }
-#nav-toggle-icon{
-    color: rgb(210, 102, 34);
+
+#nav-toggle-icon {
+    color: rgb(28, 31, 54);
+    font-size: 25px;
 }
-.sidenav:hover{
+
+.sidenav:hover {
     transition: none !important;
     transform: none !important;
 }
+
 .sidenav-header:hover {
     transition: none !important;
     transform: none !important;
 }
+
 aside:hover {
     transition: none !important;
     transform: none !important;
 }
-.modal-body{
- 
+
+.modal-body {
+
 }
-.modal-body video{
+
+.modal-body video {
     width: 100%;
     height: auto;
 }
-.modal-content{
-   margin-top: 100px;
+
+.modal-content {
+    margin-top: 100px;
 }
+
 .remove-scrollbar {
     overflow: scroll;
     scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
-  }
-  
-  .remove-scrollbar::-webkit-scrollbar {
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.remove-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
-  }
-  #chatbox-content{
+}
+
+#chatbox-content {
     /* height: 20px; */
-  }
-  
- 
+}
 
 
 @media (max-width: 575px) {
@@ -97,72 +110,77 @@ aside:hover {
         align-items: center;
         justify-content: center;
     } */
-
-    .fs-15px{
+    .fs-15px {
         font-size: 15px;
     }
-    .fs-13px{
+
+    .fs-13px {
         font-size: 13px;
     }
-    .fs-10px{
+
+    .fs-10px {
         font-size: 10px;
     }
 
-    .fs-7px{
+    .fs-7px {
         font-size: 7px;
     }
-    .fs-5px{
+
+    .fs-5px {
         font-size: 5px;
     }
-    .fs-3px{
+
+    .fs-3px {
         font-size: 3px;
     }
-    .fs-2px{
+
+    .fs-2px {
         font-size: 2px;
     }
-    #suggestion_text_box{
+
+    #suggestion_text_box {
         display: none !important;
-    
+
     }
-    
-    .navbar>.container-fluid{
-    flex-direction: row;
+
+    .navbar > .container-fluid {
+        flex-direction: row;
     }
-    .main-post-section button{
+
+    .main-post-section button {
 
         font-size: 7px;
-        font-weight:900 ;
+        font-weight: 900;
         padding: 10px 10px;
     }
-    .d1 .d2{
 
-    width: 100%;
+    .d1 .d2 {
+
+        width: 100%;
+    }
+
+
 }
 
-
-
-
-  }
-  
-  /* tablet view */
-  @media (min-width: 576px) and (max-width: 767px) { 
-    .features-card{
-        flex-direction: row ; 
-        justify-content:end;
+/* tablet view */
+@media (min-width: 576px) and (max-width: 767px) {
+    .features-card {
+        flex-direction: row;
+        justify-content: end;
     }
-  }
-  
-  @media (min-width: 768px) and (max-width: 991px) {
-    .features-card{
-        flex-direction: row ; 
-        justify-content:space-around;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .features-card {
+        flex-direction: row;
+        justify-content: space-around;
     }
-  }
-  
-  @media (min-width: 992px) and (max-width: 1199px) {
-    
-   
-  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+
+}
 
 
 

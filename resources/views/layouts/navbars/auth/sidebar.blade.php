@@ -1,5 +1,5 @@
 <aside style="z-index: 9999; overflow:visible !important;"
-       class="sidenav   navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
+       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
     <div class="d-flex">
         <div class="sidenav-header">
@@ -16,16 +16,7 @@
             </a>
         </div>
 
-        <div class="sidenav-toggler sidenav-toggler-inner d-flex   ">
-            <a href="javascript:;" class="nav-link text-body p-0">
-                <div class="sidenav-toggler-inner">
-                    <button id="nav-toggle" class="btn rounded-0">
-                        <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
 
-                    </button>
-                </div>
-            </a>
-        </div>
     </div>
 
 

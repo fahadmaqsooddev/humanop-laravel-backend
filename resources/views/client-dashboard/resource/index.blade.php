@@ -617,9 +617,10 @@
 {{--            </div>--}}
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <a type="button" class="close float-end text-white" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                            aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </a>
+                    </button>
                     <br>
 {{--                    <video id="life-video" controls>--}}
 {{--                        <source src="{{ asset('assets/video/Perception of Life Intro.mp4') }}" type="video/mp4">--}}
@@ -695,29 +696,29 @@
 
 @push('js')
     <script>
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var modals = [
-        //         {id: 'introduction', videoId: 'introduction-video'},
-        //         {id: 'trait', videoId: 'trait-video'},
-        //         {id: 'cycle_of_life', videoId: 'cycle-of-life-video'},
-        //         {id: 'motivation', videoId: 'motivation-video'},
-        //         {id: 'alchemy', videoId: 'alchemy-video'},
-        //         {id: 'communication', videoId: 'communication-video'},
-        //         {id: 'energy', videoId: 'energy-video'},
-        //         {id: 'life', videoId: 'life-video'}
-        //     ];
-        //
-        //     modals.forEach(function(modal) {
-        //         var modalElement = document.getElementById(modal.id);
-        //         var videoElement = document.getElementById(modal.videoId);
-        //
-        //         modalElement.addEventListener('hide.bs.modal', function () {
-        //             if (videoElement) {
-        //                 videoElement.pause();
-        //             }
-        //         });
-        //     });
-        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            var modals = [
+                {id: 'introduction', videoId: 'introduction-video'},
+                {id: 'trait', videoId: 'trait-video'},
+                {id: 'cycle_of_life', videoId: 'cycle-of-life-video'},
+                {id: 'motivation', videoId: 'motivation-video'},
+                {id: 'alchemy', videoId: 'alchemy-video'},
+                {id: 'communication', videoId: 'communication-video'},
+                {id: 'energy', videoId: 'energy-video'},
+                {id: 'life', videoId: 'life-video'}
+            ];
+
+            modals.forEach(function(modal) {
+                var modalElement = document.getElementById(modal.id);
+                var videoElement = document.getElementById(modal.videoId);
+
+                modalElement.addEventListener('hide.bs.modal', function () {
+                    if (videoElement) {
+                        videoElement.pause();
+                    }
+                });
+            });
+        });
 
         function showModal(src){
 
