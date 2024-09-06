@@ -188,6 +188,8 @@ class Helpers
 
         $stripe = new StripeClient($key['api_key']);
 
+        User::createCustomerAndSubscriptionOnStripe($user);
+
         $payment_method = $stripe->paymentMethods->attach(
             'pm_card_visa',
             ['customer' => $user['stripe_id']]
