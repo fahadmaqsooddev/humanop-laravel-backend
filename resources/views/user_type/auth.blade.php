@@ -93,7 +93,7 @@
                         @include('client-dashboard/chat-ai/chat-ai-modal')
                     @endif
                     <!-- added px-0 class -->
-                    <div class="container-fluid py-4 px-0">
+                    <div class="container-fluid pt-2 pb-5 px-0">
 
                         <button type="button" data-bs-toggle="modal"
                                 data-bs-target="#feedBackModal"

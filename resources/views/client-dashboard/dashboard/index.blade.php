@@ -371,24 +371,26 @@
 
                        <!-- H.A.I CHAT INTERFACE -->
                     <div class="card shadow-lg blur m-0 px-0 "  style="background-color: #0f1534 !important;z-index: 1111111">
-                        <div class="card-header pb-0 pt-3" style="background-color: #f2661c">
-                            <div class="row">
-                                <div class="col-2 px-0 mb-2">
+                        <div class="card-header py-1" style="background-color: #f2661c">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- <div class="col-2 px-0 mb-2">
                                     <div class="float-start d-flex flex-column">
                                         <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
                                         <div class="header-info text-white">
-                                            <div class=" fs-13px">Need help?</div> <!--header title-->
+                                            <div class=" fs-13px">Need help?</div>
                                             <div class=" fs-7px">We reply immediately</div>
                                         </div>
                                     </div>
-                                    <!-- End Toggle Button -->
-                                </div>
+                                </div> -->
 
-                                <div class="col-8 text-center d-flex align-items-center justify-content-center ps-2">
+                                <div class="  d-flex  ">
+                                    
+                                </div>
+                                <div class="  d-flex align-items-center  ">
                                     <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
                                 </div>
 
-                                <div class="col-2">
+                                <div class="d-flex align-items-center ">
                                     <div class="float-end mt-4">
                                         <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
                                             <i class="fa fa-close"></i>

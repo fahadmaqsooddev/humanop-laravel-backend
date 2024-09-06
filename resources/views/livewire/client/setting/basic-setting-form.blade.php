@@ -71,7 +71,7 @@
                     </select>
                 </div>
 
-                <div class="col-sm-4 col-6 w-50">
+                <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-white">Profile Image</label>
                     <input type="file" wire:model="profile_image" style="background-color: #0f1534;" class="form-control">
                 </div>

@@ -1,6 +1,6 @@
-<div class="d-flex container-fluid vh-100  px-0  ">
+<div class="d-flex container-fluid vh-100   px-0  ">
 
-<div class="col-4 col-lg-3  ">
+<div class="col-4 col-lg-3   ">
 
     <div class="chatbox h-100">
         <div class="chatbox-content" style="background-color: #f2661c">
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div>
+    <div>
         <!-- Button trigger modal -->
         <button type="button" id="chat_ai_question_modal" class="btn bg-gradient-success btn-block mb-3"
                 data-bs-toggle="modal" data-bs-target="#exampleModalMessage" hidden>
@@ -46,13 +46,12 @@
         </button>
     </div>
 
-<div class="col-8 col-lg-9 px-0 d-flex flex-column  ">
-
+<div class="col-8 col-lg-9  px-0 d-flex flex-column " >
 
 
 
  {{--    @empty($messages)--}}
-    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center  p-2 " id="suggestion_text_box">
+    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center  p-2 "                   id="suggestion_text_box">
 
         <div class="d-flex text-center  p-0   w-20 h-100  text-wrap" onclick="suggestionQueries('What can you tell me about myself?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
 
@@ -98,8 +97,8 @@
         </div>
 
     </form>
-    <div class="chatbox  position-relative">
 
+    <div class="chatbox h-80    ">
         <div style="display: flex; justify-content:flex-start;">
             <div id="chatDots" wire:loading wire:target="dislike">
                 <span class="chatDot"></span>
@@ -140,14 +139,14 @@
                     </div>
                 </div>
             @endforeach
+        
+
         </div>
-
-
     </div>
 </div>
 
 </div>
-
+ 
 
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
