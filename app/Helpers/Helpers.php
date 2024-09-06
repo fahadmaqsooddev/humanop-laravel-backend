@@ -15,6 +15,7 @@ use App\Models\Client\Plan\Plan;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;
+use App\Models\User;
 
 class Helpers
 {
