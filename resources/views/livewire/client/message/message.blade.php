@@ -1,7 +1,7 @@
-<div class="body-container d-flex flex-column flex-md-row align-items-center align-items-md-stretch m p-2 pb-5">
+<div class="body-container d-flex flex-column flex-md-row align-items-center align-items-md-stretch  p-2 pb-5">
 
 
-    <div class="side-bar flex-grow-1 d1 w-100 w-md-30 border border-dark rounded-3 shadow-sm p-0 bg-white "
+    <div class="side-bar flex-grow-1 d1 messenger-cards w-sm-100 w-md-30 border border-dark rounded-3 shadow-sm p-0 bg-white "
         id="message-bar">
         <h3 class="text-center text-white bg-dark-blue rounded-top m-0 p-3">Messages & Connections</h3>
         <form class="messenger-search-form d-flex align-items-center justify-content-center ">
@@ -78,7 +78,7 @@
         </div>
     </div>
     @if($chat_user)
-        <div class="messenger-container show-messenger pb-2   flex-grow-1 w-100  w-md-70 border border-dark rounded-3 shadow-sm bg-light d-flex flex-column "
+        <div class="messenger-container messenger-cards show-messenger pb-2   flex-grow-1 w-sm-100 w-md-70 border border-dark rounded-3 shadow-sm bg-light d-flex flex-column "
             id="messenger-container1">
             <div
                 class="messenger-header d-flex justify-content-between align-items-center text-white bg-dark-blue rounded-top p-2">
@@ -119,7 +119,7 @@
             </form>
         </div>
     @else
-        <div class="messenger-container  show-messenger w-100 w-md-70 flex-grow-1 border border-dark rounded-3 shadow-sm bg-light d-flex flex-column"
+        <div class="messenger-container messenger-cards  show-messenger w-sm-100 w-md-70 flex-grow-1 border border-dark rounded-3 shadow-sm bg-light d-flex flex-column"
             id="messenger-container2">
             <div class="messenger-header text-center text-white bg-dark-blue rounded-top p-2">
                 <p>Select the chat to display messages</p>
@@ -134,11 +134,12 @@
         background-color: rgb(35 35 82) !important;
     }
 
-    @media (max-width:575px) {
+    @media and (min-width:576px) {
 
-        /* .messenger-container{
-    height: 60vh;
-} */
+
+ /* .messenger-cards{
+    width: 20%;
+ } */
 
 
     }
