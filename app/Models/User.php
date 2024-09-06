@@ -25,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'];
+    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted','age_group'];
 
     public function __construct(array $attributes = array())
     {
@@ -71,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
 
     public function scopeSelection($query){
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id']);
+        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','age_min','age_max']);
     }
 
     // appends
@@ -112,6 +112,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getFeedbackSubmittedAttribute(){
         return $this->feedback()->exists();
+    }
+
+    public function getAgeGroupAttribute(){
+        return ($this->age_min . '-' . $this->age_max);
     }
 
 
