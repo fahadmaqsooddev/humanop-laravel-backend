@@ -75,6 +75,14 @@ class CouponRedemption extends Model
 
             return Helpers::successResponse("Congratulations! You've Won a Special Discount", $data);
 
+        }elseif ($coupon['limit'] == null){
+
+            $dis_amount = (int)$original_amount - ((int)$coupon['discount'] / 100 * (int)$original_amount);
+
+            $data = ['amount' => (int)$dis_amount];
+
+            return Helpers::successResponse("Congratulations! You've Won a Special Discount", $data);
+
         }else{
 
             return Helpers::validationResponse("You have already used this coupon.");
