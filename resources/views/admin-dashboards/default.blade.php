@@ -1253,8 +1253,8 @@
                         </div>
                     </div>
                     <div class="col-9">
-                        <div class="chatbox">
-                            <div class="chatbox-content" id="chatbox-content">
+                        <div class="chatbox ">
+                            <div class="chatbox-content " id="chatbox-content">
                                 <div style="display: flex; justify-content: flex-start">
                                     <div class="message bot-message">Welcome to our store! Whether you have a
                                         specific
