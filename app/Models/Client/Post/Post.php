@@ -81,7 +81,7 @@ class Post extends Model
 
         return self::with(['user' => function($q){
 
-            $q->select(['id','first_name','last_name']);
+            $q->select(['id','first_name','last_name','image_id']);
 
         }, 'postComments' => function($q){
 
