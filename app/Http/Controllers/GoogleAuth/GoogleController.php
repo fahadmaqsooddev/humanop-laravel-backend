@@ -51,17 +51,17 @@ class GoogleController extends Controller
 
                 Auth::login($newUser);
 
-                $user = Helpers::getWebUser();
-
-                if (!$user->subscription('main'))
-                {
-                    Helpers::AfterRegistrationPayment($user);
-
-                }
-
             }
 
             DailyTip::updateUserDailyTip();
+
+            $user = Helpers::getWebUser();
+
+            if (!$user->subscription('main'))
+            {
+                Helpers::AfterRegistrationPayment($user);
+
+            }
 
             return redirect()->route('client_dashboard');
 
