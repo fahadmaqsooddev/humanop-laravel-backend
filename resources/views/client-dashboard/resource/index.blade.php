@@ -612,62 +612,58 @@
 {{--    </div>--}}
     {{--   Perception of Life Models   --}}
     <div class="modal fade" id="life" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-{{--            <div class="modal-header">--}}
-{{--            </div>--}}
-            <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <br>
-{{--                    <video id="life-video" controls>--}}
-{{--                        <source src="{{ asset('assets/video/Perception of Life Intro.mp4') }}" type="video/mp4">--}}
-{{--                        Your browser does not support the video tag.--}}
-{{--                    </video>--}}
+        <div style="padding-left: 17%;">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <br>
 
-                    <div class="container show-controls" id="container_video">
-                        <div class="wrapper">
-                            <div class="video-timeline">
-                                <div class="progress-area">
-                                    <span id="progree-area-span">00:00</span>
-                                    <div class="progress-bar" style="color: #f2661c;"></div>
-                                </div>
-                            </div>
-                            <ul class="video-controls">
-                                <li class="options left">
-                                    <button class="volume"><i class="fa-solid fa-volume-high" style="color: rgb(242, 102, 28)"></i></button>
-                                    <input type="range" min="0" max="1" step="any">
-                                    <div class="video-timer">
-                                        <span class="current-time" style="color: #f2661c;">00:00</span>
-                                        <span class="separator" style="color: #f2661c;"> / </span>
-                                        <span class="video-duration" style="color: #f2661c;">00:00</span>
+                        <div class="container show-controls" id="container_video">
+                            <div class="wrapper">
+                                <div class="video-timeline">
+                                    <div class="progress-area">
+                                        <span id="progree-area-span">00:00</span>
+                                        <div class="progress-bar" style="color: #f2661c;"></div>
                                     </div>
-                                </li>
-                                <li class="options center">
-                                    <button class="skip-backward"><i class="fas fa-backward" style="color: #f2661c;"></i></button>
-                                    <button class="play-pause"><i class="fas fa-play" style="color: #f2661c;"></i></button>
-                                    <button class="skip-forward"><i class="fas fa-forward" style="color: #f2661c;"></i></button>
-                                </li>
-                                <li class="options right">
-{{--                                    <div class="playback-content">--}}
-{{--                                        <button class="playback-speed"><span class="material-symbols-rounded">slow_motion_video</span></button>--}}
-{{--                                        <ul class="speed-options">--}}
-{{--                                            <li data-speed="2">2x</li>--}}
-{{--                                            <li data-speed="1.5">1.5x</li>--}}
-{{--                                            <li data-speed="1" class="active">Normal</li>--}}
-{{--                                            <li data-speed="0.75">0.75x</li>--}}
-{{--                                            <li data-speed="0.5">0.5x</li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-                                    <button class="fullscreen"><i class="fa-solid fa-expand" style="color: #f2661c;"></i></button>
-                                </li>
-                            </ul>
+                                </div>
+                                <ul class="video-controls">
+                                    <li class="options left">
+                                        <button class="volume"><i class="fa-solid fa-volume-high" style="color: rgb(242, 102, 28)"></i></button>
+                                        <input type="range" min="0" max="1" step="any">
+                                        <div class="video-timer">
+                                            <span class="current-time" style="color: #f2661c;">00:00</span>
+                                            <span class="separator" style="color: #f2661c;"> / </span>
+                                            <span class="video-duration" style="color: #f2661c;">00:00</span>
+                                        </div>
+                                    </li>
+                                    <li class="options center">
+                                        <button class="skip-backward"><i class="fas fa-backward" style="color: #f2661c;"></i></button>
+                                        <button class="play-pause"><i class="fas fa-play" style="color: #f2661c;"></i></button>
+                                        <button class="skip-forward"><i class="fas fa-forward" style="color: #f2661c;"></i></button>
+                                    </li>
+                                    <li class="options right">
+    {{--                                    <div class="playback-content">--}}
+    {{--                                        <button class="playback-speed"><span class="material-symbols-rounded">slow_motion_video</span></button>--}}
+    {{--                                        <ul class="speed-options">--}}
+    {{--                                            <li data-speed="2">2x</li>--}}
+    {{--                                            <li data-speed="1.5">1.5x</li>--}}
+    {{--                                            <li data-speed="1" class="active">Normal</li>--}}
+    {{--                                            <li data-speed="0.75">0.75x</li>--}}
+    {{--                                            <li data-speed="0.5">0.5x</li>--}}
+    {{--                                        </ul>--}}
+    {{--                                    </div>--}}
+                                        <button class="fullscreen"><i class="fa-solid fa-expand" style="color: #f2661c;"></i></button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <video id="video"></video>
                         </div>
-                        <video id="video"></video>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -698,14 +694,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var modals = [
-                {id: 'introduction', videoId: 'introduction-video'},
-                {id: 'trait', videoId: 'trait-video'},
-                {id: 'cycle_of_life', videoId: 'cycle-of-life-video'},
-                {id: 'motivation', videoId: 'motivation-video'},
-                {id: 'alchemy', videoId: 'alchemy-video'},
-                {id: 'communication', videoId: 'communication-video'},
-                {id: 'energy', videoId: 'energy-video'},
-                {id: 'life', videoId: 'life-video'}
+                {id: 'life', videoId: 'video'}
             ];
 
             modals.forEach(function(modal) {
