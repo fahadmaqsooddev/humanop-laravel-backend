@@ -19,7 +19,7 @@
     }
 </style>
 @section('content')
-    <div>
+    <div class="d-flex flex-column container-fluid">
         <div>
             <a href="{{url('admin/generate-grid-pdf/'. $grid['id'])}}" target="_blank"
                class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
@@ -250,7 +250,7 @@
                 $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
                 $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-                $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
+                $nextTwoKeys = [];
             }
             else {
                 $greater_than_three_filtered_keys = [];
@@ -296,7 +296,7 @@
         @endphp
 
         <div class="row mt-4">
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
@@ -366,7 +366,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-11">
+            <div class="col-12">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
@@ -464,7 +464,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-5">
+            <div class="col-12 col-md-5">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
@@ -498,7 +498,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-5">
+            <div class="col-12 col-md-5">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
@@ -536,7 +536,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-5">
+            <div class="col-12 col-md-5">
                 <div class="card">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">

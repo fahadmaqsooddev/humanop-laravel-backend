@@ -20,7 +20,7 @@
     }
 </style>
 @section('content')
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column container-fluid">
         <div>
             <a href="{{url('client/generate-grid-pdf/'. $grid['id'])}}" target="_blank"
                class="btn btn-sm float-end mt-4 mb-4 text-white mx-4"
@@ -251,63 +251,36 @@
                 $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
                 $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-                $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
+                $nextTwoKeys = [];
             }
             else {
 
-                // Count the occurrences of each value
-                $value_counts = array_count_values($filtered_keys);
-
-                // Filter unique values
-                $unique_filtered_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] === 1;
-                });
-
-                // Filter remaining values (including repeating ones)
-                $remaining_keys = array_filter($filtered_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] > 1 || $value_counts[$value] === 1;
-                });
-
-                // Removing the unique values from the remaining_keys array
-                $remaining_keys = array_filter($remaining_keys, function($value) use ($value_counts) {
-                    return $value_counts[$value] > 1;
-                });
-
-                if (!empty($remaining_keys)) {
-                    // Find the highest and second highest values
-                    $values = array_values($remaining_keys);
-                    $highest_value = max($values);
-                    $second_highest_value = count(array_diff($values, [$highest_value])) ? max(array_diff($values, [$highest_value])) : null;
-
-                    // Separate arrays for highest and second-highest values
-                    $highest_array = [];
-                    $second_highest_array = [];
-
-                    foreach ($remaining_keys as $key => $value) {
-                        if ($value == $highest_value) {
-                            $highest_array[$key] = $value;
-                        } elseif ($value == $second_highest_value) {
-                            $second_highest_array[$key] = $value;
-                        }
+                $greater_than_three_filtered_keys = [];
+                foreach ($filtered_keys as $key => $value) {
+                    if ($value > 3) { // Check if the value is greater than 3
+                        $greater_than_three_filtered_keys[$key] = $value;
                     }
+                }
 
-                    $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($highest_array)));
+                // Get keys that are in $filtered_keys but not in $greater_than_three_filtered_keys
+                $remainingFilterKeys = array_diff_key($filtered_keys, $greater_than_three_filtered_keys);
+
+                $firstHighestArrayValue = [];
+                $remainingHighestArrayValue = [];
+                if (count($greater_than_three_filtered_keys) > 1 || count($greater_than_three_filtered_keys) == 1) {
+                    $firstHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($greater_than_three_filtered_keys)));
                     arsort($firstHighestArrayValue);
-                    $secondHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($second_highest_array)));
-                    arsort($secondHighestArrayValue);
-
-                    $allValuesGets = array_merge($unique_filtered_keys, $firstHighestArrayValue, $secondHighestArrayValue);
-
-                    $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
-                    $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
                 }
-                else {
-                    $topTwoKeys = array_keys($unique_filtered_keys);
-                    $nextTwoKeys = [];
+                if (count($remainingFilterKeys) != 0){
+                    $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
+                    arsort($remainingHighestArrayValue);
                 }
+
+                $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
+
+                $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
+                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
             }
-
-
 
             $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
             $second_row_ins = $grid['ma'] + $grid['ven'] + $grid['mer'];
@@ -324,9 +297,8 @@
             $communication_third_style_array = [$third_row_em, $third_row_ins, $third_row_int, $third_row_mov];
             $communication_third_style = max($communication_third_style_array);
         @endphp
-
         <div class="row mt-4">
-            <div class="col-12">
+            <div class="col-12 col-md-8">
                 <div class="card rounded-0" >
                     <div class="table-responsive ">
                         <table class="table table-flush " style="border-collapse: separate">
@@ -379,7 +351,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row mt-4">
             <div class="col-12">
                 <div class="card rounded-0" >
@@ -454,7 +425,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row mt-4">
             <div class="col-12 col-md-5">
                 <div class="card rounded-0" >
@@ -489,7 +459,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row mt-4">
             <div class="col-12 col-md-5">
                 <div class="card rounded-0" >
