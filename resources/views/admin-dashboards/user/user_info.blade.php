@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
-    <div class="row">
+    <div class="row container-fluid">
         <div class="col-lg-7 position-relative z-index-2">
             <div class="mb-4">
                 <div class="card-body p-3">
@@ -23,7 +23,7 @@
                                     <p class="font-weight-bold" style="color: white;">Name</p>
                                 </div>
                                 <div class="col">
-                                    <p class="font-weight-bold" style="color: white;">{{$user->first_name.' '.$user->last_name}}</p>
+                                    <p class="font-weight-bold" style="color: white;">{{$user->first_name ?? ''.' '.$user->last_name ?? ''}}</p>
                                 </div>
                             </div>
 
