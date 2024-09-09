@@ -250,7 +250,7 @@
                 $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
                 $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-                $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
+                $nextTwoKeys = [];
             }
             else {
                 $greater_than_three_filtered_keys = [];

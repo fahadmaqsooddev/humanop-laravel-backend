@@ -251,7 +251,7 @@
                 $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
                 $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-                $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
+                $nextTwoKeys = [];
             }
             else {
 
@@ -275,6 +275,7 @@
                     $remainingHighestArrayValue = array_intersect_key($third_row_feature, array_flip(array_keys($remainingFilterKeys)));
                     arsort($remainingHighestArrayValue);
                 }
+
                 $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
 
                 $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);

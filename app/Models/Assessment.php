@@ -561,13 +561,14 @@ class Assessment extends Model
             $topAllKeys = array_merge($matchingKeys, $matchingKeysLessThanTwo);
 
             $topTwoKeys = array_slice(array_keys($topAllKeys), 0, 2);
-            $nextTwoKeys = array_slice(array_keys($topAllKeys), 2, 2);
+            $nextTwoKeys = [];
 
             $topKeysFeature = [
                 'top_two_keys' => $topTwoKeys,
                 'next_two_keys' => $nextTwoKeys,
             ];
-        } else {
+        }
+        else {
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
         }
 
