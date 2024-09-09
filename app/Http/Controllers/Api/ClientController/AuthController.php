@@ -43,21 +43,15 @@ class AuthController extends Controller
 
                 $user = Helpers::getUser();
 
-                if (!$user->hasStripeId()) {
-
-                    User::createCustomerAndSubscriptionOnStripe($user);
-
-                }
-                if (!$user->subscription('main'))
-                {
-                    Helpers::AfterRegistrationPayment($user);
-                }
-
-                $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+//                User::createCustomerAndSubscriptionOnStripe($user);
+//
+//                if (!$user->subscription('main'))
+//                {
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+//                }
 
                 $data = [
                     'user' => $user_data,
-                    'plan_name' => $plan['name'],
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',
@@ -91,24 +85,22 @@ class AuthController extends Controller
 
             $user = User::createClient($dataArray);
 
-            if (!$user->hasStripeId()) {
-
-                User::createCustomerAndSubscriptionOnStripe($user);
-
-            }
+//            if (!$user->hasStripeId()) {
+//
+//                User::createCustomerAndSubscriptionOnStripe($user);
+//
+//            }
 
             $token = $this->auth->login($user);
 
             $user = Helpers::getUser();
 
-            $plan = Helpers::AfterRegistrationPayment($user);
+            Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             DB::commit();
 
-
             $data = [
                 'user' => $user,
-                'plan_name' => $plan,
                 'authorization' => [
                     'token' => $token,
                     'type' => 'bearer',

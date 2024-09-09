@@ -17,9 +17,11 @@ class PricingController extends Controller
 
             $user = Helpers::getWebUser();
 
+//            dd($user['plan_name']);
+
             $stripe_setting = StripeSetting::getSingle();
 
-            $user = User::getSingleUser($user['id']);
+//            $user = User::getSingleUser($user['id']);
 
             return view('client-dashboard.pricing.index', compact('user', 'stripe_setting'));
 

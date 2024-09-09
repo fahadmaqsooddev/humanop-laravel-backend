@@ -25,7 +25,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted','age_group'];
+    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
+        ,'age_group', 'plan_name'];
 
     public function __construct(array $attributes = array())
     {
@@ -118,7 +119,10 @@ class User extends Authenticatable implements JWTSubject
         return ($this->age_min . '-' . $this->age_max);
     }
 
+    public function getPlanNameAttribute(){
 
+        return $user->userSubscription->plan->name ?? "Freemium";
+    }
 
     // relations
     public function stories(){
@@ -170,6 +174,11 @@ class User extends Authenticatable implements JWTSubject
     public function payments(){
 
         return $this->hasMany(Payment::class,'user_id','id');
+    }
+
+    public function userSubscription(){
+
+        return $this->hasOne(Subscription::class,'user_id','id')->latest();
     }
 
     // query
@@ -231,9 +240,9 @@ class User extends Authenticatable implements JWTSubject
         return $user;
 
     }
-    public static function createCustomerAndSubscriptionOnStripe($user = null){
+    public static function createCustomerOnStripe($user = null, $stripe_keys = null){
 
-        $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET"));
+        $stripe = new \Stripe\StripeClient($stripe_keys['api_key']);
 
         $stripe_customer = $stripe->customers->create([
             'name' => $user['first_name'] . ' ' . $user['last_name'],

@@ -68,3 +68,11 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/connections', [NetworkController::class, 'connection'])->name('connections');
 
 });
+
+//Route::get('/googleback', function (){
+//
+//    $user = \Laravel\Socialite\Facades\Socialite::driver('google')->user();
+//
+//    dd($user);
+//
+//});

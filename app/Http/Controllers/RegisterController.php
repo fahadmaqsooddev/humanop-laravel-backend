@@ -37,11 +37,13 @@ class RegisterController extends Controller
 
             $user = User::createUser($dataArray);
 
-            if (!$user->hasStripeId()) {
+//            if (!$user->hasStripeId()) {
+//
+//                User::createCustomerAndSubscriptionOnStripe($user);
+//
+//            }
 
-                User::createCustomerAndSubscriptionOnStripe($user);
-
-            }
+            Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             session()->flash('success', 'Your account has been created.');
 
@@ -58,9 +60,9 @@ class RegisterController extends Controller
             }
 
             $user = Helpers::getWebUser();
-            
+
             Helpers::AfterRegistrationPayment($user);
-            
+
             DB::commit();
 
             return redirect()->route('client_dashboard');

@@ -47,14 +47,17 @@ class SessionController extends Controller
                 }
 
                 $user = Helpers::getWebUser();
-                
-                if ($user && !$user->subscription('main'))
-                {
-                    Helpers::AfterRegistrationPayment($user);
 
-                }
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+//                if ($user && !$user->subscription('main'))
+//                {
+//                    Helpers::AfterRegistrationPayment($user);
+//
+//                }
 
                 DailyTip::updateUserDailyTip();
+
                 User::updateUserIsFeedback();
 
                 return redirect()->route('admin_dashboard');

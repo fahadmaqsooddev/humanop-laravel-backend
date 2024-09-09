@@ -36,104 +36,7 @@
             <div class="tab-content tab-space">
                 <div class="tab-pane active" id="monthly">
                     <div class="row d-flex justify-content-center">
-                    <div class="col-lg-4 col-md-8 col-sm-10 mb-lg-0 mb-4 ">
-                            <div class="card">
-                                <div class="card-header text-center pt-4 pb-3">
-                                    <span class="badge rounded-pill bg-gradient text-dark">Core</span>
-                                    <h1 class="font-weight-bold mt-2 text-white">
-                                        <small>$</small>10
-                                    </h1>
-                                </div>
-                                <div class="card-body text-lg-start text-center pt-0">
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/assessmentIcon.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">1 Assessment every 90 days</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/multiple tips.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Multiple Tips</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/3 action item.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">3 Action Items</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/Detailed Results.png')}}"
-                                                 style="width: 15px; margin-top: 8px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Detailed Results</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/action plan.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Action Plan</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/training strategies.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Training Strategies</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                 style="width: 12px; margin-top: 3px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Renewal System</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start p-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <span class="ps-3">Early Releases</span>
-                                        </div>
-                                    </div>
-                                    <a href="{{route('stripe_checkout')}}"
-                                       class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"
-                                       data-bs-target="#subcriptionModel">
-                                        Update Membership
-                                        <i class="fas fa-arrow-right ms-1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             <div class="card">
                                 <div class="card-header text-center pt-4 pb-3">
@@ -227,6 +130,105 @@
                                        class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"
                                        data-bs-target="#subcriptionModel">
                                         Free Membership
+                                        <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="col-lg-4 col-md-8 col-sm-10 mb-lg-0 mb-4 ">
+                            <div class="card">
+                                <div class="card-header text-center pt-4 pb-3">
+                                    <span class="badge rounded-pill bg-gradient text-dark">Core</span>
+                                    <h1 class="font-weight-bold mt-2 text-white">
+                                        <small>$</small>10
+                                    </h1>
+                                </div>
+                                <div class="card-body text-lg-start text-center pt-0">
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/assessmentIcon.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">1 Assessment every 90 days</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/multiple tips.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Multiple Tips</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/3 action item.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">3 Action Items</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                            <img src="{{asset('assets/icons/Detailed Results.png')}}"
+                                                 style="width: 15px; margin-top: 8px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Detailed Results</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/action plan.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Action Plan</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Training Strategies</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                 style="width: 12px; margin-top: 3px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Renewal System</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-start p-2">
+                                        <div
+                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
+                                                 style="width: 15px; margin-top: 5px">
+                                        </div>
+                                        <div>
+                                            <span class="ps-3">Early Releases</span>
+                                        </div>
+                                    </div>
+                                    <a href="{{route('stripe_checkout')}}"
+                                       class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"
+                                       data-bs-target="#subcriptionModel">
+                                        Update Membership
                                         <i class="fas fa-arrow-right ms-1"></i>
                                     </a>
                                 </div>

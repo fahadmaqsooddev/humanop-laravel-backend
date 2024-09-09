@@ -180,35 +180,46 @@ class Helpers
         return Auth::guard('web')->user();
     }
 
-    public static function AfterRegistrationPayment($user = null)
+    public static function createCustomerAndSubscriptionOnStripe($user = null)
     {
 
         $key = StripeSetting::getSingle();
 
-        Stripe::setApiKey($key['api_key']);
+//        Stripe::setApiKey($key['api_key']);
 
-        $stripe = new StripeClient($key['api_key']);
+        if (!$user->hasStripeId()){
 
-        User::createCustomerAndSubscriptionOnStripe($user);
-
-        $payment_method = $stripe->paymentMethods->attach(
-            'pm_card_visa',
-            ['customer' => $user['stripe_id']]
-        );
-
-        if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
-
-            $user->subscription('main')->swapAndInvoice('price_1PuwhBRxOqsngfBOk9G5SYBo');
-
-        }else{
-
-            $user->newSubscription('main' , 'price_1PuwhBRxOqsngfBOk9G5SYBo')->create($payment_method !== null ? $payment_method->id : '');
-
+            User::createCustomerOnStripe($user, $key);
         }
 
-        $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+        if (!$user->subscription('main')){ // If user has no subscription then create subscription on stripe
 
-        return $plan['name'];
+            $stripe = new StripeClient($key['api_key']);
+
+            $stripe->subscriptions->create([
+                'customer' => 'cus_QoiF3Q6U4UGFFF',
+                'items' => [['price' => 'price_1PuwhBRxOqsngfBOk9G5SYBo']]
+            ]);
+        }
+
+//        $payment_method = $stripe->paymentMethods->attach(
+//            'pm_card_visa',
+//            ['customer' => $user['stripe_id']]
+//        );
+//
+//        if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
+//
+//            $user->subscription('main')->swapAndInvoice('price_1PuwhBRxOqsngfBOk9G5SYBo');
+//
+//        }else{
+//
+//            $user->newSubscription('main' , 'price_1PuwhBRxOqsngfBOk9G5SYBo')->create($payment_method !== null ? $payment_method->id : '');
+//
+//        }
+
+//        $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+//
+//        return $plan['name'];
     }
 
     public static function checkAssessment($user_id = null)

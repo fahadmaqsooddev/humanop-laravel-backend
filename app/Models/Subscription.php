@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,5 +15,10 @@ class Subscription extends Model
         $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
         $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
         parent::__construct($attributes);
+    }
+
+    public function plan(){
+
+        return $this->belongsTo(Plan::class,'stripe_price', 'plan_id');
     }
 }
