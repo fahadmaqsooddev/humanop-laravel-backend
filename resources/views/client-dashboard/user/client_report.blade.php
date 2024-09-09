@@ -22,7 +22,7 @@
             text-align: start;
 
         }
-        
+
         @media (max-width: 575px) {
         .slider-padding{
             padding: 10px 0;
@@ -41,13 +41,13 @@
             height:70px;
         }
         }
-        @media (min-width: 576px) and (max-width: 767px) { 
+        @media (min-width: 576px) and (max-width: 767px) {
             .slider-padding {
             padding: 10px 50px;
             }
         }
-      
-       
+
+
     </style>
 @endpush
 @section('content')
@@ -79,7 +79,7 @@
                                            data-slide="prev" style="height:fit-content;">
                                             <span class="carousel-control-prev-icon "  aria-hidden="true" ></span>
                                             <span class="sr-only">Previous</span>
-                                            
+
                                         </a>
                                         <a class="carousel-control-next align-items-start py-3 py-md-0   mt-n5" href="#carouselExampleIndicators"
                                            onclick="pauseAllVideos()" role="button"
@@ -632,7 +632,7 @@
                                                     values for
                                                     BR {{\Illuminate\Support\Facades\Auth::user()['gender'] == 1 ? '(F)' : '(M)'}}
                                                     Interval</p>
-                                                        
+
                                                 <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">S {{$style_position}}</p>
                                                 <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">F {{$feature_position}}</p>
                                                 <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">Alch {{$alchl_code}}</p>
@@ -644,7 +644,7 @@
                                                 <p class="slide-padding text-start m-0 ms-md-5 p-0 ps-md-5">TEP {{$reports['ep'] * 2}}</p>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
