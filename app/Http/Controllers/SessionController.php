@@ -50,12 +50,6 @@ class SessionController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//                if ($user && !$user->subscription('main'))
-//                {
-//                    Helpers::AfterRegistrationPayment($user);
-//
-//                }
-
                 DailyTip::updateUserDailyTip();
 
                 User::updateUserIsFeedback();
@@ -64,6 +58,7 @@ class SessionController extends Controller
             }
 
             return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+
         }catch (\Exception $exception)
         {
             return back()->withErrors(['msgError' => $exception]);

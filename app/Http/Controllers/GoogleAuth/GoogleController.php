@@ -30,14 +30,6 @@ class GoogleController extends Controller
 
                 Auth::login($finduser);
 
-                $user = Helpers::getWebUser();
-
-                if (!$user->subscription('main'))
-                {
-                    Helpers::AfterRegistrationPayment($user);
-
-                }
-
             }else{
                 $newUser = User::create([
                     'email' => $user->email,
@@ -55,13 +47,11 @@ class GoogleController extends Controller
 
             DailyTip::updateUserDailyTip();
 
+            User::updateUserIsFeedback();
+
             $user = Helpers::getWebUser();
 
-            if (!$user->subscription('main'))
-            {
-                Helpers::AfterRegistrationPayment($user);
-
-            }
+            Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             return redirect()->route('client_dashboard');
 

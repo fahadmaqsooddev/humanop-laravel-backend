@@ -43,12 +43,7 @@ class AuthController extends Controller
 
                 $user = Helpers::getUser();
 
-//                User::createCustomerAndSubscriptionOnStripe($user);
-//
-//                if (!$user->subscription('main'))
-//                {
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
-//                }
 
                 $data = [
                     'user' => $user_data,
@@ -85,17 +80,13 @@ class AuthController extends Controller
 
             $user = User::createClient($dataArray);
 
-//            if (!$user->hasStripeId()) {
-//
-//                User::createCustomerAndSubscriptionOnStripe($user);
-//
-//            }
-
             $token = $this->auth->login($user);
 
             $user = Helpers::getUser();
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+            DailyTip::updateUserDailyTip();
 
             DB::commit();
 
