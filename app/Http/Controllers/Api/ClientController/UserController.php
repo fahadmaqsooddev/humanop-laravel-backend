@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except('googleLoginSignup');
 
         $this->user = $user;
     }
