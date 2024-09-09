@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Client\ChangePasswordRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\Upload\Upload;
 use App\Models\User;
@@ -169,6 +170,8 @@ class UserController extends Controller
                     }
 
                     $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
+
+                    DailyTip::updateUserDailyTip();
 
                     $data = [
 
