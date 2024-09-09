@@ -6,12 +6,13 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Coupon\CouponRedemption;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use App\Models\Assessment;
 
 class Coupon extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function __construct(array $attributes = [])
     {
@@ -141,6 +142,11 @@ class Coupon extends Model
 
         return Helpers::validationResponse($message);
 
+    }
+
+    public static function deleteCoupon($id){
+
+        self::whereId($id)->delete();
     }
 
 }
