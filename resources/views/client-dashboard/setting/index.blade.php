@@ -188,15 +188,17 @@
                                 <h5 class="text-white">Subscription Status</h5>
                                 <div class="d-flex mt-2">
                                     <p class="text-white">Your Subscription:</p>
-                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$plan['name']}}</p>
+                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$user['plan_name']}}</p>
                                 </div>
                                 <div class="d-flex">
                                     <p class="text-white">Subscription Status:</p>
-                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$planStatus}}</p>
+                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$subscription['stripe_status'] ?? 'active'}}</p>
                                 </div>
                                 <div class="d-flex">
                                     <p class="text-white">Subscription Start Date:</p>
-                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$subscriptionStartDate}}</p>
+                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">
+                                        {{$subscription ? \Carbon\Carbon::parse($subscription->created_at)->format('d/m/Y') : \Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">

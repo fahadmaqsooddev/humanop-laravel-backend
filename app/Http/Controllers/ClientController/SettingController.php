@@ -18,13 +18,9 @@ class SettingController extends Controller
 
             $user = Helpers::getWebUser();
 
-            $planStatus = $user->subscription('main')['stripe_status'];
+            $subscription = $user->subscription('main');
 
-            $subscriptionStartDate = $user->subscription('main')['created_at']->format('d/m/Y');
-
-            $plan = Plan::singlePlan($user->subscription('main')['stripe_price']);
-
-            return view('client-dashboard.setting.index', compact('user', 'plan', 'planStatus', 'subscriptionStartDate'));
+            return view('client-dashboard.setting.index', compact('user','subscription'));
 
         }catch (\Exception $exception)
         {
