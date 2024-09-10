@@ -121,7 +121,7 @@ class Connection extends Model
 
         $connection_requests = $connection_requests->has('user')
 
-            ->with('user:id,first_name,last_name')
+            ->with('user:id,first_name,last_name,image_id')
 
             ->where('friend_id', Helpers::getWebUser()->id)
 
@@ -189,7 +189,7 @@ class Connection extends Model
 
         $connection_requests = $connection_requests->has('user')
 
-            ->with('user:id,first_name,last_name')
+            ->with('user:id,first_name,last_name,image_id')
 
             ->where('friend_id', Helpers::getUser()->id)
 

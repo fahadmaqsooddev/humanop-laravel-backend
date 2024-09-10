@@ -100,7 +100,7 @@ class Follow extends Model
 
         $followers = $followers->has('user')->where('follow_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
 
-            ->with('user:id,first_name,last_name')
+            ->with('user:id,first_name,last_name,image_id')
 
             ->get();
 
@@ -175,7 +175,7 @@ class Follow extends Model
 
         $followers = $followers->has('user')->where('follow_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
 
-            ->with('user:id,first_name,last_name');
+            ->with('user:id,first_name,last_name,image_id');
 
         return Helpers::pagination($followers, $request->input('pagination'), $request->input('per_page'));
     }

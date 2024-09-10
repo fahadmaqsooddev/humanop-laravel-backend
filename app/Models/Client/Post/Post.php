@@ -85,13 +85,13 @@ class Post extends Model
 
         }, 'postComments' => function($q){
 
-            $q->with('user:id,first_name,last_name')->latest()
+            $q->with('user:id,first_name,last_name,image_id')->latest()
 
                 ->withCount('commentLikes');
 
         }, 'sharedPost' => function($q){
 
-            $q->with('user:id,first_name,last_name');
+            $q->with('user:id,first_name,last_name,image_id');
 
         }, 'postShares' => function($q){
 
@@ -113,7 +113,7 @@ class Post extends Model
 
     public static function post($post_id = null){
 
-        return self::with('user:id,first_name,last_name')->whereId($post_id)->first();
+        return self::with('user:id,first_name,last_name,image_id')->whereId($post_id)->first();
     }
 
     public static function updatePost($data = null, $post_id = null){
@@ -137,7 +137,7 @@ class Post extends Model
 
         }, 'sharedPost' => function($q){
 
-            $q->with('user:id,first_name,last_name');
+            $q->with('user:id,first_name,last_name,image_id');
 
         }, 'postShares' => function($q){
 
