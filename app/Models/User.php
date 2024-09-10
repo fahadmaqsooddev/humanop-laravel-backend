@@ -212,9 +212,8 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function getUserAge()
+    public static function getUserAge($user_age = null)
     {
-        $user_age = Helpers::getWebUser()->age_group;
 
         switch ($user_age) {
             case '0-3':

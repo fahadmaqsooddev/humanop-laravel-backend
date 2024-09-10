@@ -19,7 +19,7 @@ class ClientController extends Controller
     {
        try {
 
-            $user_age = User::getUserAge();
+            $user_age = User::getUserAge(Helpers::getWebUser()->age_group);
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $tip = DailyTip::getSingleTip();
