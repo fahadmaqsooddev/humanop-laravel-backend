@@ -196,7 +196,7 @@ class Helpers
 
             $stripe->subscriptions->create([
                 'customer' => $user['stripe_id'],
-                'items' => [['price' => 'price_1PuwhBRxOqsngfBOk9G5SYBo']]
+                'items' => [['price' => config('stripeinfo.plans.freemium')]]
             ]);
         }
 

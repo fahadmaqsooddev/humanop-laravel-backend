@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client\Plan\Plan;
 use Illuminate\Http\Request;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\User;
@@ -17,13 +18,11 @@ class PricingController extends Controller
 
             $user = Helpers::getWebUser();
 
-//            dd($user['plan_name']);
-
             $stripe_setting = StripeSetting::getSingle();
 
-//            $user = User::getSingleUser($user['id']);
+            $plans = Plan::all();
 
-            return view('client-dashboard.pricing.index', compact('user', 'stripe_setting'));
+            return view('client-dashboard.pricing.index', compact('user', 'stripe_setting', 'plans'));
 
         }catch (\Exception $exception)
         {

@@ -121,7 +121,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getPlanNameAttribute(){
 
-        return $user->userSubscription->plan->name ?? "Freemium";
+        return $this->userSubscription->plan->name ?? "Freemium";
     }
 
     // relations
