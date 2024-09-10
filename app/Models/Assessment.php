@@ -247,6 +247,12 @@ class Assessment extends Model
             $q->select(['id', 'first_name', 'last_name', 'gender']);
         }])->first();
 
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
+        $ep = $positive + $negative;
+        $pv = $positive - $negative;
+
         $topTwoKeysStyle = self::getStyles($assessment);
         $topTwoKeysFeature = self::getFeatures($assessment);
         $alchemyCodeDetail = self::getAlchemy($assessment);
