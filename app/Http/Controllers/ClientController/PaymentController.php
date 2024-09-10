@@ -161,7 +161,7 @@ class PaymentController extends Controller
 
                 $discount_amount = $request['amount'];
 
-                $payment_method_id = $user->createOrGetStripeCustomer()->toArray()['invoice_settings']['default_payment_method'];
+                $payment_method_id = $user->createOrGetStripeCustomer()->toArray()['invoice_settings']['default_payment_method'] ?? null;
 
                 $user->createOrGetStripeCustomer();
 
