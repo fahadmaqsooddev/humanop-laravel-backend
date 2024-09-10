@@ -165,6 +165,22 @@ class PaymentController extends Controller
 
                 $user->createOrGetStripeCustomer();
 
+//                if (!$payment_method_id && !$user['payment_method']){
+
+                    $stripe = new StripeClient($key['api_key']);
+
+                    $payment_method = $stripe->paymentMethods->attach(
+                        'pm_card_visa',
+                        ['customer' => $user['stripe_id']]
+                    );
+
+                    User::updateUserPaymentMethod($payment_method);
+
+                    $user = Helpers::getWebUser();
+
+                    $user->createOrGetStripeCustomer();
+//                }
+
                 if (!empty($user['pm_last_four'])) {
 
                     $user->charge($discount_amount * 100, $user['payment_method'] ?? $payment_method_id, [
@@ -181,15 +197,6 @@ class PaymentController extends Controller
                         'description' => 'Test Payment',
                     ]);
                 }
-
-                $stripe = new StripeClient($key['api_key']);
-
-                $payment_method = $stripe->paymentMethods->attach(
-                    'pm_card_visa',
-                    ['customer' => $user['stripe_id']]
-                );
-
-                User::updateUserPaymentMethod($payment_method);
 
                 $coupon = Coupon::getSingleCoupon($request['coupon']);
 
