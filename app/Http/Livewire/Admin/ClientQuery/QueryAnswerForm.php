@@ -46,10 +46,9 @@ class QueryAnswerForm extends Component
 
     public function render()
     {
-        $user = Helpers::getWebUser();
         $query = ClientQuery::singleQuery($this->queryId);
         $user_age = User::getUserAge(Helpers::getWebUser()->age_group);
-        $assessment = Assessment::getLatestAssessment($user['id']);
+        $assessment = Assessment::getLatestAssessment($query['users']['id']);
         $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
         $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
         $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];

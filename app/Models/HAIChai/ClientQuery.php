@@ -28,7 +28,7 @@ class ClientQuery extends Model
     }
     public static function singleQuery($id = null)
     {
-        return self::whereId($id)->first();
+        return self::whereId($id)->with('users')->first();
     }
 
     public static function getQueries()
