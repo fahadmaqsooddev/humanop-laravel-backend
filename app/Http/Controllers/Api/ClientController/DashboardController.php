@@ -8,6 +8,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -48,15 +49,16 @@ class DashboardController extends Controller
     public function coreStats(){
 
         try {
-
-            $assessment = Assessment::singleAssessment(Helpers::getUser()->id);
+            $user_age = User::getUserAge(Helpers::getUser()->age_group);
+            $assessment = Assessment::getLatestAssessment(Helpers::getUser()->id);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
             $perception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
-            $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
-            $topCommunication = $communication != null ? CodeDetail::getSinglePublicName($communication[0]) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
             $data = [
                 'assessment' => $assessment,
@@ -64,7 +66,9 @@ class DashboardController extends Controller
                 'boundry' => $boundary,
                 'topTwoFeatures' => $topTwoFeatures,
                 'topCommunication' => $topCommunication,
-                'perception' => $perception
+                'perception' => $perception,
+                'energyPool' => $energyPool,
+                'userAge' => $user_age,
             ];
 
             return Helpers::successResponse('core stats', $data);

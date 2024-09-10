@@ -201,13 +201,66 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
     }
+
     public static function allSubAdmin(){
         $subAdmins = self::where('is_admin',3)->get();
         return $subAdmins;
     }
+
     public static function getSingleUser($id = null){
         $user = self::find($id);
         return $user;
+    }
+
+    public static function getUserAge($user_age = null)
+    {
+
+        switch ($user_age) {
+            case '0-3':
+                $interval = 'Generic Interval';
+                break;
+            case '3-7':
+                $interval = 'Socialization Interval';
+                break;
+            case '7-12':
+                $interval = 'Ready to Learn - Energy Centers';
+                break;
+            case '12-16':
+                $interval = 'Alchemical Revelation';
+                break;
+            case '16-21':
+                $interval = 'Motivation';
+                break;
+            case '21-29':
+                $interval = 'Roadworthy';
+                break;
+            case '30-33':
+                $interval = 'Power Interval';
+                break;
+            case '34-43':
+                $interval = 'Mid-Life Transformation Interval';
+                break;
+            case '43-52':
+                $interval = 'Awareness Interval';
+                break;
+            case '52-66':
+                $interval = 'Pay It Forward Interval';
+                break;
+            case '66-70':
+                $interval = 'Interval of Liberation';
+                break;
+            case '70-75':
+                $interval = 'Interval of “Being”';
+                break;
+            case '75-84':
+                $interval = 'Life Review Interval';
+                break;
+            default:
+                $interval = 'Interval of Surrender';
+                break;
+        }
+
+        return $interval;
     }
 
     public static function updateUser($data = null, $id = null){

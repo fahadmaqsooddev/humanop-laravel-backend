@@ -251,18 +251,18 @@ class Assessment extends Model
         $topTwoKeysFeature = self::getFeatures($assessment);
         $alchemyCodeDetail = self::getAlchemy($assessment);
         $communication_keys = self::getEnergy($assessment);
+        $energy_code = self::getEnergyPool($assessment);
+        $polarity_code = self::getPolarity($assessment);
 
+        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
+
+        return $code_detail;
+    }
+
+    public static function getEnergyPool($assessment = null)
+    {
         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
-        $pv = $positive - $negative;
-
-        if ($pv <= -8) {
-            $polarity_code = 40;
-        } elseif ($pv >= -7 and $pv <= 7) {
-            $polarity_code = 41;
-        } elseif ($pv >= 8) {
-            $polarity_code = 42;
-        }
 
         $ep = $positive + $negative;
 
@@ -276,9 +276,49 @@ class Assessment extends Model
             $energy_code = 16;
         }
 
-        $code_detail = CodeDetail::getCodeDeatil($topTwoKeysStyle, $topTwoKeysFeature, $alchemyCodeDetail, $communication_keys, $polarity_code, $energy_code, $pv, $ep, $assessment['users']);
+        return $energy_code;
+    }
 
-        return $code_detail;
+    public static function getPolarity($assessment = null)
+    {
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+        $pv = $positive - $negative;
+
+        if ($pv <= -8) {
+            $polarity_code = 40;
+        } elseif ($pv >= -7 and $pv <= 7) {
+            $polarity_code = 41;
+        } elseif ($pv >= 8) {
+            $polarity_code = 42;
+        }
+
+        return $polarity_code;
+    }
+
+    public static function getEnergyPoolPublicName($assessment = null)
+    {
+        $energy_code = self::getEnergyPool($assessment);
+
+        if ($energy_code == 16)
+        {
+            $publicName = 'Above Excellent 36 and up';
+        }
+        elseif ($energy_code == 18)
+        {
+            $publicName = 'Average 25-30';
+        }
+        elseif ($energy_code == 20)
+        {
+            $publicName = 'Excellent 31-35';
+        }
+        elseif ($energy_code == 21)
+        {
+            $publicName = 'Fair 24 and under';
+        }
+
+        return $publicName;
+
     }
 
     public static function getPreceptionReport($assessment = null)
@@ -352,15 +392,6 @@ class Assessment extends Model
 
     public static function getTopThreeStyles($assessment = null)
     {
-        $style = [
-            'sa' => $assessment['sa'],
-            'ma' => $assessment['ma'],
-            'jo' => $assessment['jo'],
-            'lu' => $assessment['lu'],
-            'ven' => $assessment['ven'],
-            'mer' => $assessment['mer'],
-            'so' => $assessment['so'],
-        ];
 
         $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
         $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
@@ -393,7 +424,24 @@ class Assessment extends Model
         // Get the first two elements from the sorted array
         $topThreeStylesKeys = array_keys(array_slice($third_row_style, 0, 3, true));
 
-        $styles = CodeDetail::getPublicNames($topThreeStylesKeys);
+        $style = [
+            'sa' => $assessment['sa'],
+            'ma' => $assessment['ma'],
+            'jo' => $assessment['jo'],
+            'lu' => $assessment['lu'],
+            'ven' => $assessment['ven'],
+            'mer' => $assessment['mer'],
+            'so' => $assessment['so'],
+        ];
+
+        $topThreeStyles = [];
+        foreach ($topThreeStylesKeys as $key) {
+            if (isset($style[$key])) {
+                $topThreeStyles[$key] = $style[$key]; // Match key and get value from $style
+            }
+        }
+
+        $styles = CodeDetail::getPublicNames($topThreeStyles);
 
         return $styles;
     }
@@ -575,6 +623,33 @@ class Assessment extends Model
         return $topKeysFeature;
     }
 
+    public static function getTopTwoFeatures($featureKeys = null, $assessment = null)
+    {
+        $features = [
+            'de' => $assessment['de'],
+            'dom' => $assessment['dom'],
+            'fe' => $assessment['fe'],
+            'gre' => $assessment['gre'],
+            'lun' => $assessment['lun'],
+            'nai' => $assessment['nai'],
+            'ne' => $assessment['ne'],
+            'pow' => $assessment['pow'],
+            'sp' => $assessment['sp'],
+            'tra' => $assessment['tra'],
+            'van' => $assessment['van'],
+            'wil' => $assessment['wil'],
+        ];
+
+        $topFeatures = [];
+        foreach ($featureKeys as $key) {
+            if (isset($features[$key])) {
+                $topFeatures[$key] = $features[$key]; // Match key and get value from $style
+            }
+        }
+
+        return CodeDetail::getPublicNames($topFeatures);
+    }
+
     public static function getAlchemy($assessment = null)
     {
         $gold = $assessment['g'];
@@ -595,7 +670,12 @@ class Assessment extends Model
         $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
         $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
 
-        return $publicName;
+        $boundaries = [
+            'public_name' => $publicName['public_name'],
+            'code_number' => $gold . '-' . $silver . '-' . $copper,
+        ];
+
+        return $boundaries;
     }
 
     public static function getAlchlCode($assessment_id = null)

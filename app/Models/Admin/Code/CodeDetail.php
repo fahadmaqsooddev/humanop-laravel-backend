@@ -134,10 +134,15 @@ class CodeDetail extends Model
     public static function getPublicNames($codekeys = null)
     {
         $publicName = [];
-        foreach ($codekeys as $codeKey) {
-            $key = strtoupper($codeKey);
-            $keyPublicName = self::where('code', $key)->where('number', 1)->first('public_name');
-            $publicName[] = $keyPublicName;
+
+        foreach ($codekeys as $index => $codeKey) {
+            $key = strtoupper($index);
+
+            $result = self::where('code', $key)->where('number', 1)->first();
+
+            if ($result && isset($result->public_name)) {
+                $publicName[$result->public_name] = $codeKey;
+            }
         }
 
         return $publicName;
@@ -147,4 +152,21 @@ class CodeDetail extends Model
     {
         return self::where('code', $codeKey)->where('number', 1)->first('public_name');
     }
+
+    public static function getCommunicationPublicName($communication = null)
+    {
+        $result = [];
+
+        foreach ($communication as $codeKey) {
+            $key = strtoupper($codeKey);
+
+            $record = self::where('code', $key)->where('number', 1)->first('public_name');
+
+            if ($record) {
+                $result[] = $record->public_name;
+            }
+        }
+        return $result;
+    }
+
 }
