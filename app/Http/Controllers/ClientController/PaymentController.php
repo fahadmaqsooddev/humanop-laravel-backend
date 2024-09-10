@@ -81,6 +81,8 @@ class PaymentController extends Controller
 
                 if (empty($user['payment_method'])){
 
+                    // uncomment this when stripe account turn off test mode
+
 //                    $payment_method_id = $stripe->paymentMethods->create([
 //                        'type' => 'card',
 //                        'card' => [
@@ -114,7 +116,9 @@ class PaymentController extends Controller
 
                 }else{
 
-                    //                    $payment_method_id = $stripe->paymentMethods->create([
+                    // uncomment this when stripe account turn off test mode
+
+//                    $payment_method_id = $stripe->paymentMethods->create([
 //                        'type' => 'card',
 //                        'card' => [
 //                            'number' => $request->input('cardNumber'),
