@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Client\Setting;
 
+use App\Helpers\Helpers;
+use App\Models\Assessment;
 use App\Models\Upload\Upload;
 use Livewire\Component;
 use App\Models\User;
@@ -14,11 +16,17 @@ class BasicSettingForm extends Component
     use WithFileUploads;
     use HandlesValidationErrors;
 
-    public $user, $ageRange ,$profile_image;
+    public $user, $ageRange ,$profile_image, $is_abandon_assessment;
+
+    protected $listeners = ['deleteAbandonAssessmentOnGenderChange'];
 
     public function mount($user)
     {
         $this->user = $user->toArray();
+
+        $assessment = Assessment::where('user_id', Helpers::getWebUser()->id)->latest()->first();
+
+        $this->is_abandon_assessment = $assessment ? $assessment->page > 0 ? true : false : false;
     }
 
     public function submitForm()
@@ -51,6 +59,11 @@ class BasicSettingForm extends Component
             session()->flash('error', $exception->getMessage());
 
         }
+    }
+
+    public function deleteAbandonAssessmentOnGenderChange(){
+
+        Assessment::deleteIncompleteAssessment();
     }
 
     public function render()

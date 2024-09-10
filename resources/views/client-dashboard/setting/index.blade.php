@@ -246,6 +246,10 @@
 @push('js')
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
+
     <script>
         if (document.getElementById('choices-gender')) {
             var gender = document.getElementById('choices-gender');

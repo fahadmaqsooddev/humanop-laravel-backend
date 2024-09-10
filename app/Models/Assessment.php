@@ -1015,4 +1015,15 @@ class Assessment extends Model
 
     }
 
+    public static function deleteIncompleteAssessment(){
+
+        $assessment = self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
+
+        if ($assessment && $assessment->page > 0){
+
+            $assessment->delete();
+
+        }
+    }
+
 }

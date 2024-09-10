@@ -45,11 +45,13 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-white">I'm</label>
-                    <select class="form-control text-white" style="background-color: #0f1534;" wire:model.defer="user.gender" >
+                    <select class="form-control text-white" id="client-gender" style="background-color: #0f1534;" wire:model.defer="user.gender" >
                         <option value="2">Male</option>
                         <option value="1">Female</option>
                     </select>
                 </div>
+
+                <input type="text" wire:model="is_abandon_assessment" id="is_abandon_assessment" hidden>
 
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-white">Age Group</label>
@@ -89,5 +91,52 @@
         $('#lastname').text(updatedUser.last_name);
         $('#email').text(updatedUser.email);
     });
+
+
+    (function () {
+        var previous, is_abandon_assessment;
+
+        $("#client-gender").on('focus', function () {
+
+            // Store the current value on focus and on change
+            previous = this.value;
+
+            is_abandon_assessment = $('#is_abandon_assessment').val();
+
+        }).change(function() {
+            // Do something with the previous value after the change
+
+            if (is_abandon_assessment !== "false"){
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn bg-gradient-danger m-2',
+                        cancelButton:  'btn bg-gradient-primary m-2',
+                    },
+                    buttonsStyling: false,
+                    background : '#3442b4',
+                })
+                swalWithBootstrapButtons.fire({
+                    title: '<span style="color: white;">Are you sure?</span>',
+                    html: "<span style='color: white;'>Want to change gender and that resets your incomplete assessment</span>",
+                    showCancelButton: true,
+                    confirmButtonText: 'Reset data',
+                }).then((result) => {
+
+                    if(result.isConfirmed){
+
+                        window.livewire.emit('deleteAbandonAssessmentOnGenderChange')
+
+                    }else{
+
+                        $('#client-gender').val(previous);
+                    }
+                })
+
+            }
+
+        });
+    })();
+
     </script>
 @endpush
