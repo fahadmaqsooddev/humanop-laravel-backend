@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\QueryAnswer;
+use App\Helpers\Helpers;
+use App\Models\User;
+use App\Models\Assessment;
+use App\Models\Admin\Code\CodeDetail;
 
 class QueryAnswerForm extends Component
 {
@@ -43,7 +47,17 @@ class QueryAnswerForm extends Component
     public function render()
     {
         $query = ClientQuery::singleQuery($this->queryId);
+        $user_age = User::getUserAge(Helpers::getWebUser()->age_group);
+        $assessment = Assessment::getLatestAssessment($query['users']['id']);
+        $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+        $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
+        $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+        $preception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
+        $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+        $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-        return view('livewire.admin.client-query.query-answer-form', compact('query'));
+        return view('livewire.admin.client-query.query-answer-form', compact('query','topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool'));
     }
 }
