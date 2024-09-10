@@ -113,7 +113,7 @@
 
     <div class="parent px-lg-5">
 
-        <div class="container-fluid px-0">
+        <div class="container-fluid px-0 d-lg-none">
             <div class="page-header min-height-100 border-radius-xl">
             </div>
             <div class="card card-body blur shadow-blur  mt-n6 ">
@@ -171,8 +171,9 @@
 
         @if($admin_answer && !empty($admin_answer['question']))
             <div class="container-fluid p-2 mt-2">
-                <div class="row card card-body text-white">
-                    <div>
+                <div class="d-flex justify-content-between flex-row card card-body text-white gap-5 " >
+                <div class="" style="width: fit-content;">
+                   <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
                     Your Query : {{$admin_answer['question']['query'] ?? null}}
                 </span>
@@ -182,7 +183,26 @@
                             <span> Answer : </span>
                             {{$admin_answer->answer}}
                         </div>
-                    </div>
+                    </div> 
+                </div>   
+                <div class="d-none d-lg-flex  " >
+                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
+                             role="tablist">
+                            <div class="nav-item">
+                                <button
+                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
+                                </button>
+                            </div>
+
+                            <div class="nav-item">
+                                <button
+                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br> Access!
+                                </button>
+                            </div>
+                        </div>
+                    </div>                
                 </div>
             </div>
     @endif
