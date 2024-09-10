@@ -282,9 +282,11 @@
                                         @endif
                                     </div>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
-                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                        ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
-                                    </p>
+                                    @if($boundary)
+                                        <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                            ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
+                                        </p>
+                                    @endif
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topCommunication)
@@ -300,9 +302,11 @@
                                         {{ $preception == 40 ? "Negative" : ($preception == 41 ? "Neutral" : ($preception == 42 ? "Positive" : '')) }}
                                     </p>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)">Energy Pool:</p>
-                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                        {{ $energyPool }}
-                                    </p>
+                                    @if($energyPool)
+                                        <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                            {{ $energyPool }}
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
