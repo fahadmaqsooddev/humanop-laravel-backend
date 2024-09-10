@@ -44,23 +44,24 @@ class PointHelper
      * @param int $points
      * @return bool
      */
-    public static function addPointsToLog(int $user_id, int $points): bool
+    public static function addPointsToLog(int $user_id, $plan): bool
     {
         try {
+            $planDetail = self::getPointDetail($plan);
+
             // Check if the user has already logged points today
             $alreadyLoggedInToday = PointLog::checkTodayLogin($user_id);
 
             if (!$alreadyLoggedInToday) {
+
                 // Store the log entry for today's points
-                PointLog::storePointLog(['user_id' => $user_id, 'point' => $points]);
-
-                if(PointLog::checkLogForConsecutiveDays($user_id,90) >= 90 && PointLog::checkLastLoginReward($user_id,90) < 1){
-                    PointLog::storePointLog(['user_id' => $user_id, 'point' => 90,'type' => 1]);
-                    self::addPoints($user_id, 90);
+                PointLog::storePointLog(['user_id' => $user_id, 'point' => $planDetail['point'],'plan' => $plan]);
+                if(PointLog::checkLogForConsecutiveDays($user_id,$planDetail['days'],$plan) >= $planDetail['days'] && PointLog::checkLastLoginReward($user_id,$planDetail['days'],$plan) < 1){
+                    PointLog::storePointLog(['user_id' => $user_id, 'point' => $planDetail['sequential_point'],'type' => 1,'plan' => $plan]);
+                    self::addPoints($user_id, $planDetail['sequential_point']);
                 }
-
                 // Add points to the user's account
-                return self::addPoints($user_id, $points);
+                return self::addPoints($user_id, $planDetail['point'],$plan);
             }
             return false; // Points already logged for today
         } catch (Exception $e) {
@@ -68,5 +69,21 @@ class PointHelper
             Log::error("Failed to log points for user $user_id: " . $e->getMessage());
             return false;
         }
+    }
+    public static function getPointDetail($plan){
+        if($plan == 'Freemium'){
+            $points = 1;
+            $days = 90;
+            $sequential_points = 90;
+        }else if($plan == 'Core'){
+            $points = 2;
+            $days = 30;
+            $sequential_points = 40;
+        }else if($plan == 'Premium'){
+            $points = 4;
+            $days = 7;
+            $sequential_points = 10;
+        }
+        return ['point' => $points,'days' => $days,'sequential_point' => $sequential_points];
     }
 }

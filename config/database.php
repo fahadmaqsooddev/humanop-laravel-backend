@@ -342,7 +342,7 @@ return [
         ],
         'PointLog' => [
             'table' => 'point_logs',
-            'fillable' => ['user_id','point','type'],
+            'fillable' => ['user_id','point','type','plan'],
             'hidden' => ['updated_at', 'created_at'],
         ],
     ]
