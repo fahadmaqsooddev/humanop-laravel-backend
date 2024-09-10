@@ -37,15 +37,7 @@ class RegisterController extends Controller
 
             $user = User::createUser($dataArray);
 
-//            if (!$user->hasStripeId()) {
-//
-//                User::createCustomerAndSubscriptionOnStripe($user);
-//
-//            }
-
             Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-            session()->flash('success', 'Your account has been created.');
 
             Auth::login($user);
 
@@ -59,9 +51,7 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            $user = Helpers::getWebUser();
-
-            Helpers::AfterRegistrationPayment($user);
+            session()->flash('success', 'Your account has been created.');
 
             DB::commit();
 

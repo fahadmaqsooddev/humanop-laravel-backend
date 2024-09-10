@@ -159,25 +159,15 @@ class UserController extends Controller
 
                     $user = Helpers::getUser();
 
-//                    if (!$user->hasStripeId()) {
-//
-//                        User::createCustomerAndSubscriptionOnStripe($user);
-//
-//                    }
-//                    if (!$user->subscription('main'))
-//                    {
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
-//                    }
-
-                    $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
 
                     DailyTip::updateUserDailyTip();
+
+                    User::updateUserIsFeedback();
 
                     $data = [
 
                         'user' => $user_data,
-
-                        'plan_name' => $plan,
 
                         'authorization' => [
 
@@ -207,25 +197,13 @@ class UserController extends Controller
 
                     $user = Helpers::getUser();
 
-//                    if (!$user->hasStripeId()) {
-//
-//                        User::createCustomerAndSubscriptionOnStripe($user);
-//
-//                    }
-//                    if (!$user->subscription('main'))
-//                    {
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
-//                    }
-
-                    $plan = Plan::singlePlan('price_1PuwhBRxOqsngfBOk9G5SYBo');
 
                     DailyTip::updateUserDailyTip();
 
                     $data = [
 
                         'user' => $user_data,
-
-                        'plan_name' => $plan,
 
                         'authorization' => [
 
