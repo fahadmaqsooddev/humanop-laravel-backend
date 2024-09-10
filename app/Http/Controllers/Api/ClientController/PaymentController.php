@@ -6,17 +6,21 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\CheckoutPaymentRequest;
 use App\Http\Requests\Api\Client\RedeemCouponRequest;
+use App\Http\Requests\Api\Client\Subscription\CheckoutSubscriptionRequest;
+use App\Http\Requests\Api\Client\Subscription\ProcessSubscriptionRequest;
 use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Payment;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Stripe\BaseStripeClient;
 use Stripe\Charge;
+use Stripe\Exception\CardException;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 
@@ -154,6 +158,43 @@ class PaymentController extends Controller
         }catch (\Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function checkoutSubscription(CheckoutSubscriptionRequest $request){
+
+        try {
+
+            $data = Subscription::checkoutPlan($request);
+
+            return Helpers::successResponse('Payment method has been created successfully!',$data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function subscription(ProcessSubscriptionRequest $request){
+
+        try {
+
+            $plan_name = Subscription::processSubscription($request);
+
+            return Helpers::successResponse('Subscription is updated', $plan_name);
+
+        }catch (\Exception $exception){
+
+            if ($exception instanceof CardException){
+
+                return Helpers::validationResponse($exception->getMessage());
+
+            }else{
+
+                return Helpers::serverErrorResponse($exception->getMessage());
+            }
         }
 
     }

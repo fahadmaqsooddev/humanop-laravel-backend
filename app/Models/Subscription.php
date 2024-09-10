@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Helpers\Helpers;
+use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Stripe\BaseStripeClient;
+use Stripe\StripeClient;
 
 class Subscription extends Model
 {
@@ -20,5 +24,77 @@ class Subscription extends Model
     public function plan(){
 
         return $this->belongsTo(Plan::class,'stripe_price', 'plan_id');
+    }
+
+    public static function checkoutPlan($request = null){
+
+        $plan = \App\Models\Client\Plan\Plan::where('plan_id', $request->input('plan_id'))->first();
+
+        if (!$plan){
+
+            return Helpers::notFoundResponse("No plan found against. Please contact technical support.");
+        }
+
+        $data = [
+
+            'plan' => $plan,
+
+            'intent' => Helpers::getUser()->createSetupIntent(),
+        ];
+
+        return $data;
+
+    }
+
+    public static function processSubscription($request = null){
+
+        if ($request->input('is_default_payment') == 0){ // when user continues with new payment method
+
+            $key = StripeSetting::getSingle();
+
+            $stripe_client = new StripeClient($key['api_key']);
+
+            $new_payment_method_detail = $stripe_client->paymentMethods->retrieve($request->input('payment_method'), []); // then retrieve payment method detail from stripe to update our local db with payment detail
+
+            User::updateUserPaymentMethodFromApi($new_payment_method_detail); // update local db with payment method detail
+
+        }
+
+        $user = Helpers::getUser();
+
+        $user->createOrGetStripeCustomer();
+
+        $payment_method = $user['payment_method']; // user payment method new/default
+
+        if ($payment_method != null){ // if payment method is null then
+
+            $key = StripeSetting::getSingle();
+
+            $stripe_client = new StripeClient($key['api_key']);
+
+            $payment_method = $stripe_client->paymentMethods->attach(
+                'pm_card_visa', // when stripe test mood will off then change it to the user payment method
+                ['customer' => $user['stripe_id']]
+            );
+        }
+
+        if ($user->subscriptions()->whereNull('deleted_at')->count() > 0){
+
+            $user->subscription('main')->swapAndInvoice($request->input('plan_id'));
+
+        }else{
+
+            $user->newSubscription('main' , $request->input('plan_id'))->create(isset($payment_method->id) ? $payment_method->id : $payment_method);
+
+        }
+
+        $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
+
+        $data = [
+            'plan_name' => $plan['name']
+        ];
+
+        return $data;
+
     }
 }

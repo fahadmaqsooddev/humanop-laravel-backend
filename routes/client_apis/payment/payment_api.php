@@ -16,3 +16,5 @@ Route::post('payment_checkout', 'PaymentController@paymentCheckout');
 Route::post('redeem_coupon', 'PaymentController@redeemCoupon');
 Route::get('payment-history', 'PaymentController@paymentHistory');
 Route::get('billing', 'PaymentController@billing');
+Route::get('checkout-subscription', 'PaymentController@checkoutSubscription');
+Route::post('process-subscription', 'PaymentController@subscription');

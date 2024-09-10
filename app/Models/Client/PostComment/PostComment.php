@@ -69,7 +69,7 @@ class PostComment extends Model
 
         $comments = self::has('user')->where('post_id', $post_id)
 
-            ->with('user:id,first_name,last_name')
+            ->with('user:id,first_name,last_name,image_id')
 
             ->withCount('commentLikes')
 
@@ -82,7 +82,7 @@ class PostComment extends Model
 
     public static function singleComment($comment_id = null){
 
-        return self::with('user:id,first_name,last_name')->whereId($comment_id)->first();
+        return self::with('user:id,first_name,last_name,image_id')->whereId($comment_id)->first();
     }
 
     public static function deleteComment($id = null){
