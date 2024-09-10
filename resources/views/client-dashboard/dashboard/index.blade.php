@@ -122,23 +122,25 @@
                     <div class="d-flex">
                         <div class="col-auto pb-sm-4">
                             <div class="avatar avatar-xl avatar-icon  ">
-                                <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}" height="80" alt="profile_image"
-                                     class="w-100 border-radius-lg shadow-sm  ">
+                                <img
+                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                                    height="80" alt="profile_image"
+                                    class="w-100 border-radius-lg shadow-sm  ">
                             </div>
                         </div>
                         <div class="d-flex">
                             <div class="h-100">
                                 <a href="{{route('setting')}}">
-                                <h5 class="mb-1 text-white">
-                                    {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
-                                </h5>
-                                <p class="mb-0 font-weight-bold text-sm text-white">
-                                    Optimal Trait To Be In Right Now:
-                                </p>
-                                <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
-                                    Strategy and Problem
-                                    Solving
-                                    Activities</p>
+                                    <h5 class="mb-1 text-white">
+                                        {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
+                                    </h5>
+                                    <p class="mb-0 font-weight-bold text-sm text-white">
+                                        Optimal Trait To Be In Right Now:
+                                    </p>
+                                    <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
+                                        Strategy and Problem
+                                        Solving
+                                        Activities</p>
                                 </a>
                             </div>
                         </div>
@@ -195,9 +197,9 @@
                             <div class="card" style="height: 375px;">
                                 <div class="card-body p-3">
                                     <h5 class="text-white">Daily Tip</h5>
-{{--                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">--}}
-{{--                                        {{ $tip ? $tip['title'] : '' }}--}}
-{{--                                    </p>--}}
+                                    {{--                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">--}}
+                                    {{--                                        {{ $tip ? $tip['title'] : '' }}--}}
+                                    {{--                                    </p>--}}
                                     <div class="description-container" style="max-height: 300px;">
                                         <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['description']))
@@ -206,9 +208,10 @@
 
                                                     {!! substr($tip['description'], 0, 260)!!}
 
-                                                &nbsp;&nbsp;
+                                                    &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read more...
+                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read
+                                                        more...
                                                     </a>
 
                                                 @else
@@ -249,16 +252,21 @@
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                        <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
+                            <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
                                 <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> CORE
-                                        STATS</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                            CORE STATS</p>
+                                        <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                            Interval of Life: (<span class="text-bold text-sm"
+                                                                     style="color: #f2661c">{{$user_age}}</span>)</p>
+                                    </div>
                                     <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach($topThreeStyles as $index => $style)
                                                 <p class="fw-bold" style="color: #f2661c">
-                                                    {{ $style['public_name'] }}{{ $index < count($topThreeStyles) - 1 ? ', ' : '' }}
+                                                    ({{ $style }}) {{ $index }}@if(!$loop->last),@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -268,22 +276,32 @@
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold" style="color: #f2661c">
-                                                    {{ $feature['public_name'] }}{{ $index < count($topTwoFeatures) - 1 ? ', ' : '' }}
+                                                    ({{ $feature }}) {{ $index }}@if(!$loop->last),@endif
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
                                     <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                        {{ $boundary['public_name'] ?? '' }}
+                                        ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
                                     </p>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
-                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                        {{ $topCommunication['public_name'] ?? '' }}
-                                    </p>
+                                    <div class="d-flex" style="margin-top: -10px">
+                                        @if($topCommunication)
+                                            @foreach($topCommunication as $communication)
+                                                <p class="fw-bold" style="color: #f2661c">
+                                                    {{ $communication }}@if(!$loop->last),@endif
+                                                </p>
+                                            @endforeach
+                                        @endif
+                                    </div>
                                     <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
                                     <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
-                                        {{ $preception == 40 ? "Sees what's not working" : ($preception == 41 ? "Sees what's working and not working." : ($preception == 42 ? "Sees what's working" : '')) }}
+                                        {{ $preception == 40 ? "Negative" : ($preception == 41 ? "Neutral" : ($preception == 42 ? "Positive" : '')) }}
+                                    </p>
+                                    <p class="text-sm" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                        {{ $energyPool }}
                                     </p>
                                 </div>
                             </div>
@@ -369,11 +387,12 @@
                             <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a>
 
-                       <!-- H.A.I CHAT INTERFACE -->
-                    <div class="card shadow-lg blur m-0 px-0 "  style="background-color: #0f1534 !important;z-index: 1111111">
-                        <div class="card-header py-1" style="background-color: #f2661c">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <!-- <div class="col-2 px-0 mb-2">
+                            <!-- H.A.I CHAT INTERFACE -->
+                            <div class="card shadow-lg blur m-0 px-0 "
+                                 style="background-color: #0f1534 !important;z-index: 1111111">
+                                <div class="card-header py-1" style="background-color: #f2661c">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                    <!-- <div class="col-2 px-0 mb-2">
                                     <div class="float-start d-flex flex-column">
                                         <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
                                         <div class="header-info text-white">
@@ -383,28 +402,28 @@
                                     </div>
                                 </div> -->
 
-                                <div class="  d-flex  ">
-                                    
-                                </div>
-                                <div class="  d-flex align-items-center  ">
-                                    <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
-                                </div>
+                                        <div class="  d-flex  ">
 
-                                <div class="d-flex align-items-center ">
-                                    <div class="float-end mt-4">
-                                        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                                            <i class="fa fa-close"></i>
-                                        </button>
+                                        </div>
+                                        <div class="  d-flex align-items-center  ">
+                                            <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
+                                        </div>
+
+                                        <div class="d-flex align-items-center ">
+                                            <div class="float-end mt-4">
+                                                <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                                                    <i class="fa fa-close"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <!-- sidebar of chatbot -->
+                                <div class="d-flex">
+                                    @livewire('client.chat.index')
                                 </div>
                             </div>
                         </div>
-                        <!-- sidebar of chatbot -->
-                        <div class="d-flex">
-                                    @livewire('client.chat.index')
-                                </div>
-                    </div>
-                </div>
                     </div>
                 </div>
             </section>

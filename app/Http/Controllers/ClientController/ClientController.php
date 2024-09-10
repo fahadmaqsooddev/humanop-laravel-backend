@@ -10,6 +10,7 @@ use App\Models\TipRecord;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
+use App\Models\User;
 
 class ClientController extends Controller
 {
@@ -18,24 +19,22 @@ class ClientController extends Controller
     {
        try {
 
+            $user_age = User::getUserAge();
             $podcast = Podcast::getPodcast();
-
             $user = Helpers::getWebUser();
-
             $tip = DailyTip::getSingleTip();
-
             $admin_answer = QueryAnswer::userQueryAnswer();
-
             $assessment = Assessment::getLatestAssessment($user['id']);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
             $preception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
-            $topTwoFeatures = $topFeatures != null ? CodeDetail::getPublicNames($topFeatures['top_two_keys']) : [];
-            $topCommunication = $communication != null ? CodeDetail::getSinglePublicName($communication[0]) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool'));
 
         } catch (\Exception $exception) {
 
