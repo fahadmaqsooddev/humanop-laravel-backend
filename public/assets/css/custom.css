@@ -100,7 +100,46 @@ aside:hover {
 
 #chatbox-content {
     /* height: 20px; */
+ 
 }
+
+/**/
+.animated-number {
+    opacity: 0;                  /* Initially hidden */
+    position: relative;           /* To allow left/right movement */
+    font-size: 2rem;              /* Example font size */
+    animation: moveLeftRight 2s ease-in-out 5;  /* Loop movement */
+    transition: opacity 1s ease;  /* Smooth fade-in effect */
+    animation-play-state: paused; /* Initially paused */
+    pointer-events: none;         /* Disable pointer events (optional) */
+  }
+  
+  /* Delay fade-in after 3s */
+  .animated-number.fade-in {
+    opacity: 1;
+    transition-delay: 3s;
+    animation-play-state: running; /* Start movement after fade-in */
+  }
+  
+  /* Keyframes for left-right movement */
+  @keyframes moveLeftRight {
+    0% { transform: translate(0,  0px); }
+    50%  { transform: translate(0, 10px); }
+    100%   { transform: translate(0, -0px); } 
+  }
+  
+  /* Keyframes for disappearing after 5 seconds */
+  @keyframes disappear {
+    0%, 90% { opacity: 1; } /* Stay visible until near the end */
+    100% { opacity: 0; }    /* Fade out at the end */
+  }
+  
+  .animated-number.disappear {
+    animation: disappear 2s ease forwards;
+    animation-delay: none; /* Disappear after the total delay and movement (3s + 5s) */
+  }
+  
+/**/
 
 
 @media (max-width: 575px) {
