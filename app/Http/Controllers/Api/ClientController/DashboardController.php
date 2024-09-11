@@ -97,6 +97,8 @@ class DashboardController extends Controller
 
             DB::commit();
 
+            return Helpers::successResponse('Daily tip read');
+
         }catch (\Exception $exception){
 
             DB::rollBack();

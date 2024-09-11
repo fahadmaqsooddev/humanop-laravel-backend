@@ -97,7 +97,7 @@ class PointHelper
 
         PointLog::storePointLog($data);
 
-        PointHelper::addPoints(Helpers::getWebUser()->id, $data['point']);
+        PointHelper::addPoints($user->id, $data['point']);
 
     }
 
