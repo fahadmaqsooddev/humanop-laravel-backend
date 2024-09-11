@@ -151,14 +151,14 @@
                              role="tablist">
                             <div class="nav-item">
                                 <a href="{{route('all_assessment')}}"
-                                   style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                   style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
                                    class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
                                 </a>
                             </div>
 
                             <div class="nav-item">
                                 <button
-                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
                                     class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro Access!
                                 </button>
                             </div>
@@ -190,14 +190,14 @@
                              role="tablist">
                             <div class="nav-item">
                                 <a href="{{route('all_assessment')}}"
-                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
                                     class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
                                 </a>
                             </div>
 
                             <div class="nav-item">
                                 <button
-                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                    style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
                                     class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro Access!
                                 </button>
                             </div>
