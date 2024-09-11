@@ -39,7 +39,7 @@ class AuthController extends Controller
 
                 User::updateUserIsFeedback();
 
-//                DailyTip::updateUserDailyTip();
+                DailyTip::updateUserDailyTip();
 
                 $user = Helpers::getUser();
 
