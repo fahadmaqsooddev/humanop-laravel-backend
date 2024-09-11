@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\Session;
 
 class SessionController extends Controller
 {
@@ -47,6 +48,8 @@ class SessionController extends Controller
                 }
 
                 $user = Helpers::getWebUser();
+
+                Session::forget('google_user'); // forget the session of the google data
 
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
 

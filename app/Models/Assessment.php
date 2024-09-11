@@ -54,7 +54,7 @@ class Assessment extends Model
     public function scopeSelection($query)
     {
 
-        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type']);
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type','created_at']);
     }
 
     // queries
