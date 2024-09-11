@@ -5,6 +5,7 @@ namespace App\Http\Controllers\GoogleAuth;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyTip\DailyTip;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -31,17 +32,30 @@ class GoogleController extends Controller
                 Auth::login($finduser);
 
             }else{
-                $newUser = User::create([
-                    'email' => $user->email,
-                    'first_name' => $user->user['given_name'] ?? "",
-                    'last_name' => $user->user['family_name'] ?? "",
-                    'google_id'=> $user->id,
-                    'password' => $user->id,
-                    'is_admin' => 2,
-                    'password_set' => 2,
-                ]);
+//                $newUser = User::create([
+//                    'email' => $user->email,
+//                    'first_name' => $user->user['given_name'] ?? "",
+//                    'last_name' => $user->user['family_name'] ?? "",
+//                    'google_id'=> $user->id,
+//                    'password' => $user->id,
+//                    'is_admin' => 2,
+//                    'password_set' => 2,
+//                ]);
+//
+//                Auth::login($newUser);
 
-                Auth::login($newUser);
+                $name = explode(' ', $user->name);
+
+                $data_array = [
+                    'google_id' => $user->id,
+                    'first_name' => $name[0] ?? "",
+                    'last_name' => $name[1] ?? "",
+                    'email' => $user->email,
+                ];
+
+                Session::put(['google_user' => $data_array]);
+
+                return redirect()->to('/register');
 
             }
 

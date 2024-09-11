@@ -58,11 +58,11 @@ class DailyTip extends Model
 
         $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-//        $today_tip = self::where('user_id', $user->id)
-//
-//            ->whereDate('updated_at', Carbon::today())->exists();
-//
-//        if (!$today_tip){
+        $today_tip = self::where('user_id', $user->id)
+
+            ->whereDate('updated_at', Carbon::today())->exists();
+
+        if (!$today_tip){
 
             $assessmentDetails = Assessment::getAssessment();
 
@@ -86,7 +86,7 @@ class DailyTip extends Model
                 ]);
             }
 
-//        }
+        }
 
     }
 

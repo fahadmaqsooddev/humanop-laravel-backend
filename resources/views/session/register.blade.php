@@ -78,7 +78,7 @@
                                     <div class="">
                                         <label for="name" class="text-white">First Name</label>
                                         <input type="text" class="form-control " placeholder="first name"
-                                               aria-label="Name"
+                                               aria-label="Name" value="{{$google_user['first_name'] ?? ""}}"
                                                aria-describedby="email-addon" name="first_name" id="first_name"
                                                style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
@@ -90,7 +90,7 @@
                                     <div class="mt-3">
                                         <label for="name" class="text-white">Last Name</label>
                                         <input type="text" class="form-control " placeholder="last name"
-                                               aria-label="Name"
+                                               aria-label="Name" value="{{$google_user['last_name'] ?? ""}}"
                                                aria-describedby="email-addon" name="last_name" id="last_name"
                                                style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     </div>
@@ -104,10 +104,19 @@
 
                                         <input type="email" class="form-control " placeholder="Email" aria-label="Email"
                                                aria-describedby="email-addon" name="email" id="email"
-                                               style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                               style="background-color: #0F1535; color: white; border-radius: 15px;" value="{{$google_user['email'] ?? ""}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
                                         @error('email')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                         @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-3" hidden>
+                                    <div class=" ">
+                                        <label for="email" class="text-white">Google id in case of signup from google</label>
+
+                                        <input type="text" class="form-control"
+                                               aria-describedby="email-addon" name="google_id" id="google_id"
+                                               style="background-color: #0F1535; color: white; border-radius: 15px;" value="{{$google_user['google_id'] ?? ""}}">
                                     </div>
                                 </div>
                                 <div class="mt-3">

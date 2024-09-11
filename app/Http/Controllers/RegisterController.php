@@ -8,6 +8,7 @@ use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Stripe\BaseStripeClient;
 
 class RegisterController extends Controller
@@ -22,7 +23,10 @@ class RegisterController extends Controller
 
     public function create()
     {
-        return view('session/register');
+
+        $google_user = Session::get('google_user', []);
+
+        return view('session/register', compact('google_user'));
     }
 
     public function store(RegisterFormRequest $request)
@@ -54,6 +58,8 @@ class RegisterController extends Controller
             session()->flash('success', 'Your account has been created.');
 
             DB::commit();
+
+            Session::forget('google_user');
 
             return redirect()->route('client_dashboard');
 
