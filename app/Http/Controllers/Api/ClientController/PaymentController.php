@@ -12,6 +12,7 @@ use App\Models\Admin\Coupon\Coupon;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Plan\Plan;
 use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\User;
@@ -177,7 +178,7 @@ class PaymentController extends Controller
 
     }
 
-    public function subscription(ProcessSubscriptionRequest $request){
+    public function processSubscription(ProcessSubscriptionRequest $request){
 
         try {
 
@@ -198,4 +199,20 @@ class PaymentController extends Controller
         }
 
     }
+
+    public static function plans(){
+
+        try {
+
+            $plans = Plan::allPlans();
+
+            return Helpers::successResponse('All plans', $plans);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
 }

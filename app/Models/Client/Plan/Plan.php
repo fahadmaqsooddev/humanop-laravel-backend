@@ -22,4 +22,57 @@ class Plan extends Model
 
         return self::where('plan_id', $plan_id)->first();
     }
+
+    public static function allPlans(){
+
+        $plans = self::all();
+
+        foreach ($plans as $plan){
+
+            if ($plan['name'] === 'Freemium'){
+
+                $plan['limitations'] = [
+                    '1 Assessment every 90 days',
+                    'Daily Tip',
+                    '1 Action Item',
+                    'Basic Results',
+                    'Action Plan',
+                    'Training Strategies',
+                    'Renewal System',
+                    'Early Releases'
+                ];
+
+            }elseif ($plan['name'] === 'Core'){
+
+                $plan['limitations'] = [
+                    '1 Assessment every 90 days',
+                    'Multiple Tips',
+                    '3 Action Items',
+                    'Detailed Results',
+                    'Action Plan',
+                    'Training Strategies',
+                    'Renewal System',
+                    'Early Releases'
+                ];
+
+            }elseif ($plan['name'] === 'Premium'){
+
+                $plan['limitations'] = [
+                    'Licensing Model',
+                    'Multiple Daily Tips',
+                    'HAI Feature',
+                    'Gamification',
+                    'Training Strategies',
+                    'Renewal System',
+                    'Action Plan',
+                    'Early Releases'
+                ];
+
+            }
+
+        }
+
+        return $plans;
+
+    }
 }

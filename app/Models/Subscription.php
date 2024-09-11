@@ -97,4 +97,12 @@ class Subscription extends Model
         return $data;
 
     }
+
+    public static function allSubscriptions(){
+
+        $subscriptions = self::all();
+
+        dd($subscriptions);
+
+    }
 }
