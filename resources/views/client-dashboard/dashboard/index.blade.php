@@ -189,10 +189,10 @@
                         <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                              role="tablist">
                             <div class="nav-item">
-                                <button
+                                <a href="{{route('all_assessment')}}"
                                     style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
                                     class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
-                                </button>
+                                </a>
                             </div>
 
                             <div class="nav-item">
