@@ -16,23 +16,29 @@ class PointLog extends Model
 
         parent::__construct($attributes);
     }
+
     public static function storePointLog($data = null){
               self::create($data);
     }
+
     public static function checkTodayLogin($user_id){
           return   self::where('user_id',$user_id)->where('type',0)->whereDate('created_at', Carbon::today())->exists();
     }
-    public static function checkLogForConsecutiveDays($user_id,$days){
+
+    public static function checkLogForConsecutiveDays($user_id,$days,$plan){
         return   self::where('user_id', $user_id)
             ->where('type', 0)
             ->where('created_at', '>=', Carbon::now()->subDays($days))
+            ->where('plan',$plan)
             ->orderBy('created_at', 'asc') // Order by date
             ->count();
     }
-    public static function checkLastLoginReward($user_id,$days){
+
+    public static function checkLastLoginReward($user_id,$days,$plan){
         return   self::where('user_id', $user_id)
             ->where('type', 1)
             ->where('created_at', '>=', Carbon::now()->subDays($days))
+            ->where('plan',$plan)
             ->orderBy('created_at', 'asc') // Order by date
             ->count();
     }

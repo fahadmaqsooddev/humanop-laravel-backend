@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Helpers;
+use App\Models\Client\Plan\Plan;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +24,20 @@ class isClient
         {
             if (Auth::user()['is_admin'] == 2)
             {
-                PointHelper::addPointsToLog(Auth::user()['id'],1);
+
+                    $user = Helpers::getWebUser();
+
+                    $user_id = $user->id;
+
+                    $plan = $user['plan_name'];
+
+
+                    if($plan){
+
+                        PointHelper::addPointsToLog($user_id,$plan);
+
+                    }
+
                 return $next($request);
             }else{
                 return redirect()->route('admin_dashboard');
