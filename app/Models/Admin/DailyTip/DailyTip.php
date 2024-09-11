@@ -76,7 +76,7 @@ class DailyTip extends Model
 
             if ($tip){
 
-                $tip->update(['description' => $daily_tip]);
+                $tip->update(['description' => $daily_tip, 'is_read' => 0]);
 
             }else{
 
@@ -88,6 +88,20 @@ class DailyTip extends Model
 
 //        }
 
+    }
+
+    public static function readUserDailyTip(){
+
+        $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
+
+        $daily_tip_read = $daily_tip->is_read ?? 1;
+
+        if ($daily_tip){
+
+            $daily_tip->update(['is_read' => 1]);
+        }
+
+        return $daily_tip_read;
     }
 
 }

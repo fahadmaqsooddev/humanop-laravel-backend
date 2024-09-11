@@ -67,6 +67,8 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('follow');
     Route::get('/connections', [NetworkController::class, 'connection'])->name('connections');
 
+    Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('read-daily-tip');
+
 });
 
 //Route::get('/googleback', function (){

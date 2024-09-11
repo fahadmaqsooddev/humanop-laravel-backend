@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\ClientController;
 
+use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\QueryAnswer;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -11,6 +13,7 @@ use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
@@ -41,5 +44,31 @@ class ClientController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
+    }
+
+    public function readDailyTip(){
+
+        try {
+
+            DB::beginTransaction();
+
+            $daily_tip_updated = DailyTip::readUserDailyTip();
+
+            if (!$daily_tip_updated){
+
+                PointHelper::addPointsOnDailyTipRead();
+            }
+
+            DB::commit();
+
+            return Helpers::successResponse('Daily tip read');
+
+        }catch (\Exception $exception){
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }

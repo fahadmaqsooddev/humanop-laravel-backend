@@ -183,8 +183,8 @@
                             <span> Answer : </span>
                             {{$admin_answer->answer}}
                         </div>
-                    </div> 
-                </div>   
+                    </div>
+                </div>
                 <div class="d-none d-lg-flex  " >
                         <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                              role="tablist">
@@ -202,7 +202,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
     @endif
@@ -481,6 +481,13 @@
                                         <p>{!! $tip['description'] ?? null !!}</p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <input type="checkbox" style=" margin: 4px 0 0; line-height: normal; width: 20px; height: 20px;"
+                                               onchange="onDailyTipAllRead(this)" id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}}>
+                                        <label>Have you read it all ?</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -548,5 +555,30 @@
             document.querySelector('.chatBoxx').classList.remove('d-none');
             document.querySelector('.chatBoxx').classList.add('d-block');
         });
+
+        function onDailyTipAllRead(e){
+
+            if(e.checked){
+
+                $('#daily-tip-checkbox').attr('disabled', true);
+
+
+                $.ajax({
+                    url: '{{ route("read-daily-tip") }}',
+                    method: 'POST',
+                    data: [],
+                    headers: {
+                        'X-CSRF-TOKEN': "{{csrf_token()}}"
+                    },
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+
+            }
+        }
     </script>
 @endpush

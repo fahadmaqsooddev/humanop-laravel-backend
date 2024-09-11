@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Points;
 
+use App\Helpers\Helpers;
 use App\Models\Client\Point\{Point, PointLog};
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -68,5 +69,34 @@ class PointHelper
             Log::error("Failed to log points for user $user_id: " . $e->getMessage());
             return false;
         }
+    }
+
+    public static function addPointsOnDailyTipRead(){
+
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        $data['user_id'] = $user->id;
+
+        if ($user['plan_name'] === 'Freemium'){
+
+            $data['point'] = 1;
+
+        }elseif ($user['plan_name'] === 'Core'){
+
+            $data['point'] = 2;
+
+        }elseif ($user['plan_name'] === 'Premium'){
+
+            $data['point'] = 4;
+
+        }else{
+
+            $data['point'] = 0;
+        }
+
+        PointLog::storePointLog($data);
+
+        PointHelper::addPoints(Helpers::getWebUser()->id, $data['point']);
+
     }
 }

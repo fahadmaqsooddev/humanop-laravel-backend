@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\Helpers;
+use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -74,6 +76,30 @@ class DashboardController extends Controller
             return Helpers::successResponse('core stats', $data);
 
         }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function dailyTipRead(){
+
+        try {
+
+            DB::beginTransaction();
+
+            $daily_tip_updated = DailyTip::readUserDailyTip();
+
+            if (!$daily_tip_updated){
+
+                PointHelper::addPointsOnDailyTipRead();
+            }
+
+            DB::commit();
+
+        }catch (\Exception $exception){
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
