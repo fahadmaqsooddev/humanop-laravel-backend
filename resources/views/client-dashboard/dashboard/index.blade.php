@@ -150,10 +150,10 @@
                         <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                              role="tablist">
                             <div class="nav-item">
-                                <button
-                                    style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                    class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
-                                </button>
+                                <a href="{{route('all_assessment')}}"
+                                   style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
+                                   class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
+                                </a>
                             </div>
 
                             <div class="nav-item">
@@ -171,21 +171,21 @@
 
         @if($admin_answer && !empty($admin_answer['question']))
             <div class="container-fluid p-2 mt-2">
-                <div class="d-flex justify-content-between flex-row card card-body text-white gap-5 " >
-                <div class="" style="width: fit-content;">
-                   <div>
+                <div class="d-flex justify-content-between flex-row card card-body text-white gap-5 ">
+                    <div class="" style="width: fit-content;">
+                        <div>
                 <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
                     Your Query : {{$admin_answer['question']['query'] ?? null}}
                 </span>
-                    </div>
-                    <div>
-                        <div class="text-white mt-2">
-                            <span> Answer : </span>
-                            {{$admin_answer->answer}}
                         </div>
-                    </div> 
-                </div>   
-                <div class="d-none d-lg-flex  " >
+                        <div>
+                            <div class="text-white mt-2">
+                                <span> Answer : </span>
+                                {{$admin_answer->answer}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-lg-flex  ">
                         <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                              role="tablist">
                             <div class="nav-item">
@@ -202,7 +202,7 @@
                                 </button>
                             </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
     @endif
