@@ -30,32 +30,37 @@
             </ol>
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>
-           <div class="  d-none d-lg-flex flex-2">
-                        <div class="col-auto pb-sm-4">
-                            <div class="avatar avatar-xl avatar-icon  ">
-                                <img
-                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                                    height="80" alt="profile_image"
-                                    class="w-100 border-radius-lg shadow-sm  ">
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="h-100">
-                                <a href="{{route('setting')}}">
-                                    <h5 class="mb-1 text-white">
-                                        {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
-                                    </h5>
-                                    <p class="mb-0 font-weight-bold text-sm text-white">
-                                        Optimal Trait To Be In Right Now:
-                                    </p>
-                                    <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
-                                        Strategy and Problem
-                                        Solving
-                                        Activities</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <div class="d-none d-xl-flex flex-2 abc">
+            <div class="col-auto pb-sm-4">
+                <div class="avatar avatar-xl avatar-icon  ">
+                    <img
+                        src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                        height="80" alt="profile_image"
+                        class="w-100 border-radius-lg shadow-sm  ">
+                </div>
+            </div>
+            <div class="d-flex">
+                <div class="h-100">
+                    <a href="{{route('setting')}}">
+                        <h5 class="mb-1 text-white">
+                            {{Auth::user()['first_name']}}  {{Auth::user()['last_name']}}
+                        </h5>
+                        <p class="mb-0 font-weight-bold text-sm text-white">
+                            Optimal Trait To Be In Right Now:
+                        </p>
+                        <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
+                            Strategy and Problem
+                            Solving
+                            Activities</p>
+                    </a>
+                </div>
+            </div>
+            <span class="fw-bold display-5" style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px; margin-top: 20px">100</span>
+            <div class="coins">
+                <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
+                     style="width: 100px;height:100px; margin-top: -15px">
+            </div>
+        </div>
         <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1">
             <a href="javascript:;" class="nav-link text-body p-0">
                 <div class="sidenav-toggler-inner">
@@ -65,7 +70,7 @@
                 </div>
             </a>
         </div>
-        
+
     </div>
 </nav>
 <!-- End Navbar -->
@@ -83,7 +88,7 @@
         }
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         function toggleSidenavClass() {
             if ($(window).width() >= 1200) {
                 // For larger screens, ensure the sidenav is visible
@@ -98,7 +103,7 @@
         toggleSidenavClass();
 
         // Check on window resize
-        $(window).resize(function() {
+        $(window).resize(function () {
             toggleSidenavClass();
         });
     });

@@ -189,12 +189,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-none d-lg-flex flex-column abc">
-                    <div class="coins z-index-2 position-absolute end-7 top-42 bottom-0   ">
-                        <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
-                            style="width: 100px;px;height:100px;">
-                    </div>
-                    <div class="nav nav-pills z-index-1  nav-fill bg-transparent position-static pb-5   user-pannel-btn   "
+                <div class="d-none d-lg-flex flex-column">
+                    <div class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn   "
                         role="tablist">
                         <div class="nav-item">
                             <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
@@ -208,8 +204,6 @@
                             </button>
                         </div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -590,17 +584,12 @@
             }
         }
 
-
         const navContainer = document.querySelector(".abc");
         const animationEffect = document.createElement('span');
         animationEffect.classList.add('animated-number');
-        animationEffect.textContent = '+10';
+        animationEffect.textContent = '+1';
         animationEffect.style.color = 'orange';
         animationEffect.style.fontWeight = '900';
-        animationEffect.style.paddingLeft = '50px';
-        animationEffect.style.position = 'absolute';
-        animationEffect.style.top = '70px';
-        animationEffect.style.right = '170px';
         animationEffect.style.fontSize = '2rem';
         animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
 
@@ -609,12 +598,8 @@
         setTimeout(() => {
             animationEffect.classList.add('fade-in');
         }, 100);
-
         setTimeout(() => {
             animationEffect.classList.add('disappear');
         }, 8000);
-
-
-
     </script>
 @endpush
