@@ -151,7 +151,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex flex-column ">
                     <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                         role="tablist">
                         <div class="nav-item">
@@ -166,6 +166,12 @@
                             </button>
                         </div>
                     </div>
+                    <div class="coins d-flex ">
+                <span class="fw-bold total-points "
+                    style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
+                <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling" style="width: 100px;height:100px;">
+                <span class="animated-number fade-in disappear" style="color: orange; font-weight: 900; font-size: 2rem; text-shadow: orange 0px 0px 5px, orange 0px 0px 10px;">+1</span>
+            </div>
                 </div>
 
             </div>

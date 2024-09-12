@@ -138,6 +138,9 @@ aside:hover {
     animation: disappear 2s ease forwards;
     animation-delay: none; /* Disappear after the total delay and movement (3s + 5s) */
   }
+  .total-points{
+    font-size: 40px;
+  }
   
 /**/
 
