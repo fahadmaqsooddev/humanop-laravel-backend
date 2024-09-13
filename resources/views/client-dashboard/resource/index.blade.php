@@ -14,12 +14,12 @@
         }
 
         .container {
-            width: 98%;
+            width: 100%;
             user-select: none;
             overflow: hidden;
-            max-width: 900px;
+            max-width: 1200px;
             border-radius: 5px;
-            background: #000;
+            /*background: #000;*/
             aspect-ratio: 16 / 9;
             position: relative;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -314,6 +314,7 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        <br>
                         <br>
 
                         <div class="container show-controls" id="container_video">

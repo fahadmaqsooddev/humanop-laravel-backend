@@ -22,6 +22,14 @@ class LibraryResource extends Model
 
     protected $appends = ['photo_url','video_url'];
 
+    // relation
+    public function libraryPermissions(){
+
+        return $this->hasMany(PermissionResource::class,'resource_id','id');
+    }
+
+
+    // append
     public function getPhotoUrlAttribute(){
 
         return Helpers::getImage($this->upload_id,'profile_pic.png');
@@ -32,6 +40,8 @@ class LibraryResource extends Model
         return Helpers::getVideo($this->upload_id,1);
     }
 
+
+    // query
     public static function getResources()
     {
         return self::get();
@@ -48,8 +58,22 @@ class LibraryResource extends Model
         return $resource;
     }
 
+    public static function updateResource($heading = null, $uploadId = null, $id = null)
+    {
+        self::whereId($id)->update([
+            'heading' => $heading,
+            'slug' => Str::slug($heading),
+            'upload_id' => $uploadId,
+        ]);
+    }
+
     public static function deleteResource($id = null)
     {
         return self::whereId($id)->delete();
+    }
+
+    public static function singleLibraryResource($resource_id){
+
+        return self::whereId($resource_id)->with('libraryPermissions')->first()->toArray();
     }
 }

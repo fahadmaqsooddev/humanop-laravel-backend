@@ -13,7 +13,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $resourceSlug, $heading, $resource, $permission = [];
+    public $resourceId, $resourceSlug, $heading, $resource, $permission = [], $editResourceData;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery'];
 
@@ -110,9 +110,57 @@ class CreateResource extends Component
         $this->render();
     }
 
+    public function editResource($resource_id){
+
+        $this->emit('toggleEditResourceModal');
+
+        $this->editResourceData = LibraryResource::singleLibraryResource($resource_id);
+
+        $this->resourceId = $resource_id;
+
+        $this->heading = $this->editResourceData['heading'] ?? null;
+    }
+
+    public function updateResource(){
+
+        DB::beginTransaction();
+
+        $this->validate(['heading' => 'required']);
+
+        if ($this->resource){
+
+            if (in_array($this->resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+
+                $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
+
+            } else {
+
+                $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
+            }
+
+        }else{
+
+            $upload_id = $this->editResourceData['upload_id'] ?? null;
+        }
+
+        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId);
+
+        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
+
+        $this->emit('toggleEditResourceModal');
+
+        $this->resetForm();
+
+        DB::commit();
+
+        session()->flash('success', 'Library resource updated successfully.');
+
+    }
+
     public function render()
     {
         $resources = $this->allResources();
+
         $resourceSlug = $this->resourceSlug;
 
         return view('livewire.admin.resource.create-resource', compact('resources','resourceSlug'));

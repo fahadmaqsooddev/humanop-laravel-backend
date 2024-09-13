@@ -44,12 +44,19 @@ class PermissionResource extends Model
 
     public static function createResourcePermission($resourceId = null, $permissions = null)
     {
-        foreach ($permissions as $permission)
-        {
-            self::create([
-                'resource_id' => $resourceId,
-                'permission' => $permission,
-            ]);
+
+        if ($permissions && !empty($permissions)){
+
+            self::where('resource_id', $resourceId)->delete();
+
+            foreach ($permissions as $permission)
+            {
+                self::create([
+                    'resource_id' => $resourceId,
+                    'permission' => $permission,
+                ]);
+            }
+
         }
     }
 
