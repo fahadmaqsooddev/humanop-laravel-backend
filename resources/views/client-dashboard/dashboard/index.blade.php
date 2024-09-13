@@ -115,6 +115,9 @@
         color: white !important;
         border-color: #f2661c !important;
     }
+    /*input[type="checkbox"]:checked {*/
+    /*    accent-color: #f2661c; !* Change to your desired color *!*/
+    /*}*/
 </style>
 @section('content')
 
@@ -189,7 +192,7 @@
                     </div>
                 </div>
                 <div class="d-none d-lg-flex flex-column">
-                    <div class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn   "
+                    <div class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "
                         role="tablist">
                         <div class="nav-item">
                             <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
@@ -485,9 +488,9 @@
                             <div class="row">
                                 <div class="form-group">
                                     <input type="checkbox"
-                                        style=" margin: 4px 0 0; line-height: normal; width: 20px; height: 20px;"
-                                        onchange="onDailyTipAllRead(this)" id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}}>
-                                    <label>Have you read it all ?</label>
+                                        style=" margin: 4px 0 0; line-height: normal; width: 15px; height: 15px;border-radius: 5px"
+                                        onchange="onDailyTipAllRead(this)" id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}} >
+                                    <label class="text-white" >Have you read it all ?</label>
                                 </div>
                             </div>
                         </div>
