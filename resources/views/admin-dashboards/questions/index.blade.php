@@ -1,15 +1,5 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
-    .modal-close-btn {
-        background: #f2661c;
-        border: none;
-        color: white;
-        font-weight: bold;
-        font-size: x-large;
-        float:right;
-        border-radius: 3px;
-        padding: 0px 10px 1px 10px;
-    }
     .pagination{
         float:right;
        margin-right:24px ;

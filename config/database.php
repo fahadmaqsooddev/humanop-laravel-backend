@@ -345,5 +345,15 @@ return [
             'fillable' => ['user_id','point','type','plan'],
             'hidden' => ['updated_at', 'created_at'],
         ],
+        'LibraryResource' => [
+            'table' => 'library_resources',
+            'fillable' => ['heading','slug','upload_id'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
+        'PermissionResource' => [
+            'table' => 'permission_resources',
+            'fillable' => ['resource_id','permission'],
+            'hidden' => ['updated_at', 'created_at'],
+        ],
     ]
 ];

@@ -7,7 +7,6 @@ use App\Http\Controllers\AdminControllers\QuestionController;
 use App\Http\Controllers\AdminControllers\CodeController;
 use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
-use App\Http\Controllers\AdminControllers\TipController;
 use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\PodcastController;
@@ -99,6 +98,7 @@ use Illuminate\Support\Facades\Route;
     });
     Route::group(['middleware' => ['permission:resources']], function () {
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
+        Route::get('/create-resources', [ResourceController::class, 'createrResources'])->name('admin_create_resources');
     });
 
     Route::group(['middleware' => ['permission:projects']], function () {
@@ -108,13 +108,7 @@ use Illuminate\Support\Facades\Route;
     Route::group(['middleware' => ['role:super admin']], function () {
         Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
         Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
-
-        Route::get('/daily-tip', [TipController::class, 'index'])->name('admin_daily_tip');
-        Route::get('/create-daily-tip', [TipController::class, 'create'])->name('admin_create_daily_tip');
-
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
-
-
     });
 
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
