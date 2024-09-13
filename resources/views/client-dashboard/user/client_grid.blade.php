@@ -1,23 +1,6 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 <style>
-    .greenBox
-    {
-        background-color: green !important;
-    }
-    .redBox
-    {
-        background-color: red !important;
-    }
-    .lightGreenBox
-    {
-        background-color: yellow !important;
-        color: black !important;
-        font-weight: bold !important;
-    }
-    .border-green
-    {
-        border: 2px solid green !important;
-    }
+
 </style>
 @section('content')
     <div class="d-flex flex-column container-fluid">
