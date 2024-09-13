@@ -90,6 +90,138 @@ class Assessment extends Model
         return self::whereId($id)->with('users')->first();
     }
 
+    public static function getAllRowGrid($id = null)
+    {
+        $grid = self::whereId($id)->with('users')->first();
+
+        // Second Row Style
+        $second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer'];
+        $second_row_ma = $grid['sa'] + $grid['ma'] + $grid['jo'];
+        $second_row_jo = $grid['ma'] + $grid['jo'] + $grid['lu'];
+        $second_row_lu = $grid['jo'] + $grid['lu'] + $grid['ven'];
+        $second_row_ven = $grid['lu'] + $grid['ven'] + $grid['mer'];
+        $second_row_mer = $grid['ven'] + $grid['mer'] + $grid['sa'];
+
+        // Second Row Feature
+        $second_row_de = $grid['ma'];
+        $second_row_dom = $grid['sa'] + $grid['ma'];
+        $second_row_fe = $grid['ma'] + $grid['lu'] + $grid['ven'];
+        $second_row_gre = $grid['jo'] > 6 ? $grid['jo'] + $grid['mer'] : $grid['mer'];
+        $second_row_lun = $grid['lu'];
+        $second_row_nai = $grid['so'];
+        $second_row_ne = $grid['sa'] + $grid['lu'] + $grid['ven'];
+        $second_row_pow = $grid['jo'] + $grid['mer'];
+        $second_row_sp = $grid['jo'];
+        $second_row_tra = $grid['jo'] + $grid['ven'];
+        $second_row_van = $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'];
+        $second_row_wil = $grid['ma'] + $grid['lu'];
+
+        // Second Row Boundaries
+        $second_row_gold = $grid['mer'] + $grid['sa'] + $grid['so'];
+        $second_row_silver = $grid['ven'] + $grid['jo'];
+        $second_row_copper = $grid['ma'] + $grid['lu'];
+
+        // Second Row Communication
+        $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
+        $second_row_ins = $grid['ma'] + $grid['ven'] + $grid['mer'];
+        $second_row_int = $grid['jo'] + $grid['sa'] + $grid['mer'];
+        $second_row_mov = $grid['ma'] + $grid['so'] + $grid['mer'];
+
+        $firstRowGrid = [
+            'sa' => $grid['sa'],
+            'ma' => $grid['ma'],
+            'jo' => $grid['jo'],
+            'lu' => $grid['lu'],
+            'ven' => $grid['ven'],
+            'mer' => $grid['mer'],
+            'so' => $grid['so'],
+            'de' => $grid['de'],
+            'dom' => $grid['dom'],
+            'fe' => $grid['fe'],
+            'gre' => $grid['gre'],
+            'lun' => $grid['lun'],
+            'nai' => $grid['nai'],
+            'ne' => $grid['ne'],
+            'pow' => $grid['pow'],
+            'tra' => $grid['tra'],
+            'van' => $grid['van'],
+            'wil' => $grid['wil'],
+            'g' => $grid['g'],
+            's' => $grid['s'],
+            'c' => $grid['c'],
+            'em' => $grid['em'],
+            'ins' => $grid['ins'],
+            'int' => $grid['int'],
+            'mov' => $grid['mov'],
+            '+' => $grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so'],
+            '-' => $grid['ma'] + $grid['lu'] + $grid['mer'],
+            'pv' => ($grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']) - ($grid['ma'] + $grid['lu'] + $grid['mer']),
+            'ep' => ($grid['sa'] + $grid['jo'] + $grid['ven'] + $grid['so']) + ($grid['ma'] + $grid['lu'] + $grid['mer']),
+        ];
+        $secondRowGrid = [
+            'sa' => $grid['sa'] + $grid['ma'] + $grid['mer'],
+            'ma' => $grid['sa'] + $grid['ma'] + $grid['jo'],
+            'jo' => $grid['ma'] + $grid['jo'] + $grid['lu'],
+            'lu' => $grid['jo'] + $grid['lu'] + $grid['ven'],
+            'ven' => $grid['lu'] + $grid['ven'] + $grid['mer'],
+            'mer' => $grid['ven'] + $grid['mer'] + $grid['sa'],
+            'so' => 0,
+            'de' => $grid['ma'],
+            'dom' => $grid['sa'] + $grid['ma'],
+            'fe' => $grid['ma'] + $grid['lu'] + $grid['ven'],
+            'gre' => $grid['jo'] > 6 ? $grid['jo'] + $grid['mer'] : $grid['mer'],
+            'lun' => $grid['lu'],
+            'nai' => $grid['so'],
+            'ne' => $grid['sa'] + $grid['lu'] + $grid['ven'],
+            'pow' => $grid['jo'] + $grid['mer'],
+            'tra' => $grid['jo'] + $grid['ven'],
+            'van' => $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'],
+            'wil' => $grid['ma'] + $grid['lu'],
+            'g' => $grid['mer'] + $grid['sa'] + $grid['so'],
+            's' => $grid['ven'] + $grid['jo'],
+            'c' => $grid['ma'] + $grid['lu'],
+            'em' => $grid['jo'] + $grid['ven'] + $grid['lu'],
+            'ins' => $grid['ma'] + $grid['ven'] + $grid['mer'],
+            'int' => $grid['jo'] + $grid['sa'] + $grid['mer'],
+            'mov' => $grid['ma'] + $grid['so'] + $grid['mer']
+        ];
+        $thirdRowGrid = [
+            'sa' => $grid['sa'] * $second_row_sa,
+            'ma' => $grid['ma'] * $second_row_ma,
+            'jo' => $grid['jo'] * $second_row_jo,
+            'lu' => $grid['lu'] * $second_row_lu,
+            'ven' => $grid['ven'] * $second_row_ven,
+            'mer' => $grid['mer'] * $second_row_mer,
+            'so' => 0,
+            'de' => $grid['de'] * $second_row_de,
+            'dom' => $grid['dom'] * $second_row_dom,
+            'fe' => $grid['fe'] * $second_row_fe,
+            'gre' => $grid['gre'] * $second_row_gre,
+            'lun' => $grid['lun'] * $second_row_lun,
+            'nai' => $grid['nai'] * $second_row_nai,
+            'ne' => $grid['ne'] * $second_row_ne,
+            'pow' => $grid['pow'] * $second_row_pow,
+            'sp' => $grid['sp'] * $second_row_sp,
+            'tra' => $grid['tra'] * $second_row_tra,
+            'van' => $grid['van'] * $second_row_van,
+            'wil' => $grid['wil'] * $second_row_wil,
+            'g' => $grid['g'] * $second_row_gold,
+            's' => $grid['s'] * $second_row_silver,
+            'c' => $grid['c'] * $second_row_copper,
+            'em' => $grid['em'] * $second_row_em,
+            'ins' => $grid['ins'] * $second_row_ins,
+            'int' => $grid['int'] * $second_row_int,
+            'mov' => $grid['mov'] * $second_row_mov
+        ];
+
+        return $data = [
+            'firstRow' => $firstRowGrid,
+            'secondRow' => $secondRowGrid,
+            'thirdRow' => $thirdRowGrid
+        ];
+
+    }
+
     public static function getAssessment()
     {
         return static::with(['assessmentColorCodes' => function ($query) {
