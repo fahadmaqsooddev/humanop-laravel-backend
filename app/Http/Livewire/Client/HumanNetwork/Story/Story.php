@@ -118,7 +118,7 @@ class Story extends Component
 
         $this->story_users = User::storyUsers();
 
-//        $this->logged_in_user_stories = \App\Models\Client\Story\Story::loggedInUserStory();
+        $this->logged_in_user_stories = \App\Models\Client\Story\Story::loggedInUserStory();
 
         return view('livewire.client.human-network.story.story');
     }

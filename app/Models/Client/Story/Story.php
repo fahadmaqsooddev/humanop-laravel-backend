@@ -78,6 +78,8 @@ class Story extends Model
 
         return self::where('user_id', Helpers::getWebUser()->id)
 
+            ->with('user')
+
             ->where('created_at', ">", Carbon::now()->subDay())
 
             ->first();
