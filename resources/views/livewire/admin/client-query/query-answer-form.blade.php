@@ -307,13 +307,13 @@
                     @endphp
                     <div class="row mt-4">
                         <div class="d-flex">
-                            <div class="text-white box-grid-size">SA</div>
-                            <div class="text-white box-grid-size">MA</div>
-                            <div class="text-white box-grid-size">JO</div>
-                            <div class="text-white box-grid-size">LU</div>
-                            <div class="text-white box-grid-size">VEN</div>
-                            <div class="text-white box-grid-size">MER</div>
-                            <div class="text-white box-grid-size">SO</div>
+                            <div class="text-white box-grid-size" id="style_sa" onmousemove="changeColorStyleSA()" onmouseout="clearColorStyleSA()">SA</div>
+                            <div class="text-white box-grid-size" id="style_ma" onmousemove="changeColorStyleMA()" onmouseout="clearColorStyleMA()">MA</div>
+                            <div class="text-white box-grid-size" id="style_jo" onmousemove="changeColorStyleJO()" onmouseout="clearColorStyleJO()">JO</div>
+                            <div class="text-white box-grid-size" id="style_lu" onmousemove="changeColorStyleLU()" onmouseout="clearColorStyleLU()">LU</div>
+                            <div class="text-white box-grid-size" id="style_ven" onmousemove="changeColorStyleVEN()" onmouseout="clearColorStyleVEN()">VEN</div>
+                            <div class="text-white box-grid-size" id="style_mer" onmousemove="changeColorStyleMER()" onmouseout="clearColorStyleMER()">MER</div>
+                            <div class="text-white box-grid-size" id="style_so" onmousemove="changeColorStyleSO()" onmouseout="clearColorStyleSO()">SO</div>
                             <div class="text-white box-grid-size">#</div>
                         </div>
                         <div class="d-flex">
@@ -349,18 +349,18 @@
                     </div>
                     <div class="row mt-4" style="overflow: overlay;">
                         <div class="d-flex">
-                            <div class="text-white box-grid-size">DE</div>
-                            <div class="text-white box-grid-size">DOM</div>
-                            <div class="text-white box-grid-size">FE</div>
-                            <div class="text-white box-grid-size">GRE</div>
-                            <div class="text-white box-grid-size">LUN</div>
-                            <div class="text-white box-grid-size">NAI</div>
-                            <div class="text-white box-grid-size">NE</div>
-                            <div class="text-white box-grid-size">POW</div>
-                            <div class="text-white box-grid-size">SP</div>
-                            <div class="text-white box-grid-size">TRA</div>
-                            <div class="text-white box-grid-size">VAN</div>
-                            <div class="text-white box-grid-size">WIL</div>
+                            <div class="text-white box-grid-size" id="feature_de" onmousemove="changeColorFeatureDE()" onmouseout="clearColorFeatureDE()">DE</div>
+                            <div class="text-white box-grid-size" id="feature_dom" onmousemove="changeColorFeatureDOM()" onmouseout="clearColorFeatureDOM()">DOM</div>
+                            <div class="text-white box-grid-size" id="feature_fe" onmousemove="changeColorFeatureFE()" onmouseout="clearColorFeatureFE()">FE</div>
+                            <div class="text-white box-grid-size" id="feature_gre" onmousemove="changeColorFeatureGRE()" onmouseout="clearColorFeatureGRE()">GRE</div>
+                            <div class="text-white box-grid-size" id="feature_lun" onmousemove="changeColorFeatureLUN()" onmouseout="clearColorFeatureLUN()">LUN</div>
+                            <div class="text-white box-grid-size" id="feature_nai" onmousemove="changeColorFeatureNAI()" onmouseout="clearColorFeatureNAI()">NAI</div>
+                            <div class="text-white box-grid-size" id="feature_ne" onmousemove="changeColorFeatureNE()" onmouseout="clearColorFeatureNE()">NE</div>
+                            <div class="text-white box-grid-size" id="feature_pow" onmousemove="changeColorFeaturePOW()" onmouseout="clearColorFeaturePOW()">POW</div>
+                            <div class="text-white box-grid-size" id="feature_sp" onmousemove="changeColorFeatureSP()" onmouseout="clearColorFeatureSP()">SP</div>
+                            <div class="text-white box-grid-size" id="feature_tra" onmousemove="changeColorFeatureTRA()" onmouseout="clearColorFeatureTRA()">TRA</div>
+                            <div class="text-white box-grid-size" id="feature_van" onmousemove="changeColorFeatureVAN()" onmouseout="clearColorFeatureVAN()">VAN</div>
+                            <div class="text-white box-grid-size" id="feature_wil" onmousemove="changeColorFeatureWIL()" onmouseout="clearColorFeatureWIL()">WIL</div>
                             <div class="text-white box-grid-size">#</div>
                         </div>
                         <div class="d-flex">

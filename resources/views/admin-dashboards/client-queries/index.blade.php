@@ -31,6 +31,16 @@
         border-color: #f2661c !important;
     }
 
+    .box-grid-size {
+        border: 2px solid white;
+        padding: 12px 25px;
+        text-align: center;
+        width: 60px; /* Set fixed width */
+        height: 60px; /* Set fixed height */
+        display: inline-flex; /* Flexbox for equal sizing */
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
+    }
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">
