@@ -6,33 +6,13 @@
 
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-        /**{*/
-        /*    margin: 0;*/
-        /*    padding: 0;*/
-        /*    box-sizing: border-box;*/
-        /*    font-family: 'Poppins', sans-serif;*/
-        /*}*/
+
         .container, .video-controls, .video-timer, .options {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /*body{*/
-        /*    min-height: 100vh;*/
-        /*    width: 100vw;*/
-        /*    background: #000;*/
-        /*    position: fixed;*/
-        /*}*/
-        /*#blurred{*/
-        /*    position: absolute;*/
-        /*    align-self: center;*/
-        /*    filter: blur(100px);*/
-        /*    width: 130%;*/
-        /*    max-width: 1200px;*/
-        /*    aspect-ratio: 16 / 9;*/
-        /*    opacity: 0.5;*/
-        /*}*/
         .container {
             width: 98%;
             user-select: none;
@@ -194,10 +174,10 @@
             font-family: "Open sans";
         }
 
-        .playback-content {
-            display: flex;
-            position: relative;
-        }
+        /*.playback-content {*/
+        /*    display: flex;*/
+        /*    position: relative;*/
+        /*}*/
 
         .playback-content .speed-options {
             position: absolute;
@@ -214,28 +194,9 @@
             transition: opacity 0.13s ease;
         }
 
-        .playback-content .speed-options.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /*.speed-options li{*/
-        /*    cursor: pointer;*/
-        /*    color: #000;*/
-        /*    font-size: 14px;*/
-        /*    margin: 2px 0;*/
-        /*    padding: 5px 0 5px 15px;*/
-        /*    transition: all 0.1s ease;*/
-        /*}*/
-        /*.speed-options li:where(:first-child, :last-child){*/
-        /*    margin: 0px;*/
-        /*}*/
-        /*.speed-options li:hover{*/
-        /*    background: #dfdfdf;*/
-        /*}*/
-        /*.speed-options li.active{*/
-        /*    color: #fff;*/
-        /*    background: #3e97fd;*/
+        /*.playback-content .speed-options.show {*/
+        /*    opacity: 1;*/
+        /*    pointer-events: auto;*/
         /*}*/
         .container video {
             width: 120%;
@@ -277,11 +238,11 @@
                 font-size: 12px;
             }
 
-            .playback-content .speed-options {
-                width: 75px;
-                left: -30px;
-                bottom: 30px;
-            }
+            /*.playback-content .speed-options {*/
+            /*    width: 75px;*/
+            /*    left: -30px;*/
+            /*    bottom: 30px;*/
+            /*}*/
 
             /*.speed-options li{*/
             /*    margin: 1px 0;*/
@@ -291,39 +252,6 @@
                 display: none;
             }
         }
-
-        /*.blur{*/
-        /*    width: 150%;*/
-        /*    height: 150%;*/
-        /*    background-color: rgba(0,0, 0, 0.5);*/
-        /*    filter: blur(25px);*/
-        /*    position: absolute;*/
-        /*    left: 0;*/
-        /*    top: 0;*/
-        /*}*/
-        /*.git-icon{*/
-        /*    position: absolute;*/
-        /*    width: 50px;*/
-        /*    height: 50px;*/
-        /*    background-color: #fff;*/
-        /*    right: 20px;*/
-        /*    top: 20px;*/
-        /*    border-radius: 50%;*/
-        /*    display: flex;*/
-        /*    align-items: center;*/
-        /*    justify-content: center;*/
-        /*    box-shadow: #eee 2px 3px 10px;*/
-        /*    z-index: 2;*/
-        /*}*/
-        /*.git-icon img{*/
-        /*    height: 30px;*/
-        /*    width: 30px;*/
-        /*    border-radius: 15px;*/
-        /*}*/
-        /*.git-icon:hover{*/
-        /*    background-color: #DDD;*/
-        /*    box-shadow: #eee 3px 5px 10px;*/
-        /*}*/
 
     </style>
 
@@ -344,236 +272,32 @@
 
             <div class="row">
 
-{{--                @foreach($resources as $resource)--}}
-{{--                    <div class="col-lg-5 col-sm-5">--}}
-{{--                        <a data-bs-toggle="modal" href="#{{$resource['slug']}}">--}}
-{{--                            <div class="card mb-4"--}}
-{{--                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                                <div class="card-body p-3">--}}
-{{--                                    <div class="row">--}}
-{{--                                        <div class="col-8 m-auto">--}}
-{{--                                            <div class="numbers">--}}
-{{--                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                                   style="color: white;">{{$resource['heading']}}</p>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="col-4 text-end">--}}
-{{--                                            <div--}}
-{{--                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                                <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
-
-{{--                <div class="col-lg-5 col-sm-5">--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#introduction">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4') }}')">--}}
-{{--                        <div class="card mb-4"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">Introduction</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#cycle_of_life">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to The Cycle of Life.mp4') }}')">--}}
-{{--                        <div class="card"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">Cycle of Life</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-5 col-sm-5 mt-sm-0 mt-4">--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#trait">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to Traits.mp4') }}')">--}}
-{{--                        <div class="card mb-4"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">Traits</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#motivation">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}')">--}}
-{{--                        <div class="card"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">Motivational Drivers</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
+                @foreach($resources as $resource)
+                    <div class="col-lg-5 col-sm-5">
+                        <a onclick="showModal('{{$resource['resource']['photo_url']['url'] ?? null}}','{{$resource['resource']['video_url']['path'] ?? null}}')" style="cursor: pointer;">
+                            <div class="card mb-4"
+                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col-8 m-auto">
+                                            <div class="numbers">
+                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"
+                                                   style="color: white;">{{$resource['resource']['heading'] ?? null}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <div
+                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
-
-{{--            <div class="row mt-4">--}}
-{{--                <div class="col-lg-5 col-sm-5">--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#alchemy">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to Alchemy.mp4') }}')">--}}
-{{--                        <div class="card mb-4"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">--}}
-{{--                                                Alchemic Boundaries</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#energy">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to Energy Pool.mp4') }}')">--}}
-{{--                        <div class="card"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">--}}
-{{--                                                Energy Pool</p>--}}
-{{--                                            <h5 class="font-weight-bolder mb-0">--}}
-{{--                                                <span class="text-success text-sm font-weight-bolder"></span>--}}
-{{--                                            </h5>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg-5 col-sm-5 mt-4 mt-md-0">--}}
-{{--                    --}}{{--                    <a data-bs-toggle="modal"--}}
-{{--                    --}}{{--                       data-bs-target="#communication">--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Intro to Communication Style.mp4') }}')">--}}
-{{--                        <div class="card"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">--}}
-{{--                                                Communication Styles</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-archive-2 text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                    <a onclick="showModal('{{ asset('assets/video/Perception of Life Intro.mp4') }}')">--}}
-{{--                        <div class="card mt-4"--}}
-{{--                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
-{{--                            <div class="card-body p-3">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-8">--}}
-{{--                                        <div class="numbers" style="display: flex; align-items: center; height: 100%;">--}}
-{{--                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                               style="color: white;">--}}
-{{--                                                Perception of Life</p>--}}
-{{--                                            <h5 class="font-weight-bolder mb-0">--}}
-{{--                                                <span class="text-success text-sm font-weight-bolder"></span>--}}
-{{--                                            </h5>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-4 text-end">--}}
-{{--                                        <div--}}
-{{--                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
-{{--                                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
         </div>
     </div>
 
@@ -638,6 +362,12 @@
                             <video id="video"></video>
                         </div>
 
+                        <div class="container" id="container_image">
+
+                            <img src="" id="image" class="img-fluid w-100">
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -684,12 +414,33 @@
             });
         });
 
-        function showModal(src) {
+        function showModal(img_src, video_src) {
 
-            $('#life').modal('show');
+            if (img_src){
 
-            // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
-            $('#video').attr('src', src);
+                $('#life').modal('show');
+
+                $('#container_video').hide();
+
+                $('#container_image').show();
+
+                console.log(img_src);
+
+                // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
+                $('#image').attr('src', img_src);
+
+            }else if (video_src){
+
+                $('#life').modal('show');
+
+                $('#container_image').hide();
+
+                $('#container_video').show();
+
+                // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
+                $('#video').attr('src', video_src);
+
+            }
 
         }
 

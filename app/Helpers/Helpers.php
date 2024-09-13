@@ -213,6 +213,10 @@ class Helpers
 
             $upload = Upload::find($pic);
 
+            if ($upload->extension === 'mp4'){
+                return [];
+            }
+
             if (!empty($upload)) {
 
                 $path = url('/') . '/media/files/' . $upload->hash . '/' . $upload->name;

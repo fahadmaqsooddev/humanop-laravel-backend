@@ -20,10 +20,16 @@ class LibraryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url'];
+    protected $appends = ['photo_url','video_url'];
 
     public function getPhotoUrlAttribute(){
+
         return Helpers::getImage($this->upload_id,'profile_pic.png');
+    }
+
+    public function getVideoUrlAttribute(){
+
+        return Helpers::getVideo($this->upload_id,1);
     }
 
     public static function getResources()

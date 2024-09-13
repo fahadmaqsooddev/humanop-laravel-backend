@@ -131,7 +131,7 @@ class Upload extends Model
 
         $thumbnail_path = base_path() . config('urls.thumbnail') . $date_append . $filename;
 
-        if ($type != 'svg' && $type != 'gif'){ // if original is present but thumbnail not present
+        if ($type != 'svg' && $type != 'gif' && $type != 'video'){ // if original is present but thumbnail not present
 
             if (!$resize){
 
