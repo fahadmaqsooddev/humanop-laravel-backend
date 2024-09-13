@@ -53,15 +53,15 @@ class ClientController extends Controller
             DB::beginTransaction();
 
             $daily_tip_updated = DailyTip::readUserDailyTip();
-
+            $point = 0;
             if (!$daily_tip_updated){
 
-                PointHelper::addPointsOnDailyTipRead();
+               $point = PointHelper::addPointsOnDailyTipRead();
             }
 
             DB::commit();
 
-            return Helpers::successResponse('Daily tip read');
+            return Helpers::successResponse('Daily tip read',['point' => $point]);
 
         }catch (\Exception $exception){
 

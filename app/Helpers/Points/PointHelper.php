@@ -6,7 +6,7 @@ use App\Helpers\Helpers;
 use App\Models\Client\Point\{Point, PointLog};
 use Exception;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Session;
 class PointHelper
 {
     /**
@@ -54,12 +54,13 @@ class PointHelper
             $alreadyLoggedInToday = PointLog::checkTodayLogin($user_id);
 
             if (!$alreadyLoggedInToday) {
-
                 // Store the log entry for today's points
                 PointLog::storePointLog(['user_id' => $user_id, 'point' => $planDetail['point'],'plan' => $plan]);
+                Session::flash('add_point',$planDetail['point']);
                 if(PointLog::checkLogForConsecutiveDays($user_id,$planDetail['days'],$plan) >= $planDetail['days'] && PointLog::checkLastLoginReward($user_id,$planDetail['days'],$plan) < 1){
                     PointLog::storePointLog(['user_id' => $user_id, 'point' => $planDetail['sequential_point'],'type' => 1,'plan' => $plan]);
                     self::addPoints($user_id, $planDetail['sequential_point']);
+                    Session::flash('add_point',$planDetail['sequential_point'] + $planDetail['point']);
                 }
                 // Add points to the user's account
                 return self::addPoints($user_id, $planDetail['point'],$plan);
@@ -77,7 +78,8 @@ class PointHelper
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
         $data['user_id'] = $user->id;
-
+        $data['plan'] = $user['plan_name'];
+        $data['type'] = 2;
         if ($user['plan_name'] === 'Freemium'){
 
             $data['point'] = 1;
@@ -99,6 +101,7 @@ class PointHelper
 
         PointHelper::addPoints($user->id, $data['point']);
 
+        return $data['point'];
     }
 
     public static function getPointDetail($plan){
