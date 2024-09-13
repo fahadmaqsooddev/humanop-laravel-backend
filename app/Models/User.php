@@ -20,12 +20,13 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Client\Point\Point;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
 
-    protected $appends = ['photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
+    protected $appends = ['point','photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
         ,'age_group', 'plan_name'];
 
     public function __construct(array $attributes = array())
@@ -79,6 +80,18 @@ class User extends Authenticatable implements JWTSubject
 
     public function getUserPictureUrlAttribute(){
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function getPointAttribute(){
+
+        $point = Point::where('user_id',Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select('point')->first();
+
+        if($point){
+
+            return $point->point;
+        }
+
+        return 0;
     }
 
     public function getPhotoUrlAttribute(){
@@ -370,16 +383,12 @@ class User extends Authenticatable implements JWTSubject
 
     public static function storyUsers(){
 
-        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-
         $users = self::whereHas('stories', function ($q){
 
             return $q->where('created_at', ">", Carbon::now()->subDay());
         })
 
-            ->whereNot('id', $logged_in_user_id)
-
-            ->select(['id','first_name', 'last_name'])
+            ->select(['id','first_name', 'last_name','image_id'])
 
             ->get();
 

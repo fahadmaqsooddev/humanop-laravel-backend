@@ -26,20 +26,20 @@ class PermissionResource extends Model
 
     public static function getPermission($planName = null)
     {
-        if ($planName == 'Freemium')
-        {
-            $permission = self::with('resource')->where('permission', 1)->orWhere('permission', 4)->get();
-        }
-        elseif ($planName == 'Core')
-        {
-            $permission = self::with('resource')->where('permission', 2)->orWhere('permission', 4)->get();
-        }
-        else
-        {
-            $permission = self::with('resource')->where('permission', 3)->orWhere('permission', 4)->get();
+        if ($planName == 'Freemium') {
+
+            $permission = self::has('resource')->with('resource')->whereIn('permission', [1,4])->get();
+
+        }elseif ($planName == 'Core') {
+
+            $permission = self::has('resource')->with('resource')->whereIn('permission', [2, 4])->get();
+
+        }elseif ($planName == 'Premium'){
+
+            $permission = self::has('resource')->with('resource')->whereIn('permission', [3, 4])->get();
         }
 
-        return $permission;
+        return $permission ?? [];
     }
 
     public static function createResourcePermission($resourceId = null, $permissions = null)

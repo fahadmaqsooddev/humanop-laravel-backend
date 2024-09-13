@@ -13,10 +13,12 @@ class ResourceController extends Controller
     public function resource()
     {
         try {
-            $user = Helpers::getWebUser();
-            $permission = PermissionResource::getPermission($user['plan_name']);
 
-            return view('client-dashboard.resource.index');
+            $user = Helpers::getWebUser();
+
+            $resources = PermissionResource::getPermission($user['plan_name']);
+
+            return view('client-dashboard.resource.index', compact('resources'));
 
         }catch (\Exception $exception)
         {

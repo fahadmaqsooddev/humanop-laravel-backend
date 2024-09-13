@@ -39,21 +39,30 @@ class CreateResource extends Component
             $this->validate();
 
             if (in_array($this->resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+
                 $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
+
             } else {
+
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id);
+
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
             $this->emit('toggleCreateResourceModal');
+
             $this->resetForm();
 
             DB::commit();
+
             session()->flash('success', 'Library resource created successfully.');
+
         } catch (\Exception $exception) {
+
             DB::rollBack();
+
             session()->flash('error', $exception->getMessage());
         }
     }
@@ -67,14 +76,21 @@ class CreateResource extends Component
             DB::beginTransaction();
 
             PermissionResource::deleteResourcePermission($id);
+
             LibraryResource::deleteResource($id);
+
+            $this->resetForm();
 
             $this->emit('toggleShowResourceModal', $slug);
 
             DB::commit();
+
             session()->flash('success', 'Library resource deleted successfully.');
+
         } catch (\Exception $exception) {
+
             DB::rollBack();
+
             session()->flash('error', $exception->getMessage());
         }
     }
@@ -86,7 +102,7 @@ class CreateResource extends Component
 
     public function resetForm()
     {
-        $this->reset(['heading', 'resource', 'permission']);
+        $this->reset(['heading', 'resource', 'permission','resource']);
     }
 
     public function handleRefreshQuery()

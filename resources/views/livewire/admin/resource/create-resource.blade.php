@@ -57,7 +57,13 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <img class="mt-4" style="width: 100%;" src="{{$resource['photo_url']['url']}}">
+
+                        @if(!empty($resource['photo_url']))
+                            <img class="mt-4" style="width: 100%;" src="{{$resource['photo_url']['url']}}">
+                        @else
+                            <video class="mt-4" controls style="width: 100%;" src="{{$resource['video_url']['path']}}">
+                        @endif
+
                     </div>
                     <div>
                         <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
@@ -148,6 +154,7 @@
         })
 
         window.livewire.on('toggleShowResourceModal', (slug) => {
+            $('.modal-backdrop').hide();
             setTimeout(function () {
                 $('#' + slug).modal('hide');
             }, 1000);

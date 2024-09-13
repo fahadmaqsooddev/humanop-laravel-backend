@@ -119,7 +119,6 @@
 @section('content')
 
 <div class="parent px-lg-5">
-
     <div class="container-fluid px-0 d-lg-none">
         <div class="page-header min-height-100 border-radius-xl">
         </div>
@@ -498,12 +497,13 @@
         </div>
     </div>
 </div>
-
 @endsection
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Function to pause the video and reload the page
+        var addPoint = `{{Session::has('add_point') ? '+'.Session::pull('add_point') : '' }}`;
+
         function pauseVideoAndReload() {
             var video = document.getElementById('podcastVideo');
             video.pause();  // Pause the video
@@ -574,7 +574,13 @@
                         'X-CSRF-TOKEN': "{{csrf_token()}}"
                     },
                     success: function (response) {
+                        if(response.result.data.point > 0 ){
+                            animateNumber('+'+response.result.data.point);
 
+                            old_count = $('#coin-count').text();
+                            console.log(response.result.data.point,old_count);
+                            $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
+                        }
                     },
                     error: function (response) {
 
@@ -583,23 +589,34 @@
 
             }
         }
+        function animateNumber(addPoint) {
+            const navContainer = document.querySelector(".abc");
+            const animationEffect = document.createElement('span');
 
-        const navContainer = document.querySelector(".abc");
-        const animationEffect = document.createElement('span');
-        animationEffect.classList.add('animated-number');
-        animationEffect.textContent = '+1';
-        animationEffect.style.color = 'orange';
-        animationEffect.style.fontWeight = '900';
-        animationEffect.style.fontSize = '2rem';
-        animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+            animationEffect.classList.add('animated-number');
+            animationEffect.textContent = addPoint;
+            animationEffect.style.color = 'orange';
+            animationEffect.style.fontWeight = '900';
+            animationEffect.style.fontSize = '2rem';
+            animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+            navContainer.appendChild(animationEffect);
 
-        navContainer.appendChild(animationEffect);
+            // Add a slight delay before starting the animation
+            setTimeout(() => {
+                animationEffect.classList.add('fade-in');
+            }, 100); // Slightly longer delay to allow the element to render
 
-        setTimeout(() => {
-            animationEffect.classList.add('fade-in');
-        }, 100);
-        setTimeout(() => {
-            animationEffect.classList.add('disappear');
-        }, 8000);
+            setTimeout(() => {
+                animationEffect.classList.add('disappear');
+            }, 8000);
+
+            setTimeout(() => {
+                animationEffect.remove();
+            }, 9000);
+        }
+
+
+        animateNumber(addPoint);
+
     </script>
 @endpush
