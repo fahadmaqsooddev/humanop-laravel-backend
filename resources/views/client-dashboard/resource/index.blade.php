@@ -201,9 +201,6 @@
         .container video {
             width: 120%;
         }
-        .container img {
-            width: 120%;
-        }
 
         @media screen and (max-width: 540px) {
             .wrapper .video-controls {
@@ -255,39 +252,6 @@
                 display: none;
             }
         }
-
-        /*.blur{*/
-        /*    width: 150%;*/
-        /*    height: 150%;*/
-        /*    background-color: rgba(0,0, 0, 0.5);*/
-        /*    filter: blur(25px);*/
-        /*    position: absolute;*/
-        /*    left: 0;*/
-        /*    top: 0;*/
-        /*}*/
-        /*.git-icon{*/
-        /*    position: absolute;*/
-        /*    width: 50px;*/
-        /*    height: 50px;*/
-        /*    background-color: #fff;*/
-        /*    right: 20px;*/
-        /*    top: 20px;*/
-        /*    border-radius: 50%;*/
-        /*    display: flex;*/
-        /*    align-items: center;*/
-        /*    justify-content: center;*/
-        /*    box-shadow: #eee 2px 3px 10px;*/
-        /*    z-index: 2;*/
-        /*}*/
-        /*.git-icon img{*/
-        /*    height: 30px;*/
-        /*    width: 30px;*/
-        /*    border-radius: 15px;*/
-        /*}*/
-        /*.git-icon:hover{*/
-        /*    background-color: #DDD;*/
-        /*    box-shadow: #eee 3px 5px 10px;*/
-        /*}*/
 
     </style>
 
