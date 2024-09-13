@@ -421,7 +421,7 @@ class User extends Authenticatable implements JWTSubject
 
         }])
 
-            ->select(['id','first_name','last_name'])
+            ->select(['id','first_name','last_name','image_id'])
 
             ->first();
     }
