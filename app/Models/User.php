@@ -383,16 +383,12 @@ class User extends Authenticatable implements JWTSubject
 
     public static function storyUsers(){
 
-        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-
         $users = self::whereHas('stories', function ($q){
 
             return $q->where('created_at', ">", Carbon::now()->subDay());
         })
 
-            ->whereNot('id', $logged_in_user_id)
-
-            ->select(['id','first_name', 'last_name'])
+            ->select(['id','first_name', 'last_name','image_id'])
 
             ->get();
 
