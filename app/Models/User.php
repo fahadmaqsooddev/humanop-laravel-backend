@@ -73,7 +73,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
 
     public function scopeSelection($query){
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','age_min','age_max','point']);
+        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','age_min','age_max']);
     }
 
     // appends
@@ -83,10 +83,14 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getPointAttribute(){
-        $point = Point::where('user_id',Helpers::getWebUser()->id)->select('point')->first();
+
+        $point = Point::where('user_id',Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select('point')->first();
+
         if($point){
+
             return $point->point;
         }
+
         return 0;
     }
 
