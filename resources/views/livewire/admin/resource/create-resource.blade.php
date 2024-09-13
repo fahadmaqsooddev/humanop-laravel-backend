@@ -105,6 +105,9 @@
                                         <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                class="form-control text-white" type="file" accept="image/*,video/*">
+                                        <span wire:loading.flex wire:target="resource">
+                                            Uploading ...
+                                        </span>
                                     </div>
                                     <label class="form-label fs-4 text-white">Permission</label>
                                     <div class="row">
