@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ClientController;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Client\Point\PointLog;
@@ -21,7 +22,6 @@ class ClientController extends Controller
     public function index()
     {
        try {
-
             $user_age = User::getUserAge(Helpers::getWebUser()->age_group);
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
@@ -44,6 +44,20 @@ class ClientController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
+    }
+
+
+    public function ninetyDayPlan(){
+        $assessmentDetails = Assessment::getAllRowGrid(860);
+        $user = Helpers::getWebUser();
+
+        $plan = $user['plan_name'];
+
+        $body = ['grid' => $assessmentDetails,'plan' => $plan];
+
+        $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
+
+        return $data;
     }
 
     public function readDailyTip(){

@@ -35,6 +35,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 //    client dashboard
     Route::get('/dashboard', [ClientController::class, 'index'])->name('client_dashboard');
 
+    //90 days plan test route
+    Route::get('/ninety-day-plan', [ClientController::class, 'ninetyDayPlan']);
+    //end here
     Route::get('/pricing', [PricingController::class, 'index'])->name('client_pricing');
 
     Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
