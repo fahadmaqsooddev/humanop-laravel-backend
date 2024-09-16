@@ -85,7 +85,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
-                    <form wire:submit.prevent="CreateResource" >
+                    <form wire:submit.prevent="CreateResource" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="row">

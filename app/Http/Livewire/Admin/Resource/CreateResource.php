@@ -19,7 +19,7 @@ class CreateResource extends Component
 
     protected $rules = [
         'heading' => 'required',
-        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv', // Max file size 10MB
+        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mp4|max:102400', // Max file size 10MB
         'permission' => 'required|array|min:1',
     ];
 
