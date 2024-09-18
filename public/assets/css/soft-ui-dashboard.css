@@ -20331,7 +20331,7 @@ fieldset:disabled .btn {
 }
 
 .chatbox-content {
-    flex: 1;
+    /* flex: 1; */
     padding: 10px;
     overflow-y: auto;
 }
@@ -20349,14 +20349,17 @@ fieldset:disabled .btn {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 8px;
-    max-width: 80%;
+    /* width: 20%; */
+    max-width: 70%;
     word-wrap: break-word;
 }
 
 .bot-message {
     margin-top: 15px;
-    margin-left: 13px;
-    width: 100%;
+    /* margin-left: 13px; */
+    /* width: 30%; */
+    /* margin-right: 200px; */
+
     background-color: #f1f1f1;
     align-self: flex-start;
 }
@@ -20382,7 +20385,7 @@ fieldset:disabled .btn {
     margin-top: 30px;
     margin-bottom: 30px;
     /*width: 520px;*/
-    margin-left: 590px;
+    margin-left: 295px;
     background-color: #f2661c;
     color: white;
     align-self: flex-end;

@@ -15,6 +15,9 @@
 .top_pannel {
     padding-bottom: 40px;
 }
+.btn-orange{
+    background-color: rgb(210, 103, 34) !important;
+}
 
 .user-pannel-btn {
     display: flex;
@@ -30,14 +33,24 @@
     width: 100%;
     height: auto;
     color: white;
+    border-radius: 10px;
+    margin: 10px 0;
 }
 
 .prompt-suggestion {
-    height: 40%;
+    background-color: rgb(18, 20, 57);
+    /* padding: 20px 10px; */
 }
 
 .prompt-text {
     font-size: small;
+}
+.card{
+    height:auto;
+    text-wrap: wrap;
+    word-wrap: break-word;
+
+
 }
 
 .sign-out-btn {
@@ -172,6 +185,10 @@ aside:hover {
     animation-delay: none; /* Disappear after the total delay and movement (3s + 5s) */
   }
 
+  .total-points{
+    font-size: 40px;
+  }
+  
 /**/
 
 
@@ -199,7 +216,7 @@ aside:hover {
     }
 
     .fs-5px {
-        font-size: 5px;
+        font-size: 5px !important;
     }
 
     .fs-3px {
@@ -211,7 +228,7 @@ aside:hover {
     }
 
     #suggestion_text_box {
-        display: none !important;
+        /* display: none !important; */
 
     }
 
@@ -230,6 +247,9 @@ aside:hover {
 
         width: 100%;
     }
+    .card{
+        height:auto !important;
+    }
 
 
 }
@@ -240,18 +260,44 @@ aside:hover {
         flex-direction: row;
         justify-content: end;
     }
+    .fs-5px {
+        font-size: 5px !important;
+    }
+    .fs-7px {
+        font-size: 7px !important;
+    }
+    .card{
+        height:auto;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
     .features-card {
         flex-direction: row;
         justify-content: space-around;
+        
     }
+    .fs-7px {
+        font-size: 7px !important;
+    }
+    .card{
+        height:auto;
+    }
+
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px)  {
+    .card{
+        height:auto;
+    }
+    .fs-12px {
+        font-size: 12px;
+    }
+    
 
-
+    .fs-7px {
+        font-size: 7px;
+    }
 }
 
 

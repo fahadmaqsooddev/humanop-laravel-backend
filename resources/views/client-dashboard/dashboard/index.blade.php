@@ -26,6 +26,9 @@
         /* Color of the scrollbar and track */
     }
 
+    .chat-card {
+        background-color: rgb(27, 31, 86);
+    }
 
     #chatDots {
         margin: 32px;
@@ -115,9 +118,6 @@
         color: white !important;
         border-color: #f2661c !important;
     }
-    /*input[type="checkbox"]:checked {*/
-    /*    accent-color: #f2661c; !* Change to your desired color *!*/
-    /*}*/
 </style>
 @section('content')
 
@@ -153,7 +153,7 @@
                     </div>
                 </div>
 
-                <div class="d-flex">
+                <div class="d-flex flex-column ">
                     <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
                         role="tablist">
                         <div class="nav-item">
@@ -168,6 +168,14 @@
                             </button>
                         </div>
                     </div>
+                    <!-- <div class="coins d-flex ">
+                        <span class="fw-bold total-points "
+                            style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
+                        <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
+                            style="width: 100px;height:100px;">
+                        <span class="animated-number fade-in disappear"
+                            style="color: orange; font-weight: 900; font-size: 2rem; text-shadow: orange 0px 0px 5px, orange 0px 0px 10px;">+1</span>
+                    </div> -->
                 </div>
 
             </div>
@@ -219,15 +227,15 @@
             <div class="row">
                 <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                     <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;">
-                            <div class="card-body p-3">
-                                <h5 class="text-white">Daily Tip</h5>
+                        <div class="card" style="height: auto">
+                            <div class="card-body p-3 ">
+                                <h5 class="text-white fs-10px">Daily Tip</h5>
                                 {{-- <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
                                     --}}
                                     {{-- {{ $tip ? $tip['title'] : '' }}--}}
                                     {{-- </p>--}}
-                                <div class="description-container" style="max-height: 300px;">
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
+                                <div class="description-container" style="max-height: ;">
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                         @if($tip && !empty($tip['description']))
 
                                             @if(strlen($tip['description']) > 265)
@@ -281,55 +289,57 @@
                         <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
                             <div class="card-body p-3">
                                 <div class="d-flex justify-content-between">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                        style="color: rgb(160, 174, 192)">
                                         CORE STATS</p>
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                        style="color: rgb(160, 174, 192)">
                                         Interval of Life: (<span class="text-bold text-sm"
                                             style="color: #f2661c">{{$user_age}}</span>)</p>
                                 </div>
-                                <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
+                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topThreeStyles)
                                         @foreach($topThreeStyles as $index => $style)
-                                            <p class="fw-bold" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px" style="color: #f2661c">
                                                 ({{ $style }}) {{ $index }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topTwoFeatures)
                                         @foreach($topTwoFeatures as $index => $feature)
-                                            <p class="fw-bold" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px" style="color: #f2661c">
                                                 ({{ $feature }}) {{ $index }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
                                 @if($boundary)
-                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                         ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
                                     </p>
                                 @endif
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topCommunication)
                                         @foreach($topCommunication as $communication)
-                                            <p class="fw-bold" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px " style="color: #f2661c">
                                                 {{ $communication }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
-                                <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                                <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                     {{ $preception == 40 ? "Negative" : ($preception == 41 ? "Neutral" : ($preception == 42 ? "Positive" : '')) }}
                                 </p>
-                                <p class="text-sm" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                 @if($energyPool)
-                                    <p class="fw-bold" style="color: #f2661c; margin-top: -10px">
+                                    <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px">
                                         {{ $energyPool }}
                                     </p>
                                 @endif
@@ -407,20 +417,65 @@
 
                     </div>
                 </div>
-                <div class="row mt-lg-4 mt-2">
-                    <div class="fixed-plugin">
-                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
-                            class="form-control text-white messageChat mb-2"
-                            placeholder="Type your message here..."></textarea>
-                        <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
-                            class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a>
+                <!-- <div class="row "> -->
 
-                        <!-- H.A.I CHAT INTERFACE -->
-                        <div class="card shadow-lg blur m-0 px-0 "
-                            style="background-color: #0f1534 !important;z-index: 1111111">
-                            <div class="card-header py-1" style="background-color: #f2661c">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <!-- <div class="col-2 px-0 mb-2">
+                <div class="fixed-plugin d-flex flex-column justify-content-center">
+                    <div class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "
+                        id="suggestion_text_box" style="">
+
+                        <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"
+                            onclick="suggestionQueries('What can you tell me about myself?')"
+                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+
+                            <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">
+                                <p class="prompt-text fs-7px">What can you tell me about myself?</p>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+
+                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "
+                            onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"
+                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                                <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)
+                                    (energy center) [random between the four] and what motivates me in life?</p>
+                            </div>
+                        </div>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "
+                            onclick="suggestionQueries('How to use this platform?')"
+                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                                <p class="prompt-text fs-7px">How to use this platform?</p>
+                            </div>
+                        </div>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "
+                            onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"
+                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
+                                <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my
+                                    highest self?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
+                            class="form-control text-white messageChat mb-2 "
+                            placeholder="Type your message here..."></textarea>
+                    </div>
+
+                    <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
+                            class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->
+
+                    <!-- H.A.I CHAT INTERFACE -->
+                    <div class="card shadow-lg blur m-0 px-0   "
+                        style="background-color: #0f1534 !important;z-index: 1111111">
+                        <div class="card-header py-1" style="background-color: #f2661c">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <!-- <div class="col-2 px-0 mb-2">
                                     <div class="float-start d-flex flex-column">
                                         <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
                                         <div class="header-info text-white">
@@ -430,29 +485,79 @@
                                     </div>
                                 </div> -->
 
-                                    <div class="  d-flex  ">
 
-                                    </div>
-                                    <div class="  d-flex align-items-center  ">
-                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
-                                    </div>
+                                <div class="  d-flex align-items-center  ">
+                                    <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
+                                </div>
 
-                                    <div class="d-flex align-items-center ">
-                                        <div class="float-end mt-4">
-                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                                                <i class="fa fa-close"></i>
-                                            </button>
+                                <div class="d-flex align-items-center ">
+                                    <div class="float-end mt-4">
+                                        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- sidebar of chatbot -->
+                        <div class="d-flex">
+                            @livewire('client.chat.index')
+                        </div>
+                    </div>
+
+                    <!-- chatbox section  -->
+                    <!-- removed chatbox class  -->
+
+                    <div class="  ">
+                        <div class="d-flex row justify-content-center ">
+                            <div class="  text-center ">
+                                <button id="toggle-btn" class="btn btn-primary"
+                                    style="background-color:rgb(210, 103, 34);"><i class="chat-ham fa-solid fa-bars "
+                                        onclick=""></i></button>
+                                <div id="content" class="   " style="display: none;">
+                                    <div class=" chat-card rounded-3 p-2 " style="">
+                                        <div style="display: flex; justify-content:flex-start;">
+                                            <div id="chatDots" wire:loading wire:target="dislike">
+                                                <span class="chatDot"></span>
+                                                <span class="chatDot"></span>
+                                                <span class="chatDot"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="chatbox-content mt-0 d-flex flex-column justify-content-between"
+                                            id="chatbox-content">
+
+                                            <div id="chatbox-new-content" wire:ignore.self>
+
+                                            </div>
+
+                                            <div class="message user-message  ">
+                                                hello
+                                            </div>
+
+                                            <!-- chatbot side message  -->
+                                            <div class="">
+                                                <div class="message bot-message">
+                                                    hui
+                                                </div>
+                                                <!-- rating -->
+                                                <div class="rating d-flex mb-2">
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- sidebar of chatbot -->
-                            <div class="d-flex">
-                                @livewire('client.chat.index')
-                            </div>
                         </div>
                     </div>
+
+
+
                 </div>
+                <!-- </div> -->
             </div>
         </section>
 
@@ -489,8 +594,8 @@
                                 <div class="form-group">
                                     <input type="checkbox"
                                         style=" margin: 4px 0 0; line-height: normal; width: 15px; height: 15px;border-radius: 5px"
-                                        onchange="onDailyTipAllRead(this)" id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}} >
-                                    <label class="text-white" >Have you read it all ?</label>
+                                        onchange="onDailyTipAllRead(this)" id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}}>
+                                    <label class="text-white">Have you read it all ?</label>
                                 </div>
                             </div>
                         </div>
@@ -501,11 +606,12 @@
     </div>
 </div>
 @endsection
+
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Function to pause the video and reload the page
-        var addPoint = `{{Session::has('add_point') ? '+'.Session::pull('add_point') : '' }}`;
+        var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
 
         function pauseVideoAndReload() {
             var video = document.getElementById('podcastVideo');
@@ -577,11 +683,11 @@
                         'X-CSRF-TOKEN': "{{csrf_token()}}"
                     },
                     success: function (response) {
-                        if(response.result.data.point > 0 ){
-                            animateNumber('+'+response.result.data.point);
+                        if (response.result.data.point > 0) {
+                            animateNumber('+' + response.result.data.point);
 
                             old_count = $('#coin-count').text();
-                            console.log(response.result.data.point,old_count);
+                            console.log(response.result.data.point, old_count);
                             $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
                         }
                     },
@@ -621,5 +727,85 @@
 
         animateNumber(addPoint);
 
+    </script>
+    <script>
+        function scrollToBottom() {
+            const chatboxContent = $('#chatbox-content');
+            chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
+        }
+
+        document.addEventListener('livewire:load', function () {
+            const submitBtn = document.getElementById('submitBtn');
+
+            $('#submitBtn').on('click', function () {
+
+                let userMsg = $('#userMessage').val();
+
+                if (userMsg.trim() !== '') {
+                    $('#chatbox-new-content').append(`<div style="display: flex; justify-content: flex-end">
+                                                                <div class="message user-message">` + userMsg + `</div>
+                                                            </div>`);
+                }
+                $('#userMessage').val('');
+
+                $('#chatbox-new-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
+                                                            <div id="chatDots">
+                                                                <span class="chatDot"></span>
+                                                                <span class="chatDot"></span>
+                                                                <span class="chatDot"></span>
+                                                            </div>
+                                                        </div>`);
+
+            });
+        });
+    </script>
+
+    <script>
+        window.Livewire.on('showUserAnswerModal', function () {
+            // Close any open plugin modal
+            $('.fixed-plugin-close-button').click();
+
+            $('.chatBoxClose').click();
+
+            // Trigger the modal to show
+            $('#exampleModalMessage').modal('show'); // Assuming you're using Bootstrap's modal
+
+            // Alternatively, if you're not using Bootstrap, you might need to trigger the modal using custom jQuery:
+            // $('#chat_ai_question_modal').click();
+        });
+
+        function suggestionQueries(text) {
+
+            $('#userMessage').val(text);
+
+            Livewire.emit('chatMessage', text);
+
+            setTimeout(function () {
+                $('#submitBtn').click();
+            }, 1000)
+        }
+
+    </script>
+
+    <script>
+        const content = document.getElementById('content');
+        const toggleButton = document.querySelector('.chat-ham')
+        document.getElementById('toggle-btn').addEventListener('click', function () {
+
+
+            // toggleButton.className = 'fa-solid fa-bars'
+
+
+            // Toggle between showing and hiding the content
+            if (content.style.display === "none" || content.style.display === "") {
+                content.style.display = "block";
+                toggleButton.className = 'fa-solid fa-xmark'
+
+            } else {
+                content.style.display = "none";
+                toggleButton.className = 'fa-solid fa-bars'
+
+            }
+        });
     </script>
 @endpush
