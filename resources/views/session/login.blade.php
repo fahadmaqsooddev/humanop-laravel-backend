@@ -17,13 +17,31 @@
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
                 <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
+
                         @if($errors->any())
-                            <div class="m-3  alert alert-warning alert-dismissible fade show" role="alert">
-                        <span class="alert-text text-white">
-                            {{$errors->first()}}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
+
+                            <div class="m-3  alert alert-warning alert-dismissible fade show text-center" role="alert">
+
+                                @if(count($errors->messages()) > 1)
+
+                                    @foreach($errors->messages() as $err)
+
+                                        <span class="alert-text text-white">
+                                    {{$err[0]}}</span>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                            <i class="fa fa-close" aria-hidden="true"></i>
+                                        </button>
+                                        <br>
+
+                                    @endforeach
+
+                                @else
+                                    <span class="alert-text text-white">
+                                    {{$errors->first()}}</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                    </button>
+                                @endif
                             </div>
                         @endif
                         @if(session('success'))
@@ -99,9 +117,10 @@
                                     <input type="email" class="form-control" placeholder="Email" aria-label="Email"
                                            name="email" id="email" @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @endif
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                    @error('email')
-                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
+
+{{--                                    @error('email')--}}
+{{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
+{{--                                    @enderror--}}
                                 </div>
                                 <div class="mb-3">
                                     <label for="name" class="text-white">Password</label>
@@ -110,9 +129,9 @@
                                            @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
                                            name="password" id="password"
                                            style="background-color: #0F1535; color: white; border-radius: 15px;">
-                                    @error('password')
-                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
+{{--                                    @error('password')--}}
+{{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
+{{--                                    @enderror--}}
                                 </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" @if(isset($_COOKIE['email'])) checked @endif type="checkbox" name="remember" id="rememberMe">

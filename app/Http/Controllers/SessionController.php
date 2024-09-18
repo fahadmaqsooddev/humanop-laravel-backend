@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
@@ -62,9 +63,13 @@ class SessionController extends Controller
 
             return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
 
-        }catch (\Exception $exception)
-        {
-            return back()->withErrors(['msgError' => $exception]);
+        }catch (ValidationException $validationException){
+
+            return back()->with(['errors' => $validationException->validator->errors()]);
+
+        } catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
         }
     }
 
