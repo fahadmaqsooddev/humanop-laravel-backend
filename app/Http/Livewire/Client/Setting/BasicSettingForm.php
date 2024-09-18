@@ -34,7 +34,7 @@ class BasicSettingForm extends Component
         if($this->customValidation(new BasicSettingRequest($this->user),$this->user)){return;};
 
         try {
-            $keysToKeep = ['first_name', 'last_name','email','age_min', 'age_max', 'gender', 'phone'];
+            $keysToKeep = ['first_name', 'last_name','age_min', 'age_max', 'gender', 'phone'];
 
             if ($this->profile_image){
                 $upload_id = Upload::uploadFile($this->profile_image, 200, 200, 'base64Image','png', true);
