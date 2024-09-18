@@ -159,46 +159,63 @@
 
         open_modal = localStorage.getItem('modal_open_time');
 
-        if ((open_modal === "true" || is_feedback === 1) && open_modal !== "false") { // if modal open value is true then show pop-up
+        // if ((open_modal === "true" || is_feedback === 1) && open_modal !== "false") { // if modal open value is true then show pop-up
+        if (open_modal !== "false") { // if modal open value is true then show pop-up
 
-            $(window).on('load', function() { // on page change the modal populates
+            setTimeout(function (){
 
                 $('#add_feedback').click();
 
                 localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
-            });
+
+                console.log('aaa');
+
+            }, 300000);
+
+            // $(window).on('load', function() { // on page change the modal populates
+            //
+            //     setTimeout(function (){
+            //
+            //         $('#add_feedback').click();
+            //
+            //         localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
+            //
+            //         console.log('aaa');
+            //
+            //     }, 300000);
+            // });
         }
 
         var now = new Date();
 
         var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
 
-        var local_storage_time = localStorage.getItem('modal_open_time');
+        // var local_storage_time = localStorage.getItem('modal_open_time');
 
         if(local_storage_time === null){
 
             localStorage.setItem('modal_open_time', modal_open_time);
 
-            local_storage_time = localStorage.getItem('modal_open_time');
+            // local_storage_time = localStorage.getItem('modal_open_time');
         }
 
-        let intervalID = setInterval(function (){
-
-            var now_date_minute = Math.floor(new Date().getMinutes());
-
-            var local_storage_date_minute = Math.floor(new Date(local_storage_time).getMinutes());
-
-            if (local_storage_date_minute === now_date_minute){
-
-                localStorage.setItem('modal_open_time', true);
-
-                clearInterval(intervalID);
-
-                intervalID = null;
-
-            }
-
-        }, 60000);
+        // let intervalID = setInterval(function (){
+        //
+        //     var now_date_minute = Math.floor(new Date().getMinutes());
+        //
+        //     var local_storage_date_minute = Math.floor(new Date(local_storage_time).getMinutes());
+        //
+        //     if (local_storage_date_minute === now_date_minute){
+        //
+        //         localStorage.setItem('modal_open_time', true);
+        //
+        //         clearInterval(intervalID);
+        //
+        //         intervalID = null;
+        //
+        //     }
+        //
+        // }, 60000);
     }
 
     function submitFeedBackForm(){
