@@ -333,8 +333,17 @@
                                 </a>
                             </li>
                         </ul>
+                        <div class="coins d-flex abc ">
+                        <span class="fw-bold total-points "
+                            style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
+                        <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
+                            style="width: 100px;height:100px;">
+                        <span class="animated-number fade-in disappear"
+                            style="color: orange; font-weight: 900; font-size: 2rem; text-shadow: orange 0px 0px 5px, orange 0px 0px 10px;">+1</span>
+                    </div>
                     </div>
                 </li>
+                
             @elseif(\Illuminate\Support\Facades\Auth::user()->is_admin == 2 )
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#clientdashboardids"
@@ -758,6 +767,28 @@
         //   });
         // }
 
+
+    </script>
+
+    <script>
+        
+    const navContainer = document.querySelector(".abc");
+    const animationEffect = document.createElement('span');
+    animationEffect.classList.add('animated-number');
+    animationEffect.textContent = '+1';
+    animationEffect.style.color = 'orange';
+    animationEffect.style.fontWeight = '900';
+    animationEffect.style.fontSize = '2rem';
+    animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+
+    navContainer.appendChild(animationEffect);
+
+    setTimeout(() => {
+        animationEffect.classList.add('fade-in');
+    }, 100);
+    setTimeout(() => {  
+        animationEffect.classList.add('disappear');
+    }, 8000);
 
     </script>
 @endpush

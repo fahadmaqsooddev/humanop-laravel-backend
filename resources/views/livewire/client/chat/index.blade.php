@@ -51,7 +51,7 @@
 
 
  {{--    @empty($messages)--}}
-    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center  p-2 "                   id="suggestion_text_box">
+    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center p-4"                   id="suggestion_text_box">
 
         <div class="d-flex text-center  p-0   w-20 h-100  text-wrap" onclick="suggestionQueries('What can you tell me about myself?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
 
