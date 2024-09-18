@@ -253,15 +253,15 @@
             <div class="row">
                 <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                     <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                        <div class="card" style="height: 375px;">
-                            <div class="card-body p-3">
-                                <h5 class="text-white">Daily Tip</h5>
+                        <div class="card" style="height: auto">
+                            <div class="card-body p-3 ">
+                                <h5 class="text-white fs-10px">Daily Tip</h5>
                                 {{-- <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
                                     --}}
                                     {{-- {{ $tip ? $tip['title'] : '' }}--}}
                                     {{-- </p>--}}
-                                <div class="description-container" style="max-height: 300px;">
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192);">
+                                <div class="description-container" style="max-height: ;">
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                         @if($tip && !empty($tip['description']))
 
                                             @if(strlen($tip['description']) > 265)
@@ -315,55 +315,55 @@
                         <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
                             <div class="card-body p-3">
                                 <div class="d-flex justify-content-between">
-                                    <p class="text-sm fs-10px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm fs-12px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
                                         CORE STATS</p>
-                                    <p class="text-sm fs-10px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm fs-12px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
                                         Interval of Life: (<span class="text-bold text-sm"
                                             style="color: #f2661c">{{$user_age}}</span>)</p>
                                 </div>
-                                <p class="text-sm mt-3 fs-10px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
+                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topThreeStyles)
                                         @foreach($topThreeStyles as $index => $style)
-                                            <p class="fw-bold fs-10px" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px" style="color: #f2661c">
                                                 ({{ $style }}) {{ $index }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm fs-10px" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Motivational Drivers:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topTwoFeatures)
                                         @foreach($topTwoFeatures as $index => $feature)
-                                            <p class="fw-bold fs-10px" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px" style="color: #f2661c">
                                                 ({{ $feature }}) {{ $index }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm fs-10px" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Tolerance Boundaries:</p>
                                 @if($boundary)
-                                    <p class="fw-bold fs-10px" style="color: #f2661c; margin-top: -10px">
+                                    <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                         ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
                                     </p>
                                 @endif
-                                <p class="text-sm fs-10px" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication Styles:</p>
                                 <div class="d-flex" style="margin-top: -10px">
                                     @if($topCommunication)
                                         @foreach($topCommunication as $communication)
-                                            <p class="fw-bold fs-10px" style="color: #f2661c">
+                                            <p class="fw-bold fs-12px " style="color: #f2661c">
                                                 {{ $communication }}@if(!$loop->last),@endif
                                             </p>
                                         @endforeach
                                     @endif
                                 </div>
-                                <p class="text-sm fs-10px" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
-                                <p class="fw-bold fs-10px" style="color: #f2661c; margin-top: -10px">
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of Life:</p>
+                                <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                     {{ $preception == 40 ? "Negative" : ($preception == 41 ? "Neutral" : ($preception == 42 ? "Positive" : '')) }}
                                 </p>
-                                <p class="text-sm fs-10px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                 @if($energyPool)
-                                    <p class="fw-bold  fs-10px " style="color: #f2661c; margin-top: -10px">
+                                    <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px">
                                         {{ $energyPool }}
                                     </p>
                                 @endif

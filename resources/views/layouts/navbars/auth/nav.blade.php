@@ -55,11 +55,11 @@
                     </a>
                 </div>
             </div>
-            <!-- <div class="coins d-flex abc">
+            <div class="coins d-flex abc">
                 <span class="fw-bold display-5"
                     style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px; margin-top: 20px">100</span>
                 <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling" style="width: 100px;height:100px;">
-            </div> -->
+            </div>
         </div>
         <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1">
             <a href="javascript:;" class="nav-link text-body p-0">
