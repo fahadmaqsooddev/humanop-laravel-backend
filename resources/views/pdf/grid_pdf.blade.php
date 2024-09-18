@@ -34,12 +34,17 @@
         border: 2px solid black;
         background-color: rgb(243, 217, 108);
         border-collapse: collapse;
-        padding: 10px 20px;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        /*padding: 10px 10px;*/
     }
 
     td.empty-block {
         background-color: #8c7419;
-        padding: 10px 24.5px;
+        width: 50px;
+        height: 50px;
+        /*padding: 10px 10px;*/
     }
 
     .green {

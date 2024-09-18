@@ -222,11 +222,11 @@
             <tbody>
             @foreach($assessments as $assessment)
                 <tr>
-                    <td class="text-sm font-weight-normal">{{$assessment['users']['first_name'].' '.$assessment['users']['last_name']}} </td>
+                    <td class="text-sm font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : "-"}} </td>
                     <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">Null</td>
-                    <td class="text-sm font-weight-normal">{{$assessment['users']['email']}}</td>
+                    <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-sm font-weight-normal"><a
                             href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
                             style="background-color: #f2661c; color: white"
