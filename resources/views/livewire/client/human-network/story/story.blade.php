@@ -149,7 +149,7 @@
                         @if($logged_in_user_stories)
                         <div class="col-lg-1 col-md-2 col-sm-3 col-4 text-center">
                             {{--                                <a style="cursor: pointer;" wire:click="viewStoryModal({{$story_user->id}})" class="avatar avatar-lg rounded-circle border-1 border-primary {{$story_user['stories'][0]['is_viewed'] ? "" : "bg-gradient-primary"}}">--}}
-                            <a href="{{url('/client/stories') . '?id=' . $logged_in_user_stories->id}}" style="cursor: pointer;" class="avatar avatar-lg rounded-circle border-1 border-primary">
+                            <a href="{{url('/client/stories') . '?id=' . $logged_in_user_stories->user_id}}" style="cursor: pointer;" class="avatar avatar-lg rounded-circle border-1 border-primary">
                                 <img alt="Image placeholder" class="p-1" src="{{ $logged_in_user_stories['user']['photo_url']['url'] ?? null }}">
                             </a>
                             <p class="mb-0 text-sm text-white">Your Story</p>
