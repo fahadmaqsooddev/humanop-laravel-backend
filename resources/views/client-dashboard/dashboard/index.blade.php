@@ -364,48 +364,6 @@
                                     <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
                                         SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
                                 </div>
-                </div>
-                <!-- <div class="row "> -->
-
-                <div class="fixed-plugin d-flex flex-column justify-content-center">
-                    <div class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "
-                        id="suggestion_text_box" style="">
-
-                        <div class="d-flex align-items-center  justify-content-center text-center  p-0   w-20 h-100  text-wrap"
-                            onclick="suggestionQueries('What can you tell me about myself?')"
-                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-
-                            <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">
-                                <p class="prompt-text  ">What can you tell me about myself?</p>
-                            </div>
-                        </div>
-                        &nbsp;&nbsp;&nbsp;
-
-                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "
-                            onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"
-                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text  ">Tell me about my main (driver) (style) (alchemy)
-                                    (energy center) [random between the four] and what motivates me in life?</p>
-                            </div>
-                        </div>
-
-                        &nbsp;&nbsp;&nbsp;
-                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "
-                            onclick="suggestionQueries('How to use this platform?')"
-                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text  ">How to use this platform?</p>
-                            </div>
-                        </div>
-
-                        &nbsp;&nbsp;&nbsp;
-                        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "
-                            onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"
-                            style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text  ">How to optimize my actions to be in alignment with my
-                                    highest self?</p>
                             </div>
                         </div>
                     </div>
