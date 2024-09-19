@@ -202,7 +202,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function storyViews(){
 
-        return $this->hasManyThrough(StoryView::class,Story::class,'user_id','story_id','id','id')->where('stories.created_at', ">", Carbon::now()->subDay())->where('story_views.user_id', Helpers::getUser()->id);
+        return $this->hasManyThrough(StoryView::class,Story::class,'user_id','story_id','id','id')->where('stories.created_at', ">", Carbon::now()->subDay())->where('story_views.user_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
     }
 
     public function userStory(){
