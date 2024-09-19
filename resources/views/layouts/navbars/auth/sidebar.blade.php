@@ -539,7 +539,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <div class="abc" style="text-align: center">
+                                <div class="abc mb-3" style="text-align: center">
                                 @if(Auth::user()['is_admin'] == 2)
                                     <!-- Falling Coins GIF -->
                                         <div class="coins">

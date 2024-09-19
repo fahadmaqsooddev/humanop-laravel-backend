@@ -132,7 +132,8 @@
     <!-- Make sure the eye icon is positioned correctly -->
     <a class="position-absolute" id="togglePassword" 
        style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
-        <i class="fas fa-eye pt-1 password-eye" id="password-eye"></i>
+        <i class="fas fa-eye pt-1 password-eye" id="password-eye" style="    color: #f2661c !important;
+"></i>
     </a>
 </div>
 
