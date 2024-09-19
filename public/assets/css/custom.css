@@ -34,7 +34,7 @@
 
 #suggestion_text_box {
     width: 100%;
-    height: auto;
+    /* height: auto; */
     color: white;
     border-radius: 10px;
     margin: 10px 0;
@@ -45,8 +45,8 @@
     /* padding: 20px 10px; */
 }
 
-.prompt-text {
-    font-size: small;
+ .prompt-text, .responsive-text {
+    /* font-size: small; */
 }
 .card{
     height:auto;
@@ -314,8 +314,11 @@ aside:hover {
     .card{
         height:auto !important;
     }
-    .prompt-text{
-        font-size: 6px;
+     .prompt-text{
+        font-size: 7px !important;
+    }
+     .responsive-text{
+        font-size: 12px !important;
     }
 
 
@@ -336,8 +339,11 @@ aside:hover {
     .card{
         height:auto;
     }
-    .prompt-text{
-        font-size: 9px;
+     .prompt-text{
+        font-size: 10px !important;
+    }
+     .responsive-text{
+        font-size: 13px !important;
     }
 }
 
@@ -353,8 +359,11 @@ aside:hover {
     .card{
         height:auto;
     }
-    .prompt-text{
-        font-size: 10px;
+     .prompt-text {
+        font-size: 10px !important;
+    }
+      .responsive-text{
+        font-size: 15px !important;
     }
 
 }
@@ -372,8 +381,11 @@ aside:hover {
         font-size: 7px;
     }
 
-    .prompt-text{
-        font-size: 13px;
+     .prompt-text {
+        font-size: 13px !important;
+    }
+     .responsive-text {
+        font-size: 13px !important;
     }
 }
 
