@@ -32,7 +32,7 @@
 
             @foreach($posts as $post)
 
-                <div class="card main-post-section px-0">
+                <div class="card main-post-section px-0 mt-4">
                     <div class="card-header d-flex align-items-center border-bottom py-3">
                         <div class="d-flex align-items-center">
                             <a href="javascript:void(0);">
@@ -77,7 +77,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="card-body px-0">
+                    <div class="card-body px-3">
                         <p class="mb-4 text-white">
                             {{$post['description']}}
                         </p>
@@ -216,243 +216,243 @@
         </div>
 
 
-        <div class="col-12 col-lg-4">
-            <div class="card mb-3 mt-lg-0 mt-4">
-                <div class="card-body pb-0 text-white">
-                    <div class="row align-items-center mb-3">
-                        <div class="col-9">
-                            <h5 class="mb-1 text-gradient text-primary">
-                                <a href="javascript:;">Digital Marketing</a>
-                            </h5>
-                        </div>
-                        <div class="col-3 text-end">
-                            <div class="dropstart">
-                                <a href="javascript:;" class="text-secondary" id="dropdownMarketingCard"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"
-                                    aria-labelledby="dropdownMarketingCard">
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a>
-                                    </li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove
-                                            Team</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <p>A group of people who collectively are responsible for all of the work necessary to produce
-                        working, validated assets.</p>
-                    <ul class="list-unstyled mx-auto">
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Industry:</p>
-                            <span class="badge badge-secondary ms-auto">Marketing Team</span>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark">
-                        </li>
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Rating:</p>
-                            <div class="rating ms-auto">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark">
-                        </li>
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Members:</p>
-                            <div class="avatar-group ms-auto">
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}">
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card mt-4 mb-3">
-                <div class="card-body pb-0 text-white">
-                    <div class="row align-items-center mb-3">
-                        <div class="col-9">
-                            <h5 class="mb-1 text-gradient text-primary">
-                                <a href="javascript:;">Design</a>
-                            </h5>
-                        </div>
-                        <div class="col-3 text-end">
-                            <div class="dropstart">
-                                <a href="javascript:;" class="text-secondary" id="dropdownDesignCard"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"
-                                    aria-labelledby="dropdownDesignCard">
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a>
-                                    </li>
-                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove
-                                            Team</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <p>Because it's about motivating the doers. Because I’m here to follow my dreams and inspire other
-                        people to follow their dreams, too.</p>
-                    <ul class="list-unstyled mx-auto">
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Industry:</p>
-                            <span class="badge badge-secondary ms-auto">Design Team</span>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark">
-                        </li>
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Rating:</p>
-                            <div class="rating ms-auto">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </li>
-                        <li>
-                            <hr class="horizontal dark">
-                        </li>
-                        <li class="d-flex text-white">
-                            <p class="mb-0 text-white">Members:</p>
-                            <div class="avatar-group ms-auto">
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">
-                                </a>
-                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexandra Smith">
-                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-5.jpg') }}">
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body p-3">
-                    <div class="d-flex text-white">
-                        <div class="avatar avatar-lg">
-                            <img alt="Image placeholder"
-                                src="{{ URL::asset('assets/img/small-logos/logo-slack.svg') }}">
-                        </div>
-                        <div class="ms-2 my-auto">
-                            <h6 class="mb-0 text-white">Slack Meet</h6>
-                            <p class="text-xs mb-0">11:00 AM</p>
-                        </div>
-                    </div>
-                    <p class="mt-3 text-white"> You have an upcoming meet for Marketing Planning</p>
-                    <p class="mb-0 text-white"><b>Meeting ID:</b> 902-128-281</p>
-                    <hr class="horizontal dark">
-                    <div class="d-flex text-white">
-                        <button type="button" class="btn btn-sm bg-gradient-success mb-0">
-                            Join
-                        </button>
-                        <div class="avatar-group ms-auto">
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/ivana-squares.jpg') }}">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mt-4">
-                <div class="card-body p-3">
-                    <div class="d-flex text-white">
-                        <div class="avatar avatar-lg">
-                            <img alt="Image placeholder"
-                                src="{{ URL::asset('assets/img/small-logos/logo-invision.svg') }}">
-                        </div>
-                        <div class="ms-2 my-auto">
-                            <h6 class="mb-0 text-white">Invision</h6>
-                            <p class="text-xs mb-0">4:50 PM</p>
-                        </div>
-                    </div>
-                    <p class="mt-3 text-white"> You have an upcoming video call for <span class="text-primary">Soft
-                            Design</span> at 5:00 PM.</p>
-                    <p class="mb-0 text-white"><b>Meeting ID:</b> 111-968-981</p>
-                    <hr class="horizontal dark">
-                    <div class="d-flex text-white">
-                        <button type="button" class="btn btn-sm bg-gradient-success mb-0">
-                            Join
-                        </button>
-                        <div class="avatar-group ms-auto">
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/teams-image.png') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">
-                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/ivana-squares.jpg') }}">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--        <div class="col-12 col-lg-4">--}}
+{{--            <div class="card mb-3 mt-lg-0 mt-4">--}}
+{{--                <div class="card-body pb-0 text-white">--}}
+{{--                    <div class="row align-items-center mb-3">--}}
+{{--                        <div class="col-9">--}}
+{{--                            <h5 class="mb-1 text-gradient text-primary">--}}
+{{--                                <a href="javascript:;">Digital Marketing</a>--}}
+{{--                            </h5>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3 text-end">--}}
+{{--                            <div class="dropstart">--}}
+{{--                                <a href="javascript:;" class="text-secondary" id="dropdownMarketingCard"--}}
+{{--                                    data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                                    <i class="fas fa-ellipsis-v"></i>--}}
+{{--                                </a>--}}
+{{--                                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"--}}
+{{--                                    aria-labelledby="dropdownMarketingCard">--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <hr class="dropdown-divider">--}}
+{{--                                    </li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove--}}
+{{--                                            Team</a></li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <p>A group of people who collectively are responsible for all of the work necessary to produce--}}
+{{--                        working, validated assets.</p>--}}
+{{--                    <ul class="list-unstyled mx-auto">--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Industry:</p>--}}
+{{--                            <span class="badge badge-secondary ms-auto">Marketing Team</span>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <hr class="horizontal dark">--}}
+{{--                        </li>--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Rating:</p>--}}
+{{--                            <div class="rating ms-auto">--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star-half-alt"></i>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <hr class="horizontal dark">--}}
+{{--                        </li>--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Members:</p>--}}
+{{--                            <div class="avatar-group ms-auto">--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="card mt-4 mb-3">--}}
+{{--                <div class="card-body pb-0 text-white">--}}
+{{--                    <div class="row align-items-center mb-3">--}}
+{{--                        <div class="col-9">--}}
+{{--                            <h5 class="mb-1 text-gradient text-primary">--}}
+{{--                                <a href="javascript:;">Design</a>--}}
+{{--                            </h5>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-3 text-end">--}}
+{{--                            <div class="dropstart">--}}
+{{--                                <a href="javascript:;" class="text-secondary" id="dropdownDesignCard"--}}
+{{--                                    data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                                    <i class="fas fa-ellipsis-v"></i>--}}
+{{--                                </a>--}}
+{{--                                <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3"--}}
+{{--                                    aria-labelledby="dropdownDesignCard">--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Edit Team</a></li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">Add Member</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md" href="javascript:;">See Details</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <hr class="dropdown-divider">--}}
+{{--                                    </li>--}}
+{{--                                    <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove--}}
+{{--                                            Team</a></li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <p>Because it's about motivating the doers. Because I’m here to follow my dreams and inspire other--}}
+{{--                        people to follow their dreams, too.</p>--}}
+{{--                    <ul class="list-unstyled mx-auto">--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Industry:</p>--}}
+{{--                            <span class="badge badge-secondary ms-auto">Design Team</span>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <hr class="horizontal dark">--}}
+{{--                        </li>--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Rating:</p>--}}
+{{--                            <div class="rating ms-auto">--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                                <i class="fas fa-star"></i>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <hr class="horizontal dark">--}}
+{{--                        </li>--}}
+{{--                        <li class="d-flex text-white">--}}
+{{--                            <p class="mb-0 text-white">Members:</p>--}}
+{{--                            <div class="avatar-group ms-auto">--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-4.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                                <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexandra Smith">--}}
+{{--                                    <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-5.jpg') }}">--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="card mt-4">--}}
+{{--                <div class="card-body p-3">--}}
+{{--                    <div class="d-flex text-white">--}}
+{{--                        <div class="avatar avatar-lg">--}}
+{{--                            <img alt="Image placeholder"--}}
+{{--                                src="{{ URL::asset('assets/img/small-logos/logo-slack.svg') }}">--}}
+{{--                        </div>--}}
+{{--                        <div class="ms-2 my-auto">--}}
+{{--                            <h6 class="mb-0 text-white">Slack Meet</h6>--}}
+{{--                            <p class="text-xs mb-0">11:00 AM</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <p class="mt-3 text-white"> You have an upcoming meet for Marketing Planning</p>--}}
+{{--                    <p class="mb-0 text-white"><b>Meeting ID:</b> 902-128-281</p>--}}
+{{--                    <hr class="horizontal dark">--}}
+{{--                    <div class="d-flex text-white">--}}
+{{--                        <button type="button" class="btn btn-sm bg-gradient-success mb-0">--}}
+{{--                            Join--}}
+{{--                        </button>--}}
+{{--                        <div class="avatar-group ms-auto">--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-1.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/ivana-squares.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="card mt-4">--}}
+{{--                <div class="card-body p-3">--}}
+{{--                    <div class="d-flex text-white">--}}
+{{--                        <div class="avatar avatar-lg">--}}
+{{--                            <img alt="Image placeholder"--}}
+{{--                                src="{{ URL::asset('assets/img/small-logos/logo-invision.svg') }}">--}}
+{{--                        </div>--}}
+{{--                        <div class="ms-2 my-auto">--}}
+{{--                            <h6 class="mb-0 text-white">Invision</h6>--}}
+{{--                            <p class="text-xs mb-0">4:50 PM</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <p class="mt-3 text-white"> You have an upcoming video call for <span class="text-primary">Soft--}}
+{{--                            Design</span> at 5:00 PM.</p>--}}
+{{--                    <p class="mb-0 text-white"><b>Meeting ID:</b> 111-968-981</p>--}}
+{{--                    <hr class="horizontal dark">--}}
+{{--                    <div class="d-flex text-white">--}}
+{{--                        <button type="button" class="btn btn-sm bg-gradient-success mb-0">--}}
+{{--                            Join--}}
+{{--                        </button>--}}
+{{--                        <div class="avatar-group ms-auto">--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexa Tompson">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/teams-image.png') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Romina Hadid">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-2.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alexander Smith">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/team-3.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                            <a href="javascript:;" class="avatar avatar-lg avatar-xs rounded-circle"--}}
+{{--                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Martin Doe">--}}
+{{--                                <img alt="Image placeholder" src="{{ URL::asset('assets/img/ivana-squares.jpg') }}">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
     </div>
 
