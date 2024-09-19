@@ -93,17 +93,18 @@
 {{--                            </div>--}}
                             <div>
                                 <a href="{{ url('auth/google') }}">
-                                    <button class="btn btn-primary  p-2 border border-radius-lg border-gray-800"
+                                    <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                             type="button"
                                             style="background-color: rgb(19, 21, 54);">
-                                        <svg style="margin: 13px" stroke="currentColor" fill="currentColor"
+                                        <!-- <svg style="margin: 13px" stroke="currentColor" fill="currentColor"
                                              stroke-width="0"
                                              viewBox="0 0 488 512" aria-hidden="true"
                                              height="22px" width="22px" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z">
                                             </path>
-                                        </svg>
+                                        </svg> -->
+                                        <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt="" width="30px";>
                                     </button>
                                 </a>
                             </div>
@@ -122,17 +123,21 @@
 {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
 {{--                                    @enderror--}}
                                 </div>
-                                <div class="mb-3">
-                                    <label for="name" class="text-white">Password</label>
-                                    <input type="password" class="form-control" placeholder="Password"
-                                           aria-label="Password"
-                                           @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
-                                           name="password" id="password"
-                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
-{{--                                    @error('password')--}}
-{{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
-{{--                                    @enderror--}}
-                                </div>
+                                <div class="mb-3 position-relative">
+    <label for="password" class="text-white">Password</label>
+    <input type="password" class="form-control" placeholder="Password" aria-label="Password"
+           @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
+           name="password" id="password"
+           style="background-color: #0F1535; color: white; border-radius: 15px; padding-right: 40px;">
+    <!-- Make sure the eye icon is positioned correctly -->
+    <a class="position-absolute" id="togglePassword" 
+       style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
+        <i class="fas fa-eye pt-1 password-eye" id="password-eye" style="    color: #f2661c !important;
+"></i>
+    </a>
+</div>
+
+
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" @if(isset($_COOKIE['email'])) checked @endif type="checkbox" name="remember" id="rememberMe">
                                     <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember
@@ -157,4 +162,33 @@
 
 <script>
     localStorage.removeItem('modal_open_time'); // when user logs out then feedback modal value turns to false
+</script>
+<script>
+    // Make sure the DOM is fully loaded before running the script
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select the toggle button and the input field
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('password-eye');
+
+        // Check if elements exist before adding event listener
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function (e) {
+                e.preventDefault(); 
+                
+            
+                
+                // Toggle password visibility
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash'); // Switch to eye-slash icon
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye'); // Switch back to eye icon
+                }
+            });
+        }
+    });
 </script>

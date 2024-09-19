@@ -324,6 +324,7 @@
                                     <span class="sidenav-normal text-bold  "> Sign Out </span>
                                 </a>
                             </li>
+
                         </ul>
                     </div>
                 </li>
@@ -526,6 +527,7 @@
                                     <span class="sidenav-normal"> Setting </span>
                                 </a>
                             </li>
+
                             <li class="nav-item rounded sign-out-btn me-3 mt-3">
                                 <a class="nav-link"
                                    href="{{ url('/logout')}}">
@@ -536,6 +538,32 @@
                                     <span class="sidenav-normal text-bold  "> Sign Out </span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <div class="abc mb-3" style="text-align: center">
+                                @if(Auth::user()['is_admin'] == 2)
+                                    <!-- Falling Coins GIF -->
+                                        <div class="coins">
+                                            <img src="{{ asset('assets/img/coins.gif') }}" alt="Coins falling"
+                                                 style="width: 100px; height: 100px; margin-top: -15px;">
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <!-- Points Counter Circle -->
+                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"
+                                                 style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;">
+                                                <span>{{ Auth::user()['point'] }}</span>
+                                            </div>
+                                            <!-- Coins Label - extending from the circle -->
+                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"
+                                                 style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:-1; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
+                                                <span style="color: #f2661c;">coins</span>
+                                            </div>
+                                        </div>
+
+                                    @endif
+                                </div>
+                            </li>
+
+
                         </ul>
                     </div>
                 </li>
@@ -725,6 +753,7 @@
                             <span class="sidenav-normal"> Setting </span>
                         </a>
                     </li>
+
                 </ul>
             </div>
         </li>
@@ -735,21 +764,41 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
+
         document.querySelector('.sidenav-toggler-inner').addEventListener('click', function () {
             // Toggle visibility of logos
             $('.humanopLogo').toggleClass('d-none');
             $('.humanopMiniLogo').toggleClass('d-none');
         });
 
-        //         function disableAnimations() {
-        //   const elements = document.querySelectorAll('*');
+        function animateNumber(addPoint) {
+            const navContainer = document.querySelector(".abc");
+            const animationEffect = document.createElement('span');
 
-        //   elements.forEach(element => {
-        //     element.style.transition = 'none';
-        //     element.style.animation = 'none';
-        //   });
-        // }
+            animationEffect.classList.add('animated-number');
+            animationEffect.textContent = addPoint;
+            animationEffect.style.color = 'orange';
+            animationEffect.style.fontWeight = '900';
+            animationEffect.style.fontSize = '2rem';
+            animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+            navContainer.appendChild(animationEffect);
 
+            // Add a slight delay before starting the animation
+            setTimeout(() => {
+                animationEffect.classList.add('fade-in');
+            }, 100); // Slightly longer delay to allow the element to render
+
+            setTimeout(() => {
+                animationEffect.classList.add('disappear');
+            }, 8000);
+
+            setTimeout(() => {
+                animationEffect.remove();
+            }, 9000);
+        }
+
+        animateNumber(addPoint);
 
     </script>
 @endpush

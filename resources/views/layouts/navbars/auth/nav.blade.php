@@ -72,14 +72,7 @@
                     </a>
                 </div>
             </div>
-            @if(Auth::user()['is_admin'] == 2)
-                <span class="fw-bold display-5 " id="coin-count"
-                    style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px; margin-top: 20px">{{Auth::user()['point']}}</span>
-                <div class="coins">
-                    <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
-                        style="width: 100px;height:100px; margin-top: -15px">
-                </div>
-            @endif
+
         </div>
         <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1">
             <a href="javascript:;" class="nav-link text-body p-0">
@@ -129,23 +122,7 @@
     });
 
 
-    const navContainer = document.querySelector(".abc");
-    const animationEffect = document.createElement('span');
-    animationEffect.classList.add('animated-number');
-    animationEffect.textContent = '+1';
-    animationEffect.style.color = 'orange';
-    animationEffect.style.fontWeight = '900';
-    animationEffect.style.fontSize = '2rem';
-    animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
 
-    navContainer.appendChild(animationEffect);
-
-    setTimeout(() => {
-        animationEffect.classList.add('fade-in');
-    }, 100);
-    setTimeout(() => {
-        animationEffect.classList.add('disappear');
-    }, 8000);
 
 
 </script>

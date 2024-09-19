@@ -11,6 +11,9 @@
     background-image: url('../img/background-body-admin.05c0b5b9.png');
     background-size: cover;
 }
+.password-eye{
+    /* color: #f2661c !important; */
+}
 
 .top_pannel {
     padding-bottom: 40px;
