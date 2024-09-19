@@ -2,7 +2,9 @@
 
 @section('content')
 
-    <style>
+<style>
+    /* Import Google font - Poppins */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -269,8 +271,9 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row">
+        <div class="row">
 
                 @foreach($resources as $resource)
                     <div class="col-lg-5 col-sm-5">
@@ -300,6 +303,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <button data-bs-toggle="modal"
             data-bs-target="#life" hidden>
@@ -317,13 +321,12 @@
                         <br>
                         <br>
 
-                        <div class="container show-controls" id="container_video">
-                            <div class="wrapper">
-                                <div class="video-timeline">
-                                    <div class="progress-area">
-                                        <span id="progree-area-span">00:00</span>
-                                        <div class="progress-bar" style="color: #f2661c;"></div>
-                                    </div>
+                    <div class="container   w-100 show-controls " id="container_video">
+                        <div class="wrapper">
+                            <div class="video-timeline">
+                                <div class="progress-area">
+                                    <span id="progree-area-span">00:00</span>
+                                    <div class="progress-bar" style="color: #f2661c;"></div>
                                 </div>
                                 <ul class="video-controls">
                                     <li class="options left">
@@ -368,25 +371,27 @@
                             <img src="" id="image" class="img-fluid w-100 h-100">
 
                         </div>
-
+                        <video id="video"></video>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="row mt-4" style="display: none;">
-        <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-    </div>
+<div class="row mt-4" style="display: none;">
+    <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+</div>
 
-    <div class="row">
-        <div class="col-12">
-            <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7">
-                <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
-            </div>
+<div class="row">
+    <div class="col-12">
+        <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7">
+            <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
         </div>
     </div>
+</div>
 
     {{--    <a class="git-icon" href="https://github.com/vaibhav1663" target="_blank">--}}
     {{--        <img src="https://github.com/fluidicon.png" alt="">--}}
@@ -400,7 +405,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var modals = [
-                {id: 'life', videoId: 'video'}
+                { id: 'life', videoId: 'video' }
             ];
 
             modals.forEach(function (modal) {
@@ -514,7 +519,7 @@
 
         mainVideo.addEventListener("timeupdate", e => {
 
-            let {currentTime, duration} = e.target;
+            let { currentTime, duration } = e.target;
 
             let percent = (currentTime / duration) * 100;
             progressBar.style.width = `${percent}%`;
