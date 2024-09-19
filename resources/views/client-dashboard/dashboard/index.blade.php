@@ -445,153 +445,111 @@
                         </div>
                     </div>
                     <!-- <div class="row "> -->
+                    @livewire('client.chat.index')
+{{--                    <div class="fixed-plugin d-flex flex-column justify-content-center">--}}
 
-                    <div class="fixed-plugin d-flex flex-column justify-content-center">
-                        <div
-                            class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "
-                            id="suggestion_text_box" style="">
+{{--                        <div--}}
+{{--                            class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "--}}
+{{--                            id="suggestion_text_box" style="">--}}
 
-                            <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"
-                                 onclick="suggestionQueries('What can you tell me about myself?')"
-                                 style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
+{{--                            <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"--}}
+{{--                                 onclick="suggestionQueries('What can you tell me about myself?')"--}}
+{{--                                 style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
 
-                                <div
-                                    class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">
-                                    <p class="prompt-text fs-7px">What can you tell me about myself?</p>
-                                </div>
-                            </div>
-                            &nbsp;&nbsp;&nbsp;
+{{--                                <div--}}
+{{--                                    class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">--}}
+{{--                                    <p class="prompt-text fs-7px">What can you tell me about myself?</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            &nbsp;&nbsp;&nbsp;--}}
 
-                            <div
-                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "
-                                onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"
-                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                                <div
-                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                    <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)
-                                        (energy center) [random between the four] and what motivates me in life?</p>
-                                </div>
-                            </div>
+{{--                            <div--}}
+{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "--}}
+{{--                                onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"--}}
+{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+{{--                                <div--}}
+{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+{{--                                    <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)--}}
+{{--                                        (energy center) [random between the four] and what motivates me in life?</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            &nbsp;&nbsp;&nbsp;
-                            <div
-                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "
-                                onclick="suggestionQueries('How to use this platform?')"
-                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                                <div
-                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                    <p class="prompt-text fs-7px">How to use this platform?</p>
-                                </div>
-                            </div>
+{{--                            &nbsp;&nbsp;&nbsp;--}}
+{{--                            <div--}}
+{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "--}}
+{{--                                onclick="suggestionQueries('How to use this platform?')"--}}
+{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+{{--                                <div--}}
+{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+{{--                                    <p class="prompt-text fs-7px">How to use this platform?</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            &nbsp;&nbsp;&nbsp;
-                            <div
-                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "
-                                onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"
-                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-                                <div
-                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                    <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my
-                                        highest self?</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="">
-                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"
-                                  class="form-control text-white messageChat mb-2 "
-                                  placeholder="Type your message here..."></textarea>
-                        </div>
+{{--                            &nbsp;&nbsp;&nbsp;--}}
+{{--                            <div--}}
+{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "--}}
+{{--                                onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"--}}
+{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+{{--                                <div--}}
+{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+{{--                                    <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my--}}
+{{--                                        highest self?</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="">--}}
+{{--                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"--}}
+{{--                                  class="form-control text-white messageChat mb-2 "--}}
+{{--                                  placeholder="Type your message here..."></textarea>--}}
+{{--                        </div>--}}
 
-                        <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"
-                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->
+{{--                        <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"--}}
+{{--                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->--}}
 
-                        <!-- H.A.I CHAT INTERFACE -->
-                        <div class="card shadow-lg blur m-0 px-0   "
-                             style="background-color: #0f1534 !important;z-index: 1111111">
-                            <div class="card-header py-1" style="background-color: #f2661c">
-                                <div class="d-flex align-items-center justify-content-between">
-                                <!-- <div class="col-2 px-0 mb-2">
-                                    <div class="float-start d-flex flex-column">
-                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">
-                                        <div class="header-info text-white">
-                                            <div class=" fs-13px">Need help?</div>
-                                            <div class=" fs-7px">We reply immediately</div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
-
-                                    <div class="  d-flex align-items-center  ">
-                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>
-                                    </div>
-
-                                    <div class="d-flex align-items-center ">
-                                        <div class="float-end mt-4">
-                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-                                                <i class="fa fa-close"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- sidebar of chatbot -->
-                            <div class="d-flex">
-                                @livewire('client.chat.index')
-                            </div>
-                        </div>
-
-                        <!-- chatbox section  -->
-                        <!-- removed chatbox class  -->
-
-                        <div class="  ">
-                            <div class="d-flex row justify-content-center ">
-                                <div class="  text-center ">
-                                    <button id="toggle-btn" class="btn btn-primary"
-                                            style="background-color:rgb(210, 103, 34);"><i
-                                            class="chat-ham fa-solid fa-bars "
-                                            onclick=""></i></button>
-                                    <div id="content" class="   " style="display: none;">
-                                        <div class=" chat-card rounded-3 p-2 " style="">
-                                            <div style="display: flex; justify-content:flex-start;">
-                                                <div id="chatDots" wire:loading wire:target="dislike">
-                                                    <span class="chatDot"></span>
-                                                    <span class="chatDot"></span>
-                                                    <span class="chatDot"></span>
-                                                </div>
-                                            </div>
-
-                                            <div class="chatbox-content mt-0 d-flex flex-column justify-content-between"
-                                                 id="chatbox-content">
-
-                                                <div id="chatbox-new-content" wire:ignore.self>
-
-                                                </div>
-
-                                                <div class="message user-message  ">
-                                                    hello
-                                                </div>
-
-                                                <!-- chatbot side message  -->
-                                                <div class="">
-                                                    <div class="message bot-message">
-                                                        hui
-                                                    </div>
-                                                    <!-- rating -->
-                                                    <div class="rating d-flex mb-2">
-
-                                                    </div>
-                                                </div>
+{{--                        <!-- H.A.I CHAT INTERFACE -->--}}
+{{--                        <div class="card shadow-lg blur m-0 px-0   "--}}
+{{--                             style="background-color: #0f1534 !important;z-index: 1111111">--}}
+{{--                            <div class="card-header py-1" style="background-color: #f2661c">--}}
+{{--                                <div class="d-flex align-items-center justify-content-between">--}}
+{{--                                <!-- <div class="col-2 px-0 mb-2">--}}
+{{--                                    <div class="float-start d-flex flex-column">--}}
+{{--                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
+{{--                                        <div class="header-info text-white">--}}
+{{--                                            <div class=" fs-13px">Need help?</div>--}}
+{{--                                            <div class=" fs-7px">We reply immediately</div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div> -->--}}
 
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                                    <div class="  d-flex align-items-center  ">--}}
+{{--                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>--}}
+{{--                                    </div>--}}
+
+{{--                                    <div class="d-flex align-items-center ">--}}
+{{--                                        <div class="float-end mt-4">--}}
+{{--                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">--}}
+{{--                                                <i class="fa fa-close"></i>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <!-- sidebar of chatbot -->--}}
+{{--                            <div class="d-flex">--}}
+{{--                                @livewire('client.chat.index')--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+{{--                        <!-- chatbox section  -->--}}
+{{--                        <!-- removed chatbox class  -->--}}
+
+{{--                        <div class="  ">--}}
+
+{{--                        </div>--}}
 
 
-                    </div>
+{{--                    </div>--}}
                     <!-- </div> -->
                 </div>
             </section>
@@ -708,8 +666,9 @@
         });
 
         document.querySelector('.messageChat').addEventListener('keypress', function (e) {
-
             if (e.key === '\n' && e.ctrlKey) {
+
+                console.log('sadfsdafasd nice');
 
                 $('.fixed-plugin-button').click();
 
@@ -842,7 +801,7 @@
 
             // Toggle between showing and hiding the content
             if (content.style.display === "none" || content.style.display === "") {
-                content.style.display = "block";
+                content.style.display = "flex";
                 toggleButton.className = 'fa-solid fa-xmark'
 
             } else {

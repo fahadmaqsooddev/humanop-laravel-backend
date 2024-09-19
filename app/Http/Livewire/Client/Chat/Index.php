@@ -92,7 +92,7 @@ class Index extends Component
         $chats = HaiChat::getChat($this->chatFilter, 1);
 
         $this->emit('scrollToBottom');
-
+        $this->emit('showChatBox');
         return view('livewire.client.chat.index', ['messages' => $chats]);
     }
 }
