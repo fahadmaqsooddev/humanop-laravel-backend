@@ -37,9 +37,9 @@
         <div class="nav nav-pills  nav-fill bg-transparent position-static pe-5   user-pannel-btn   "
                         role="tablist">
                         <div class="nav-item">
-                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                            <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
                                 class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Assessments
-                            </button>
+                            </a>
                         </div>
 
                         <div class="nav-item">
