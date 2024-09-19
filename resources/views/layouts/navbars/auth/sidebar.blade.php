@@ -764,37 +764,41 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
+
         document.querySelector('.sidenav-toggler-inner').addEventListener('click', function () {
             // Toggle visibility of logos
             $('.humanopLogo').toggleClass('d-none');
             $('.humanopMiniLogo').toggleClass('d-none');
         });
 
-        //         function disableAnimations() {
-        //   const elements = document.querySelectorAll('*');
+        function animateNumber(addPoint) {
+            const navContainer = document.querySelector(".abc");
+            const animationEffect = document.createElement('span');
 
-        //   elements.forEach(element => {
-        //     element.style.transition = 'none';
-        //     element.style.animation = 'none';
-        //   });
-        // }
-        const animationEffect = document.createElement('span');
-        const navContainer = document.querySelector(".abc");
-        animationEffect.classList.add('animated-number');
-        animationEffect.textContent = '+1';
-        animationEffect.style.color = 'orange';
-        animationEffect.style.fontWeight = '900';
-        animationEffect.style.fontSize = '2rem';
-        animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+            animationEffect.classList.add('animated-number');
+            animationEffect.textContent = addPoint;
+            animationEffect.style.color = 'orange';
+            animationEffect.style.fontWeight = '900';
+            animationEffect.style.fontSize = '2rem';
+            animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+            navContainer.appendChild(animationEffect);
 
-        navContainer.appendChild(animationEffect);
+            // Add a slight delay before starting the animation
+            setTimeout(() => {
+                animationEffect.classList.add('fade-in');
+            }, 100); // Slightly longer delay to allow the element to render
 
-        setTimeout(() => {
-            animationEffect.classList.add('fade-in');
-        }, 100);
-        setTimeout(() => {
-            animationEffect.classList.add('disappear');
-        }, 8000);
+            setTimeout(() => {
+                animationEffect.classList.add('disappear');
+            }, 8000);
+
+            setTimeout(() => {
+                animationEffect.remove();
+            }, 9000);
+        }
+
+        animateNumber(addPoint);
 
     </script>
 @endpush
