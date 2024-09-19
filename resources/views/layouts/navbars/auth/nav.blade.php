@@ -1,8 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar  navbar-main navbar-expand-lg mt-4 top-1 px-0  shadow-none border-radius-xl z-index-sticky"
+<nav class="navbar  navbar-main navbar-expand-lg mt-4 top-1 px-1  shadow-none border-radius-xl z-index-sticky"
     id="navbarBlur" data-scroll="true">
     <div class="container-fluid py-1 px-3 d-flex  ">
-        <nav aria-label="breadcrumb ">
+        <!-- <nav aria-label="breadcrumb ">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
                     <a class="opacity-3 text-dark" href="javascript:;">
@@ -32,7 +32,23 @@
                 </li>
             </ol>
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
-        </nav>
+        </nav>-->
+
+        <div class="nav nav-pills  nav-fill bg-transparent position-static pe-5   user-pannel-btn   "
+                        role="tablist">
+                        <div class="nav-item">
+                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                                class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Assessments
+                            </button>
+                        </div>
+
+                        <div class="nav-item">
+                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
+                                class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Referrals
+                            </button>
+                        </div>
+                    </div>
+
         <div class="d-none d-lg-flex flex-2 abc ps-5">
             <div class="col-auto pb-sm-4">
                 <div class="avatar avatar-xl avatar-icon  ">

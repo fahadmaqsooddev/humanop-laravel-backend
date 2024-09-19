@@ -203,6 +203,7 @@
         }
 
         @media screen and (max-width: 540px) {
+            
             .wrapper .video-controls {
                 padding: 3px 10px 7px;
             }
@@ -306,7 +307,7 @@
         modal button
     </button>
     <div class="modal fade" id="life" tabindex="-1" role="dialog" aria-hidden="true">
-        <div style="padding-left: 17%;">
+        <div class="d-flex align-items-center justify-content-center h-100" style="z-index: 1000">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
