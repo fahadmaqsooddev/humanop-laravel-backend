@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\User;
 
+use App\Models\Client\Plan\Plan;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -28,7 +30,7 @@ class AllUser extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserMemberShip'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -55,6 +57,7 @@ class AllUser extends Component
 
     public function selectStyleCode($select_style_code, $select_style_code_color)
     {
+        dd('aa');
         $this->selectedStyleCells[$select_style_code] = $select_style_code_color;
         $this->style_code = $select_style_code;
         $this->style_color = $select_style_code_color;
@@ -105,6 +108,19 @@ class AllUser extends Component
         Auth::guard('web')->login($user);
 
         return redirect('client/dashboard');
+
+    }
+
+    public function changeUserMemberShip($memberShipValue, $user_id){
+
+        $plan = Plan::findPlanFromIntValue($memberShipValue);
+
+        if ($plan){
+
+            Subscription::updateUserSubscriptionFromAdmin($plan->plan_id, $user_id);
+        }
+
+        $this->searchFilter();
 
     }
 

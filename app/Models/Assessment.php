@@ -279,7 +279,7 @@ class Assessment extends Model
 
     public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
     {
-        $query = self::where('page', 0);
+        $query = self::has('users')->where('page', 0);
 
         // Filter by name
         if ($name) {

@@ -75,4 +75,12 @@ class Plan extends Model
         return $plans;
 
     }
+
+    public static function findPlanFromIntValue($int_value = null){
+
+        $plan_name = $int_value === 0 || $int_value === 1 ? $int_value === 1 ? "Core" : "Freemium" : "Premium";
+
+        return self::where('name', $plan_name)->first();
+    }
+
 }

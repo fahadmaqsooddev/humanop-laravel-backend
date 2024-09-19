@@ -186,7 +186,7 @@ return [
         ],
         'Subscription' => [
             'table' => 'subscriptions',
-            'fillable' => ['stripe_id','stripe_status','stripe_price','quantity','trial_end_at','user_id','plan_id'],
+            'fillable' => ['stripe_id','stripe_status','stripe_price','quantity','trial_end_at','user_id','plan_id','name'],
             'hidden' => ['created_at','updated_at']
         ],
         'User' => [

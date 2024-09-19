@@ -105,4 +105,30 @@ class Subscription extends Model
         dd($subscriptions);
 
     }
+
+    public static function updateUserSubscriptionFromAdmin($plan_id, $user_id){
+
+        if ($user_id){
+
+            $subscription = self::where('user_id', $user_id)->first();
+
+            if ($subscription){
+
+                $subscription->update(['stripe_price' => $plan_id]);
+
+            }else{
+
+                self::create([
+                    'user_id' => $user_id,
+                    'stripe_price' => $plan_id,
+                    'name' => 'main',
+                    'stripe_id' => '11',
+                    'stripe_status' => 'active',
+                    'quantity' => 1,
+                ]);
+            }
+
+        }
+
+    }
 }

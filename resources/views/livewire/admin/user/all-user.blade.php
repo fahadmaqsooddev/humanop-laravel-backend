@@ -215,6 +215,7 @@
                 <th>Practitioner</th>
                 <th>Project</th>
                 <th>Email</th>
+                <th>Membership</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -227,6 +228,13 @@
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
+                    <td class="text-sm font-weight-normal">
+                        <select class="form-control" onchange="changeUserMemberShip(this, {{$assessment['users']['id'] ?? null}})" style="background-color: #0F1535; color: white; border-radius: 12px;">
+                            <option value="Freemium" {{$assessment['users']? $assessment['users']['plan_name'] === "Freemium" ? 'selected' : "" : ""}}>Freemium</option>
+                            <option value="Core" {{$assessment['users']? $assessment['users']['plan_name'] === "Core" ? 'selected' : "" : ""}}>Core</option>
+                            <option value="Premium" {{$assessment['users']? $assessment['users']['plan_name'] === "Premium" ? 'selected' : "" : ""}}>Premium</option>
+                        </select>
+                    </td>
                     <td class="text-sm font-weight-normal"><a
                             href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
                             style="background-color: #f2661c; color: white"
@@ -271,6 +279,11 @@
                 }
             })
 
+        }
+
+        function changeUserMemberShip(e, user_id){
+
+            window.Livewire.emit('changeUserMemberShip', e.options.selectedIndex, user_id);
         }
     </script>
 @endpush
