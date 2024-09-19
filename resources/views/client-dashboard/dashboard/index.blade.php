@@ -718,34 +718,7 @@
             }
         }
 
-        function animateNumber(addPoint) {
-            const navContainer = document.querySelector(".abc");
-            const animationEffect = document.createElement('span');
 
-            animationEffect.classList.add('animated-number');
-            animationEffect.textContent = addPoint;
-            animationEffect.style.color = 'orange';
-            animationEffect.style.fontWeight = '900';
-            animationEffect.style.fontSize = '2rem';
-            animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
-            navContainer.appendChild(animationEffect);
-
-            // Add a slight delay before starting the animation
-            setTimeout(() => {
-                animationEffect.classList.add('fade-in');
-            }, 100); // Slightly longer delay to allow the element to render
-
-            setTimeout(() => {
-                animationEffect.classList.add('disappear');
-            }, 8000);
-
-            setTimeout(() => {
-                animationEffect.remove();
-            }, 9000);
-        }
-
-
-        animateNumber(addPoint);
 
     </script>
     <script>
