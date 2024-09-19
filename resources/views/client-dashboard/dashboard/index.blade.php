@@ -138,7 +138,7 @@
                         </div>
                         <div class="d-flex">
                             <div class="h-100">
-                                <a href="{{route('setting')}}">
+                                <a href="{{route('user_profile_overview')}}">
                                     <h5 class="mb-1 text-white">
                                         {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                                     </h5>

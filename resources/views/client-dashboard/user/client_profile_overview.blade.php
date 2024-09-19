@@ -127,9 +127,9 @@
                                         </div>
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
-                                                <h4 class="primaryColor">
+                                                <div>
                                                     {!! $actionPlan['plan_text'] ?? null !!}
-                                                </h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
