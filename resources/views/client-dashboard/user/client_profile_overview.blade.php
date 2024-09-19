@@ -83,9 +83,12 @@
 
                                                     <li> How much energy you currently have available to succeed</li>
                                                 </ul>
-                                                <button class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0">
-                                                    Download Summary Report
-                                                </button>
+
+                                                @if($assessment)
+                                                    <a href="{{url('client/download-user-report/'. $assessment->id)}}" target="_blank"
+                                                       class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
+                                                       style="background-color: #f2661c">Download Summary Report</a>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="coreStats">

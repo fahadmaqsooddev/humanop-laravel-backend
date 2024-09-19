@@ -122,7 +122,7 @@ class Subscription extends Model
                     'user_id' => $user_id,
                     'stripe_price' => $plan_id,
                     'name' => 'main',
-                    'stripe_id' => '11',
+                    'stripe_id' => rand(5,10),
                     'stripe_status' => 'active',
                     'quantity' => 1,
                 ]);

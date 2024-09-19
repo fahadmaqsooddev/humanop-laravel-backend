@@ -49,6 +49,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('user_detail');
     Route::get('/user-info', [UserController::class, 'userInfo'])->name('user_info');
     Route::get('/user-profile-overview', [UserController::class, 'profileOverview'])->name('user_profile_overview');
+    Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('download_user_report');
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('user_grid');
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
     Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
