@@ -66,8 +66,6 @@ class ActionPlan extends Model
 
             $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
-            dd($body, $data);
-
             self::create(['plan_text' => $data, 'user_id' => $user->id]);
 
         }
