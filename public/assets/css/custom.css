@@ -195,6 +195,15 @@ aside:hover {
 .remove-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
 }
+#remove-scrollbar-nav {
+    overflow: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+#remove-scrollbar-nav::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
 
 #chatbox-content {
     /* height: 20px; */
@@ -302,6 +311,9 @@ aside:hover {
     .card{
         height:auto !important;
     }
+    .prompt-text{
+        font-size: 6px;
+    }
 
 
 }
@@ -321,6 +333,9 @@ aside:hover {
     .card{
         height:auto;
     }
+    .prompt-text{
+        font-size: 9px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -334,6 +349,9 @@ aside:hover {
     }
     .card{
         height:auto;
+    }
+    .prompt-text{
+        font-size: 10px;
     }
 
 }
@@ -349,6 +367,10 @@ aside:hover {
 
     .fs-7px {
         font-size: 7px;
+    }
+
+    .prompt-text{
+        font-size: 13px;
     }
 }
 
