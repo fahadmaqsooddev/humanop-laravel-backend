@@ -423,12 +423,12 @@
                     <div class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "
                         id="suggestion_text_box" style="">
 
-                        <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"
+                        <div class="d-flex align-items-center  justify-content-center text-center  p-0   w-20 h-100  text-wrap"
                             onclick="suggestionQueries('What can you tell me about myself?')"
                             style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
 
                             <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">
-                                <p class="prompt-text fs-7px">What can you tell me about myself?</p>
+                                <p class="prompt-text  ">What can you tell me about myself?</p>
                             </div>
                         </div>
                         &nbsp;&nbsp;&nbsp;
@@ -437,7 +437,7 @@
                             onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"
                             style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                             <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)
+                                <p class="prompt-text  ">Tell me about my main (driver) (style) (alchemy)
                                     (energy center) [random between the four] and what motivates me in life?</p>
                             </div>
                         </div>
@@ -447,7 +447,7 @@
                             onclick="suggestionQueries('How to use this platform?')"
                             style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                             <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text fs-7px">How to use this platform?</p>
+                                <p class="prompt-text  ">How to use this platform?</p>
                             </div>
                         </div>
 
@@ -456,7 +456,7 @@
                             onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"
                             style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                             <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                                <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my
+                                <p class="prompt-text  ">How to optimize my actions to be in alignment with my
                                     highest self?</p>
                             </div>
                         </div>

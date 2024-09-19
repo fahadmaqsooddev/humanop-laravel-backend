@@ -10,8 +10,8 @@
                     </div>
                     <div class="col-lg-4">
                         <button data-bs-toggle="modal" data-bs-target="#createResource"
-                                style="background-color: #f2661c; color: white"
-                                class="btn btn-sm float-end mt-2 mb-0">Create Resource
+                            style="background-color: #f2661c; color: white"
+                            class="btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
                 </div>
@@ -22,13 +22,14 @@
                 <div class="col-lg-5 col-sm-5">
                     <a data-bs-toggle="modal" href="#{{$resource['slug']}}">
                         <div class="card mb-4"
-                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                            style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8 m-auto">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                               style="color: white;">{{$resource['heading']}}</p>
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                {{$resource['heading']}}
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -45,43 +46,43 @@
             @endforeach
         </div>
     </div>
-    {{--    Library Resources Models--}}
+    {{-- Library Resources Models--}}
     @foreach($resources as $resource)
         <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true" aria-labelledby="MasterKeyLabel"
-             tabindex="-1">
+            tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content" style="background-color: #0f1535; border-radius: 9px">
                     <div class="modal-body">
                         <label class="form-label fs-4 text-white">Library Resource</label>
-                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                aria-label="Close">
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
 
                         @if(!empty($resource['photo_url']))
                             <img class="mt-4" style="width: 100%; max-height: 400px;" src="{{$resource['photo_url']['url']}}">
                         @else
-                            <video class="mt-4" controls style="width: 100%; max-height: 400px;" src="{{$resource['video_url']['path']}}">
+                            <video class="mt-4" controls style="width: 100%; max-height: 400px;"
+                                src="{{$resource['video_url']['path']}}">
                         @endif
 
                     </div>
                     <div>
                         <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
-                                style="background-color: red; color: white"
-                                class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete Resource
+                            style="background-color: red; color: white" class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete
+                            Resource
                         </button>
                         <button wire:click="editResource({{ $resource['id'] }})"
-                                style="background-color: #f2661c; color: white"
-                                class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit Resource
+                            style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit
+                            Resource
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     @endforeach
-    {{--    Create Library Resources Models--}}
+    {{-- Create Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="createResource" tabindex="-1" role="dialog"
-         aria-labelledby="createResource" aria-hidden="true">
+        aria-labelledby="createResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
@@ -92,19 +93,19 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                        aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="heading" placeholder="heading" type="text">
+                                            wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                               class="form-control text-white" type="file" accept="image/*,video/*">
+                                            class="form-control text-white" type="file" accept="image/*,video/*">
                                         <span wire:loading.flex wire:target="resource">
                                             Uploading ...
                                         </span>
@@ -114,29 +115,32 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">Freemium</label>
+                                                    class="form-check-input option-checkbox" id="freemium">
+                                                <label class="form-check-label text-white"
+                                                    for="freemium">Freemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">Core</label>
+                                                    class="form-check-input option-checkbox" id="core">
+                                                <label class="form-check-label text-white" for="core">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">Preemium</label>
+                                                    class="form-check-input option-checkbox" id="preemium">
+                                                <label class="form-check-label text-white"
+                                                    for="preemium">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">All of these</label>
+                                                    class="form-check-input" id="allOptions">
+                                                <label class="form-check-label text-white" for="allOptions">All of
+                                                    these</label>
                                             </div>
                                         </div>
                                     </div>
@@ -151,9 +155,9 @@
         </div>
     </div>
 
-    {{--    Edit Library Resources Models--}}
+    {{-- Edit Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="editResource" tabindex="-1" role="dialog"
-         aria-labelledby="editResource" aria-hidden="true">
+        aria-labelledby="editResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
@@ -164,32 +168,34 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Edit Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                        aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="heading" placeholder="heading" type="text">
+                                            wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
                                     <div class="form-group mt-4" hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="resourceId" type="text">
+                                            wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                               class="form-control text-white" type="file" accept="image/*,video/*">
+                                            class="form-control text-white" type="file" accept="image/*,video/*">
                                     </div>
                                     @if(!empty($editResourceData['photo_url']))
-                                    <div class="form-group mt-4">
-                                        <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120" width="200">
-                                    </div>
+                                        <div class="form-group mt-4">
+                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
+                                                width="200">
+                                        </div>
                                     @else
                                         <div class="form-group mt-4">
-                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}" style="height: 200px;"></video>
+                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                                style="height: 200px;"></video>
                                         </div>
                                     @endif
                                     <label class="form-label fs-4 text-white">Permission</label>
@@ -216,7 +222,7 @@
                                             <div class="form-check">
 
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input">
+                                                    class="form-check-input">
 
                                                 <label class="form-check-label text-white">Freemium</label>
                                             </div>
@@ -224,21 +230,21 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                           class="form-check-input">
+                                                    class="form-check-input">
                                                 <label class="form-check-label text-white">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input">
+                                                    class="form-check-input">
                                                 <label class="form-check-label text-white">Premium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input">
+                                                    class="form-check-input">
                                                 <label class="form-check-label text-white">All of these</label>
                                             </div>
                                         </div>
@@ -277,5 +283,26 @@
             }, 1000);
         });
 
+    </script>
+    <!-- script for checkbox multiple check  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const optionCheckboxes = document.querySelectorAll('.option-checkbox');
+            const allOptionsCheckbox = document.getElementById('allOptions');
+
+            // Function to check/uncheck all other checkboxes when "All of these" is clicked
+            allOptionsCheckbox.addEventListener('change', function () {
+                optionCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            // Function to control the "All of these" checkbox state when individual checkboxes are clicked
+            optionCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    allOptionsCheckbox.checked = [...optionCheckboxes].every(checkbox => checkbox.checked);
+                });
+            });
+        });
     </script>
 @endpush
