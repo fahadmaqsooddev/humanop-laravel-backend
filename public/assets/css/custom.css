@@ -131,7 +131,7 @@ aside:hover {
 }
 
 .modal-content {
-    /* margin-top: 100px; */
+    margin-top: 100px;
 }
 
 .remove-scrollbar {
@@ -141,15 +141,6 @@ aside:hover {
 }
 
 .remove-scrollbar::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
-}
-#remove-scrollbar-nav {
-    overflow: scroll;
-    scrollbar-width: none; /* For Firefox */
-    -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
-
-#remove-scrollbar-nav::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
 }
 
@@ -197,12 +188,6 @@ aside:hover {
   .total-points{
     font-size: 40px;
   }
-  .modal-content{
-    /* width: 800px !important; */
-    /* position: absolute;
-    top:50; */
-
-  }
   
 /**/
 
@@ -214,19 +199,12 @@ aside:hover {
         align-items: center;
         justify-content: center;
     } */
-
-    .prompt-suggestion{
-        /* max-height: 170px; */
-    }
     .fs-15px {
         font-size: 15px;
     }
 
     .fs-13px {
         font-size: 13px;
-    }
-    .fs-12px {
-        font-size: 12px;
     }
 
     .fs-10px {
@@ -248,9 +226,6 @@ aside:hover {
     .fs-2px {
         font-size: 2px;
     }
-    .modal-content{
-        /* width: 100%; */
-      }
 
     #suggestion_text_box {
         /* display: none !important; */
@@ -275,8 +250,6 @@ aside:hover {
     .card{
         height:auto !important;
     }
-   
-   
 
 
 }
@@ -296,10 +269,6 @@ aside:hover {
     .card{
         height:auto;
     }
-    .modal-body{
-        width: 500px !important;
-      }
-   
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -314,9 +283,6 @@ aside:hover {
     .card{
         height:auto;
     }
-    .modal-body{
-        width: 500px !important;
-      }
 
 }
 
@@ -328,12 +294,9 @@ aside:hover {
         font-size: 12px;
     }
     
-    .modal-body{
-        width: 800px !important;
-      }
 
     .fs-7px {
-        /* font-size: 7px; */
+        font-size: 7px;
     }
 }
 
