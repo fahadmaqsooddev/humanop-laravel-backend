@@ -22515,7 +22515,7 @@ hr.horizontal.gray-light {
 .nav.nav-pills {
   background: black;
   border-radius: 0.75rem;
-  position: absolute;
+  /*position: absolute;*/
 }
 
 .nav.nav-pills.nav-pills-vertical {
@@ -22535,7 +22535,7 @@ hr.horizontal.gray-light {
 
 .nav.nav-pills .nav-link.active {
     background-color: #f2661c !important;
-    height: 50px;
+    height: 43px;
   animation: 0.2s ease;
   color: white;
 }

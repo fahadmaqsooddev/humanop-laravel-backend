@@ -133,7 +133,7 @@ class CodeDetail extends Model
 
     public static function getPublicNames($codekeys = null)
     {
-        $publicName = [];
+        $codeDetail = [];
 
         foreach ($codekeys as $index => $codeKey) {
             $key = strtoupper($index);
@@ -141,11 +141,11 @@ class CodeDetail extends Model
             $result = self::where('code', $key)->where('number', 1)->first();
 
             if ($result && isset($result->public_name)) {
-                $publicName[$result->public_name] = $codeKey;
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text];
             }
         }
 
-        return $publicName;
+        return $codeDetail;
     }
 
     public static function getSinglePublicName($codeKey = null)

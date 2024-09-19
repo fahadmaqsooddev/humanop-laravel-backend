@@ -101,4 +101,22 @@ class UserController extends Controller
         }
 
     }
+
+    public function profileOverview()
+    {
+        try {
+
+            $user = Helpers::getWebUser();
+            $assessment = Assessment::getLatestAssessment($user['id']);
+            $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }
