@@ -8,6 +8,7 @@ use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
+use App\Models\Client\StoryView\StoryView;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -137,6 +138,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->userSubscription->plan->name ?? "Freemium";
     }
 
+    public function getIsViewedStoriesAttribute(){
+
+        return ($this->storyViews()->count() === $this->userStory()->count() ? 1 : 0);
+    }
+
     // relations
     public function stories(){
 
@@ -192,6 +198,16 @@ class User extends Authenticatable implements JWTSubject
     public function userSubscription(){
 
         return $this->hasOne(Subscription::class,'user_id','id')->latest();
+    }
+
+    public function storyViews(){
+
+        return $this->hasManyThrough(StoryView::class,Story::class,'user_id','story_id','id','id')->where('stories.created_at', ">", Carbon::now()->subDay())->where('story_views.user_id', Helpers::getUser()->id);
+    }
+
+    public function userStory(){
+
+        return $this->hasMany(Story::class,'user_id','id')->where('created_at', ">", Carbon::now()->subDay());
     }
 
     // query
@@ -391,6 +407,12 @@ class User extends Authenticatable implements JWTSubject
             ->select(['id','first_name', 'last_name','image_id'])
 
             ->get();
+
+        foreach ($users as $user){
+
+            $user->setAppends(['point','photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
+                ,'age_group', 'plan_name','is_viewed_stories']);
+        }
 
         return $users;
     }
