@@ -188,7 +188,8 @@
             <div class="container-fluid p-2 mt-2">
 
                 <div class="d-flex justify-content-between flex-row card card-body text-white gap-5">
-                    <div class="" style="width: fit-content;">
+                    <div class="" style="width: fit-content;cursor:pointer" data-bs-toggle="modal"
+                         data-bs-target="#answerQueryModal">
                         <div>
                         <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
                             Your Query : {{$admin_answer['question']['query'] ?? null}}
@@ -197,7 +198,21 @@
                         <div>
                             <div class="text-white mt-2">
                                 <span> Answer : </span>
-                                {{$admin_answer->answer}}
+                                @if(strlen($admin_answer->answer) > 270)
+
+                                    {{substr($admin_answer->answer, 0, 265)}}
+
+                                    &nbsp;&nbsp;
+                                    <a href="javascript:void(0)" data-bs-toggle="modal"
+                                       data-bs-target="#answerQueryModal" style="color: #f2661c;">read
+                                        more...
+                                    </a>
+
+                                @else
+
+                                    {{ $admin_answer->answer }}
+
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -232,7 +247,9 @@
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: auto">
-                                <div class="card-body p-3 ">
+                                <div class="card-body p-3" style="cursor: pointer"
+                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal"
+                                >
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     {{-- <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
                                         --}}
@@ -622,6 +639,41 @@
                     </div>
                 </div>
             </div>
+
+{{--            answer query modal--}}
+            <div class="modal fade" id="answerQueryModal" tabindex="-1" role="dialog" aria-labelledby="answerQueryModal"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label fs-4 text-white">Query Detail</label>
+                                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <div class="" style="width: fit-content;">
+                                            <div>
+                        <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
+                            Your Query : {{$admin_answer['question']['query'] ?? null}}
+                        </span>
+                                            </div>
+                                            <div>
+                                                <div class="text-white mt-2">
+                                                    <span> Answer : </span>
+                                                        {{ $admin_answer->answer ?? null }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -706,7 +758,6 @@
                             animateNumber('+' + response.result.data.point);
 
                             old_count = $('#coin-count').text();
-                            console.log(response.result.data.point, old_count);
                             $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
                         }
                     },
