@@ -539,25 +539,26 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <div class="abc d-flex align-items-center">
+                                <div class="abc" style="text-align: center">
                                 @if(Auth::user()['is_admin'] == 2)
                                     <!-- Falling Coins GIF -->
                                         <div class="coins">
                                             <img src="{{ asset('assets/img/coins.gif') }}" alt="Coins falling"
                                                  style="width: 100px; height: 100px; margin-top: -15px;">
                                         </div>
-
-                                        <!-- Points Counter Circle -->
-                                        <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"
-                                             style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;">
-                                            <span>{{ Auth::user()['point'] }}</span>
+                                        <div class="d-flex justify-content-center">
+                                            <!-- Points Counter Circle -->
+                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"
+                                                 style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;">
+                                                <span>{{ Auth::user()['point'] }}</span>
+                                            </div>
+                                            <!-- Coins Label - extending from the circle -->
+                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"
+                                                 style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:-1; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
+                                                <span style="color: #f2661c;">coins</span>
+                                            </div>
                                         </div>
 
-                                        <!-- Coins Label - extending from the circle -->
-                                        <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"
-                                             style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:-1; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;">
-                                            <span style="color: #f2661c;">coins</span>
-                                        </div>
                                     @endif
                                 </div>
                             </li>
@@ -777,8 +778,8 @@
         //     element.style.animation = 'none';
         //   });
         // }
-        const navContainer = document.querySelector(".abc");
         const animationEffect = document.createElement('span');
+        const navContainer = document.querySelector(".abc");
         animationEffect.classList.add('animated-number');
         animationEffect.textContent = '+1';
         animationEffect.style.color = 'orange';
