@@ -62,7 +62,7 @@ class ActionPlan extends Model
                 $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
             }
 
-            $body = ['grid' => $assessmentDetails ?? [],'plan' => $plan];
+            $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
 
             $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
