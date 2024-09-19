@@ -355,5 +355,10 @@ return [
             'fillable' => ['resource_id','permission'],
             'hidden' => ['updated_at', 'created_at'],
         ],
+        'ActionPlan' => [
+            'table' => 'action_plans',
+            'fillable' => ['plan_text','user_id','updated_at'],
+            'hidden' => ['created_at'],
+        ]
     ]
 ];

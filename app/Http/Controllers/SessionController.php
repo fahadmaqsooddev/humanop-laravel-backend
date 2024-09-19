@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,8 @@ class SessionController extends Controller
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                 DailyTip::updateUserDailyTip();
+
+                ActionPlan::storeUserActionPlan();
 
                 User::updateUserIsFeedback();
 
