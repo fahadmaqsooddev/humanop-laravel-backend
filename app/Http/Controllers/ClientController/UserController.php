@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AssessmentDetail;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Http\Request;
@@ -112,8 +113,9 @@ class UserController extends Controller
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $actionPlan = ActionPlan::userActionPlan();
 
-            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment'));
+            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan'));
 
         }catch (\Exception $exception){
 
