@@ -141,7 +141,7 @@ class CodeDetail extends Model
             $result = self::where('code', $key)->where('number', 1)->first();
 
             if ($result && isset($result->public_name)) {
-                $codeDetail[] = [$codeKey, $result->public_name, $result->text];
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url];
             }
         }
 

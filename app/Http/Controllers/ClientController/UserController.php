@@ -113,7 +113,7 @@ class UserController extends Controller
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-            $actionPlan = ActionPlan::userActionPlan();
+            $actionPlan = ActionPlan::userActionPlan($user->id);
 
             return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan'));
 

@@ -11,7 +11,7 @@
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <video id="myVideo100" class="slider-padding mb-5 videoStop mt-5" width="1100"
                                            height="400" controls>
-                                        <source
+                                        <source id="video-source"
                                             src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"
                                             type="video/mp4">
                                         <source src="mov_bbb.ogg" type="video/ogg">
@@ -100,7 +100,7 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 class="text-white fs-10px">{{$index + 1}}. {{$style[1]}}</h5>
+                                                                    <h5 onclick="showFeatureVideo({{$style[3]}})" style="cursor: pointer;" class="text-white fs-10px">{{$index + 1}}. {{$style[1]}}</h5>
                                                                     <div class="description-container">
                                                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$style[2]}}</p>
                                                                     </div>
@@ -149,4 +149,17 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+
+    <script>
+
+        function showFeatureVideo(src){
+
+            $('#video-source').attr('src', src);
+        }
+
+    </script>
+
+@endpush
 

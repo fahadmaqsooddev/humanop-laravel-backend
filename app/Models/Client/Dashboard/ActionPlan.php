@@ -72,9 +72,9 @@ class ActionPlan extends Model
 
     }
 
-    public static function userActionPlan(){
+    public static function userActionPlan($user_id){
 
-        return self::where('user_id', Helpers::getWebUser()->id)->first();
+        return self::where('user_id', $user_id)->first();
     }
 
 
