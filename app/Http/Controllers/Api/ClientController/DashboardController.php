@@ -9,6 +9,7 @@ use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -102,6 +103,21 @@ class DashboardController extends Controller
         }catch (\Exception $exception){
 
             DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function actionPlan(){
+
+        try {
+
+            $plan = ActionPlan::userActionPlan(Helpers::getUser()->id);
+
+            return Helpers::successResponse('Action plan', $plan);
+
+        }catch (\Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

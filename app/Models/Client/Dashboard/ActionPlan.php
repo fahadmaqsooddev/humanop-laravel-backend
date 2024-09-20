@@ -24,7 +24,7 @@ class ActionPlan extends Model
 
     public static function storeUserActionPlan(){
 
-        $user = Helpers::getWebUser();
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
         $plan = $user['plan_name'];
 
@@ -45,7 +45,7 @@ class ActionPlan extends Model
                     $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
                 }
 
-                $body = ['grid' => $assessmentDetails ?? [],'plan' => $plan];
+                $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
 
                 $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
@@ -74,7 +74,7 @@ class ActionPlan extends Model
 
     public static function userActionPlan($user_id){
 
-        return self::where('user_id', $user_id)->first();
+        return self::where('user_id', $user_id)->select(['id','plan_text'])->first();
     }
 
 

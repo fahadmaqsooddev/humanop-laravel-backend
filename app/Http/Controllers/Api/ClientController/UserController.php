@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\Upload\Upload;
 use App\Models\User;
@@ -163,6 +164,8 @@ class UserController extends Controller
 
                     DailyTip::updateUserDailyTip();
 
+                    ActionPlan::storeUserActionPlan();
+
                     User::updateUserIsFeedback();
 
                     $data = [
@@ -200,6 +203,8 @@ class UserController extends Controller
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     DailyTip::updateUserDailyTip();
+
+                    ActionPlan::storeUserActionPlan();
 
                     $data = [
 

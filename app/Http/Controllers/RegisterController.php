@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,8 @@ class RegisterController extends Controller
             Auth::login($user);
 
             DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
 
             if (isset($request['remember']) && !empty($request['remember'])) {
                 setcookie("email", $request['email'], 30 * time() + 3600);
