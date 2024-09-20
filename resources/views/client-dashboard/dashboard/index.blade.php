@@ -248,8 +248,7 @@
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: auto">
                                 <div class="card-body p-3" style="cursor: pointer"
-                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal"
-                                >
+                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     {{-- <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192);">
                                         --}}
@@ -258,25 +257,17 @@
                                     <div class="description-container" style="max-height: ;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['description']))
-
                                                 @if(strlen($tip['description']) > 265)
-
                                                     {!! substr($tip['description'], 0, 260)!!}
-
                                                     &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#dailyTipModal" style="color: #f2661c;">read
                                                         more...
                                                     </a>
-
                                                 @else
-
                                                     {!! $tip['description'] !!}
-
                                                 @endif
-
                                             @else
-
                                             @endif
                                         </p>
                                     </div>
@@ -322,9 +313,10 @@
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach($topThreeStyles as $style)
-                                                    <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage('{{$style[3]}}')">
-                                                        ({{ $style[0] }}) {{ $style[1] }}@if(!$loop->last),@endif
-                                                    </p>
+                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$style[3]}}')">
+                                                    ({{ $style[0] }}) {{ $style[1] }}@if(!$loop->last),@endif
+                                                </p>
                                             @endforeach
                                         @endif
                                     </div>
@@ -333,7 +325,8 @@
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $feature)
-                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage('{{$feature[3]}}')">
+                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}')">
                                                     ({{ $feature[0] }}) {{ $feature[1] }}@if(!$loop->last),@endif
                                                 </p>
                                             @endforeach
@@ -387,21 +380,23 @@
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: 375px;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
+                                <div class="card-body p-3" style="cursor: pointer"
+                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">
+                                    <p class="text-sm fs-12px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
                                         OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> Summary:</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More daily activities
-                                        that
-                                        support your motivational drivers</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Create more alone time
-                                        Role</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Structure your days
-                                        based
-                                        on
-                                        your traits</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Incorporate more daily
-                                        Movement</p>
+                                    @if($plan && !empty($plan['plan_text']))
+                                        @if(strlen($plan['plan_text']) > 265)
+                                            {!! substr($plan['plan_text'], 0, 260)!!}
+                                            &nbsp;&nbsp;
+                                            <a href="javascript:void(0)" data-bs-toggle="modal"
+                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read
+                                                more...
+                                            </a>
+                                        @else
+                                            {!! $plan['plan_text'] !!}
+                                        @endif
+                                    @else
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -446,111 +441,111 @@
                     </div>
                     <!-- <div class="row "> -->
                     @livewire('client.chat.index')
-{{--                    <div class="fixed-plugin d-flex flex-column justify-content-center">--}}
+                {{--                    <div class="fixed-plugin d-flex flex-column justify-content-center">--}}
 
-{{--                        <div--}}
-{{--                            class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "--}}
-{{--                            id="suggestion_text_box" style="">--}}
+                {{--                        <div--}}
+                {{--                            class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "--}}
+                {{--                            id="suggestion_text_box" style="">--}}
 
-{{--                            <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"--}}
-{{--                                 onclick="suggestionQueries('What can you tell me about myself?')"--}}
-{{--                                 style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+                {{--                            <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"--}}
+                {{--                                 onclick="suggestionQueries('What can you tell me about myself?')"--}}
+                {{--                                 style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
 
-{{--                                <div--}}
-{{--                                    class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">--}}
-{{--                                    <p class="prompt-text fs-7px">What can you tell me about myself?</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            &nbsp;&nbsp;&nbsp;--}}
+                {{--                                <div--}}
+                {{--                                    class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">--}}
+                {{--                                    <p class="prompt-text fs-7px">What can you tell me about myself?</p>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
+                {{--                            &nbsp;&nbsp;&nbsp;--}}
 
-{{--                            <div--}}
-{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "--}}
-{{--                                onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"--}}
-{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-{{--                                <div--}}
-{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-{{--                                    <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)--}}
-{{--                                        (energy center) [random between the four] and what motivates me in life?</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                {{--                            <div--}}
+                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "--}}
+                {{--                                onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"--}}
+                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+                {{--                                <div--}}
+                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+                {{--                                    <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)--}}
+                {{--                                        (energy center) [random between the four] and what motivates me in life?</p>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
 
-{{--                            &nbsp;&nbsp;&nbsp;--}}
-{{--                            <div--}}
-{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "--}}
-{{--                                onclick="suggestionQueries('How to use this platform?')"--}}
-{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-{{--                                <div--}}
-{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-{{--                                    <p class="prompt-text fs-7px">How to use this platform?</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                {{--                            &nbsp;&nbsp;&nbsp;--}}
+                {{--                            <div--}}
+                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "--}}
+                {{--                                onclick="suggestionQueries('How to use this platform?')"--}}
+                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+                {{--                                <div--}}
+                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+                {{--                                    <p class="prompt-text fs-7px">How to use this platform?</p>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
 
-{{--                            &nbsp;&nbsp;&nbsp;--}}
-{{--                            <div--}}
-{{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "--}}
-{{--                                onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"--}}
-{{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-{{--                                <div--}}
-{{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-{{--                                    <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my--}}
-{{--                                        highest self?</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="">--}}
-{{--                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"--}}
-{{--                                  class="form-control text-white messageChat mb-2 "--}}
-{{--                                  placeholder="Type your message here..."></textarea>--}}
-{{--                        </div>--}}
+                {{--                            &nbsp;&nbsp;&nbsp;--}}
+                {{--                            <div--}}
+                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "--}}
+                {{--                                onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"--}}
+                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+                {{--                                <div--}}
+                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+                {{--                                    <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my--}}
+                {{--                                        highest self?</p>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="">--}}
+                {{--                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"--}}
+                {{--                                  class="form-control text-white messageChat mb-2 "--}}
+                {{--                                  placeholder="Type your message here..."></textarea>--}}
+                {{--                        </div>--}}
 
-{{--                        <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"--}}
-{{--                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->--}}
+                {{--                        <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"--}}
+                {{--                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->--}}
 
-{{--                        <!-- H.A.I CHAT INTERFACE -->--}}
-{{--                        <div class="card shadow-lg blur m-0 px-0   "--}}
-{{--                             style="background-color: #0f1534 !important;z-index: 1111111">--}}
-{{--                            <div class="card-header py-1" style="background-color: #f2661c">--}}
-{{--                                <div class="d-flex align-items-center justify-content-between">--}}
-{{--                                <!-- <div class="col-2 px-0 mb-2">--}}
-{{--                                    <div class="float-start d-flex flex-column">--}}
-{{--                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
-{{--                                        <div class="header-info text-white">--}}
-{{--                                            <div class=" fs-13px">Need help?</div>--}}
-{{--                                            <div class=" fs-7px">We reply immediately</div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div> -->--}}
-
-
-{{--                                    <div class="  d-flex align-items-center  ">--}}
-{{--                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>--}}
-{{--                                    </div>--}}
-
-{{--                                    <div class="d-flex align-items-center ">--}}
-{{--                                        <div class="float-end mt-4">--}}
-{{--                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">--}}
-{{--                                                <i class="fa fa-close"></i>--}}
-{{--                                            </button>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <!-- sidebar of chatbot -->--}}
-{{--                            <div class="d-flex">--}}
-{{--                                @livewire('client.chat.index')--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <!-- chatbox section  -->--}}
-{{--                        <!-- removed chatbox class  -->--}}
-
-{{--                        <div class="  ">--}}
-
-{{--                        </div>--}}
+                {{--                        <!-- H.A.I CHAT INTERFACE -->--}}
+                {{--                        <div class="card shadow-lg blur m-0 px-0   "--}}
+                {{--                             style="background-color: #0f1534 !important;z-index: 1111111">--}}
+                {{--                            <div class="card-header py-1" style="background-color: #f2661c">--}}
+                {{--                                <div class="d-flex align-items-center justify-content-between">--}}
+                {{--                                <!-- <div class="col-2 px-0 mb-2">--}}
+                {{--                                    <div class="float-start d-flex flex-column">--}}
+                {{--                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
+                {{--                                        <div class="header-info text-white">--}}
+                {{--                                            <div class=" fs-13px">Need help?</div>--}}
+                {{--                                            <div class=" fs-7px">We reply immediately</div>--}}
+                {{--                                        </div>--}}
+                {{--                                    </div>--}}
+                {{--                                </div> -->--}}
 
 
-{{--                    </div>--}}
-                    <!-- </div> -->
+                {{--                                    <div class="  d-flex align-items-center  ">--}}
+                {{--                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>--}}
+                {{--                                    </div>--}}
+
+                {{--                                    <div class="d-flex align-items-center ">--}}
+                {{--                                        <div class="float-end mt-4">--}}
+                {{--                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">--}}
+                {{--                                                <i class="fa fa-close"></i>--}}
+                {{--                                            </button>--}}
+                {{--                                        </div>--}}
+                {{--                                    </div>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
+                {{--                            <!-- sidebar of chatbot -->--}}
+                {{--                            <div class="d-flex">--}}
+                {{--                                @livewire('client.chat.index')--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+
+                {{--                        <!-- chatbox section  -->--}}
+                {{--                        <!-- removed chatbox class  -->--}}
+
+                {{--                        <div class="  ">--}}
+
+                {{--                        </div>--}}
+
+
+                {{--                    </div>--}}
+                <!-- </div> -->
                 </div>
             </section>
 
@@ -567,6 +562,7 @@
                 </div>
             </div>
 
+            {{--daily tip modal--}}
             <div class="modal fade" id="dailyTipModal" tabindex="-1" role="dialog" aria-labelledby="dailyTipModal"
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -598,7 +594,7 @@
                 </div>
             </div>
 
-{{--            answer query modal--}}
+            {{--answer query modal--}}
             <div class="modal fade" id="answerQueryModal" tabindex="-1" role="dialog" aria-labelledby="answerQueryModal"
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -621,10 +617,33 @@
                                             <div>
                                                 <div class="text-white mt-2">
                                                     <span> Answer : </span>
-                                                        {{ $admin_answer->answer ?? null }}
+                                                    {{ $admin_answer->answer ?? null }}
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{--action plan modal--}}
+            <div class="modal fade" id="actionPlanModal" tabindex="-1" role="dialog" aria-labelledby="actionPlanModal"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="form-label fs-4 text-white">Daily Tip</label>
+                                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <p>{!! $plan['plan_text'] ?? null !!}</p>
                                     </div>
                                 </div>
                             </div>
@@ -729,7 +748,6 @@
         }
 
 
-
     </script>
     <script>
         function scrollToBottom() {
@@ -811,7 +829,7 @@
             }
         });
 
-        function goToProfileOverviewPage(src){
+        function goToProfileOverviewPage(src) {
 
             window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src;
         }

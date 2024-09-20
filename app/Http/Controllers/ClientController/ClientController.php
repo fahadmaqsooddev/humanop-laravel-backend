@@ -9,6 +9,7 @@ use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\QueryAnswer;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\TipRecord;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
@@ -26,6 +27,7 @@ class ClientController extends Controller
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $tip = DailyTip::getSingleTip();
+            $plan = ActionPlan::userActionPlan($user['id']);
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
@@ -37,7 +39,7 @@ class ClientController extends Controller
             $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan'));
 
         } catch (\Exception $exception) {
 
