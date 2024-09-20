@@ -164,7 +164,7 @@ class UserController extends Controller
 
                     DailyTip::updateUserDailyTip();
 
-                    ActionPlan::storeUserActionPlan();
+//                    ActionPlan::storeUserActionPlan();
 
                     User::updateUserIsFeedback();
 
@@ -204,7 +204,7 @@ class UserController extends Controller
 
                     DailyTip::updateUserDailyTip();
 
-                    ActionPlan::storeUserActionPlan();
+//                    ActionPlan::storeUserActionPlan();
 
                     $data = [
 
