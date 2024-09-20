@@ -11,11 +11,11 @@
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <video id="myVideo100" class="slider-padding mb-5 videoStop mt-5" width="1100"
                                            height="400" controls>
-                                        <source id="video-source"
-                                            src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"
-                                            type="video/mp4">
-                                        <source src="mov_bbb.ogg" type="video/ogg">
-                                        Your browser does not support HTML video.
+{{--                                        <source--}}
+{{--                                            src="{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}"--}}
+{{--                                            type="video/mp4" id="video-source">--}}
+{{--                                        <source src="mov_bbb.ogg" type="video/ogg">--}}
+{{--                                        Your browser does not support HTML video.--}}
                                     </video>
                                     <ul style="justify-content: space-evenly; background-color: transparent"
                                         class="nav nav-pills">
@@ -100,7 +100,7 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo({{$style[3]}})" style="cursor: pointer;" class="text-white fs-10px">{{$index + 1}}. {{$style[1]}}</h5>
+                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}')" style="cursor: pointer;" class="text-white fs-10px">{{$index + 1}}. {{$style[1]}}</h5>
                                                                     <div class="description-container">
                                                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$style[2]}}</p>
                                                                     </div>
@@ -154,9 +154,45 @@
 
     <script>
 
+        showFeatureVideo('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}');
+
         function showFeatureVideo(src){
 
-            $('#video-source').attr('src', src);
+            var video = document.getElementById('myVideo100');
+            var source = document.createElement('source');
+
+            video.pause();
+
+            source.setAttribute('src', src);
+            source.setAttribute('type', 'video/mp4');
+
+            video.appendChild(source);
+            video.load();
+            video.play();
+            console.log({
+                src: source.getAttribute('src'),
+                type: source.getAttribute('type'),
+            });
+
+            // setTimeout(function() {
+            //     video.pause();
+            //
+            //     source.setAttribute('src', "https://saas.humanoptech.com/assets/video/The%20Effervescent%20Trait.mp4");
+            //     source.setAttribute('type', 'video/webm');
+            //
+            //     video.load();
+            //     video.play();
+            //     console.log({
+            //         src: source.getAttribute('src'),
+            //         type: source.getAttribute('type'),
+            //     });
+            // }, 3000);
+
+            // console.log(src);
+            //
+            // var video = document.getElementById('myVideo100');
+            //
+            // $('#video-source').attr('src', src);
         }
 
     </script>
