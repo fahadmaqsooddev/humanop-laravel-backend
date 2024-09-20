@@ -42,7 +42,7 @@ class AuthController extends Controller
 
                 DailyTip::updateUserDailyTip();
 
-                ActionPlan::storeUserActionPlan();
+//                ActionPlan::storeUserActionPlan();
 
                 $user = Helpers::getUser();
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-            ActionPlan::storeUserActionPlan();
+//            ActionPlan::storeUserActionPlan();
 
             DB::commit();
 
