@@ -875,13 +875,13 @@
                                         </div>
 
 
-                                        <button data-toggle="collapse" id="slide_video_player_button"
-                                                href="#slide_video_player" role="button"
-                                                aria-expanded="false" aria-controls="collapseExample"
-                                                class="btn btn-sm float-center mt-4 mb-4 text-white"
-                                                style="background-color: #f2661c; padding: 12px 63px;">
-                                            Slide Video Player
-                                        </button>
+{{--                                        <button data-toggle="collapse" id="slide_video_player_button"--}}
+{{--                                                href="#slide_video_player" role="button"--}}
+{{--                                                aria-expanded="false" aria-controls="collapseExample"--}}
+{{--                                                class="btn btn-sm float-center mt-4 mb-4 text-white"--}}
+{{--                                                style="background-color: #f2661c; padding: 12px 63px;">--}}
+{{--                                            Slide Video Player--}}
+{{--                                        </button>--}}
 
                                         <div class="d-none" id="slide_video_player">
                                             <div class="container show-controls" id="container_video">
@@ -917,7 +917,7 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <video id="video" src="https://saas.humanoptech.com/assets/video/The%20Perceptive%20Trait.mp4" class="w-100 h-100" style="max-height: 500px;"></video>
+                                                <video id="video" class="w-100 h-100" style="max-height: 500px;"></video>
                                             </div>
                                         </div>
 
