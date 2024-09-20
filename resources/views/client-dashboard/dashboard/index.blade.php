@@ -387,19 +387,19 @@
                                         OPTIMIZATION STRATEGIES FOR THE
                                         NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : 'Freemium') }}
                                         DAYS</p>
-                                    @if($plan && !empty($plan['plan_text']))
-                                        @if(strlen($plan['plan_text']) > 265)
-                                            {!! substr($plan['plan_text'], 0, 260)!!}
-                                            &nbsp;&nbsp;
-                                            <a href="javascript:void(0)" data-bs-toggle="modal"
-                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read
-                                                more...
-                                            </a>
-                                        @else
-                                            {!! $plan['plan_text'] !!}
-                                        @endif
-                                    @else
-                                    @endif
+{{--                                    @if($plan && !empty($plan['plan_text']))--}}
+{{--                                        @if(strlen($plan['plan_text']) > 265)--}}
+{{--                                            {!! substr($plan['plan_text'], 0, 260)!!}--}}
+{{--                                            &nbsp;&nbsp;--}}
+{{--                                            <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+{{--                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read--}}
+{{--                                                more...--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            {!! $plan['plan_text'] !!}--}}
+{{--                                        @endif--}}
+{{--                                    @else--}}
+{{--                                    @endif--}}
                                 </div>
                             </div>
                         </div>
