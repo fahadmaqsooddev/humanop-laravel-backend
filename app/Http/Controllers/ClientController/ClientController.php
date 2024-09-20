@@ -26,6 +26,7 @@ class ClientController extends Controller
             $user_age = User::getUserAge(Helpers::getWebUser()->age_group);
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
+            $userPlanName = $user['plan_name'];
             $tip = DailyTip::getSingleTip();
             $plan = ActionPlan::userActionPlan($user['id']);
             $admin_answer = QueryAnswer::userQueryAnswer();
@@ -39,7 +40,7 @@ class ClientController extends Controller
             $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName'));
 
         } catch (\Exception $exception) {
 

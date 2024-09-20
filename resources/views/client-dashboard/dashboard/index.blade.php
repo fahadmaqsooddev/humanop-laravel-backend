@@ -383,7 +383,7 @@
                                 <div class="card-body p-3" style="cursor: pointer"
                                      data-bs-toggle="modal" data-bs-target="#actionPlanModal">
                                     <p class="text-sm fs-12px mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> YOUR
-                                        OPTIMIZATION STRATEGIES FOR THE NEXT 90 DAYS</p>
+                                        OPTIMIZATION STRATEGIES FOR THE NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }} DAYS</p>
                                     @if($plan && !empty($plan['plan_text']))
                                         @if(strlen($plan['plan_text']) > 265)
                                             {!! substr($plan['plan_text'], 0, 260)!!}
@@ -638,7 +638,9 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <label class="form-label fs-4 text-white">Daily Tip</label>
+                                        <label class="form-label fs-4 text-white">
+                                            {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }} Action Plan
+                                        </label>
                                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
