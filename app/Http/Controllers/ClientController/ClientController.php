@@ -48,7 +48,7 @@ class ClientController extends Controller
 
 
     public function ninetyDayPlan(){
-        $assessmentDetails = Assessment::getAllRowGrid(860);
+        $assessmentDetails = Assessment::getAllRowGrid(841); // 860
         $user = Helpers::getWebUser();
 
         $plan = $user['plan_name'];
