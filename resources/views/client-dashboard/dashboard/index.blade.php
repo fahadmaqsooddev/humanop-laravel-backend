@@ -333,7 +333,7 @@
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $feature)
-                                                <p class="fw-bold fs-12px" style="color: #f2661c">
+                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage('{{$feature[3]}}')">
                                                     ({{ $feature[0] }}) {{ $feature[1] }}@if(!$loop->last),@endif
                                                 </p>
                                             @endforeach

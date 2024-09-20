@@ -20,10 +20,10 @@
                                     <ul style="justify-content: space-evenly; background-color: transparent"
                                         class="nav nav-pills">
                                         <li><a href="#summaryReport"
-                                               class="flex-sm-fill text-lg-center nav-link text-white text-bold active"
+                                               class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
                                         </li>
-                                        <li><a href="#coreStats" class="flex-sm-fill text-lg-center nav-link text-white"
+                                        <li><a href="#coreStats" class="flex-sm-fill text-lg-center nav-link text-white {{request()->has('video_url') ? 'active' : ""}}"
                                                data-toggle="tab">Core Stats</a>
                                         </li>
                                         <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-white"
@@ -31,7 +31,7 @@
                                         </li>
                                     </ul>
                                     <div class="container tab-content clearfix">
-                                        <div class="tab-pane active" id="summaryReport">
+                                        <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}" id="summaryReport">
                                             <div class="slider-padding p-3 mt-5">
                                                 <p>The ULT Performance Report serves to identify
                                                     those aspects about you that define and direct your best performance
@@ -91,7 +91,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="coreStats">
+                                        <div class="tab-pane {{request()->has('video_url') ? 'active' : ""}}" id="coreStats">
                                             <div class="slider-padding p-3 mt-5">
                                                 <h4 class="primaryColor">Profile Overview</h4>
                                                 <p class="mt-4">Your HumanOp profile reveals a unique combination of traits that shape your approach to life and work. Here are the key highlights based on your ULT Summary Report:</p>
@@ -178,30 +178,6 @@
             video.appendChild(source);
             video.load();
             video.play();
-            console.log({
-                src: source.getAttribute('src'),
-                type: source.getAttribute('type'),
-            });
-
-            // setTimeout(function() {
-            //     video.pause();
-            //
-            //     source.setAttribute('src', "https://saas.humanoptech.com/assets/video/The%20Effervescent%20Trait.mp4");
-            //     source.setAttribute('type', 'video/webm');
-            //
-            //     video.load();
-            //     video.play();
-            //     console.log({
-            //         src: source.getAttribute('src'),
-            //         type: source.getAttribute('type'),
-            //     });
-            // }, 3000);
-
-            // console.log(src);
-            //
-            // var video = document.getElementById('myVideo100');
-            //
-            // $('#video-source').attr('src', src);
         }
 
     </script>
