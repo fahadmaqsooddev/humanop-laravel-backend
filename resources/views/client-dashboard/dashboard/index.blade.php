@@ -322,7 +322,7 @@
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach($topThreeStyles as $style)
-                                                    <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage()">
+                                                    <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage('{{$style[3]}}')">
                                                         ({{ $style[0] }}) {{ $style[1] }}@if(!$loop->last),@endif
                                                     </p>
                                             @endforeach
