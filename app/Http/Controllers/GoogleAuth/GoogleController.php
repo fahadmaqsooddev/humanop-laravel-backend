@@ -62,7 +62,7 @@ class GoogleController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-            ActionPlan::storeUserActionPlan();
+//            ActionPlan::storeUserActionPlan();
 
             User::updateUserIsFeedback();
 
@@ -73,7 +73,8 @@ class GoogleController extends Controller
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+
+            return redirect()->to('/login')->with('error', $e->getMessage());
         }
     }
 
