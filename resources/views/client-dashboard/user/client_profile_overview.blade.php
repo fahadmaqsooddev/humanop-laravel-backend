@@ -159,12 +159,16 @@
         function showFeatureVideo(src){
 
             var video = document.getElementById('myVideo100');
+            var video_source = document.getElementById('video-source')
             var source = document.createElement('source');
+
+            video_source.remove();
 
             video.pause();
 
             source.setAttribute('src', src);
             source.setAttribute('type', 'video/mp4');
+            source.setAttribute('id', 'video-source');
 
             video.appendChild(source);
             video.load();
