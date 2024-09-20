@@ -15,7 +15,7 @@
         <div class="fixed-plugin prompt-suggestion d-flex align-items-center justify-content-evenly text-center p-4"
              id="suggestion_text_box">
 
-            <div class="d-flex text-center p-0 w-20 h-100 text-wrap"
+            <div class="d-flex align-items-center justify-content-center text-center p-0 w-20 h-100 text-wrap"
                  onclick="suggestionChatQueries('What can you tell me about myself?')"
                  style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
 
@@ -23,9 +23,7 @@
                     <p class="prompt-text fs-7px">What can you tell me about myself?</p>
                 </div>
             </div>
-            &nbsp;&nbsp;&nbsp;
-
-            <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "
+            <div class="d-flex align-items-center justify-content-center text-center p-0 w-20 h-100 text-wrap"
                  onclick="suggestionChatQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"
                  style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                 <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
@@ -33,18 +31,14 @@
                         [random between the four] and what motivates me in life?</p>
                 </div>
             </div>
-
-            &nbsp;&nbsp;&nbsp;
-            <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "
+            <div class="d-flex align-items-center justify-content-center text-center p-0 w-20 h-100 text-wrap"
                  onclick="suggestionChatQueries('How to use this platform?')"
                  style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                 <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
                     <p class="prompt-text fs-7px">How to use this platform?</p>
                 </div>
             </div>
-
-            &nbsp;&nbsp;&nbsp;
-            <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "
+            <div class="d-flex align-items-center justify-content-center text-center p-0 w-20 h-100 text-wrap"
                  onclick="suggestionChatQueries('How to optimize my actions to be in alignment with my highest self?')"
                  style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
                 <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">

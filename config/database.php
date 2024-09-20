@@ -357,7 +357,7 @@ return [
         ],
         'ActionPlan' => [
             'table' => 'action_plans',
-            'fillable' => ['plan_text','user_id','updated_at'],
+            'fillable' => ['plan_text','user_id','updated_at','text'],
             'hidden' => ['created_at'],
         ]
     ]
