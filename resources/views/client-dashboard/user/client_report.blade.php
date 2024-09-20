@@ -322,8 +322,8 @@
                                                     and enjoy life in the process.</p>
 {{--                                                <button onclick="pauseVideo('myVideo100')" data-toggle="collapse"--}}
                                                 <button onclick="showVideoAccordingToSlide('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}')"
-                                                        href="#intro_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                        href="#intro_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -352,9 +352,10 @@
                                                     intrinsic value in fortifying relationships, seeking a career,
                                                     preparing for marriage, selecting a roommate and in better
                                                     understanding yourself and others.</p>
-                                                <button onclick="pauseVideo('myVideo200')" data-toggle="collapse"
-                                                        href="#intro_cycle_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo200')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to The Cycle of Life.mp4')}}')"
+{{--                                                        href="#intro_cycle_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -390,9 +391,10 @@
 
                                                     <li> How much energy you currently have available to succeed</li>
                                                 </ul>
-                                                <button onclick="pauseVideo('myVideo300')" data-toggle="collapse"
-                                                        href="#cycle_of_life_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo300')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}')"
+{{--                                                        href="#cycle_of_life_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -414,9 +416,10 @@
                                                     how nature shows up in you. These traits assist in providing unique
                                                     insight into
                                                     your capabilities and natural talents.</p>
-                                                <button onclick="pauseVideo('myVideo400')" data-toggle="collapse"
-                                                        href="#trait_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo400')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Traits.mp4')}}')"
+{{--                                                        href="#trait_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -484,9 +487,10 @@
                                                     What motivates or drives
                                                     you requires you choose those listed below in order of
                                                     proficiency.</p>
-                                                <button onclick="pauseVideo('myVideo111')" data-toggle="collapse"
-                                                        href="#motivation_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo111')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}')"
+{{--                                                        href="#motivation_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -507,10 +511,11 @@
                                                     <h2 class="slider-padding"
                                                         style="color: #f2661c;">{{$report['public_name']}}</h2>
                                                     <p class="slider-padding">{{$report['text']}}</p>
-                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"
-                                                            data-toggle="collapse" href="#{{$report['p_name']}}"
-                                                            role="button"
-                                                            aria-expanded="false" aria-controls="collapseExample"
+                                                    <button onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $report['video'])}}')"
+{{--                                                    <button onclick="pauseVideo('myVideo{{$report['id']}}')"--}}
+{{--                                                            data-toggle="collapse" href="#{{$report['p_name']}}"--}}
+{{--                                                            role="button"--}}
+{{--                                                            aria-expanded="false" aria-controls="collapseExample"--}}
                                                             class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                             style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                         Video
@@ -552,9 +557,10 @@
                                                     tolerance is so that you can better understand your own boundaries
                                                     and those
                                                     around you.</p>
-                                                <button onclick="pauseVideo('myVideo222')" data-toggle="collapse"
-                                                        href="#alchemy_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo222')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Alchemy.mp4')}}')"
+{{--                                                        href="#alchemy_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -583,11 +589,12 @@
                                                 <p class="slider-padding">{{$reports['alchemy_code_details']['text']}}</p>
                                                 @if($reports['alchemy_code_details']['image'] !== null && $reports['alchemy_code_details']['image'] !== 'null')
                                                     <button
-                                                        onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')"
-                                                        data-toggle="collapse"
-                                                        href="#{{$reports['alchemy_code_details']['p_name']}}"
-                                                        role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                        onclick="pauseVideo('myVideo{{$reports['alchemy_code_details']['id']}}')"--}}
+                                                        onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $reports['alchemy_code_details']['video'])}}')"
+{{--                                                        data-toggle="collapse"--}}
+{{--                                                        href="#{{$reports['alchemy_code_details']['p_name']}}"--}}
+{{--                                                        role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                         Video
@@ -633,9 +640,10 @@
                                                     follow. When all
                                                     are open, a memory is
                                                     established.</p>
-                                                <button onclick="pauseVideo('myVideo333')" data-toggle="collapse"
-                                                        href="#communication_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo333')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Communication Style.mp4')}}')"
+{{--                                                        href="#communication_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -696,9 +704,10 @@
                                                 <h2 class="slider-padding" style="color: #f2661c;">YOUR PERCEPTION OF
                                                     LIFE</h2>
                                                 <p class="slider-padding">{{$reports['perception_life']['text']}}</p>
-                                                <button onclick="pauseVideo('myVideo444')" data-toggle="collapse"
-                                                        href="#perception_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo444')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Perception of Life Intro.mp4')}}')"
+{{--                                                        href="#perception_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -719,10 +728,11 @@
                                                     style="color: #f2661c;">{{$reports['polarity_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['polarity_code_detail']['text']}}</p>
                                                 <button
-                                                    onclick="pauseVideo('myVideo{{$reports['polarity_code_detail']['id']}}')"
-                                                    data-toggle="collapse"
-                                                    href="#{{$reports['polarity_code_detail']['p_name']}}" role="button"
-                                                    aria-expanded="false" aria-controls="collapseExample"
+{{--                                                    onclick="pauseVideo('myVideo{{$reports['polarity_code_detail']['id']}}')"--}}
+                                                    onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $reports['polarity_code_detail']['video'])}}')"
+{{--                                                    data-toggle="collapse"--}}
+{{--                                                    href="#{{$reports['polarity_code_detail']['p_name']}}" role="button"--}}
+{{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
                                                     class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                     style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -755,9 +765,10 @@
                                                     toxic abuse. The need for fortifying your presentation can be met by
                                                     living a more naturally suited
                                                     life.</p>
-                                                <button onclick="pauseVideo('myVideo555')" data-toggle="collapse"
-                                                        href="#energy_video" role="button"
-                                                        aria-expanded="false" aria-controls="collapseExample"
+{{--                                                <button onclick="pauseVideo('myVideo555')" data-toggle="collapse"--}}
+                                                <button onclick="showVideoAccordingToSlide('{{asset('assets/video/Intro to Energy Pool.mp4')}}')"
+{{--                                                        href="#energy_video" role="button"--}}
+{{--                                                        aria-expanded="false" aria-controls="collapseExample"--}}
                                                         class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                         style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -777,10 +788,11 @@
                                                     style="color: #f2661c;">{{$reports['energy_code_detail']['public_name']}}</h2>
                                                 <p class="slider-padding">{{$reports['energy_code_detail']['text']}}</p>
                                                 <button
-                                                    onclick="pauseVideo('myVideo{{$reports['energy_code_detail']['id']}}')"
-                                                    data-toggle="collapse"
-                                                    href="#{{$reports['energy_code_detail']['p_name']}}" role="button"
-                                                    aria-expanded="false" aria-controls="collapseExample"
+                                                    onclick="showVideoAccordingToSlide('{{asset('assets/video/'. $reports['energy_code_detail']['video'])}}')"
+{{--                                                    onclick="pauseVideo('myVideo{{$reports['energy_code_detail']['id']}}')"--}}
+{{--                                                    data-toggle="collapse"--}}
+{{--                                                    href="#{{$reports['energy_code_detail']['p_name']}}" role="button"--}}
+{{--                                                    aria-expanded="false" aria-controls="collapseExample"--}}
                                                     class="btn btn-sm float-center mt-4 mb-4 text-white"
                                                     style="background-color: #f2661c; padding: 12px 63px;">Watch
                                                     Video
@@ -862,9 +874,18 @@
                                             </div>
                                         </div>
 
-                                        <div>
+
+                                        <button data-toggle="collapse" id="slide_video_player_button"
+                                                href="#slide_video_player" role="button"
+                                                aria-expanded="false" aria-controls="collapseExample"
+                                                class="btn btn-sm float-center mt-4 mb-4 text-white"
+                                                style="background-color: #f2661c; padding: 12px 63px;">
+                                            Slide Video Player
+                                        </button>
+
+                                        <div class="d-none" id="slide_video_player">
                                             <div class="container show-controls" id="container_video">
-                                                <div class="wrapper">
+                                                <div class="wrapper mx-auto w-75">
                                                     <div class="video-timeline">
                                                         <div class="progress-area">
                                                             <span id="progree-area-span">00:00</span>
@@ -933,9 +954,11 @@
 
         // Function to pause all videos except the one with the given ID
         function pauseAllVideos() {
-            videos.forEach(function (video) {
-                video.pause();
-            });
+
+            var video = document.getElementById('video');
+
+            video.pause();
+
         }
 
         // Function to toggle video play/pause on button click
@@ -952,14 +975,32 @@
         // Pause all videos when carousel controls are clicked
         document.querySelector('.carousel-control-prev').addEventListener('click', function () {
             pauseAllVideos();
+
+            $('#slide_video_player').removeClass('show');
+            $('#slide_video_player').addClass('d-none');
         });
         document.querySelector('.carousel-control-next').addEventListener('click', function () {
             pauseAllVideos();
+
+            $('#slide_video_player').removeClass('show');
+            $('#slide_video_player').addClass('d-none');
         });
 
         function showVideoAccordingToSlide(src){
 
-            console.log(src);
+            if ($('#slide_video_player').hasClass('show')){
+
+                $('#slide_video_player').removeClass('show');
+                $('#slide_video_player').addClass('d-none');
+
+
+            }else {
+
+                $('#slide_video_player').removeClass('d-none');
+                $('#slide_video_player').addClass('show');
+            }
+
+            $('#video').attr('src', src);
         }
 
     </script>
