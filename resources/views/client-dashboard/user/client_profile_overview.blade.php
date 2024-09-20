@@ -154,7 +154,9 @@
 
     <script>
 
-        showFeatureVideo('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}');
+        var video_url = "{{request()->input('video_url', asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')) }}";
+
+        showFeatureVideo(video_url);
 
         function showFeatureVideo(src){
 

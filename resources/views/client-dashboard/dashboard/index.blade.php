@@ -322,7 +322,7 @@
                                     <div class="d-flex" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach($topThreeStyles as $style)
-                                                    <p class="fw-bold fs-12px" style="color: #f2661c">
+                                                    <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;" onclick="goToProfileOverviewPage()">
                                                         ({{ $style[0] }}) {{ $style[1] }}@if(!$loop->last),@endif
                                                     </p>
                                             @endforeach
@@ -810,5 +810,10 @@
 
             }
         });
+
+        function goToProfileOverviewPage(src){
+
+            window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src;
+        }
     </script>
 @endpush
