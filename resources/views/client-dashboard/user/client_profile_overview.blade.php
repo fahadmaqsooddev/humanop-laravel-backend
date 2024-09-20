@@ -162,7 +162,10 @@
             var video_source = document.getElementById('video-source')
             var source = document.createElement('source');
 
-            video_source.remove();
+            if (video_source !== null){
+
+                video_source.remove();
+            }
 
             video.pause();
 
