@@ -254,18 +254,18 @@
                                         --}}
                                     {{-- {{ $tip ? $tip['title'] : '' }}--}}
                                     {{-- </p>--}}
-                                    <div class="description-container" style="max-height: ;">
+                                    <div class="description-container" style="height: 375px;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                            @if($tip && !empty($tip['description']))
-                                                @if(strlen($tip['description']) > 265)
-                                                    {!! substr($tip['description'], 0, 260)!!}
+                                            @if($tip && !empty($tip['text']))
+                                                @if(strlen($tip['text']) > 265)
+                                                    {!! substr($tip['text'], 0, 260)!!}
                                                     &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#dailyTipModal" style="color: #f2661c;">read
                                                         more...
                                                     </a>
                                                 @else
-                                                    {!! $tip['description'] !!}
+                                                    {!! $tip['text'] !!}
                                                 @endif
                                             @else
                                             @endif
@@ -387,19 +387,19 @@
                                         OPTIMIZATION STRATEGIES FOR THE
                                         NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : 'Freemium') }}
                                         DAYS</p>
-{{--                                    @if($plan && !empty($plan['plan_text']))--}}
-{{--                                        @if(strlen($plan['plan_text']) > 265)--}}
-{{--                                            {!! substr($plan['plan_text'], 0, 260)!!}--}}
-{{--                                            &nbsp;&nbsp;--}}
-{{--                                            <a href="javascript:void(0)" data-bs-toggle="modal"--}}
-{{--                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read--}}
-{{--                                                more...--}}
-{{--                                            </a>--}}
-{{--                                        @else--}}
-{{--                                            {!! $plan['plan_text'] !!}--}}
-{{--                                        @endif--}}
-{{--                                    @else--}}
-{{--                                    @endif--}}
+                                    {{--                                    @if($plan && !empty($plan['plan_text']))--}}
+                                    {{--                                        @if(strlen($plan['plan_text']) > 265)--}}
+                                    {{--                                            {!! substr($plan['plan_text'], 0, 260)!!}--}}
+                                    {{--                                            &nbsp;&nbsp;--}}
+                                    {{--                                            <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+                                    {{--                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read--}}
+                                    {{--                                                more...--}}
+                                    {{--                                            </a>--}}
+                                    {{--                                        @else--}}
+                                    {{--                                            {!! $plan['plan_text'] !!}--}}
+                                    {{--                                        @endif--}}
+                                    {{--                                    @else--}}
+                                    {{--                                    @endif--}}
                                 </div>
                             </div>
                         </div>
@@ -444,111 +444,7 @@
                     </div>
                     <!-- <div class="row "> -->
                     @livewire('client.chat.index')
-                {{--                    <div class="fixed-plugin d-flex flex-column justify-content-center">--}}
 
-                {{--                        <div--}}
-                {{--                            class="prompt-suggestion row d-flex  align-items-center  justify-content-center text-center  p-2 "--}}
-                {{--                            id="suggestion_text_box" style="">--}}
-
-                {{--                            <div class="d-flex text-center  p-0   w-20 h-100  text-wrap"--}}
-                {{--                                 onclick="suggestionQueries('What can you tell me about myself?')"--}}
-                {{--                                 style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-
-                {{--                                <div--}}
-                {{--                                    class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap  ">--}}
-                {{--                                    <p class="prompt-text fs-7px">What can you tell me about myself?</p>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-                {{--                            &nbsp;&nbsp;&nbsp;--}}
-
-                {{--                            <div--}}
-                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  "--}}
-                {{--                                onclick="suggestionQueries('Tell me about my main (driver) (style) (alchemy) (energy center) [random between the four] and what motivates me in life?')"--}}
-                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-                {{--                                <div--}}
-                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-                {{--                                    <p class="prompt-text fs-7px">Tell me about my main (driver) (style) (alchemy)--}}
-                {{--                                        (energy center) [random between the four] and what motivates me in life?</p>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-
-                {{--                            &nbsp;&nbsp;&nbsp;--}}
-                {{--                            <div--}}
-                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap "--}}
-                {{--                                onclick="suggestionQueries('How to use this platform?')"--}}
-                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-                {{--                                <div--}}
-                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-                {{--                                    <p class="prompt-text fs-7px">How to use this platform?</p>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-
-                {{--                            &nbsp;&nbsp;&nbsp;--}}
-                {{--                            <div--}}
-                {{--                                class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap "--}}
-                {{--                                onclick="suggestionQueries('How to optimize my actions to be in alignment with my highest self?')"--}}
-                {{--                                style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
-                {{--                                <div--}}
-                {{--                                    class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
-                {{--                                    <p class="prompt-text fs-7px">How to optimize my actions to be in alignment with my--}}
-                {{--                                        highest self?</p>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-                {{--                        <div class="">--}}
-                {{--                        <textarea rows="3" cols="3" style="background-color: #0f1534;" name="text"--}}
-                {{--                                  class="form-control text-white messageChat mb-2 "--}}
-                {{--                                  placeholder="Type your message here..."></textarea>--}}
-                {{--                        </div>--}}
-
-                {{--                        <!-- <a style="background-color: #f2661c; color: white; border-radius: 5px !important;"--}}
-                {{--                                class="btn col-12 fixed-plugin-button haiChatBtn">H.A.I CHAT INTERFACE</a> -->--}}
-
-                {{--                        <!-- H.A.I CHAT INTERFACE -->--}}
-                {{--                        <div class="card shadow-lg blur m-0 px-0   "--}}
-                {{--                             style="background-color: #0f1534 !important;z-index: 1111111">--}}
-                {{--                            <div class="card-header py-1" style="background-color: #f2661c">--}}
-                {{--                                <div class="d-flex align-items-center justify-content-between">--}}
-                {{--                                <!-- <div class="col-2 px-0 mb-2">--}}
-                {{--                                    <div class="float-start d-flex flex-column">--}}
-                {{--                                        <img src="{{asset('assets/img/team-3.jpg')}}" alt="Avatar" class="avatar">--}}
-                {{--                                        <div class="header-info text-white">--}}
-                {{--                                            <div class=" fs-13px">Need help?</div>--}}
-                {{--                                            <div class=" fs-7px">We reply immediately</div>--}}
-                {{--                                        </div>--}}
-                {{--                                    </div>--}}
-                {{--                                </div> -->--}}
-
-
-                {{--                                    <div class="  d-flex align-items-center  ">--}}
-                {{--                                        <h5 class="text-center text-white fs-15px">H.A.I CHAT INTERFACE</h5>--}}
-                {{--                                    </div>--}}
-
-                {{--                                    <div class="d-flex align-items-center ">--}}
-                {{--                                        <div class="float-end mt-4">--}}
-                {{--                                            <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">--}}
-                {{--                                                <i class="fa fa-close"></i>--}}
-                {{--                                            </button>--}}
-                {{--                                        </div>--}}
-                {{--                                    </div>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-                {{--                            <!-- sidebar of chatbot -->--}}
-                {{--                            <div class="d-flex">--}}
-                {{--                                @livewire('client.chat.index')--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-
-                {{--                        <!-- chatbox section  -->--}}
-                {{--                        <!-- removed chatbox class  -->--}}
-
-                {{--                        <div class="  ">--}}
-
-                {{--                        </div>--}}
-
-
-                {{--                    </div>--}}
-                <!-- </div> -->
                 </div>
             </section>
 
