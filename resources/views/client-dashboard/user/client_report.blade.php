@@ -946,6 +946,7 @@
     <script>
         $('.carousel').carousel({
             interval: false,
+            pause : true,
         });
     </script>
     <script>
