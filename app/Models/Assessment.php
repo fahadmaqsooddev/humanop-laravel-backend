@@ -1147,4 +1147,26 @@ class Assessment extends Model
         }
     }
 
+    public static function singleAssessmentFromId($assessment_id){
+
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        return self::where(function ($q) use ($assessment_id, $user){
+
+            if ($assessment_id){
+
+                $q->where('id', $assessment_id);
+
+            }else{
+
+                $q->where('user_id', $user->id);
+            }
+
+        })->where('page', 0)
+
+            ->latest()
+
+            ->first();
+    }
+
 }

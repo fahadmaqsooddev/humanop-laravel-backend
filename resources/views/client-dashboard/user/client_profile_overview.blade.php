@@ -471,7 +471,7 @@
 
             video.appendChild(source);
             video.load();
-            video.play();
+            // video.play();
         }
 
     </script>
