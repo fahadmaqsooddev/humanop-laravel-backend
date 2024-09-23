@@ -65,7 +65,7 @@
                         <p class="mb-0 font-weight-bold text-sm text-white">
                             Optimal Trait To Be In Right Now:
                         </p>
-                        <p class="text-white word-break text-sm col-12">{{$topThreeStyles[0][1]}} trait (Thinking) For
+                        <p class="text-white word-break text-sm col-12">{{$topThreeStyles ? $topThreeStyles[0][1] : ''}} trait (Thinking) For
                             Strategy and Problem
                             Solving
                             Activities</p>
