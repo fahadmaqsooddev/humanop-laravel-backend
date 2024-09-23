@@ -51,11 +51,11 @@
         <div class="chatbox-input right-0 w-100" >
 {{--            <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"--}}
 {{--                   placeholder="Talk with Hai">--}}
-            <textarea rows="3" cols="3" style="background-color: #0f1534;" wire:model="userMessage" id="userMessage"
-                      class="form-control text-white messageChat mb-2 "
+            <textarea rows="3" cols="3" style="background-color: #0f1534;border-radius:10px 0px 0px 10px;" wire:model="userMessage" id="userMessage"
+                      class="form-control text-white messageChat  "
                       placeholder="Type your message here..."></textarea>
 
-            <button type="submit" id="submitBtn" style="display:none !important;border-radius: 0 30px 30px 0">
+            <button type="submit" id="submitBtn">
                 <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
@@ -63,7 +63,7 @@
         </div>
 
     </form>
-    <button id="toggle-btn" class="btn btn-primary w-10 align-self-center"
+    <button id="toggle-btn" class="btn btn-primary w-10 align-self-center mt-2"
             style="background-color:rgb(210, 103, 34);"><i
             class="chat-ham fa-solid fa-bars "
             onclick=""></i></button>
@@ -187,23 +187,29 @@
             }, 1000)
         }
         document.querySelector('.messageChat').addEventListener('keypress', function (e) {
-            if (e.key === '\n' && e.ctrlKey) {
+            var key = e.key || e.which || e.keyCode;
+            if (e.key === 'Enter' || key === 13) {
+                if (e.shiftKey) {
+                    // Shift + Enter: Insert a newline
+                    e.preventDefault();
 
-                console.log('sadfsdafasd nice');
+                    const textarea = e.target;
+                    const start = textarea.selectionStart;
+                    const end = textarea.selectionEnd;
 
-                $('.fixed-plugin-button').click();
+                    // Insert newline at the current cursor position
+                    textarea.value = textarea.value.substring(0, start) + "\n" + textarea.value.substring(end);
 
-                var message = document.querySelector('.messageChat').value;
-
-                Livewire.emit('chatMessage', message);
-
-                setTimeout(function () {
-
+                    // Move cursor to the next line
+                    textarea.selectionStart = textarea.selectionEnd = start + 1;
+                } else {
+                    // Enter without Shift: Submit the form or trigger the action
+                    e.preventDefault();
                     $('#submitBtn').click()
 
-                    $('#messageChat').val('');
-                }, 1000);
-
+                    $('#userMessage').val('');
+                    // Your submit logic here
+                }
             }
         });
     </script>
