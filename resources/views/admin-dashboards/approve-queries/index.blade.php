@@ -33,7 +33,7 @@
 
 </style>
 @section('content')
-    <div class="row mt-4">
+    <div class="container-fluid row mt-4">
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->

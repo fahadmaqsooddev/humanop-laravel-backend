@@ -60,7 +60,6 @@ class PaymentController extends Controller
     public function processPayment(Request $request)
     {
 
-
         DB::beginTransaction();
 
         try {
