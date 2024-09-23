@@ -253,8 +253,8 @@
                                     <div class="description-container" style="height: 375px;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
-                                                @if(strlen($tip['text']) > 265)
-                                                    {!! substr($tip['text'], 0, 260)!!}
+                                                @if(strlen($tip['text']) > 490)
+                                                    {!! substr($tip['text'], 0, 490)!!}
                                                     &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#dailyTipModal" style="color: #f2661c;">read
@@ -391,8 +391,8 @@
                                         NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                         DAYS</p>
                                     @if($plan && !empty($plan['text']))
-                                        @if(strlen($plan['text']) > 265)
-                                            {!! substr($plan['text'], 0, 490)!!}
+                                        @if(strlen($plan['text']) > 580)
+                                            {!! substr($plan['text'], 0, 580)!!}
                                             &nbsp;&nbsp;
                                             <a href="javascript:void(0)" data-bs-toggle="modal"
                                                data-bs-target="#actionPlanModal" style="color: #f2661c;">read
