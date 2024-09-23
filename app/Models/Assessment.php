@@ -1042,7 +1042,15 @@ class Assessment extends Model
                     $codes = AnswerCode::where('answer_id', $answer_id)->get();
 
                     foreach ($codes as $code) {
-                        $codeA[$code['code']] = $code['number'];
+
+                        if (array_key_exists($code['code'], $codeA)){
+
+                            $codeA[$code['code']] += $code['number'];
+
+                        }else{
+
+                            $codeA[$code['code']] = $code['number'];
+                        }
                     }
                 }
             }
@@ -1064,7 +1072,6 @@ class Assessment extends Model
                 $codeArray[$lowercaseCode] += $value;
             }
         }
-
 
         $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
 
