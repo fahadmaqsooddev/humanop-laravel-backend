@@ -221,7 +221,7 @@ return [
         ],
         'DailyTip' => [
             'table' => 'daily_tips',
-            'fillable' => ['title', 'description','code','user_id','is_read'],
+            'fillable' => ['title', 'description','code','user_id','is_read', 'text'],
             'hidden' => ['created_at','updated_at']
         ],
         'TipRecord' => [
@@ -357,7 +357,7 @@ return [
         ],
         'ActionPlan' => [
             'table' => 'action_plans',
-            'fillable' => ['plan_text','user_id','updated_at'],
+            'fillable' => ['plan_text','user_id','updated_at','text'],
             'hidden' => ['created_at'],
         ]
     ]
