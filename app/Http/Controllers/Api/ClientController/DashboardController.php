@@ -113,7 +113,7 @@ class DashboardController extends Controller
 
         try {
 
-            $plan = ActionPlan::userActionPlan(Helpers::getUser()->id);
+            $plan = ActionPlan::userActionPlan();
 
             return Helpers::successResponse('Action plan', $plan);
 

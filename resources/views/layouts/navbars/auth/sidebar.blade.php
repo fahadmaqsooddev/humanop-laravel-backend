@@ -497,26 +497,6 @@
                                     <span class="sidenav-normal"> Pricing </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client/billing') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client/billing') ? 'active' : '') }}"
-                                   href="{{ route('billing') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/billing.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                      src="{{URL::asset('assets/icons/billing.png')}}"></span>
-                                    <span class="sidenav-normal"> Billing </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ (Request::is('client/payment-history') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('client/payment-history') ? 'active' : '') }}"
-                                   href="{{ route('payment_history') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                      src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                    <span class="sidenav-normal"> Payment History </span>
-                                </a>
-                            </li>
                             <li class="nav-item {{ (Request::is('client/setting') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/setting') ? 'active' : '') }}"
                                    href="{{ route('setting') }}">

@@ -28,7 +28,7 @@ class ClientController extends Controller
             $user = Helpers::getWebUser();
             $userPlanName = $user['plan_name'];
             $tip = DailyTip::getSingleTip();
-            $plan = ActionPlan::userActionPlan($user['id']);
+            $plan = ActionPlan::userActionPlan();
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];

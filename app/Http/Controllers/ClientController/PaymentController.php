@@ -4,24 +4,20 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Models\Client\Plan\Plan;
-use Illuminate\Http\Request;
-use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
+use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Payment;
 use App\Models\User;
-use App\Models\Assessment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Stripe\BaseStripeClient;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\StripeClient;
-use App\Models\AssessmentColorCode;
-use function PHPUnit\Framework\stringContains;
 
 class PaymentController extends Controller
 {
-
     public function showPaymentForm()
     {
         try {
@@ -167,18 +163,18 @@ class PaymentController extends Controller
 
 //                if (!$payment_method_id && !$user['payment_method']){
 
-                    $stripe = new StripeClient($key['api_key']);
+                $stripe = new StripeClient($key['api_key']);
 
-                    $payment_method = $stripe->paymentMethods->attach(
-                        'pm_card_visa',
-                        ['customer' => $user['stripe_id']]
-                    );
+                $payment_method = $stripe->paymentMethods->attach(
+                    'pm_card_visa',
+                    ['customer' => $user['stripe_id']]
+                );
 
-                    User::updateUserPaymentMethod($payment_method);
+                User::updateUserPaymentMethod($payment_method);
 
-                    $user = Helpers::getWebUser();
+                $user = Helpers::getWebUser();
 
-                    $user->createOrGetStripeCustomer();
+                $user->createOrGetStripeCustomer();
 //                }
 
                 if (!empty($user['pm_last_four'])) {
@@ -226,18 +222,4 @@ class PaymentController extends Controller
         }
     }
 
-    public function PaymentHistory()
-    {
-        try {
-
-            $payment_history = Payment::getPaymentHistory();
-
-            return view('client-dashboard.payment.payment_history', compact('payment_history'));
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-    }
 }

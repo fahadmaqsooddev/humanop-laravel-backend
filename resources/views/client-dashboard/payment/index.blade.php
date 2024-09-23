@@ -31,12 +31,12 @@
         border-color: #f2661c !important;
     }
     @media (max-width: 575px) {
-    
+
         #coupon-btn{
             width: 100%;
             margin:0px;
         }
-    
+
     }
 
 </style>
@@ -74,12 +74,12 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end" >
-                                       <button type="submit"
-                                            class="btn updateBtn   text-white mt-4 " id="coupon-btn" >
-                                        Submit
-                                    </button> 
+                                        <button type="submit"
+                                                class="btn updateBtn   text-white mt-4 " id="coupon-btn" >
+                                            Submit
+                                        </button>
                                     </div>
-                                    
+
                                 </div>
                             </form>
                         </div>
