@@ -355,9 +355,15 @@
                                     </div>
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
-                                    <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
-                                        {{ $preception['polarity_code'] == 40 ? "Negative" : ($preception['polarity_code'] == 41 ? "Neutral" : ($preception['polarity_code'] == 42 ? "Positive" : '')) }} [{{$preception['pv']}}]
-                                    </p>
+                                    @if($preception)
+                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
+                                            {{
+                                                ($preception['polarity_code'] == 40 ? "Negative" :
+                                                ($preception['polarity_code'] == 41 ? "Neutral" :
+                                                ($preception['polarity_code'] == 42 ? "Positive" : '')))
+                                            }} [{{ $preception['pv'] ?? '' }}]
+                                        </p>
+                                    @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
                                         <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px">

@@ -35,11 +35,11 @@ class PaymentController extends Controller
 
                 AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
 
-                return redirect()->route('test_play');
+                return redirect()->route('client_intro_assessment');
 
             }
             elseif ($assessmentCheck == 'play') {
-                return redirect()->route('test_play');
+                return redirect()->route('client_intro_assessment');
 
             }
             else {
@@ -209,7 +209,7 @@ class PaymentController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('test_play')->with('success', 'Payment successful!');
+                return redirect()->route('client_intro_assessment')->with('success', 'Payment successful!');
 
             }
 
