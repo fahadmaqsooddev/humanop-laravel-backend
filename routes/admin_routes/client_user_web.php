@@ -54,7 +54,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
     Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
     Route::get('/newsfeed', [NetworkController::class, 'network'])->name('newsfeed');
-    Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
     Route::post('/delete-account', [SettingController::class, 'deleteAccount'])->name('delete_account');
 
@@ -63,7 +62,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
     Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('generate_pdf');
 
-    Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
 
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
@@ -75,11 +73,3 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('read-daily-tip');
 
 });
-
-//Route::get('/googleback', function (){
-//
-//    $user = \Laravel\Socialite\Facades\Socialite::driver('google')->user();
-//
-//    dd($user);
-//
-//});
