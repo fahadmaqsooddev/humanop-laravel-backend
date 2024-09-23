@@ -57,4 +57,17 @@ class QuestionController extends Controller
 
         }
     }
+
+    public function introAssessment()
+    {
+        try {
+
+            return view('client-dashboard.assessment.assessment-intro');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
 }

@@ -42,6 +42,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
     Route::post('/stripe', [PaymentController::class, 'processPayment'])->name('process_payment');
 
+    Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('client_intro_assessment');
     Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
     Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('all_assessment');
 
