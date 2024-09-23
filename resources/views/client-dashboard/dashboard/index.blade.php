@@ -246,7 +246,7 @@
                 <div class="row">
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: auto">
+                            <div class="card" style="height: auto; height: 410">
                                 <div class="card-body p-3" style="cursor: pointer"
                                      data-bs-toggle="modal" data-bs-target="#dailyTipModal">
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
@@ -294,7 +294,7 @@
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                            <div class="card" style="height: 500px;" style="border-radius: 3rem !important;">
+                            <div class="card" style="height: 530px">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
                                         <p class="text-sm fs-12px mt-3 text-white text-bold"
@@ -306,42 +306,49 @@
                                                                      style="color: #f2661c">{{$user_age}}</span>)</p>
                                     </div>
                                     <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
-                                    <div class="d-flex" style="margin-top: -10px">
+                                    <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach($topThreeStyles as $style)
-                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;"
+                                                <p class="fw-bold fs-12px"
+                                                   style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$style[3]}}')">
-                                                    ({{ $style[0] }}) {{ $style[1] }}@if(!$loop->last),@endif
+                                                    {{ $style[1] }} [{{ $style[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Motivational
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Motivational
                                         Drivers:</p>
-                                    <div class="d-flex" style="margin-top: -10px">
+                                    <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $feature)
-                                                <p class="fw-bold fs-12px" style="color: #f2661c; cursor: pointer;"
+                                                <p class="fw-bold fs-12px"
+                                                   style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$feature[3]}}')">
-                                                    ({{ $feature[0] }}) {{ $feature[1] }}@if(!$loop->last),@endif
+                                                    {{ $feature[1] }} [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Tolerance
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Tolerance
                                         Boundaries:</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
-                                            ({{ $boundary['code_number'] ?? '' }}) {{ $boundary['public_name'] ?? '' }}
+                                            @php
+                                                $codeParts = explode('-', $boundary['code_number']);
+                                                $code = implode('', $codeParts);
+                                            @endphp
+                                            {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
                                         Styles:</p>
-                                    <div class="d-flex" style="margin-top: -10px">
+                                    <div class="d-flex">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
-                                                <p class="fw-bold fs-12px " style="color: #f2661c">
-                                                    {{ $communication }}@if(!$loop->last),@endif
+                                                <p class="fw-bold fs-12px "
+                                                   style="color: #f2661c; cursor: pointer;">
+                                                    {{ $communication }} @if(!$loop->last)--<span> > </span>@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -349,7 +356,7 @@
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
                                     <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
-                                        {{ $preception == 40 ? "Negative" : ($preception == 41 ? "Neutral" : ($preception == 42 ? "Positive" : '')) }}
+                                        {{ $preception['polarity_code'] == 40 ? "Negative" : ($preception['polarity_code'] == 41 ? "Neutral" : ($preception['polarity_code'] == 42 ? "Positive" : '')) }} [{{$preception['pv']}}]
                                     </p>
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
@@ -375,7 +382,7 @@
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 375px;">
+                            <div class="card" style="height: 410px;">
                                 <div class="card-body p-3" style="cursor: pointer"
                                      data-bs-toggle="modal" data-bs-target="#actionPlanModal">
                                     <p class="text-sm fs-12px mt-3 text-white text-bold"
@@ -401,7 +408,7 @@
                         </div>
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
 
-                            <div class="card" style="height: 550px;border-radius: 1rem !important;">
+                            <div class="card" style="height: 540px;border-radius: 1rem !important;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
                                         -

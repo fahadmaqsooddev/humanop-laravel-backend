@@ -433,11 +433,11 @@ class Assessment extends Model
         }
         elseif ($energy_code == 18)
         {
-            $publicName = 'Average 25-30';
+            $publicName = 'Average [25-30]';
         }
         elseif ($energy_code == 20)
         {
-            $publicName = 'Excellent 31-35';
+            $publicName = 'Excellent [31-35]';
         }
         elseif ($energy_code == 21)
         {
@@ -463,7 +463,12 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        return $polarity_code;
+        $data = [
+            'polarity_code' => $polarity_code,
+            'pv' => $pv,
+        ];
+
+        return $data;
 
     }
 
