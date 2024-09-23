@@ -1013,13 +1013,15 @@ class Assessment extends Model
 
         if (!empty($answer_ids)) {
 
+
             foreach ($answer_ids as $answer_id) {
 
                 if (is_array($answer_id)) {
 
+                    $i = 3;
+
                     foreach ($answer_id as $answer) {
 
-                        $i = 3;
 
                         $answerCode = AnswerCode::where('answer_id', $answer)->select(['code', 'number'])->first();
 
