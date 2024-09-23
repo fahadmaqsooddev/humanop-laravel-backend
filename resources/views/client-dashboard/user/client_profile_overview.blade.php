@@ -397,7 +397,7 @@
                                                             <div class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 data-toggle="collapse" data-target="#{{$style[1]}}" aria-expanded="true" aria-controls="{{$style[1]}}"
-                                                                        onclick="showFeatureVideo('{{$style[3]}}')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                        onclick="showFeatureVideo('{{$style[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{$style[1]}}
                                                                     </h5>
                                                                     <div id="{{$style[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -414,7 +414,7 @@
                                                             <div class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 data-toggle="collapse" data-target="#{{$feature[1]}}" aria-expanded="true" aria-controls="{{$feature[1]}}"
-                                                                        onclick="showFeatureVideo('{{$feature[3]}}')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                        onclick="showFeatureVideo('{{$feature[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{$feature[1]}}
                                                                     </h5>
                                                                     <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -460,9 +460,10 @@
 
         showFeatureVideo(video_url);
 
-        function showFeatureVideo(src){
+        function showFeatureVideo(src, is_core_stats = 0){
 
             var video = document.getElementById('myVideo100');
+            var videoContainer = document.getElementById('container_video');
             var video_source = document.getElementById('video-source')
             var source = document.createElement('source');
 
@@ -479,7 +480,14 @@
 
             video.appendChild(source);
             video.load();
-            // video.play();
+
+            videoContainer.scrollIntoView();
+
+            if (is_core_stats){
+                video.play();
+
+            }
+
         }
 
     </script>
