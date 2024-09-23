@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,9 @@ class SettingController extends Controller
 
             $subscription = $user->subscription('main');
 
-            return view('client-dashboard.setting.index', compact('user','subscription'));
+            $payment_history = Payment::getPaymentHistory();
+
+            return view('client-dashboard.setting.index', compact('user','subscription','payment_history'));
 
         }catch (\Exception $exception)
         {

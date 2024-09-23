@@ -8,7 +8,6 @@ use App\Http\Controllers\ClientController\QuestionController;
 use App\Http\Controllers\ClientController\UserController;
 use App\Http\Controllers\ClientController\ResourceController;
 use App\Http\Controllers\ClientController\NetworkController;
-use App\Http\Controllers\ClientController\BillingController;
 use App\Http\Controllers\ClientController\SettingController;
 use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
@@ -43,18 +42,18 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
     Route::post('/stripe', [PaymentController::class, 'processPayment'])->name('process_payment');
 
+    Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('client_intro_assessment');
     Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
     Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('all_assessment');
 
     Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('user_detail');
     Route::get('/user-info', [UserController::class, 'userInfo'])->name('user_info');
-    Route::get('/user-profile-overview', [UserController::class, 'profileOverview'])->name('user_profile_overview');
+    Route::get('/user-profile-overview/{id?}', [UserController::class, 'profileOverview'])->name('user_profile_overview');
     Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('download_user_report');
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('user_grid');
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
     Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
     Route::get('/newsfeed', [NetworkController::class, 'network'])->name('newsfeed');
-    Route::get('/billing', [BillingController::class, 'billing'])->name('billing');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
     Route::post('/delete-account', [SettingController::class, 'deleteAccount'])->name('delete_account');
 
@@ -63,7 +62,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
     Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('generate_pdf');
 
-    Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('payment_history');
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
 
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
@@ -75,11 +73,3 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('read-daily-tip');
 
 });
-
-//Route::get('/googleback', function (){
-//
-//    $user = \Laravel\Socialite\Facades\Socialite::driver('google')->user();
-//
-//    dd($user);
-//
-//});

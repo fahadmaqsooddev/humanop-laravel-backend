@@ -76,13 +76,14 @@ class DailyTip extends Model
 
             if ($tip){
 
-                $tip->update(['description' => $daily_tip, 'is_read' => 0]);
+                $tip->update(['description' => $daily_tip[0], 'text' => $daily_tip[1], 'is_read' => 0]);
 
             }else{
 
                 self::create([
                     'user_id' => Helpers::getWebUser()->id ?? Helpers::getUser()->id,
-                    'description' => $daily_tip
+                    'description' => $daily_tip[0],
+                    'text' => $daily_tip[1]
                 ]);
             }
 

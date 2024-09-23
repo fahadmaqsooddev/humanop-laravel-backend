@@ -104,16 +104,19 @@ class UserController extends Controller
 
     }
 
-    public function profileOverview()
+    public function profileOverview($id = null)
     {
         try {
 
-            $user = Helpers::getWebUser();
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $assessment = Assessment::singleAssessmentFromId($id);
+
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-            $actionPlan = ActionPlan::userActionPlan($user->id);
+
+            $actionPlan = ActionPlan::userActionPlan();
 
             return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan'));
 

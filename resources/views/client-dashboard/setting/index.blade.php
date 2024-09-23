@@ -123,6 +123,23 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
+                            <a class="nav-link text-body" data-scroll="" href="#billing">
+                                <div class="icon me-2">
+                                    <i class="fa-solid fa-address-card text-white"></i>
+{{--                                    <img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/billing.png')}}">--}}
+                                </div>
+                                <span class="text-sm text-white">Billing</span>
+                            </a>
+                        </li>
+                        <li class="nav-item pt-2">
+                            <a class="nav-link text-body" data-scroll="" href="#paymentHistory">
+                                <div class="icon me-2">
+                                    <i class="fa-regular fa-credit-card text-white"></i>
+                                </div>
+                                <span class="text-sm text-white">Payment History</span>
+                            </a>
+                        </li>
+                        <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#delete">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 45 40"
@@ -219,6 +236,94 @@
                                style="background-color: #f2661c"
                                type="button" name="button">Update My Subscription
                             </a>
+                        </div>
+                    </div>
+                </div>
+
+{{--                Billing card--}}
+                <div class="card mt-4" id="billing">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="pb-2">
+                                    <h5 class="text-white">Billing</h5>
+                                </div>
+
+                                <div class="card bg-transparent shadow-xl">
+                                    <div class="overflow-hidden position-relative border-radius-xl" style="background-image: url('assets/img/curved-images/curved14.jpg');">
+                                        <span class="mask bg-gradient-dark"></span>
+                                        <div class="card-body position-relative z-index-1 p-3">
+                                            <i class="fas fa-wifi text-white p-2"></i>
+                                            <h5 class="text-white mt-4 pb-2">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;{{$user['pm_last_four'] ? $user['pm_last_four'] : '****'}}</h5>
+                                            <div class="d-flex">
+                                                <div class="d-flex">
+                                                    {{--                                            <div class="me-4">--}}
+                                                    {{--                                                <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>--}}
+                                                    {{--                                                <h6 class="text-white mb-0">Jack Peterson</h6>--}}
+                                                    {{--                                            </div>--}}
+                                                    <div>
+                                                        <p class="text-white text-sm opacity-8 mb-0">Expires</p>
+                                                        <h6 class="text-white mb-0">{{$user['pm_exp_month'] ? $user['pm_exp_month'] : '**'}}/{{$user['pm_exp_year'] ? $user['pm_exp_year'] : '****'}}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mt-3">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <p class="text-white text-sm opacity-8 mb-0">LAST USED</p>
+                                                        <h6 class="text-white mb-0">{{$user['pm_last_four'] ? \Illuminate\Support\Carbon::parse($user['updated_at'])->format('m/d/Y') : '**/**/****'}}</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                                    <img class="w-60 mt-2" src="{{ URL::asset('assets/img/logos/mastercard.png') }}" alt="logo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{{--                Payment History--}}
+                <div class="card mt-4" id="paymentHistory">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="pb-2">
+                                    <h5 class="text-white">Payment History</h5>
+                                </div>
+
+                                <div class="table-responsive" style="overflow: scroll; max-height: 300px;">
+                                    <table class="table table-flush" id="datatable-search">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Assessment ID</th>
+                                            <th>Assessment Status</th>
+                                            <th>Coupon ID</th>
+                                            <th>Discount Payment</th>
+                                            <th>original Payment</th>
+                                            <th>Date & Time</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($payment_history as $history)
+                                            <tr>
+                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['id'] : ''}} </td>
+                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['page'] === 0 ? 'Complete' : 'Incomplete' : ''}} </td>
+                                                <td class="text-sm font-weight-normal">{{$history['coupons'] ? $history['coupons']['coupon'] : 'Null'}} </td>
+                                                <td class="text-sm font-weight-normal">{{$history['discount_price']}}</td>
+                                                <td class="text-sm font-weight-normal">{{$history['total_price']}}</td>
+                                                <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($history['created_at'])->format('M, d, Y h:i A')}}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>

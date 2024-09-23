@@ -63,7 +63,7 @@
                 </div>
                 @include('layouts/footers/auth/footer')
             </div>
-        @elseif (\Request::is('client/pricing'))
+        @elseif (\Request::is('client/intro-assessment'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')

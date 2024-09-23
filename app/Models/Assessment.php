@@ -433,11 +433,11 @@ class Assessment extends Model
         }
         elseif ($energy_code == 18)
         {
-            $publicName = 'Average 25-30';
+            $publicName = 'Average [25-30]';
         }
         elseif ($energy_code == 20)
         {
-            $publicName = 'Excellent 31-35';
+            $publicName = 'Excellent [31-35]';
         }
         elseif ($energy_code == 21)
         {
@@ -463,7 +463,12 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        return $polarity_code;
+        $data = [
+            'polarity_code' => $polarity_code,
+            'pv' => $pv,
+        ];
+
+        return $data;
 
     }
 
@@ -1008,13 +1013,15 @@ class Assessment extends Model
 
         if (!empty($answer_ids)) {
 
+
             foreach ($answer_ids as $answer_id) {
 
                 if (is_array($answer_id)) {
 
+                    $i = 3;
+
                     foreach ($answer_id as $answer) {
 
-                        $i = 3;
 
                         $answerCode = AnswerCode::where('answer_id', $answer)->select(['code', 'number'])->first();
 
@@ -1037,7 +1044,15 @@ class Assessment extends Model
                     $codes = AnswerCode::where('answer_id', $answer_id)->get();
 
                     foreach ($codes as $code) {
-                        $codeA[$code['code']] = $code['number'];
+
+                        if (array_key_exists($code['code'], $codeA)){
+
+                            $codeA[$code['code']] += $code['number'];
+
+                        }else{
+
+                            $codeA[$code['code']] = $code['number'];
+                        }
                     }
                 }
             }
@@ -1059,7 +1074,6 @@ class Assessment extends Model
                 $codeArray[$lowercaseCode] += $value;
             }
         }
-
 
         $existingAssessment = Assessment::where('user_id', $userId)->latest()->first();
 
@@ -1145,6 +1159,28 @@ class Assessment extends Model
             $assessment->delete();
 
         }
+    }
+
+    public static function singleAssessmentFromId($assessment_id){
+
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+        return self::where(function ($q) use ($assessment_id, $user){
+
+            if ($assessment_id){
+
+                $q->where('id', $assessment_id);
+
+            }else{
+
+                $q->where('user_id', $user->id);
+            }
+
+        })->where('page', 0)
+
+            ->latest()
+
+            ->first();
     }
 
 }

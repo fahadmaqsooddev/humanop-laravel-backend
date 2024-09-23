@@ -49,7 +49,7 @@ class ActionPlan extends Model
 
                 $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
-                $user_action_plan->update(['plan_text' => $data]);
+                $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
 
             }
 
@@ -66,15 +66,17 @@ class ActionPlan extends Model
 
             $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
-            self::create(['plan_text' => $data, 'user_id' => $user->id]);
+            self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
 
         }
 
     }
 
-    public static function userActionPlan($user_id){
+    public static function userActionPlan(){
 
-        return self::where('user_id', $user_id)->select(['id','plan_text'])->first();
+        $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
+
+        return self::where('user_id', $user_id)->select(['id','plan_text','text'])->first();
     }
 
 
