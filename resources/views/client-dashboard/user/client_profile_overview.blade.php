@@ -322,7 +322,7 @@
                                                data-toggle="tab">Core Stats</a>
                                         </li>
                                         <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-white"
-                                               data-toggle="tab">90 Days Plan</a>
+                                               data-toggle="tab">90 Days Optimization Plan</a>
                                         </li>
                                     </ul>
                                     <div class="container tab-content clearfix">
@@ -430,7 +430,16 @@
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
                                                 <div>
-                                                    {!! $actionPlan['plan_text'] ?? null !!}
+
+                                                    @production
+                                                        <h1>Coming Soon</h1>
+                                                    @endproduction
+
+                                                    @if(env('APP_ENV') != 'production')
+
+                                                        {!! $actionPlan['plan_text'] ?? null !!}
+
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
