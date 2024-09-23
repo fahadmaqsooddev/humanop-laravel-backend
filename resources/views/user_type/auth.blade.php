@@ -63,10 +63,10 @@
                 </div>
                 @include('layouts/footers/auth/footer')
             </div>
-        @elseif (\Request::is('client/pricing'))
-            @include('layouts.navbars.guest.nav')
-            @yield('content')
-            @include('layouts/footers/guest/footer')
+{{--        @elseif (\Request::is('client/pricing'))--}}
+{{--            @include('layouts/navbars/auth/sidebar')--}}
+{{--            @yield('content')--}}
+{{--            @include('layouts/footers/guest/footer')--}}
         @elseif (\Request::is('client/stripe-checkout'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
