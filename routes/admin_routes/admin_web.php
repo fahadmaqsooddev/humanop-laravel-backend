@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdminControllers\AdminController;
 use App\Http\Controllers\AdminControllers\QuestionController;
 use App\Http\Controllers\AdminControllers\CodeController;
@@ -30,11 +31,20 @@ use Illuminate\Support\Facades\Route;
     Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/session', [SessionController::class, 'store']);
-    Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
+
     Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
+
+    Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
+
+    Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
+
     Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
     Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+
     Route::get('/logout', [SessionController::class, 'destroy']);
+
+
+
 
     Route::get('/', function () {
         return redirect('/login');

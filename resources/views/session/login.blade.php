@@ -123,21 +123,25 @@
 {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
 {{--                                    @enderror--}}
                                 </div>
-                                <div class="mb-3 position-relative">
+                                <div class="mb-1 position-relative">
     <label for="password" class="text-white">Password</label>
     <input type="password" class="form-control" placeholder="Password" aria-label="Password"
            @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
            name="password" id="password"
            style="background-color: #0F1535; color: white; border-radius: 15px; padding-right: 40px;">
+
     <!-- Make sure the eye icon is positioned correctly -->
-    <a class="position-absolute" id="togglePassword" 
+    <a class="position-absolute" id="togglePassword"
        style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
         <i class="fas fa-eye pt-1 password-eye" id="password-eye" style="    color: #f2661c !important;
 "></i>
     </a>
 </div>
-
-
+                                <div class="form-check" style="font-size: 14px">
+                                    <a href="{{url('login/forgot-password')}}" class="float-end">
+                                        Forgot your password?
+                                    </a>
+                                </div>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" @if(isset($_COOKIE['email'])) checked @endif type="checkbox" name="remember" id="rememberMe">
                                     <label style="color: rgb(160, 174, 192)" class="form-check-label" for="rememberMe">Remember
@@ -174,10 +178,10 @@
         // Check if elements exist before adding event listener
         if (togglePassword && passwordInput) {
             togglePassword.addEventListener('click', function (e) {
-                e.preventDefault(); 
-                
-            
-                
+                e.preventDefault();
+
+
+
                 // Toggle password visibility
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';

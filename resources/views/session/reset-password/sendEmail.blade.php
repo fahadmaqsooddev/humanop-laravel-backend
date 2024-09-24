@@ -1,59 +1,79 @@
-@extends('user_type.guest', ['parentFolder' => 'pages', 'childFolder' => 'resetPasswprd'])
+@extends('user_type.guest', ['parentFolder' => 'session', 'childFolder' => 'none'])
 
 @section('content')
-    <main class="main-content main-content-bg mt-0">
-        <section>
-            <div class="page-header section-height-75">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-6 col-md-8 col-12 px-5 d-flex flex-column">
-                            <div class="card card-plain mt-8">
-                                @if($errors->any())
-                                    <div class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
+
+    <main class="main-content  mt-0">
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
+             style="background-image: url('assets/img/login.webp');">
+            {{-- <span class="mask bg-gradient-dark opacity-6"></span> --}}
+{{--            <div class="container">--}}
+{{--                <div class="row d-flex flex-column justify-content-center">--}}
+{{--                    <div class="col-lg-5 text-center mx-auto">--}}
+{{--                        <h1 class="text-white mb-2 mt-5">Welcome!</h1>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+        </div>
+        <div class="container">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                    <div class="card z-index-0">
+
+                        @if($errors->any())
+
+                            <div class="m-3  alert alert-warning alert-dismissible fade show text-center" role="alert">
+
+                                @if(count($errors->messages()) > 1)
+
+                                    @foreach($errors->messages() as $err)
+
                                         <span class="alert-text text-white">
-                                        {{$errors->first()}}</span>
+                                    {{$err[0]}}</span>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                             <i class="fa fa-close" aria-hidden="true"></i>
                                         </button>
-                                    </div>
-                                @endif
-                                @if(session('success'))
-                                <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
+                                        <br>
+
+                                    @endforeach
+
+                                @else
                                     <span class="alert-text text-white">
-                                    {{ session('success') }}</span>
+                                    {{$errors->first()}}</span>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </button>
-                                </div>
                                 @endif
-                                <div class="card-header pb-0 text-left">
-                                    <h3 class="text-info text-gradient">Reset Password</h3>
-                                    <p class="mb-0">You will receive an e-mail in maximum 60 seconds</p>
-                                </div>
-                                <div class="card-body pb-3">
-                                    <form action="/forgot-password" method="POST" role="form text-left">
-                                        @csrf
-                                        <div>
-                                            <label>Email</label>
-                                            <div class=" mb-3">
-                                                <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
-                                            </div>
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Reset</button>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../../assets/img/curved-images/curved6.jpg')"></div>
+                        @endif
+                        @if(session('success'))
+                            <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success"
+                                 role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('success') }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                    <i class="fa fa-close" aria-hidden="true"></i>
+                                </button>
                             </div>
+                        @endif
+                            <div class="card-header pb-0 text-left">
+                                <h3 style="color: #f2661c !important;">Reset Password</h3>
+                                <p class="mb-0">You will receive an e-mail in maximum 60 seconds</p>
+                            </div>
+                        <div class="card-body">
+                            <form action="/forgot-password" method="POST" role="form text-left">
+                                @csrf
+                                <div>
+                                    <label>Email</label>
+                                    <div class=" mb-3">
+                                        <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn  w-100 mt-4 mb-0 text-white" style="background-color: #f2661c !important;">Reset</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
     </main>
 @endsection
