@@ -1087,8 +1087,6 @@ class Assessment extends Model
                 $codeArray = array_merge($multipleAnswersArray, $codeArray);
             }
 
-            Log::info(['app merge array' => $codeArray]);
-
             foreach ($codeArray as $key => $value) {
                 if ($value !== '') {
                     $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
@@ -1121,6 +1119,8 @@ class Assessment extends Model
 //                $existingAssessment->update($resultArray);
 
             }
+
+            Log::info(['app merge array' => $resultArray]);
 
             $existingAssessment->update($resultArray);
 

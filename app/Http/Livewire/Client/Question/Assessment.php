@@ -228,8 +228,6 @@ class Assessment extends Component
                     $codeArray = array_merge($energyValues, $codeArray);
                 }
 
-                Log::info(['website merge array' => $codeArray]);
-
                 foreach ($codeArray as $key => $value) {
                     if ($value !== '') {
                         $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
@@ -237,6 +235,8 @@ class Assessment extends Component
                         $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
                     }
                 }
+
+                Log::info(['website merge array' => $resultArray]);
 
                 if ($totalPages == $this->offset / 3) {
 
