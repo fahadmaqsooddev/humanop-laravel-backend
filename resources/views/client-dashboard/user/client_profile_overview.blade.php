@@ -392,6 +392,26 @@
                                                 <h4 class="primaryColor">Profile Overview</h4>
                                                 <p class="mt-4">Your HumanOp profile reveals a unique combination of traits that shape your approach to life and work. Here are the key highlights based on your ULT Summary Report:</p>
                                                 <div class="row d-flex mt-5">
+                                                    <div class="col-lg-4 col-sm-12 col-md-6">
+                                                        <div class="card" style="height: auto">
+                                                            <div class="card-body p-3 ">
+                                                                <h5 data-toggle="collapse" data-target="#into_to_trait" aria-expanded="true" aria-controls="intro_to_trait"
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    YOUR TRAITS
+                                                                </h5>
+                                                                <div id="into_to_trait" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                        Your natural physical "TRAITS" determine
+                                                                        how nature shows up in you. These traits assist in providing unique
+                                                                        insight into
+                                                                        your capabilities and natural talents.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-flex mt-5">
                                                     @foreach($topThreeStyles as $index => $style)
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div class="card" style="height: auto">
@@ -424,6 +444,157 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
+                                                </div>
+
+                                                <div class="row d-flex mt-5">
+                                                    <div class="col-lg-4 col-sm-12 col-md-6">
+                                                        <div class="card" style="height: auto">
+                                                            <div class="card-body p-3 ">
+                                                                <h5 data-toggle="collapse" data-target="#your_motivation" aria-expanded="true" aria-controls="your_motivation"
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    YOUR MOTIVATION
+                                                                </h5>
+                                                                <div id="your_motivation" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                        Your "MOTIVATION" addresses what
+                                                                        “DRIVES” you, what must be fed and honored so that you
+                                                                        can successfully reach your destination. There are 12 “DRIVERS” in
+                                                                        everyone’s
+                                                                        “vehicle of self”. These
+                                                                        drivers are all chattering at the same time, but only some are
+                                                                        licensed to
+                                                                        drive. Knowing how to keep these
+                                                                        legally authorized drivers in the front seat and motivated allows
+                                                                        for efficient
+                                                                        travel. These driving forces
+                                                                        represent specific laws of nature that show up in all living things.
+                                                                        These
+                                                                        drivers express themselves as
+                                                                        strengths and weaknesses. It is your personal responsibility to come
+                                                                        from a
+                                                                        place of strength. Strength
+                                                                        transmits intelligence while weakness produces ignorance. Choosing
+                                                                        opportunities
+                                                                        that feed your strengths,
+                                                                        your talents, and your passion, will bring you closer to states of
+                                                                        intelligence.
+                                                                        What motivates or drives
+                                                                        you requires you choose those listed below in order of
+                                                                        proficiency.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex mt-5">
+                                                    <div class="col-lg-4 col-sm-12 col-md-6">
+                                                        <div class="card" style="height: auto">
+                                                            <div class="card-body p-3 ">
+                                                                <h5 data-toggle="collapse" data-target="#your_boundaries" aria-expanded="true" aria-controls="your_boundaries"
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    YOUR BOUNDARIES
+                                                                </h5>
+                                                                <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                        “ALCHEMY” addresses your refinement
+                                                                        preferences; whether you are meticulous, practical,
+                                                                        messy, and what you can tolerate in others. The Knowledge of Y.O.U.
+                                                                        uses the
+                                                                        analogy of ore to exemplify
+                                                                        states of refinement, specifically Gold, Silver and Copper. Alchemy
+                                                                        determines
+                                                                        where your "BOUNDARIES" begin
+                                                                        and end. This range identifies what you can tolerate in terms of
+                                                                        people, places
+                                                                        and things and how to best
+                                                                        manage your choices in maximizing your energy potential. Alchemical
+                                                                        incompatibility is the number one reason
+                                                                        for challenges in relationships. Not addressing boundary issues in
+                                                                        any
+                                                                        relationship can result in
+                                                                        relationship failure. In business and in life it is vital to know
+                                                                        what your
+                                                                        personal alchemical range of
+                                                                        tolerance is so that you can better understand your own boundaries
+                                                                        and those
+                                                                        around you.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex mt-5">
+                                                    <div class="col-lg-4 col-sm-12 col-md-6">
+                                                        <div class="card" style="height: auto">
+                                                            <div class="card-body p-3 ">
+                                                                <h5 data-toggle="collapse" data-target="#your_communication" aria-expanded="true" aria-controls="your_communication"
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    YOUR COMMUNICATION
+                                                                </h5>
+                                                                <div id="your_communication" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                        “ENERGY CENTERS” define your
+                                                                        "COMMUNICATION STYLE" and they determine how you uniquely
+                                                                        relate, connect and learn from your environment. They are
+                                                                        responsible for how
+                                                                        every individual commits
+                                                                        information and experiences to memory. There are four centers:
+                                                                        Intellectual,
+                                                                        Moving, Emotional and
+                                                                        Instinctual. Your pronounced center of energy largely determines how
+                                                                        you
+                                                                        initially connect with the moment.
+                                                                        Everyone is different, and knowing this information can be vital in
+                                                                        communicating and connecting effectively
+                                                                        with the world in which we live. The centers are listed below from
+                                                                        most
+                                                                        prominent to least prominent in you.
+                                                                        They exemplify the doors to your house of self. The first door
+                                                                        represents the
+                                                                        front door. Opening this door
+                                                                        is essential in initiating the process of accessing those that
+                                                                        follow. When all
+                                                                        are open, a memory is
+                                                                        established.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex mt-5">
+                                                    <div class="col-lg-4 col-sm-12 col-md-6">
+                                                        <div class="card" style="height: auto">
+                                                            <div class="card-body p-3 ">
+                                                                <h5 data-toggle="collapse" data-target="#your_energy_pool" aria-expanded="true" aria-controls="your_energy_pool"
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    YOUR ENERGY POOL
+                                                                </h5>
+                                                                <div id="your_energy_pool" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                        Your “ENERGY POOL” represents how much
+                                                                        physical energy you have to expend on a daily
+                                                                        basis. Much like staying hydrated, you must guard its appropriation
+                                                                        of use. Some activities, choices,
+                                                                        people, places and things can rob you of vital energy, and depending
+                                                                        upon the nature of those things or
+                                                                        choices, you may or may not be able to recoup the energy. Throughout
+                                                                        life your goal is to maintain an
+                                                                        average or better volume of energy. This makes life more manageable
+                                                                        and keeps you from being vulnerable to
+                                                                        toxic abuse. The need for fortifying your presentation can be met by
+                                                                        living a more naturally suited
+                                                                        life.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
