@@ -321,17 +321,16 @@
                                         Drivers:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topTwoFeatures)
-                                            @foreach($topTwoFeatures as $feature)
+                                            @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$feature[3]}}')">
-                                                    {{ $feature[1] }} [{{ $feature[0] }}]
+                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }} [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Tolerance
-                                        Boundaries:</p>
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance"Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             @php
@@ -341,14 +340,13 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
-                                        Styles:</p>
+                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication Styles"Energy Centers":</p>
                                     <div class="d-flex">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px "
                                                    style="color: #f2661c; cursor: pointer;">
-                                                    {{ $communication }} @if(!$loop->last)--<span> > </span>@endif
+                                                    {{ $communication }} @if(!$loop->last)--> &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -358,9 +356,9 @@
                                     @if($preception)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             {{
-                                                ($preception['polarity_code'] == 40 ? "Negative" :
-                                                ($preception['polarity_code'] == 41 ? "Neutral" :
-                                                ($preception['polarity_code'] == 42 ? "Positive" : '')))
+                                                ($preception['polarity_code'] == 40 ? "Negative Charged" :
+                                                ($preception['polarity_code'] == 41 ? "Neutral Charged" :
+                                                ($preception['polarity_code'] == 42 ? "Positive Charged" : '')))
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
