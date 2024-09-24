@@ -134,7 +134,6 @@ class CodeDetail extends Model
     public static function getPublicNames($codekeys = null)
     {
         $codeDetail = [];
-        $isPilot = true; // Flag to toggle between Pilot and Co-Pilot
 
         foreach ($codekeys as $index => $codeKey) {
             $key = strtoupper($index);
@@ -142,9 +141,7 @@ class CodeDetail extends Model
 
             if ($result && isset($result->public_name)) {
 
-                $publicName = $isPilot ? 'Pilot: ' . $result->public_name : 'Co-Pilot: ' . $result->public_name;
-                $codeDetail[] = [$codeKey, $publicName, $result->text, $result->video_url];
-                $isPilot = !$isPilot;
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url];
             }
         }
 
