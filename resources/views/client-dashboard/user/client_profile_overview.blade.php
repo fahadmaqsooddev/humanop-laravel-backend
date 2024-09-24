@@ -428,23 +428,6 @@
                                                     </div>
                                                     @endforeach
                                                 </div>
-                                                <div class="row d-flex mt-5">
-                                                    @foreach($topTwoFeatures as $index => $feature)
-                                                        <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
-                                                                <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$feature[1]}}" aria-expanded="true" aria-controls="{{$feature[1]}}"
-                                                                        onclick="showFeatureVideo('{{$feature[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
-                                                                        {{$index + 1}}. {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}} {{$feature[1]}}
-                                                                    </h5>
-                                                                    <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$feature[2]}}</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
 
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
@@ -486,6 +469,24 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                <div class="row d-flex mt-5">
+                                                    @foreach($topTwoFeatures as $index => $feature)
+                                                        <div class="col-lg-6 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#{{$feature[1]}}" aria-expanded="true" aria-controls="{{$feature[1]}}"
+                                                                        onclick="showFeatureVideo('{{$feature[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                        {{$index + 1}}. {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}} {{$feature[1]}}
+                                                                    </h5>
+                                                                    <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$feature[2]}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
 
                                                 <div class="row d-flex mt-5">
