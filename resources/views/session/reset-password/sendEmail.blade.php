@@ -56,16 +56,16 @@
                             </div>
                         @endif
                             <div class="card-header pb-0 text-left">
-                                <h3 style="color: #f2661c !important;">Reset Password</h3>
-                                <p class="mb-0">You will receive an e-mail in maximum 60 seconds</p>
+                                <h3 class="text-white" >Reset Password</h3>
+                                <p class="mb-0" >You will receive an e-mail in maximum 60 seconds</p>
                             </div>
                         <div class="card-body">
                             <form action="/forgot-password" method="POST" role="form text-left">
                                 @csrf
                                 <div>
-                                    <label>Email</label>
+                                    <label class="text-white">Email</label>
                                     <div class=" mb-3">
-                                        <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
+                                        <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" style="background-color: #0F1535; color: white; border-radius: 15px;" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
                                     </div>
                                 </div>
                                 <div class="text-center">

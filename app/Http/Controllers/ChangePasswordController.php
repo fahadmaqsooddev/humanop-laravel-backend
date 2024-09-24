@@ -24,12 +24,12 @@ class ChangePasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => $password
                 ]);
 
                 $user->save();
 
-//                event(new PasswordReset($user));
+                event(new PasswordReset($user));
             }
         );
 
@@ -62,8 +62,15 @@ class ChangePasswordController extends Controller
 //        }
     }
 
-    public function resetPass($token)
+    public function resetPass(Request $request, $token)
     {
-        return view('session/reset-password/resetPassword', ['token' => $token]);
+        // Retrieve the email parameter from the query string
+        $email = $request->query('email');
+
+        // Return the view with the token and email
+        return view('session/reset-password/resetPassword', [
+            'token' => $token,
+            'email' => $email,
+        ]);
     }
 }

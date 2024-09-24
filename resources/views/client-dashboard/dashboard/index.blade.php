@@ -340,7 +340,8 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication Styles"Energy Centers":</p>
+                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
+                                        Style:</p>
                                     <div class="d-flex">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
@@ -356,9 +357,9 @@
                                     @if($preception)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             {{
-                                                ($preception['polarity_code'] == 40 ? "Negative Charged" :
-                                                ($preception['polarity_code'] == 41 ? "Neutral Charged" :
-                                                ($preception['polarity_code'] == 42 ? "Positive Charged" : '')))
+                                                ($preception['polarity_code'] == 40 ? "Negatively Charged" :
+                                                ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
+                                                ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif

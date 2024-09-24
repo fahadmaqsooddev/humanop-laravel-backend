@@ -137,8 +137,8 @@
 "></i>
     </a>
 </div>
-                                <div class="form-check" style="font-size: 14px">
-                                    <a href="{{url('login/forgot-password')}}" class="float-end">
+                                <div class="form-check" style="font-size: 13px">
+                                    <a href="{{url('login/forgot-password')}}" class="float-end text-white">
                                         Forgot your password?
                                     </a>
                                 </div>

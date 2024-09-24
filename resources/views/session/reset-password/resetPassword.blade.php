@@ -55,34 +55,35 @@
                             </div>
                         @endif
                         <div class="card-header pb-0 text-left">
-                            <h4 class="mb-0" style="color: #f2661c !important;">Change password</h4>
+                            <h4 class="mb-0 text-white" >Change password</h4>
                         </div>
                         <div class="card-body">
                             <form role="form" action="/reset-password" method="POST">
                                 @csrf
                                 <input type="hidden" name="token" value="{{ $token }}">
-                                <div>
-                                    <label for="email">Email</label>
-                                    <div class="">
-                                        <input id="email" name="email" type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon" value="{{ old('email') }}" required>
+                                <input type="hidden" name="email" value="{{$email}}">
+{{--                                <div>--}}
+{{--                                    <label for="email">Email</label>--}}
+{{--                                    <div class="">--}}
+{{--                                        <input id="email" name="email" type="email" class="form-control" style="background-color: #0F1535; color: white; border-radius: 15px;" placeholder="Email" aria-label="Email" aria-describedby="email-addon" value="{{ old('email') }}" required>--}}
 {{--                                        @error('email')--}}
 {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
 {{--                                        @enderror--}}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label for="password">New Password</label>
+{{--                                    </div>--}}
+{{--                                </div>--}}
+                                <div class="mb-3">
+                                    <label for="password" class="text-white">New Password</label>
                                     <div class="">
-                                        <input id="password" name="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" required>
+                                        <input id="password" name="password" type="password" style="background-color: #0F1535; color: white; border-radius: 15px;" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" required>
 {{--                                        @error('password')--}}
 {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
 {{--                                        @enderror--}}
                                     </div>
                                 </div>
                                 <div>
-                                    <label for="password_confirmation">Confirm Password</label>
+                                    <label for="password_confirmation" class="text-white">Confirm Password</label>
                                     <div class="">
-                                        <input id="password-confirmation" name="password_confirmation" type="password" class="form-control" placeholder="Password-confirmation" aria-label="Password-confirmation" aria-describedby="Password-addon" required>
+                                        <input id="password-confirmation" name="password_confirmation" type="password" class="form-control" placeholder="Password-confirmation" aria-label="Password-confirmation" style="background-color: #0F1535; color: white; border-radius: 15px;" aria-describedby="Password-addon" required>
 {{--                                        @error('password')--}}
 {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
 {{--                                        @enderror--}}
