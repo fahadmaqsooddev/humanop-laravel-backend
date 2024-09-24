@@ -224,9 +224,15 @@ class Assessment extends Component
                 $oldResult = $existingAssessment->toArray();
                 $resultArray = [];
 
+                Log::info(['web que array' => $codeArray]);
+
+                Log::info(['web sort array' => $energyValues]);
+
                 if (!empty($energyValues)) {
                     $codeArray = array_merge($energyValues, $codeArray);
                 }
+
+                Log::info(['web merge array' => $codeArray]);
 
                 foreach ($codeArray as $key => $value) {
                     if ($value !== '') {
@@ -236,7 +242,7 @@ class Assessment extends Component
                     }
                 }
 
-                Log::info(['website merge array' => $resultArray]);
+                Log::info(['website result array' => $resultArray]);
 
                 if ($totalPages == $this->offset / 3) {
 
