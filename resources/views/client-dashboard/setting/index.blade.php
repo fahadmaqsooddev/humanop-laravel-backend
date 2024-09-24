@@ -300,7 +300,7 @@
                                     <table class="table table-flush" id="datatable-search">
                                         <thead class="thead-light">
                                         <tr>
-                                            <th>Assessment ID</th>
+{{--                                            <th>Assessment ID</th>--}}
                                             <th>Assessment Status</th>
                                             <th>Coupon ID</th>
                                             <th>Discount Payment</th>
@@ -311,12 +311,12 @@
                                         <tbody>
                                         @foreach($payment_history as $history)
                                             <tr>
-                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['id'] : ''}} </td>
-                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['page'] === 0 ? 'Complete' : 'Incomplete' : ''}} </td>
-                                                <td class="text-sm font-weight-normal">{{$history['coupons'] ? $history['coupons']['coupon'] : 'Null'}} </td>
-                                                <td class="text-sm font-weight-normal">{{$history['discount_price']}}</td>
-                                                <td class="text-sm font-weight-normal">{{$history['total_price']}}</td>
-                                                <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($history['created_at'])->format('M, d, Y h:i A')}}</td>
+{{--                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['id'] : ''}} </td>--}}
+                                                <td class="text-sm font-weight-normal text-center">{{$history['assessments'] ? $history['assessments']['page'] === 0 ? 'Complete' : 'Incomplete' : ''}} </td>
+                                                <td class="text-sm font-weight-normal text-center">{{$history['coupons'] ? $history['coupons']['coupon'] : 'N/A'}} </td>
+                                                <td class="text-sm font-weight-normal text-center">{{$history['discount_price']}}</td>
+                                                <td class="text-sm font-weight-normal text-center">{{$history['total_price']}}</td>
+                                                <td class="text-sm font-weight-normal text-center">{{\Carbon\Carbon::parse($history['created_at'])->format('M, d, Y h:i A')}}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
