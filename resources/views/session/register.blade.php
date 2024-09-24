@@ -114,10 +114,10 @@
                             </div>
                             <div class="mt-3">
                                 <div class="">
-                                    <label for="name" class="text-white">Gender</label>
+                                    <label for="name" class="text-white">Gender at Birth</label>
                                     <select class="form-control" name="gender" id="gender" name="user_type"
                                         style="background-color: #0F1535; color: white; border-radius: 12px;">
-                                        <option value="" selected hidden>Gender At Birth
+                                        <option value="" selected hidden>Gender at Birth
                                         </option>
                                         <option value="2">Male (XY)</option>
                                         <option value="1">Female (XX)</option>
