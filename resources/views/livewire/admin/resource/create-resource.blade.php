@@ -1,19 +1,40 @@
 <div class="row container-fluid">
-    <div class="col-lg-7 position-relative z-index-2">
+    <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
             <div class="card-body p-3">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <div class="d-flex flex-column h-100">
                             <h2 class="font-weight-bolder mb-0">Library Resources</h2>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
+                        <button class="btn btn-sm mt-2 mb-0" type="button" data-toggle="collapse" style="background-color: #f2661c; color: white"
+                                data-target="#createCategory" aria-expanded="false" aria-controls="createCategory">
+                            Add Category
+                        </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource"
                             style="background-color: #f2661c; color: white"
                             class="btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
+
+                    <div class="w-50">
+                        <div class="collapse" id="createCategory">
+                            <div class="card card-body">
+
+                                <label>Category Name : </label>
+                                <input style="background-color: #0f1534;" class="form-control text-white"
+                                       wire:model.defer="" placeholder="Enter category name" type="text">
+                                <div class="p-2">
+                                    <button type="submit" class="btn btn-sm submitBtn float-end">submit</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
