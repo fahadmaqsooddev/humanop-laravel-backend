@@ -1083,9 +1083,15 @@ class Assessment extends Model
 
             $resultArray = [];
 
+            Log::info(['app que array' => $codeArray]);
+
+            Log::info(['app sort array' => $multipleAnswersArray]);
+
             if (!empty($multipleAnswersArray)) {
                 $codeArray = array_merge($multipleAnswersArray, $codeArray);
             }
+
+            Log::info(['app merge array' => $codeArray]);
 
             foreach ($codeArray as $key => $value) {
                 if ($value !== '') {
@@ -1119,6 +1125,8 @@ class Assessment extends Model
 //                $existingAssessment->update($resultArray);
 
             }
+
+            Log::info(['app result array' => $resultArray]);
 
             $existingAssessment->update($resultArray);
 

@@ -7,6 +7,7 @@ use App\Models\AnswerCode;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
 use App\Models\Question;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\Assessment as AssessmentModal;
 use Illuminate\Support\Facades\Auth;
@@ -223,9 +224,15 @@ class Assessment extends Component
                 $oldResult = $existingAssessment->toArray();
                 $resultArray = [];
 
+                Log::info(['web que array' => $codeArray]);
+
+                Log::info(['web sort array' => $energyValues]);
+
                 if (!empty($energyValues)) {
                     $codeArray = array_merge($energyValues, $codeArray);
                 }
+
+                Log::info(['web merge array' => $codeArray]);
 
                 foreach ($codeArray as $key => $value) {
                     if ($value !== '') {
@@ -234,6 +241,8 @@ class Assessment extends Component
                         $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
                     }
                 }
+
+                Log::info(['website result array' => $resultArray]);
 
                 if ($totalPages == $this->offset / 3) {
 
