@@ -598,7 +598,6 @@
         document.querySelector('.messageChat').addEventListener('keypress', function (e) {
             if (e.key === '\n' && e.ctrlKey) {
 
-                console.log('sadfsdafasd nice');
 
                 $('.fixed-plugin-button').click();
 
