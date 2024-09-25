@@ -535,11 +535,11 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#your_boundaries" aria-expanded="true" aria-controls="your_boundaries"
+                                                                    <h5 data-toggle="collapse" data-target="#{{$boundary['public_name']}}" aria-expanded="true" aria-controls="{{$boundary['public_name']}}"
                                                                         onclick="showFeatureVideo('{{$boundary['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$boundary['public_name']}}
                                                                     </h5>
-                                                                    <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                    <div id="{{$boundary['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
 
                                                                             {{$boundary['text']}}
@@ -621,6 +621,53 @@
 
                                                 </div>
 
+
+                                                @if($perception_life)
+                                                    <div class="row d-flex mt-5">
+                                                        <div class="col-lg-4 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#your_perception" aria-expanded="true" aria-controls="your_perception"
+                                                                        onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                        YOUR PERCEPTION
+                                                                    </h5>
+                                                                    <div id="your_perception" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                            {{$perception_life['text']}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
+                                                @if($perception)
+                                                    <div class="row d-flex mt-5">
+                                                        <div class="col-lg-4 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#{{$perception['public_name']}}" aria-expanded="true" aria-controls="{{$perception['public_name']}}"
+                                                                        onclick="showFeatureVideo('{{$perception['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+
+                                                                        {{$perception['public_name']}}
+
+                                                                    </h5>
+                                                                    <div id="{{$perception['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+
+                                                                            {{$perception['text']}}
+
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div class="card" style="height: auto">
@@ -681,16 +728,7 @@
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
                                                 <div>
-
-                                                    @production
-                                                        <h1>Coming Soon</h1>
-                                                    @endproduction
-
-                                                    @if(env('APP_ENV') != 'production')
-
-                                                        {!! $actionPlan['plan_text'] ?? null !!}
-
-                                                    @endif
+                                                    {!! $actionPlan['plan_text'] ?? null !!}
                                                 </div>
                                             </div>
                                         </div>

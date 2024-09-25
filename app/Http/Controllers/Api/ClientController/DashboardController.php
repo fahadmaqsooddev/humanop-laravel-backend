@@ -11,6 +11,7 @@ use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -49,29 +50,39 @@ class DashboardController extends Controller
 
     }
 
-    public function coreStats(){
+    public function coreStats(Request $request){
 
         try {
-            $user_age = User::getUserAge(Helpers::getUser()->age_group);
-            $assessment = Assessment::getLatestAssessment(Helpers::getUser()->id);
+
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-            $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
+
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-            $perception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
+
+            $perception_life = CodeDetail::getPerceptionStaticText();
+
+            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
+
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
 
             $data = [
                 'assessment' => $assessment,
                 'topThreeStyles' => $topThreeStyles,
-                'boundry' => $boundary,
+                'boundary' => $boundary,
                 'topTwoFeatures' => $topTwoFeatures,
                 'topCommunication' => $topCommunication,
-                'perception' => $perception,
                 'energyPool' => $energyPool,
-                'userAge' => $user_age,
+                'your_perception' => $perception_life,
+                'perception' => $perception
             ];
 
             return Helpers::successResponse('core stats', $data);
