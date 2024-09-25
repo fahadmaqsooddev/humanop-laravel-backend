@@ -1,9 +1,3 @@
-<style>
-    @media screen (max-width:575px) {
-
-        
-    }
-</style>
 <div>
 
 
@@ -94,6 +88,7 @@
                         <div class="message user-message">` + userMsg + `</div>
                     </div>`);
                 }
+
                 $('#userMessage-pop-up').val('');
 
                 $('#chatbox-content-pop-up').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
@@ -103,6 +98,7 @@
                         <span class="chatDot"></span>
                     </div>
                 </div>`);
+
                 scrollToBottom();
             });
         });
