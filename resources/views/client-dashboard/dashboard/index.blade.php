@@ -330,7 +330,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance"Alchemy":</p>
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance "Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             @php
@@ -341,7 +341,7 @@
                                         </p>
                                     @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
-                                        Style:</p>
+                                        Style "Energy Centers":</p>
                                     <div class="d-flex">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)

@@ -429,19 +429,19 @@ class Assessment extends Model
 
         if ($energy_code == 16)
         {
-            $publicName = 'Above Excellent and up [36]';
+            $publicName = "Above Excellent and up [$energy_code]";
         }
         elseif ($energy_code == 18)
         {
-            $publicName = 'Average [25-30]';
+            $publicName = "Average [$energy_code]";
         }
         elseif ($energy_code == 20)
         {
-            $publicName = 'Excellent [31-35]';
+            $publicName = "Excellent [$energy_code]";
         }
         elseif ($energy_code == 21)
         {
-            $publicName = 'Fair and under [24]';
+            $publicName = "Fair and under [$energy_code]";
         }
 
         return $publicName;

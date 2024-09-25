@@ -158,14 +158,28 @@ class CodeDetail extends Model
         $result = [];
 
         foreach ($communication as $codeKey) {
+
             $key = strtoupper($codeKey);
 
             $record = self::where('code', $key)->where('number', 1)->first('public_name');
 
             if ($record) {
-                $result[] = $record->public_name;
+
+                $last_words = substr($record->public_name, -2);
+
+                if ($last_words === 'ly'){
+
+                    $str_len = strlen($record->public_name) - 2;
+
+                    $result[] = substr($record->public_name, 0, $str_len);
+
+                }else{
+
+                    $result[] = $record->public_name;
+                }
             }
         }
+
         return $result;
     }
 
