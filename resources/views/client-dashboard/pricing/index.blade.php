@@ -20,7 +20,7 @@
 @section('content')
 <div class="page-header position-relative m-3 border-radius-xl ">
         <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines" class="position-absolute opacity-6 start-0 top-0 w-100 bg-pricing" >
-        <div class="container pb-md-2 pb-4 pt-5 pt-md-1 top-heading ">
+        <div class="container pb-md-2 pb-4 pt-5 pt-md-1 my-5 ">
             <div class="row">
                 <div class="col-md-6 mx-auto   text-center">
                     <h3 class="text-white">See our pricing</h3>
@@ -41,6 +41,11 @@
 
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             <div class="card">
+                                @if($plan->name != 'Freemium')
+                                <button class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0 mx-5">
+                                    Coming Soon
+                                </button>
+                                @endif
                                 <div class="card-header text-center pt-4 pb-3">
                                     <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
                                     <h1 class="font-weight-bold mt-2 text-white">
@@ -157,7 +162,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">1 Assessment every 90 days</span>
+                                                <span class="ps-3 text-muted">1 Assessment every 90 days</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -167,7 +172,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Multiple Tips</span>
+                                                <span class="ps-3 text-muted">Multiple Tips</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -177,7 +182,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">3 Action Items</span>
+                                                <span class="ps-3 text-muted">3 Action Items</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -187,7 +192,7 @@
                                                      style="width: 15px; margin-top: 8px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Detailed Results</span>
+                                                <span class="ps-3 text-muted">Detailed Results</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -197,7 +202,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Action Plan</span>
+                                                <span class="ps-3 text-muted">Action Plan</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -207,7 +212,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Training Strategies</span>
+                                                <span class="ps-3 text-muted">Training Strategies</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -217,7 +222,7 @@
                                                      style="width: 12px; margin-top: 3px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Renewal System</span>
+                                                <span class="ps-3 text-muted">Renewal System</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -227,23 +232,23 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Early Releases</span>
+                                                <span class="ps-3 text-muted">Early Releases</span>
                                             </div>
                                         </div>
 
 
-                                        @if($user->plan_name == "Core")
-                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
-                                                Current Membership
-                                                <i class="fas fa-arrow-right ms-1"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0"
-                                               data-bs-toggle="modal" data-bs-target="#subcriptionModel{{$plan->name}}">
-                                                Update Membership
-                                                <i class="fas fa-arrow-right ms-1"></i>
-                                            </a>
-                                        @endif
+{{--                                        @if($user->plan_name == "Core")--}}
+{{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">--}}
+{{--                                                Current Membership--}}
+{{--                                                <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0"--}}
+{{--                                               data-bs-toggle="modal" data-bs-target="#subcriptionModel{{$plan->name}}">--}}
+{{--                                                Update Membership--}}
+{{--                                                <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @endif--}}
                                     </div>
 
 
@@ -257,7 +262,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Licensing Model</span>
+                                                <span class="ps-3 text-muted">Licensing Model</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -267,7 +272,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Multiple Daily Tips</span>
+                                                <span class="ps-3 text-muted">Multiple Daily Tips</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -277,7 +282,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">HAI Feature</span>
+                                                <span class="ps-3 text-muted">HAI Feature</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -287,7 +292,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Gamification</span>
+                                                <span class="ps-3 text-muted">Gamification</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -297,7 +302,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Training Strategies</span>
+                                                <span class="ps-3 text-muted">Training Strategies</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -307,7 +312,7 @@
                                                      style="width: 12px; margin-top: 3px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Renewal System</span>
+                                                <span class="ps-3 text-muted">Renewal System</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -317,7 +322,7 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Action Plan</span>
+                                                <span class="ps-3 text-muted">Action Plan</span>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-start p-2">
@@ -327,21 +332,21 @@
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-white">Early Releases</span>
+                                                <span class="ps-3 text-muted">Early Releases</span>
                                             </div>
                                         </div>
-                                        @if($user->plan_name == "Premium")
-                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
-                                                Current Membership
-                                                <i class="fas fa-arrow-right ms-1"></i>
-                                            </a>
-                                        @else
-                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0"
-                                               data-bs-toggle="modal" data-bs-target="#subcriptionModel{{$plan->name}}">
-                                                Update Membership
-                                                <i class="fas fa-arrow-right ms-1"></i>
-                                            </a>
-                                        @endif
+{{--                                        @if($user->plan_name == "Premium")--}}
+{{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">--}}
+{{--                                                Current Membership--}}
+{{--                                                <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0"--}}
+{{--                                               data-bs-toggle="modal" data-bs-target="#subcriptionModel{{$plan->name}}">--}}
+{{--                                                Update Membership--}}
+{{--                                                <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--                                            </a>--}}
+{{--                                        @endif--}}
                                     </div>
 
                                 @endif
