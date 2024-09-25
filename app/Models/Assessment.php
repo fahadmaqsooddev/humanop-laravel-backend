@@ -1209,4 +1209,25 @@ class Assessment extends Model
         return $boundaries;
     }
 
+    public static function getPreceptionReportDetail($assessment = null)
+    {
+
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+        $pv = $positive - $negative;
+
+        if ($pv <= -8) {
+            $polarity_code = 40;
+        } elseif ($pv >= -7 and $pv <= 7) {
+            $polarity_code = 41;
+        } elseif ($pv >= 8) {
+            $polarity_code = 42;
+        }
+
+        $record = CodeDetail::whereId($polarity_code)->select(['id','public_name','text','video'])->first();
+
+        return $record;
+
+    }
+
 }
