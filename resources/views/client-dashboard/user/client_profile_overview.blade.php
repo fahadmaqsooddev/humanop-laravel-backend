@@ -396,7 +396,7 @@
                                                         <div class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#into_to_trait" aria-expanded="true" aria-controls="intro_to_trait"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR TRAITS
                                                                 </h5>
                                                                 <div id="into_to_trait" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -434,7 +434,7 @@
                                                         <div class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#your_motivation" aria-expanded="true" aria-controls="your_motivation"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR MOTIVATION
                                                                 </h5>
                                                                 <div id="your_motivation" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -494,7 +494,7 @@
                                                         <div class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#your_boundaries" aria-expanded="true" aria-controls="your_boundaries"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR BOUNDARIES
                                                                 </h5>
                                                                 <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -528,12 +528,38 @@
                                                     </div>
                                                 </div>
 
+
+                                                @if($boundary)
+
+                                                    <div class="row d-flex mt-5">
+                                                        <div class="col-lg-4 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#your_boundaries" aria-expanded="true" aria-controls="your_boundaries"
+                                                                        onclick="showFeatureVideo('{{$boundary['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                        {{$boundary['public_name']}}
+                                                                    </h5>
+                                                                    <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+
+                                                                            {{$boundary['text']}}
+
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                @endif
+
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#your_communication" aria-expanded="true" aria-controls="your_communication"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR COMMUNICATION
                                                                 </h5>
                                                                 <div id="your_communication" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -568,12 +594,39 @@
                                                     </div>
                                                 </div>
 
+
+                                                <div class="row d-flex mt-5">
+
+                                                    @foreach($topCommunication as $communication)
+
+                                                        <div class="col-lg-3 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#{{$communication['public_name']}}" aria-expanded="true" aria-controls="{{$communication['public_name']}}"
+                                                                        onclick="showFeatureVideo('{{$communication['video_url']}}', 1)" style="cursor: pointer;color:" class="text-white fs-10px">
+
+                                                                        {{$communication['public_name']}}
+
+                                                                    </h5>
+                                                                    <div id="{{$communication['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                            {{$communication['description']}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    @endforeach
+
+                                                </div>
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#your_energy_pool" aria-expanded="true" aria-controls="your_energy_pool"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR ENERGY POOL
                                                                 </h5>
                                                                 <div id="your_energy_pool" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -597,6 +650,32 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                                @if($energyPool)
+                                                    <div class="row d-flex mt-5">
+                                                        <div class="col-lg-4 col-sm-12 col-md-6">
+                                                            <div class="card" style="height: auto">
+                                                                <div class="card-body p-3 ">
+                                                                    <h5 data-toggle="collapse" data-target="#{{$energyPool['public_name']}}" aria-expanded="true" aria-controls="{{$energyPool['public_name']}}"
+                                                                        onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+
+                                                                        {{$energyPool['public_name']}}
+
+                                                                    </h5>
+                                                                    <div id="{{$energyPool['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+
+                                                                            {{$energyPool['text']}}
+
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="dayPlan">

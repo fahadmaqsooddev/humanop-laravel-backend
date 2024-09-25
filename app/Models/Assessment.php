@@ -1183,4 +1183,30 @@ class Assessment extends Model
             ->first();
     }
 
+    public static function getEnergyPoolDetail($assessment = null)
+    {
+        $energy_code = self::getEnergyPool($assessment);
+
+        return CodeDetail::whereId($energy_code)->first();
+    }
+
+    public static function getAlchemyDetail($assessment = null)
+    {
+        $gold = $assessment['g'];
+        $silver = $assessment['s'];
+        $copper = $assessment['c'];
+        $alchemy = $gold . '' . $silver . '' . $copper;
+        $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
+        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
+
+        $boundaries = [
+            'public_name' => $publicName['public_name'],
+            'code_number' => $gold . '-' . $silver . '-' . $copper,
+            'text' => $publicName['text'],
+            'video_url' => $publicName['video_url'],
+        ];
+
+        return $boundaries;
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\AssessmentDetail;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
@@ -116,9 +117,19 @@ class UserController extends Controller
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+
+            $perception = $assessment != null ? Assessment::getPreceptionReport($assessment) : [];
+
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+
             $actionPlan = ActionPlan::userActionPlan();
 
-            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan'));
+            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool'));
 
         }catch (\Exception $exception){
 

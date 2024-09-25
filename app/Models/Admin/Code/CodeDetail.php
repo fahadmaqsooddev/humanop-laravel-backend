@@ -150,7 +150,7 @@ class CodeDetail extends Model
 
     public static function getSinglePublicName($codeKey = null)
     {
-        return self::where('code', $codeKey)->where('number', 1)->first('public_name');
+        return self::where('code', $codeKey)->where('number', 1)->first();
     }
 
     public static function getCommunicationPublicName($communication = null)
@@ -164,6 +164,32 @@ class CodeDetail extends Model
 
             if ($record) {
                 $result[] = $record->public_name;
+            }
+        }
+        return $result;
+    }
+
+    public static function getCommunicationDetail($communication = null)
+    {
+        $result = [];
+
+        foreach ($communication as $codeKey) {
+
+            $key = strtoupper($codeKey);
+
+            $record = self::where('code', $key)->where('number', 1)->first();
+
+            if ($record) {
+
+                $data = [
+                    'public_name' => $record->public_name,
+                    'description' => $record->text,
+                    'video_url' => $record->video_url,
+                ];
+
+                array_push($result,$data);
+//                $result[] = $record->public_name;
+//                $result[] = $record->text;
             }
         }
         return $result;
