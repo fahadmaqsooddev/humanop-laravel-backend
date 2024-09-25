@@ -664,10 +664,10 @@
 
             videoContainer.scrollIntoView();
 
-            if (is_core_stats){
-                video.play();
-
-            }
+            // if (is_core_stats){
+            //     video.play();
+            //
+            // }
 
         }
 

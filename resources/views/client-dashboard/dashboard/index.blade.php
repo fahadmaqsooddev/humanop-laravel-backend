@@ -253,8 +253,8 @@
                                     <div class="description-container" style="height: 375px;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
-                                                @if(strlen($tip['text']) > 490)
-                                                    {!! substr($tip['text'], 0, 490)!!}
+                                                @if(strlen($tip['text']) > 260)
+                                                    {!! substr($tip['text'], 0, 265)!!}
                                                     &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#dailyTipModal" style="color: #f2661c;">read
@@ -321,17 +321,16 @@
                                         Drivers:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topTwoFeatures)
-                                            @foreach($topTwoFeatures as $feature)
+                                            @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$feature[3]}}')">
-                                                    {{ $feature[1] }} [{{ $feature[0] }}]
+                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }} [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Tolerance
-                                        Boundaries:</p>
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance"Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             @php
@@ -342,13 +341,13 @@
                                         </p>
                                     @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
-                                        Styles:</p>
+                                        Style:</p>
                                     <div class="d-flex">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px "
                                                    style="color: #f2661c; cursor: pointer;">
-                                                    {{ $communication }} @if(!$loop->last)--<span> > </span>@endif
+                                                    {{ $communication }} @if(!$loop->last)--> &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -358,9 +357,9 @@
                                     @if($preception)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
                                             {{
-                                                ($preception['polarity_code'] == 40 ? "Negative" :
-                                                ($preception['polarity_code'] == 41 ? "Neutral" :
-                                                ($preception['polarity_code'] == 42 ? "Positive" : '')))
+                                                ($preception['polarity_code'] == 40 ? "Negatively Charged" :
+                                                ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
+                                                ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
@@ -397,8 +396,8 @@
                                         NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                         DAYS</p>
                                     @if($plan && !empty($plan['text']))
-                                        @if(strlen($plan['text']) > 580)
-                                            {!! substr($plan['text'], 0, 580)!!}
+                                        @if(strlen($plan['text']) > 260)
+                                            {!! substr($plan['text'], 0, 265)!!}
                                             &nbsp;&nbsp;
                                             <a href="javascript:void(0)" data-bs-toggle="modal"
                                                data-bs-target="#actionPlanModal" style="color: #f2661c;">read
