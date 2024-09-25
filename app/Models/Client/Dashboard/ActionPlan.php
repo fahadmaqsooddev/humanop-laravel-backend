@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,39 @@ class ActionPlan extends Model
 
         parent::__construct($attributes);
     }
+
+    // accessor
+
+    public function getPlanTextAttribute($value){
+
+        $environment = env('APP_ENV');
+
+        if ($environment === 'local' || $environment === 'development'){
+
+            return $value;
+
+        }else{
+
+            return "Coming Soon";
+        }
+    }
+
+    public function getTextAttribute($value){
+
+        $environment = env('APP_ENV');
+
+        if ($environment === 'local' || $environment === 'development'){
+
+            return $value;
+
+        }else{
+
+            return "<h1>Coming Soon</h1>";
+        }
+    }
+
+
+    // query
 
     public static function storeUserActionPlan(){
 

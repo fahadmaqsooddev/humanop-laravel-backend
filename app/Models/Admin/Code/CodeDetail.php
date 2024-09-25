@@ -202,11 +202,15 @@ class CodeDetail extends Model
                 ];
 
                 array_push($result,$data);
-//                $result[] = $record->public_name;
-//                $result[] = $record->text;
             }
         }
         return $result;
+    }
+
+    public static function getPerceptionStaticText(){
+
+        return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+
     }
 
 }
