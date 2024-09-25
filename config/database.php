@@ -347,7 +347,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading','slug','upload_id'],
+            'fillable' => ['heading','slug','upload_id','resource_category_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PermissionResource' => [
@@ -359,6 +359,11 @@ return [
             'table' => 'action_plans',
             'fillable' => ['plan_text','user_id','updated_at','text'],
             'hidden' => ['created_at'],
+        ],
+        'ResourceCategory' => [
+            'table' => 'resource_categories',
+            'fillable' => ['name'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];

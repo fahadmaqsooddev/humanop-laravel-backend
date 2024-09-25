@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
+use App\Models\Admin\ResourceCategory\ResourceCategory;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,7 +14,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $resourceSlug, $heading, $resource, $permission = [], $editResourceData;
+    public $resourceId, $resourceSlug, $heading, $resource, $category_id,$permission = [], $editResourceData, $category_name;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery'];
 
@@ -21,6 +22,7 @@ class CreateResource extends Component
         'heading' => 'required',
         'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mp4|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
+        'category_id' => 'required|exists:resource_categories,id',
     ];
 
     protected $messages = [
@@ -47,7 +49,7 @@ class CreateResource extends Component
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
             }
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -119,13 +121,15 @@ class CreateResource extends Component
         $this->resourceId = $resource_id;
 
         $this->heading = $this->editResourceData['heading'] ?? null;
+
+        $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
     }
 
     public function updateResource(){
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required']);
+        $this->validate(['heading' => 'required','category_id' => 'required']);
 
         if ($this->resource){
 
@@ -143,7 +147,7 @@ class CreateResource extends Component
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
 
-        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId);
+        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
@@ -157,12 +161,37 @@ class CreateResource extends Component
 
     }
 
+    public function createCategory(){
+
+        $rule = [
+            'category_name' => 'required',
+        ];
+
+        $message = [
+            'category_name.required' => 'Category name is required',
+        ];
+
+        $this->validate($rule, $message);
+
+        ResourceCategory::createCategory($this->category_name);
+
+        $this->reset('category_name');
+
+        session()->flash('success', 'Category added');
+
+        $this->emit('toggleCreateCategoryModal');
+    }
+
     public function render()
     {
-        $resources = $this->allResources();
+//        $resources = $this->allResources();
+
+        $categories = ResourceCategory::categories();
+
+        $dropDownCategories = ResourceCategory::dropDownCategories();
 
         $resourceSlug = $this->resourceSlug;
 
-        return view('livewire.admin.resource.create-resource', compact('resources','resourceSlug'));
+        return view('livewire.admin.resource.create-resource', compact('resourceSlug','categories','dropDownCategories'));
     }
 }
