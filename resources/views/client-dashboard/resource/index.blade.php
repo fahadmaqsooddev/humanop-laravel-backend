@@ -203,7 +203,7 @@
         }
 
         @media screen and (max-width: 540px) {
-            
+
             .wrapper .video-controls {
                 padding: 3px 10px 7px;
             }
@@ -273,9 +273,9 @@
 
             <div class="row">
 
-                @foreach($resources as $resource)
+                @foreach($categories as $category)
                     <div class="col-lg-5 col-sm-5">
-                        <a onclick="showModal('{{$resource['resource']['photo_url']['url'] ?? null}}','{{$resource['resource']['video_url']['path'] ?? null}}')" style="cursor: pointer;">
+                        <a data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}" style="cursor: pointer;">
                             <div class="card mb-4"
                                  style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                                 <div class="card-body p-3">
@@ -283,7 +283,7 @@
                                         <div class="col-8 m-auto">
                                             <div class="numbers">
                                                 <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                                   style="color: white;">{{$resource['resource']['heading'] ?? null}}</p>
+                                                   style="color: white;">{{$category['name'] ?? null}}</p>
                                             </div>
                                         </div>
                                         <div class="col-4 text-end">
@@ -297,7 +297,73 @@
                             </div>
                         </a>
                     </div>
+
+                    <div class="col-12">
+
+                        <div class="collapse pb-3" id="collapse-{{$category->name}}">
+                            <div class="card-body p-3">
+                                <div class="row">
+
+                                    @foreach($category['libraryResources'] as $resource)
+
+                                        <div class="col-lg-5 col-sm-5">
+                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}')" style="cursor: pointer;">
+                                                <div class="card mb-4"
+                                                     style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                                    <div class="card-body p-3">
+                                                        <div class="row">
+                                                            <div class="col-8 m-auto">
+                                                                <div class="numbers">
+                                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold"
+                                                                       style="color: white;">{{$resource['heading'] ?? null}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 text-end">
+                                                                <div
+                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 @endforeach
+
+
+{{--                @foreach($resources as $resource)--}}
+{{--                    <div class="col-lg-5 col-sm-5">--}}
+{{--                        <a onclick="showModal('{{$resource['resource']['photo_url']['url'] ?? null}}','{{$resource['resource']['video_url']['path'] ?? null}}')" style="cursor: pointer;">--}}
+{{--                            <div class="card mb-4"--}}
+{{--                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
+{{--                                <div class="card-body p-3">--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-8 m-auto">--}}
+{{--                                            <div class="numbers">--}}
+{{--                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
+{{--                                                   style="color: white;">{{$resource['resource']['heading'] ?? null}}</p>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-4 text-end">--}}
+{{--                                            <div--}}
+{{--                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
+{{--                                                <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                @endforeach--}}
             </div>
         </div>
     </div>
@@ -310,7 +376,7 @@
         <div class="d-flex align-items-center justify-content-center h-100" style="z-index: 1000">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px; width: 900px;">
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ClientController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\ResourceCategory\ResourceCategory;
 use Illuminate\Http\Request;
 use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\Resources\PermissionResource;
@@ -16,9 +17,11 @@ class ResourceController extends Controller
 
             $user = Helpers::getWebUser();
 
-            $resources = PermissionResource::getPermission($user['plan_name']);
+//            $resources = PermissionResource::getPermission($user['plan_name']);
 
-            return view('client-dashboard.resource.index', compact('resources'));
+            $categories = ResourceCategory::resourceCategoriesForClient($user['plan_name']);
+
+            return view('client-dashboard.resource.index', compact('categories'));
 
         }catch (\Exception $exception)
         {

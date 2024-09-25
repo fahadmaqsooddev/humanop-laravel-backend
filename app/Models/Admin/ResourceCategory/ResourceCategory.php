@@ -44,4 +44,30 @@ class ResourceCategory extends Model
 
         return self::all();
     }
+
+    public static function resourceCategoriesForClient($plan_name){
+
+        return self::withWhereHas('libraryResources', function ($q) use ($plan_name){
+
+            $q->whereHas('libraryPermissions', function ($q) use ($plan_name){
+
+                if ($plan_name === 'Freemium'){
+
+                    $q->whereIn('permission', [1,4]);
+
+                }elseif ($plan_name === 'Core'){
+
+                    $q->whereIn('permission', [2,4]);
+
+                }elseif ($plan_name === 'Premium'){
+
+                    $q->whereIn('permission', [3,4]);
+
+                }
+
+            });
+
+        })->get();
+
+    }
 }
