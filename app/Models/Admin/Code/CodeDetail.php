@@ -161,7 +161,7 @@ class CodeDetail extends Model
 
             $key = strtoupper($codeKey);
 
-            $record = self::where('code', $key)->where('number', 1)->first('public_name');
+            $record = self::where('code', $key)->where('number', 1)->first();
 
             if ($record) {
 
@@ -171,11 +171,21 @@ class CodeDetail extends Model
 
                     $str_len = strlen($record->public_name) - 2;
 
-                    $result[] = substr($record->public_name, 0, $str_len);
+                    $data = [
+                        'public_name' => substr($record->public_name, 0, $str_len),
+                        'video_url' => $record['video_url'],
+                    ];
+
+                    array_push($result, $data);
 
                 }else{
 
-                    $result[] = $record->public_name;
+                    $data = [
+                        'public_name' => $record->public_name,
+                        'video_url' => $record['video_url'],
+                    ];
+
+                    array_push($result, $data);
                 }
             }
         }
