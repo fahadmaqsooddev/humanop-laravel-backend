@@ -444,7 +444,14 @@ class Assessment extends Model
             $publicName = "Fair and under [$energy_code]";
         }
 
-        return $publicName;
+        $record = CodeDetail::whereId($energy_code)->first();
+
+        $data = [
+            'code' => $publicName,
+            'video_url' => $record['video_url'] ?? null,
+        ];
+
+        return $data;
 
     }
 
@@ -463,9 +470,12 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
+        $record = CodeDetail::whereId($polarity_code)->first();
+
         $data = [
             'polarity_code' => $polarity_code,
             'pv' => $pv,
+            'video_url' => $record['video_url'] ?? null
         ];
 
         return $data;
@@ -805,6 +815,7 @@ class Assessment extends Model
         $boundaries = [
             'public_name' => $publicName['public_name'],
             'code_number' => $gold . '-' . $silver . '-' . $copper,
+            'video_url' => $publicName['video_url']
         ];
 
         return $boundaries;

@@ -58,7 +58,7 @@
                                     <div class="col-lg-5 col-sm-5">
                                         <div data-bs-toggle="modal" data-bs-target="#{{$resource['slug']}}">
                                             <div class="card mb-4"
-                                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%); cursor: pointer;">
                                                 <div class="card-body p-3">
                                                     <div class="row">
                                                         <div class="col-8 m-auto">

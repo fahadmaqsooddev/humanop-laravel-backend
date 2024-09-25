@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
-use Hamcrest\BaseDescription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\Client\Plan\Plan;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient','registerClient']);
+        $this->middleware('auth:api')->except(['loginClient','registerClient','forgotPassword']);
 
         $this->auth = Auth::guard('api');
     }
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
                 DailyTip::updateUserDailyTip();
 
-//                ActionPlan::storeUserActionPlan();
+                ActionPlan::storeUserActionPlan();
 
                 $user = Helpers::getUser();
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-//            ActionPlan::storeUserActionPlan();
+            ActionPlan::storeUserActionPlan();
 
             DB::commit();
 
@@ -126,5 +126,20 @@ class AuthController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request){
+
+        try {
+
+            Password::sendResetLink($request->only('email'));
+
+            return Helpers::successResponse('Password reset email successfully sent');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 }

@@ -332,7 +332,8 @@
                                     </div>
                                     <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance "Alchemy":</p>
                                     @if($boundary)
-                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
+                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px; cursor: pointer;"
+                                           onclick="goToProfileOverviewPage('{{$boundary['video_url']}}')">
                                             @php
                                                 $codeParts = explode('-', $boundary['code_number']);
                                                 $code = implode('', $codeParts);
@@ -346,8 +347,9 @@
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px "
-                                                   style="color: #f2661c; cursor: pointer;">
-                                                    {{ $communication }} @if(!$loop->last)--> &nbsp;@endif
+                                                   style="color: #f2661c; cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$communication['video_url']}}')">
+                                                    {{ $communication['public_name'] }} @if(!$loop->last)--> &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -355,7 +357,8 @@
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
                                     @if($preception)
-                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px">
+                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                           onclick="goToProfileOverviewPage('{{$preception['video_url']}}')">
                                             {{
                                                 ($preception['polarity_code'] == 40 ? "Negatively Charged" :
                                                 ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
@@ -365,8 +368,9 @@
                                     @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
-                                        <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px">
-                                            {{ $energyPool }}
+                                        <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                           onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}')">
+                                            {{ $energyPool['code'] }}
                                         </p>
                                     @endif
                                 </div>

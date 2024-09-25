@@ -27,7 +27,7 @@ class AssessmentSubmitRequest extends FormRequest
             'answer_ids' => 'required|array',
             'answer_ids.0' => 'required',
             'answer_ids.1' => 'required',
-            'answer_ids.2' => 'required'
+            'answer_ids.2' => 'nullable'
         ];
     }
 
