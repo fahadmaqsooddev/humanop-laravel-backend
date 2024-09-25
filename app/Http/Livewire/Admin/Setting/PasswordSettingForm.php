@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Traits\HandlesValidationErrors;
 use App\Models\User;
 use Livewire\Component;
-
+use App\Helpers\Helpers;
 
 class PasswordSettingForm extends Component
 {
