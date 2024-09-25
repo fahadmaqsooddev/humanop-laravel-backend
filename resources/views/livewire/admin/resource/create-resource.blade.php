@@ -18,32 +18,6 @@
                             class="btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
-
-                    <div class="w-50 pt-3">
-{{--                        <div class="collapse" id="createCategory" wire:ignore.self>--}}
-{{--                            <div class="card card-body">--}}
-
-{{--                                <label>Category Name </label>--}}
-{{--                                <input style="background-color: #0f1534;" class="form-control text-white"--}}
-{{--                                       wire:model.defer="category_name" placeholder="Enter category name" type="text">--}}
-
-{{--                                @error('category_name')--}}
-{{--                                    <span class="text-sm text-danger">{{$message}}</span>--}}
-{{--                                @enderror--}}
-
-{{--                                @if(session()->has('success'))--}}
-{{--                                    <span class="text-sm text-success">{{session()->get('success')}}</span>--}}
-{{--                                @endif--}}
-
-{{--                                <div class="p-2">--}}
-{{--                                    <button wire:click="createCategory" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">submit</button>--}}
-{{--                                </div>--}}
-
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -77,7 +51,7 @@
                 <div class="col-12">
 
                     <div class="collapse pb-3" id="collapse-{{$category->name}}">
-                        <div class="card card-body p-3" style="background-color: lightgrey;">
+                        <div class="card-body p-3">
                             <div class="row">
 
                                 @foreach($category['libraryResources'] as $resource)
