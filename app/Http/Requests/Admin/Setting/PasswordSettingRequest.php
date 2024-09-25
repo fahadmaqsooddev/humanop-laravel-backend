@@ -46,8 +46,6 @@ class PasswordSettingRequest extends FormRequest
                 'required',
                 'string',
                 'min:6',
-                'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
-                'regex:/[0-9].*[0-9]/',           // At least two numbers
                 'different:current_password',
             ],
             'confirm_password' => 'required|same:password',
@@ -58,7 +56,6 @@ class PasswordSettingRequest extends FormRequest
             'current_password.required' => 'The current password is required.',
             'password.required' => 'The new password is required.',
             'password.min' => 'The new password should be at least 6 characters long.',
-            'password.regex' => 'The new password should contain at least one special character and two numbers.',
             'password.different' => 'The new password must be different from the current password.',
             'confirm_password.required' => 'Please confirm the new password.',
             'confirm_password.same' => 'The password confirmation does not match the new password.',

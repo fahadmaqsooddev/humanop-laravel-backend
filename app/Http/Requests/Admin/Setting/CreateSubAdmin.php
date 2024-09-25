@@ -29,13 +29,11 @@ class CreateSubAdmin extends FormRequest
             'email' => 'required|email|max:255|unique:users,email',
             'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
-            'phone' => 'required|string|max:25',
+            'phone' => 'nullable|string|max:25',
             'password' => [
                 'required',
                 'string',
                 'min:6',
-                'regex:/[!@#$%^&*(),.?":{}|<>]/',
-                'regex:/[0-9].*[0-9]/',
             ],
         ];
     }
@@ -53,11 +51,8 @@ class CreateSubAdmin extends FormRequest
             'age_range.required' => 'The age range is required.',
             'age_range.regex' => 'Please enter a valid age range.',
             'gender.required' => 'The gender is required.',
-            'phone.required' => 'The phone number is required.',
-            'phone.max' => 'The phone number should not exceed 25 characters.',
             'password.required' => 'The password is required.',
             'password.min' => 'The password should be at least 6 characters long.',
-            'password.regex' => 'The password should contain at least one special character and two numbers.',
             'password.different' => 'The password must be different from the current password.',
         ];
     }
