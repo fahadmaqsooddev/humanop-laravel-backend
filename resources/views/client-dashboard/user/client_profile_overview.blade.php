@@ -254,6 +254,10 @@
             }
         }
 
+        .orange-border{
+            border: 1px solid #f2661c;
+        }
+
     </style>
 
     <div class="row">
@@ -393,91 +397,149 @@
                                                 <p class="mt-4">Your HumanOp profile reveals a unique combination of traits that shape your approach to life and work. Here are the key highlights based on your ULT Summary Report:</p>
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div class="card" style="height: auto">
-                                                            <div class="card-body p-3 ">
-                                                                <h5 data-toggle="collapse" data-target="#into_to_trait" aria-expanded="true" aria-controls="intro_to_trait"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                        <div id="intro_to_trait_heading" class="card" style="height: auto;">
+                                                            <div class="card-body p-3">
+                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1, 'intro_to_trait')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR TRAITS
                                                                 </h5>
-                                                                <div id="into_to_trait" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                        Your natural physical "TRAITS" determine
-                                                                        how nature shows up in you. These traits assist in providing unique
-                                                                        insight into
-                                                                        your capabilities and natural talents.
-                                                                    </p>
-                                                                </div>
+{{--                                                                <div id="into_to_trait" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                        Your natural physical "TRAITS" determine--}}
+{{--                                                                        how nature shows up in you. These traits assist in providing unique--}}
+{{--                                                                        insight into--}}
+{{--                                                                        your capabilities and natural talents.--}}
+{{--                                                                    </p>--}}
+{{--                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="row d-flex">
+                                                    <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
+                                                        <div id="intro_to_trait_text" class="card p-2" style="height: auto;">
+                                                            <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                Your natural physical "TRAITS" determine
+                                                                how nature shows up in you. These traits assist in providing unique
+                                                                insight into
+                                                                your capabilities and natural talents.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topThreeStyles as $index => $style)
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="style_{{$style[1].'_heading'}}" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$style[1]}}" aria-expanded="true" aria-controls="{{$style[1]}}"
-                                                                        onclick="showFeatureVideo('{{$style[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+{{--                                                                    <h5 data-toggle="collapse" data-target="#{{$style[1]}}" aria-expanded="true" aria-controls="{{$style[1]}}"--}}
+                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$style[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{$style[1]}}
                                                                     </h5>
-                                                                    <div id="{{$style[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$style[2]}}</p>
-                                                                    </div>
+{{--                                                                    <div id="{{$style[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$style[2]}}</p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
                                                         </div>
                                                     </div>
                                                     @endforeach
                                                 </div>
 
+                                                @foreach($topThreeStyles as $index => $style)
+                                                    <div class="row d-flex">
+                                                        <div id="style_{{$style[1]}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="style_{{$style[1]}}_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    <span style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div class="card" style="height: auto">
+                                                        <div id="your_motivation_heading" class="card" style="height: auto;">
                                                             <div class="card-body p-3 ">
-                                                                <h5 data-toggle="collapse" data-target="#your_motivation" aria-expanded="true" aria-controls="your_motivation"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1, 'your_motivation')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR MOTIVATION
                                                                 </h5>
-                                                                <div id="your_motivation" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                        Your "MOTIVATION" addresses what
-                                                                        “DRIVES” you, what must be fed and honored so that you
-                                                                        can successfully reach your destination. There are 12 “DRIVERS” in
-                                                                        everyone’s
-                                                                        “vehicle of self”. These
-                                                                        drivers are all chattering at the same time, but only some are
-                                                                        licensed to
-                                                                        drive. Knowing how to keep these
-                                                                        legally authorized drivers in the front seat and motivated allows
-                                                                        for efficient
-                                                                        travel. These driving forces
-                                                                        represent specific laws of nature that show up in all living things.
-                                                                        These
-                                                                        drivers express themselves as
-                                                                        strengths and weaknesses. It is your personal responsibility to come
-                                                                        from a
-                                                                        place of strength. Strength
-                                                                        transmits intelligence while weakness produces ignorance. Choosing
-                                                                        opportunities
-                                                                        that feed your strengths,
-                                                                        your talents, and your passion, will bring you closer to states of
-                                                                        intelligence.
-                                                                        What motivates or drives
-                                                                        you requires you choose those listed below in order of
-                                                                        proficiency.
-                                                                    </p>
-                                                                </div>
+{{--                                                                <div id="your_motivation" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                        Your "MOTIVATION" addresses what--}}
+{{--                                                                        “DRIVES” you, what must be fed and honored so that you--}}
+{{--                                                                        can successfully reach your destination. There are 12 “DRIVERS” in--}}
+{{--                                                                        everyone’s--}}
+{{--                                                                        “vehicle of self”. These--}}
+{{--                                                                        drivers are all chattering at the same time, but only some are--}}
+{{--                                                                        licensed to--}}
+{{--                                                                        drive. Knowing how to keep these--}}
+{{--                                                                        legally authorized drivers in the front seat and motivated allows--}}
+{{--                                                                        for efficient--}}
+{{--                                                                        travel. These driving forces--}}
+{{--                                                                        represent specific laws of nature that show up in all living things.--}}
+{{--                                                                        These--}}
+{{--                                                                        drivers express themselves as--}}
+{{--                                                                        strengths and weaknesses. It is your personal responsibility to come--}}
+{{--                                                                        from a--}}
+{{--                                                                        place of strength. Strength--}}
+{{--                                                                        transmits intelligence while weakness produces ignorance. Choosing--}}
+{{--                                                                        opportunities--}}
+{{--                                                                        that feed your strengths,--}}
+{{--                                                                        your talents, and your passion, will bring you closer to states of--}}
+{{--                                                                        intelligence.--}}
+{{--                                                                        What motivates or drives--}}
+{{--                                                                        you requires you choose those listed below in order of--}}
+{{--                                                                        proficiency.--}}
+{{--                                                                    </p>--}}
+{{--                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
+                                                <div class="row d-flex">
+                                                    <div id="your_motivation" class="col-12 mt-3" style="display: none;">
+                                                        <div id="your_motivation_text" class="card p-2" style="height: auto;">
+                                                            <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                Your "MOTIVATION" addresses what
+                                                                “DRIVES” you, what must be fed and honored so that you
+                                                                can successfully reach your destination. There are 12 “DRIVERS” in
+                                                                everyone’s
+                                                                “vehicle of self”. These
+                                                                drivers are all chattering at the same time, but only some are
+                                                                licensed to
+                                                                drive. Knowing how to keep these
+                                                                legally authorized drivers in the front seat and motivated allows
+                                                                for efficient
+                                                                travel. These driving forces
+                                                                represent specific laws of nature that show up in all living things.
+                                                                These
+                                                                drivers express themselves as
+                                                                strengths and weaknesses. It is your personal responsibility to come
+                                                                from a
+                                                                place of strength. Strength
+                                                                transmits intelligence while weakness produces ignorance. Choosing
+                                                                opportunities
+                                                                that feed your strengths,
+                                                                your talents, and your passion, will bring you closer to states of
+                                                                intelligence.
+                                                                What motivates or drives
+                                                                you requires you choose those listed below in order of
+                                                                proficiency.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="feature_{{$feature[1]}}_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$feature[1]}}" aria-expanded="true" aria-controls="{{$feature[1]}}"
-                                                                        onclick="showFeatureVideo('{{$feature[3]}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$feature[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}} {{$feature[1]}}
                                                                     </h5>
                                                                     <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -489,41 +551,86 @@
                                                     @endforeach
                                                 </div>
 
+                                                @foreach($topTwoFeatures as $feature)
+
+                                                    <div class="row d-flex">
+                                                        <div id="feature_{{$feature[1]}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="feature_{{$feature[1]}}_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    <span style="color: #f2661c;">{{$feature[1] }} : </span>{{$feature[2]}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                @endforeach
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div class="card" style="height: auto">
+                                                        <div id="your_boundary_heading" class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
                                                                 <h5 data-toggle="collapse" data-target="#your_boundaries" aria-expanded="true" aria-controls="your_boundaries"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1, 'your_boundary')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR BOUNDARIES
                                                                 </h5>
-                                                                <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                        “ALCHEMY” addresses your refinement
-                                                                        preferences; whether you are meticulous, practical,
-                                                                        messy, and what you can tolerate in others. The Knowledge of Y.O.U.
-                                                                        uses the
-                                                                        analogy of ore to exemplify
-                                                                        states of refinement, specifically Gold, Silver and Copper. Alchemy
-                                                                        determines
-                                                                        where your "BOUNDARIES" begin
-                                                                        and end. This range identifies what you can tolerate in terms of
-                                                                        people, places
-                                                                        and things and how to best
-                                                                        manage your choices in maximizing your energy potential. Alchemical
-                                                                        incompatibility is the number one reason
-                                                                        for challenges in relationships. Not addressing boundary issues in
-                                                                        any
-                                                                        relationship can result in
-                                                                        relationship failure. In business and in life it is vital to know
-                                                                        what your
-                                                                        personal alchemical range of
-                                                                        tolerance is so that you can better understand your own boundaries
-                                                                        and those
-                                                                        around you.
-                                                                    </p>
-                                                                </div>
+{{--                                                                <div id="your_boundaries" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                        “ALCHEMY” addresses your refinement--}}
+{{--                                                                        preferences; whether you are meticulous, practical,--}}
+{{--                                                                        messy, and what you can tolerate in others. The Knowledge of Y.O.U.--}}
+{{--                                                                        uses the--}}
+{{--                                                                        analogy of ore to exemplify--}}
+{{--                                                                        states of refinement, specifically Gold, Silver and Copper. Alchemy--}}
+{{--                                                                        determines--}}
+{{--                                                                        where your "BOUNDARIES" begin--}}
+{{--                                                                        and end. This range identifies what you can tolerate in terms of--}}
+{{--                                                                        people, places--}}
+{{--                                                                        and things and how to best--}}
+{{--                                                                        manage your choices in maximizing your energy potential. Alchemical--}}
+{{--                                                                        incompatibility is the number one reason--}}
+{{--                                                                        for challenges in relationships. Not addressing boundary issues in--}}
+{{--                                                                        any--}}
+{{--                                                                        relationship can result in--}}
+{{--                                                                        relationship failure. In business and in life it is vital to know--}}
+{{--                                                                        what your--}}
+{{--                                                                        personal alchemical range of--}}
+{{--                                                                        tolerance is so that you can better understand your own boundaries--}}
+{{--                                                                        and those--}}
+{{--                                                                        around you.--}}
+{{--                                                                    </p>--}}
+{{--                                                                </div>--}}
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex">
+                                                    <div id="your_boundary" class="col-12 mt-3" style="display: none;">
+                                                        <div id="your_boundary_text" class="card p-2" style="height: auto;">
+                                                            <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                “ALCHEMY” addresses your refinement
+                                                                preferences; whether you are meticulous, practical,
+                                                                messy, and what you can tolerate in others. The Knowledge of Y.O.U.
+                                                                uses the
+                                                                analogy of ore to exemplify
+                                                                states of refinement, specifically Gold, Silver and Copper. Alchemy
+                                                                determines
+                                                                where your "BOUNDARIES" begin
+                                                                and end. This range identifies what you can tolerate in terms of
+                                                                people, places
+                                                                and things and how to best
+                                                                manage your choices in maximizing your energy potential. Alchemical
+                                                                incompatibility is the number one reason
+                                                                for challenges in relationships. Not addressing boundary issues in
+                                                                any
+                                                                relationship can result in
+                                                                relationship failure. In business and in life it is vital to know
+                                                                what your
+                                                                personal alchemical range of
+                                                                tolerance is so that you can better understand your own boundaries
+                                                                and those
+                                                                around you.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -533,20 +640,29 @@
 
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="boundary_dynamic_div_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$boundary['public_name']}}" aria-expanded="true" aria-controls="{{$boundary['public_name']}}"
-                                                                        onclick="showFeatureVideo('{{$boundary['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
-                                                                        {{$boundary['public_name']}}
+                                                                    <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                        {{$boundary['public_name'] . " [" . $boundary['code_number'] . "]"}}
                                                                     </h5>
-                                                                    <div id="{{$boundary['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+{{--                                                                    <div id="{{$boundary['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
 
-                                                                            {{$boundary['text']}}
+{{--                                                                            {{$boundary['text']}}--}}
 
-                                                                        </p>
-                                                                    </div>
+{{--                                                                        </p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex">
+                                                        <div id="boundary_dynamic_div" class="col-12 mt-3" style="display: none;">
+                                                            <div id="boundary_dynamic_div_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    {{$boundary['text']}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -556,40 +672,71 @@
 
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div class="card" style="height: auto">
+                                                        <div id="your_communication_heading" class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
-                                                                <h5 data-toggle="collapse" data-target="#your_communication" aria-expanded="true" aria-controls="your_communication"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1, 'your_communication')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR COMMUNICATION
                                                                 </h5>
-                                                                <div id="your_communication" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                        “ENERGY CENTERS” define your
-                                                                        "COMMUNICATION STYLE" and they determine how you uniquely
-                                                                        relate, connect and learn from your environment. They are
-                                                                        responsible for how
-                                                                        every individual commits
-                                                                        information and experiences to memory. There are four centers:
-                                                                        Intellectual,
-                                                                        Moving, Emotional and
-                                                                        Instinctual. Your pronounced center of energy largely determines how
-                                                                        you
-                                                                        initially connect with the moment.
-                                                                        Everyone is different, and knowing this information can be vital in
-                                                                        communicating and connecting effectively
-                                                                        with the world in which we live. The centers are listed below from
-                                                                        most
-                                                                        prominent to least prominent in you.
-                                                                        They exemplify the doors to your house of self. The first door
-                                                                        represents the
-                                                                        front door. Opening this door
-                                                                        is essential in initiating the process of accessing those that
-                                                                        follow. When all
-                                                                        are open, a memory is
-                                                                        established.
-                                                                    </p>
-                                                                </div>
+{{--                                                                <div id="your_communication" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                        “ENERGY CENTERS” define your--}}
+{{--                                                                        "COMMUNICATION STYLE" and they determine how you uniquely--}}
+{{--                                                                        relate, connect and learn from your environment. They are--}}
+{{--                                                                        responsible for how--}}
+{{--                                                                        every individual commits--}}
+{{--                                                                        information and experiences to memory. There are four centers:--}}
+{{--                                                                        Intellectual,--}}
+{{--                                                                        Moving, Emotional and--}}
+{{--                                                                        Instinctual. Your pronounced center of energy largely determines how--}}
+{{--                                                                        you--}}
+{{--                                                                        initially connect with the moment.--}}
+{{--                                                                        Everyone is different, and knowing this information can be vital in--}}
+{{--                                                                        communicating and connecting effectively--}}
+{{--                                                                        with the world in which we live. The centers are listed below from--}}
+{{--                                                                        most--}}
+{{--                                                                        prominent to least prominent in you.--}}
+{{--                                                                        They exemplify the doors to your house of self. The first door--}}
+{{--                                                                        represents the--}}
+{{--                                                                        front door. Opening this door--}}
+{{--                                                                        is essential in initiating the process of accessing those that--}}
+{{--                                                                        follow. When all--}}
+{{--                                                                        are open, a memory is--}}
+{{--                                                                        established.--}}
+{{--                                                                    </p>--}}
+{{--                                                                </div>--}}
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex">
+                                                    <div id="your_communication" class="col-12 mt-3" style="display: none;">
+                                                        <div id="your_communication_text" class="card p-2" style="height: auto;">
+                                                            <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                “ENERGY CENTERS” define your
+                                                                "COMMUNICATION STYLE" and they determine how you uniquely
+                                                                relate, connect and learn from your environment. They are
+                                                                responsible for how
+                                                                every individual commits
+                                                                information and experiences to memory. There are four centers:
+                                                                Intellectual,
+                                                                Moving, Emotional and
+                                                                Instinctual. Your pronounced center of energy largely determines how
+                                                                you
+                                                                initially connect with the moment.
+                                                                Everyone is different, and knowing this information can be vital in
+                                                                communicating and connecting effectively
+                                                                with the world in which we live. The centers are listed below from
+                                                                most
+                                                                prominent to least prominent in you.
+                                                                They exemplify the doors to your house of self. The first door
+                                                                represents the
+                                                                front door. Opening this door
+                                                                is essential in initiating the process of accessing those that
+                                                                follow. When all
+                                                                are open, a memory is
+                                                                established.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -600,19 +747,18 @@
                                                     @foreach($topCommunication as $communication)
 
                                                         <div class="col-lg-3 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="communication_{{$communication['public_name']}}_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$communication['public_name']}}" aria-expanded="true" aria-controls="{{$communication['public_name']}}"
-                                                                        onclick="showFeatureVideo('{{$communication['video_url']}}', 1)" style="cursor: pointer;color:" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$communication['public_name']}}')" style="cursor: pointer;" class="text-white fs-10px">
 
                                                                         {{$communication['public_name']}}
 
                                                                     </h5>
-                                                                    <div id="{{$communication['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                            {{$communication['description']}}
-                                                                        </p>
-                                                                    </div>
+{{--                                                                    <div id="{{$communication['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                            {{$communication['description']}}--}}
+{{--                                                                        </p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -621,22 +767,43 @@
 
                                                 </div>
 
+                                                @foreach($topCommunication as $communication)
+                                                    <div class="row d-flex">
+                                                        <div id="communication_{{$communication['public_name']}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="communication_{{$communication['public_name']}}_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    <span style="color: #f2661c;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
 
                                                 @if($perception_life)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="your_perception_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#your_perception" aria-expanded="true" aria-controls="your_perception"
-                                                                        onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1, 'your_perception')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                         YOUR PERCEPTION
                                                                     </h5>
-                                                                    <div id="your_perception" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                            {{$perception_life['text']}}
-                                                                        </p>
-                                                                    </div>
+{{--                                                                    <div id="your_perception" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                            {{$perception_life['text']}}--}}
+{{--                                                                        </p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex">
+                                                        <div id="your_perception" class="col-12 mt-3" style="display: none;">
+                                                            <div id="your_perception_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    {{$perception_life['text']}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -646,22 +813,31 @@
                                                 @if($perception)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="perception_dynamic_dev_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$perception['public_name']}}" aria-expanded="true" aria-controls="{{$perception['public_name']}}"
-                                                                        onclick="showFeatureVideo('{{$perception['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')" style="cursor: pointer;" class="text-white fs-10px">
 
                                                                         {{$perception['public_name']}}
 
                                                                     </h5>
-                                                                    <div id="{{$perception['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+{{--                                                                    <div id="{{$perception['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
 
-                                                                            {{$perception['text']}}
+{{--                                                                            {{$perception['text']}}--}}
 
-                                                                        </p>
-                                                                    </div>
+{{--                                                                        </p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex">
+                                                        <div id="perception_dynamic_dev" class="col-12 mt-3" style="display: none;">
+                                                            <div id="perception_dynamic_dev_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    {{$perception['text']}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -670,30 +846,51 @@
 
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div class="card" style="height: auto">
+                                                        <div id="energy_pool_heading" class="card" style="height: auto">
                                                             <div class="card-body p-3 ">
-                                                                <h5 data-toggle="collapse" data-target="#your_energy_pool" aria-expanded="true" aria-controls="your_energy_pool"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1)" style="cursor: pointer;color: #f2661c;" class="fs-10px">
+                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1, 'energy_pool')" style="cursor: pointer;color: #f2661c;" class="fs-10px">
                                                                     YOUR ENERGY POOL
                                                                 </h5>
-                                                                <div id="your_energy_pool" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                                                        Your “ENERGY POOL” represents how much
-                                                                        physical energy you have to expend on a daily
-                                                                        basis. Much like staying hydrated, you must guard its appropriation
-                                                                        of use. Some activities, choices,
-                                                                        people, places and things can rob you of vital energy, and depending
-                                                                        upon the nature of those things or
-                                                                        choices, you may or may not be able to recoup the energy. Throughout
-                                                                        life your goal is to maintain an
-                                                                        average or better volume of energy. This makes life more manageable
-                                                                        and keeps you from being vulnerable to
-                                                                        toxic abuse. The need for fortifying your presentation can be met by
-                                                                        living a more naturally suited
-                                                                        life.
-                                                                    </p>
-                                                                </div>
+{{--                                                                <div id="your_energy_pool" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
+{{--                                                                        Your “ENERGY POOL” represents how much--}}
+{{--                                                                        physical energy you have to expend on a daily--}}
+{{--                                                                        basis. Much like staying hydrated, you must guard its appropriation--}}
+{{--                                                                        of use. Some activities, choices,--}}
+{{--                                                                        people, places and things can rob you of vital energy, and depending--}}
+{{--                                                                        upon the nature of those things or--}}
+{{--                                                                        choices, you may or may not be able to recoup the energy. Throughout--}}
+{{--                                                                        life your goal is to maintain an--}}
+{{--                                                                        average or better volume of energy. This makes life more manageable--}}
+{{--                                                                        and keeps you from being vulnerable to--}}
+{{--                                                                        toxic abuse. The need for fortifying your presentation can be met by--}}
+{{--                                                                        living a more naturally suited--}}
+{{--                                                                        life.--}}
+{{--                                                                    </p>--}}
+{{--                                                                </div>--}}
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row d-flex">
+                                                    <div id="energy_pool" class="col-12 mt-3" style="display: none;">
+                                                        <div id="energy_pool_text" class="card p-2" style="height: auto;">
+                                                            <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                Your “ENERGY POOL” represents how much
+                                                                physical energy you have to expend on a daily
+                                                                basis. Much like staying hydrated, you must guard its appropriation
+                                                                of use. Some activities, choices,
+                                                                people, places and things can rob you of vital energy, and depending
+                                                                upon the nature of those things or
+                                                                choices, you may or may not be able to recoup the energy. Throughout
+                                                                life your goal is to maintain an
+                                                                average or better volume of energy. This makes life more manageable
+                                                                and keeps you from being vulnerable to
+                                                                toxic abuse. The need for fortifying your presentation can be met by
+                                                                living a more naturally suited
+                                                                life.
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -702,22 +899,31 @@
                                                 @if($energyPool)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div class="card" style="height: auto">
+                                                            <div id="energy_pool_dynamic_dev_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 data-toggle="collapse" data-target="#{{$energyPool['public_name']}}" aria-expanded="true" aria-controls="{{$energyPool['public_name']}}"
-                                                                        onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1)" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')" style="cursor: pointer;" class="text-white fs-10px">
 
                                                                         {{$energyPool['public_name']}}
 
                                                                     </h5>
-                                                                    <div id="{{$energyPool['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
-                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+{{--                                                                    <div id="{{$energyPool['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
+{{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
 
-                                                                            {{$energyPool['text']}}
+{{--                                                                            {{$energyPool['text']}}--}}
 
-                                                                        </p>
-                                                                    </div>
+{{--                                                                        </p>--}}
+{{--                                                                    </div>--}}
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row d-flex">
+                                                        <div id="energy_pool_dynamic_dev" class="col-12 mt-3" style="display: none;">
+                                                            <div id="energy_pool_dynamic_dev_text" class="card p-2" style="height: auto;">
+                                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                                                    {{$energyPool['text']}}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -758,7 +964,7 @@
 
         showFeatureVideo(video_url);
 
-        function showFeatureVideo(src, is_core_stats = 0){
+        function showFeatureVideo(src, is_core_stats = 0, div_id = null){
 
             var video = document.getElementById('myVideo100');
             var videoContainer = document.getElementById('container_video');
@@ -779,7 +985,26 @@
             video.appendChild(source);
             video.load();
 
-            videoContainer.scrollIntoView();
+            if (div_id){
+
+
+                $('#' + div_id).toggle();
+
+                if ($('#' + div_id + '_heading').hasClass('orange-border')){
+
+                    $('#' + div_id + '_heading').removeClass('orange-border');
+
+                    $('#' + div_id + '_text').removeClass('orange-border');
+                }else {
+
+                    $('#' + div_id + '_heading').addClass('orange-border');
+
+                    $('#' + div_id + '_text').addClass('orange-border');
+
+                    videoContainer.scrollIntoView();
+                }
+
+            }
 
             // if (is_core_stats){
             //     video.play();
