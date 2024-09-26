@@ -1237,6 +1237,8 @@ class Assessment extends Model
 
         $record = CodeDetail::whereId($polarity_code)->select(['id','public_name','text','video'])->first();
 
+        $record['pv'] = $pv;
+
         return $record;
 
     }

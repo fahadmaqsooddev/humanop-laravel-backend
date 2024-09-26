@@ -495,7 +495,7 @@
                                         <input type="checkbox"
                                                style=" margin: 4px 0 0; line-height: normal; width: 15px; height: 15px;border-radius: 5px"
                                                onchange="onDailyTipAllRead(this)"
-                                               id="daily-tip-checkbox" {{$tip['is_read'] ? "disabled checked" : ""}}>
+                                               id="daily-tip-checkbox" {{$tip['is_read'] ?? null ? "disabled checked" : ""}}>
                                         <label class="text-white">Have you read it all ?</label>
                                     </div>
                                 </div>

@@ -205,13 +205,31 @@ class CodeDetail extends Model
 
             if ($record) {
 
-                $data = [
-                    'public_name' => $record->public_name,
-                    'description' => $record->text,
-                    'video_url' => $record->video_url,
-                ];
+                $last_words = substr($record->public_name, -2);
 
-                array_push($result,$data);
+                if ($last_words === 'ly') {
+
+                    $str_len = strlen($record->public_name) - 2;
+
+                    $data = [
+                        'public_name' => substr($record->public_name, 0, $str_len),
+                        'description' => $record->text,
+                        'video_url' => $record['video_url'],
+                    ];
+
+                    array_push($result, $data);
+
+                }else{
+
+                    $data = [
+                        'public_name' => $record->public_name,
+                        'description' => $record->text,
+                        'video_url' => $record->video_url,
+                    ];
+
+                    array_push($result,$data);
+                }
+
             }
         }
         return $result;
