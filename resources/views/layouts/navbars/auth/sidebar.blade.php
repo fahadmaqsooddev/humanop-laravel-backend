@@ -84,11 +84,22 @@
                                                                              src="{{URL::asset('assets/icons/Client.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                        <span class="sidenav-normal"> Client </span>
+                                        <span class="sidenav-normal"> Clients </span>
                                     </a>
                                 </li>
                             @endcan
                             @can('abandonedAssessment')
+                                <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
+                                       href="{{ route('assessments') }}">
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                          src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                        <span class="sidenav-normal"> Assessments </span>
+                                    </a>
+                                </li>
+
                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
                                        href="{{ route('admin_abandoned_assessment') }}">

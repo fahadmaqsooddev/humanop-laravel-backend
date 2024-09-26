@@ -13,6 +13,8 @@ final class Admin
     const IS_MALE = 2;
 
     const IS_FEMALE = 1;
-    
+
     const IS_BOTH = 2;
+
+    const IS_PRACTITIONER = 4;
 }

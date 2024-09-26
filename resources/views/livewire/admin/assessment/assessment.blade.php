@@ -211,42 +211,42 @@
             <thead class="thead-light">
             <tr>
                 <th>Name</th>
-{{--                <th>Practitioner</th>--}}
-{{--                <th>Project</th>--}}
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Membership</th>
+                <th>Date & Time</th>
                 <th>Practitioner</th>
+                <th>Project</th>
+                <th>Email</th>
+{{--                <th>Membership</th>--}}
+{{--                <th>Practitioner</th>--}}
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            @foreach($users as $user)
+            @foreach($assessments as $assessment)
                 <tr>
-                    <td class="text-sm font-weight-normal">{{$user['first_name'].' '.$user['last_name'] }} </td>
-{{--                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>--}}
-{{--                    <td class="text-sm font-weight-normal">Null</td>--}}
-                    <td class="text-sm font-weight-normal">{{$user['email']}}</td>
-                    <td class="text-sm font-weight-normal">{{$user['gender'] == 2 ? 'Male' : 'Female'}}</td>
-                    <td class="text-sm font-weight-normal">
-                        <select class="form-control" onchange="changeUserMemberShip(this, {{$user['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">
-                            <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>Freemium</option>
-                            <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>
-                            <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium</option>
-                        </select>
-                    </td>
+                    <td class="text-sm font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
+                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
+                    <td class="text-sm font-weight-normal">Null</td>
+                    <td class="text-sm font-weight-normal">Null</td>
+                    <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
+{{--                    <td class="text-sm font-weight-normal">--}}
+{{--                        <select class="form-control" onchange="changeUserMemberShip(this, {{$assessment['users']['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">--}}
+{{--                            <option value="Freemium" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Freemium" ? 'selected' : "" : ""}}>Freemium</option>--}}
+{{--                            <option value="Core" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Core" ? 'selected' : "" : ""}}>Core</option>--}}
+{{--                            <option value="Premium" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Premium" ? 'selected' : "" : ""}}>Premium</option>--}}
+{{--                        </select>--}}
+{{--                    </td>--}}
                     <td class="text-sm font-weight-normal"><a
-                            onclick="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}')"
+                            href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
                             style="background-color: #f2661c; color: white"
-                            class="btn btn-sm float-end mt-2 mb-0">Practitioner</a>
+                            class="btn btn-sm float-end mt-2 mb-0">View</a>
                     </td>
-                    <td class="text-sm font-weight-normal">
-                        <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
-                            style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
-                            class="btn btn-sm float-end mt-2 mb-0">
-                            Login
-                        </a>
-                    </td>
+{{--                    <td class="text-sm font-weight-normal">--}}
+{{--                        <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"--}}
+{{--                           style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"--}}
+{{--                           class="btn btn-sm float-end mt-2 mb-0">--}}
+{{--                            Login--}}
+{{--                        </a>--}}
+{{--                    </td>--}}
                 </tr>
             @endforeach
             </tbody>
@@ -276,29 +276,6 @@
             }).then((result) => {
                 if(result.isConfirmed){
                     window.livewire.emit('logInAdminAsUser', id)
-                }
-            })
-
-        }
-
-        function changeUserToPractitioner(id, name){
-
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn bg-gradient-primary m-2',
-                    cancelButton:  'btn bg-gradient-secondary m-2',
-                },
-                buttonsStyling: false,
-                background : '#3442b4',
-            })
-            swalWithBootstrapButtons.fire({
-                title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to make "+name+" as Practitioner</span>",
-                showCancelButton: true,
-                confirmButtonText: 'Practitioner',
-            }).then((result) => {
-                if(result.isConfirmed){
-                    window.livewire.emit('makePractitioner', id)
                 }
             })
 

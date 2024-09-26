@@ -70,6 +70,7 @@ use Illuminate\Support\Facades\Route;
 
      Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
          Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
      });
 
      Route::group(['middleware' => ['permission:deletedClient']], function () {

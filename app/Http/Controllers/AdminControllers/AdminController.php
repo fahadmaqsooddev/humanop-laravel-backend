@@ -290,4 +290,17 @@ class AdminController extends Controller
         }
 
     }
+
+    public function assessments(){
+
+        try {
+
+            return view('admin-dashboards.assessments.assessments');
+
+        }catch (\Exception $exception){
+
+            return redirect()->back()->with(['error' => $exception->getMessage()]);
+        }
+
+    }
 }

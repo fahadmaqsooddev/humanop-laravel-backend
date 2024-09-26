@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Livewire\Admin\User;
+namespace App\Http\Livewire\Admin\Assessment;
 
-use App\Enums\Admin\Admin;
 use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use App\Models\Assessment;
 use Livewire\WithPagination;
 
-class AllUser extends Component
+class Assessment extends Component
 {
+
     use WithPagination;
 
     public $style_code = '';
@@ -31,8 +30,7 @@ class AllUser extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber'
-        ,'logInAdminAsUser','changeUserMemberShip','makePractitioner'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserMemberShip'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -97,7 +95,7 @@ class AllUser extends Component
 
     public function searchFilter()
     {
-        $this->assessments = Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
+        $this->assessments = \App\Models\Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
     }
 
     public function logInAdminAsUser($id = null){
@@ -125,22 +123,13 @@ class AllUser extends Component
 
     }
 
-    public function makePractitioner($id){
-
-        User::whereId($id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
-    }
-
     public function render()
     {
+        return view('livewire.admin.assessment.assessment', [
 
-        $users = User::allClients();
-
-        return view('livewire.admin.user.all-user', [
-
-            'users' => $users,
+            'assessments' => $this->assessments,
             'selectedStyleCells' => $this->selectedStyleCells,
             'selectedFeatureCells' => $this->selectedFeatureCells,
         ]);
     }
-
 }
