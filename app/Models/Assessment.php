@@ -1212,7 +1212,7 @@ class Assessment extends Model
 
         $boundaries = [
             'public_name' => $publicName['public_name'],
-            'code_number' => $gold . '-' . $silver . '-' . $copper,
+            'code_number' => $gold . $silver . $copper,
             'text' => $publicName['text'],
             'video_url' => $publicName['video_url'],
         ];

@@ -643,7 +643,7 @@
                                                             <div id="boundary_dynamic_div_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')" style="cursor: pointer;" class="text-white fs-10px">
-                                                                        {{$boundary['public_name']}}
+                                                                        {{$boundary['public_name'] . " [" . $boundary['code_number'] . "]"}}
                                                                     </h5>
 {{--                                                                    <div id="{{$boundary['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
 {{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">--}}
