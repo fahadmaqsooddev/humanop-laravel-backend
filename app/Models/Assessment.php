@@ -303,7 +303,7 @@ class Assessment extends Model
                 $age_min = $age[0];
                 $age_max = $age[1];
                 $query->whereHas('users', function ($query) use ($age_min, $age_max) {
-                    $query->whereBetween('age', [$age_min, $age_max]);
+                    $query->where('age_min', $age_min)->where('age_max', $age_max);
                 });
             }
         }

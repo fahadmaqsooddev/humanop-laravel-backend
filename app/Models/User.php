@@ -577,4 +577,48 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10){
+
+        $users = self::query();
+
+        if (!empty($search_name)){
+
+            $users = $users->where(function ($q) use ($search_name){
+
+                $q->where('first_name', 'LIKE', "%$search_name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
+
+            });
+
+        }
+
+        if (!empty($email)){
+
+            $users = $users->where('email',$email);
+
+        }
+
+        if (!empty($age)){
+
+            $data['age_range'] = $age;
+
+            $data = Helpers::explodeAgeRangeIntoAge($data);
+
+            $users = $users->where('age_min', $data['age_min'])->where('age_max', $data['age_max']);
+
+        }
+
+        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->paginate($per_page);
+
+        return $users;
+    }
+
+    public static function makeUserAsPractitioner($user_id = null){
+
+        self::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+    }
+
 }

@@ -93,9 +93,9 @@
                                     <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
                                        href="{{ route('assessments') }}">
                                         <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                                                             src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                          src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                                                          src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                         <span class="sidenav-normal"> Assessments </span>
                                     </a>
                                 </li>

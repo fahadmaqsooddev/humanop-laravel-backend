@@ -34,185 +34,12 @@
                 </select>
             </div>
         </div>
-        <div class="pe-md-4">
-            <button class="btn btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background-color: #f2661c">Advance
-                Filters
-            </button>
-        </div>
-        <div class="advanceFilterSearch" style="padding-top: 50px !important;">
-            <div class="row mt-4 ms-md-2 pe-md-2 {{ $style_color ? 'd-block' : 'd-none' }}">
-                <div class="col-2">
-                    <div class="card">
-                        <div id="carouselExampleControls1" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach(array_chunk(['style-0','style-1','style-2','style-3','style-4','style-5','style-6','style-7','style-8','style-9'], 2) as $index => $chunk)
-                                    <div
-                                        class="carousel-item {{ $index === ($style_carousel_index ? $style_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive" style="margin-left: 35px !important;">
-                                            <table class="table table-flush" style="border-collapse: separate">
-                                                <thead class="thead-light">
-                                                <tr>
-                                                    @foreach($chunk as $select_num)
-                                                        @php
-                                                            $parts = explode('-', $select_num);
-                                                            $number_part = $parts[1];
-                                                        @endphp
-                                                        <th class="text-center border cursor-pointer {{ $style_number === $select_num ? 'bg-yellow' : '' }}"
-                                                            onclick="changeStyleCodeNumber('{{ $select_num }}', {{$index}})">
-                                                            {{ strtoupper($number_part) }}
-                                                        </th>
-                                                    @endforeach
-                                                </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleControls1" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-1 ms-md-2 pe-md-2">
-                <div class="col-8">
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-flush" style="border-collapse: separate">
-                                <thead class="thead-light">
-                                <tr>
-                                    @foreach(['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'] as $select_style_code)
-                                        @php
-                                            $colorClass = 'bg-none'; // Default to no background color
-                                            if (isset($selectedStyleCells[$select_style_code])) {
-                                                switch ($selectedStyleCells[$select_style_code]) {
-                                                    case 'green':
-                                                        $colorClass = 'bg-green';
-                                                        break;
-                                                    case 'red':
-                                                        $colorClass = 'bg-red';
-                                                        break;
-                                                    case 'border-green':
-                                                        $colorClass = 'border-success';
-                                                        break;
-                                                    case 'bg-none':
-                                                        $colorClass = 'bg-none';
-                                                        break;
-                                                }
-                                            }
-                                        @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
-                                            onclick="changeStyleBackgroundColor(this, '{{ $select_style_code }}')">
-                                            {{ strtoupper($select_style_code) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4 ms-md-2 pe-md-2 {{ $feature_color ? 'd-block' : 'd-none' }}">
-                <div class="col-2">
-                    <div class="card">
-                        <div id="carouselExampleControls2" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach(array_chunk(['feature-0','feature-1','feature-2','feature-3','feature-4','feature-5'], 2) as $index => $chunk)
-                                    <div
-                                        class="carousel-item {{ $index === ($feature_carousel_index ? $feature_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive" style="margin-left: 35px !important;">
-                                            <table class="table table-flush" style="border-collapse: separate">
-                                                <thead class="thead-light">
-                                                <tr>
-                                                    @foreach($chunk as $select_num)
-                                                        @php
-                                                            $parts = explode('-', $select_num);
-                                                            $number_part = $parts[1];
-                                                        @endphp
-                                                        <th class="text-center border cursor-pointer {{ $feature_number === $select_num ? 'bg-yellow' : '' }}"
-                                                            onclick="changeFeatureCodeNumber('{{ $select_num }}', {{$index}})">
-                                                            {{ strtoupper($number_part) }}
-                                                        </th>
-                                                    @endforeach
-                                                </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleControls2" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-1 ms-md-2 pe-md-2">
-                <div class="col-11">
-                    <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-flush" style="border-collapse: separate">
-                                <thead class="thead-light">
-                                <tr>
-                                    @foreach(['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'] as $select_feature_code)
-                                        @php
-                                            $colorClass = 'bg-none'; // Default to no background color
-                                            if (isset($selectedFeatureCells[$select_feature_code])) {
-                                                switch ($selectedFeatureCells[$select_feature_code]) {
-                                                    case 'green':
-                                                        $colorClass = 'bg-green';
-                                                        break;
-                                                    case 'red':
-                                                        $colorClass = 'bg-red';
-                                                        break;
-                                                    case 'yellow':
-                                                        $colorClass = 'bg-yellow';
-                                                        break;
-                                                    case 'none':
-                                                        $colorClass = 'bg-none';
-                                                        break;
-                                                }
-                                            }
-                                        @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
-                                            onclick="changeFeatureBackgroundColor(this, '{{ $select_feature_code }}')">
-                                            {{ strtoupper($select_feature_code) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <div class="table-responsive w-100">
-        <table class="table table-flush" id="datatable-search">
+    <div class="table-responsive w-100 pt-4">
+        <table class="table table-flush">
             <thead class="thead-light">
             <tr>
                 <th>Name</th>
-{{--                <th>Practitioner</th>--}}
-{{--                <th>Project</th>--}}
                 <th>Email</th>
                 <th>Gender</th>
                 <th>Membership</th>
@@ -224,8 +51,6 @@
             @foreach($users as $user)
                 <tr>
                     <td class="text-sm font-weight-normal">{{$user['first_name'].' '.$user['last_name'] }} </td>
-{{--                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>--}}
-{{--                    <td class="text-sm font-weight-normal">Null</td>--}}
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal">{{$user['gender'] == 2 ? 'Male' : 'Female'}}</td>
                     <td class="text-sm font-weight-normal">
@@ -251,7 +76,7 @@
             @endforeach
             </tbody>
         </table>
-        {{--        {{ $assessments->links() }}--}}
+                {{ $users->links() }}
     </div>
 </div>
 
