@@ -1,5 +1,27 @@
 @if ($paginator->hasPages())
 
+    <style>
+        .pagination {
+            float: right;
+            margin-right: 24px;
+        }
+
+        .page-link {
+            background: none !important;
+        }
+
+        .page-link:hover {
+            background: #f2661c !important;
+            color: white !important;
+        }
+
+        .page-item.active .page-link {
+            background: #f2661c !important;
+            color: white !important;
+            border-color: #f2661c !important;
+        }
+    </style>
+
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             @if ($paginator->onFirstPage())

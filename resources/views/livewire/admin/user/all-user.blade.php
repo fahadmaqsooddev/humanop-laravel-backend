@@ -76,7 +76,7 @@
             @endforeach
             </tbody>
         </table>
-                {{ $users->links() }}
+                {{ $users->links('pagination.table-pagination') }}
     </div>
 </div>
 
