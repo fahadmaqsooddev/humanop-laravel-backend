@@ -58,19 +58,40 @@ class ActionPlan extends Model
 
     public static function storeUserActionPlan(){
 
-        $user = Helpers::getWebUser() ?? Helpers::getUser();
+        $app_env = env('APP_ENV');
 
-        $plan = $user['plan_name'];
+        if ($app_env != 'production' || $app_env != 'staging'){
 
-        $days_according_to_plan = $user['plan_name'] === 'Freemium' || $user['plan_name'] === 'Core' ?
+            $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $user['plan_name'] === 'Core' ? 30 : 90 : 7;
+            $plan = $user['plan_name'];
 
-        $user_action_plan = self::where('user_id', $user->id)->first();
+            $days_according_to_plan = $user['plan_name'] === 'Freemium' || $user['plan_name'] === 'Core' ?
 
-        if ($user_action_plan){
+                $user['plan_name'] === 'Core' ? 30 : 90 : 7;
 
-            if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today())){
+            $user_action_plan = self::where('user_id', $user->id)->first();
+
+            if ($user_action_plan){
+
+                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today())){
+
+                    $latestAssessment = Assessment::getLatestAssessment($user->id);
+
+                    if ($latestAssessment){
+
+                        $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
+                    }
+
+                    $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
+
+                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
+
+                    $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
+
+                }
+
+            }else{
 
                 $latestAssessment = Assessment::getLatestAssessment($user->id);
 
@@ -83,24 +104,9 @@ class ActionPlan extends Model
 
                 $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
-                $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
+                self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
 
             }
-
-        }else{
-
-            $latestAssessment = Assessment::getLatestAssessment($user->id);
-
-            if ($latestAssessment){
-
-                $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
-            }
-
-            $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
-
-            $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
-
-            self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
 
         }
 

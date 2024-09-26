@@ -435,7 +435,7 @@
                                                                 <div class="card-body p-3 ">
 {{--                                                                    <h5 data-toggle="collapse" data-target="#{{$style[1]}}" aria-expanded="true" aria-controls="{{$style[1]}}"--}}
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$style[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
-                                                                        {{$index + 1}}. {{$style[1]}}
+                                                                        {{$index + 1}}. {{$style[1] . ' [' . "$style[0]" . ']'}}
                                                                     </h5>
 {{--                                                                    <div id="{{$style[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
 {{--                                                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$style[2]}}</p>--}}
@@ -540,7 +540,7 @@
                                                             <div id="feature_{{$feature[1]}}_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$feature[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
-                                                                        {{$index + 1}}. {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}} {{$feature[1]}}
+                                                                        {{$index + 1}}. {{$feature[1] . ' [' . "$feature[0]" . ']'}}
                                                                     </h5>
                                                                     <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">{{$feature[2]}}</p>
@@ -817,7 +817,7 @@
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')" style="cursor: pointer;" class="text-white fs-10px">
 
-                                                                        {{$perception['public_name']}}
+                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}
 
                                                                     </h5>
 {{--                                                                    <div id="{{$perception['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
@@ -903,7 +903,7 @@
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')" style="cursor: pointer;" class="text-white fs-10px">
 
-                                                                        {{$energyPool['public_name']}}
+                                                                        {{$energyPool['public_name'] . ' [' . $energyPool['id'] . ']'}}
 
                                                                     </h5>
 {{--                                                                    <div id="{{$energyPool['public_name']}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
