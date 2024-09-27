@@ -70,6 +70,7 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn  w-100 mt-4 mb-0 text-white" style="background-color: #f2661c !important;">Reset</button>
+                                    <div class="mt-3"> Already have an account?  <a href="{{url('login')}}" class="text-white">Sign in</a></div>
                                 </div>
                             </form>
                         </div>
