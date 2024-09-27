@@ -29,7 +29,66 @@ class SessionController extends Controller
 
     }
 
+    public function practitionerLogin($slug, $slug2)
+    {
+        try {
+
+            return view('practitioner-dashboard/session/login');
+
+        } catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
+        }
+    }
+
     public function store(Request $request)
+    {
+        try {
+            $attributes = request()->validate([
+                'email'=>'required|email',
+                'password'=>'required',
+            ]);
+
+            if(Auth::attempt($attributes))
+            {
+                if (isset($request['remember']) && !empty($request['remember']))
+                {
+                    setcookie("email", $attributes['email'], 30*time()+3600);
+                    setcookie("password", $attributes['password'], 30*time()+3600);
+                }else
+                {
+                    setcookie("email", "");
+                    setcookie("password", "");
+                }
+
+                $user = Helpers::getWebUser();
+
+                Session::forget('google_user'); // forget the session of the google data
+
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                DailyTip::updateUserDailyTip();
+
+                ActionPlan::storeUserActionPlan();
+
+                User::updateUserIsFeedback();
+
+                return redirect()->route('admin_dashboard');
+            }
+
+            return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+
+        }catch (ValidationException $validationException){
+
+            return back()->with(['errors' => $validationException->validator->errors()]);
+
+        } catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
+        }
+    }
+
+    public function practitionerStore(Request $request)
     {
         try {
             $attributes = request()->validate([

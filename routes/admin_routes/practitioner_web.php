@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'practitioner', 'middleware' => 'auth'], function () {
+Route::get('/{slug?}/{slug2?}/login', [SessionController::class, 'practitionerLogin'])->name('login');
+Route::post('/practitionerSession', [SessionController::class, 'practitionerStore']);
+
+
+Route::group(['prefix' => '{slug?}/{slug2?}', 'middleware' => 'auth'], function () {
 
 //    practitioner dashboard
     Route::view('/practitioner-dashboard', 'practitioner-dashboard/dashboard');

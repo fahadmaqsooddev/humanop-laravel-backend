@@ -577,7 +577,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10){
+    public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin){
 
         $users = self::query();
 
@@ -611,7 +611,7 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->paginate($per_page);
+        $users = $users->where('is_admin', $isAdmin)->paginate($per_page);
 
         return $users;
     }

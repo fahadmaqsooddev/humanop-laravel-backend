@@ -14,7 +14,7 @@ use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Practitioner\PractitionerController;
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
@@ -71,6 +71,10 @@ use Illuminate\Support\Facades\Route;
      Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
          Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
          Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
+     });
+
+     Route::group(['middleware' => ['permission:practitioner']], function () {
+         Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
      });
 
      Route::group(['middleware' => ['permission:deletedClient']], function () {
