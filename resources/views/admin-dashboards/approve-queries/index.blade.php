@@ -31,6 +31,10 @@
         border-color: #f2661c !important;
     }
 
+    .copy-text {
+        cursor: pointer;
+    }
+
 </style>
 @section('content')
     <div class="container-fluid row mt-4">

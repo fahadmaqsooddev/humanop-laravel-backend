@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class EditQuery extends Component
 {
-    public $queryId, $question, $answer;
+    public $queryId, $question, $answer, $updatedAnswer;
 
     public function render()
     {
@@ -16,7 +16,7 @@ class EditQuery extends Component
 
     public function updateAndApproveAnswer(){
 
-        $data['answer'] = $this->answer;
+        $data['answer'] = $this->updatedAnswer;
 
         QueryAnswer::updateQueryAnswer($data, $this->queryId);
 
