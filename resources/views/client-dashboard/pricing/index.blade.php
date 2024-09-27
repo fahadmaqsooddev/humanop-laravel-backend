@@ -40,18 +40,29 @@
                         @foreach($plans as $plan)
 
                         <div class="col-lg-4 mb-lg-0 mb-4">
-                            <div class="card">
-                                @if($plan->name != 'Freemium')
-                                <button class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0 mx-5">
+                            @if($plan->name != 'Freemium')
+                                <button class="btn btn-icon d-lg-block  mb-2 w-100 text-white" style="background-color: grey" >
                                     Coming Soon
                                 </button>
-                                @endif
-                                <div class="card-header text-center pt-4 pb-3">
-                                    <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
-                                    <h1 class="font-weight-bold mt-2 text-white">
-                                        <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
-                                    </h1>
-                                </div>
+                                <div class="card">
+
+                                    <div class="card-header text-center pt-4 pb-3">
+                                        <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
+                                        <h1 class="font-weight-bold mt-2 text-white">
+                                            <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
+                                        </h1>
+                                    </div>
+                                    @else
+                                        <div class="card mt-5">
+
+                                            <div class="card-header text-center pt-4 pb-3">
+                                                <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
+                                                <h1 class="font-weight-bold mt-2 text-white">
+                                                    <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
+                                                </h1>
+                                            </div>
+                                            @endif
+
 
                                 @if($plan->name == 'Freemium')
 

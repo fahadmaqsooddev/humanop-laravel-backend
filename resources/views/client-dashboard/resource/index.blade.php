@@ -3,29 +3,50 @@
 @section('content')
 
     <style>
-
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-        .container, .video-controls, .video-timer, .options {
+        .video-container,
+        .video-controls,
+        .video-timer,
+        .options {
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .container {
+
+
+        .center-play-pause {
+            /* padding-bottom: 150px; */
+            /* position: absolute; */
+
+            /* padding-left:20px ; */
+        }
+
+        button.play-pause-center {
+            color: rgb(210, 102, 34);
+            font-size: 6rem;
+            padding: 0 0 15% 0;
+
+            background-color: none !important;
+            box-shadow: none !important;
+            /* padding-bottom:40px ; */
+        }
+
+        .video-container {
             width: 100%;
             user-select: none;
             overflow: hidden;
-            max-width: 1200px;
+            max-width: 100%;
             border-radius: 5px;
-            /*background: #000;*/
-            aspect-ratio: 16 / 9;
+        /background: #000;/
+        aspect-ratio: 16 / 9;
             position: relative;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .container.fullscreen {
+        .video-container.fullscreen {
             max-width: 100%;
             width: 100%;
             height: 100vh;
@@ -40,9 +61,10 @@
             opacity: 0;
             bottom: -15px;
             transition: all 0.08s ease;
+            width: 1000px;
         }
 
-        .container.show-controls .wrapper {
+        .video-container.show-controls .wrapper {
             opacity: 1;
             bottom: 0;
             transition: all 0.13s ease;
@@ -56,7 +78,7 @@
             position: absolute;
             height: calc(100% + 35px);
             pointer-events: none;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            /* background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); */
         }
 
         .video-timeline {
@@ -100,7 +122,8 @@
             transform: translateY(-50%);
         }
 
-        .progress-bar::before, .progress-area span {
+        .progress-bar::before,
+        .progress-area span {
             display: none;
         }
 
@@ -174,10 +197,10 @@
             font-family: "Open sans";
         }
 
-        /*.playback-content {*/
-        /*    display: flex;*/
-        /*    position: relative;*/
-        /*}*/
+        /.playback-content {/
+             /*    display: flex;*/
+             /*    position: relative;*/
+         /}/
 
         .playback-content .speed-options {
             position: absolute;
@@ -194,21 +217,49 @@
             transition: opacity 0.13s ease;
         }
 
-        /*.playback-content .speed-options.show {*/
-        /*    opacity: 1;*/
-        /*    pointer-events: auto;*/
-        /*}*/
-        .container video {
+        /.playback-content .speed-options.show {/
+             /*    opacity: 1;*/
+             /*    pointer-events: auto;*/
+         /}/
+        .video-container video {
             width: 120%;
         }
 
-        @media screen and (max-width: 540px) {
+        @media screen and (min-width: 768px) {
+            button.play-pause-center {
+                font-size: 6rem !important;
+
+            }
+
+            .center-play-pause {
+                bottom: 300px;
+                left: 20px;
+
+            }
+        }
+
+        @media screen and (max-width: 575px) {
+
+
+            .center-play-pause {
+                /* padding-bottom: 20px; */
+
+            }
+
+            button.play-pause-center {
+                padding: 0 0 5% 0;
+
+                /* font-size: 2rem; */
+
+            }
 
             .wrapper .video-controls {
                 padding: 3px 10px 7px;
+                margin-bottom: 0;
             }
 
-            .options input, .progress-area span {
+            .options input,
+            .progress-area span {
                 display: none !important;
             }
 
@@ -235,25 +286,26 @@
                 font-size: 21px;
             }
 
-            .options .video-timer, .progress-area span, .speed-options li {
+            .options .video-timer,
+            .progress-area span,
+            .speed-options li {
                 font-size: 12px;
             }
 
-            /*.playback-content .speed-options {*/
-            /*    width: 75px;*/
-            /*    left: -30px;*/
-            /*    bottom: 30px;*/
-            /*}*/
+        .playback-content .speed-options {
+             /*    width: 75px;*/
+             /*    left: -30px;*/
+             /*    bottom: 30px;*/
+         }
 
-            /*.speed-options li{*/
-            /*    margin: 1px 0;*/
-            /*    padding: 3px 0 3px 10px;*/
-            /*}*/
+        .speed-options li{
+             /*    margin: 1px 0;*/
+             /*    padding: 3px 0 3px 10px;*/
+         }
             .right .pic-in-pic {
                 display: none;
             }
         }
-
     </style>
 
 
@@ -384,8 +436,14 @@
                         <br>
                         <br>
 
-                        <div class="container show-controls" id="container_video">
-                            <div class="wrapper">
+                        <div class="video-container show-controls" id="container_video">
+                            <div class="wrapper mx-auto w-75 ">
+                                <div
+                                    class="center-play-pause d-flex align-items-center justify-content-center h-75 w-100   mx-auto">
+                                    <button class="btn play-pause-center fs-1"
+                                            style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
+                                    </button>
+                                </div>
                                 <div class="video-timeline">
                                     <div class="progress-area">
                                         <span id="progree-area-span">00:00</span>
@@ -406,28 +464,19 @@
                                     <li class="options center">
                                         <button class="skip-backward"><i class="fas fa-backward"
                                                                          style="color: #f2661c;"></i></button>
-                                        <button class="play-pause"><i class="fas fa-play" style="color: #f2661c;"></i>
+                                        <button class="play-pause"><i class="fas fa-play"
+                                                                      style="color: #f2661c;"></i>
                                         </button>
                                         <button class="skip-forward"><i class="fas fa-forward"
                                                                         style="color: #f2661c;"></i></button>
                                     </li>
                                     <li class="options right">
-                                        {{--                                    <div class="playback-content">--}}
-                                        {{--                                        <button class="playback-speed"><span class="material-symbols-rounded">slow_motion_video</span></button>--}}
-                                        {{--                                        <ul class="speed-options">--}}
-                                        {{--                                            <li data-speed="2">2x</li>--}}
-                                        {{--                                            <li data-speed="1.5">1.5x</li>--}}
-                                        {{--                                            <li data-speed="1" class="active">Normal</li>--}}
-                                        {{--                                            <li data-speed="0.75">0.75x</li>--}}
-                                        {{--                                            <li data-speed="0.5">0.5x</li>--}}
-                                        {{--                                        </ul>--}}
-                                        {{--                                    </div>--}}
                                         <button class="fullscreen"><i class="fa-solid fa-expand"
                                                                       style="color: #f2661c;"></i></button>
                                     </li>
                                 </ul>
                             </div>
-                            <video id="video" class="w-100 h-100" style="max-height: 500px;"></video>
+                            <video id="video" class="w-100 h-100 " style="max-height: 500px;"></video>
                         </div>
 
                         <div class="container" id="container_image">
@@ -524,6 +573,7 @@
             skipBackward = container.querySelector(".skip-backward i"),
             skipForward = container.querySelector(".skip-forward i"),
             playPauseBtn = container.querySelector(".play-pause i"),
+            playPauseBtnCenter = container.querySelector(".play-pause-center i"),
             speedBtn = container.querySelector(".playback-speed span"),
             speedOptions = container.querySelector(".speed-options"),
             fullScreenBtn = container.querySelector(".fullscreen i");
@@ -657,9 +707,39 @@
         playPauseBtn.addEventListener("click", () => {
             mainVideo.paused ? mainVideo.play() : mainVideo.pause()
         });
+
+        mainVideo.addEventListener("play", () => playPauseBtnCenter.classList.replace("fa-play", "fa-pause"));
+        mainVideo.addEventListener("pause", () => playPauseBtnCenter.classList.replace("fa-pause", "fa-play"));
+        playPauseBtnCenter.addEventListener("click", () => {
+            mainVideo.paused ? mainVideo.play() : mainVideo.pause()
+        });
+
         videoTimeline.addEventListener("mousedown", () => videoTimeline.addEventListener("mousemove", draggableProgressBar));
         document.addEventListener("mouseup", () => videoTimeline.removeEventListener("mousemove", draggableProgressBar));
 
+
+        // Play / pause.
+        mainVideo.addEventListener('click', function () {
+            if (mainVideo.paused == false) {
+                mainVideo.pause();
+                mainVideo.firstChild.nodeValue = 'Play';
+            } else {
+                mainVideo.play();
+                mainVideo.firstChild.nodeValue = 'Pause';
+            }
+        });
+
+        // Add event listener for pause
+        mainVideo.style.opacity = '0.5';  // Dim the video by changing opacity
+
+        mainVideo.addEventListener('pause', () => {
+            mainVideo.style.opacity = '0.5';  // Dim the video by changing opacity
+        });
+
+        // Add event listener for play
+        mainVideo.addEventListener('play', () => {
+            mainVideo.style.opacity = '1';  // Reset the opacity when playing
+        });
     </script>
 
     <script>

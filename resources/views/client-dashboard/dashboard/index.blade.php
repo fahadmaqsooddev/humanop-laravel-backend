@@ -619,8 +619,13 @@
         });
 
         window.Livewire.on('hideModal', function () {
-            $('#exampleModalMessage').modal('hide');
-            $('#add_feedback').click();
+
+            console.log('hide client query modal');
+
+            setTimeout(function (){
+                $('#exampleModalMessage').modal('hide');
+                $('#add_feedback').click();
+            }, 1000);
         })
 
         document.querySelector('.haiChatBtn').addEventListener('click', function () {

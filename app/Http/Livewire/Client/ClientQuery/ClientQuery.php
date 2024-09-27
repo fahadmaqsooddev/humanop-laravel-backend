@@ -24,7 +24,7 @@ class ClientQuery extends Component
     {
         try {
             QueryModal::createQuery(Helpers::getWebUser()->id, $this->query, $this->chat_id);
-            session()->flash('success', "Your Query submit successfully");
+            session()->flash('success', "Submission Sent");
             $this->query = '';
             $this->emit('hideModal');
         }
