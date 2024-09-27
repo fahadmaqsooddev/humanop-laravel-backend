@@ -489,10 +489,10 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topThreeStyles as $index => $style)
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                            <div id="style_{{$style[1].'_heading'}}" class="card" style="height: auto">
+                                                            <div id="style_{{$index.'_heading'}}" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
 {{--                                                                    <h5 data-toggle="collapse" data-target="#{{$style[1]}}" aria-expanded="true" aria-controls="{{$style[1]}}"--}}
-                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$style[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{$style[1] . ' [' . "$style[0]" . ']'}}
                                                                     </h5>
 {{--                                                                    <div id="{{$style[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">--}}
@@ -506,8 +506,8 @@
 
                                                 @foreach($topThreeStyles as $index => $style)
                                                     <div class="row d-flex">
-                                                        <div id="style_{{$style[1]}}" class="col-12 mt-3" style="display: none;">
-                                                            <div id="style_{{$style[1]}}_text" class="card p-2" style="height: auto;">
+                                                        <div id="style_{{$index}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="style_{{$index}}_text" class="card p-2" style="height: auto;">
                                                                 <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                                     <span style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
                                                                 </p>
@@ -802,12 +802,12 @@
 
                                                 <div class="row d-flex mt-5">
 
-                                                    @foreach($topCommunication as $communication)
+                                                    @foreach($topCommunication as $index => $communication)
 
                                                         <div class="col-lg-3 col-sm-12 col-md-6">
-                                                            <div id="communication_{{$communication['public_name']}}_heading" class="card" style="height: auto">
+                                                            <div id="communication_{{$index}}_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$communication['public_name']}}')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')" style="cursor: pointer;" class="text-white fs-10px">
 
                                                                         {{$communication['public_name']}}
 
@@ -825,10 +825,10 @@
 
                                                 </div>
 
-                                                @foreach($topCommunication as $communication)
+                                                @foreach($topCommunication as $index => $communication)
                                                     <div class="row d-flex">
-                                                        <div id="communication_{{$communication['public_name']}}" class="col-12 mt-3" style="display: none;">
-                                                            <div id="communication_{{$communication['public_name']}}_text" class="card p-2" style="height: auto;">
+                                                        <div id="communication_{{$index}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="communication_{{$index}}_text" class="card p-2" style="height: auto;">
                                                                 <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                                     <span style="color: #f2661c;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
                                                                 </p>
