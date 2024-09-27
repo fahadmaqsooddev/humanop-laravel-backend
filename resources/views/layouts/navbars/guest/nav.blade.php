@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 my-3 w-100 shadow-none navbar-transparent mt-4">
   <div class="container">
       <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
-         href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : '#' }}">
+         href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : url('login') }}">
           <img src="{{ asset('assets/img/logo.png') }}" alt="">
       </a>
     <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
