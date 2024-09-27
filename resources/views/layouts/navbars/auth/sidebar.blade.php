@@ -88,6 +88,18 @@
                                     </a>
                                 </li>
                             @endcan
+                            @can('practitioner')
+                                <li class="nav-item {{ (Request::is('practitioners') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('practitioners') ? 'active' : '') }}"
+                                       href="{{ route('admin_all_practitioners') }}">
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                          src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                        <span class="sidenav-normal"> Practitioners </span>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('abandonedAssessment')
                                 <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"

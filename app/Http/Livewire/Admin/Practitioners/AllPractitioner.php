@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Livewire\Admin\User;
+namespace App\Http\Livewire\Admin\Practitioners;
 
-use App\Models\Client\Plan\Plan;
-use App\Models\Subscription;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Client\Plan\Plan;
+use App\Models\Subscription;
+use App\Models\User;
 
-class AllUser extends Component
+class AllPractitioner extends Component
 {
+
     use WithPagination;
 
     public $name = '';
@@ -50,13 +51,12 @@ class AllUser extends Component
 
     public function render()
     {
+        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, \App\Enums\Admin\Admin::IS_PRACTITIONER);
 
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, \App\Enums\Admin\Admin::IS_CUSTOMER);
 
-        return view('livewire.admin.user.all-user', [
+        return view('livewire.admin.practitioners.all-practitioner', [
 
             'users' => $users
         ]);
     }
-
 }
