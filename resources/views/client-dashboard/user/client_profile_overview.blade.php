@@ -595,9 +595,9 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div id="feature_{{$feature[1]}}_heading" class="card" style="height: auto">
+                                                            <div id="feature_{{$index}}_heading" class="card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$feature[1]}}')" style="cursor: pointer;" class="text-white fs-10px">
+                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')" style="cursor: pointer;" class="text-white fs-10px">
                                                                         {{$index + 1}}. {{$feature[1] . ' [' . "$feature[0]" . ']'}}
                                                                     </h5>
                                                                     <div id="{{$feature[1]}}" class="collapse description-container" aria-labelledby="headingOne" data-parent="#accordion">
@@ -609,11 +609,11 @@
                                                     @endforeach
                                                 </div>
 
-                                                @foreach($topTwoFeatures as $feature)
+                                                @foreach($topTwoFeatures as $index => $feature)
 
                                                     <div class="row d-flex">
-                                                        <div id="feature_{{$feature[1]}}" class="col-12 mt-3" style="display: none;">
-                                                            <div id="feature_{{$feature[1]}}_text" class="card p-2" style="height: auto;">
+                                                        <div id="feature_{{$index}}" class="col-12 mt-3" style="display: none;">
+                                                            <div id="feature_{{$index}}_text" class="card p-2" style="height: auto;">
                                                                 <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                                     <span style="color: #f2661c;">{{$feature[1] }} : </span>{{$feature[2]}}
                                                                 </p>
