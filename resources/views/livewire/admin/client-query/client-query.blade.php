@@ -11,8 +11,8 @@
         <tbody>
         @foreach($queries as $query)
             <tr>
-                <td class="text-sm font-weight-normal">{{$query['users']['first_name']}} {{$query['users']['first_name']}}</td>
-                <td class="text-sm font-weight-normal">{{$query['users']['email']}}</td>
+                <td class="text-sm font-weight-normal">{{$query['users'] ? $query['users']['first_name'] . ' ' . $query['users']['last_name'] : ""}}</td>
+                <td class="text-sm font-weight-normal">{{$query['users']['email'] ?? null}}</td>
                 <td class="text-sm font-weight-normal">{{$query['query']}}</td>
                 <td class="text-sm font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
