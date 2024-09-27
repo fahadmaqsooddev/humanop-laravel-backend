@@ -476,7 +476,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <video id="myVideo100" class="w-100 h-100 " style="max-height: 500px;"></video>
+                            <video id="video" class="w-100 h-100 " style="max-height: 500px;"></video>
                         </div>
 
                         <div class="container" id="container_image">
