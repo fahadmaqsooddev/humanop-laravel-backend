@@ -15,6 +15,7 @@
                     <textarea rows="4" class="form-control text-white mt-4" style="background-color: #0f1535" wire:model.defer="query"
                               id="message-text" placeholder="Type your question here..."></textarea>
                 </div>
+                @include('layouts.message')
                 <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Send Query</button>
             </form>
         </div>
