@@ -638,7 +638,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function userLoggedInData(){
 
-        $user = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
+        $user = Helpers::getUser() ?? Helpers::getWebUser();
 
         return self::whereId($user->id)->with('userIntensionPlan')->first();
 
