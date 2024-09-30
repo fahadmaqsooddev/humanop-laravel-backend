@@ -119,7 +119,7 @@
                                         style="background-color: #0F1535; color: white; border-radius: 12px;">
                                         <option value="" selected hidden>Gender at Birth
                                         </option>
-                                        <option value="2">Male (XY)</option>
+                                        <option value="0">Male (XY)</option>
                                         <option value="1">Female (XX)</option>
                                     </select>
                                     @error('gender')

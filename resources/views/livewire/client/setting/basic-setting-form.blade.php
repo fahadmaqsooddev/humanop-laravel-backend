@@ -46,7 +46,7 @@
                     <label class="form-label mt-4 text-white">I'm</label>
                     <select class="form-control text-white" id="client-gender" style="background-color: #0f1534;" wire:model.defer="user.gender">
                         <option>Select Gender</option>
-                        <option value="2">Male</option>
+                        <option value="0">Male</option>
                         <option value="1">Female</option>
                     </select>
                 </div>

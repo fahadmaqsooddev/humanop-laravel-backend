@@ -359,13 +359,13 @@ class User extends Authenticatable implements JWTSubject
 
     public static function user($id = null){
         $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
-        $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
+        $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         return $user;
     }
 
     public static function createClient($data = null){
 
-        $data['gender'] = $data['gender'] === 'male' ? 2 : 1;
+        $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
 
         $data['is_admin'] = 2; // 2 for client
 
@@ -377,7 +377,7 @@ class User extends Authenticatable implements JWTSubject
 
         $user_id = Helpers::getUser()->id;
 
-        $request['gender'] = $request['gender'] === 'male' ? 2 : 1;
+        $request['gender'] = $request['gender'] === 'male' ? 0 : 1;
 
         self::whereId($user_id)->update($request);
 

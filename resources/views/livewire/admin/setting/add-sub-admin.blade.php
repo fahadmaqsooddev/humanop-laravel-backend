@@ -51,7 +51,7 @@
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4">I'm</label>
                     <select style="background-color: #0f1535" class="form-control" wire:model.defer="sub_admin.gender" >
-                        <option value="2">Male</option>
+                        <option value="0">Male</option>
                         <option value="1">Female</option>
                     </select>
                 </div>

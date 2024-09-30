@@ -34,7 +34,7 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td class="text-sm font-weight-normal">{{$question['gender'] === '0' ? 'Male & Female' : ($question['gender'] === '1' ? 'Female' : ($question['gender'] === '2' ? 'Male' : ''))}}</td>
+                                <td class="text-sm font-weight-normal">{{$question['gender'] === '2' ? 'Male & Female' : ($question['gender'] === '1' ? 'Female' : ($question['gender'] === '0' ? 'Male' : ''))}}</td>
                                 <td class="text-sm font-weight-normal"><a href="{{route('admin_edit_questions', $question['id'])}}"
                                                                           type="submit"
                                                                           style="background-color: #f2661c; color: white"

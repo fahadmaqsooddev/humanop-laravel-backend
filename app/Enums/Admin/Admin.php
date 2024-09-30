@@ -10,7 +10,7 @@ final class Admin
 
     const IS_CUSTOMER = 2;
 
-    const IS_MALE = 2;
+    const IS_MALE = 0;
 
     const IS_FEMALE = 1;
 

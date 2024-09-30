@@ -36,7 +36,7 @@
                 @endif
                 <td class="text-sm font-weight-normal">{{ $admin->first_name . ' ' . $admin->last_name }}</td>
                 <td class="text-sm font-weight-normal">{{ $admin->email }}</td>
-                <td class="text-sm font-weight-normal">{{ ($admin->gender == 0 ? 'Both' : ($admin->gender == 1 ? 'Female' : ($admin->gender == 2 ? 'Male' : ''))) }}</td>
+                <td class="text-sm font-weight-normal">{{ ($admin->gender == 2 ? 'Both' : ($admin->gender == 1 ? 'Female' : ($admin->gender === '0' ? 'Male' : ''))) }}</td>
                 <td class="font-weight-normal">
                     <div class="form-check form-switch mb-0">
                         @php

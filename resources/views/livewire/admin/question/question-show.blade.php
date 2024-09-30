@@ -46,7 +46,7 @@
                     @endif
                 </td>
                 <td class="text-sm font-weight-normal">
-                    <p class="mt-2">{{ $q->gender === '0' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '2' ? 'Male' : '')) }}</p>
+                    <p class="mt-2">{{ $q->gender === '2' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '0' ? 'Male' : '')) }}</p>
                 </td>
                 <td class="text-sm font-weight-normal px-4">
                     <button type="button" data-bs-toggle="modal"
