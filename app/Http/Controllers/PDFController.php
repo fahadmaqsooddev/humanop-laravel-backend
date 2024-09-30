@@ -45,7 +45,7 @@ class PDFController extends Controller
         $grid = Assessment::getGrid($id);
 
         $user_name = $grid['users']['first_name']. ' '. $grid['users']['last_name'];
-        $user_gender = $grid['users']['gender'] === 2 || $grid['users']['gender'] === '2' ? "Male" : "Female";
+        $user_gender = $grid['users']['gender'] === 0 || $grid['users']['gender'] === '0' ? "Male" : "Female";
         $user_age = $grid['users']['age_min'] . '-'. $grid['users']['age_max'];
 
         $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);

@@ -322,7 +322,7 @@
                                     </div>
                                     <h1 class="text-white">ULT Summary Report</h1>
                                     <h4 class="text-white fs-13px">{{$reports['user_name']}}
-                                        , {{$reports['user_gender'] == 2 ? 'Male' : 'Female'}}, Interval</h4>
+                                        , {{$reports['user_gender'] === '0' ? 'Male' : 'Female'}}, Interval</h4>
                                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-intervel="false">
                                     <a class="carousel-control-prev align-items-start  py-3 py-md-0 mt-n5 " href="#carouselExampleIndicators"
                                            onclick="pauseAllVideos()" role="button"
