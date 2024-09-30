@@ -87,6 +87,8 @@ class AuthController extends Controller
 
             $user = Helpers::getUser();
 
+            $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
+
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             DailyTip::updateUserDailyTip();

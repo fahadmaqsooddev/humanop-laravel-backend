@@ -17,6 +17,13 @@ class RegisterFormRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->request->add([
+            'date_of_birth' => request()->input('year', 0) . '-' . request()->input('month', 0) . '-' . request()->input('day', 0),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,7 +36,8 @@ class RegisterFormRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => 'required|string|max:255',
-            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
+            'date_of_birth' => 'required|date',
+//            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
             'phone' => 'required|string|max:25'
         ];
@@ -46,11 +54,14 @@ class RegisterFormRequest extends FormRequest
             'email.email' => 'Please enter a valid email address.',
             'email.max' => 'The email should not exceed 255 characters.',
             'email.unique' => 'The email address is already registered.',
-            'age_range.required' => 'The age range is required.',
-            'age_range.regex' => 'Please enter a valid age range.',
+//            'age_range.required' => 'The age range is required.',
+//            'age_range.regex' => 'Please enter a valid age range.',
             'gender.required' => 'The gender is required.',
             'phone.required' => 'The phone number is required.',
             'phone.max' => 'The phone number should not exceed 25 characters.',
+            'date_of_birth.required' => 'Date of birth is required',
+            'date_of_birth.date' => 'Date of birth must be a date',
+            'date_of_birth.format' => 'Date of birth format must be like (d-m-Y)'
         ];
     }
 }

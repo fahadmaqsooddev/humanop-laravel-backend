@@ -30,7 +30,8 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:6',
             'phone' => 'required|max:25',
             'gender' => 'required|in:male,female',
-            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/'
+            'date_of_birth' => 'required|date',
+//            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/'
         ];
     }
 
@@ -44,8 +45,9 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'Email is already been taken',
             'gender.required' => 'Gender is required',
             'gender.in' => 'Gender value must be (male/female)',
-            'age_range.required' => 'Age is required',
-            'age_range.regex' => 'Invalid age format. Format must be 12-20',
+            'date_of_birth.required' => 'Date of birth is required',
+//            'age_range.required' => 'Age is required',
+//            'age_range.regex' => 'Invalid age format. Format must be 12-20',
         ];
     }
 }

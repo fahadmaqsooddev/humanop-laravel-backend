@@ -26,7 +26,8 @@ class UpdateUserProfileRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
+            'date_of_birth' => 'required|date',
+//            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|in:male,female',
             'phone' => 'required|max:25',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
@@ -38,8 +39,9 @@ class UpdateUserProfileRequest extends FormRequest
         return [
             'first_name.required' => 'First name is required',
             'last_name.required' => 'First name is required',
-            'age_range.required' => 'Age is required',
-            'age_range.regex' => 'Invalid age format. Age range must be - separated',
+//            'age_range.required' => 'Age is required',
+//            'age_range.regex' => 'Invalid age format. Age range must be - separated',
+            'date_of_birth.required' => 'Date of birth is required',
             'gender.required' => 'Gender is required',
             'gender.in' => 'Invalid gender. Gender must be male or female',
             'phone.required' => 'Phone is required',

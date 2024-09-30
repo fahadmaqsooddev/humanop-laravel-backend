@@ -60,7 +60,7 @@ class UserController extends Controller
                 $dataArray = $request->only(['first_name','last_name','phone','age_max','age_min','gender','image_id']);
 
             }else{
-                $dataArray = $request->only(['first_name','last_name','phone','age_max','age_min','gender']);
+                $dataArray = $request->only(['first_name','last_name','phone','date_of_birth','gender']);
 
             }
 

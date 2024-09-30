@@ -38,7 +38,7 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-            $dataArray['age_range'] = $request['age_range'];
+//            $dataArray['age_range'] = $request['age_range'];
 
             $user = User::createUser($dataArray);
 

@@ -74,7 +74,7 @@ class User extends Authenticatable implements JWTSubject
     // scope
 
     public function scopeSelection($query){
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','age_min','age_max']);
+        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','date_of_birth']);
     }
 
     // appends
@@ -130,7 +130,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function getAgeGroupAttribute(){
-        return ($this->age_min . '-' . $this->age_max);
+        return 0;//($this->age_min . '-' . $this->age_max);
     }
 
     public function getPlanNameAttribute(){
@@ -241,47 +241,49 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function getUserAge($user_age = null)
+    public static function getUserAge($date_of_birth = null)
     {
 
-        switch ($user_age) {
-            case '0-3':
+        $age = Carbon::parse($date_of_birth)->age;
+
+        switch ($age) {
+            case (0 <= $age && $age <= 3):
                 $interval = 'Generic Interval';
                 break;
-            case '3-7':
+            case (3 <= $age && $age <= 7):
                 $interval = 'Socialization Interval';
                 break;
-            case '7-12':
+            case (7 <= $age && $age <= 12):
                 $interval = 'Ready to Learn - Energy Centers';
                 break;
-            case '12-16':
+            case (12 <= $age && $age <= 16):
                 $interval = 'Alchemical Revelation';
                 break;
-            case '16-21':
+            case (16 <= $age && $age <= 21):
                 $interval = 'Motivation';
                 break;
-            case '21-29':
+            case (21 <= $age && $age <= 29):
                 $interval = 'Roadworthy';
                 break;
-            case '30-33':
+            case (30 <= $age && $age <= 33):
                 $interval = 'Power Interval';
                 break;
-            case '34-43':
+            case (34 <= $age && $age <= 43):
                 $interval = 'Mid-Life Transformation Interval';
                 break;
-            case '43-52':
+            case (43 <= $age && $age <= 52):
                 $interval = 'Awareness Interval';
                 break;
-            case '52-66':
+            case (52 <= $age && $age <= 66):
                 $interval = 'Pay It Forward Interval';
                 break;
-            case '66-70':
+            case (66 <= $age && $age <= 70):
                 $interval = 'Interval of Liberation';
                 break;
-            case '70-75':
+            case (70 <= $age && $age <= 75):
                 $interval = 'Interval of “Being”';
                 break;
-            case '75-84':
+            case (75 <= $age && $age <= 84):
                 $interval = 'Life Review Interval';
                 break;
             default:
@@ -301,9 +303,9 @@ class User extends Authenticatable implements JWTSubject
     public static function createUser($data = null){
 
         $data['is_admin'] = 2;
-        $age = explode('-', $data['age_range']);
-        $data['age_min'] = $age[0];
-        $data['age_max'] = $age[1];
+//        $age = explode('-', $data['age_range']);
+//        $data['age_min'] = $age[0];
+//        $data['age_max'] = $age[1];
 
         $user = self::create($data);
 

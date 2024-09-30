@@ -54,6 +54,8 @@ class DashboardController extends Controller
 
         try {
 
+            $interval_of_life = User::getUserAge(Helpers::getUser()->date_of_birth);
+
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
             $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
@@ -82,7 +84,8 @@ class DashboardController extends Controller
                 'topCommunication' => $topCommunication,
                 'energyPool' => $energyPool,
                 'your_perception' => $perception_life,
-                'perception' => $perception
+                'perception' => $perception,
+                'interval_of_life' => $interval_of_life
             ];
 
             return Helpers::successResponse('core stats', $data);

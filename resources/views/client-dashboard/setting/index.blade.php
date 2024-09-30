@@ -192,7 +192,8 @@
                         </div>
                     </div>
                 </div>
-            @php($user['age_range'] = $user['age_min'] . '-' . $user['age_max'])
+{{--            @php($user['age_range'] = $user['age_min'] . '-' . $user['age_max'])--}}
+{{--            @php($user['date_of_birth'] = explode($user['date_of_birth']))--}}
             <!-- Card Basic Info -->
                 @livewire('client.setting.basic-setting-form',['user' => $user])
                 <!-- Card Change Password -->

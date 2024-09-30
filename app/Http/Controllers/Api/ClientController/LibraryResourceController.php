@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\ResourceCategory\ResourceCategory;
 use App\Models\Admin\Resources\LibraryResource;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,9 @@ class LibraryResourceController extends Controller
     {
         try {
 
-            $data = LibraryResource::resourcesForApi();
+            $user = Helpers::getUser();
+
+            $data = ResourceCategory::resourceCategoriesForClient($user['plan_name']);
 
 //            $base_url = \request()->getSchemeAndHttpHost();
 //

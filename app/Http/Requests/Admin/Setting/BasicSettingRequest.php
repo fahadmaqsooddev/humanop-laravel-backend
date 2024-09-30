@@ -18,7 +18,6 @@ class BasicSettingRequest extends FormRequest
 //        parent::__construct();
 //        $this->data = $data;
 //    }
-
     public function authorize()
     {
         return true;
@@ -31,12 +30,12 @@ class BasicSettingRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
 //            'email' => 'required|email|max:255|unique:users,email,' . Auth::user()->id,
-            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
+//            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
             'phone' => 'required|string|max:25',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
@@ -53,8 +52,8 @@ class BasicSettingRequest extends FormRequest
 //            'email.email' => 'Please enter a valid email address.',
 //            'email.max' => 'The email should not exceed 255 characters.',
 //            'email.unique' => 'The email address is already registered.',
-            'age_range.required' => 'The age range is required.',
-            'age_range.regex' => 'Please enter a valid age range.',
+//            'age_range.required' => 'The age range is required.',
+//            'age_range.regex' => 'Please enter a valid age range.',
             'gender.required' => 'The gender is required.',
             'phone.required' => 'The phone number is required.',
             'phone.max' => 'The phone number should not exceed 25 characters.',
