@@ -1,0 +1,19 @@
+<div class="card mt-4" id="intentionPlan">
+    <div class="card-header">
+        <h5 class="text-white">90 Days Intention Plan</h5>
+    </div>
+    @include('layouts.message')
+    <form wire:submit.prevent="submitForm" class="mb-4">
+        <div class="card-body pt-0">
+            <label class="form-label text-white">90 Day Intention</label>
+            <div class="form-group">
+                <input style="background-color: #0f1534;" wire:model.defer="intention"
+                       class="form-control text-white" type="text"
+                       placeholder="In the next 90 Days I would like to ...">
+            </div>
+            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">
+                Update intention
+            </button>
+        </div>
+    </form>
+</div>

@@ -24,7 +24,6 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-white">Email</label>

@@ -11,6 +11,7 @@ use App\Http\Requests\Client\Register\RegisterFormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Stripe\BaseStripeClient;
+use App\Models\IntentionPlan\IntentionPlan;
 
 class RegisterController extends Controller
 {
@@ -38,9 +39,12 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-//            $dataArray['age_range'] = $request['age_range'];
-
             $user = User::createUser($dataArray);
+
+            if (!empty($request['90_day_intention']))
+            {
+                IntentionPlan::createIntentionPlan($user['id'], $request['90_day_intention']);
+            }
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 

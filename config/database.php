@@ -364,6 +364,11 @@ return [
             'table' => 'resource_categories',
             'fillable' => ['name'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'IntentionPlan' => [
+            'table' => 'intention_plan',
+            'fillable' => ['user_id', '90_day_intention'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];
