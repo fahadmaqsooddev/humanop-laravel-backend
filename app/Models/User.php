@@ -317,9 +317,9 @@ class User extends Authenticatable implements JWTSubject
     }
     public static function createSubAdmin($data = null){
         $data['is_admin'] = 3;
-        $age = explode('-', $data['age_range']);
-        $data['age_min'] = $age[0];
-        $data['age_max'] = $age[1];
+//        $age = explode('-', $data['age_range']);
+//        $data['age_min'] = $age[0];
+//        $data['age_max'] = $age[1];
         $data['status'] = 1;
 
         $user = self::create($data);

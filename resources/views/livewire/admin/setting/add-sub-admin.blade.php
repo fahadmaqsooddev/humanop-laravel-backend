@@ -1,4 +1,3 @@
-
 <div class="card mt-4" id="add-sub-admin-info">
     <div class="card-header">
         <h5>Add Sub Admin</h5>
@@ -58,25 +57,67 @@
                 </div>
             </div>
             <div class="row">
-            <div class="col-sm-4 col-6 w-50">
-                <label class="form-label mt-4">Age Group</label>
-                <select style="background-color: #0f1535" class="form-control" wire:model.defer="sub_admin.age_range" >
-                    <option value="5-6">5-6</option>
-                    <option value="7-11">7-11</option>
-                    <option value="12-15">12-15</option>
-                    <option value="16-20">16-20</option>
-                    <option value="21-29">21-29</option>
-                    <option value="30-33">30-33</option>
-                    <option value="34-42">34-42</option>
-                    <option value="43-51">43-51</option>
-                    <option value="52-65">52-65</option>
-                    <option value="66-69">66-69</option>
-                    <option value="70-74">70-74</option>
-                    <option value="75-83">75-83</option>
-                    <option value="84-93">84-93</option>
-                    <option value="94-101">94&up</option>
-                </select>
-            </div>
+                <div class="col-sm-4 col-6 w-50">
+                    <label for="name" class="text-white mt-4">Date of Birth</label>
+
+                    <div class="d-flex w-100">
+
+                        <select class="justify-content-center form-control m-1" wire:model="day"
+                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                            <option value="">Day</option>
+                            @for($i = 1; $i <= 31; $i++)
+                                <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+
+                        <?php
+                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                            'August', 'September', 'October', 'November', 'December'];
+
+                        $current_year = \Carbon\Carbon::now()->year;
+                        ?>
+
+                        <select class="justify-content-center form-control m-1" wire:model="month"
+                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                            <option value="">Month</option>
+                            @foreach($months as $key => $month)
+                                <option value="{{$key + 1}}">{{$month}}</option>
+                            @endforeach
+                        </select>
+
+                        <select class="justify-content-center form-control m-1" wire:model="year"
+                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                            <option value="">Year</option>
+                            @for($i = $current_year; $i >= 1970; $i--)
+                                <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+
+                    </div>
+
+                    @error('date_of_birth')
+                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                    @enderror
+                </div>
+{{--            <div class="col-sm-4 col-6 w-50">--}}
+{{--                <label class="form-label mt-4">Age Group</label>--}}
+{{--                <select style="background-color: #0f1535" class="form-control" wire:model.defer="sub_admin.age_range" >--}}
+{{--                    <option value="5-6">5-6</option>--}}
+{{--                    <option value="7-11">7-11</option>--}}
+{{--                    <option value="12-15">12-15</option>--}}
+{{--                    <option value="16-20">16-20</option>--}}
+{{--                    <option value="21-29">21-29</option>--}}
+{{--                    <option value="30-33">30-33</option>--}}
+{{--                    <option value="34-42">34-42</option>--}}
+{{--                    <option value="43-51">43-51</option>--}}
+{{--                    <option value="52-65">52-65</option>--}}
+{{--                    <option value="66-69">66-69</option>--}}
+{{--                    <option value="70-74">70-74</option>--}}
+{{--                    <option value="75-83">75-83</option>--}}
+{{--                    <option value="84-93">84-93</option>--}}
+{{--                    <option value="94-101">94&up</option>--}}
+{{--                </select>--}}
+{{--            </div>--}}
                 <p class="text-muted mt-4 mb-2">
                     Please assign permissions to Sub Admin:
                 </p>
