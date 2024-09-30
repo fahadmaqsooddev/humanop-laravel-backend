@@ -15,6 +15,7 @@ use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Practitioner\PractitionerController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Web Routes
@@ -31,29 +32,19 @@ use App\Http\Controllers\Practitioner\PractitionerController;
     Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/session', [SessionController::class, 'store']);
-
     Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
-
     Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
-
     Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
-
     Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
     Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-
     Route::get('/logout', [SessionController::class, 'destroy']);
+    Route::get('/', [SessionController::class, 'create'])->name('login');
 
+//});
 
+Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
-
-    Route::get('/', function () {
-        return redirect('/login');
-    });
- //});
-
- Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
-
- //    admin dashboard
+    //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
     Route::group(['middleware' => ['permission:users']], function () {
@@ -68,26 +59,26 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
     });
 
-     Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
-         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
-         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
-     });
+    Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
+        Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+        Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
+    });
 
-     Route::group(['middleware' => ['permission:practitioner']], function () {
-         Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
-     });
+    Route::group(['middleware' => ['permission:practitioner']], function () {
+        Route::get('/practitioners', [PractitionerController::class, 'allPractitioners'])->name('admin_all_practitioners');
+    });
 
-     Route::group(['middleware' => ['permission:deletedClient']], function () {
-         Route::get('/deleted-clients', [AdminController::class,'deletedClients'])->name('deleted_clients');
-     });
+    Route::group(['middleware' => ['permission:deletedClient']], function () {
+        Route::get('/deleted-clients', [AdminController::class, 'deletedClients'])->name('deleted_clients');
+    });
 
-     Route::group(['middleware' => ['permission:clientQueries']], function () {
-         Route::get('/client-queries', [ClientQueryController::class,'clientQuery'])->name('admin_client_queries');
-     });
+    Route::group(['middleware' => ['permission:clientQueries']], function () {
+        Route::get('/client-queries', [ClientQueryController::class, 'clientQuery'])->name('admin_client_queries');
+    });
 
-     Route::group(['middleware' => ['permission:approveQueries']], function () {
-         Route::get('/approve-queries', [ClientQueryController::class,'approveQueries'])->name('admin_approve_queries');
-     });
+    Route::group(['middleware' => ['permission:approveQueries']], function () {
+        Route::get('/approve-queries', [ClientQueryController::class, 'approveQueries'])->name('admin_approve_queries');
+    });
 
     Route::group(['middleware' => ['permission:cms']], function () {
         Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
@@ -98,8 +89,8 @@ use App\Http\Controllers\Practitioner\PractitionerController;
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
         Route::get('/cms/{id}', [WebPagesController::class, 'editWebPages'])->name('admin_edit_web_pages');
         Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
-        Route::get('feedback', [AdminController::class,'userFeedback'])->name('feedback');
-        Route::get('podcast', [PodcastController::class,'podcast'])->name('podcast');
+        Route::get('feedback', [AdminController::class, 'userFeedback'])->name('feedback');
+        Route::get('podcast', [PodcastController::class, 'podcast'])->name('podcast');
 
     });
 
