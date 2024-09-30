@@ -31,11 +31,13 @@ class RegisterFormRequest extends FormRequest
      */
     public function rules()
     {
+        $required = (request()->has('google_id') && !empty(request()->input('google_id')) ? 'nullable' : 'required');
+
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
-            'password' => 'required|string|max:255',
+            'email' => $required . '|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
+            'password' => $required . '|string|max:255',
             'date_of_birth' => 'required|date',
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',

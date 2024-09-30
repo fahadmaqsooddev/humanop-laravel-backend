@@ -59,7 +59,7 @@
                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="mt-3">
+                            <div class="mt-3" {{$google_user ? 'hidden' : ""}}>
                                 <div class=" ">
                                     <label for="email" class="text-white">Email</label>
 
@@ -83,7 +83,7 @@
                                         value="{{$google_user['google_id'] ?? ""}}">
                                 </div>
                             </div>
-                            <div class="mt-3 position-relative">
+                            <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
                                 <div>
                                     <label for="password" class="text-white">Password</label>
                                     <input type="password" class="form-control" placeholder="Password"
