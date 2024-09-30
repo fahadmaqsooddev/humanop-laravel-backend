@@ -9,6 +9,7 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
+use App\Models\IntentionPlan\IntentionPlan;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -210,6 +211,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Story::class,'user_id','id')->where('created_at', ">", Carbon::now()->subDay());
     }
 
+    public function userIntensionPlan(){
+
+        return $this->hasOne(IntentionPlan::class,'user_id','id');
+    }
+
     // query
     public function isAdmin()
     {
@@ -352,7 +358,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function user($id = null){
-        $user = self::whereId($id)->selection()->first();
+        $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
         $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
         return $user;
     }
@@ -628,6 +634,14 @@ class User extends Authenticatable implements JWTSubject
     public static function makeUserAsPractitioner($user_id = null){
 
         self::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+    }
+
+    public static function userLoggedInData(){
+
+        $user = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
+
+        return self::whereId($user->id)->with('userIntensionPlan')->first();
+
     }
 
 }

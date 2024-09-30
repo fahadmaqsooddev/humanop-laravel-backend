@@ -91,7 +91,7 @@ class AuthController extends Controller
 
             $token = $this->auth->login($user);
 
-            $user = Helpers::getUser();
+            $user = User::userLoggedInData();
 
             $user['gender'] = ($user['gender'] === 2 || $user['gender'] === '2' ? "male" : "female");
 
