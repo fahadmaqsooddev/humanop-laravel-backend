@@ -83,6 +83,11 @@ class AuthController extends Controller
 
             $user = User::createClient($dataArray);
 
+            if (!empty($request['90_day_intention']))
+            {
+                IntentionPlan::createIntentionPlan($user['id'], $request['90_day_intention']);
+            }
+
             $token = $this->auth->login($user);
 
             $user = Helpers::getUser();

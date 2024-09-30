@@ -235,4 +235,21 @@ class UserController extends Controller
         }
 
     }
+
+    public function updateintentionPlan(updateIntentionPlanRequest $request)
+    {
+        try {
+            $user = Helpers::getUser();
+
+            IntentionPlan::updateIntentionPlan($user['id'], $request['90_day_intention']);
+
+            return Helpers::successResponse('90 Days Intention Plan updated successfully.');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+
+    }
 }
