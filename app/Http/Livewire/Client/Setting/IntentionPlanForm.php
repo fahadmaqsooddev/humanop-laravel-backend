@@ -25,7 +25,7 @@ class IntentionPlanForm extends Component
     {
         try {
 
-            IntentionPlan::storeIntentionPlan($this->userId, $this->intention);
+            IntentionPlan::updateIntentionPlan($this->userId, $this->intention);
 
             session()->flash('success', '90 Days Intention Plan updated successfully.');
 

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('user-profile', 'UserController@userProfile');
 Route::post('update-user-profile', 'UserController@updateUserProfile');
 Route::post('change-password', 'UserController@changePassword');
+Route::post('update-intention-plan', 'UserController@updateintentionPlan');
 Route::delete('delete-profile', 'UserController@deleteProfile');
 Route::post('user-feedback', 'UserController@userFeedback');
 Route::post('/google/login/signup', 'UserController@googleLoginSignup');

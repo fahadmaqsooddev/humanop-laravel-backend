@@ -30,7 +30,7 @@ class IntentionPlan extends Model
         return self::where('user_id', $userId)->first('90_day_intention');
     }
 
-    public static function storeIntentionPlan($userId = null, $intentionPlan = null)
+    public static function updateIntentionPlan($userId = null, $intentionPlan = null)
     {
         $plan = self::where('user_id', $userId)->first();
 
