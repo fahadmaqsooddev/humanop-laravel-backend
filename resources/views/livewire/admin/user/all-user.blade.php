@@ -52,7 +52,7 @@
                 <tr>
                     <td class="text-sm font-weight-normal">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
-                    <td class="text-sm font-weight-normal">{{$user['gender'] == 2 ? 'Male' : 'Female'}}</td>
+                    <td class="text-sm font-weight-normal">{{$user['gender'] === '0' ? 'Male' : 'Female'}}</td>
                     <td class="text-sm font-weight-normal">
                         <select class="form-control" onchange="changeUserMemberShip(this, {{$user['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">
                             <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>Freemium</option>

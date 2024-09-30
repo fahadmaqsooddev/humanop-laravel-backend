@@ -1114,7 +1114,7 @@ class Assessment extends Model
             }
 
 
-            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 0])
+            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
                         ->where('active', 1)
                         ->count() / 3) ?? 0;
 

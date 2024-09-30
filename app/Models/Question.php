@@ -42,12 +42,12 @@ class Question extends Model
 
 
     public static function totalAssessmentQuestion(){
-        $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 0])
+        $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 2])
             ->where('active', 1)->pluck('id');
         $main_questions = self::with('answers.answerCodes')
             ->whereNull('question_id')
             ->whereIn('id', $question_ids)
-            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->whereIn('gender', [Auth::user()['gender'], 2])
             ->where('active', 1)
             ->count();
         return $main_questions;
@@ -59,7 +59,7 @@ class Question extends Model
 
     public static function getQuestion($offset = 0, $limit = 3)
     {
-        $question_ids = self::whereIn('gender', [Auth::user()['gender'], 0])
+        $question_ids = self::whereIn('gender', [Auth::user()['gender'], 2])
             ->where('active', 1)
             ->offset($offset)
             ->limit($limit)
@@ -68,14 +68,14 @@ class Question extends Model
         $main_questions = self::with('answers.answerCodes')
             ->whereNull('question_id')
             ->whereIn('id', $question_ids)
-            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->whereIn('gender', [Auth::user()['gender'], 2])
             ->where('active', 1)
             ->get()
             ->toArray();
 
         $sub_questions = self::with('answers.subAnswerCodes')
             ->whereIn('question_id', $question_ids)
-            ->whereIn('gender', [Auth::user()['gender'], 0])
+            ->whereIn('gender', [Auth::user()['gender'], 2])
             ->where('active', 1)
             ->get()
             ->groupBy('question_id')
@@ -130,7 +130,7 @@ class Question extends Model
 
     public static function paginatedQuestions(){
 
-        $questions = self::whereIn('gender', [Helpers::getUser()->gender, 0])
+        $questions = self::whereIn('gender', [Helpers::getUser()->gender, 2])
 
             ->whereNull('question_id')
 
