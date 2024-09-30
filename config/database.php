@@ -367,7 +367,7 @@ return [
         ],
         'IntentionPlan' => [
             'table' => 'intention_plan',
-            'fillable' => ['user_id', '90_day_intention'],
+            'fillable' => ['user_id', 'ninety_day_intention'],
             'hidden' => ['created_at','updated_at'],
         ]
     ]

@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -83,9 +84,9 @@ class AuthController extends Controller
 
             $user = User::createClient($dataArray);
 
-            if (!empty($request['90_day_intention']))
+            if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention']))
             {
-                IntentionPlan::createIntentionPlan($user['id'], $request['90_day_intention']);
+                IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
             $token = $this->auth->login($user);

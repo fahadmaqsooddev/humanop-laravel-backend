@@ -16,7 +16,7 @@ class IntentionPlanForm extends Component
 
         $intentionPlan = IntentionPlan::getIntentionPlan($user['id']);
 
-        $this->intention = $intentionPlan['90_day_intention'] ?? '';
+        $this->intention = $intentionPlan['ninety_day_intention'] ?? '';
         $this->userId = $user['id'];
 
     }

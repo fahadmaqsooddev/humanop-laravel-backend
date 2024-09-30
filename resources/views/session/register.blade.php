@@ -199,7 +199,7 @@
                             </div>
                             <div class="mt-3">
                                 <label for="name" class="text-white">90 Day Intention</label>
-                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="90_day_intention"
+                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"
                                        style="background-color: #0F1535; color: white; border-radius: 15px;">
                             </div>
                             <div class="form-check form-switch mt-4">

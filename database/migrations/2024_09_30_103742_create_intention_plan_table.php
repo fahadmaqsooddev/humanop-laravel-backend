@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('intention_plan', function (Blueprint $table) {
             $table->id();
-            $table->longText('90_day_intention')->nullable();
+            $table->longText('ninety_day_intention')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -31,6 +31,7 @@ class RegisterRequest extends FormRequest
             'phone' => 'required|max:25',
             'gender' => 'required|in:male,female',
             'date_of_birth' => 'required|date',
+            'ninety_day_intention' => 'nullable|max:1000',
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/'
         ];
     }

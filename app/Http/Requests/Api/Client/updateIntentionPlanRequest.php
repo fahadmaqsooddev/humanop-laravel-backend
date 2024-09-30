@@ -24,7 +24,7 @@ class updateIntentionPlanRequest extends FormRequest
     public function rules()
     {
         return [
-            '90_day_intention' => 'nullable',
+            'ninety_day_intention' => 'nullable',
         ];
     }
 }

@@ -41,9 +41,9 @@ class RegisterController extends Controller
 
             $user = User::createUser($dataArray);
 
-            if (!empty($request['90_day_intention']))
+            if (!empty($request['ninety_day_intention']))
             {
-                IntentionPlan::createIntentionPlan($user['id'], $request['90_day_intention']);
+                IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);

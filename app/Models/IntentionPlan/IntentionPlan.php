@@ -21,13 +21,13 @@ class IntentionPlan extends Model
     {
         return self::create([
             'user_id' => $userId,
-            '90_day_intention' => $plan,
+            'ninety_day_intention' => $plan,
         ]);
     }
 
     public static function getIntentionPlan($userId = null)
     {
-        return self::where('user_id', $userId)->first('90_day_intention');
+        return self::where('user_id', $userId)->first('ninety_day_intention');
     }
 
     public static function updateIntentionPlan($userId = null, $intentionPlan = null)
@@ -35,7 +35,9 @@ class IntentionPlan extends Model
         $plan = self::where('user_id', $userId)->first();
 
         if ($plan) {
-            $plan->update(['90_day_intention' => $intentionPlan]);
+
+            $plan->update(['ninety_day_intention' => $intentionPlan]);
+
         } else {
 
             $plan = self::createIntentionPlan($userId, $intentionPlan);

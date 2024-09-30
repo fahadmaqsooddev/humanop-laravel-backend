@@ -6,11 +6,13 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
+use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
+use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -241,7 +243,7 @@ class UserController extends Controller
         try {
             $user = Helpers::getUser();
 
-            IntentionPlan::updateIntentionPlan($user['id'], $request['90_day_intention']);
+            IntentionPlan::updateIntentionPlan($user['id'], $request['ninety_day_intention']);
 
             return Helpers::successResponse('90 Days Intention Plan updated successfully.');
 
