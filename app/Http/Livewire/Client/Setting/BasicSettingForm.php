@@ -26,9 +26,9 @@ class BasicSettingForm extends Component
 
         $date_of_birth = explode('-',$this->user['date_of_birth']);
 
-        $this->day = intval($date_of_birth[2]);
-        $this->month = intval($date_of_birth[1]);
-        $this->year = intval($date_of_birth[0]);
+        $this->day = isset($date_of_birth[2]) ? intval($date_of_birth[2]) : 0;
+        $this->month = isset($date_of_birth[2]) ? intval($date_of_birth[1]) : 0;
+        $this->year = isset($date_of_birth[2]) ? intval($date_of_birth[0]) : 0;
 
         $assessment = Assessment::where('user_id', Helpers::getWebUser()->id)->latest()->first();
 
