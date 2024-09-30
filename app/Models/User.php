@@ -247,7 +247,10 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
 
         switch ($age) {
-            case (0 <= $age && $age <= 3):
+            case (0 == $age):
+                $interval = 'Interval of Surrender';
+                break;
+            case (0 < $age && $age <= 3):
                 $interval = 'Generic Interval';
                 break;
             case (3 <= $age && $age <= 7):
