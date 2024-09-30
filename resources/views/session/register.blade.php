@@ -197,7 +197,11 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="mt-3">
+                                <label for="name" class="text-white">90 Day Intention</label>
+                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="90_day_intention"
+                                       style="background-color: #0F1535; color: white; border-radius: 15px;">
+                            </div>
                             <div class="form-check form-switch mt-4">
                                 <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
                                 <label style="color: rgb(160, 174, 192)" class="form-check-label"
