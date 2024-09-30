@@ -612,7 +612,11 @@ class User extends Authenticatable implements JWTSubject
 
             $data = Helpers::explodeAgeRangeIntoAge($data);
 
-            $users = $users->where('age_min', $data['age_min'])->where('age_max', $data['age_max']);
+            $min_date = Carbon::now()->subYears((int)$data['age_max'] ?? 0)->toDateString();
+
+            $max_date = Carbon::now()->subYears((int)$data['age_min'] ?? 0)->toDateString();
+
+            $users = $users->whereBetween('date_of_birth', [$min_date, $max_date]);
 
         }
 

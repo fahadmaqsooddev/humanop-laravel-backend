@@ -298,14 +298,21 @@ class Assessment extends Model
 
         // Filter by age range
         if ($age_range) {
-            $age = explode('-', $age_range);
-            if (count($age) == 2) {
-                $age_min = $age[0];
-                $age_max = $age[1];
-                $query->whereHas('users', function ($query) use ($age_min, $age_max) {
-                    $query->where('age_min', $age_min)->where('age_max', $age_max);
-                });
-            }
+
+            $data['age_range'] = $age_range;
+
+            $data = Helpers::explodeAgeRangeIntoAge($data);
+
+            $min_date = Carbon::now()->subYears((int)$data['age_max'] ?? 0)->toDateString();
+
+            $max_date = Carbon::now()->subYears((int)$data['age_min'] ?? 0)->toDateString();
+
+            $query->whereHas('users', function ($query) use ($min_date, $max_date) {
+
+                $query->whereBetween('date_of_birth', [$min_date, $max_date]);
+
+            });
+
         }
 
         // Filter by style code and style code color
