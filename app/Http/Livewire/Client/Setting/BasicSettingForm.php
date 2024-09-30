@@ -37,6 +37,9 @@ class BasicSettingForm extends Component
 
     public function submitForm()
     {
+
+        $this->user['date_of_birth'] = $this->year . '-' . $this->month . '-' . $this->day;
+
         if($this->customValidation(new BasicSettingRequest($this->user),$this->user)){return;};
 
         try {
@@ -50,8 +53,6 @@ class BasicSettingForm extends Component
             }
 
             $data = array_intersect_key($this->user, array_flip($keysToKeep));
-
-            $data['date_of_birth'] = $this->year . '-' . $this->month . '-' . $this->day;
 
             User::updateUser($data, $this->user['id']);
             auth()->user()->refresh();

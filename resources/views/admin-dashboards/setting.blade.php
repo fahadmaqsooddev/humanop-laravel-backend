@@ -166,7 +166,7 @@
                         </div>
                     </div>
                 </div>
-                @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)
+{{--                @php($currentUser->age_range = $currentUser->age_min . '-' . $currentUser->age_max)--}}
                 <!-- Card Basic Info -->
                 @livewire('admin.setting.basic-setting-form',['user' => $currentUser])
 

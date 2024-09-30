@@ -12,16 +12,18 @@ use Spatie\Permission\Models\Permission;
 
 class AddSubAdmin extends Component
 {
-    public $sub_admin,$permission;
+    public $sub_admin,$permission, $day, $month, $year;
     use HandlesValidationErrors;
     public function mount()
     {
-        $this->sub_admin['age_range'] = '5-6';
+//        $this->sub_admin['age_range'] = '5-6';
         $this->sub_admin['gender'] = '2';
         $this->sub_admin['is_admin'] = 3;
     }
     public function submitForm()
     {
+
+        $this->sub_admin['date_of_birth'] = $this->year . '-' . $this->month . '-' . $this->day;
 
         if($this->customValidation(new CreateSubAdmin($this->sub_admin),$this->sub_admin)){return;};
         try {
