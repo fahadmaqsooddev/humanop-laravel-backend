@@ -5,9 +5,11 @@ namespace App\Http\Controllers\ClientController;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Coupon\Coupon;
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -141,6 +143,10 @@ class PaymentController extends Controller
                     }
 
                 }
+
+                DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+
+                ActionPlan::storeUserActionPlan(true);
 
                 DB::commit();
 

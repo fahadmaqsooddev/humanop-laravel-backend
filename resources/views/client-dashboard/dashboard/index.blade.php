@@ -246,7 +246,7 @@
                 <div class="row">
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: auto; height: 410">
+                            <div class="card" style="height: auto;">
                                 <div class="card-body p-3" style="cursor: pointer"
                                      data-bs-toggle="modal" data-bs-target="#dailyTipModal">
                                     <h5 class="text-white fs-10px">Daily Tip</h5>

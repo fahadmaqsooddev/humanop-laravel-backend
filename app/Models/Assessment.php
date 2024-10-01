@@ -469,6 +469,7 @@ class Assessment extends Model
         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
         $pv = $positive - $negative;
 
+
         if ($pv <= -8) {
             $polarity_code = 40;
         } elseif ($pv >= -7 and $pv <= 7) {
@@ -481,7 +482,7 @@ class Assessment extends Model
 
         $data = [
             'polarity_code' => $polarity_code,
-            'pv' => $pv,
+            'pv' => $pv > 0 ? '+' . $pv : $pv,
             'video_url' => $record['video_url'] ?? null
         ];
 
@@ -1245,7 +1246,14 @@ class Assessment extends Model
     {
         $energy_code = self::getEnergyPool($assessment);
 
-        return CodeDetail::whereId($energy_code)->first();
+        $code_detail = CodeDetail::whereId($energy_code)->first();
+
+        if($code_detail){
+
+            $code_detail['public_name'] = str_replace('Energy','',$code_detail['public_name']);
+        }
+
+        return $code_detail;
     }
 
     public static function getAlchemyDetail($assessment = null)
@@ -1284,7 +1292,7 @@ class Assessment extends Model
 
         $record = CodeDetail::whereId($polarity_code)->select(['id','public_name','text','video'])->first();
 
-        $record['pv'] = $pv;
+        $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 
         return $record;
 

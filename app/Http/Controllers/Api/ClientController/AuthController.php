@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
@@ -11,6 +12,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
+use Dompdf\Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
@@ -22,7 +24,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient','registerClient','forgotPassword']);
+        $this->middleware('auth:api')->except(['loginClient','registerClient','forgotPassword','socialLogin']);
 
         $this->auth = Auth::guard('api');
     }
@@ -39,7 +41,7 @@ class AuthController extends Controller
 
                 $user_data = User::user(Helpers::getUser()->id);
 
-                User::updateUserIsFeedback();
+//                User::updateUserIsFeedback();
 
                 DailyTip::updateUserDailyTip();
 
@@ -78,7 +80,7 @@ class AuthController extends Controller
 
             $user = new User();
 
-            $request = Helpers::explodeAgeRangeIntoAge($request);
+//            $request = Helpers::explodeAgeRangeIntoAge($request);
 
             $dataArray = $request->only($user->getFillable());
 
@@ -145,6 +147,41 @@ class AuthController extends Controller
             return Helpers::successResponse('Password reset email successfully sent');
 
         }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function socialLogin(SocialLoginRequest $request){
+
+        try {
+
+            $user = User::checkUserFromEmailOrSocialId($request->input('email'), $request->input('google_id', 0), $request->input('apple_id', 0));
+
+            if ($user){
+
+                $token = $this->auth->login($user);
+
+                DailyTip::updateUserDailyTip();
+
+                ActionPlan::storeUserActionPlan();
+
+                $data = [
+                    'user' => $user,
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ]
+                ];
+
+                return Helpers::successResponse('User loggedIn successfully', $data);
+
+            }
+
+            return Helpers::validationResponse('Email does not exists');
+
+        }catch (Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
