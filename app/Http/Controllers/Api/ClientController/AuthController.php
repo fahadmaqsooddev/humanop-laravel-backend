@@ -95,9 +95,9 @@ class AuthController extends Controller
 
             $user = User::userLoggedInData();
 
-            $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
-
             Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+            $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
 
             DailyTip::updateUserDailyTip();
 
