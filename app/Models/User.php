@@ -670,19 +670,29 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function checkUserFromEmailOrSocialId($email, $google_id, $apple_id){
+    public static function checkUserFromEmailOrSocialId($request){
 
-        $user = self::where(function ($q) use ($email, $google_id, $apple_id){
+        $users = self::query();
 
-            $q->where('email', $email)
+        $users = $users->when($request->input('email'), function ($query, $email){
 
-                ->orWhere('google_id', $google_id)
+            $query->where('email', $email);
+        });
 
-                ->orWhere('apple_id', $apple_id);
+        $users = $users->when($request->input('google_id'), function ($query, $google_id){
 
-        })->with('userIntensionPlan')->selection()->first();
+            $query->where('google_id', $google_id);
+        });
 
-        $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
+        $users = $users->when($request->input('apple_id'), function ($query, $apple_id){
+
+            $query->where('apple_id', $apple_id);
+
+        });
+
+        $user = $users->with('userIntensionPlan')->selection()->first();
+
+        $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
 
         return $user;
 

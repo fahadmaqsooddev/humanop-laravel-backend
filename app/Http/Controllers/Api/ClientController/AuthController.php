@@ -157,7 +157,7 @@ class AuthController extends Controller
 
         try {
 
-            $user = User::checkUserFromEmailOrSocialId($request->input('email'), $request->input('google_id', 0), $request->input('apple_id', 0));
+            $user = User::checkUserFromEmailOrSocialId($request);
 
             if ($user){
 

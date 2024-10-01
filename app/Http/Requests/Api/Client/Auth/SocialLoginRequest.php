@@ -23,10 +23,26 @@ class SocialLoginRequest extends FormRequest
      */
     public function rules()
     {
+
+        $req = 'required';
+
+        if (request()->has('email') && !empty(request()->input('email'))){
+
+            $req = 'nullable';
+
+        }else if (request()->has('google_id') && !empty(request()->input('google_id'))){
+
+            $req = 'nullable';
+
+        }else if (request()->has('apple_id') && !empty(request()->input('apple_id'))){
+
+            $req = 'nullable';
+        }
+
         return [
-            'email' => 'required|email|exists:users,email,deleted_at,NULL',
-            'google_id' => 'nullable',
-            'apple_id' => 'nullable',
+            'email' => $req . '|email|exists:users,email,deleted_at,NULL',
+            'google_id' => $req,
+            'apple_id' => $req,
         ];
     }
 
