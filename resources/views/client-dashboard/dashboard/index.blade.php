@@ -308,10 +308,10 @@
                                     <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
-                                            @foreach($topThreeStyles as $style)
+                                            @foreach($topThreeStyles as $index => $style)
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
-                                                   onclick="goToProfileOverviewPage('{{$style[3]}}')">
+                                                   onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$index}}')">
                                                     {{ $style[1] }} [{{ $style[0] }}]
                                                 </p>
                                             @endforeach
@@ -324,7 +324,7 @@
                                             @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
-                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}')">
+                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$index}}')">
                                                     {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }} [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
@@ -333,7 +333,7 @@
                                     <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance "Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px; cursor: pointer;"
-                                           onclick="goToProfileOverviewPage('{{$boundary['video_url']}}')">
+                                           onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
                                             @php
                                                 $codeParts = explode('-', $boundary['code_number']);
                                                 $code = implode('', $codeParts);
@@ -348,7 +348,7 @@
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px "
                                                    style="color: #f2661c; cursor: pointer;"
-                                                   onclick="goToProfileOverviewPage('{{$communication['video_url']}}')">
+                                                   onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
                                                     {{ $communication['public_name'] }} @if(!$loop->last)--> &nbsp;@endif
                                                 </p>
                                             @endforeach
@@ -358,7 +358,7 @@
                                         Life:</p>
                                     @if($preception)
                                         <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px;cursor: pointer;"
-                                           onclick="goToProfileOverviewPage('{{$preception['video_url']}}')">
+                                           onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
                                             {{
                                                 ($preception['polarity_code'] == 40 ? "Negatively Charged" :
                                                 ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
@@ -369,7 +369,7 @@
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
                                         <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px;cursor: pointer;"
-                                           onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}')">
+                                           onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
                                             {{ $energyPool['code'] }}
                                         </p>
                                     @endif
@@ -746,9 +746,9 @@
             }
         });
 
-        function goToProfileOverviewPage(src) {
+        function goToProfileOverviewPage(src, content_name) {
 
-            window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src;
+            window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
         }
     </script>
 @endpush

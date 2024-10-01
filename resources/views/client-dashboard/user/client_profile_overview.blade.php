@@ -1020,7 +1020,9 @@
 
         var video_url = "{{request()->input('video_url', asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')) }}";
 
-        showFeatureVideo(video_url);
+        var content_id = "{{request()->input('contentName', null) }}"
+
+        showFeatureVideo(video_url, 0, content_id);
 
         function showFeatureVideo(src, is_core_stats = 0, div_id = null){
 
