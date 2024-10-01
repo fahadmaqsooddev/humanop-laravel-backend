@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -550,22 +552,14 @@ class Assessment extends Model
         $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
         $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
 
-        $third_row_sa = $assessment['sa'] * $second_row_sa;
-        $third_row_ma = $assessment['ma'] * $second_row_ma;
-        $third_row_jo = $assessment['jo'] * $second_row_jo;
-        $third_row_lu = $assessment['lu'] * $second_row_lu;
-        $third_row_ven = $assessment['ven'] * $second_row_ven;
-        $third_row_mer = $assessment['mer'] * $second_row_mer;
-        $third_row_so = 10 * $assessment['so'];
-
         $third_row_style = [
-            'sa' => $third_row_sa,
-            'ma' => $third_row_ma,
-            'jo' => $third_row_jo,
-            'lu' => $third_row_lu,
-            'ven' => $third_row_ven,
-            'mer' => $third_row_mer,
-            'so' => $third_row_so,
+            'sa' => $assessment['sa'] * $second_row_sa,
+            'ma' => $assessment['ma'] * $second_row_ma,
+            'jo' => $assessment['jo'] * $second_row_jo,
+            'lu' => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so' => 10 * $assessment['so'],
         ];
 
         // Sort $third_row_style in descending order based on values
@@ -594,6 +588,54 @@ class Assessment extends Model
         $styles = CodeDetail::getPublicNames($topThreeStyles);
 
         return $styles;
+    }
+
+    public static function getAllStyles($assessment = null)
+    {
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row_style = [
+            'sa' => $assessment['sa'] * $second_row_sa,
+            'ma' => $assessment['ma'] * $second_row_ma,
+            'jo' => $assessment['jo'] * $second_row_jo,
+            'lu' => $assessment['lu'] * $second_row_lu,
+            'ven' => $assessment['ven'] * $second_row_ven,
+            'mer' => $assessment['mer'] * $second_row_mer,
+            'so' => 10 * $assessment['so'],
+        ];
+
+        // Sort $third_row_style in descending order based on values
+        arsort($third_row_style);
+
+        // Get the first two elements from the sorted array
+        $topThreeStylesKeys = array_keys($third_row_style);
+
+        $style = [
+            'sa' => $assessment['sa'],
+            'ma' => $assessment['ma'],
+            'jo' => $assessment['jo'],
+            'lu' => $assessment['lu'],
+            'ven' => $assessment['ven'],
+            'mer' => $assessment['mer'],
+            'so' => $assessment['so'],
+        ];
+
+        $topThreeStyles = [];
+        foreach ($topThreeStylesKeys as $key) {
+            if (isset($style[$key])) {
+                $topThreeStyles[$key] = $style[$key]; // Match key and get value from $style
+            }
+        }
+
+        arsort($topThreeStyles);
+
+        return CodeDetail::getPublicNames($topThreeStyles);
+
     }
 
     public static function getFeatures($assessment = null)
@@ -1125,21 +1167,21 @@ class Assessment extends Model
 
                 $resultArray['page'] = 0;
 
-//                $existingAssessment->update($resultArray);
+                $existingAssessment->update($resultArray);
 
-//                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-//
-//                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+                if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
+
+                    DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+                    ActionPlan::storeUserActionPlan(true);
+                }
 
             } else {
 
                 $resultArray['page'] = $current_page;
 
-//                $existingAssessment->update($resultArray);
+                $existingAssessment->update($resultArray);
 
             }
-
-            $existingAssessment->update($resultArray);
 
             AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
 

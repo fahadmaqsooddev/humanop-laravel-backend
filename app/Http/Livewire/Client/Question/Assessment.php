@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Client\Question;
 
+use App\Helpers\Helpers;
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Answer;
 use App\Models\AnswerCode;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Question;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -245,6 +248,12 @@ class Assessment extends Component
                     AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
                     AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
                     AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
+                    if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
+
+                        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+                        ActionPlan::storeUserActionPlan(true);
+                    }
 
                 } else {
 

@@ -26,16 +26,16 @@ use App\Models\Client\Point\Point;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, Billable,HasRoles, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
-    protected $appends = ['point','photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
-        ,'age_group', 'plan_name'];
+    protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
+        , 'age_group', 'plan_name'];
 
     public function __construct(array $attributes = array())
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -68,27 +68,30 @@ class User extends Authenticatable implements JWTSubject
     public function setPasswordAttribute($value)
     {
 //        if (str_contains(request()->path(), 'api')){
-            $this->attributes['password'] = Hash::make($value);
+        $this->attributes['password'] = Hash::make($value);
 //        }
     }
 
     // scope
 
-    public function scopeSelection($query){
-        return $query->select(['id','first_name','last_name','gender','email','phone','is_admin','is_feedback','image_id','date_of_birth']);
+    public function scopeSelection($query)
+    {
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth']);
     }
 
     // appends
 
-    public function getUserPictureUrlAttribute(){
+    public function getUserPictureUrlAttribute()
+    {
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
     }
 
-    public function getPointAttribute(){
+    public function getPointAttribute()
+    {
 
-        $point = Point::where('user_id',Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select('point')->first();
+        $point = Point::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select('point')->first();
 
-        if($point){
+        if ($point) {
 
             return $point->point;
         }
@@ -96,63 +99,72 @@ class User extends Authenticatable implements JWTSubject
         return 0;
     }
 
-    public function getPhotoUrlAttribute(){
-        return Helpers::getImage($this->image_id,'profile_pic.png');
+    public function getPhotoUrlAttribute()
+    {
+        return Helpers::getImage($this->image_id, 'profile_pic.png');
     }
 
-    public function getIsFollowAttribute(){
+    public function getIsFollowAttribute()
+    {
 
         return $this->followed()->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->exists();
     }
 
-    public function getConnectionStatusAttribute(){
+    public function getConnectionStatusAttribute()
+    {
 
-        if ($this->sentConnectionRequest()->exists()){
+        if ($this->sentConnectionRequest()->exists()) {
 
             return 2; // sent connection request
 
-        }elseif ($this->recevivedConnectionRequest()->exists()){
+        } elseif ($this->recevivedConnectionRequest()->exists()) {
 
             return 3; // received connection request
 
-        }elseif($this->confirmedConnectionRequest()->exists()){
+        } elseif ($this->confirmedConnectionRequest()->exists()) {
 
             return 1; // confirm connection request
 
-        }else{
+        } else {
 
             return 0;
         }
 
     }
 
-    public function getFeedbackSubmittedAttribute(){
+    public function getFeedbackSubmittedAttribute()
+    {
         return $this->feedback()->exists();
     }
 
-    public function getAgeGroupAttribute(){
+    public function getAgeGroupAttribute()
+    {
         return 0;//($this->age_min . '-' . $this->age_max);
     }
 
-    public function getPlanNameAttribute(){
+    public function getPlanNameAttribute()
+    {
 
         return $this->userSubscription->plan->name ?? "Freemium";
     }
 
-    public function getIsViewedStoriesAttribute(){
+    public function getIsViewedStoriesAttribute()
+    {
 
         return ($this->storyViews()->count() === $this->userStory()->count() ? 1 : 0);
     }
 
     // relations
-    public function stories(){
+    public function stories()
+    {
 
-        return $this->hasMany(Story::class, 'user_id','id');
+        return $this->hasMany(Story::class, 'user_id', 'id');
     }
 
-    public function followed(){
+    public function followed()
+    {
 
-        return $this->HasMany(Follow::class,'follow_id', 'id');
+        return $this->HasMany(Follow::class, 'follow_id', 'id');
     }
 
     public function assessments()
@@ -160,60 +172,67 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Assessment::class, 'user_id', 'id');
     }
 
-    public function feedback(){
+    public function feedback()
+    {
 
-        return $this->hasOne(Client\Feedback\Feedback::class,'user_id','id');
+        return $this->hasOne(Client\Feedback\Feedback::class, 'user_id', 'id');
     }
 
-    public function sentConnectionRequest(){
+    public function sentConnectionRequest()
+    {
 
-        return $this->hasOne(Connection::class,'friend_id','id')
-
+        return $this->hasOne(Connection::class, 'friend_id', 'id')
             ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
     }
 
-    public function recevivedConnectionRequest(){
+    public function recevivedConnectionRequest()
+    {
 
-        return $this->hasOne(Connection::class,'user_id','id')
-
+        return $this->hasOne(Connection::class, 'user_id', 'id')
             ->where('friend_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 0);
     }
 
-    public function confirmedConnectionRequest(){
+    public function confirmedConnectionRequest()
+    {
 
-        return $this->hasOne(Connection::class,'friend_id','id')
-
+        return $this->hasOne(Connection::class, 'friend_id', 'id')
             ->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))->where('status', 1);
     }
 
-    public function colorCodes(){
+    public function colorCodes()
+    {
 
-        return $this->hasManyThrough(AssessmentColorCode::class,Assessment::class,'user_id','assessment_id','id','id');
+        return $this->hasManyThrough(AssessmentColorCode::class, Assessment::class, 'user_id', 'assessment_id', 'id', 'id');
     }
 
-    public function payments(){
+    public function payments()
+    {
 
-        return $this->hasMany(Payment::class,'user_id','id');
+        return $this->hasMany(Payment::class, 'user_id', 'id');
     }
 
-    public function userSubscription(){
+    public function userSubscription()
+    {
 
-        return $this->hasOne(Subscription::class,'user_id','id')->latest();
+        return $this->hasOne(Subscription::class, 'user_id', 'id')->latest();
     }
 
-    public function storyViews(){
+    public function storyViews()
+    {
 
-        return $this->hasManyThrough(StoryView::class,Story::class,'user_id','story_id','id','id')->where('stories.created_at', ">", Carbon::now()->subDay())->where('story_views.user_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
+        return $this->hasManyThrough(StoryView::class, Story::class, 'user_id', 'story_id', 'id', 'id')->where('stories.created_at', ">", Carbon::now()->subDay())->where('story_views.user_id', (Helpers::getUser()->id ?? Helpers::getWebUser()->id));
     }
 
-    public function userStory(){
+    public function userStory()
+    {
 
-        return $this->hasMany(Story::class,'user_id','id')->where('created_at', ">", Carbon::now()->subDay());
+        return $this->hasMany(Story::class, 'user_id', 'id')->where('created_at', ">", Carbon::now()->subDay());
     }
 
-    public function userIntensionPlan(){
+    public function userIntensionPlan()
+    {
 
-        return $this->hasOne(IntentionPlan::class,'user_id','id');
+        return $this->hasOne(IntentionPlan::class, 'user_id', 'id');
     }
 
     // query
@@ -237,12 +256,14 @@ class User extends Authenticatable implements JWTSubject
         return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
     }
 
-    public static function allSubAdmin(){
-        $subAdmins = self::where('is_admin',3)->get();
+    public static function allSubAdmin()
+    {
+        $subAdmins = self::where('is_admin', 3)->get();
         return $subAdmins;
     }
 
-    public static function getSingleUser($id = null){
+    public static function getSingleUser($id = null)
+    {
         $user = self::find($id);
         return $user;
     }
@@ -303,13 +324,15 @@ class User extends Authenticatable implements JWTSubject
         return $interval;
     }
 
-    public static function updateUser($data = null, $id = null){
+    public static function updateUser($data = null, $id = null)
+    {
 
         return self::find($id)->update($data);
 
     }
 
-    public static function createUser($data = null){
+    public static function createUser($data = null)
+    {
 
         $data['is_admin'] = 2;
 //        $age = explode('-', $data['age_range']);
@@ -321,7 +344,9 @@ class User extends Authenticatable implements JWTSubject
         return $user;
 
     }
-    public static function createSubAdmin($data = null){
+
+    public static function createSubAdmin($data = null)
+    {
         $data['is_admin'] = 3;
 //        $age = explode('-', $data['age_range']);
 //        $data['age_min'] = $age[0];
@@ -333,7 +358,9 @@ class User extends Authenticatable implements JWTSubject
         return $user;
 
     }
-    public static function createCustomerOnStripe($user = null, $stripe_keys = null){
+
+    public static function createCustomerOnStripe($user = null, $stripe_keys = null)
+    {
 
         $stripe = new \Stripe\StripeClient($stripe_keys['api_key']);
 
@@ -348,7 +375,8 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function checkPassword($password,$id){
+    public static function checkPassword($password, $id)
+    {
         $user = self::find($id);
         if ($user && Hash::check($password, $user->password)) {
             return true;
@@ -357,13 +385,15 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public static function user($id = null){
+    public static function user($id = null)
+    {
         $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
         return $user;
     }
 
-    public static function createClient($data = null){
+    public static function createClient($data = null)
+    {
 
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
 
@@ -373,7 +403,8 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function updateUserProfile($request = null){
+    public static function updateUserProfile($request = null)
+    {
 
         $user_id = Helpers::getUser()->id;
 
@@ -384,7 +415,8 @@ class User extends Authenticatable implements JWTSubject
         return self::user($user_id);
     }
 
-    public static function updateUserPassword($password = null){
+    public static function updateUserPassword($password = null)
+    {
 
         $user = self::whereId(Helpers::getUser()->id)->first();
 
@@ -402,27 +434,26 @@ class User extends Authenticatable implements JWTSubject
             'payment_method' => $paymentMethod['id'],
             'pm_type' => $paymentMethod['card']['brand'],
             'pm_last_four' => $paymentMethod['card']['last4'],
-            'pm_exp_month' => '0'.$paymentMethod['card']['exp_month'],
+            'pm_exp_month' => '0' . $paymentMethod['card']['exp_month'],
             'pm_exp_year' => $paymentMethod['card']['exp_year'],
         ]);
 
     }
 
-    public static function storyUsers(){
+    public static function storyUsers()
+    {
 
-        $users = self::whereHas('stories', function ($q){
+        $users = self::whereHas('stories', function ($q) {
 
             return $q->where('created_at', ">", Carbon::now()->subDay());
         })
-
-            ->select(['id','first_name', 'last_name','image_id'])
-
+            ->select(['id', 'first_name', 'last_name', 'image_id'])
             ->get();
 
-        foreach ($users as $user){
+        foreach ($users as $user) {
 
-            $user->setAppends(['point','photo_url','user_picture_url', 'is_follow','connection_status','feedback_submitted'
-                ,'age_group', 'plan_name','is_viewed_stories']);
+            $user->setAppends(['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
+                , 'age_group', 'plan_name', 'is_viewed_stories']);
         }
 
         return $users;
@@ -436,7 +467,7 @@ class User extends Authenticatable implements JWTSubject
             'payment_method' => $paymentMethod['id'],
             'pm_type' => $paymentMethod['card']['brand'],
             'pm_last_four' => $paymentMethod['card']['last4'],
-            'pm_exp_month' => '0'.$paymentMethod['card']['exp_month'],
+            'pm_exp_month' => '0' . $paymentMethod['card']['exp_month'],
             'pm_exp_year' => $paymentMethod['card']['exp_year'],
             'card_name' => $request->input('card_name')
 
@@ -444,32 +475,31 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function userStories($id = null){
+    public static function userStories($id = null)
+    {
 
         return self::whereId($id)
+            ->with(['stories' => function ($q) {
 
-            ->with(['stories' => function($q){
+                $q->where('created_at', ">", Carbon::now()->subDay());
 
-            $q->where('created_at', ">", Carbon::now()->subDay());
-
-        }])
-
-            ->select(['id','first_name','last_name','image_id'])
-
+            }])
+            ->select(['id', 'first_name', 'last_name', 'image_id'])
             ->first();
     }
 
-    public static function updateUserIsFeedback(){
+    public static function updateUserIsFeedback()
+    {
 
-        $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select(['id','is_feedback','is_admin'])->first();
+        $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select(['id', 'is_feedback', 'is_admin'])->first();
 
-        if (!$user->feedback && $user->is_admin === 2){
+        if (!$user->feedback && $user->is_admin === 2) {
 
-            if ($user->is_feedback === 3 || $user->is_feedback === 2){
+            if ($user->is_feedback === 3 || $user->is_feedback === 2) {
 
                 $user->decrement('is_feedback', 1);
 
-            }else if ($user->is_feedback === 1){
+            } else if ($user->is_feedback === 1) {
 
                 $user->update(['is_feedback' => 3]);
             }
@@ -478,27 +508,26 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function allClients($search_name = null, $per_page = 12, $style_feature_code = null, $alchemy_codes_array = []){
+    public static function allClients($search_name = null, $per_page = 12, $style_feature_code = null, $alchemy_codes_array = [])
+    {
 
         $users = self::query();
 
-        if (!empty($search_name)){
+        if (!empty($search_name)) {
 
-            $users = $users->where(function ($q) use ($search_name){
+            $users = $users->where(function ($q) use ($search_name) {
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
-
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
 
             });
 
         }
 
-        if (!empty($style_feature_code)){
+        if (!empty($style_feature_code)) {
 
-            $users = $users->whereHas('colorCodes', function ($q) use ($style_feature_code){
+            $users = $users->whereHas('colorCodes', function ($q) use ($style_feature_code) {
 
                 $q->where('code', $style_feature_code)->where('code_color', 'green');
 
@@ -506,11 +535,11 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        if (!empty($alchemy_codes_array)){
+        if (!empty($alchemy_codes_array)) {
 
             $sqlArray = '(' . join(',', $alchemy_codes_array) . ')';
 
-            $users = $users->whereHas('assessments', function ($q) use ($sqlArray){
+            $users = $users->whereHas('assessments', function ($q) use ($sqlArray) {
 
                 $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
 
@@ -519,33 +548,31 @@ class User extends Authenticatable implements JWTSubject
         }
 
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)
-
             ->paginate($per_page);
 
         return $users;
     }
 
-    public static function allPaginatedClients($request = null){
+    public static function allPaginatedClients($request = null)
+    {
 
         $users = self::query();
 
-        $users = $users->when($request->input('name'), function ($q, $search_name){
+        $users = $users->when($request->input('name'), function ($q, $search_name) {
 
-            $q->where(function ($q) use ($search_name){
+            $q->where(function ($q) use ($search_name) {
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
-
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
 
             });
 
         });
 
-        $users = $users->when($request->input('style_feature_code'), function ($q, $style_feature_code){
+        $users = $users->when($request->input('style_feature_code'), function ($q, $style_feature_code) {
 
-            $q->whereHas('colorCodes', function ($q) use ($style_feature_code){
+            $q->whereHas('colorCodes', function ($q) use ($style_feature_code) {
 
                 $q->where('code', $style_feature_code)->where('code_color', 'green');
 
@@ -553,15 +580,15 @@ class User extends Authenticatable implements JWTSubject
 
         });
 
-        $users = $users->when($request->input('alchemy_code'), function ($q, $alchemy_code){
+        $users = $users->when($request->input('alchemy_code'), function ($q, $alchemy_code) {
 
             $alchemy_codes_array = AlchemyCode::getNumbersFromCode($alchemy_code);
 
-            if (isset($alchemy_codes_array[0])){
+            if (isset($alchemy_codes_array[0])) {
 
                 $sqlArray = '(' . join(',', $alchemy_codes_array) . ')';
 
-                $q->whereHas('assessments', function ($q) use ($sqlArray){
+                $q->whereHas('assessments', function ($q) use ($sqlArray) {
 
                     $q->whereRaw("concat(g, '', s, '', c) IN $sqlArray");
 
@@ -573,46 +600,43 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $users->where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER);
 
-        return Helpers::pagination($users, $request->input('pagination'),$request->input('per_page'));
+        return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
     }
 
-    public static function deletedClients(){
+    public static function deletedClients()
+    {
 
         return self::where('is_admin', Admin::IS_CUSTOMER)
-
             ->where('is_permanently_deleted', 0)
-
             ->onlyTrashed()
-
             ->get();
 
     }
 
-    public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin){
+    public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
+    {
 
         $users = self::query();
 
-        if (!empty($search_name)){
+        if (!empty($search_name)) {
 
-            $users = $users->where(function ($q) use ($search_name){
+            $users = $users->where(function ($q) use ($search_name) {
 
                 $q->where('first_name', 'LIKE', "%$search_name%")
-
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-
                     ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
 
             });
 
         }
 
-        if (!empty($email)){
+        if (!empty($email)) {
 
-            $users = $users->where('email',$email);
+            $users = $users->where('email', $email);
 
         }
 
-        if (!empty($age)){
+        if (!empty($age)) {
 
             $data['age_range'] = $age;
 
@@ -631,12 +655,14 @@ class User extends Authenticatable implements JWTSubject
         return $users;
     }
 
-    public static function makeUserAsPractitioner($user_id = null){
+    public static function makeUserAsPractitioner($user_id = null)
+    {
 
         self::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
     }
 
-    public static function userLoggedInData(){
+    public static function userLoggedInData()
+    {
 
         $user = Helpers::getUser() ?? Helpers::getWebUser();
 
