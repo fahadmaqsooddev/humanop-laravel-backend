@@ -75,14 +75,6 @@
 
                     <div class="d-flex w-100">
 
-                        <select class="justify-content-center form-control m-1" wire:model="day"
-                                style="background-color: #0F1535; color: white; border-radius: 12px;">
-                            <option value="">Day</option>
-                            @for($i = 1; $i <= 31; $i++)
-                                <option value="{{$i}}">{{$i}}</option>
-                            @endfor
-                        </select>
-
                         <?php
                         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                             'August', 'September', 'October', 'November', 'December'];
@@ -96,6 +88,14 @@
                             @foreach($months as $key => $month)
                                 <option value="{{$key + 1}}">{{$month}}</option>
                             @endforeach
+                        </select>
+
+                        <select class="justify-content-center form-control m-1" wire:model="day"
+                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                            <option value="">Day</option>
+                            @for($i = 1; $i <= 31; $i++)
+                                <option value="{{$i}}">{{$i}}</option>
+                            @endfor
                         </select>
 
                         <select class="justify-content-center form-control m-1" wire:model="year"
