@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\StripeSetting\StripeSetting;
+use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -87,6 +89,10 @@ class Subscription extends Model
             $user->newSubscription('main' , $request->input('plan_id'))->create(isset($payment_method->id) ? $payment_method->id : $payment_method);
 
         }
+
+//        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+//
+//        ActionPlan::storeUserActionPlan(true);
 
         $plan = \App\Models\Client\Plan\Plan::singlePlan($request->input('plan_id'));
 

@@ -56,7 +56,7 @@ class ActionPlan extends Model
 
     // query
 
-    public static function storeUserActionPlan(){
+    public static function storeUserActionPlan($ignore_days_restriction = false){
 
         $app_env = env('APP_ENV');
 
@@ -74,7 +74,7 @@ class ActionPlan extends Model
 
             if ($user_action_plan){
 
-                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today())){
+                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today()) || $ignore_days_restriction){
 
                     $latestAssessment = Assessment::getLatestAssessment($user->id);
 
