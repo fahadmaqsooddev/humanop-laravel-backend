@@ -23,14 +23,19 @@
                     <div class="css-mgpqwz d-flex justify-content-center">
                         <div>
                             <a href="{{ url('auth/google') }}">
-                                <button class="btn btn-primary bg-light  p-2 border border-radius-lg border-gray-800"
+                                <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                     type="button" style="background-color: rgb(19, 21, 54);">
                                     <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
-                                        width="35px" ;>
+                                        width="35px">
                                 </button>
                             </a>
                         </div>
                     </div>
+                    @if($google_user)
+                    <div class="text-center mt-0">
+                        <p>Email : {{$google_user['email']}}</p>
+                    </div>
+                    @endif
                     <p class="text-center text-white"><b>or</b></p>
                     <div class="card-body">
                         <form action="{{route('store_user')}}" method="post">
