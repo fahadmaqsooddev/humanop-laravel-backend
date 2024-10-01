@@ -1,4 +1,15 @@
-<aside id="#remove-scrollbar-nav" style="z-index: 999; !important;"
+
+
+<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn" style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 9999">
+    <a href="javascript:void(0);" class="nav-link text-body p-0">
+        <div class="sidenav-toggler-inner">
+            <button id="nav-toggle" class="btn rounded-0" style="padding-left: 20px;padding-right: 20px">
+                <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
+            </button>
+        </div>
+    </a>
+</div>
+<aside id="#remove-scrollbar-nav" style="z-index: 9999; !important;"
        class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
     <div class="d-flex">
@@ -762,8 +773,9 @@
         </li>
         @endif
         </ul>
-        </div>
+
 </aside>
+
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
