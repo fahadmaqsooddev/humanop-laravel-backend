@@ -9,12 +9,15 @@ use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -252,6 +255,52 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+
+    }
+
+    public function profileOverviewResult(Request $request){
+
+        try {
+
+            $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
+
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+
+            $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+
+            $perception_life = CodeDetail::getPerceptionStaticText();
+
+            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+
+            $data = [
+                'user_age' => $user_age,
+                'all_styles' => $allStyles,
+                'top_features' => $topTwoFeatures,
+                'boundary' => $boundary,
+                'your_perception' => $perception_life,
+                'perception' => $perception,
+                'top_communication' => $topCommunication,
+                'energy_pool' => $energyPool,
+            ];
+
+            return Helpers::successResponse('Profile overview data', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 }
