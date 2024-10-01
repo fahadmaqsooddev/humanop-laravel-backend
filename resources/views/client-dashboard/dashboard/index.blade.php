@@ -253,8 +253,8 @@
                                     <div class="description-container" style="height: 375px;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
-                                                @if(strlen($tip['text']) > 260)
-                                                    {!! substr($tip['text'], 0, 265)!!}
+                                                @if(strlen($tip['text']) > 300)
+                                                    {!! substr($tip['text'], 0, 305)!!}
                                                     &nbsp;&nbsp;
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#dailyTipModal" style="color: #f2661c;">read
@@ -484,19 +484,19 @@
                                     <div class="col-12">
                                         <label class="form-label fs-4 text-white">Daily Tip</label>
                                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                                aria-label="Close">
+                                                aria-label="Close" id="daily-tip-modal-close-button">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <p>{!! $tip['description'] ?? null !!}</p>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group">
-                                        <input type="checkbox"
-                                               style=" margin: 4px 0 0; line-height: normal; width: 15px; height: 15px;border-radius: 5px"
-                                               onchange="onDailyTipAllRead(this)"
-                                               id="daily-tip-checkbox" {{$tip['is_read'] ?? null ? "disabled checked" : ""}}>
-                                        <label class="text-white">Have you read it all ?</label>
+                                    <div class="form-group mt-2">
+                                        <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                            onclick="onDailyTipAllRead()">
+                                            Complete Daily Tip
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -635,34 +635,33 @@
             document.querySelector('.chatBoxx').classList.add('d-block');
         });
 
-        function onDailyTipAllRead(e) {
+        function onDailyTipAllRead() {
 
-            if (e.checked) {
+            $('#daily-tip-read-button').attr('disabled', true);
 
-                $('#daily-tip-checkbox').attr('disabled', true);
+            $.ajax({
+                url: '{{ route("read-daily-tip") }}',
+                method: 'POST',
+                data: [],
+                headers: {
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
+                },
+                success: function (response) {
 
+                    $('#daily-tip-modal-close-button').click();
 
-                $.ajax({
-                    url: '{{ route("read-daily-tip") }}',
-                    method: 'POST',
-                    data: [],
-                    headers: {
-                        'X-CSRF-TOKEN': "{{csrf_token()}}"
-                    },
-                    success: function (response) {
-                        if (response.result.data.point > 0) {
-                            animateNumber('+' + response.result.data.point);
+                    if (response.result.data.point > 0) {
+                        animateNumber('+' + response.result.data.point);
 
-                            old_count = $('#coin-count').text();
-                            $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
-                        }
-                    },
-                    error: function (response) {
-
+                        old_count = $('#coin-count').text();
+                        $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
                     }
-                });
+                },
+                error: function (response) {
 
-            }
+                }
+            });
+
         }
 
 
