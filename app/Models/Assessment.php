@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -1125,21 +1127,21 @@ class Assessment extends Model
 
                 $resultArray['page'] = 0;
 
-//                $existingAssessment->update($resultArray);
+                $existingAssessment->update($resultArray);
 
-//                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-//
-//                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+                if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
+
+                    DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+                    ActionPlan::storeUserActionPlan(true);
+                }
 
             } else {
 
                 $resultArray['page'] = $current_page;
 
-//                $existingAssessment->update($resultArray);
+                $existingAssessment->update($resultArray);
 
             }
-
-            $existingAssessment->update($resultArray);
 
             AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
 
