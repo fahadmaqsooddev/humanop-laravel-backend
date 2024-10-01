@@ -11,8 +11,10 @@ use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -109,29 +111,21 @@ class UserController extends Controller
     {
         try {
 
+            $user_age = Helpers::getWebUser()->date_of_birth;
+            $age = Carbon::parse($user_age)->age;
             $assessment = Assessment::singleAssessmentFromId($id);
-
-            $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
-
+            $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-
             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
-
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-
             $perception_life = CodeDetail::getPerceptionStaticText();
-
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
-
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
-
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
-
             $actionPlan = ActionPlan::userActionPlan();
 
-            return view('client-dashboard.user.client_profile_overview', compact('topThreeStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life'));
+            return view('client-dashboard.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age'));
 
         }catch (\Exception $exception){
 
