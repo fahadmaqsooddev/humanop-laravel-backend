@@ -23,15 +23,18 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
+
+        $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
+
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'email' => $required . '|email|unique:users,email,deleted_at,NULL',
+            'password' => $required . '|string|min:6',
             'phone' => 'required|max:25',
             'gender' => 'required|in:male,female',
             'date_of_birth' => 'required|date',
-            'ninety_day_intention' => 'nullable|max:1000',
+            'ninety_day_intention' => 'nullable|max:1000'
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/'
         ];
     }
