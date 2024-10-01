@@ -359,7 +359,7 @@
                                     @foreach($category['libraryResources'] as $resource)
 
                                         <div class="col-lg-5 col-sm-5">
-                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}')" style="cursor: pointer;">
+                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}', '{{$resource['description']}}')" style="cursor: pointer;">
                                                 <div class="card mb-4"
                                                      style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
                                                     <div class="card-body p-3">
@@ -435,6 +435,10 @@
                         </button>
                         <br>
                         <br>
+
+                        <div class="w-100">
+                            <p class="text-white text-sm" id="resource_text"></p>
+                        </div>
 
                         <div class="video-container show-controls" id="container_video">
                             <div class="wrapper mx-auto w-75 ">
@@ -531,7 +535,7 @@
             });
         });
 
-        function showModal(img_src, video_src) {
+        function showModal(img_src, video_src, description = null) {
 
             if (img_src){
 
@@ -541,10 +545,10 @@
 
                 $('#container_image').show();
 
-                console.log(img_src);
-
                 // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
                 $('#image').attr('src', img_src);
+
+                $('#resource_text').html(description)
 
             }else if (video_src){
 
@@ -556,6 +560,8 @@
 
                 // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
                 $('#video').attr('src', video_src);
+
+                $('#resource_text').html(description)
 
             }
 
