@@ -14,7 +14,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $resourceSlug, $heading, $resource, $category_id,$permission = [], $editResourceData, $category_name;
+    public $resourceId, $resourceSlug, $heading, $description, $resource, $category_id,$permission = [], $editResourceData, $category_name;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery'];
 
@@ -23,6 +23,7 @@ class CreateResource extends Component
         'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mp4|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
+        'description' => 'nullable|max:1000',
     ];
 
     protected $messages = [
@@ -30,6 +31,7 @@ class CreateResource extends Component
         'resource.required' => 'Resource is required',
         'resource.mimes' => 'Resource must be a valid image or video file (jpeg, png, jpg, gif, mp4, mov, avi, mkv).',
         'permission.required' => 'At least one permission is required',
+        'description.max' => 'Description maximum length is 1000 characters',
     ];
 
     public function CreateResource()
@@ -49,7 +51,7 @@ class CreateResource extends Component
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
             }
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -123,13 +125,15 @@ class CreateResource extends Component
         $this->heading = $this->editResourceData['heading'] ?? null;
 
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
+
+        $this->description = $this->editResourceData['description'] ?? null;
     }
 
     public function updateResource(){
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required','category_id' => 'required']);
+        $this->validate(['heading' => 'required','category_id' => 'required','description' => 'nullable|max:1000']);
 
         if ($this->resource){
 
@@ -147,7 +151,7 @@ class CreateResource extends Component
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
 
-        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id);
+        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 

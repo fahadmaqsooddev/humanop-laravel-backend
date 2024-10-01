@@ -347,7 +347,7 @@ return [
         ],
         'LibraryResource' => [
             'table' => 'library_resources',
-            'fillable' => ['heading','slug','upload_id','resource_category_id'],
+            'fillable' => ['heading','slug','upload_id','resource_category_id','description'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'PermissionResource' => [

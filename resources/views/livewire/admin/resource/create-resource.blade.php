@@ -105,10 +105,18 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
 
+                            <div class="mt-2">
+
+                                <p class="text-white text-sm">
+                                    {{$resource['description']}}
+                                </p>
+
+                            </div>
+
                             @if(!empty($resource['photo_url']))
-                                <img class="mt-4" style="width: 100%; max-height: 400px;" src="{{$resource['photo_url']['url']}}">
+                                <img style="width: 100%; max-height: 400px;" src="{{$resource['photo_url']['url']}}">
                             @else
-                                <video class="mt-4" controls style="width: 100%; max-height: 400px;"
+                                <video controls style="width: 100%; max-height: 400px;"
                                        src="{{$resource['video_url']['path']}}">
                             @endif
 
@@ -150,6 +158,13 @@
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="heading" placeholder="heading" type="text">
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Description</label>
+                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model.defer="description" placeholder="Enter description" rows="3">
+                                        </textarea>
                                     </div>
 
                                     <div class="form-group mt-4">
@@ -245,6 +260,14 @@
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Description</label>
+                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model.defer="description" placeholder="Enter description" rows="3">
+                                        </textarea>
+                                    </div>
+
                                     <label class="form-label fs-4 text-white">Category</label>
                                     <select style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="category_id" placeholder="Select category">
