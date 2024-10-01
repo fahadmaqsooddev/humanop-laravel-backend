@@ -62,19 +62,19 @@ class DashboardController extends Controller
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
-            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
 
-            $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
             $perception_life = CodeDetail::getPerceptionStaticText();
 
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
 
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
 
             $data = [
                 'assessment' => $assessment,
