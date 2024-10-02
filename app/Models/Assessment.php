@@ -364,7 +364,7 @@ class Assessment extends Model
 
     public static function abandonedAssessment()
     {
-        return self::with('users')
+        return self::has('users')->with('users')
             ->whereNull('page')
             ->orWhere('page', '!=', 0)
             ->orderBy('created_at', 'DESC')
