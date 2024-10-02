@@ -1,7 +1,7 @@
 
 @push('css')
     <style>
-        .ps__rail-y{
+        .sidenav  > .ps__rail-y{
             display: none !important;
         }
     </style>
