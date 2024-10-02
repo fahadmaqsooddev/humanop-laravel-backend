@@ -16,6 +16,7 @@ class AddSubAdmin extends Component
     use HandlesValidationErrors;
     public function mount()
     {
+        $this->year = 1980;
 //        $this->sub_admin['age_range'] = '5-6';
         $this->sub_admin['gender'] = '0';
         $this->sub_admin['is_admin'] = 3;

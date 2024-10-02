@@ -105,7 +105,7 @@
                         <select class="justify-content-center form-control m-1" wire:model="year"
                                 style="background-color: #0F1535; color: white; border-radius: 12px;">
                             <option value="">Year</option>
-                            @for($i = $current_year; $i >= 1970; $i--)
+                            @for($i = $current_year; $i >= 1900; $i--)
                                 <option value="{{$i}}" {{isset($date_of_birth[0]) && $date_of_birth[0] == $i ? 'selected' : '' }}>{{$i}}</option>
                             @endfor
                         </select>
