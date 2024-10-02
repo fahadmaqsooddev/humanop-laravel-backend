@@ -144,6 +144,29 @@ class SessionController extends Controller
 
         Auth::logout();
 
+        Session::flush();
+
         return redirect('/')->with(['success'=>'You\'ve been logged out.']);
+    }
+
+    public function loginBackToAdmin(){
+
+        $admin = Session::get('admin');
+
+        Auth::guard('web')->logout();
+
+        if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
+
+            $admin_user = User::whereId($admin['admin_id'])->first();
+
+            Auth::guard('web')->login($admin_user);
+
+            return redirect()->to('/admin/users');
+
+        }else{
+
+            return redirect()->to('/login');
+        }
+
     }
 }
