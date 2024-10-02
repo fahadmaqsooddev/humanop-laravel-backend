@@ -278,11 +278,26 @@
                                                 @endif
                                             @endif
                                         </p>
-                                    </div>
-                                    @if($tip)
-                                        <div id="read_all_tip" {{$hide_button ? 'style="display: none;"' : ""}}>
 
-                                            <div class="d-flex justify-content-center">
+                                        @if($tip)
+                                            <div>
+
+                                                <div class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2" id="read_all_tip">
+                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                            onclick="onDailyTipAllRead()">
+                                                        Complete Daily Tip
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    @if($tip)
+                                        <div>
+
+                                            <div class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
                                                 <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
                                                         {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                         onclick="onDailyTipAllRead()">
@@ -783,7 +798,12 @@
 
             $('#daily-tip-text').html(html_text);
 
-            $('#read_all_tip').show();
+            if($('#read_all_tip').hasClass('d-none')){
+
+                $('#read_all_tip').removeClass('d-none');
+
+                $('#read_all_tip').addClass('d-flex');
+            }
         }
     </script>
 @endpush
