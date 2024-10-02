@@ -108,6 +108,7 @@
     }
 
 </style>
+@if(\App\Helpers\Helpers::getWebUser()['hai_chat'] == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
 <div>
     <div style="position: fixed; right: 30px; bottom: 20px; z-index: 100000; cursor: pointer;">
 
@@ -123,7 +124,7 @@
         </div>
     </div>
 </div>
-
+@endif
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
