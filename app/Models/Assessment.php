@@ -634,6 +634,11 @@ class Assessment extends Model
 
         arsort($topThreeStyles);
 
+        // Filter out values greater than 4
+        $topThreeStyles = array_filter($topThreeStyles, function ($value) {
+            return $value > 4;
+        });
+
         return CodeDetail::getPublicNames($topThreeStyles);
 
     }
