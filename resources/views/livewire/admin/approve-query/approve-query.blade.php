@@ -56,7 +56,7 @@
             </tr>
 
 {{--            edit query answer--}}
-            <livewire:admin.approve-query.edit-query :queryId="$query->id" :question="$query['question']"
+            <livewire:admin.approve-query.edit-query :queryId="$query->id" :question="$query['question']" :mainQueryId="$query->query_id"
                                                      :answer="$query['answer']" :wire:key="'edit-query-modal-'.$query->id">
 
 
