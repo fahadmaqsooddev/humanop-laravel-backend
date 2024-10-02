@@ -18,9 +18,10 @@ class AllUser extends Component
     public $name = '';
     public $email = '';
     public $age = '';
+
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'];
+    protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner','updateHaiChatVisibility'];
 
     public function logInAdminAsUser($id = null){
 
@@ -53,6 +54,21 @@ class AllUser extends Component
 
         User::makeUserAsPractitioner($id);
     }
+
+    public function updateHaiChatVisibility($id)
+    {
+        
+        $user = User::find($id);
+        if ($user) {
+            if($user->hai_chat == 1){
+                User::updateUser(['hai_chat' => 2],$id);
+            }else{
+                User::updateUser(['hai_chat' => 1],$id);
+            }
+        }
+    }
+
+
 
     public function render()
     {

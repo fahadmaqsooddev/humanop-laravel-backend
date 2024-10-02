@@ -461,8 +461,9 @@
                         </div>
                     </div>
                     <!-- <div class="row "> -->
-                    @livewire('client.chat.index')
-
+                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                      @livewire('client.chat.index')
+                    @endif
                 </div>
             </section>
 

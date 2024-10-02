@@ -19,4 +19,8 @@ final class Admin
     const SUB_ADMIN = 3;
 
     const IS_PRACTITIONER = 4;
+
+    const HAI_CHAT_HIDE = 2;
+
+    const HAI_CHAT_SHOW = 1;
 }
