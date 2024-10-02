@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Admin\User;
 
+use App\Helpers\Helpers;
 use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,9 +27,13 @@ class AllUser extends Component
 
         $user = User::whereId($id)->first();
 
+        $admin_id = Helpers::getWebUser()->id;
+
         Auth::guard('web')->logout();
 
         Auth::guard('web')->login($user);
+
+        Session::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
 
         return redirect('client/dashboard');
 

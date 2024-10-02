@@ -72,4 +72,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
     Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('read-daily-tip');
 
+    Route::get('login-back-to-admin', [\App\Http\Controllers\SessionController::class,'loginBackToAdmin'])->name('login_back_to_admin');
+
 });

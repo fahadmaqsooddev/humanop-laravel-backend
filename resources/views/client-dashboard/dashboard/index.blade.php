@@ -251,10 +251,16 @@
 {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     <div class="description-container" style="height: 375px;">
+
+                                        {{$hide_button = false}}
+
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
                                                 @if(strlen($tip['text']) > 300)
                                                     <span id="daily-tip-text">
+
+                                                        {{$hide_button = true}}
+
                                                         {!! substr($tip['text'], 0, 305)!!}
 
                                                         <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
@@ -267,12 +273,40 @@
 {{--                                                        more...--}}
 {{--                                                    </a>--}}
                                                 @else
-                                                    {!! $tip['text'] !!}
+                                                        {!! $tip['text'] !!}
+
                                                 @endif
-                                            @else
                                             @endif
                                         </p>
+
+                                        @if($tip)
+                                            <div>
+
+                                                <div class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2" id="read_all_tip">
+                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                            onclick="onDailyTipAllRead()">
+                                                        Complete Daily Tip
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        @endif
                                     </div>
+
+                                    @if($tip)
+                                        <div>
+
+                                            <div class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
+                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        onclick="onDailyTipAllRead()">
+                                                    Complete Daily Tip
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -763,6 +797,13 @@
             $('.description-container').css('overflow-y','scroll');
 
             $('#daily-tip-text').html(html_text);
+
+            if($('#read_all_tip').hasClass('d-none')){
+
+                $('#read_all_tip').removeClass('d-none');
+
+                $('#read_all_tip').addClass('d-flex');
+            }
         }
     </script>
 @endpush

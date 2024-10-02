@@ -370,6 +370,14 @@
                 </li>
             @elseif(\Illuminate\Support\Facades\Auth::user()->is_admin == 2 )
                 <li class="nav-item">
+
+                    @php($is_admin = \Illuminate\Support\Facades\Session::get('admin')['is_admin'] ?? false)
+                    @if($is_admin)
+                        <div class="d-flex justify-content-center">
+                            <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm" style="background-color: #f2661c; color: white;">Back to admin</a>
+                        </div>
+                    @endif
+
                     <a data-bs-toggle="collapse" href="#clientdashboardids"
                        class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"
                        aria-controls="clientdashboardids" role="button" aria-expanded="false">
