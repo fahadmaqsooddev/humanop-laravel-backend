@@ -258,9 +258,10 @@
                                             @if($tip && !empty($tip['text']))
                                                 @if(strlen($tip['text']) > 300)
                                                     <span id="daily-tip-text">
-                                                        {!! substr($tip['text'], 0, 305)!!}
 
                                                         {{$hide_button = true}}
+
+                                                        {!! substr($tip['text'], 0, 305)!!}
 
                                                         <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
                                                         more...
@@ -278,17 +279,19 @@
                                             @endif
                                         </p>
                                     </div>
-                                    <div id="read_all_tip" {{$hide_button ? 'style="display: none;"' : ""}}>
+                                    @if($tip)
+                                        <div id="read_all_tip" {{$hide_button ? 'style="display: none;"' : ""}}>
 
-                                        <div class="d-flex justify-content-center">
-                                            <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
-                                                    {{$tip['is_read'] ?? null ? "disabled" : ""}}
-                                                    onclick="onDailyTipAllRead()">
-                                                Complete Daily Tip
-                                            </button>
+                                            <div class="d-flex justify-content-center">
+                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        onclick="onDailyTipAllRead()">
+                                                    Complete Daily Tip
+                                                </button>
+                                            </div>
+
                                         </div>
-
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
