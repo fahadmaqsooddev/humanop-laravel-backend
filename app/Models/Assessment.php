@@ -1174,9 +1174,9 @@ class Assessment extends Model
 
                 $existingAssessment->update($resultArray);
 
-                if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
+                if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1){
 
-                    DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+                    DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
                     ActionPlan::storeUserActionPlan(true);
                 }
 

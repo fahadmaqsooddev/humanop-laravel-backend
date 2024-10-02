@@ -253,11 +253,16 @@
                                     <div class="description-container" style="height: 375px;">
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
-                                                @if(strlen($tip['text']) > 300)
-                                                    {!! substr($tip['text'], 0, 305)!!}
+                                                @if(strlen($tip['text']) > 100)
+                                                    <span id="daily-tip-text">
+                                                        {!! substr($tip['text'], 0, 105)!!}
+                                                    </span>
                                                     &nbsp;&nbsp;
-                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read
+{{--                                                    <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+{{--                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read--}}
+{{--                                                        more...--}}
+{{--                                                    </a>--}}
+                                                    <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
                                                         more...
                                                     </a>
                                                 @else
@@ -749,6 +754,11 @@
         function goToProfileOverviewPage(src, content_name) {
 
             window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
+        }
+
+        function showDailyTipCompleteText(html_text){
+
+            $('#daily-tip-text').html(html_text);
         }
     </script>
 @endpush
