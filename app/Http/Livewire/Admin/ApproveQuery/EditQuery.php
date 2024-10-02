@@ -2,16 +2,24 @@
 
 namespace App\Http\Livewire\Admin\ApproveQuery;
 
+use App\Models\Assessment;
+use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\QueryAnswer;
 use Livewire\Component;
 
 class EditQuery extends Component
 {
-    public $queryId, $question, $answer, $updatedAnswer;
+    public $queryId, $question, $answer, $updatedAnswer ,$mainQueryId;
 
     public function render()
+
     {
-        return view('livewire.admin.approve-query.edit-query');
+
+        $query = ClientQuery::singleQuery($this->mainQueryId);
+
+        $grid = Assessment::getLatestAssessment($query['user_id']);
+
+        return view('livewire.admin.approve-query.edit-query',compact('grid'));
     }
 
     public function updateAndApproveAnswer(){
