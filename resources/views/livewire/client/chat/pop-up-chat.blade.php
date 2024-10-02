@@ -15,7 +15,6 @@
 
             <div class="chatbox" style="height: 500px !important;">
                 <div class="chatbox-content" style="max-height: 500px" id="chatbox-content-pop-up">
-
                     @foreach($chats as $chat)
 
                         <div style="display: flex; justify-content: end">
@@ -27,17 +26,19 @@
                             <div class="message chat-reply-message">
                                 {!! $chat['answer'] !!}
                             </div>
-                            <div class="rating d-flex mb-2">
-                                <!-- Thumbs up -->
-                                <div class="like grow {{ $chat['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $chat['id'] }})">
-                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                            @if(isset($chat['id']))
+                                <div class="rating d-flex mb-2">
+                                    <!-- Thumbs up -->
+                                    <div class="like grow {{ $chat['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $chat['id'] }})">
+                                        <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                    </div>
+                                    <!-- Thumbs down -->
+                                    <div class="dislike grow {{ $chat['likedislike'] == 1 || $chat['likedislike'] == 0 ? 'active' : '' }}"
+                                         wire:click="dislike({{ $chat['id'] }})">
+                                        <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                    </div>
                                 </div>
-                                <!-- Thumbs down -->
-                                <div class="dislike grow {{ $chat['likedislike'] == 1 || $chat['likedislike'] == 0 ? 'active' : '' }}"
-                                     wire:click="dislike({{ $chat['id'] }})">
-                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
-                                </div>
-                            </div>
+                            @endif
                         </div>
 
 

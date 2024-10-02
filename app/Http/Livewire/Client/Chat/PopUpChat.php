@@ -8,11 +8,12 @@ use App\Models\Assessment;
 use App\Models\HAIChai\HaiChat;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
 class PopUpChat extends Component
 {
-    public $chats = [], $userMessage, $lastMessage;
+    public $chats = [], $userMessage, $lastMessage, $adminMessages = [];
 
     protected $listeners = ['chatMessage'];
 
@@ -58,8 +59,20 @@ class PopUpChat extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-                HaiChat::createChat($this->userMessage, $aiReply);
-                $this->emit('updateAiMessage');
+                $adminLoggedInAsClient = Session::get('admin');
+
+                if (!($adminLoggedInAsClient['is_admin'] ?? false)){
+
+                    HaiChat::createChat($this->userMessage, $aiReply);
+
+                }else{
+
+                    $this->adminMessages = [
+                        ['query' => $this->userMessage, 'answer' => $aiReply[0] ?? null, 'likedislike' => 0]
+                    ];
+                }
+
+//                $this->emit('updateAiMessage');
                 $this->lastMessage = $this->userMessage;
                 $this->userMessage = '';
             }
@@ -83,7 +96,8 @@ class PopUpChat extends Component
 
     public function render()
     {
-        $this->chats = HaiChat::getChat();
+
+        $this->chats = empty($this->adminMessages) ? HaiChat::getChat() : $this->adminMessages;
 
         return view('livewire.client.chat.pop-up-chat');
     }
