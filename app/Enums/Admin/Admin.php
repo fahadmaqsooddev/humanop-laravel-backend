@@ -16,5 +16,7 @@ final class Admin
 
     const IS_BOTH = 2;
 
+    const SUB_ADMIN = 3;
+
     const IS_PRACTITIONER = 4;
 }
