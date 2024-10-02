@@ -1,5 +1,11 @@
 
-
+@push('css')
+    <style>
+        .ps__rail-y{
+            display: none !important;
+        }
+    </style>
+@endpush
 <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn" style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
     <a href="javascript:void(0);" class="nav-link text-body p-0">
         <div class="sidenav-toggler-inner">
