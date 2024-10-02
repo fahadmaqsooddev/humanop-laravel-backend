@@ -251,11 +251,16 @@
 {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     <div class="description-container" style="height: 375px;">
+
+                                        {{$hide_button = false}}
+
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
                                                 @if(strlen($tip['text']) > 300)
                                                     <span id="daily-tip-text">
                                                         {!! substr($tip['text'], 0, 305)!!}
+
+                                                        {{$hide_button = true}}
 
                                                         <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
                                                         more...
@@ -267,11 +272,22 @@
 {{--                                                        more...--}}
 {{--                                                    </a>--}}
                                                 @else
-                                                    {!! $tip['text'] !!}
+                                                        {!! $tip['text'] !!}
+
                                                 @endif
-                                            @else
                                             @endif
                                         </p>
+                                    </div>
+                                    <div id="read_all_tip" {{$hide_button ? 'style="display: none;"' : ""}}>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                    {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                    onclick="onDailyTipAllRead()">
+                                                Complete Daily Tip
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -763,6 +779,8 @@
             $('.description-container').css('overflow-y','scroll');
 
             $('#daily-tip-text').html(html_text);
+
+            $('#read_all_tip').show();
         }
     </script>
 @endpush
