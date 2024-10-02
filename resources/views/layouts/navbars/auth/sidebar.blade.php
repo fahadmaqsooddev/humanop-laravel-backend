@@ -18,14 +18,14 @@
 <aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
        class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
-    <div class="d-flex">
+         <div class="d-flex">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>
             <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
             <span class="humanopLogo">
-    <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
-</span>
+         <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
+        </span>
                 <span class="humanopMiniLogo d-none">
     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100" style="margin-left: 10px; width: 77px"
          alt="main_logo">

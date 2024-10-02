@@ -42,7 +42,9 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Gender</th>
-                <th>HAI Chat</th>
+                @if(Auth::user()->hasRole('super admin'))
+                    <th>HAI Chat</th>
+                @endif
                 <th>Membership</th>
                 <th>Practitioner</th>
                 <th></th>
@@ -54,7 +56,9 @@
                     <td class="text-sm font-weight-normal">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal">{{$user['gender'] === '0' ? 'Male' : 'Female'}}</td>
-                    <td class="text-sm font-weight-normal">
+                    @if(Auth::user()->hasRole('super admin'))
+
+                        <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0">
                             @php
                                 if($user->hai_chat == 1)
@@ -69,6 +73,8 @@
                                    @checked($status) >
                         </div>
                     </td>
+
+                    @endif
                     <td class="text-sm font-weight-normal">
                         <select class="form-control" onchange="changeUserMemberShip(this, {{$user['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">
                             <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>Freemium</option>
