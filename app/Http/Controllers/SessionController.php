@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Admin\Admin;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
@@ -65,13 +66,16 @@ class SessionController extends Controller
 
                 Session::forget('google_user'); // forget the session of the google data
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                if ($user->is_admin == Admin::IS_CUSTOMER){
 
-                DailyTip::updateUserDailyTip();
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                ActionPlan::storeUserActionPlan();
+                    DailyTip::updateUserDailyTip();
 
-                User::updateUserIsFeedback();
+                    ActionPlan::storeUserActionPlan();
+
+                    User::updateUserIsFeedback();
+                }
 
                 return redirect()->route('admin_dashboard');
             }

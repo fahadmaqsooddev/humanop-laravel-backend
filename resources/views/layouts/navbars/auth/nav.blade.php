@@ -34,7 +34,7 @@
             <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>-->
 
-        <div class="nav nav-pills  nav-fill bg-transparent position-static pe-5   user-pannel-btn   "
+        <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn  mx-auto "
                         role="tablist">
                         <div class="nav-item">
                             <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-        <div class="d-none d-lg-flex flex-2 abc ps-5">
+        <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
             <div class="col-auto pb-sm-4">
                 <div class="avatar avatar-xl avatar-icon  ">
                     <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
@@ -74,15 +74,7 @@
             </div>
 
         </div>
-        <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1">
-            <a href="javascript:;" class="nav-link text-body p-0">
-                <div class="sidenav-toggler-inner">
-                    <button id="nav-toggle" class="btn rounded-0">
-                        <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
-                    </button>
-                </div>
-            </a>
-        </div>
+
 
     </div>
 </nav>
@@ -95,29 +87,61 @@
         if (icon.classList.contains('fa-angle-left')) {
             icon.classList.remove('fa-angle-left');
             icon.classList.add('fa-angle-right');
+            if ($(window).width() <= 1200) {
+                $('#nav-toggle-btn').css('margin-left','0px');
+            }else{
+                $('#nav-toggle-btn').css('margin-left','282px');
+            }
+
         } else {
             icon.classList.remove('fa-angle-right');
             icon.classList.add('fa-angle-left');
+            if ($(window).width() <= 1200) {
+                $('#nav-toggle-btn').css('margin-left','282px');
+            }else{
+                $('#nav-toggle-btn').css('margin-left', '112px');
+            }
         }
     });
+    $(document).ready(function() {
+        $('.sidenav').hover(
+            function() {
+                if (icon.classList.contains('fa-angle-left')) {
 
+                    $('#nav-toggle-btn').css('margin-left','267px');
+                }
+            },
+            function() {
+                if (icon.classList.contains('fa-angle-left')) {
+                    if ($(window).width() <= 1200) {
+                        $('#nav-toggle-btn').css('margin-left', '0px');
+                    }else{
+                        $('#nav-toggle-btn').css('margin-left', '112px');
+                    }
+                }
+            }
+        );
+    });
     $(document).ready(function () {
-        function toggleSidenavClass() {
-            if ($(window).width() >= 1200) {
-                // For larger screens, ensure the sidenav is visible
-                $('.sidenavHideClass').removeClass('d-none').addClass('d-block');
+        let resizeTimeout;
+
+        function checkWidth() {
+            if ($(window).width() <= 1200) {
+                $('body').removeClass('g-sidenav-pinned').addClass('g-sidenav-hidden');
+                $('#nav-toggle-btn').css('margin-left', '0px');
             } else {
-                // For smaller screens, hide the sidenav initially
-                $('.sidenavHideClass').removeClass('d-block').addClass('d-none');
+                $('body').removeClass('g-sidenav-hidden').addClass('g-sidenav-pinned');
+                $('#nav-toggle-btn').css('margin-left', '282px');
             }
         }
 
-        // Check on page load
-        toggleSidenavClass();
+        // Initial check when the document is ready
+        checkWidth();
 
-        // Check on window resize
+        // Add event listener for window resize with debouncing
         $(window).resize(function () {
-            toggleSidenavClass();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(checkWidth, 100); // Adjust the timeout as needed
         });
     });
 
