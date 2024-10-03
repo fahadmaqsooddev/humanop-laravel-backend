@@ -369,6 +369,11 @@ return [
             'table' => 'intention_plan',
             'fillable' => ['user_id', 'ninety_day_intention'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'PdfGenerate' => [
+            'table' => 'pdf_generates',
+            'fillable' => ['user_id', 'assessment_id','public_name','text'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];

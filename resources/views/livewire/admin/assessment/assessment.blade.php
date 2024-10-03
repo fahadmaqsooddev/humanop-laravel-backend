@@ -215,8 +215,6 @@
                 <th>Practitioner</th>
                 <th>Project</th>
                 <th>Email</th>
-{{--                <th>Membership</th>--}}
-{{--                <th>Practitioner</th>--}}
                 <th></th>
             </tr>
             </thead>
@@ -228,25 +226,11 @@
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">Null</td>
                     <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
-{{--                    <td class="text-sm font-weight-normal">--}}
-{{--                        <select class="form-control" onchange="changeUserMemberShip(this, {{$assessment['users']['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">--}}
-{{--                            <option value="Freemium" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Freemium" ? 'selected' : "" : ""}}>Freemium</option>--}}
-{{--                            <option value="Core" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Core" ? 'selected' : "" : ""}}>Core</option>--}}
-{{--                            <option value="Premium" {{$assessment['users'] ? $assessment['users']['plan_name'] === "Premium" ? 'selected' : "" : ""}}>Premium</option>--}}
-{{--                        </select>--}}
-{{--                    </td>--}}
                     <td class="text-sm font-weight-normal"><a
-                            href="{{ route('admin_user_detail',['id' => $assessment['id']]) }}" type="submit"
+                            href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
                             style="background-color: #f2661c; color: white"
                             class="btn btn-sm float-end mt-2 mb-0">View</a>
                     </td>
-{{--                    <td class="text-sm font-weight-normal">--}}
-{{--                        <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"--}}
-{{--                           style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"--}}
-{{--                           class="btn btn-sm float-end mt-2 mb-0">--}}
-{{--                            Login--}}
-{{--                        </a>--}}
-{{--                    </td>--}}
                 </tr>
             @endforeach
             </tbody>

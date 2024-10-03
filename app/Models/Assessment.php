@@ -1234,7 +1234,7 @@ class Assessment extends Model
 
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return self::where(function ($q) use ($assessment_id, $user){
+        return self::with('users')->where(function ($q) use ($assessment_id, $user){
 
             if ($assessment_id){
 
