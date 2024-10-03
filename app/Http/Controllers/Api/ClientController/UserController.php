@@ -326,7 +326,6 @@ class UserController extends Controller
 
             $data = [
                 'user_name' => $user_name,
-                'style' => $Styles,
                 'top_two_feature' => $topTwoFeatures,
                 'boundary' => $boundary,
                 'perception' => $perception,
