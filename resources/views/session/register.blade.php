@@ -190,8 +190,8 @@
                                         <select class="justify-content-center form-control m-2" name="year"
                                                 style="background-color: #0F1535; color: white; border-radius: 12px;">
                                             <option value="">Year</option>
-                                            @for($i = $current_year; $i >= 1970; $i--)
-                                                <option value="{{$i}}">{{$i}}</option>
+                                            @for($i = $current_year; $i >= 1900; $i--)
+                                                <option value="{{$i}}" {{$i === 1980 ? 'selected' : ''}}>{{$i}}</option>
                                             @endfor
                                         </select>
 

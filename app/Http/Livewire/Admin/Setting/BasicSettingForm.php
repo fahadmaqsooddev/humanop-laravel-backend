@@ -22,7 +22,7 @@ class BasicSettingForm extends Component
 
         $this->month = isset($date_of_birth[1]) ? intval($date_of_birth[1]) : 0;
 
-        $this->year = isset($date_of_birth[0]) ? intval($date_of_birth[0]) : 0;
+        $this->year = isset($date_of_birth[0]) && !empty($date_of_birth[0]) ? intval($date_of_birth[0]) : 1980;
     }
 
 

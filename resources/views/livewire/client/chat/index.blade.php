@@ -38,7 +38,6 @@
 
     </div>
 
-
  {{--    @endempty--}}
     <form wire:submit.prevent="sendMessage" class="m-0">
         @csrf
@@ -88,18 +87,23 @@
                     <div class="message bot-message">
                         {!! $message['answer'] !!}
                     </div>
-                    <!-- rating -->
-                    <div class="rating d-flex mb-2">
-                        <!-- Thumbs up -->
-                        <div class="like grow {{ $message['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $message['id'] }})">
-                            <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
-                        </div>
-                        <!-- Thumbs down -->
-                        <div class="dislike grow {{ $message['likedislike'] == 1 || $message['likedislike'] == 0 ? 'active' : '' }}"
-                             wire:click="dislike({{ $message['id'] }})">
-                            <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
-                        </div>
-                    </div>
+
+                    @if(isset($message['id']))
+
+                        <!-- rating -->
+                            <div class="rating d-flex mb-2">
+                                <!-- Thumbs up -->
+                                <div class="like grow {{ $message['likedislike'] == 2 ? 'active' : '' }}" wire:click="like({{ $message['id'] }})">
+                                    <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                                </div>
+                                <!-- Thumbs down -->
+                                <div class="dislike grow {{ $message['likedislike'] == 1 || $message['likedislike'] == 0 ? 'active' : '' }}"
+                                     wire:click="dislike({{ $message['id'] }})">
+                                    <i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                    @endif
                 </div>
             @endforeach
 

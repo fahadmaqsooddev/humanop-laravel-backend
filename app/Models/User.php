@@ -67,16 +67,16 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-//        if (str_contains(request()->path(), 'api')){
+          //        if (str_contains(request()->path(), 'api')){
         $this->attributes['password'] = Hash::make($value);
-//        }
+          //        }
     }
 
     // scope
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth','hai_chat']);
     }
 
     // appends
@@ -389,6 +389,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
+        $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW  ? true : false);
         return $user;
     }
 
@@ -650,15 +651,21 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        $users = $users->where('is_admin', $isAdmin)->paginate($per_page);
+        $users = $users->whereIN('is_admin', $isAdmin)->paginate($per_page)->setPath(route('admin_all_users'));
 
         return $users;
     }
 
     public static function makeUserAsPractitioner($user_id = null)
     {
-
-        self::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+        $user = self::find($user_id);
+        if ($user) {
+            if($user->is_admin == Admin::IS_PRACTITIONER){
+                User::whereId($user_id)->update(['is_admin' => Admin::IS_CUSTOMER]);
+            }else{
+                User::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+            }
+        }
     }
 
     public static function userLoggedInData()

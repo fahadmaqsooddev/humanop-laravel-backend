@@ -1,6 +1,12 @@
 
-
-<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn" style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 9999">
+@push('css')
+    <style>
+        .sidenav  > .ps__rail-y{
+            display: none !important;
+        }
+    </style>
+@endpush
+<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn" style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
     <a href="javascript:void(0);" class="nav-link text-body p-0">
         <div class="sidenav-toggler-inner">
             <button id="nav-toggle" class="btn rounded-0" style="padding-left: 20px;padding-right: 20px">
@@ -9,17 +15,17 @@
         </div>
     </a>
 </div>
-<aside id="#remove-scrollbar-nav" style="z-index: 9999; !important;"
+<aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
        class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
-    <div class="d-flex">
+         <div class="d-flex">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>
             <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
             <span class="humanopLogo">
-    <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
-</span>
+         <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
+        </span>
                 <span class="humanopMiniLogo d-none">
     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100" style="margin-left: 10px; width: 77px"
          alt="main_logo">
@@ -364,6 +370,14 @@
                 </li>
             @elseif(\Illuminate\Support\Facades\Auth::user()->is_admin == 2 )
                 <li class="nav-item">
+
+                    @php($is_admin = \Illuminate\Support\Facades\Session::get('admin')['is_admin'] ?? false)
+                    @if($is_admin)
+                        <div class="d-flex justify-content-center">
+                            <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm" style="background-color: #f2661c; color: white;">Back to admin</a>
+                        </div>
+                    @endif
+
                     <a data-bs-toggle="collapse" href="#clientdashboardids"
                        class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"
                        aria-controls="clientdashboardids" role="button" aria-expanded="false">

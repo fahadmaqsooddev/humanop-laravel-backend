@@ -247,26 +247,66 @@
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: auto;">
-                                <div class="card-body p-3" style="cursor: pointer"
-                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">
+                                <div class="card-body p-3" style="cursor: pointer;">
+{{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     <div class="description-container" style="height: 375px;">
+
+                                        {{$hide_button = false}}
+
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['text']))
                                                 @if(strlen($tip['text']) > 300)
-                                                    {!! substr($tip['text'], 0, 305)!!}
-                                                    &nbsp;&nbsp;
-                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read
+                                                    <span id="daily-tip-text">
+
+                                                        {{$hide_button = true}}
+
+                                                        {!! substr($tip['text'], 0, 305)!!}
+
+                                                        <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
                                                         more...
                                                     </a>
+                                                    </span>
+                                                    &nbsp;&nbsp;
+{{--                                                    <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+{{--                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read--}}
+{{--                                                        more...--}}
+{{--                                                    </a>--}}
                                                 @else
-                                                    {!! $tip['text'] !!}
+                                                        {!! $tip['text'] !!}
+
                                                 @endif
-                                            @else
                                             @endif
                                         </p>
+
+                                        @if($tip)
+                                            <div>
+
+                                                <div class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2" id="read_all_tip">
+                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                            onclick="onDailyTipAllRead()">
+                                                        Complete Daily Tip
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        @endif
                                     </div>
+
+                                    @if($tip)
+                                        <div>
+
+                                            <div class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
+                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        onclick="onDailyTipAllRead()">
+                                                    Complete Daily Tip
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -455,8 +495,9 @@
                         </div>
                     </div>
                     <!-- <div class="row "> -->
-                    @livewire('client.chat.index')
-
+                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                      @livewire('client.chat.index')
+                    @endif
                 </div>
             </section>
 
@@ -749,6 +790,20 @@
         function goToProfileOverviewPage(src, content_name) {
 
             window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
+        }
+
+        function showDailyTipCompleteText(html_text){
+
+            $('.description-container').css('overflow-y','scroll');
+
+            $('#daily-tip-text').html(html_text);
+
+            if($('#read_all_tip').hasClass('d-none')){
+
+                $('#read_all_tip').removeClass('d-none');
+
+                $('#read_all_tip').addClass('d-flex');
+            }
         }
     </script>
 @endpush

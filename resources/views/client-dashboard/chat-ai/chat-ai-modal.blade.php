@@ -108,22 +108,20 @@
     }
 
 </style>
+@if(\App\Helpers\Helpers::getWebUser()['hai_chat'] == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
 <div>
     <div style="position: fixed; right: 30px; bottom: 20px; z-index: 100000; cursor: pointer;">
 
         @livewire('client.chat.pop-up-chat')
 
         <div class="chatBoxx d-block" style="position: fixed; right: 30px; bottom: 20px;cursor: pointer;">
-            <div style="border-radius:50%; width: 75px; height: 75px; background-color: #f2661c; color: blue; padding-left: 8px;padding-top: 4px">
-                <span style="font-size: 42px;" >
-                    🐇
-{{--                    <img style="width: 50px" src="{{asset('assets/img/rabbit.png')}}">--}}
-                </span>
+            <div style="border-radius: 50%; width: 60px; height: 60px; background-color: white; display: flex; justify-content: center; align-items: center;">
+                <img style="width: 50px;" src="{{asset('assets/img/hai_chat_logo.png')}}">
             </div>
         </div>
     </div>
 </div>
-
+@endif
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 

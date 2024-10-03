@@ -31,10 +31,34 @@
         border-color: #f2661c !important;
     }
 
-    .copy-text {
-        cursor: pointer;
+    .box-grid-size {
+        border: 2px solid white;
+        padding: 12px 25px;
+        text-align: center;
+        width: 60px; /* Set fixed width */
+        height: 60px; /* Set fixed height */
+        display: inline-flex; /* Flexbox for equal sizing */
+        justify-content: center; /* Center content horizontally */
+        align-items: center; /* Center content vertically */
     }
-
+    .greenBox
+    {
+        background-color: green !important;
+    }
+    .redBox
+    {
+        background-color: red !important;
+    }
+    .lightGreenBox
+    {
+        background-color: yellow !important;
+        color: black !important;
+        font-weight: bold !important;
+    }
+    .border-green
+    {
+        border: 2px solid green !important;
+    }
 </style>
 @section('content')
     <div class="container-fluid row mt-4">

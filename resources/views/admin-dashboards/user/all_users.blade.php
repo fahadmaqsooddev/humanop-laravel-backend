@@ -1,5 +1,12 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
-
+@push('css')
+    <style>
+    .form-switch .form-check-input:checked {
+        border-color: rgba(58, 65, 111, 0.95);
+        background-color: forestgreen !important;
+    }
+    </style>
+@endpush
 @section('content')
     <div class="row mt-4 container-fluid">
         <div class="col-12">

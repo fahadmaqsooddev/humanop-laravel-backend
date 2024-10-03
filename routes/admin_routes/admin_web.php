@@ -91,7 +91,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
         Route::get('payment-history', [PaymentController::class, 'PaymentHistory'])->name('admin_payment_history');
         Route::get('feedback', [AdminController::class, 'userFeedback'])->name('feedback');
         Route::get('podcast', [PodcastController::class, 'podcast'])->name('podcast');
-
+        Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {
@@ -114,7 +114,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
     Route::group(['middleware' => ['role:super admin']], function () {
         Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
         Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
-        Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
+
     });
 
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
