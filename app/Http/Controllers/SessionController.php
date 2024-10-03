@@ -92,8 +92,11 @@ class SessionController extends Controller
         }
     }
 
-    public function practitionerStore(Request $request)
+    public function loginClientToPractitioner($slug1, $slug2, Request $request)
     {
+
+        User::verifyUserExistsWithPractitionerSlugs($request->input('email', null), $slug1, $slug2);
+
         try {
             $attributes = request()->validate([
                 'email'=>'required|email',
