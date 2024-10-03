@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Enums\Admin\Admin;
 
 class AllPractitioner extends Component
 {
@@ -51,7 +52,7 @@ class AllPractitioner extends Component
 
     public function render()
     {
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, \App\Enums\Admin\Admin::IS_PRACTITIONER);
+        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_PRACTITIONER]);
 
 
         return view('livewire.admin.practitioners.all-practitioner', [

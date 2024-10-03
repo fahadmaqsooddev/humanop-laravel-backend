@@ -651,15 +651,21 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        $users = $users->where('is_admin', $isAdmin)->paginate($per_page)->setPath(route('admin_all_users'));
+        $users = $users->whereIN('is_admin', $isAdmin)->paginate($per_page)->setPath(route('admin_all_users'));
 
         return $users;
     }
 
     public static function makeUserAsPractitioner($user_id = null)
     {
-
-        self::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+        $user = self::find($user_id);
+        if ($user) {
+            if($user->is_admin == Admin::IS_PRACTITIONER){
+                User::whereId($user_id)->update(['is_admin' => Admin::IS_CUSTOMER]);
+            }else{
+                User::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+            }
+        }
     }
 
     public static function userLoggedInData()

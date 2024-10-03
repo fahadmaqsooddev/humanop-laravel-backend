@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
-
+use App\Enums\Admin\Admin;
 class AllUser extends Component
 {
     use WithPagination;
@@ -51,19 +51,17 @@ class AllUser extends Component
     }
 
     public function makePractitioner($id){
-
         User::makeUserAsPractitioner($id);
     }
 
     public function updateHaiChatVisibility($id)
     {
-        
         $user = User::find($id);
         if ($user) {
-            if($user->hai_chat == 1){
-                User::updateUser(['hai_chat' => 2],$id);
+            if($user->hai_chat == Admin::HAI_CHAT_SHOW){
+                User::updateUser(['hai_chat' => Admin::HAI_CHAT_HIDE],$id);
             }else{
-                User::updateUser(['hai_chat' => 1],$id);
+                User::updateUser(['hai_chat' => Admin::HAI_CHAT_SHOW],$id);
             }
         }
     }
@@ -73,7 +71,7 @@ class AllUser extends Component
     public function render()
     {
 
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, \App\Enums\Admin\Admin::IS_CUSTOMER);
+        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER,Admin::IS_PRACTITIONER]);
 
         return view('livewire.admin.user.all-user', [
 
