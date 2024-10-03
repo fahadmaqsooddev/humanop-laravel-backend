@@ -612,6 +612,17 @@
 @endsection
 
 @push('javascript')
+    <script>
+        const descriptionContainer = document.querySelector('.description-container');
+        descriptionContainer.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            descriptionContainer.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30,
+            });
+        });
+
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // Function to pause the video and reload the page
@@ -805,6 +816,7 @@
 
                 $('#read_all_tip').addClass('d-flex');
             }
+
         }
     </script>
 @endpush
