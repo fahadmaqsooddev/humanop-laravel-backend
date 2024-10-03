@@ -250,13 +250,13 @@
                                 <div class="card-body p-3" style="cursor: pointer;">
 {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
-                                    <div class="description-container" style="height: 375px;">
+                                    <div class="description-container" style="height: 275px;">
 
                                         {{$hide_button = false}}
 
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
-                                            @if($tip && !empty($tip['text']))
-                                                @if(strlen($tip['text']) > 300)
+                                            @if($tip && !empty($tip['description']))
+                                                @if(strlen($tip['description']) > 250)
                                                     <span id="daily-tip-text">
 
                                                         {{$hide_button = true}}
@@ -283,7 +283,7 @@
                                             <div>
 
                                                 <div class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2" id="read_all_tip">
-                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
                                                             {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                             onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
@@ -298,7 +298,7 @@
                                         <div>
 
                                             <div class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
-                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
                                                         {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                         onclick="onDailyTipAllRead()">
                                                     Complete Daily Tip
@@ -417,14 +417,15 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4" style="cursor: pointer;">
                             <div class="card" style="height: 420px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
                                         I'M
                                         HAVING A CHALLENGE</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.
-                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>
+{{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
+{{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
+                                    <h3 class="text-center">Coming Soon</h3>
                                 </div>
                             </div>
                         </div>
@@ -533,7 +534,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group mt-2">
-                                        <button style="background-color: #f2661c;" class="btn btn-sm text-white" id="daily-tip-read-button"
+                                        <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
                                             {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                             onclick="onDailyTipAllRead()">
                                             Complete Daily Tip
@@ -678,7 +679,7 @@
 
         function onDailyTipAllRead() {
 
-            $('#daily-tip-read-button').attr('disabled', true);
+            $('.daily-tip-read-button').attr('disabled', true);
 
             $.ajax({
                 url: '{{ route("read-daily-tip") }}',
