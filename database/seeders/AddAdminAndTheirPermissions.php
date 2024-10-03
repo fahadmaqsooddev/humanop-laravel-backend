@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\Admin\Admin;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -20,12 +19,20 @@ class AddAdminAndTheirPermissions extends Seeder
     public function run()
     {
 
-        $users = [
+        $oldUsers = [
             ['email' => 'lisa@humanoptech.com', 'password' => 'lisa@humanoptech','first_name' => 'Lisa', 'last_name' => 'Nelson', 'gender' => Admin::IS_FEMALE, 'role' => Admin::IS_ADMIN],
             ['email' => 'wei@humanoptech.com', 'password' => 'wei@humanoptech','first_name' => 'Wei', 'last_name' => 'Houng', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
             ['email' => 'zannah@humanoptech.com', 'password' => 'zannah@humanoptech','first_name' => 'Zannah', 'last_name' => 'Hackett', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
             ['email' => 'brant@humanop.ai', 'password' => 'brant@humanop','first_name' => 'Brant', 'last_name' => 'Hindman', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
             ['email' => 'admin@humanoptech.com', 'password' => '12345678','first_name' => 'Admin', 'last_name' => 'Developers', 'gender' => Admin::IS_MALE, 'role' => Admin::IS_ADMIN],
+        ];
+
+        $users = [
+            ['email' => 'lisa@humanop.com', 'password' => 'lisa@humanop','first_name' => 'Lisa', 'last_name' => 'Nelson', 'gender' => Admin::IS_FEMALE, 'role' => Admin::IS_ADMIN],
+            ['email' => 'wei@humanop.com', 'password' => 'wei@humanop','first_name' => 'Wei', 'last_name' => 'Houng', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
+            ['email' => 'zannah@humanop.com', 'password' => 'zannah@humanop','first_name' => 'Zannah', 'last_name' => 'Hackett', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
+            ['email' => 'brant@humanop.com', 'password' => 'Brant@humanop','first_name' => 'Brant', 'last_name' => 'Hindman', 'gender' => Admin::IS_MALE, 'role' => Admin::SUB_ADMIN],
+            ['email' => 'admin@humanop.com', 'password' => '12345678','first_name' => 'Admin', 'last_name' => 'Developers', 'gender' => Admin::IS_MALE, 'role' => Admin::IS_ADMIN],
         ];
 
         DB::beginTransaction();
@@ -89,6 +96,22 @@ class AddAdminAndTheirPermissions extends Seeder
 
                     }
 
+                }
+
+            }
+
+
+            foreach ($oldUsers as $oldUser){
+
+                $findUsers = User::where('email', $oldUser['email'])->get();
+
+                foreach ($findUsers as $findUser){
+
+                    DB::table('model_has_roles')->where('model_id', $findUser->id)->delete();
+
+                    DB::table('model_has_permissions')->where('model_id', $findUser->id)->delete();
+
+                    $findUser->delete();
                 }
 
             }
