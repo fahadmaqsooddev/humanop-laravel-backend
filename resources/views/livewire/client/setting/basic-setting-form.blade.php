@@ -83,7 +83,7 @@
                         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                             'August', 'September', 'October', 'November', 'December'];
 
-                        $current_year = \Carbon\Carbon::now()->year;
+                        $current_year = (int)(\Carbon\Carbon::now()->year - 18);
                         ?>
 
                         <select class="justify-content-center form-control m-1" wire:model="month"

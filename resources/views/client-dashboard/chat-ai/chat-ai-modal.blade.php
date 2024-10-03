@@ -115,7 +115,7 @@
         @livewire('client.chat.pop-up-chat')
 
         <div class="chatBoxx d-block" style="position: fixed; right: 30px; bottom: 20px;cursor: pointer;">
-            <div style="border-radius: 50%; width: 60px; height: 60px; background-color: white; display: flex; justify-content: center; align-items: center;">
+            <div style="border-radius: 50%; width: 60px; height: 60px; background-color: #f2661c; display: flex; justify-content: center; align-items: center;">
                 <img style="width: 50px;" src="{{asset('assets/img/hai_chat_logo.png')}}">
             </div>
         </div>

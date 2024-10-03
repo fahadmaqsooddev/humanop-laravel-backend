@@ -334,7 +334,9 @@ class User extends Authenticatable implements JWTSubject
     public static function createUser($data = null)
     {
 
-        $data['is_admin'] = 2;
+        $data['is_admin'] = Admin::IS_CUSTOMER;
+
+        $data['status'] = 1;
 //        $age = explode('-', $data['age_range']);
 //        $data['age_min'] = $age[0];
 //        $data['age_max'] = $age[1];
@@ -398,7 +400,9 @@ class User extends Authenticatable implements JWTSubject
 
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
 
-        $data['is_admin'] = 2; // 2 for client
+        $data['is_admin'] = Admin::IS_CUSTOMER; // 2 for client
+
+        $data['status'] = 1;
 
         return self::create($data);
 
@@ -702,6 +706,14 @@ class User extends Authenticatable implements JWTSubject
         $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
 
         return $user;
+
+    }
+
+    public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2){
+
+        $practitioner = self::where('first_name', $slug1)->where('last_name', $slug2)->first();
+
+        User::where('practitioner_id', $practitioner->id)->where('email', $email)->exists();
 
     }
 

@@ -14,8 +14,8 @@ use App\Http\Controllers\SessionController;
 |
 */
 
-Route::get('/{slug?}/{slug2?}/login', [SessionController::class, 'practitionerLogin'])->name('login');
-Route::post('/practitionerSession', [SessionController::class, 'practitionerStore']);
+Route::get('/{slug?}/{slug2?}/login', [SessionController::class, 'practitionerLogin'])->name('practitioner_login');
+Route::post('/{slug?}/{slug2?}/login-client-to-practitioner', [SessionController::class, 'loginClientToPractitioner'])->name('login_client_to_practitioner');
 
 
 Route::group(['prefix' => '{slug?}/{slug2?}', 'middleware' => 'auth'], function () {

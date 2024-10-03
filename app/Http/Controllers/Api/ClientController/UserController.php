@@ -197,6 +197,7 @@ class UserController extends Controller
                         'password' => $user->id,
                         'is_admin' => 2,
                         'password_set' => 2,
+                        'status' => 1,
                     ]);
 
                     $token = Auth::guard('api')->login($newUser);

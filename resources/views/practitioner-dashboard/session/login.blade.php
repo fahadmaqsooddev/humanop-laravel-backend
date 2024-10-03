@@ -71,7 +71,8 @@
                         </div>
                         <p class="text-center text-white"><b>or</b></p>
                         <div class="card-body">
-                            <form role="form" class="text-start"  method="POST">
+
+                            <form role="form" action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}" class="text-start"  method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="text-white">Email</label>
