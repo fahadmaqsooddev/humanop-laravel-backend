@@ -705,4 +705,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2){
+
+        $practitioner = self::where('first_name', $slug1)->where('last_name', $slug2)->first();
+
+        User::where('practitioner_id', $practitioner->id)->where('email', $email)->exists();
+
+    }
+
 }
