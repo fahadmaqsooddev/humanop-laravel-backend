@@ -137,8 +137,11 @@ class AddAdminAndTheirPermissions extends Seeder
                 ]);
             }
 
-            DB::commit();
 
+            // update all users status
+            User::query()->update(['status' => 1]);
+
+            DB::commit();
 
         }catch (\Exception $exception){
 
