@@ -20,3 +20,4 @@ Route::delete('delete-profile', 'UserController@deleteProfile');
 Route::post('user-feedback', 'UserController@userFeedback');
 Route::post('/google/login/signup', 'UserController@googleLoginSignup');
 Route::get('profile-overview-result', 'UserController@profileOverviewResult');
+Route::get('summary-report', 'UserController@summaryReport');

@@ -14,6 +14,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
+use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
@@ -297,6 +298,44 @@ class UserController extends Controller
             ];
 
             return Helpers::successResponse('Profile overview data', $data);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function summaryReport(Request $request){
+
+        try {
+
+            $user_name = Helpers::getUser()->first_name. ' ' . Helpers::getUser()->last_name;
+            $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+            $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+
+            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
+
+
+            $data = [
+                'user_name' => $user_name,
+                'style' => $Styles,
+                'top_two_feature' => $topTwoFeatures,
+                'boundary' => $boundary,
+                'perception' => $perception,
+                'top_communication' => $topCommunication,
+                'energy_pool' => $energyPool,
+                'all_styles' => $allStyles,
+            ];
+
+            return Helpers::successResponse('Summary Report', $data);
 
         }catch (\Exception $exception){
 
