@@ -257,9 +257,10 @@
                                         <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                             @if($tip && !empty($tip['description']))
                                                 @if(strlen($tip['description']) > 250)
+                                                    <?php
+                                                        $hide_button = true;
+                                                    ?>
                                                     <span id="daily-tip-text">
-
-                                                        {{$hide_button = true}}
 
                                                         {!! substr($tip['text'], 0, 305)!!}
 
