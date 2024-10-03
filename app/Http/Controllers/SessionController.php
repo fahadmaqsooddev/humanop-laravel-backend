@@ -50,6 +50,8 @@ class SessionController extends Controller
                 'password'=>'required',
             ]);
 
+            $attributes['status'] = 1;
+
             if(Auth::attempt($attributes))
             {
                 if (isset($request['remember']) && !empty($request['remember']))

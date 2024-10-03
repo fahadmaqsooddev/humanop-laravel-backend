@@ -334,7 +334,9 @@ class User extends Authenticatable implements JWTSubject
     public static function createUser($data = null)
     {
 
-        $data['is_admin'] = 2;
+        $data['is_admin'] = Admin::IS_CUSTOMER;
+
+        $data['status'] = 1;
 //        $age = explode('-', $data['age_range']);
 //        $data['age_min'] = $age[0];
 //        $data['age_max'] = $age[1];
@@ -398,7 +400,9 @@ class User extends Authenticatable implements JWTSubject
 
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
 
-        $data['is_admin'] = 2; // 2 for client
+        $data['is_admin'] = Admin::IS_CUSTOMER; // 2 for client
+
+        $data['status'] = 1;
 
         return self::create($data);
 

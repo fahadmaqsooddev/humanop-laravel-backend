@@ -273,7 +273,7 @@
 {{--                                                        more...--}}
 {{--                                                    </a>--}}
                                                 @else
-                                                        {!! $tip['text'] !!}
+                                                        {!! $tip['description'] !!}
 
                                                 @endif
                                             @endif

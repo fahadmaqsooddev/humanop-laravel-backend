@@ -64,6 +64,7 @@ class AddAdminAndTheirPermissions extends Seeder
                     'email' => $user['email'],
                     'gender' => $user['gender'],
                     'is_admin' => $user['role'],
+                    'status' => 1,
                 ]);
 
                 if ($user['role'] === 3){
@@ -132,6 +133,7 @@ class AddAdminAndTheirPermissions extends Seeder
                     'email' => $client['email'],
                     'gender' => $client['gender'],
                     'is_admin' => Admin::IS_CUSTOMER,
+                    'status' => 1,
                 ]);
             }
 
