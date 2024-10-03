@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\GenerateFile\PdfGenerate;
+
 
 class UserController extends Controller
 {
@@ -137,7 +139,7 @@ class UserController extends Controller
     {
         $user_name = Helpers::getWebUser()->first_name. ' ' . Helpers::getWebUser()->last_name;
         $assessment = Assessment::singleAssessmentFromId($id);
-        $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+        $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
         $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
         $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
@@ -145,6 +147,8 @@ class UserController extends Controller
         $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
         $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
         $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getWebUser()->id, $Styles);
 
         $contxt = stream_context_create([
             'ssl' => [
@@ -160,6 +164,6 @@ class UserController extends Controller
         $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
         $filename = $user_name. '_report.pdf';
 
-        return $pdf->stream($filename);
+        return $pdf->download($filename);
     }
 }

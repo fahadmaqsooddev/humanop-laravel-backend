@@ -8,11 +8,16 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use App\Models\Client\Feedback\Feedback;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\GenerateFile\PdfGenerate;
 
 class AdminController extends Controller
 {
@@ -302,5 +307,63 @@ class AdminController extends Controller
             return redirect()->back()->with(['error' => $exception->getMessage()]);
         }
 
+    }
+
+    public function profileOverview($id = null)
+    {
+        try {
+
+            $user_age = Helpers::getWebUser()->date_of_birth;
+            $age = Carbon::parse($user_age)->age;
+            $assessment = Assessment::singleAssessmentFromId($id);
+            $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+            $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+            $perception_life = CodeDetail::getPerceptionStaticText();
+            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+            $actionPlan = ActionPlan::userActionPlan();
+
+            return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function downloadUserReport($id)
+    {
+        $assessment = Assessment::singleAssessmentFromId($id);
+        $user_name = $assessment['users'] ? $assessment['users']['first_name'] . ' ' . $assessment['users']['last_name'] : '';
+        $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+        $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+        $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+        $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+        $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $Styles);
+
+        $contxt = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE,
+            ]
+        ]);
+
+        $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        $pdf->getDomPDF()->setHttpContext($contxt);
+
+        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $filename = $user_name. '_report.pdf';
+
+        return $pdf->download($filename);
     }
 }
