@@ -164,6 +164,6 @@ class UserController extends Controller
         $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
         $filename = $user_name. '_report.pdf';
 
-        return $pdf->download($filename);
+        return $pdf->stream($filename);
     }
 }

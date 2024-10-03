@@ -11,7 +11,7 @@
                             <div class="card-body p-3 ">
                                 <div>
                                     <img
-                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/ultlogo.png'))) }}"
+                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/Humanop.png'))) }}"
                                         style="background:#351a0d; padding: 0px; max-width: 500px; border-radius: 5px;">
                                 </div>
 
