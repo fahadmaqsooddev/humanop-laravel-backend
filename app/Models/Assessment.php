@@ -383,7 +383,7 @@ class Assessment extends Model
         $ep = $positive + $negative;
         $pv = $positive - $negative;
 
-        $topTwoKeysStyle = self::getStyles($assessment);
+        $topTwoKeysStyle = self::getAllStyles($assessment);
         $topTwoKeysFeature = self::getFeatures($assessment);
         $alchemyCodeDetail = self::getAlchemy($assessment);
         $communication_keys = self::getEnergy($assessment);
@@ -532,6 +532,8 @@ class Assessment extends Model
         // Sort $third_row_style in descending order based on values
         arsort($third_row_style);
 
+        dd($third_row_style);
+
         // Get the first two elements from the sorted array
         $top_two = array_slice($third_row_style, 0, 2, true);
 
@@ -609,10 +611,7 @@ class Assessment extends Model
             'so' => 10 * $assessment['so'],
         ];
 
-        // Sort $third_row_style in descending order based on values
         arsort($third_row_style);
-
-        // Get the first two elements from the sorted array
         $topThreeStylesKeys = array_keys($third_row_style);
 
         $style = [
@@ -633,17 +632,14 @@ class Assessment extends Model
         }
 
         arsort($topThreeStyles);
-
-        // Filter out values greater than 4
-        $topThreeStyles = array_filter($topThreeStyles, function ($value) {
+        $topStyles = array_filter($topThreeStyles, function ($value) {
             return $value > 4;
         });
 
-        return CodeDetail::getPublicNames($topThreeStyles);
-
+        return CodeDetail::getPublicNames($topStyles);
     }
 
-    public static function getFeatures($assessment = null)
+    public static function getFeatures($assessment = null, $isCode = true)
     {
         $features = [
             'de' => $assessment['de'],
@@ -817,7 +813,14 @@ class Assessment extends Model
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
         }
 
-        return $topKeysFeature;
+        if ($isCode)
+        {
+            return $topKeysFeature;
+        }else
+        {
+            return CodeDetail::getPublicNames($topKeysFeature['top_two_keys']);
+        }
+
     }
 
     public static function getTopTwoFeatures($featureKeys = null, $assessment = null)
@@ -1270,16 +1273,26 @@ class Assessment extends Model
         $copper = $assessment['c'];
         $alchemy = $gold . '' . $silver . '' . $copper;
         $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
-        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
 
-        $boundaries = [
-            'public_name' => $publicName['public_name'],
-            'code_number' => $gold . $silver . $copper,
-            'text' => $publicName['text'],
-            'video_url' => $publicName['video_url'],
-        ];
+        if (!empty($alchemyCodeDetail))
+        {
+            $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
-        return $boundaries;
+            $boundaries = [
+                'public_name' => $publicName['public_name'],
+                'code_number' => $gold . $silver . $copper,
+                'text' => $publicName['text'],
+                'video_url' => $publicName['video_url'],
+                'img_url' => $alchemyCodeDetail['image'],
+            ];
+
+            return $boundaries;
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     public static function getPreceptionReportDetail($assessment = null)

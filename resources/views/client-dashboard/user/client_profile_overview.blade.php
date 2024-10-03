@@ -394,55 +394,34 @@
                                         <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
                                              id="summaryReport">
                                             <div class="slider-padding p-3 mt-5">
-                                                <p>The ULT Performance Report serves to identify
-                                                    those aspects about you that define and direct your best performance
-                                                    qualities. Since your physical being is respectively the assigned
-                                                    vehicle transporting you through this lifetime, it's often helpful
-                                                    to know what kind of vehicle you are. The Greeks have been insisting
-                                                    we "Know Thyself" for centuries. This simple request answered can
-                                                    facilitate success in all aspects of life including one's
-                                                    performance in conducting business and creating healthy
-                                                    relationships at work and in life. The ULT technology is a patented
-                                                    instrument registered and branded as The Ultimate Life Tool. The
-                                                    methodology serving as the foundation for its development is
-                                                    referred to as The Knowledge of Y.O.U. (your own understanding).
-                                                    This cumulative insight is older than the language of man and is
-                                                    founded in physical law and scientific objective understanding. The
-                                                    ULT assessment tool queries and quantifies information and
-                                                    identifies results in a manner that can be easily understood. Your
-                                                    personal ULT Performance Report introduces you to Y.O.U. and
-                                                    provides you with your own operating manual. These operating
-                                                    guidelines support you in making conscious choices in selecting
-                                                    opportunities that will naturally advance you in this lifetime. When
-                                                    you use your natural talents versus learned talents you gain energy.
+                                                <p>The HumanOp Summary Report serves to identify those aspects about you
+                                                    that define and direct your best performance qualities. Since your
+                                                    physical being is respectively the assigned vehicle transporting you
+                                                    through life, it's often helpful to know what kind of vehicle you
+                                                    are. The Greeks have been insisting we "Know Thyself" for centuries.
+                                                    This simple request answered can facilitate success in all aspects
+                                                    of life, including one's performance in conducting business, and
+                                                    creating healthy relationships at work and in life.</p>
+                                                <p>The HumanOp Assessment is a patented instrument grounded in physical
+                                                    laws and objective scientific understanding. It collects and
+                                                    quantifies information in a user-friendly format, providing easily
+                                                    comprehensible results.</p>
+                                                <p>Your personal HumanOp Summary Report provides you with your own
+                                                    operating manual. These operating guidelines support you in making
+                                                    conscious choices that keep you energized and optimized. When you
+                                                    use your natural talents versus learned talents you gain energy.
                                                     Maximizing your fuel efficiency allows you to access your true self
                                                     and enjoy life in the process.</p>
-                                                <p>This advanced human assessment curriculum and
-                                                    technology are products of YCG, LLC dba The YOU Institute. The
-                                                    curriculum is approved for continuing education by The California
-                                                    State Board of Behavioral Sciences, The Board of Registered Nursing
-                                                    and the International Coach Federation. The ULT Performance Report
-                                                    is helpful to employers and various agencies seeking compatibility
-                                                    in people placement as well as professionals trained in relationship
-                                                    management and psychotherapy. Your ULT Performance Report adds
-                                                    intrinsic value in fortifying relationships, seeking a career,
-                                                    preparing for marriage, selecting a roommate and in better
-                                                    understanding yourself and others.</p>
-                                                <h4 class="primaryColor">The ULT Performance Report
-                                                    addresses the following:</h4>
+                                                <h4 class="primaryColor">The HumanOp Summary Report proves valuable in
+                                                    various contexts:</h4>
                                                 <ul>
-                                                    <li> Your unique natural expression of self</li>
-
-                                                    <li>Talents that motivate and prompt you to participate in life</li>
-
-                                                    <li> What you can tolerate in terms of people, places and things
-                                                    </li>
-
-                                                    <li>How you connect, learn and commit experiences to memory</li>
-
-                                                    <li>Your perception of life that defines your physical reality</li>
-
-                                                    <li> How much energy you currently have available to succeed</li>
+                                                    <li>Employer and agency recruitment</li>
+                                                    <li>Relationship management</li>
+                                                    <li>Psychotherapy</li>
+                                                    <li>Career guidance</li>
+                                                    <li>Premarital counseling</li>
+                                                    <li>Roommate selection</li>
+                                                    <li>Self-understanding and interpersonal relationships</li>
                                                 </ul>
 
                                                 @if($assessment)
@@ -948,7 +927,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif(52 <= $age && $age <= 66)
+                                                    ]@elseif(52 <= $age && $age <= 66)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"

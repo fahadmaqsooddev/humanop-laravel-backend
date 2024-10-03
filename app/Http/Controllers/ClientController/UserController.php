@@ -133,14 +133,18 @@ class UserController extends Controller
         }
     }
 
-    public function downloadUserReport($id){
-
-        $reports = Assessment::getReport($id);
-
-        $alchl_code = Assessment::getAlchlCode($id);
-
-        $style_position = AssessmentColorCode::getStylePosition($id);
-        $feature_position = AssessmentColorCode::getFeaturePosition($id);
+    public function downloadUserReport($id)
+    {
+        $user_name = Helpers::getWebUser()->first_name. ' ' . Helpers::getWebUser()->last_name;
+        $assessment = Assessment::singleAssessmentFromId($id);
+        $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+        $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+        $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+        $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+        $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
 
         $contxt = stream_context_create([
             'ssl' => [
@@ -153,11 +157,9 @@ class UserController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('reports', 'alchl_code','style_position','feature_position'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $filename = $user_name. '_report.pdf';
 
-        $filename = $reports['user_name']. '_report.pdf';
-
-        return $pdf->download($filename);
-
+        return $pdf->stream($filename);
     }
 }
