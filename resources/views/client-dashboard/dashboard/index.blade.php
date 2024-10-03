@@ -432,8 +432,8 @@
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: 410px;">
-                                <div class="card-body p-3" style="cursor: pointer"
-                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">
+                                <div class="card-body p-3" style="cursor: pointer">
+{{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <p class="text-sm fs-12px mt-3 text-white text-bold"
                                        style="color: rgb(160, 174, 192)"> YOUR
                                         OPTIMIZATION STRATEGIES FOR THE
