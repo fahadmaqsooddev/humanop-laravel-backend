@@ -19,7 +19,7 @@ class isAdmin
     public function handle(Request $request, Closure $next)
     {
 
-        Log::info(['auth' => Auth::check()]);
+        Log::info(['admin mid' => Auth::check()]);
 
         if (Auth::check())
         {

@@ -8,6 +8,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Points\PointHelper;
+use Illuminate\Support\Facades\Log;
+
 class isClient
 {
     /**
@@ -19,6 +21,8 @@ class isClient
      */
     public function handle(Request $request, Closure $next)
     {
+
+        Log::info(['client mid' => Auth::check()]);
 
         if (Auth::check())
         {
