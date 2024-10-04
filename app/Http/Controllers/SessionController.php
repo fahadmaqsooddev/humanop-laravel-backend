@@ -171,7 +171,7 @@ class SessionController extends Controller
 
             Log::info(['adus' => $admin_user]);
 
-            Log::info(Auth::guard('web')->login($admin_user));
+            Auth::login($admin_user);
 
             return redirect()->to('/admin/users');
 
