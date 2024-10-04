@@ -47,10 +47,8 @@ class RegisterController extends Controller
                if($request->referralCode){
                    $referredBy = User::where('referral_code', $request->referralCode)->first();
                    if($referredBy){
-                       $user->update(['referred_by' => $referredBy->id,'referral_code' =>  Str::random(5).$user->id.Str::random(5)]);
+                       $user->update(['referred_by' => $referredBy->id]);
                    }
-               }else{
-                   $user->update(['referral_code' =>  Str::random(5).$user->id.Str::random(5)]);
                }
 
             if (!empty($request['ninety_day_intention']))
