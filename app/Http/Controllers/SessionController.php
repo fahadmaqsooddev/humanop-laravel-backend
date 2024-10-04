@@ -161,7 +161,7 @@ class SessionController extends Controller
 
         Log::info(['ad' => $admin]);
 
-//        Auth::guard('web')->logout();
+        Auth::guard('web')->logout();
 
         if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
 
@@ -173,7 +173,9 @@ class SessionController extends Controller
 
             Auth::login($admin_user);
 
-            return redirect()->to('/admin/users');
+            Log::info(['auth' => Auth::check()]);
+
+            return redirect()->route('admin_all_users');
 
         }else{
 
