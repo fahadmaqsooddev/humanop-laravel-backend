@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class isAdmin
 {
@@ -18,12 +19,15 @@ class isAdmin
     public function handle(Request $request, Closure $next)
     {
 
+        Log::info(['auth' => Auth::check()]);
+
         if (Auth::check())
         {
 
             if (Auth::user()['is_admin'] == 1 || Auth::user()['is_admin'] == 3)
             {
                 return $next($request);
+
             }else{
                 return redirect()->route('client_dashboard');
             }
