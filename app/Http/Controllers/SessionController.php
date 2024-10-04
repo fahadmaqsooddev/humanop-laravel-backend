@@ -161,9 +161,11 @@ class SessionController extends Controller
 
         Log::info(['ad' => $admin]);
 
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
+
+            Log::info(['auth' => Auth::check()]);
 
             Log::info(['ad' => 'inside if']);
 
