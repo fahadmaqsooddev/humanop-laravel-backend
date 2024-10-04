@@ -44,7 +44,7 @@
 
                         <div class="nav-item">
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
-                                class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro Access!
+                                class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
                             </button>
                         </div>
                     </div>
@@ -79,6 +79,52 @@
     </div>
 </nav>
 <!-- End Navbar -->
+{{--QR Code Modal--}}
+<div  class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
+     aria-labelledby="qrCodeModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-qrcode-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <h3 class="text-white text-center">Save and share your custom HumanOP</h3>
+                                    <h3 class="text-white text-center">QR code to get Free Pro Access</h3>
+                                </div>
+
+
+                            </div>
+                            <div >
+                               <div class="text-center" id="qrCodeContainer">
+                                    {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
+                               </div>
+
+
+                                <div class="d-flex justify-content-center">
+                                <button  class="btn btn-success" id="downloadButton" style="margin-top: 20px;">Save QR Code</button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <input type="text" class="form-control w-80"  style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none" value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}" readonly="">
+                                <button  class="btn mb-0 text-white w-20" id="copy_link" onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"  style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--Qr code End Here--}}
+
 <script>
     const button = document.getElementById('nav-toggle');
     const icon = document.getElementById('nav-toggle-icon');
@@ -146,7 +192,40 @@
     });
 
 
+    async function copyToClipboard(text) {
+
+        try {
+            // Use the Clipboard API to copy the text
+            await navigator.clipboard.writeText(text);
+
+            $('#copy_link').text('Copied!')
+            // Hide the tooltip after 2 seconds
+            setTimeout(() => {
+                setTimeout(() => {
+                    $('#copy_link').text('Copy Link')
+                }, 300);  // Match the fade-out duration
+            }, 2000);
+
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    }
 
 
+
+
+    document.getElementById('downloadButton').addEventListener('click', function() {
+        const svg = document.querySelector('#qrCodeContainer svg');
+        const svgData = new XMLSerializer().serializeToString(svg);
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'referral_qr_code.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
 
 </script>

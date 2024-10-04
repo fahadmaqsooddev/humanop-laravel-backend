@@ -36,10 +36,12 @@
                         <p>Email : {{$google_user['email']}}</p>
                     </div>
                     @endif
+
                     <p class="text-center text-white"><b>or</b></p>
                     <div class="card-body">
                         <form action="{{route('store_user')}}" method="post">
                             @csrf
+                            <input type="hidden" name="referralCode" value="{{$referralCode ?? ''}}">
                             <div>
                                 <div class="">
                                     <label for="name" class="text-white">First Name</label>
