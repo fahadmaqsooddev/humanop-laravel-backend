@@ -321,7 +321,10 @@ class UserController extends Controller
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
 
-            $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
+            if ($assessment){
+
+                $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
+            }
 
 
             $data = [
@@ -331,7 +334,7 @@ class UserController extends Controller
                 'perception' => $perception,
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
-                'all_styles' => $allStyles,
+                'all_styles' => $allStyles ?? [],
             ];
 
             return Helpers::successResponse('Summary Report', $data);
