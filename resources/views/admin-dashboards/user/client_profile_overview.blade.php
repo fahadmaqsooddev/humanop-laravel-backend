@@ -1287,6 +1287,11 @@
 
                                     <ul style="justify-content: space-evenly; background-color: transparent; padding-top: 20px;"
                                         class="nav nav-pills">
+                                        @if(App\Helpers\Helpers::getWebUser()->is_admin != 2 && App\Helpers\Helpers::getWebUser()->is_admin != '2')
+                                            <li><a href="{{route('admin_user_grid',['id' => $id])}}" target="_blank"
+                                                   class="flex-sm-fill text-lg-center nav-link text-white text-bold">Grid</a>
+                                            </li>
+                                        @endif
                                         <li><a href="#summaryReport"
                                                class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
