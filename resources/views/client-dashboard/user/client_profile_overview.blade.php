@@ -332,7 +332,7 @@
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
-                                            class="center-play-pause mx-auto d-flex justify-content-center" style="width: 10%; position: absolute; top:25%; left:45%;">
+                                            class="center-play-pause mx-auto d-flex justify-content-center" style="width: 10%; position: absolute; top:40%; left:45%;">
                                             <button class="btn play-pause-center fs-1"
                                                     style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
                                             </button>
