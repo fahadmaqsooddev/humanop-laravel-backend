@@ -23,7 +23,7 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback()
     {
-//        try {
+        try {
 
             $user = Socialite::driver('google')->user();
 
@@ -73,10 +73,10 @@ class GoogleController extends Controller
 
             return redirect()->route('client_dashboard');
 
-//        } catch (\Exception $e) {
-//
-//            return redirect()->to('/login')->with('error', $e->getMessage());
-//        }
+        } catch (\Exception $e) {
+
+            return redirect()->to('/login')->with('error', $e->getMessage());
+        }
     }
 
 }
