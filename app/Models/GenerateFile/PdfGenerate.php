@@ -89,7 +89,7 @@ class PdfGenerate extends Model
                         $styleText = $styleTextArray[$randomKey];
                     }
 
-                    $getPdfFile = self::create([
+                    $getPdfFile = $getPdfFile = self::create([
                         'assessment_id' => $assessmentId,
                         'user_id' => $userId,
                         'public_name' => $styleHeading,
