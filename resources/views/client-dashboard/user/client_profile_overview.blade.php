@@ -331,13 +331,13 @@
                                 <div class="card-body p-3 ">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
-                                        <div class="wrapper mx-auto w-75 ">
-                                            <div
-                                                class="center-play-pause d-flex align-items-center justify-content-center h-75 w-100   mx-auto">
-                                                <button class="btn play-pause-center fs-1"
-                                                        style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
-                                                </button>
-                                            </div>
+                                        <div
+                                            class="center-play-pause mx-auto d-flex justify-content-center" style="width: 10%; position: absolute; top:25%; left:45%;">
+                                            <button class="btn play-pause-center fs-1"
+                                                    style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
+                                            </button>
+                                        </div>
+                                        <div class="wrapper mx-auto w-75">
                                             <div class="video-timeline">
                                                 <div class="progress-area">
                                                     <span id="progree-area-span">00:00</span>
