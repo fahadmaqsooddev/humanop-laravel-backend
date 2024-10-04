@@ -29,7 +29,7 @@ use App\Http\Controllers\GoogleAuth\GoogleController;
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-\Illuminate\Support\Facades\Log::info(['clr' => request()->url()]);
+\Illuminate\Support\Facades\Log::info(['clr' => request()->url(), 'auth' => \Illuminate\Support\Facades\Auth::check()]);
 
 Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
