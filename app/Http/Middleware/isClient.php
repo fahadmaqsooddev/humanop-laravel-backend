@@ -49,7 +49,7 @@ class isClient
 
         }else{
 
-            Auth::logout();
+//            Auth::logout();
 
             return redirect('/login')->with(['error'=>'You\'ve not logged in.']);
 
