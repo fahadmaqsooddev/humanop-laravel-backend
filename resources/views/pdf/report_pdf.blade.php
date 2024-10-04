@@ -12,10 +12,10 @@
                                 <div>
                                     <img
                                         src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/Humanop.png'))) }}"
-                                        style="background:#351a0d; padding: 0px; max-width: 500px; border-radius: 5px;">
+                                        style="background:#351a0d; padding: 0px; max-width: 500px;">
                                 </div>
 
-                                <div class="text-white">“Advanced Human Assessment Technology for a Better World.”</div>
+                                <h3 class="text-white text-bold">“Advanced Human Assessment Technology for a Better World.”</h3>
                                 <h1 class="text-white">HumanOp Summary Report</h1>
                                 <h2 class="text-white text-bold">{{$user_name}}</h2>
                                 <div class="text-white mt-4" style="text-align: justify">
@@ -483,7 +483,7 @@ Your Copper Alchemy's relaxed nature makes you less susceptible to many day-to-d
                                     <div class="mt-4" style="border: 0px solid #ccc;">
                                         <img
                                             src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/' . $boundaryImage))) }}"
-                                            style="background:#351a0d; padding: 0px; max-width: 500px;border-radius: 5px"/>
+                                            style="background:#351a0d; padding: 0px; max-width: 500px"/>
                                     </div>
                                     <p class="text-white mt-4" style="text-align: justify">{!! $boundaryText !!}</p>
                                     <!-- Render HTML tags -->
