@@ -155,21 +155,21 @@
                     </div>
 
                     <div class="d-flex flex-column ">
-                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "
-                             role="tablist">
-                            <div class="nav-item">
-                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
-                                </button>
-                            </div>
+{{--                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "--}}
+{{--                             role="tablist">--}}
+{{--                            <div class="nav-item">--}}
+{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+{{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
 
-                            <div class="nav-item">
-                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>
-                                    Access!
-                                </button>
-                            </div>
-                        </div>
+{{--                            <div class="nav-item">--}}
+{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+{{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
+{{--                                    Access!--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     <!-- <div class="coins d-flex ">
                         <span class="fw-bold total-points "
                             style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
@@ -216,24 +216,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-none d-lg-flex flex-column">
-                        <div
-                            class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "
-                            role="tablist">
-                            <div class="nav-item">
-                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results
-                                </button>
-                            </div>
+{{--                    <div class="d-none d-lg-flex flex-column">--}}
+{{--                        <div--}}
+{{--                            class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "--}}
+{{--                            role="tablist">--}}
+{{--                            <div class="nav-item">--}}
+{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+{{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
 
-                            <div class="nav-item">
-                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"
-                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>
-                                    Access!
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+{{--                            <div class="nav-item">--}}
+{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+{{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
+{{--                                    Access!--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
 
             </div>

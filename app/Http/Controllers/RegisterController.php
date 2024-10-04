@@ -6,10 +6,12 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use App\Helpers\Helpers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Stripe\BaseStripeClient;
 use App\Models\IntentionPlan\IntentionPlan;
 
@@ -23,12 +25,13 @@ class RegisterController extends Controller
         $this->user = $user;
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $referralCode = $request->query('ref');
 
         $google_user = Session::get('google_user', []);
 
-        return view('session/register', compact('google_user'));
+        return view('session/register', compact('google_user','referralCode'));
     }
 
     public function store(RegisterFormRequest $request)
@@ -40,6 +43,15 @@ class RegisterController extends Controller
             $dataArray = $request->only($this->user->getFillable());
 
             $user = User::createUser($dataArray);
+
+               if($request->referralCode){
+                   $referredBy = User::where('referral_code', $request->referralCode)->first();
+                   if($referredBy){
+                       $user->update(['referred_by' => $referredBy->id,'referral_code' =>  Str::random(5).$user->id.Str::random(5)]);
+                   }
+               }else{
+                   $user->update(['referral_code' =>  Str::random(5).$user->id.Str::random(5)]);
+               }
 
             if (!empty($request['ninety_day_intention']))
             {

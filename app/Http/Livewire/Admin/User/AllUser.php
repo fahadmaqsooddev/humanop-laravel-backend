@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Enums\Admin\Admin;
+
+
 class AllUser extends Component
 {
     use WithPagination;
@@ -70,7 +72,6 @@ class AllUser extends Component
 
     public function render()
     {
-
         $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER,Admin::IS_PRACTITIONER]);
 
         return view('livewire.admin.user.all-user', [
