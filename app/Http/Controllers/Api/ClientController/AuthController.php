@@ -91,6 +91,13 @@ class AuthController extends Controller
 
             $user = User::createClient($dataArray);
 
+            if($request->has('referred_by_code') && !empty($request['referred_by_code'])){
+                $referredBy = User::where('referral_code', $request['referred_by_code'])->first();
+                if($referredBy){
+                    $user->update(['referred_by' => $referredBy->id]);
+                }
+            }
+
             if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention']))
             {
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
