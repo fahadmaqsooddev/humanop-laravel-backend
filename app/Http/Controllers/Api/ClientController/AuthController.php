@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
@@ -34,6 +35,10 @@ class AuthController extends Controller
         try {
 
             $credentials = $request->only(['email','password']);
+
+            $credentials['status'] = 1;
+
+            $credentials['is_admin'] = Admin::IS_CUSTOMER;
 
             $token = $this->auth->attempt($credentials);
 
