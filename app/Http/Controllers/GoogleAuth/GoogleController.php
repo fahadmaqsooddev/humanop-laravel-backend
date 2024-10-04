@@ -75,8 +75,6 @@ class GoogleController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::info(['err' => $e->getMessage()]);
-
             return redirect()->to('/login')->with('error', $e->getMessage());
         }
     }
