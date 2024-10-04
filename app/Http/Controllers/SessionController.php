@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
@@ -158,11 +159,17 @@ class SessionController extends Controller
 
         $admin = Session::get('admin');
 
+        Log::info(['ad' => $admin]);
+
         Auth::guard('web')->logout();
 
         if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
 
+            Log::info(['ad' => 'inside if']);
+
             $admin_user = User::whereId($admin['admin_id'])->first();
+
+            Log::info(['adus' => $admin_user]);
 
             Auth::guard('web')->login($admin_user);
 

@@ -274,6 +274,6 @@
                     }
                 });
 
-                function disableBack() { window.history.forward(); }
-                setTimeout("disableBack()", 0);
+                // function disableBack() { window.history.forward(); }
+                // setTimeout("disableBack()", 0);
 </script>

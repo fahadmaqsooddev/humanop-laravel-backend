@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Client\Auth;
 
+use App\Enums\Admin\Admin;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SocialLoginRequest extends FormRequest
@@ -40,9 +41,9 @@ class SocialLoginRequest extends FormRequest
         }
 
         return [
-            'email' => $req . '|email|exists:users,email,deleted_at,NULL',
-            'google_id' => $req,
-            'apple_id' => $req,
+            'email' => $req . '|email|exists:users,email,deleted_at,NULL,is_admin,' . Admin::IS_CUSTOMER,
+            'google_id' => $req . '|email|exists:users,google_id,deleted_at,NULL,is_admin,' . Admin::IS_CUSTOMER,
+            'apple_id' => $req . '|email|exists:users,apple_id,deleted_at,NULL,is_admin,' . Admin::IS_CUSTOMER,
         ];
     }
 
