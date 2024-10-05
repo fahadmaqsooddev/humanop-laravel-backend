@@ -44,6 +44,18 @@ class AssessmentColorCode extends Model
         return $code_color;
     }
 
+    public static function getHighlightCodeColor($assessmentId = null)
+    {
+        $assessmentCodeColors = self::where('assessment_id', $assessmentId)->whereIn('code_color', ['green', 'border-green'])->get();
+
+        $code_color = [];
+        foreach ($assessmentCodeColors as $assessment) {
+            $code_color[$assessment['code']] = $assessment['code_number'];
+        }
+
+        return $code_color;
+    }
+
     public static function deleteAssessemntColorCodeData($assessment = null)
     {
         self::where('assessment_id', $assessment['id'])->delete();
@@ -457,8 +469,6 @@ class AssessmentColorCode extends Model
             }
         }
 
-        asort($matched);
-
         $style_highlighted = array_values($matched);
 
         $style_highlighted_string = implode(',', $style_highlighted);
@@ -497,8 +507,6 @@ class AssessmentColorCode extends Model
                 $matched[$code] = $features[$code];
             }
         }
-
-        asort($matched);
 
         $feature_highlighted = array_values($matched);
 

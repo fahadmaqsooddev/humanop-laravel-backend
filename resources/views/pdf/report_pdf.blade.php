@@ -15,7 +15,8 @@
                                         style="background:#351a0d; padding: 0px; max-width: 500px;">
                                 </div>
 
-                                <h3 class="text-white text-bold">“Advanced Human Assessment Technology for a Better World.”</h3>
+                                <h3 class="text-white text-bold">“Advanced Human Assessment Technology for a Better
+                                    World.”</h3>
                                 <h1 class="text-white">HumanOp Summary Report</h1>
                                 <h2 class="text-white text-bold">{{$user_name}}</h2>
                                 <div class="text-white mt-4" style="text-align: justify">
@@ -727,20 +728,21 @@ For those who are primarily Moving centered, it's crucial to recognize this aspe
                                 <p class="text-white mt-4"
                                    style="text-align: justify; padding-bottom: 20px; border-bottom: 2px solid #f2661c">
                                     Your practitioner
-                                    is {{\Illuminate\Support\Facades\Auth::user()['first_name']}} {{\Illuminate\Support\Facades\Auth::user()['last_name']}}
+                                    is N/A
                                     <br>{{\Illuminate\Support\Facades\Auth::user()['email']}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">For internal use only. <br>Compatibility
                                     values for
                                     BR {{\Illuminate\Support\Facades\Auth::user()['gender'] == 1 ? '(F)' : '(M)'}}
                                     Interval</p>
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">S {{$style_position}}</p>--}}
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">F {{$feature_position}}</p>--}}
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">Alch {{$alchl_code}}</p>--}}
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">--}}
-                                {{--                                    PV {{$reports['pv'] > 0 ? '+' : ''}} {{$reports['pv']}} REP--}}
-                                {{--                                    ARC {{$reports['pv'] - $reports['ep']}} to +{{$reports['pv'] + $reports['ep']}}</p>--}}
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">REP {{$reports['ep']}}</p>--}}
-                                {{--                                <p class="text-white mt-4" style="text-align: justify">TEP {{$reports['ep'] * 2}}</p>--}}
+
+                                <p class="text-white mt-4" style="text-align: justify">S {{$style_position}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">F {{$feature_position}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">Alch {{$alchl_code}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">
+                                    PV {{$pv > 0 ? '+' : ''}} {{$pv}} REP
+                                    ARC {{$pv - $ep}} to +{{$pv + $ep}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">REP {{$ep}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">TEP {{$ep * 2}}</p>
                             </div>
                         </div>
                     </div>

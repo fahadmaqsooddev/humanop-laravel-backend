@@ -347,7 +347,14 @@ class AdminController extends Controller
         $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
         $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
         $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+        $alchl_code = Assessment::getAlchlCode($id);
+        $style_position = AssessmentColorCode::getStylePosition($id);
+        $feature_position = AssessmentColorCode::getFeaturePosition($id);
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
 
+        $ep = $positive + $negative;
+        $pv = $positive - $negative;
         $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $Styles);
 
         $contxt = stream_context_create([
@@ -361,9 +368,9 @@ class AdminController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name','style_position','feature_position','alchl_code','ep','pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
         $filename = $user_name. '_report.pdf';
 
-        return $pdf->download($filename);
+        return $pdf->stream($filename);
     }
 }

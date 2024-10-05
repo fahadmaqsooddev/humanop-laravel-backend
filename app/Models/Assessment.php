@@ -546,7 +546,7 @@ class Assessment extends Model
 
     public static function getAllStyles($assessment = null)
     {
-        $getResult = AssessmentColorCode::getCodeColor($assessment['id']);
+        $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
         $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
 
