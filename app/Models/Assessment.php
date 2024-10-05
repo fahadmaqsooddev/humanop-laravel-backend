@@ -544,99 +544,22 @@ class Assessment extends Model
         return $topKeysStyle;
     }
 
-    public static function getTopThreeStyles($assessment = null)
-    {
-
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
-
-        $third_row_style = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => 10 * $assessment['so'],
-        ];
-
-        // Sort $third_row_style in descending order based on values
-        arsort($third_row_style);
-
-        // Get the first two elements from the sorted array
-        $topThreeStylesKeys = array_keys(array_slice($third_row_style, 0, 3, true));
-
-        $style = [
-            'sa' => $assessment['sa'],
-            'ma' => $assessment['ma'],
-            'jo' => $assessment['jo'],
-            'lu' => $assessment['lu'],
-            'ven' => $assessment['ven'],
-            'mer' => $assessment['mer'],
-            'so' => $assessment['so'],
-        ];
-
-        $topThreeStyles = [];
-        foreach ($topThreeStylesKeys as $key) {
-            if (isset($style[$key])) {
-                $topThreeStyles[$key] = $style[$key]; // Match key and get value from $style
-            }
-        }
-
-        $styles = CodeDetail::getPublicNames($topThreeStyles);
-
-        return $styles;
-    }
-
     public static function getAllStyles($assessment = null)
     {
-        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
-        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
-        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
-        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
-        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
-        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+        $getResult = AssessmentColorCode::getCodeColor($assessment['id']);
 
-        $third_row_style = [
-            'sa' => $assessment['sa'] * $second_row_sa,
-            'ma' => $assessment['ma'] * $second_row_ma,
-            'jo' => $assessment['jo'] * $second_row_jo,
-            'lu' => $assessment['lu'] * $second_row_lu,
-            'ven' => $assessment['ven'] * $second_row_ven,
-            'mer' => $assessment['mer'] * $second_row_mer,
-            'so' => 10 * $assessment['so'],
-        ];
+        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
 
-        arsort($third_row_style);
-        $topThreeStylesKeys = array_keys($third_row_style);
-
-        $style = [
-            'sa' => $assessment['sa'],
-            'ma' => $assessment['ma'],
-            'jo' => $assessment['jo'],
-            'lu' => $assessment['lu'],
-            'ven' => $assessment['ven'],
-            'mer' => $assessment['mer'],
-            'so' => $assessment['so'],
-        ];
-
-        $topThreeStyles = [];
-        foreach ($topThreeStylesKeys as $key) {
-            if (isset($style[$key])) {
-                $topThreeStyles[$key] = $style[$key]; // Match key and get value from $style
+        $getStyle = [];
+        foreach ($getResult as $key => $result) {
+            if (in_array($key, $style)) {
+                $getStyle[$key] = $result;
             }
         }
 
-        arsort($topThreeStyles);
-        $topStyles = array_filter($topThreeStyles, function ($value) {
-            return $value > 4;
-        });
+        arsort($getStyle);
 
-        return CodeDetail::getPublicNames($topStyles);
+        return CodeDetail::getPublicNames($getStyle);
     }
 
     public static function getFeatures($assessment = null, $isCode = true)

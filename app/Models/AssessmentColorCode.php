@@ -38,7 +38,7 @@ class AssessmentColorCode extends Model
 
         $code_color = [];
         foreach ($assessmentCodeColors as $assessment) {
-            $code_color[$assessment['code']] = $assessment['code_color'];
+            $code_color[$assessment['code']] = $assessment['code_number'];
         }
 
         return $code_color;

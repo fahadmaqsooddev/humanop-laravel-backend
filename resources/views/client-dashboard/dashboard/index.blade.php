@@ -155,21 +155,21 @@
                     </div>
 
                     <div class="d-flex flex-column ">
-{{--                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "--}}
-{{--                             role="tablist">--}}
-{{--                            <div class="nav-item">--}}
-{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-{{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
+                    {{--                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "--}}
+                    {{--                             role="tablist">--}}
+                    {{--                            <div class="nav-item">--}}
+                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+                    {{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
+                    {{--                                </button>--}}
+                    {{--                            </div>--}}
 
-{{--                            <div class="nav-item">--}}
-{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-{{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
-{{--                                    Access!--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                    {{--                            <div class="nav-item">--}}
+                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+                    {{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
+                    {{--                                    Access!--}}
+                    {{--                                </button>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
                     <!-- <div class="coins d-flex ">
                         <span class="fw-bold total-points "
                             style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
@@ -216,24 +216,24 @@
                             </div>
                         </div>
                     </div>
-{{--                    <div class="d-none d-lg-flex flex-column">--}}
-{{--                        <div--}}
-{{--                            class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "--}}
-{{--                            role="tablist">--}}
-{{--                            <div class="nav-item">--}}
-{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-{{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
+                    {{--                    <div class="d-none d-lg-flex flex-column">--}}
+                    {{--                        <div--}}
+                    {{--                            class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "--}}
+                    {{--                            role="tablist">--}}
+                    {{--                            <div class="nav-item">--}}
+                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+                    {{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
+                    {{--                                </button>--}}
+                    {{--                            </div>--}}
 
-{{--                            <div class="nav-item">--}}
-{{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-{{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
-{{--                                    Access!--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    {{--                            <div class="nav-item">--}}
+                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
+                    {{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
+                    {{--                                    Access!--}}
+                    {{--                                </button>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
 
             </div>
@@ -248,7 +248,7 @@
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: auto;">
                                 <div class="card-body p-3" style="cursor: pointer;">
-{{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
+                                    {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
                                     <div class="description-container" style="height: 275px;">
 
@@ -258,23 +258,25 @@
                                             @if($tip && !empty($tip['description']))
                                                 @if(strlen($tip['description']) > 290)
                                                     <?php
-                                                        $hide_button = true;
+                                                    $hide_button = true;
                                                     ?>
                                                     <span id="daily-tip-text">
 
                                                         {!! substr($tip['text'], 0, 305)!!}
 
-                                                        <a href="javascript:void(0)" onclick="showDailyTipCompleteText(`{{$tip['description']}}`)" style="color: #f2661c;">read
+                                                        <a href="javascript:void(0)"
+                                                           onclick="showDailyTipCompleteText(`{{$tip['description']}}`)"
+                                                           style="color: #f2661c;">read
                                                         more...
                                                     </a>
                                                     </span>
                                                     &nbsp;&nbsp;
-{{--                                                    <a href="javascript:void(0)" data-bs-toggle="modal"--}}
-{{--                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read--}}
-{{--                                                        more...--}}
-{{--                                                    </a>--}}
+                                                    {{--                                                    <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+                                                    {{--                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read--}}
+                                                    {{--                                                        more...--}}
+                                                    {{--                                                    </a>--}}
                                                 @else
-                                                        {!! $tip['description'] !!}
+                                                    {!! $tip['description'] !!}
 
                                                 @endif
                                             @endif
@@ -283,8 +285,11 @@
                                         @if($tip)
                                             <div>
 
-                                                <div class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2" id="read_all_tip">
-                                                    <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
+                                                <div
+                                                    class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
+                                                    id="read_all_tip">
+                                                    <button style="background-color: #f2661c;"
+                                                            class="btn btn-sm text-white daily-tip-read-button"
                                                             {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                             onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
@@ -298,8 +303,10 @@
                                     @if($tip)
                                         <div>
 
-                                            <div class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
-                                                <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
+                                            <div
+                                                class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
+                                                <button style="background-color: #f2661c;"
+                                                        class="btn btn-sm text-white daily-tip-read-button"
                                                         {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                         onclick="onDailyTipAllRead()">
                                                     Complete Daily Tip
@@ -349,7 +356,7 @@
                                     <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
-                                            @foreach($topThreeStyles as $index => $style)
+                                            @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$index}}')">
@@ -366,14 +373,17 @@
                                                 <p class="fw-bold fs-12px"
                                                    style="color: #f2661c; cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$index}}')">
-                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }} [{{ $feature[0] }}]
+                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
+                                                    [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of Tolerance "Alchemy":</p>
+                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of
+                                        Tolerance "Alchemy":</p>
                                     @if($boundary)
-                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px; cursor: pointer;"
+                                        <p class="fw-bold fs-12px"
+                                           style="color: #f2661c; margin-top: -10px; cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
                                             @php
                                                 $codeParts = explode('-', $boundary['code_number']);
@@ -390,7 +400,8 @@
                                                 <p class="fw-bold fs-12px "
                                                    style="color: #f2661c; cursor: pointer;"
                                                    onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
-                                                    {{ $communication['public_name'] }} @if(!$loop->last)--> &nbsp;@endif
+                                                    {{ $communication['public_name'] }} @if(!$loop->last)-->
+                                                    &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
@@ -398,7 +409,8 @@
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
                                     @if($preception)
-                                        <p class="fw-bold fs-12px" style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                        <p class="fw-bold fs-12px"
+                                           style="color: #f2661c; margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
                                             {{
                                                 ($preception['polarity_code'] == 40 ? "Negatively Charged" :
@@ -409,7 +421,8 @@
                                     @endif
                                     <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
-                                        <p class="fw-bold  fs-12px " style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                        <p class="fw-bold  fs-12px "
+                                           style="color: #f2661c; margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
                                             {{ $energyPool['code'] }}
                                         </p>
@@ -424,8 +437,8 @@
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
                                         I'M
                                         HAVING A CHALLENGE</p>
-{{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
-{{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
+                                    {{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
+                                    {{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
                                     <h3 class="text-center">Coming Soon</h3>
                                 </div>
                             </div>
@@ -435,7 +448,7 @@
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card" style="height: 410px;">
                                 <div class="card-body p-3" style="cursor: pointer">
-{{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
+                                    {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <p class="text-sm fs-12px mt-3 text-white text-bold"
                                        style="color: rgb(160, 174, 192)"> YOUR
                                         OPTIMIZATION STRATEGIES FOR THE
@@ -498,7 +511,7 @@
                     </div>
                     <!-- <div class="row "> -->
                     @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                      @livewire('client.chat.index')
+                        @livewire('client.chat.index')
                     @endif
                 </div>
             </section>
@@ -535,9 +548,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group mt-2">
-                                        <button style="background-color: #f2661c;" class="btn btn-sm text-white daily-tip-read-button"
-                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
-                                            onclick="onDailyTipAllRead()">
+                                        <button style="background-color: #f2661c;"
+                                                class="btn btn-sm text-white daily-tip-read-button"
+                                                {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                onclick="onDailyTipAllRead()">
                                             Complete Daily Tip
                                         </button>
                                     </div>
@@ -676,7 +690,7 @@
 
             console.log('hide client query modal');
 
-            setTimeout(function (){
+            setTimeout(function () {
                 $('#exampleModalMessage').modal('hide');
                 $('#add_feedback').click();
             }, 1000);
@@ -805,13 +819,13 @@
             window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
         }
 
-        function showDailyTipCompleteText(html_text){
+        function showDailyTipCompleteText(html_text) {
 
-            $('.description-container').css('overflow-y','scroll');
+            $('.description-container').css('overflow-y', 'scroll');
 
             $('#daily-tip-text').html(html_text);
 
-            if($('#read_all_tip').hasClass('d-none')){
+            if ($('#read_all_tip').hasClass('d-none')) {
 
                 $('#read_all_tip').removeClass('d-none');
 

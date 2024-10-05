@@ -133,6 +133,8 @@ class CodeDetail extends Model
 
     public static function getPublicNames($codekeys = null)
     {
+
+
         $codeDetail = [];
 
         foreach ($codekeys as $index => $codeKey) {
@@ -144,7 +146,6 @@ class CodeDetail extends Model
                 $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url];
             }
         }
-
         return $codeDetail;
     }
 

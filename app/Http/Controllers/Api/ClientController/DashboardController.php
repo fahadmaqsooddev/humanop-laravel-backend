@@ -58,7 +58,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $topThreeStyles = $assessment != null ? Assessment::getTopThreeStyles($assessment) : [];
+            $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
