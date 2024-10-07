@@ -167,7 +167,7 @@ class SessionController extends Controller
 
             Auth::login($admin_user);
 
-            return redirect()->route('admin_all_users');
+            return redirect()->to('/admin/users');
 
         }else{
 

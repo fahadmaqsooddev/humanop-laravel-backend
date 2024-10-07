@@ -51,8 +51,6 @@ class isClient
 
             $admin = Session::get('admin');
 
-            Log::info(['ad' => $admin]);
-
             if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null) {
 
                 $admin_user = User::whereId($admin['admin_id'])->first();

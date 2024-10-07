@@ -31,7 +31,7 @@ class RegisterRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|min:6',
-            'phone' => 'required|max:25',
+            'phone' => 'nullable|max:25',
             'gender' => 'required|in:male,female',
             'date_of_birth' => 'required|date',
             'ninety_day_intention' => 'nullable|max:1000'
