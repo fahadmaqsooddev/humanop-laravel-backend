@@ -48,7 +48,7 @@ class PDFController extends Controller
         $user_gender = $grid['users']['gender'] === 0 || $grid['users']['gender'] === '0' ? "Male" : "Female";
         $user_age = $grid['users']['age_min'] . '-'. $grid['users']['age_max'];
 
-        $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
+        $grid_code_color = AssessmentColorCode::getAssessmentCodeAndColor($grid['id']);
 
         $contxt = stream_context_create([
             'ssl' => [

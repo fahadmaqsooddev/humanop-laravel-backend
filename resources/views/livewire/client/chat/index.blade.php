@@ -1,4 +1,4 @@
-<div class="d-flex container-fluid vh-100   px-0">
+<div class="d-flex container-fluid px-0">
 
     <div>
         <!-- Button trigger modal -->
