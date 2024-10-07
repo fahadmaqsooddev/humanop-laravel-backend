@@ -42,10 +42,14 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 //});
 
-Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
+//Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
+Route::group(['prefix' => 'admin'], function () {
 
     //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
+
+    Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
+
 
     Route::group(['middleware' => ['permission:users']], function () {
         Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');

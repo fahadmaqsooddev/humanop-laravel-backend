@@ -171,7 +171,7 @@ class SessionController extends Controller
 
             Log::info(['auth che' => Auth::check()]);
 
-            return redirect()->route('admin_all_users');
+            return redirect()->to('/admin/users');
 
         }else{
 
