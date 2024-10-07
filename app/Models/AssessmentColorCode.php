@@ -44,6 +44,18 @@ class AssessmentColorCode extends Model
         return $code_color;
     }
 
+    public static function getAssessmentCodeAndColor($assessmentId = null)
+    {
+        $assessmentCodeColors = self::where('assessment_id', $assessmentId)->get();
+
+        $code_color = [];
+        foreach ($assessmentCodeColors as $assessment) {
+            $code_color[$assessment['code']] = $assessment['code_color'];
+        }
+
+        return $code_color;
+    }
+
     public static function getHighlightCodeColor($assessmentId = null)
     {
         $assessmentCodeColors = self::where('assessment_id', $assessmentId)->whereIn('code_color', ['green', 'border-green'])->get();
