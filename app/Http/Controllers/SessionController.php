@@ -159,7 +159,7 @@ class SessionController extends Controller
 
         $admin = Session::get('admin');
 
-        Auth::logout();
+//        Auth::logout();
 
         if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
 
