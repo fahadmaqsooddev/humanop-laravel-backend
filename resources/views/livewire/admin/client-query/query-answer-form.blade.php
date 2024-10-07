@@ -288,7 +288,7 @@
                                 $allValuesGets = array_merge($firstHighestArrayValue, $remainingHighestArrayValue);
 
                                 $topTwoKeys = array_slice(array_keys($allValuesGets), 0, 2);
-                                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2, 2);
+                                $nextTwoKeys = array_slice(array_keys($allValuesGets), 2);
                             }
 
                             $second_row_em = $grid['jo'] + $grid['ven'] + $grid['lu'];
