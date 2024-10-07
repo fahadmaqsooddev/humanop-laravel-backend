@@ -43,7 +43,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 //});
 
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
-    
+
     //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
