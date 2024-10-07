@@ -42,8 +42,6 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 //});
 
-\Illuminate\Support\Facades\Log::info(['adr' => request()->url()]);
-
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     //    admin dashboard

@@ -4,11 +4,13 @@ namespace App\Http\Middleware;
 
 use App\Helpers\Helpers;
 use App\Models\Client\Plan\Plan;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Points\PointHelper;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class isClient
 {
@@ -21,8 +23,6 @@ class isClient
      */
     public function handle(Request $request, Closure $next)
     {
-
-        Log::info(['client mid' => Auth::check()]);
 
         if (Auth::check())
         {
@@ -48,6 +48,19 @@ class isClient
             }
 
         }else{
+
+            $admin = Session::get('admin');
+
+            Log::info(['ad' => $admin]);
+
+            if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null) {
+
+                $admin_user = User::whereId($admin['admin_id'])->first();
+
+                Auth::login($admin_user);
+
+                return redirect()->route('admin_all_users');
+            }
 
             Auth::logout();
 

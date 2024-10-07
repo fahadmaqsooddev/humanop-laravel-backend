@@ -159,23 +159,13 @@ class SessionController extends Controller
 
         $admin = Session::get('admin');
 
-        Log::info(['ad' => $admin]);
-
         Auth::logout();
 
         if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
 
-            Log::info(['auth' => Auth::check()]);
-
-            Log::info(['ad' => 'inside if']);
-
             $admin_user = User::whereId($admin['admin_id'])->first();
 
-            Log::info(['adus' => $admin_user]);
-
             Auth::login($admin_user);
-
-            Log::info(['auth' => Auth::check()]);
 
             return redirect()->route('admin_all_users');
 
