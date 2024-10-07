@@ -7,6 +7,7 @@ use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -35,7 +36,9 @@ class AllUser extends Component
 
         Auth::login($user);
 
-        Session::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
+        Cache::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
+
+//        Session::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
 
         return redirect('client/dashboard');
 

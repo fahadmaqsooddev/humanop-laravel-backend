@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
@@ -157,7 +158,8 @@ class SessionController extends Controller
 
     public function loginBackToAdmin(){
 
-        $admin = Session::get('admin');
+//        $admin = Session::get('admin');
+        $admin = Cache::get('admin');
 
         Auth::logout();
 
