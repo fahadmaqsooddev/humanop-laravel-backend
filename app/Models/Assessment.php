@@ -438,7 +438,7 @@ class Assessment extends Model
 
         if ($energy_code == 16)
         {
-            $publicName = "Above Excellent and up [$energy_code]";
+            $publicName = "Above Excellent [$energy_code]";
         }
         elseif ($energy_code == 18)
         {
@@ -450,7 +450,7 @@ class Assessment extends Model
         }
         elseif ($energy_code == 21)
         {
-            $publicName = "Fair and under [$energy_code]";
+            $publicName = "Fair [$energy_code]";
         }
 
         $record = CodeDetail::whereId($energy_code)->first();
