@@ -31,9 +31,9 @@ class AllUser extends Component
 
         $admin_id = Helpers::getWebUser()->id;
 
-        Auth::guard('web')->logout();
+        Auth::logout();
 
-        Auth::guard('web')->login($user);
+        Auth::login($user);
 
         Session::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
 
