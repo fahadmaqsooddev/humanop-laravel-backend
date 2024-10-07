@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Models\Assessment;
 use App\Models\HAIChai\HaiChat;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -59,7 +60,7 @@ class PopUpChat extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-                $adminLoggedInAsClient = Session::get('admin');
+                $adminLoggedInAsClient = Cache::get('admin');
 
                 if (!($adminLoggedInAsClient['is_admin'] ?? false)){
 

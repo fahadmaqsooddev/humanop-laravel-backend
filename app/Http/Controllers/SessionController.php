@@ -153,6 +153,8 @@ class SessionController extends Controller
 
         Session::flush();
 
+        Cache::forget('admin');
+
         return redirect('/')->with(['success'=>'You\'ve been logged out.']);
     }
 
