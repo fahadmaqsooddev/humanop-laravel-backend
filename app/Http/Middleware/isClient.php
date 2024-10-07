@@ -9,6 +9,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Points\PointHelper;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -49,7 +50,7 @@ class isClient
 
         }else{
 
-            $admin = Session::get('admin');
+            $admin = Cache::get('admin');
 
             if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null) {
 
