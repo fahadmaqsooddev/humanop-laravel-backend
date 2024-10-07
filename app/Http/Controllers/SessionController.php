@@ -165,7 +165,11 @@ class SessionController extends Controller
 
             $admin_user = User::whereId($admin['admin_id'])->first();
 
+            Log::info(['adm us' => $admin_user]);
+
             Auth::login($admin_user);
+
+            Log::info(['auth che' => Auth::check()]);
 
             return redirect()->route('admin_all_users');
 
