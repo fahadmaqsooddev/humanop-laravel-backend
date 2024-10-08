@@ -1,3 +1,17 @@
+{{--@push('css')--}}
+{{--    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">--}}
+{{--    <style>--}}
+{{--    .ck-editor__editable_inline {--}}
+{{--    background-color: #0f1534; /* Example: Change this to your desired background color */--}}
+{{--    }--}}
+{{--    .ck-editor__editable{--}}
+{{--        background-color: #0f1534 !important;--}}
+{{--    }--}}
+{{--    .ck-editor{--}}
+{{--        border-radius: 0 !important;--}}
+{{--    }--}}
+{{--   </style>--}}
+{{--@endpush--}}
 <div class="row container-fluid">
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
@@ -23,30 +37,46 @@
         </div>
 
         <div class="row">
+
             @foreach($categories as $category)
-                <div class="col-lg-5 col-sm-5">
-                    <a style="cursor: pointer;" data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}">
+
+                <div class="col-lg-8 col-sm-8">
+
                         <div class="card mb-4"
                              style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                                <a style="cursor: pointer;" onclick="toggleCategoryBtn(`{{$category->id}}`)" data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8 m-auto">
                                         <div class="numbers">
+
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
                                                 {{$category['name']}}
                                             </p>
+
+
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
-                                        <div
-                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+
+
+                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
+
                                     </div>
+
                                 </div>
                             </div>
-                        </div>
                     </a>
+                            <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}" >
+                                <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px" onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete Category</button>
+
+                                <button style="background-color: #f2661c; color: white;margin-bottom: 0px" wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal" data-bs-target="#moveResource" class="btn btn-sm mb-2">Edit Category</button>
+                            </div>
+                        </div>
+
+
                 </div>
                 <div class="col-12">
 
@@ -163,7 +193,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Description</label>
                                         <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="description" placeholder="Enter description" rows="3">
+                                               wire:model.defer="description"  placeholder="Enter description" rows="3">
                                         </textarea>
                                     </div>
 
@@ -395,9 +425,103 @@
         </div>
     </div>
 
+{{--    move resouces--}}
+    <div wire:ignore.self class="modal fade" id="moveResource" tabindex="-1" role="dialog"
+         aria-labelledby="moveResource" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                    <form wire:submit.prevent="moveResourceToCategory">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label fs-4 text-white">Edit Category</label>
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @include('layouts.message')
+                                     <br/>
+                                    <br/>
+                                    <label class="form-label fs-5 text-white">Move Resources To An Other Category</label>
+                                    <br/>
+                                    <select style="background-color: #0f1534;" class="form-control text-white"
+                                            wire:model.defer="category_id" placeholder="Select category">
+                                        <option>Select a category</option>
+                                        @foreach($dropDownCategories as $category)
+                                            @if($current_category != $category->id)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{--    <script type="importmap">--}}
+{{--    {--}}
+{{--        "imports": {--}}
+{{--            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",--}}
+{{--            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"--}}
+{{--        }--}}
+{{--    }--}}
+{{--</script>--}}
+
+{{--    <script type="module">--}}
+{{--        import {--}}
+{{--            ClassicEditor,--}}
+{{--            Essentials,--}}
+{{--            Paragraph,--}}
+{{--            Bold,--}}
+{{--            Italic,--}}
+{{--            Font--}}
+{{--        } from 'ckeditor5';--}}
+
+{{--        // Function to initialize CKEditor for all textareas with the 'editor' class--}}
+{{--        function initializeEditors() {--}}
+{{--            const editors = document.querySelectorAll('.editor');--}}
+{{--            editors.forEach(editorElement => {--}}
+{{--                if (!editorElement.classList.contains('ck-editor')) { // Check if not already initialized--}}
+{{--                    ClassicEditor--}}
+{{--                        .create(editorElement, {--}}
+{{--                            plugins: [ Essentials, Paragraph, Bold, Italic, Font ],--}}
+{{--                            toolbar: [--}}
+{{--                                'undo', 'redo', '|', 'bold', 'italic', '|',--}}
+{{--                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'--}}
+{{--                            ]--}}
+{{--                        })--}}
+{{--                        .then(editor => {--}}
+{{--                            editor.model.document.on('change:data', () => {--}}
+{{--                                editorElement.dispatchEvent(new Event('input')); // Trigger Livewire input event--}}
+{{--                            });--}}
+{{--                        })--}}
+{{--                        .catch(error => {--}}
+{{--                            console.error(error);--}}
+{{--                        });--}}
+{{--                }--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        // Initialize CKEditor when Livewire component is loaded or updated--}}
+{{--        document.addEventListener('livewire:load', () => {--}}
+{{--            initializeEditors(); // Initialize editors when Livewire component loads--}}
+{{--        });--}}
+
+{{--        document.addEventListener('livewire:update', () => {--}}
+{{--            initializeEditors(); // Reinitialize editors after Livewire updates--}}
+{{--        });--}}
+{{--    </script>--}}
+
     <script>
         window.livewire.on('toggleCreateResourceModal', () => {
             setTimeout(function () {
@@ -405,12 +529,15 @@
             }, 1000)
         })
 
+
         window.livewire.on('toggleEditResourceModal', () => {
             $('.modal-backdrop').hide();
             setTimeout(function () {
                 $('#editResource').modal('toggle')
             })
         })
+
+
 
         window.livewire.on('toggleShowResourceModal', (slug) => {
             $('.modal-backdrop').hide();
@@ -428,6 +555,7 @@
 
     </script>
     <!-- script for checkbox multiple check  -->
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const optionCheckboxes = document.querySelectorAll('.option-checkbox');
@@ -447,5 +575,35 @@
                 });
             });
         });
+        function toggleCategoryBtn(id){
+            if($('#category_edit_'+id).hasClass('d-flex')){
+                $('#category_edit_'+id).removeClass('d-flex justify-content-end').addClass('d-none');
+            } else{
+                $('#category_edit_'+id).removeClass('d-none').addClass('d-flex justify-content-end');
+            }
+        }
+
+
+        function confirmDeleteCategory(category_id){
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton:  'btn bg-gradient-primary m-2',
+                },
+                buttonsStyling: false,
+                background : '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete category and it's library resources permanently!</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if(result.isConfirmed){
+                    window.livewire.emit('deleteCategoryPermanently',category_id);
+                }
+            })
+        }
     </script>
 @endpush

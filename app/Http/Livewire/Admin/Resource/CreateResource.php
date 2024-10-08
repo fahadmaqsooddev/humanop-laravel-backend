@@ -14,9 +14,9 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $resourceSlug, $heading, $description, $resource, $category_id,$permission = [], $editResourceData, $category_name;
+    public $resourceId,$current_category, $resourceSlug, $heading, $description, $resource, $category_id,$permission = [], $editResourceData, $category_name;
 
-    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery'];
+    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery','deleteCategoryPermanently' => 'deleteCategory'];
 
     protected $rules = [
         'heading' => 'required',
@@ -127,6 +127,23 @@ class CreateResource extends Component
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
 
         $this->description = $this->editResourceData['description'] ?? null;
+    }
+
+    public function editMoveResource($category_id){
+       $this->current_category = $category_id;
+    }
+
+    public function moveResourceToCategory(){
+
+        if($this->current_category){
+            LibraryResource::updateCategory($this->current_category,$this->category_id);
+        }
+        session()->flash('success', 'Resource Moved successfully.');
+        $this->current_category = '';
+    }
+
+    public function deleteCategory($id){
+          ResourceCategory::deleteSingleCategory($id);
     }
 
     public function updateResource(){

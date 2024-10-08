@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\ResourceCategory;
 
+use App\Helpers\Helpers;
 use App\Models\Admin\Resources\LibraryResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,9 +36,16 @@ class ResourceCategory extends Model
 
     }
 
+     public static function deleteSingleCategory($id){
+        LibraryResource::deleteResourceOfCategory($id);
+        self::whereId($id)->delete();
+     }
+
+
+
     public static function categories(){
 
-        return self::has('libraryResources')->with('libraryResources')->get();
+        return self::with('libraryResources')->get();
     }
 
     public static function dropDownCategories(){
