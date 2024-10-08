@@ -16,12 +16,24 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $role = [
+//            [
+//                'name' => 'super admin',
+//                'guard_name' => 'web',
+//                'created_at' => now(),
+//                'updated_at' => now()
+//            ],
+//            [
+//                'name' => 'super admin',
+//                'guard_name' => 'web',
+//                'created_at' => now(),
+//                'updated_at' => now()
+//            ],
             [
-                'name' => 'super admin',
+                'name' => 'practitioner',
                 'guard_name' => 'web',
                 'created_at' => now(),
                 'updated_at' => now()
-            ]
+            ],
         ];
         DB::table('roles')->insert($role);
     }

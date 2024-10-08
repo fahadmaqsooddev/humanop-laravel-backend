@@ -17,11 +17,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Client\Point\Point;
 
@@ -45,7 +48,7 @@ class User extends Authenticatable implements JWTSubject
         parent::boot();
 
         static::created(function ($user) {
-            $user->referral_code = Str::random(5).$user->id.Str::random(5);
+            $user->referral_code = Str::random(5) . $user->id . Str::random(5);
             $user->save();
         });
     }
@@ -79,16 +82,16 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-          //        if (str_contains(request()->path(), 'api')){
+        //        if (str_contains(request()->path(), 'api')){
         $this->attributes['password'] = Hash::make($value);
-          //        }
+        //        }
     }
 
     // scope
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth','hai_chat','referral_code']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code']);
     }
 
     // appends
@@ -182,6 +185,11 @@ class User extends Authenticatable implements JWTSubject
     public function assessments()
     {
         return $this->hasMany(Assessment::class, 'user_id', 'id');
+    }
+
+    public function hasRoles()
+    {
+        return $this->hasOne(ModelHasRole::class, 'model_id', 'id');
     }
 
     public function feedback()
@@ -403,7 +411,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = self::whereId($id)->with('userIntensionPlan')->selection()->first();
         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
-        $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW  ? true : false);
+        $user['hai_chat'] = ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
         return $user;
     }
 
@@ -632,42 +640,41 @@ class User extends Authenticatable implements JWTSubject
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
     {
+        $userId = Helpers::getWebUser()['id'];
 
-        $users = self::query();
+        $isAdminLevel = Helpers::getWebUser()['is_admin'];
 
+        $users = ($isAdminLevel == 4) ? self::where('is_practitioner', $userId) : self::query();
+
+        // Search by name
         if (!empty($search_name)) {
-
-            $users = $users->where(function ($q) use ($search_name) {
-
-                $q->where('first_name', 'LIKE', "%$search_name%")
+            $users->where(function ($query) use ($search_name) {
+                $query->where('first_name', 'LIKE', "%$search_name%")
                     ->orWhere('last_name', 'LIKE', "%$search_name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$search_name%' ");
-
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search_name%"]);
             });
-
         }
 
+        // Filter by email
         if (!empty($email)) {
-
-            $users = $users->where('email', $email);
-
+            $users->where('email', $email);
         }
 
+        // Filter by age
         if (!empty($age)) {
-
             $data['age_range'] = $age;
+            $ageData = Helpers::explodeAgeRangeIntoAge($data);
 
-            $data = Helpers::explodeAgeRangeIntoAge($data);
+            $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+            $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
 
-            $min_date = Carbon::now()->subYears((int)$data['age_max'] ?? 0)->toDateString();
-
-            $max_date = Carbon::now()->subYears((int)$data['age_min'] ?? 0)->toDateString();
-
-            $users = $users->whereBetween('date_of_birth', [$min_date, $max_date]);
-
+            $users->whereBetween('date_of_birth', [$min_date, $max_date]);
         }
 
-        $users = $users->whereIN('is_admin', $isAdmin)->paginate($per_page)->setPath(route('admin_all_users'));
+        // Filter by admin status and paginate
+        $users = $users->whereIn('is_admin', $isAdmin)
+            ->paginate($per_page)
+            ->setPath(route('admin_all_users'));
 
         return $users;
     }
@@ -676,10 +683,40 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = self::find($user_id);
         if ($user) {
-            if($user->is_admin == Admin::IS_PRACTITIONER){
+            if ($user->is_admin == Admin::IS_PRACTITIONER) {
                 User::whereId($user_id)->update(['is_admin' => Admin::IS_CUSTOMER]);
-            }else{
+
+                DB::table('model_has_roles')->where('model_id', $user['id'])->delete();
+
+                DB::table('model_has_permissions')->where('model_id', $user['id'])->delete();
+
+
+            } else {
                 User::whereId($user_id)->update(['is_admin' => Admin::IS_PRACTITIONER]);
+
+                DB::table('model_has_roles')->insert([
+                    ['role_id' => Admin::PRACTITIONER_ROLE ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+                ]);
+
+                $permissions = Permission::all();
+
+                foreach ($permissions as $permission) {
+
+                    if ($user->hasRoles->role_id === Admin::PRACTITIONER_ROLE) {
+
+                        if ($permission->name == 'users') {
+
+                            DB::table('model_has_permissions')->insert([
+                                ['permission_id' => $permission->id ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+                            ]);
+                        } elseif ($permission->name == 'abandonedAssessment') {
+                            DB::table('model_has_permissions')->insert([
+                                ['permission_id' => $permission->id ?? null, 'model_type' => 'App\Models\User', 'model_id' => $user['id']],
+                            ]);
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -693,21 +730,22 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function checkUserFromEmailOrSocialId($request){
+    public static function checkUserFromEmailOrSocialId($request)
+    {
 
         $users = self::query();
 
-        $users = $users->when($request->input('email'), function ($query, $email){
+        $users = $users->when($request->input('email'), function ($query, $email) {
 
             $query->where('email', $email);
         });
 
-        $users = $users->when($request->input('google_id'), function ($query, $google_id){
+        $users = $users->when($request->input('google_id'), function ($query, $google_id) {
 
             $query->where('google_id', $google_id);
         });
 
-        $users = $users->when($request->input('apple_id'), function ($query, $apple_id){
+        $users = $users->when($request->input('apple_id'), function ($query, $apple_id) {
 
             $query->where('apple_id', $apple_id);
 
@@ -721,7 +759,8 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2){
+    public static function verifyUserExistsWithPractitionerSlugs($email, $slug1, $slug2)
+    {
 
         $practitioner = self::where('first_name', $slug1)->where('last_name', $slug2)->first();
 

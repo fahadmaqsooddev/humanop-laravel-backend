@@ -585,20 +585,13 @@ For those who are primarily Moving centered, it's crucial to recognize this aspe
 
                                 <h2 class="mt-4" style="color: #f2661c; text-align: justify">YOUR PERCEPTION OF
                                     LIFE</h2>
-                                <p class="text-white" style="text-align: justify">You have a positive Perception of
-                                    Life. This means that overall, you are what we call solution- oriented. In other
-                                    words, most of the time, you identify what is working first in-the-moment, and
-                                    because of this, you come across as uplifting. You have a can-do attitude. And this
-                                    can-do attitude doesn't mean that you're always the one to execute, it simply means
-                                    that you recognize the elements that are working in and for the moment. You actually
-                                    do really well with those individuals who are somewhat more negatively charged than
-                                    you as it complements your nature and it allows you to conserve valuable energy.
-                                    It's the true meaning of opposites attract. It's literally an electromagnetic pull
-                                    towards that opposite pole. And yet, too much of a negative pull from another can
-                                    actually make you feel uncomfortable and even somewhat oxygen deprived or
-                                    claustrophobic. So consider this for yourself..those times where stepping away from
-                                    another is the most intelligent choice in-the-moment… in order to maintain and
-                                    sustain the integrity of your natural positive Perception of Life.</p>
+                                <p class="text-white" style="text-align: justify">Your "PERCEPTION OF LIFE” defines your
+                                    electromagnetic potential. It is either positive, negative or neutral and
+                                    demonstrates whether you find what is working or what is not working first in a
+                                    situation or environment, or both simultaneously. All are good. It's just your
+                                    personal approach. Each individual in your life has a set of 'glasses' through which
+                                    they perceive every situation. Recognizing and understanding differences in
+                                    another's perception of life provides a space for mutual respect.</p>
 
                                 @if($perception)
                                     <?php

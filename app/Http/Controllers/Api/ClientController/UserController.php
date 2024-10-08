@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
@@ -337,6 +338,7 @@ class UserController extends Controller
 
             $data = [
                 'user_name' => $user_name,
+                'user_gender' => Helpers::getUser()->gender == 0 ? Admin::IS_MALE : Admin::IS_FEMALE,
                 'top_two_feature' => $topTwoFeatures,
                 'boundary' => $boundary,
                 'perception' => $perception,
