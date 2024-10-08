@@ -338,7 +338,7 @@ class UserController extends Controller
 
             $data = [
                 'user_name' => $user_name,
-                'user_gender' => Helpers::getUser()->gender == 0 ? Admin::IS_MALE : Admin::IS_FEMALE,
+//                'user_gender' => Helpers::getUser()->gender === 0 ? Admin::IS_MALE : (Helpers::getUser()->gender === 1 ? Admin::IS_FEMALE : ''),
                 'top_two_feature' => $topTwoFeatures,
                 'boundary' => $boundary,
                 'perception' => $perception,
