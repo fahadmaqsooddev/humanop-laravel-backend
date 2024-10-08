@@ -45,16 +45,26 @@ class HaiChat extends Model
 
         $chats->when($admin_id, function ($q, $admin_id){
 
-            $q->where('admin_id', $admin_id);
+            $q->where(function ($q) use ($admin_id){
+
+                $q->where(function ($query) use ($admin_id){
+
+                    $query->where('admin_id', $admin_id)->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+
+                })->orWhere(function ($query){
+
+                    $query->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+                });
+
+            });
 
         }, function ($q){
 
-            $q->whereNull('admin_id');
+            $q->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+
         });
 
-        $chats = $chats->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
-
-            ->get(['id','query','answer','likedislike'])->toArray();
+        $chats = $chats->get(['id','query','answer','likedislike']);
 
         return $chats;
     }
