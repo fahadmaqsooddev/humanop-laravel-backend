@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Admin\Admin;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\HAIChai\HaiChat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,6 +150,8 @@ class SessionController extends Controller
     public function destroy()
     {
 
+        HaiChat::deleteAdminChat(Cache::get('admin'));
+
         Auth::logout();
 
         Session::flush();
@@ -162,6 +165,8 @@ class SessionController extends Controller
 
 //        $admin = Session::get('admin');
         $admin = Cache::get('admin');
+
+        HaiChat::deleteAdminChat($admin);
 
         Auth::logout();
 

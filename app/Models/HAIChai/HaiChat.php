@@ -24,7 +24,7 @@ class HaiChat extends Model
         return self::whereId($id)->first();
     }
 
-    public static function getChat($days_old_chat = 0, $is_latest = 0)
+    public static function getChat($days_old_chat = 0, $is_latest = 0, $admin_id = null)
     {
 
         $chats = self::query();
@@ -43,20 +43,40 @@ class HaiChat extends Model
             $chats = $chats->latest();
         }
 
-            $chats = $chats->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
+        $chats->when($admin_id, function ($q, $admin_id){
 
-            ->get(['id','query','answer','likedislike']);
+            $q->where(function ($q) use ($admin_id){
+
+                $q->where(function ($query) use ($admin_id){
+
+                    $query->where('admin_id', $admin_id)->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+
+                })->orWhere(function ($query){
+
+                    $query->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+                });
+
+            });
+
+        }, function ($q){
+
+            $q->whereNull('admin_id')->where('user_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id));
+
+        });
+
+        $chats = $chats->get(['id','query','answer','likedislike']);
 
         return $chats;
     }
 
-    public static function createChat($query = null, $reply = null)
+    public static function createChat($query = null, $reply = null, $admin_id = null)
     {
         return self::create([
             'user_id' => (Helpers::getWebUser()->id ?? Helpers::getUser()->id),
             'query' => $query,
             'answer' => $reply[0],
             'likedislike' => $reply[1],
+            'admin_id' => $admin_id
         ]);
     }
 
@@ -83,6 +103,16 @@ class HaiChat extends Model
 
                 HaiChat::updateChat($chat['id'], 0);
             }
+
+        }
+
+    }
+
+    public static function deleteAdminChat($admin = null){
+
+        if ($admin && ($admin['admin_id'] ?? false)){
+
+            self::where('admin_id', $admin['admin_id'])->delete();
 
         }
 

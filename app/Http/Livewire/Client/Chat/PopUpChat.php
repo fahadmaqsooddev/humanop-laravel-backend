@@ -14,7 +14,7 @@ use Livewire\Component;
 
 class PopUpChat extends Component
 {
-    public $chats = [], $userMessage, $lastMessage, $adminMessages = [];
+    public $chats = [], $userMessage, $lastMessage, $adminLoggedInAsClient = null;
 
     protected $listeners = ['chatMessage'];
 
@@ -60,18 +60,8 @@ class PopUpChat extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-                $adminLoggedInAsClient = Cache::get('admin');
 
-                if (!($adminLoggedInAsClient['is_admin'] ?? false)){
-
-                    HaiChat::createChat($this->userMessage, $aiReply);
-
-                }else{
-
-                    $this->adminMessages = [
-                        ['query' => $this->userMessage, 'answer' => $aiReply[0] ?? null, 'likedislike' => 0]
-                    ];
-                }
+                HaiChat::createChat($this->userMessage, $aiReply, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
 //                $this->emit('updateAiMessage');
                 $this->lastMessage = $this->userMessage;
@@ -98,7 +88,9 @@ class PopUpChat extends Component
     public function render()
     {
 
-        $this->chats = empty($this->adminMessages) ? HaiChat::getChat() : $this->adminMessages;
+        $this->adminLoggedInAsClient = Cache::get('admin');
+
+        $this->chats = HaiChat::getChat(0, 0, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
         return view('livewire.client.chat.pop-up-chat');
     }
