@@ -338,18 +338,18 @@ class UserController extends Controller
 
             $data = [
                 'user_name' => $user_name,
-//                'user_gender' => Helpers::getUser()->gender === 0 ? Admin::IS_MALE : (Helpers::getUser()->gender === 1 ? Admin::IS_FEMALE : ''),
+                'user_gender' => Helpers::getUser()->gender === 0 ? Admin::IS_MALE : (Helpers::getUser()->gender === 1 ? Admin::IS_FEMALE : ''),
                 'top_two_feature' => $topTwoFeatures,
                 'boundary' => $boundary,
                 'perception' => $perception,
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
                 'all_styles' => $allStyles ?? [],
-                'style_position' => $style_position,
-                'feature_position' => $feature_position,
-                'alchemy_code' => $alchl_code,
-                'ep' => $ep,
-                'pv' => $pv
+//                'style_position' => $style_position,
+//                'feature_position' => $feature_position,
+//                'alchemy_code' => $alchl_code,
+//                'ep' => $ep,
+//                'pv' => $pv
             ];
 
             return Helpers::successResponse('Summary Report', $data);
