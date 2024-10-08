@@ -322,13 +322,13 @@ class UserController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
-            $alchl_code = Assessment::getAlchlCode($assessment['id']);
-            $style_position = AssessmentColorCode::getStylePosition($assessment['id']);
-            $feature_position = AssessmentColorCode::getFeaturePosition($assessment['id']);
+            $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
+            $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
+            $feature_position = $assessment != null ? AssessmentColorCode::getFeaturePosition($assessment['id']) : null;
             $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
             $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
-            $ep = $positive + $negative;
-            $pv = $positive - $negative;
+            $ep = $assessment != null ? $positive + $negative : null;
+            $pv = $assessment != null ? $positive - $negative : null;
 
             if ($assessment){
 
@@ -345,11 +345,11 @@ class UserController extends Controller
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
                 'all_styles' => $allStyles ?? [],
-//                'style_position' => $style_position,
-//                'feature_position' => $feature_position,
-//                'alchemy_code' => $alchl_code,
-//                'ep' => $ep,
-//                'pv' => $pv
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'alchemy_code' => $alchl_code,
+                'ep' => $ep,
+                'pv' => $pv
             ];
 
             return Helpers::successResponse('Summary Report', $data);
