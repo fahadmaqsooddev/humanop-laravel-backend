@@ -325,8 +325,8 @@ class UserController extends Controller
             $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
             $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
             $feature_position = $assessment != null ? AssessmentColorCode::getFeaturePosition($assessment['id']) : null;
-            $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
-            $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+            $negative = $assessment != null ? $assessment['ma'] + $assessment['lu'] + $assessment['mer'] : null;
+            $positive = $assessment != null ? $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'] : null;
             $ep = $assessment != null ? $positive + $negative : null;
             $pv = $assessment != null ? $positive - $negative : null;
 
