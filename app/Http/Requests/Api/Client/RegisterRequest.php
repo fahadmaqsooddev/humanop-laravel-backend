@@ -26,14 +26,16 @@ class RegisterRequest extends FormRequest
 
         $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
 
+        $required_dob = (request()->input('is_android', true) ? 'required' : 'nullable');
+
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|min:6',
             'phone' => 'nullable|max:25',
-            'gender' => 'required|in:male,female',
-            'date_of_birth' => 'required|date',
+            'gender' => $required_dob . '|in:male,female',
+            'date_of_birth' => $required_dob . '|date',
             'ninety_day_intention' => 'nullable|max:1000'
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/'
         ];
