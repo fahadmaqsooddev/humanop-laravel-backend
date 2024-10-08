@@ -317,7 +317,7 @@ return [
         ],
         'HaiChat' => [
             'table' => 'haichat',
-            'fillable' => ['user_id','query','answer','likedislike'],
+            'fillable' => ['user_id','query','answer','likedislike','admin_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'ClientQuery' => [

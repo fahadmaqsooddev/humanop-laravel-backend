@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Client\Chat;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -14,7 +12,7 @@ use App\Models\HAIChai\HaiChat;
 
 class Index extends Component
 {
-    public $userMessage = '', $chatFilter = 0, $adminMessages = [];
+    public $userMessage = '', $chatFilter = 0, $adminLoggedInAsClient = null;
     public $lastMessage;
 
     protected $listeners = ['chatMessage', 'sendMessage'];
@@ -61,18 +59,7 @@ class Index extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
-                $adminLoggedInAsClient = Cache::get('admin');
-
-                if (!($adminLoggedInAsClient['is_admin'] ?? false)){
-
-                    HaiChat::createChat($this->userMessage, $aiReply);
-
-                }else{
-
-                    $this->adminMessages = [
-                        ['query' => $this->userMessage, 'answer' => $aiReply[0] ?? null, 'likedislike' => 0]
-                    ];
-                }
+                HaiChat::createChat($this->userMessage, $aiReply, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
                 $this->emit('updateAiMessage');
                 $this->lastMessage = $this->userMessage;
@@ -103,7 +90,9 @@ class Index extends Component
     public function render()
     {
 
-        $chats = empty($this->adminMessages) ? HaiChat::getChat($this->chatFilter, 1) : $this->adminMessages;
+        $this->adminLoggedInAsClient = Cache::get('admin');
+
+        $chats = HaiChat::getChat($this->chatFilter, 1, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
         $this->emit('scrollToBottom');
         $this->emit('showChatBox');
