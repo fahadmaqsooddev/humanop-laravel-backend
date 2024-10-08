@@ -76,8 +76,12 @@ class LibraryResource extends Model
         return self::whereId($id)->delete();
     }
 
-    public static function singleLibraryResource($resource_id){
+    public static function deleteResourceOfCategory($id = null)
+    {
+        return self::where('resource_category_id',$id)->delete();
+    }
 
+    public static function singleLibraryResource($resource_id){
         return self::whereId($resource_id)->with('libraryPermissions')->first()->toArray();
     }
 
@@ -94,4 +98,11 @@ class LibraryResource extends Model
         })->get();
 
     }
+
+    public static function updateCategory($current,$new)
+    {
+        self::where('resource_category_id',$current)->update(['resource_category_id' => $new]);
+    }
+
+
 }
