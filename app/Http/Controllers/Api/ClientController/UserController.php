@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
@@ -320,6 +321,13 @@ class UserController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+            $alchl_code = Assessment::getAlchlCode($assessment['id']);
+            $style_position = AssessmentColorCode::getStylePosition($assessment['id']);
+            $feature_position = AssessmentColorCode::getFeaturePosition($assessment['id']);
+            $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+            $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+            $ep = $positive + $negative;
+            $pv = $positive - $negative;
 
             if ($assessment){
 
@@ -335,6 +343,11 @@ class UserController extends Controller
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
                 'all_styles' => $allStyles ?? [],
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'alchemy_code' => $alchl_code,
+                'ep' => $ep,
+                'pv' => $pv
             ];
 
             return Helpers::successResponse('Summary Report', $data);
