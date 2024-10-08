@@ -26,7 +26,7 @@ class RegisterRequest extends FormRequest
 
         $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
 
-        $required_dob = (request()->input('is_android', true) ? 'required' : 'nullable');
+        $required_dob = (request()->input('is_android', true) === true || request()->input('is_android', true) === "true"  ? 'required' : 'nullable');
 
         return [
             'first_name' => 'required|string|max:255',
