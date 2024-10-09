@@ -173,9 +173,9 @@ class SessionController extends Controller
 
         if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)){
 
-            dd(1);
-            
+
             $admin_user = User::where('id', $admin['admin_id'])->first();
+            dd($admin_user);
 
             Auth::login($admin_user);
 
