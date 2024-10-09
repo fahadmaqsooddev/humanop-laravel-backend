@@ -1,12 +1,19 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 
 @section('content')
+
+    <style>
+        body{
+            background-color: #F3DEBA !important;
+        }
+    </style>
+
     <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">
-                    <h5 class="mb-0">Users</h5>
+                    <h5 class="mb-0 text-white">Assessments</h5>
                 </div>
                 <div class="table-responsive table-orange-color table-orange-color">
                     <table class="table table-flush" id="datatable-search">
