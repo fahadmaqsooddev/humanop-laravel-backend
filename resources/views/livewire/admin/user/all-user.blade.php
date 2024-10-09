@@ -1,5 +1,5 @@
 <div>
-    <div>
+    <div class="table-header-text">
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
         <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"
@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive w-100 pt-4">
+    <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
             <tr>

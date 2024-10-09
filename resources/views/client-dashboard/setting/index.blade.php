@@ -332,7 +332,7 @@
                                     <h5 class="text-white">Payment History</h5>
                                 </div>
 
-                                <div class="table-responsive" style="overflow: scroll; max-height: 300px;">
+                                <div class="table-responsive table-orange-color" style="overflow: scroll; max-height: 300px;">
                                     <table class="table table-flush" id="datatable-search">
                                         <thead class="thead-light">
                                         <tr>

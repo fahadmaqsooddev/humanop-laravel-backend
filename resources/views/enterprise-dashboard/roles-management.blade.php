@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="card-body px-0 pb-0">
-          <div class="table-responsive">
+          <div class="table-responsive table-orange-color">
           @if($errors->get('msgError'))
               <div class="m-3  alert alert-warning alert-dismissible fade show" role="alert">
                   <span class="alert-text text-white">

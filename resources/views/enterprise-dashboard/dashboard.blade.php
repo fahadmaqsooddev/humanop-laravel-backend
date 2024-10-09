@@ -193,7 +193,7 @@
                                 I. METRICS</p>
 
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive table-orange-color">
                             <table class="table table-flush" id="datatable-search">
                                 <thead class="thead-light">
                                 <tr>
