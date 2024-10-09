@@ -282,7 +282,7 @@
                                             @endif
                                         </p>
 
-                                        @if($tip)
+                                        @if($tip && $assessment)
                                             <div>
 
                                                 <div
@@ -300,7 +300,7 @@
                                         @endif
                                     </div>
 
-                                    @if($tip)
+                                    @if($tip && $assessment)
                                         <div>
 
                                             <div

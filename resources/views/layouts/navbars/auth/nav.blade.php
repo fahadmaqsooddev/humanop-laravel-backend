@@ -14,18 +14,18 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="h-100">
+                    <div class="h-100 my-4">
                         <a href="{{route('user_profile_overview')}}">
                             <h5 class="mb-1 text-white">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-                            <p class="mb-0 font-weight-bold text-sm text-white">
-                                Optimal Trait To Be In Right Now:
-                            </p>
-                            <p class="text-white word-break text-sm col-12"> trait (Thinking) For
-                                Strategy and Problem
-                                Solving
-                                Activities</p>
+{{--                            <p class="mb-0 font-weight-bold text-sm text-white">--}}
+{{--                                Optimal Trait To Be In Right Now:--}}
+{{--                            </p>--}}
+{{--                            <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
+{{--                                Strategy and Problem--}}
+{{--                                Solving--}}
+{{--                                Activities</p>--}}
                         </a>
                     </div>
                 </div>
