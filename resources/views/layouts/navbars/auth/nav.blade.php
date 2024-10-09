@@ -35,9 +35,21 @@
             <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn  mx-auto "
                  role="tablist">
                 <div class="nav-item">
-                    <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
-                       class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
-                    </a>
+
+                    @if(\App\Helpers\Helpers::getWebUser()?->assessments()?->where('page', 0)?->count() > 0)
+
+                        <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                        </a>
+
+                    @else
+
+                        <a href="javascript:void(0)" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey"
+                           data-toggle="tooltip" data-placement="top" title="Take the assessment first"
+                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                        </a>
+
+                    @endif
                 </div>
 
                 <div class="nav-item">
