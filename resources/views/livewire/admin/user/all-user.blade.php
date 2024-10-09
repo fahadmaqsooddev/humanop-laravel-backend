@@ -105,7 +105,7 @@
                             </div>
                         </td>
                         <td class="text-sm font-weight-normal">
-                            <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
+                            <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
                                style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
                                class="btn btn-sm float-end mt-2 mb-0">
                                 Login
@@ -160,7 +160,7 @@
         }
 
 
-        function adminLoggedInToUserAccount(id, name) {
+        function adminLoggedInToUserAccount(id, firstName, lastName, identify) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -172,12 +172,12 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to log in as " + name + "</span>",
+                html: "<span style='color: white;'>Want to log in as " + firstName + " " + lastName + "</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Log in',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('logInAdminAsUser', id)
+                    window.livewire.emit('logInAdminAsUser', id, identify)
                 }
             })
         }

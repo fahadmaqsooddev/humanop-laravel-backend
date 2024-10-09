@@ -25,7 +25,7 @@ class AllUser extends Component
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner','updateHaiChatVisibility'];
 
-    public function logInAdminAsUser($id = null){
+    public function logInAdminAsUser($id = null, $isClientOrPractitioner = null){
 
         $user = User::whereId($id)->first();
 
@@ -37,9 +37,14 @@ class AllUser extends Component
 
         Cache::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
 
-//        Session::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
-
-        return redirect('client/dashboard');
+        if ($isClientOrPractitioner == 2)
+        {
+            return redirect('client/dashboard');
+        }
+        else
+        {
+            return redirect('admin/dashboard');
+        }
 
     }
 

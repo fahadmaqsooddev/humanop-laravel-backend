@@ -1,12 +1,12 @@
-
 @push('css')
     <style>
-        .sidenav  > .ps__rail-y{
+        .sidenav > .ps__rail-y {
             display: none !important;
         }
     </style>
 @endpush
-<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn" style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
+<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"
+     style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
     <a href="javascript:void(0);" class="nav-link text-body p-0">
         <div class="sidenav-toggler-inner">
             <button id="nav-toggle" class="btn rounded-0" style="padding-left: 20px;padding-right: 20px">
@@ -18,7 +18,7 @@
 <aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
        class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
        id="sidenav-main">
-         <div class="d-flex">
+    <div class="d-flex">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>
@@ -39,6 +39,13 @@
 
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
+        @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'])
+        @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin)
+            <div class="d-flex justify-content-center">
+                <a href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
+                   style="background-color: #f2661c; color: white;">Back to admin</a>
+            </div>
+        @endif
         <ul class="navbar-nav">
             @if(Auth::user()->hasAnyRole(['super admin', 'sub admin', 'practitioner']) )
                 <li class="nav-item">
@@ -66,8 +73,8 @@
                                 </g>
                             </svg>
                         </div>
-
-                        <span class="nav-link-text ms-1">{{\Illuminate\Support\Facades\Auth::user()->is_admin == 4 ? 'Practitioner' : 'Admin'}}</span>
+                        <span
+                            class="nav-link-text ms-1">{{\Illuminate\Support\Facades\Auth::user()->is_admin == 4 ? 'Practitioner' : 'Admin'}}</span>
                     </a>
                     <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                         <ul class="nav ms-4 ps-3">
@@ -374,7 +381,8 @@
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'] ?? false)
                     @if($is_admin)
                         <div class="d-flex justify-content-center">
-                            <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm" style="background-color: #f2661c; color: white;">Back to admin</a>
+                            <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
+                               style="background-color: #f2661c; color: white;">Back to admin</a>
                         </div>
                     @endif
 
@@ -525,16 +533,16 @@
                                 </div>
                             </li>
 
-{{--                            <li class="nav-item {{ (Request::is('client/newsfeed') ? 'active' : '') }}">--}}
-{{--                                <a class="nav-link {{ (Request::is('client/newsfeed') ? 'active' : '') }}"--}}
-{{--                                   href="{{ route('newsfeed') }}">--}}
-{{--                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"--}}
-{{--                                                                         src="{{URL::asset('assets/icons/NewsFeed.png')}}"></span>--}}
-{{--                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"--}}
-{{--                                                                      src="{{URL::asset('assets/icons/NewsFeed.png')}}"></span>--}}
-{{--                                    <span class="sidenav-normal"> Newsfeed </span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
+                            {{--                            <li class="nav-item {{ (Request::is('client/newsfeed') ? 'active' : '') }}">--}}
+                            {{--                                <a class="nav-link {{ (Request::is('client/newsfeed') ? 'active' : '') }}"--}}
+                            {{--                                   href="{{ route('newsfeed') }}">--}}
+                            {{--                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"--}}
+                            {{--                                                                         src="{{URL::asset('assets/icons/NewsFeed.png')}}"></span>--}}
+                            {{--                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"--}}
+                            {{--                                                                      src="{{URL::asset('assets/icons/NewsFeed.png')}}"></span>--}}
+                            {{--                                    <span class="sidenav-normal"> Newsfeed </span>--}}
+                            {{--                                </a>--}}
+                            {{--                            </li>--}}
                             <li class="nav-item {{ (Request::is('client/pricing') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/pricing') ? 'active' : '') }}"
                                    href="{{ route('client_pricing') }}">
@@ -570,34 +578,36 @@
                                 <div class="abc mb-3" style="text-align: center">
                                 @if(Auth::user()['is_admin'] == 2)
                                     <!-- Falling Coins GIF -->
-{{--                                        <div class="coins">--}}
-{{--                                            <img src="{{ asset('assets/img/coins.gif') }}" alt="Coins falling"--}}
-{{--                                                 style="width: 100px; height: 100px; margin-top: -15px;">--}}
-{{--                                        </div>--}}
-{{--                                        <div class="d-flex justify-content-center">--}}
-{{--                                            <!-- Points Counter Circle -->--}}
-{{--                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"--}}
-{{--                                                 style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;">--}}
-{{--                                                <span>{{ Auth::user()['point'] }}</span>--}}
-{{--                                            </div>--}}
-{{--                                            <!-- Coins Label - extending from the circle -->--}}
-{{--                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"--}}
-{{--                                                 style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:-1; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">--}}
-{{--                                                <span style="color: #f2661c;">coins</span>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        {{--                                        <div class="coins">--}}
+                                        {{--                                            <img src="{{ asset('assets/img/coins.gif') }}" alt="Coins falling"--}}
+                                        {{--                                                 style="width: 100px; height: 100px; margin-top: -15px;">--}}
+                                        {{--                                        </div>--}}
+                                        {{--                                        <div class="d-flex justify-content-center">--}}
+                                        {{--                                            <!-- Points Counter Circle -->--}}
+                                        {{--                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"--}}
+                                        {{--                                                 style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;">--}}
+                                        {{--                                                <span>{{ Auth::user()['point'] }}</span>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                            <!-- Coins Label - extending from the circle -->--}}
+                                        {{--                                            <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"--}}
+                                        {{--                                                 style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:-1; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">--}}
+                                        {{--                                                <span style="color: #f2661c;">coins</span>--}}
+                                        {{--                                            </div>--}}
+                                        {{--                                        </div>--}}
 
-                                    <div class="p-5">
+                                        <div class="p-5">
 
-                                        <div class="bg-white py-1" style="cursor: pointer; width: 80px; height: 80px; border-radius: 50%;"
-                                             data-toggle="modal" data-target="#humanOpWalletModal">
+                                            <div class="bg-white py-1"
+                                                 style="cursor: pointer; width: 80px; height: 80px; border-radius: 50%;"
+                                                 data-toggle="modal" data-target="#humanOpWalletModal">
 
-                                            <img src="{{asset('assets/icons/wallet-humanop.svg')}}" alt="wallet icon"
-                                                 style="width: 70px; height: 70px; color: white;"/>
+                                                <img src="{{asset('assets/icons/wallet-humanop.svg')}}"
+                                                     alt="wallet icon"
+                                                     style="width: 70px; height: 70px; color: white;"/>
+
+                                            </div>
 
                                         </div>
-
-                                    </div>
 
                                     @endif
                                 </div>

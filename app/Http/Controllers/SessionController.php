@@ -163,7 +163,6 @@ class SessionController extends Controller
 
     public function loginBackToAdmin(){
 
-//        $admin = Session::get('admin');
         $admin = Cache::get('admin');
 
         HaiChat::deleteAdminChat($admin);
