@@ -176,8 +176,6 @@ class SessionController extends Controller
 
             Auth::login($admin_user);
 
-            dd(Helpers::getWebUser());
-
             return redirect()->to('/admin/users');
 
         }else{
