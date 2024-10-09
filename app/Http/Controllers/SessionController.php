@@ -170,16 +170,13 @@ class SessionController extends Controller
 
         Auth::logout();
 
-
         if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)){
 
-
             $admin_user = User::where('id', $admin['admin_id'])->first();
-            dd($admin_user);
 
             Auth::login($admin_user);
 
-            dd($admin_user, Auth::user());
+            dd(Helpers::getWebUser());
 
             return redirect()->to('/admin/users');
 
