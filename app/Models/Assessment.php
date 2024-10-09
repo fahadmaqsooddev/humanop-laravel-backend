@@ -56,7 +56,7 @@ class Assessment extends Model
     public function scopeSelection($query)
     {
 
-        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type','created_at']);
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at']);
     }
 
     // queries
@@ -208,7 +208,7 @@ class Assessment extends Model
             'secondRow' => $secondRowGrid,
             'thirdRow' => $thirdRowGrid,
             'gridColor' => $gridColor,
-            'alchemy' => $grid['g']. '' . $grid['s']. '' . $grid['c'],
+            'alchemy' => $grid['g'] . '' . $grid['s'] . '' . $grid['c'],
         ];
 
     }
@@ -281,7 +281,18 @@ class Assessment extends Model
 
     public static function allAssessment($name = null, $email = null, $age_range = null, $style_code = null, $style_code_color = null, $style_number = null, $feature_code = null, $feature_code_color = null, $feature_number = null)
     {
+
+        $userId = Helpers::getWebUser()['id'];
+
+        $isAdminLevel = Helpers::getWebUser()['is_admin'];
+
         $query = self::has('users')->where('page', 0);
+
+        if ($isAdminLevel == 4) {
+            $query->whereHas('users', function ($query) use ($userId) {
+                $query->where('is_practitioner', $userId);
+            });
+        }
 
         // Filter by name
         if ($name) {
@@ -364,11 +375,27 @@ class Assessment extends Model
 
     public static function abandonedAssessment()
     {
-        return self::has('users')->with('users')
-            ->whereNull('page')
-            ->orWhere('page', '!=', 0)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        $userId = Helpers::getWebUser()['id'];
+        $isAdminLevel = Helpers::getWebUser()['is_admin'];
+
+        // Initialize the query
+        $query = self::with('users')->has('users');
+
+        // Apply conditions based on admin level
+        if ($isAdminLevel == 4) {
+            $query->whereHas('users', function ($query) use ($userId) {
+                $query->where('is_practitioner', $userId);
+            });
+        }
+
+        // Apply conditions for the page
+        $query->where(function ($q) {
+            $q->whereNull('page')
+                ->orWhere('page', '!=', 0);
+        })
+            ->orderBy('created_at', 'DESC');
+
+        return $query->get();
     }
 
     public static function getReport($id = null)
@@ -436,20 +463,13 @@ class Assessment extends Model
     {
         $energy_code = self::getEnergyPool($assessment);
 
-        if ($energy_code == 16)
-        {
+        if ($energy_code == 16) {
             $publicName = "Above Excellent [$energy_code]";
-        }
-        elseif ($energy_code == 18)
-        {
+        } elseif ($energy_code == 18) {
             $publicName = "Average [$energy_code]";
-        }
-        elseif ($energy_code == 20)
-        {
+        } elseif ($energy_code == 20) {
             $publicName = "Excellent [$energy_code]";
-        }
-        elseif ($energy_code == 21)
-        {
+        } elseif ($energy_code == 21) {
             $publicName = "Fair [$energy_code]";
         }
 
@@ -731,16 +751,13 @@ class Assessment extends Model
                 'top_two_keys' => $topTwoKeys,
                 'next_two_keys' => $nextTwoKeys,
             ];
-        }
-        else {
+        } else {
             $topKeysFeature = self::getGridKeys($filtered_keys, $third_row_feature);
         }
 
-        if ($isCode)
-        {
+        if ($isCode) {
             return $topKeysFeature;
-        }else
-        {
+        } else {
             return CodeDetail::getPublicNames($topKeysFeature['top_two_keys']);
         }
 
@@ -919,7 +936,7 @@ class Assessment extends Model
 
     public static function assessmentStatusForApi()
     {
-        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page','type'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type'])->latest()->first();
 
         // old restriction
 //        if ($status && $status->page !== 0) {
@@ -931,25 +948,24 @@ class Assessment extends Model
 //            return false;
 //        }
 
-        if($assessment){
+        if ($assessment) {
 
-            if ($assessment['page'] === 0){ // if assessment is finished
+            if ($assessment['page'] === 0) { // if assessment is finished
 
                 $free_assessment = self::where('user_id', Helpers::getUser()->id)
-
                     ->where('type', 1)->where('page', 0)->latest()->first();
 
-                if ($free_assessment){ // assessment is free
+                if ($free_assessment) { // assessment is free
 
                     $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
 
                     $current_time = Carbon::now();
 
-                    if ($created_at_90_days->greaterThan($current_time)){ // If user attempting another assessment with in 90 days
+                    if ($created_at_90_days->greaterThan($current_time)) { // If user attempting another assessment with in 90 days
 
                         return false;
 
-                    }else{ // If user attempting another assessment after 90 days
+                    } else { // If user attempting another assessment after 90 days
 
                         $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
@@ -962,7 +978,7 @@ class Assessment extends Model
                         return 0;
                     }
 
-                }elseif ($assessment['type'] === 0){
+                } elseif ($assessment['type'] === 0) {
 
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
@@ -975,13 +991,13 @@ class Assessment extends Model
                     return 0;
                 }
 
-            }else{ // For abandoned assessment
+            } else { // For abandoned assessment
 
                 return ($assessment['page'] === null ? 0 : $assessment['page']);
 
             }
 
-        }else{ // For 1st assessment
+        } else { // For 1st assessment
 
             $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
@@ -1037,11 +1053,11 @@ class Assessment extends Model
 
                     foreach ($codes as $code) {
 
-                        if (array_key_exists($code['code'], $codeA)){
+                        if (array_key_exists($code['code'], $codeA)) {
 
                             $codeA[$code['code']] += $code['number'];
 
-                        }else{
+                        } else {
 
                             $codeA[$code['code']] = $code['number'];
                         }
@@ -1100,7 +1116,7 @@ class Assessment extends Model
 
                 $existingAssessment->update($resultArray);
 
-                if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1){
+                if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
                     ActionPlan::storeUserActionPlan(true);
@@ -1128,7 +1144,7 @@ class Assessment extends Model
             $data['user_id'] = $userId;
             $data['assessment_id'] = $existingAssessment->id;
 
-            $answer = Answer::where(function ($q) use ($answer_id){
+            $answer = Answer::where(function ($q) use ($answer_id) {
 
                 $q->where('id', $answer_id)->orWhere('answer_id', $answer_id);
 
@@ -1142,36 +1158,36 @@ class Assessment extends Model
 
     }
 
-    public static function deleteIncompleteAssessment(){
+    public static function deleteIncompleteAssessment()
+    {
 
         $assessment = self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
 
-        if ($assessment && $assessment->page > 0){
+        if ($assessment && $assessment->page > 0) {
 
             $assessment->delete();
 
         }
     }
 
-    public static function singleAssessmentFromId($assessment_id){
+    public static function singleAssessmentFromId($assessment_id)
+    {
 
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return self::with('users')->where(function ($q) use ($assessment_id, $user){
+        return self::with('users')->where(function ($q) use ($assessment_id, $user) {
 
-            if ($assessment_id){
+            if ($assessment_id) {
 
                 $q->where('id', $assessment_id);
 
-            }else{
+            } else {
 
                 $q->where('user_id', $user->id);
             }
 
         })->where('page', 0)
-
             ->latest()
-
             ->first();
     }
 
@@ -1181,9 +1197,9 @@ class Assessment extends Model
 
         $code_detail = CodeDetail::whereId($energy_code)->first();
 
-        if($code_detail){
+        if ($code_detail) {
 
-            $code_detail['public_name'] = str_replace('Energy','',$code_detail['public_name']);
+            $code_detail['public_name'] = str_replace('Energy', '', $code_detail['public_name']);
         }
 
         return $code_detail;
@@ -1197,8 +1213,7 @@ class Assessment extends Model
         $alchemy = $gold . '' . $silver . '' . $copper;
         $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
 
-        if (!empty($alchemyCodeDetail))
-        {
+        if (!empty($alchemyCodeDetail)) {
             $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
             $boundaries = [
@@ -1210,9 +1225,7 @@ class Assessment extends Model
             ];
 
             return $boundaries;
-        }
-        else
-        {
+        } else {
             return null;
         }
 
@@ -1233,7 +1246,7 @@ class Assessment extends Model
             $polarity_code = 42;
         }
 
-        $record = CodeDetail::whereId($polarity_code)->select(['id','public_name','text','video'])->first();
+        $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video'])->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
 

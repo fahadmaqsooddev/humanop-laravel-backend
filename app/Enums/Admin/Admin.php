@@ -23,4 +23,10 @@ final class Admin
     const HAI_CHAT_HIDE = 2;
 
     const HAI_CHAT_SHOW = 1;
+
+    const SUPER_ADMIN_ROLE = 1;
+
+    const SUB_ADMIN_ROLE = 2;
+
+    const PRACTITIONER_ROLE = 3;
 }

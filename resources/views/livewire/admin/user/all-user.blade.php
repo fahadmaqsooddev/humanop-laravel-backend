@@ -45,9 +45,11 @@
                 @if(Auth::user()->hasRole('super admin'))
                     <th>HAI Chat</th>
                 @endif
-                <th>Membership</th>
-                <th>Practitioner</th>
-                <th></th>
+                @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
+                    <th>Membership</th>
+                    <th>Practitioner</th>
+                    <th></th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -59,160 +61,165 @@
                     @if(Auth::user()->hasRole('super admin'))
 
                         <td class="text-sm font-weight-normal">
-                        <div class="form-check form-switch mb-0 d-flex justify-content-center">
-                            @php
-                                if($user->hai_chat == 1)
-                                    $status = true;
-                                else
-                                    $status = false;
-                            @endphp
-                            <input class="form-check-input"
-                                   onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
-                                   name="status"
-                                   type="checkbox"
-                                   @checked($status) >
-                        </div>
-                    </td>
+                            <div class="form-check form-switch mb-0 d-flex justify-content-center">
+                                @php
+                                    if($user->hai_chat == 1)
+                                        $status = true;
+                                    else
+                                        $status = false;
+                                @endphp
+                                <input class="form-check-input"
+                                       onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                       name="status"
+                                       type="checkbox"
+                                       @checked($status)>
+                            </div>
+                        </td>
 
                     @endif
-                    <td class="text-sm font-weight-normal">
-                        <select class="form-control" onchange="changeUserMemberShip(this, {{$user['id']}})" style="background-color: #0F1535; color: white; border-radius: 12px;">
-                            <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>Freemium</option>
-                            <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>
-                            <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium</option>
-                        </select>
-                    </td>
-                    <td class="text-sm font-weight-normal">
-                        <div class="form-check form-switch mb-0 d-flex justify-content-center">
-                            @php
-                                if($user->is_admin == 4)
-                                    $practitionerStatus = true;
-                                else
-                                    $practitionerStatus = false;
-                            @endphp
-                            <input class="form-check-input"
-                                   onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"
-                                   name="practitioner"
-                                   type="checkbox"
-                                   @checked($practitionerStatus) >
-                        </div>
-                    </td>
-                    <td class="text-sm font-weight-normal">
-                        <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
-                            style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
-                            class="btn btn-sm float-end mt-2 mb-0">
-                            Login
-                        </a>
-                    </td>
+                    @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
+                        <td class="text-sm font-weight-normal">
+                            <select class="form-control" onchange="changeUserMemberShip(this, {{$user['id']}})"
+                                    style="background-color: #0F1535; color: white; border-radius: 12px;">
+                                <option value="Freemium" {{$user['plan_name'] === "Freemium" ? 'selected' : ""}}>
+                                    Freemium
+                                </option>
+                                <option value="Core" {{$user['plan_name'] === "Core" ? 'selected' : "" }}>Core</option>
+                                <option value="Premium" {{$user['plan_name'] === "Premium" ? 'selected' : "" }}>Premium
+                                </option>
+                            </select>
+                        </td>
+                        <td class="text-sm font-weight-normal">
+                            <div class="form-check form-switch mb-0 d-flex justify-content-center">
+                                @php
+                                    if($user->is_admin == 4)
+                                        $practitionerStatus = true;
+                                    else
+                                        $practitionerStatus = false;
+                                @endphp
+                                <input class="form-check-input"
+                                       onchange="changeUserToPractitioner({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                       name="practitioner"
+                                       type="checkbox"
+                                       @checked($practitionerStatus)>
+                            </div>
+                        </td>
+                        <td class="text-sm font-weight-normal">
+                            <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
+                               style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
+                               class="btn btn-sm float-end mt-2 mb-0">
+                                Login
+                            </a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>
         </table>
-                {{ $users->links('pagination.table-pagination') }}
+        {{ $users->links('pagination.table-pagination') }}
     </div>
 </div>
 
 @push('js')
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
-         function updateUserHaiChatStatus(id, name, checkbox, e) {
-         e.preventDefault();
+        function updateUserHaiChatStatus(id, name, checkbox, e) {
+            e.preventDefault();
 
-    // Store the current state of the checkbox
-    const isChecked = checkbox.checked;
+            // Store the current state of the checkbox
+            const isChecked = checkbox.checked;
 
-    // Reset checkbox to its original state temporarily
-    checkbox.checked = !isChecked;
-
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn bg-gradient-primary m-2',
-            cancelButton: 'btn bg-gradient-secondary m-2',
-        },
-        buttonsStyling: false,
-        background: '#3442b4',
-    });
-
-    swalWithBootstrapButtons.fire({
-        title: '<span style="color: white;">Are you sure?</span>',
-        html: "<span style='color: white;'>Want to change HAI Chat Visibility for " + name + ".</span>",
-        showCancelButton: true,
-        confirmButtonText: 'Confirm',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If confirmed, re-check the checkbox
-            checkbox.checked = isChecked;
-            // Trigger Livewire event
-            window.livewire.emit('updateHaiChatVisibility', id);
-        } else {
-            // If not confirmed, reset the checkbox to its original state
+            // Reset checkbox to its original state temporarily
             checkbox.checked = !isChecked;
-        }
-    });
-}
-
-
-
-        function adminLoggedInToUserAccount(id, name){
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn bg-gradient-primary m-2',
-                    cancelButton:  'btn bg-gradient-secondary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
                 },
                 buttonsStyling: false,
-                background : '#3442b4',
+                background: '#3442b4',
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to change HAI Chat Visibility for " + name + ".</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, re-check the checkbox
+                    checkbox.checked = isChecked;
+                    // Trigger Livewire event
+                    window.livewire.emit('updateHaiChatVisibility', id);
+                } else {
+                    // If not confirmed, reset the checkbox to its original state
+                    checkbox.checked = !isChecked;
+                }
+            });
+        }
+
+
+        function adminLoggedInToUserAccount(id, name) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to log in as "+name+"</span>",
+                html: "<span style='color: white;'>Want to log in as " + name + "</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Log in',
             }).then((result) => {
-                if(result.isConfirmed){
+                if (result.isConfirmed) {
                     window.livewire.emit('logInAdminAsUser', id)
                 }
             })
         }
 
-         function changeUserToPractitioner(id, name, checkbox, e) {
-             e.preventDefault();
+        function changeUserToPractitioner(id, name, checkbox, e) {
+            e.preventDefault();
 
-             // Store the current state of the checkbox
-             const isChecked = checkbox.checked;
+            // Store the current state of the checkbox
+            const isChecked = checkbox.checked;
 
-             // Reset checkbox to its original state temporarily
-             checkbox.checked = !isChecked;
+            // Reset checkbox to its original state temporarily
+            checkbox.checked = !isChecked;
 
-             const swalWithBootstrapButtons = Swal.mixin({
-                 customClass: {
-                     confirmButton: 'btn bg-gradient-primary m-2',
-                     cancelButton: 'btn bg-gradient-secondary m-2',
-                 },
-                 buttonsStyling: false,
-                 background: '#3442b4',
-             });
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            });
 
-             swalWithBootstrapButtons.fire({
-                 title: '<span style="color: white;">Are you sure?</span>',
-                 html: "<span style='color: white;'>Want to Change Practitioner Status for "+name+".</span>",
-                 showCancelButton: true,
-                 confirmButtonText: 'Confirm',
-             }).then((result) => {
-                 if (result.isConfirmed) {
-                     // If confirmed, re-check the checkbox
-                     checkbox.checked = isChecked;
-                     // Trigger Livewire event
-                     window.livewire.emit('makePractitioner', id);
-                 } else {
-                     // If not confirmed, reset the checkbox to its original state
-                     checkbox.checked = !isChecked;
-                 }
-             });
-         }
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to Change Practitioner Status for " + name + ".</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If confirmed, re-check the checkbox
+                    checkbox.checked = isChecked;
+                    // Trigger Livewire event
+                    window.livewire.emit('makePractitioner', id);
+                } else {
+                    // If not confirmed, reset the checkbox to its original state
+                    checkbox.checked = !isChecked;
+                }
+            });
+        }
 
 
-        function changeUserMemberShip(e, user_id){
+        function changeUserMemberShip(e, user_id) {
 
             window.Livewire.emit('changeUserMemberShip', e.options.selectedIndex, user_id);
         }

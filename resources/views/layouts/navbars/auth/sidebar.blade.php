@@ -40,7 +40,7 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            @if(Auth::user()->hasAnyRole(['super admin', 'sub admin']) )
+            @if(Auth::user()->hasAnyRole(['super admin', 'sub admin', 'practitioner']) )
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#dashboardsExamples"
                        class="nav-link {{ ($parentFolder == 'dashboards' ? ' active' : '') }}"
@@ -67,7 +67,7 @@
                             </svg>
                         </div>
 
-                        <span class="nav-link-text ms-1">Admin</span>
+                        <span class="nav-link-text ms-1">{{\Illuminate\Support\Facades\Auth::user()->is_admin == 4 ? 'Practitioner' : 'Admin'}}</span>
                     </a>
                     <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                         <ul class="nav ms-4 ps-3">

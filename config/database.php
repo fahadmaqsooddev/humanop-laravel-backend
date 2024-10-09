@@ -374,6 +374,10 @@ return [
             'table' => 'pdf_generates',
             'fillable' => ['user_id', 'assessment_id','public_name','text'],
             'hidden' => ['created_at','updated_at'],
-        ]
+        ],
+        'ModelHasRole' => [
+            'table' => 'model_has_roles',
+            'fillable' => ['role_id', 'model_type','model_id']
+        ],
     ]
 ];

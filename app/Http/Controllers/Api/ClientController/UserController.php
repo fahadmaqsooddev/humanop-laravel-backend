@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
@@ -320,6 +322,13 @@ class UserController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+            $alchl_code = $assessment != null ? Assessment::getAlchlCode($assessment['id']) : null;
+            $style_position = $assessment != null ? AssessmentColorCode::getStylePosition($assessment['id']) : null;
+            $feature_position = $assessment != null ? AssessmentColorCode::getFeaturePosition($assessment['id']) : null;
+            $negative = $assessment != null ? $assessment['ma'] + $assessment['lu'] + $assessment['mer'] : null;
+            $positive = $assessment != null ? $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'] : null;
+            $ep = $assessment != null ? $positive + $negative : null;
+            $pv = $assessment != null ? $positive - $negative : null;
 
             if ($assessment){
 
@@ -329,12 +338,18 @@ class UserController extends Controller
 
             $data = [
                 'user_name' => $user_name,
+                'user_gender' => Helpers::getUser()->gender === 0 ? Admin::IS_MALE : (Helpers::getUser()->gender === 1 ? Admin::IS_FEMALE : ''),
                 'top_two_feature' => $topTwoFeatures,
                 'boundary' => $boundary,
                 'perception' => $perception,
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
                 'all_styles' => $allStyles ?? [],
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'alchemy_code' => $alchl_code,
+                'ep' => $ep,
+                'pv' => $pv
             ];
 
             return Helpers::successResponse('Summary Report', $data);
