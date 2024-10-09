@@ -175,6 +175,7 @@ class CodeDetail extends Model
                     $data = [
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'video_url' => $record['video_url'],
+                        'code_key' => $codeKey
                     ];
 
                     array_push($result, $data);
@@ -184,6 +185,7 @@ class CodeDetail extends Model
                     $data = [
                         'public_name' => $record->public_name,
                         'video_url' => $record['video_url'],
+                        'code_key' => $codeKey
                     ];
 
                     array_push($result, $data);
