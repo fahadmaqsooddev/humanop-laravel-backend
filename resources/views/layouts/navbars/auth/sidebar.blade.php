@@ -39,7 +39,7 @@
 
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
-        @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'])
+        @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'] ?? null)
         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin)
             <div class="d-flex justify-content-center">
                 <a href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
