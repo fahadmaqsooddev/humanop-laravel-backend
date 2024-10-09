@@ -11,6 +11,14 @@
     border-radius: 20px;
 }
 
+.beige-background-color{
+    background-color:  #F3DEBA;
+}
+
+.search-bar::placeholder{
+    color: black;
+}
+
 .connection-card{
     background-color: #F6BA81;
 

@@ -27,12 +27,12 @@
 
                     <div class="col-12">
                         <div class="input-group ms-md-4 pe-md-4">
-                     <span style="background-color: #0f1534;color: white;" class="input-group-text">
-                         <i class="fas fa-search" aria-hidden="true"></i>
-                     </span>
+{{--                     <span style="background-color: #0f1534;color: white;" class="input-group-text">--}}
+{{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
+{{--                     </span>--}}
                             <input type="text" wire:model.debounce="search_connection_name"
-                                   class="" style="background-color: #0f1534; color: white;border: 1px solid white;
-                           border-left: 0px; padding: 5px; width: 84%; border-radius: 0 5px 5px 0;"
+                                   class="beige-background-color search-bar" style="color: white;border: 1px solid white;
+                           padding: 5px; width: 84%; border-radius: 5px;"
                                    placeholder="Search user to connect">
                         </div>
                     </div>
