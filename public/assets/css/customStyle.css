@@ -10,3 +10,17 @@
     background-color:  #F3DEBA;
     border-radius: 20px;
 }
+
+.connection-card{
+    background-color: #F6BA81;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    /*background-color: #fff;*/
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, 0.125);
+    border-radius: 1rem;
+}
