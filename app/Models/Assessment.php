@@ -1120,6 +1120,12 @@ class Assessment extends Model
 
                     DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
                     ActionPlan::storeUserActionPlan(true);
+
+                    $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+
+                }else{
+
+                    $message = "Congratulations on finishing your assessment!";
                 }
 
             } else {
@@ -1155,6 +1161,8 @@ class Assessment extends Model
 
             AssessmentDetail::createAssessmentDetail($data);
         }
+
+        return $message;
 
     }
 
