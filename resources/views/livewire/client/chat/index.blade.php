@@ -65,7 +65,7 @@
             <button type="submit" id="submitBtn">
                 <div style="border-radius: 50%; padding: 10px;">
 {{--                    <i class="fa fa-phone" aria-hidden="true"></i>--}}
-                    <img src="{{asset('assets/img/hai_chat_logo.png')}}" style="width: 50px; height: 50px;">
+                    <img src="{{asset('assets/icons/hai_chat_icon.png')}}" style="width: 50px; height: 50px;">
                 </div>
             </button>
         </div>
