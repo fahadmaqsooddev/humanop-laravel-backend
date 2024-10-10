@@ -380,7 +380,7 @@
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal text-bold  "> Sign Out </span>
+                                    <span class="sidenav-normal text-bold"> Sign Out </span>
                                 </a>
                             </li>
 
