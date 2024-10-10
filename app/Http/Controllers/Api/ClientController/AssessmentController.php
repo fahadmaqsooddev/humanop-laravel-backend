@@ -121,9 +121,9 @@ class AssessmentController extends Controller
 
         try {
 
-            Assessment::submitQuestionAnswers($request->input('answer_ids'));
+            $message = Assessment::submitQuestionAnswers($request->input('answer_ids'));
 
-            return Helpers::successResponse("Assessment submitted successfully");
+            return Helpers::successResponse($message);
 
         }catch (\Exception $exception){
 
