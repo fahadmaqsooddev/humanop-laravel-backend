@@ -322,7 +322,7 @@
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
                                 <h2 class="font-weight-bolder mb-0">Library Resources</h2>
-s                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
