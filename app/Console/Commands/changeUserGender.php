@@ -30,11 +30,11 @@ class changeUserGender extends Command
     public function handle()
     {
 
-//        DB::table('questions')
-//            ->whereIn('gender', [0, 2])
-//            ->update([
-//                'gender' => DB::raw('CASE WHEN gender = 2 THEN 0 WHEN gender = 0 THEN 2 END')
-//            ]);
+        DB::table('questions')
+            ->whereIn('gender', [0, 2])
+            ->update([
+                'gender' => DB::raw('CASE WHEN gender = 2 THEN 0 WHEN gender = 0 THEN 2 END')
+            ]);
 
 
 //        User::where('gender',2)->update(['gender' => 0]);

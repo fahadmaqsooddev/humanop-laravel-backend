@@ -49,7 +49,7 @@ class Assessment extends Model
     public function getCreatedAtAttribute($value)
     {
 
-        return Carbon::parse($value)->format('Y/m/d');
+        return Carbon::parse($value)->format('m/d/Y h:i A');
     }
 
     // scope

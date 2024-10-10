@@ -141,7 +141,7 @@ class UserController extends Controller
 
             Feedback::storeClientFeedback($dataArray);
 
-            return Helpers::successResponse('Your feedback successfully submitted');
+            return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
         }catch (\Exception $exception){
 
@@ -284,7 +284,7 @@ class UserController extends Controller
 
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
 
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
 

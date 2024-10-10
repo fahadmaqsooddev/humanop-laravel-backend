@@ -12,7 +12,7 @@
                                 <div>
 
                                     <img
-                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/hai_chat_logo.png'))) }}"
+                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/new_logo_dark.png'))) }}"
                                         style="padding: 0px; max-width: 150px;">
 
                                 </div>

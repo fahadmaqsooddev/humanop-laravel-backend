@@ -738,29 +738,48 @@ class User extends Authenticatable implements JWTSubject
     public static function checkUserFromEmailOrSocialId($request)
     {
 
-        $users = self::query();
+//        $users = $users->when($request->input('email'), function ($query, $email) {
+//
+//            $query->where('email', $email);
+//        });
+//
+//        $users = $users->when($request->input('google_id'), function ($query, $google_id) {
+//
+//            $query->where('google_id', $google_id);
+//        });
+//
+//        $users = $users->when($request->input('apple_id'), function ($query, $apple_id) {
+//
+//            $query->where('apple_id', $apple_id);
+//
+//        });
 
-        $users = $users->when($request->input('email'), function ($query, $email) {
+        $user = self::where('email', $request->input('email'))->first();
 
-            $query->where('email', $email);
-        });
+        if ($user){
 
-        $users = $users->when($request->input('google_id'), function ($query, $google_id) {
+            if ($request->has('apple_id') && !empty($request->input('apple_id')) && empty($user['apple_id'])){
 
-            $query->where('google_id', $google_id);
-        });
+                $user->update(['apple_id' => $request->input('apple_id')]);
 
-        $users = $users->when($request->input('apple_id'), function ($query, $apple_id) {
+            }
+            if($request->has('google_id') && !empty($request->input('google_id')) && empty($user['google_id'])){
 
-            $query->where('apple_id', $apple_id);
+                $user->update(['google_id' => $request->input('google_id')]);
 
-        });
+            }
 
-        $user = $users->with('userIntensionPlan')->selection()->first();
+            $user = $user->where('email', $request->input('email'))
 
-        $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
+                ->with('userIntensionPlan')->selection()->first();
 
-        return $user;
+            $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
+
+            return $user;
+
+        }
+
+        return false;
 
     }
 

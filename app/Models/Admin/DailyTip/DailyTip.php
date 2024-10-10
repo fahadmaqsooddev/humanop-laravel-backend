@@ -78,7 +78,7 @@ class DailyTip extends Model
 
         $url = PractitionerHelpers::makePractitionerUrl('intro-assessment');
 
-        $body = ['assessment_url', $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
+        $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 
         $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
 
