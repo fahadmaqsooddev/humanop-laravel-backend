@@ -23,11 +23,13 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>
             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                <a class="align-items-center d-flex m-0 text-wrap" href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
+                <a class="align-items-center d-flex m-0 text-wrap"
+                   href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
                 <span class="humanopLogo">
-                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}" style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
+                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
+                     style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
-                    <span class="humanopMiniLogo d-none">
+                    <span class="humanopMiniLogo d-none mt-3">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
                          style="margin-left: 10px; width: 77px"
                          alt="main_logo">
@@ -36,9 +38,10 @@
             @else
                 <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
                 <span class="humanopLogo">
-                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}" style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
+                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
+                     style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
-                    <span class="humanopMiniLogo d-none">
+                    <span class="humanopMiniLogo d-none mt-3">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
                          style="margin-left: 10px; width: 77px"
                          alt="main_logo">
@@ -398,32 +401,32 @@
                         </div>
                     @endif
 
-{{--                    <a data-bs-toggle="collapse" href="#clientdashboardids"--}}
-{{--                       class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"--}}
-{{--                       aria-controls="clientdashboardids" role="button" aria-expanded="false">--}}
-{{--                        <div--}}
-{{--                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">--}}
-{{--                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-{{--                                <title>document</title>--}}
-{{--                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-{{--                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"--}}
-{{--                                       fill-rule="nonzero">--}}
-{{--                                        <g transform="translate(1716.000000, 291.000000)">--}}
-{{--                                            <g transform="translate(154.000000, 300.000000)">--}}
-{{--                                                <path class="color-background"--}}
-{{--                                                      d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"--}}
-{{--                                                      opacity="0.603585379"></path>--}}
-{{--                                                <path class="color-background"--}}
-{{--                                                      d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>--}}
-{{--                                            </g>--}}
-{{--                                        </g>--}}
-{{--                                    </g>--}}
-{{--                                </g>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="nav-link-text ms-1">Client</span>--}}
-{{--                    </a>--}}
+                    {{--                    <a data-bs-toggle="collapse" href="#clientdashboardids"--}}
+                    {{--                       class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"--}}
+                    {{--                       aria-controls="clientdashboardids" role="button" aria-expanded="false">--}}
+                    {{--                        <div--}}
+                    {{--                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">--}}
+                    {{--                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"--}}
+                    {{--                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+                    {{--                                <title>document</title>--}}
+                    {{--                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
+                    {{--                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"--}}
+                    {{--                                       fill-rule="nonzero">--}}
+                    {{--                                        <g transform="translate(1716.000000, 291.000000)">--}}
+                    {{--                                            <g transform="translate(154.000000, 300.000000)">--}}
+                    {{--                                                <path class="color-background"--}}
+                    {{--                                                      d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"--}}
+                    {{--                                                      opacity="0.603585379"></path>--}}
+                    {{--                                                <path class="color-background"--}}
+                    {{--                                                      d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>--}}
+                    {{--                                            </g>--}}
+                    {{--                                        </g>--}}
+                    {{--                                    </g>--}}
+                    {{--                                </g>--}}
+                    {{--                            </svg>--}}
+                    {{--                        </div>--}}
+                    {{--                        <span class="nav-link-text ms-1">Client</span>--}}
+                    {{--                    </a>--}}
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
                         <ul class="nav ms-4 ps-3">
@@ -476,7 +479,8 @@
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Human Network.png')}}"><b
                                             class="caret"></b></span>
-                                    <span class="sidenav-normal"> HumanOP Network &nbsp;&nbsp; <b class="caret"></b></span>
+                                    <span class="sidenav-normal"> HumanOP Network &nbsp;&nbsp; <b
+                                            class="caret"></b></span>
                                 </a>
                                 <div class="collapse {{ ($childFolder == 'human-network' ? 'show' : '') }}"
                                      id="vrExamples">
@@ -570,16 +574,43 @@
                                    href="{{ url('/logout')}}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal" ><img style="width: 18px; margin-right: 10px"
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
                                     <span class="sidenav-normal text-bold"> Sign Out </span>
                                 </a>
                             </li>
+                            {{--                            download on apple--}}
+                            <li class="nav-item mt-2 d-flex justify-content-center">
+                                <span class="humanopMiniLogo d-none">
+                                    <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
+                                    alt="apple icon"
+                                    style="width: 50px; height: 50px; color: white;"/>
+                                  </span>
+                                 <span class="humanopLogo ">
+                                 <img src="{{asset('assets/icons/downloadapple.png')}}"
+                                  alt="apple icon"
+                                 style="width: 150px; height: 50px; color: white;"/>
+                                </span>
+                            </li>
+                            {{--                            download on android--}}
+                            <li class="nav-item mt-2 d-flex justify-content-center">
+                                <span class="humanopMiniLogo d-none">
+                                  <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
+                                  alt="android icon"
+                                  style="width: 50px; height: 50px;"/>
+                                  </span>
+                                <span class="humanopLogo ">
+                                <img src="{{asset('assets/icons/downloadandroid.png')}}"
+                                  alt="android icon"
+                                  style="width: 150px; height: 50px;"/>
+                                </span>
+                            </li>
+                            {{--                            end download here--}}
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
                                     @if(Auth::user()['is_admin'] == 2)
 
-                                        <div class="d-flex justify-content-center mt-5">
+                                        <div class="d-flex justify-content-center mt-3">
 
                                             <div class="bg-white py-1"
                                                  style="cursor: pointer; width: 60px; height: 60px; border-radius: 50%;"
@@ -610,32 +641,32 @@
                         </div>
                     @endif
 
-{{--                    <a data-bs-toggle="collapse" href="#clientdashboardids"--}}
-{{--                       class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"--}}
-{{--                       aria-controls="clientdashboardids" role="button" aria-expanded="false">--}}
-{{--                        <div--}}
-{{--                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">--}}
-{{--                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-{{--                                <title>document</title>--}}
-{{--                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-{{--                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"--}}
-{{--                                       fill-rule="nonzero">--}}
-{{--                                        <g transform="translate(1716.000000, 291.000000)">--}}
-{{--                                            <g transform="translate(154.000000, 300.000000)">--}}
-{{--                                                <path class="color-background"--}}
-{{--                                                      d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"--}}
-{{--                                                      opacity="0.603585379"></path>--}}
-{{--                                                <path class="color-background"--}}
-{{--                                                      d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>--}}
-{{--                                            </g>--}}
-{{--                                        </g>--}}
-{{--                                    </g>--}}
-{{--                                </g>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="nav-link-text ms-1">Client</span>--}}
-{{--                    </a>--}}
+                    {{--                    <a data-bs-toggle="collapse" href="#clientdashboardids"--}}
+                    {{--                       class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"--}}
+                    {{--                       aria-controls="clientdashboardids" role="button" aria-expanded="false">--}}
+                    {{--                        <div--}}
+                    {{--                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">--}}
+                    {{--                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"--}}
+                    {{--                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+                    {{--                                <title>document</title>--}}
+                    {{--                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
+                    {{--                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"--}}
+                    {{--                                       fill-rule="nonzero">--}}
+                    {{--                                        <g transform="translate(1716.000000, 291.000000)">--}}
+                    {{--                                            <g transform="translate(154.000000, 300.000000)">--}}
+                    {{--                                                <path class="color-background"--}}
+                    {{--                                                      d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"--}}
+                    {{--                                                      opacity="0.603585379"></path>--}}
+                    {{--                                                <path class="color-background"--}}
+                    {{--                                                      d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>--}}
+                    {{--                                            </g>--}}
+                    {{--                                        </g>--}}
+                    {{--                                    </g>--}}
+                    {{--                                </g>--}}
+                    {{--                            </svg>--}}
+                    {{--                        </div>--}}
+                    {{--                        <span class="nav-link-text ms-1">Client</span>--}}
+                    {{--                    </a>--}}
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
                         <ul class="nav ms-4 ps-3">
@@ -787,6 +818,7 @@
                                     <span class="sidenav-normal text-bold  "> Sign Out </span>
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
                                     @if(Auth::user()['is_admin'] == 2)

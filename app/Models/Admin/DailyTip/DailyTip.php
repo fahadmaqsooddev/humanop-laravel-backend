@@ -59,14 +59,14 @@ class DailyTip extends Model
 
         $user = Helpers::getUser() ?? Helpers::getWebUser();
 
-        $today_tip = self::where('user_id', $user->id)
-
-            ->whereDate('updated_at', Carbon::today())->exists();
-
-        if (!$today_tip){
+//        $today_tip = self::where('user_id', $user->id)
+//
+//            ->whereDate('updated_at', Carbon::today())->exists();
+//
+//        if (!$today_tip){
 
             self::hitDailyTipApiAndUpdateUserTip($user);
-        }
+//        }
 
     }
 
@@ -76,7 +76,7 @@ class DailyTip extends Model
 
         $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
 
-        $url = PractitionerHelpers::makePractitionerUrl('intro-assessment');
+        $url = PractitionerHelpers::makePractitionerUrl('client/intro-assessment');
 
         $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 
