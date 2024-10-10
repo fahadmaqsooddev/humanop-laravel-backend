@@ -15,7 +15,7 @@
                 </div>
                 <div class="d-flex">
                     <div class="h-100 my-4">
-                        <a href="{{route('user_profile_overview')}}">
+                        <a href="javascript:void(0)">
                             <h5 class="mb-1 text-white">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
