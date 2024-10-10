@@ -488,11 +488,14 @@
     </div>
 
     <div class="row">
-        <div class="col-5 text-center" >
-            <h1 style="color: #0f1534;">Coming Soon!</h1>
+        <div class="col-2 text-center mt-5 pt-5">
+
         </div>
-        <div class="col-7">
-            <div id="globe" class="position-relative d-flex justify-content-center " style="height: 600px;">
+        <div class="col-4 text-center mt-5 pt-5">
+            <h1 class="pt-5 mx-auto" style="color: #0f1534;">Coming Soon!</h1>
+        </div>
+        <div class="col-6">
+            <div id="globe" class="position-relative d-flex justify-content-center" style="height: 600px;">
                 <canvas width="650" height="650" class=" h-lg-100 w-75 h-75"></canvas>
                 <img width="350" height="350" src="{{asset('assets/img/icons/white-icon.png')}}" class="position-absolute" style="top: 38%; left: 50%; transform: translate(-50%, -50%);opacity: 30%">
             </div>

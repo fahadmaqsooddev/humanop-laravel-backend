@@ -105,6 +105,8 @@ class UserController extends Controller
 
             PointHelper::addPointsOnFeedbackSubmission();
 
+            return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
+
         }catch (\Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
