@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive w-100 pt-4">
+    <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
             <tr>

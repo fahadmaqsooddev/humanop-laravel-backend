@@ -19,12 +19,12 @@
 </style>
 @section('content')
 <div class="page-header position-relative m-3 border-radius-xl ">
-        <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines" class="position-absolute opacity-6 start-0 top-0 w-100 bg-pricing" >
+{{--        <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines" class="position-absolute opacity-6 start-0 top-0 w-100 bg-pricing" >--}}
         <div class="container pb-md-2 pb-4 pt-5 pt-md-1 my-5 ">
             <div class="row">
-                <div class="col-md-6 mx-auto   text-center">
-                    <h3 class="text-white">See our pricing</h3>
-                    <p class="text-white">You have Free Unlimited Updates and Premium Support on each package.</p>
+                <div class="col-md-8 mx-auto   text-center">
+                    <h3 class="text-black">See our pricing</h3>
+                    <p class="text-black">You have Free Unlimited Updates and Premium Support on each package.</p>
                 </div>
             </div>
         </div>
@@ -41,10 +41,10 @@
 
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             @if($plan->name != 'Freemium')
-                                <button class="btn btn-icon d-lg-block  mb-2 w-100 text-white" style="background-color: grey" >
+                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block  mb-2 w-100 "  >
                                     Coming Soon
                                 </button>
-                                <div class="card">
+                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card' : 'pricing-core-card' }}">
 
                                     <div class="card-header text-center pt-4 pb-3">
                                         <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
@@ -53,7 +53,7 @@
                                         </h1>
                                     </div>
                                     @else
-                                        <div class="card mt-5">
+                                        <div class="card mt-5 pricing-freemium-card">
 
                                             <div class="card-header text-center pt-4 pb-3">
                                                 <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
@@ -149,7 +149,7 @@
                                     </div>
 
                                     @if($user->plan_name == "Freemium")
-                                        <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">
+                                        <a class="rainbow-border-user-nav-btn btn-icon d-lg-block mt-3 mb-0">
                                             Current Membership
                                             <i class="fas fa-arrow-right ms-1"></i>
                                         </a>
@@ -437,8 +437,8 @@
                                                                 <input type="text" name="plan_id" value="{{$plan->plan_id}}" hidden>
 
                                                                 <div class="text-center">
-                                                                    <button type="submit" class="btn w-100 my-4 mb-2" id="submit_button"
-                                                                            style="background-color: #f2661c;color:white">Pay Now
+                                                                    <button type="submit" class="rainbow-border-user-nav-btn w-100 my-4 mb-2" id="submit_button"
+                                                                            >Pay Now
                                                                         ({{(int)$plan->price}})
                                                                     </button>
                                                                 </div>

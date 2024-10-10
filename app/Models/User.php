@@ -636,7 +636,7 @@ class User extends Authenticatable implements JWTSubject
     public static function deletedClients()
     {
 
-        return self::where('is_admin', Admin::IS_CUSTOMER)
+        return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
             ->where('is_permanently_deleted', 0)
             ->onlyTrashed()
             ->get();
@@ -771,6 +771,11 @@ class User extends Authenticatable implements JWTSubject
 
         User::where('practitioner_id', $practitioner->id)->where('email', $email)->exists();
 
+    }
+
+    public static function deleteClientProfile($id){
+
+        self::whereId($id)->delete();
     }
 
 }

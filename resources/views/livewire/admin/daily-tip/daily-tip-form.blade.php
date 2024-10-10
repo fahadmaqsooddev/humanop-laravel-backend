@@ -3,7 +3,7 @@
     <div class="row mt-4">
         <div class="col-6">
             <div class="card">
-                <div class="table-responsive">
+                <div class="table-responsive table-orange-color">
                     <table class="table table-flush" style="border-collapse: separate">
                         <thead class="thead-light">
                         <tr>
@@ -23,7 +23,7 @@
     <div class="row mt-4">
         <div class="col-11">
             <div class="card">
-                <div class="table-responsive">
+                <div class="table-responsive table-orange-color">
                     <table class="table table-flush" style="border-collapse: separate">
                         <thead class="thead-light">
                         <tr>
@@ -104,8 +104,8 @@
         <div class="col-6">
             <label class="form-label text-white">Title</label>
             <div class="input-group">
-                <input style="background-color: #0f1534;" id="firstName" wire:model="title" name="title"
-                       class="form-control text-white" type="text">
+                <input id="firstName" wire:model="title" name="title"
+                       class="form-control text-white table-header-text" type="text">
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
         <div class="col-8">
             <label class="form-label text-white">Description</label>
             <div class="input-group">
-                    <textarea class="form-control text-white" rows="5" cols="5" style="background-color: #0f1534;"
+                    <textarea class="form-control text-white table-header-text" rows="5" cols="5"
                               name="description"
                               wire:model="description"></textarea>
             </div>

@@ -120,19 +120,17 @@
                                         </a>
                                     </div>
                                     <div class="feedback-card">
-                                        <h4 style="color: white; padding: 0 0 5px 0;">How's this site ?</h4>
+                                        <h5 style="color: white; padding: 0 0 5px 0;">Thank you for being a Beta Tester!  Give us some feedback below on how your
+                                            experience is so far and how we can improve it.</h5>
                                         <form action="javascript:void(0);">
 
                                             <div class="p-2" id="feedback_success_message" hidden>
-                                                <span class="text-success">Feedback sent</span>
+                                                <span class="text-success">Thank you for your feedback! We have given
+                                                    you a point as a token of our appreciation!</span>
                                             </div>
 
-                                            <textarea id="comment-value" rows="5" class="comment-box"
-                                                      placeholder="Add a Comment..." required></textarea>
-                                            <button type="submit" onclick="submitFeedBackForm()" class="btn"
-                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
-                                                Submit Now
-                                            </button>
+                                            <textarea id="comment-value" rows="5" class="comment-box" placeholder="Add a Comment..." required></textarea>
+                                            <button type="submit" onclick="submitFeedBackForm()" class="btn" style="inline-size: 100%;background-color: #f2661c;color: white;">Submit Feedback</button>
 
                                         </form>
                                     </div>
@@ -240,9 +238,11 @@
 
                 $('#feedback_success_message').removeAttr('hidden');
 
-                setTimeout(function () {
+                animateNumber(1);
+
+                setTimeout(function (){
                     $('#add_feedback').click();
-                }, 1000);
+                }, 2000);
             },
             error: function (response) {
                 $('#add_feedback').click();

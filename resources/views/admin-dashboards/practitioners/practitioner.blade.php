@@ -4,7 +4,9 @@
     <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card">
-                @livewire('admin.practitioners.all-practitioner')
+                <div class="table-header-text" style="border-radius: 20px;">
+                    @livewire('admin.practitioners.all-practitioner')
+                </div>
             </div>
         </div>
     </div>

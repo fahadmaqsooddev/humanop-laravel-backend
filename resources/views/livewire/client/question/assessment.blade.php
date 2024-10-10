@@ -39,7 +39,7 @@
         </div>
     @endforeach
 
-    <button type="submit" class="btn btn-icon bg-gradient-primary mt-4">
+    <button type="submit" class="rainbow-border-user-nav-btn mt-4">
         Submit
         <i class="fas fa-arrow-right ms-1"></i>
     </button>

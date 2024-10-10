@@ -15,6 +15,7 @@ use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
@@ -25,6 +26,7 @@ class ClientController extends Controller
        try {
 
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
+            $age = Carbon::parse(Helpers::getWebUser()->date_of_birth)->age;
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $userPlanName = $user['plan_name'];
@@ -41,7 +43,7 @@ class ClientController extends Controller
             $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age'));
 
         } catch (\Exception $exception) {
 

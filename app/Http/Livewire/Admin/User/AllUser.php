@@ -23,7 +23,8 @@ class AllUser extends Component
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner','updateHaiChatVisibility'];
+    protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'
+        ,'updateHaiChatVisibility','deleteClientProfile'];
 
     public function logInAdminAsUser($id = null, $isClientOrPractitioner = null){
 
@@ -73,6 +74,11 @@ class AllUser extends Component
                 User::updateUser(['hai_chat' => Admin::HAI_CHAT_SHOW],$id);
             }
         }
+    }
+
+    public function deleteClientProfile($id){
+
+        User::deleteClientProfile($id);
     }
 
 

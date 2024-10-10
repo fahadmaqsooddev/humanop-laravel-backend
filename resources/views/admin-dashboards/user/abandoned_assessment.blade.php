@@ -5,10 +5,10 @@
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">Users</h5>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
                         <tr>

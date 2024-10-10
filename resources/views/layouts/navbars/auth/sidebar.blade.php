@@ -16,7 +16,7 @@
     </a>
 </div>
 <aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
-       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
+       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }} left-nav-background"
        id="sidenav-main">
     <div class="d-flex">
         <div class="sidenav-header">
@@ -25,8 +25,7 @@
             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                 <a class="align-items-center d-flex m-0 text-wrap" href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
                 <span class="humanopLogo">
-                    <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px"
-                         alt="main_logo">
+                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}" style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
                     <span class="humanopMiniLogo d-none">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
@@ -37,8 +36,7 @@
             @else
                 <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
                 <span class="humanopLogo">
-                    <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px"
-                         alt="main_logo">
+                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}" style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
                     <span class="humanopMiniLogo d-none">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
@@ -471,16 +469,16 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                <a class="nav-link {{ ($childFolder == 'human-network' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/Human Network.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Human Network.png')}}"><b
                                             class="caret"></b></span>
-                                    <span class="sidenav-normal"> Human Network <b class="caret"></b></span>
+                                    <span class="sidenav-normal"> HumanOP Network &nbsp;&nbsp; <b class="caret"></b></span>
                                 </a>
-                                <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
+                                <div class="collapse {{ ($childFolder == 'human-network' ? 'show' : '') }}"
                                      id="vrExamples">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item {{ (Request::is('connections') ? 'active' : '') }}">
@@ -567,14 +565,14 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item rounded sign-out-btn me-3 mt-3">
+                            <li class="nav-item rounded sign-out-btn me-3 mt-3 rainbow-border-user-nav-btn text-dark">
                                 <a class="nav-link"
                                    href="{{ url('/logout')}}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                    <span class="sidenav-normal" ><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal text-bold  "> Sign Out </span>
+                                    <span class="sidenav-normal text-bold" style="color: black"> Sign Out </span>
                                 </a>
                             </li>
                             <li class="nav-item">

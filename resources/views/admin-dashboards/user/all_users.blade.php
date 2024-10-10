@@ -11,7 +11,9 @@
     <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card">
-                @livewire('admin.user.all-user')
+                <div class="table-header-text" style="border-radius: 20px;">
+                    @livewire('admin.user.all-user')
+                </div>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@ padding: 0px 10px 1px 10px;
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">Sub Admins</h5>
                 </div>
 

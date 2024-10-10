@@ -34,7 +34,7 @@
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">All Coupon</h5>
                     <a data-bs-toggle="modal"
                        data-bs-target="#couponModel"

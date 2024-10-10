@@ -3,6 +3,11 @@
 @section('content')
 
     <style>
+
+        body{
+            background-color: #2E9CA8 !important;
+        }
+
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
@@ -310,14 +315,14 @@
 
 
     <div class="row container-fluid">
-        <div class="col-lg-7 position-relative z-index-2">
+        <div class="col-lg-12 position-relative z-index-2">
             <div class="mb-4">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
                                 <h2 class="font-weight-bolder mb-0">Library Resources</h2>
-                            </div>
+s                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,75 +330,17 @@
 
             <div class="row">
 
-                @foreach($categories as $category)
-                    <div class="col-lg-5 col-sm-5">
-                        <a data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}" style="cursor: pointer;">
-                            <div class="card mb-4"
-                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col-8 m-auto">
-                                            <div class="numbers">
-                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                                   style="color: white;">{{$category['name'] ?? null}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 text-end">
-                                            <div
-                                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                                <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                <div class="text-center w-100 p-5">
+{{--                    for diagonal styling--}}
+{{--                    style="display: inline-block; transform: rotate(-40deg); font-size: 24px; font-weight: bold; color: black;"--}}
 
-                    <div class="col-12">
+                    <h1 style="color: #0f1534;">Coming Soon!</h1>
 
-                        <div class="collapse pb-3" id="collapse-{{$category->name}}">
-                            <div class="card-body p-3">
-                                <div class="row">
+                </div>
 
-                                    @foreach($category['libraryResources'] as $resource)
-
-                                        <div class="col-lg-5 col-sm-5">
-                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}', '{{$resource['description']}}')" style="cursor: pointer;">
-                                                <div class="card mb-4"
-                                                     style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
-                                                    <div class="card-body p-3">
-                                                        <div class="row">
-                                                            <div class="col-8 m-auto">
-                                                                <div class="numbers">
-                                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                                                       style="color: white;">{{$resource['heading'] ?? null}}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 text-end">
-                                                                <div
-                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                                                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                @endforeach
-
-
-{{--                @foreach($resources as $resource)--}}
+{{--                @foreach($categories as $category)--}}
 {{--                    <div class="col-lg-5 col-sm-5">--}}
-{{--                        <a onclick="showModal('{{$resource['resource']['photo_url']['url'] ?? null}}','{{$resource['resource']['video_url']['path'] ?? null}}')" style="cursor: pointer;">--}}
+{{--                        <a data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}" style="cursor: pointer;">--}}
 {{--                            <div class="card mb-4"--}}
 {{--                                 style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
 {{--                                <div class="card-body p-3">--}}
@@ -401,7 +348,7 @@
 {{--                                        <div class="col-8 m-auto">--}}
 {{--                                            <div class="numbers">--}}
 {{--                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
-{{--                                                   style="color: white;">{{$resource['resource']['heading'] ?? null}}</p>--}}
+{{--                                                   style="color: white;">{{$category['name'] ?? null}}</p>--}}
 {{--                                            </div>--}}
 {{--                                        </div>--}}
 {{--                                        <div class="col-4 text-end">--}}
@@ -415,7 +362,47 @@
 {{--                            </div>--}}
 {{--                        </a>--}}
 {{--                    </div>--}}
+
+{{--                    <div class="col-12">--}}
+
+{{--                        <div class="collapse pb-3" id="collapse-{{$category->name}}">--}}
+{{--                            <div class="card-body p-3">--}}
+{{--                                <div class="row">--}}
+
+{{--                                    @foreach($category['libraryResources'] as $resource)--}}
+
+{{--                                        <div class="col-lg-5 col-sm-5">--}}
+{{--                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}', '{{$resource['description']}}')" style="cursor: pointer;">--}}
+{{--                                                <div class="card mb-4"--}}
+{{--                                                     style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">--}}
+{{--                                                    <div class="card-body p-3">--}}
+{{--                                                        <div class="row">--}}
+{{--                                                            <div class="col-8 m-auto">--}}
+{{--                                                                <div class="numbers">--}}
+{{--                                                                    <p class="text-sm mb-0 text-capitalize font-weight-bold"--}}
+{{--                                                                       style="color: white;">{{$resource['heading'] ?? null}}</p>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                            <div class="col-4 text-end">--}}
+{{--                                                                <div--}}
+{{--                                                                    class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">--}}
+{{--                                                                    <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                    @endforeach--}}
+
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+{{--                    </div>--}}
 {{--                @endforeach--}}
+
             </div>
         </div>
     </div>
