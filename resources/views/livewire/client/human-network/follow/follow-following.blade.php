@@ -8,13 +8,13 @@
 
                 <div class="nav nav-tabs border-0" id="myTab" role="tablist" style="max-width: max-content;">
                     <div class="nav-item" role="presentation">
-                        <button class="nav-link me-2 updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                        <button class="rainbow-border-user-nav-btn me-2 updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                                 style='background-color: #f2661c;color: white;'
                                 aria-selected="true">Followers</button>
                     </div>
                     <div class="nav-item" role="presentation">
-                        <button class="nav-link updateBtn {{request()->input('type', 'follower') === "following" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
+                        <button class="rainbow-border-user-nav-btn updateBtn {{request()->input('type', 'follower') === "following" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
                                 style="background-color: #f2661c;color: white;"
                                 aria-controls="profile-tab-pane" aria-selected="false">Following</button>
@@ -24,11 +24,11 @@
             <div class="col-12 col-md-6">
 
                 <div class="input-group ms-md-4 pe-md-4">
-                     <span style="background-color: #0f1534;color: white;" class="input-group-text">
+                     <span style="border-color: white" class="input-group-text">
                          <i class="fas fa-search" aria-hidden="true"></i>
                      </span>
                     <input type="text" wire:model.debounce="follower_search"
-                           class="" style="background-color: #0f1534; color: white;border: 1px solid white;
+                           class="" style="background-color: transparent; color: white;border: 1px solid white;
                            border-left: 0px; padding: 5px; width: 75%; border-radius: 0 5px 5px 0;"
                            placeholder="Search Follower">
                 </div>
@@ -70,9 +70,9 @@
 
                                                 <div class="p-2">
                                                     @if($follow['user']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
+                                                        <a class="rainbow-border-user-nav-btn btn-secondary btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
+                                                        <a class="rainbow-border-user-nav-btn updateBtn btn-sm" wire:click="followUser({{$follow->user->id ?? null}})" style='font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 
@@ -126,9 +126,9 @@
 
                                                 <div class="p-2">
                                                     @if($following['follower']['is_follow'] ?? false)
-                                                        <a class="btn btn-secondary btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
+                                                        <a class="rainbow-border-user-nav-btn btn-secondary btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style="font-size: small; font-weight: 900;">Following</a>
                                                     @else
-                                                        <a class="btn updateBtn btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style='background-color: #f2661c;color: white;font-size: small; font-weight: 900;'>Follow</a>
+                                                        <a class="rainbow-border-user-nav-btn updateBtn btn-sm" wire:click="followUser({{$following->follower->id ?? null}})" style='font-size: small; font-weight: 900;'>Follow</a>
                                                     @endif
                                                 </div>
 

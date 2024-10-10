@@ -387,6 +387,172 @@ aside:hover {
      .responsive-text {
         font-size: 13px !important;
     }
+     .daily-tip-card{
+         background: #8BB1AB !important;
+         border-radius: 0 !important;
+     }
+    .library-card{
+        background: #2E9CA8 !important;
+        border-radius: 0 !important;
+    }
+    .core-state-card{
+        background:  #F6BA81 !important;
+        border-radius: 0 !important;
+    }
+    .help-challenge-card{
+        background: #ED7537 !important;
+        border-radius: 0 !important;
+    }
+    .optimization-strategy-card{
+        background: #1C365E !important;
+        border-radius: 0 !important;
+    }
+
+    .podcast-card{
+        background:  #FFFFFF !important;
+        border-radius: 0 !important;
+    }
+
+    .body-background{
+        background:  #F3DEBA;
+    }
+    /*.assessment-intro-background{*/
+    /*    background:  #1C365E !important;*/
+    /*}*/
+    .left-nav-background{
+        background: linear-gradient(to bottom, #1C365E 85%, #90a2bd) !important;
+
+    }
+    .optimization-strategy-card > div > h3{
+        color:white !important;
+        border-radius: 0 !important;
+    }
+
+    .pricing-freemium-card{
+     background: #8BB1AB !important;
+    }
+    .pricing-core-card{
+        background: #F6BA81 !important;
+    }
+    .pricing-premium-card{
+        background: #ED7537 !important;
+    }
+    .background-none{
+        background:none !important;
+    }
+    .setting-box-background{
+        background: #8BB1AB !important;
+    }
+
+    .custom-text-dark{
+        color: #193862 !important;
+    }
+
+    .rainbow-border-assessment-intro-btn {
+        display: inline-block;
+        padding: 10px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        background-color: transparent;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        background-image: linear-gradient(#1C365E, #1C365E), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+        cursor: pointer;
+        transition-property: background-image;
+        transition-duration: 2s;
+        transition-timing-function: linear;
+        transition-delay: 0;
+    }
+
+    .rainbow-border-assessment-intro-btn:hover {
+        animation: changeAssessmentIntroGradient 1s linear;
+        color: white;
+    }
+
+    @keyframes changeAssessmentIntroGradient {
+        from {
+            background-image: linear-gradient(#1C365E, #1C365E), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+
+        to {
+            background-image: linear-gradient(#1C365E, #1C365E), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+    }
+
+
+
+    .rainbow-border-user-nav-btn {
+        display: inline-block;
+        padding: 10px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        color: black !important;
+        background-color: transparent;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        background-image: linear-gradient(#F3DEBA, #F3DEBA), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+        cursor: pointer;
+        transition-property: background-image;
+        transition-duration: 2s;
+        transition-timing-function: linear;
+        transition-delay: 0;
+    }
+
+    .rainbow-border-user-nav-btn:hover {
+        animation: changeUserNavGradient 1s linear;
+        color: black !important;
+    }
+
+    @keyframes changeUserNavGradient {
+        from {
+            background-image: linear-gradient(#F3DEBA, #F3DEBA), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+
+        to {
+            background-image: linear-gradient(#F3DEBA, #F3DEBA), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+    }
+
+
+    .rainbow-border-user-connect-btn {
+          display: inline-block;
+          padding: 10px 30px;
+          font-size: 16px;
+          font-weight: bold;
+          color: black !important;
+          background-color: transparent;
+          border: 2px solid transparent;
+          border-radius: 8px;
+          background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+          background-clip: padding-box, border-box;
+          background-origin: border-box;
+          cursor: pointer;
+          transition-property: background-image;
+          transition-duration: 2s;
+          transition-timing-function: linear;
+          transition-delay: 0;
+      }
+
+    .rainbow-border-user-connect-btn:hover {
+        animation: changeUserConnectGradient 1s linear;
+        color: black !important;
+    }
+
+    @keyframes changeUserConnectGradient {
+        from {
+            background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+
+        to {
+            background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        }
+    }
+
 }
 
 

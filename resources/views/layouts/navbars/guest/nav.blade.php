@@ -3,7 +3,7 @@
   <div class="container">
       <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
          href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : url('login') }}">
-          <img src="{{ asset('assets/img/logo.png') }}" alt="">
+          <img src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/logo.png') }}" alt="">
       </a>
     <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       {{-- <span class="navbar-toggler-icon mt-2"> --}}

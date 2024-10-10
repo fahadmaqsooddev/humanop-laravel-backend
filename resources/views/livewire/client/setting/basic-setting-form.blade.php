@@ -1,4 +1,4 @@
-<div class="card mt-4" id="basic-info">
+<div class="card mt-4 setting-box-background" id="basic-info">
     <div class="card-header">
         <h5 class="text-white">Basic Info</h5>
     </div>
@@ -122,7 +122,7 @@
                     <input type="file" wire:model="profile_image" style="background-color: #0f1534;" class="form-control">
                 </div>
             </div>
-            <button type="submit" class="btn btn-sm  float-end mt-4 mb-3 text-white" style="background-color: #f2661c">Update Info</button>
+            <button type="submit" class=" btn-sm  float-end mt-4 mb-3 rainbow-border-user-nav-btn" >Update Info</button>
         </div>
 
     </form>

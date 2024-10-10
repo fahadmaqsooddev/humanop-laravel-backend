@@ -45,7 +45,7 @@
     @livewireStyles
 </head>
 
-<body class="background_image g-sidenav-show bg-gray-100 g-sidenav-pinned {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }}">
+<body class="body-background  g-sidenav-show bg-gray-100 g-sidenav-pinned {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }} ">
   @auth
     @yield('auth')
   @endauth

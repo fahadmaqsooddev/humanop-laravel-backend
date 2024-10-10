@@ -36,15 +36,15 @@
 
         <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn  mx-auto "
                         role="tablist">
-                        <div class="nav-item">
-                            <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
-                                class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                        <div class="nav-item" style="margin-right: 10px">
+                            <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                class="rainbow-border-user-nav-btn ">Access Your Results
                             </a>
                         </div>
 
                         <div class="nav-item">
-                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
-                                class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
+                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                class="rainbow-border-user-nav-btn" data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
                             </button>
                         </div>
                     </div>
@@ -59,13 +59,13 @@
             <div class="d-flex">
                 <div class="h-100">
                     <a href="{{route('user_profile_overview')}}">
-                        <h5 class="mb-1 text-white">
+                        <h5 class="mb-1 custom-text-dark">
                             {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                         </h5>
-                        <p class="mb-0 font-weight-bold text-sm text-white">
+                        <p class="mb-0 font-weight-bold text-sm custom-text-dark">
                             Optimal Trait To Be In Right Now:
                         </p>
-                        <p class="text-white word-break text-sm col-12"> trait (Thinking) For
+                        <p class="custom-text-dark word-break text-sm col-12"> trait (Thinking) For
                             Strategy and Problem
                             Solving
                             Activities</p>

@@ -4,9 +4,9 @@
 
     <div class="container-fluid my-3 py-3">
         <div class="row mb-5">
-            <div class="col-lg-3">
-                <div class="card position-sticky top-1">
-                    <ul class="nav flex-column border-radius-lg p-3" style="background-color: #0f1535">
+            <div class="col-lg-3 ">
+                <div class="card position-sticky top-1 background-none">
+                    <ul class="nav flex-column border-radius-lg p-3 rainbow-border-user-nav-btn" >
                         <li class="nav-item">
                             <a class="nav-link text-body" data-scroll="" href="#profile">
                                 <div class="icon me-2">
@@ -15,7 +15,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>spaceship</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-1720.000000, -592.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(4.000000, 301.000000)">
@@ -35,7 +35,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Profile</span>
+                                <span class="text-sm custom-text-dark">Profile</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -46,7 +46,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>document</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-1870.000000, -591.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(154.000000, 300.000000)">
@@ -61,7 +61,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Basic Info</span>
+                                <span class="text-sm custom-text-dark">Basic Info</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -72,7 +72,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>box-3d-50</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-2319.000000, -291.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(603.000000, 0.000000)">
@@ -90,7 +90,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Change Password</span>
+                                <span class="text-sm custom-text-dark">Change Password</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -101,7 +101,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>box-3d-50</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-2319.000000, -291.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(603.000000, 0.000000)">
@@ -119,7 +119,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">90 Days Intention Plan</span>
+                                <span class="text-sm custom-text-dark">90 Days Intention Plan</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -130,7 +130,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>box-3d-50</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-2319.000000, -291.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(603.000000, 0.000000)">
@@ -148,24 +148,24 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Subscription</span>
+                                <span class="text-sm custom-text-dark">Subscription</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#billing">
                                 <div class="icon me-2">
-                                    <i class="fa-solid fa-address-card text-white"></i>
+                                    <i class="fa-solid fa-address-card custom-text-dark"></i>
                                     {{--                                    <img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/billing.png')}}">--}}
                                 </div>
-                                <span class="text-sm text-white">Billing</span>
+                                <span class="text-sm custom-text-dark">Billing</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body" data-scroll="" href="#paymentHistory">
                                 <div class="icon me-2">
-                                    <i class="fa-regular fa-credit-card text-white"></i>
+                                    <i class="fa-regular fa-credit-card custom-text-dark"></i>
                                 </div>
-                                <span class="text-sm text-white">Payment History</span>
+                                <span class="text-sm custom-text-dark">Payment History</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -176,7 +176,7 @@
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>shop </title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-1716.000000, -439.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(0.000000, 148.000000)">
@@ -191,15 +191,15 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Delete Account</span>
+                                <span class="text-sm custom-text-dark">Delete Account</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-9 mt-lg-0 mt-4">
+            <div class="col-lg-9 mt-lg-0 mt-4 ">
                 <!-- Card Profile -->
-                <div class="card card-body" id="profile">
+                <div class="card card-body background-none" id="profile">
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
@@ -210,12 +210,12 @@
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
                             <div class="h-100">
-                                <h5 class="mb-1 font-weight-bolder">
-                                    <span id="firstname"> {{Auth::user()['first_name']}} </span> <span
-                                        id="lastname">{{Auth::user()['last_name']}}</span>
+                                <h5 class="mb-1 font-weight-bold text-color-dark">
+                                    <span id="firstname" > {{Auth::user()['first_name']}} </span> <span
+                                        id="lastname" >{{Auth::user()['last_name']}}</span>
                                 </h5>
-                                <p class="mb-0 font-weight-bold text-sm">
-                                    <span id="email"> {{Auth::user()['email']}} </span>
+                                <p class="mb-0 font-weight-bold text-sm text-color-dark" >
+                                    <span id="email" > {{Auth::user()['email']}} </span>
                                 </p>
                             </div>
                         </div>
@@ -230,7 +230,7 @@
                 <!-- Card Intention Plan -->
                 @livewire('client.setting.intention-plan-form')
                 <!-- Subcription Detail -->
-                <div class="card mt-4" id="subscription">
+                <div class="card mt-4 setting-box-background" id="subscription">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
@@ -264,8 +264,8 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0 justify-content-end">
                         <div>
-                            <a href="{{route('client_pricing')}}" class="btn mb-0 ms-2 text-white"
-                               style="background-color: #f2661c"
+                            <a href="{{route('client_pricing')}}" class="rainbow-border-user-nav-btn mb-0 ms-2 "
+
                                type="button" name="button">Update My Subscription
                             </a>
                         </div>
@@ -273,7 +273,7 @@
                 </div>
 
                 {{--                Billing card--}}
-                <div class="card mt-4" id="billing">
+                <div class="card mt-4 setting-box-background" id="billing">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
@@ -324,7 +324,7 @@
                 </div>
 
                 {{--                Payment History--}}
-                <div class="card mt-4" id="paymentHistory">
+                <div class="card mt-4 setting-box-background" id="paymentHistory">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
@@ -364,7 +364,7 @@
                     </div>
                 </div>
                 <!-- Card Delete Account -->
-                <div class="card mt-4" id="delete">
+                <div class="card mt-4 setting-box-background" id="delete">
                     <div class="card-header">
                         <h5 class="text-white">Delete Account</h5>
                         <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please
@@ -372,7 +372,7 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0 justify-content-end">
                         <div>
-                            <button onclick="confirmBoxForDeleteAccount()" class="btn bg-gradient-danger mb-0 ms-2"
+                            <button onclick="confirmBoxForDeleteAccount()" class="rainbow-border-user-nav-btn mb-0 ms-2"
                                     type="button" name="button">Delete Account
                             </button>
                         </div>

@@ -1,4 +1,4 @@
-<div class="card mt-4" id="intentionPlan">
+<div class="card mt-4 setting-box-background" id="intentionPlan">
     <div class="card-header">
         <h5 class="text-white">90 Days Intention Plan</h5>
     </div>
@@ -11,7 +11,7 @@
                        class="form-control text-white" type="text"
                        placeholder="In the next 90 Days I would like to ...">
             </div>
-            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">
+            <button type="submit" class="btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn" >
                 Update intention
             </button>
         </div>

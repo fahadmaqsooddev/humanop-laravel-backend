@@ -8,15 +8,16 @@
 
                 <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
                     <div class="nav-item" role="presentation">
-                        <button class=" nav-link me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                        <button class="rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                                style='background-color: #f2661c;color: white;'
+
                                 aria-selected="true">Connections</button>
                     </div>
+
                     <div class="nav-item" role="presentation">
-                        <button class="nav-link mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
+                        <button class="rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
-                                style="background-color: #f2661c;color: white;"
+
                                 aria-controls="profile-tab-pane" aria-selected="false">Connection Request</button>
                     </div>
                 </div>
@@ -27,11 +28,11 @@
 
                     <div class="col-12">
                         <div class="input-group ms-md-4 pe-md-4">
-                     <span style="background-color: #0f1534;color: white;" class="input-group-text">
+                     <span  class="input-group-text bg-transparent" style="border-color: white">
                          <i class="fas fa-search" aria-hidden="true"></i>
                      </span>
                             <input type="text" wire:model.debounce="search_connection_name"
-                                   class="" style="background-color: #0f1534; color: white;border: 1px solid white;
+                                   class="" style="background-color: transparent; color: dark;border: 1px solid white;
                            border-left: 0px; padding: 5px; width: 84%; border-radius: 0 5px 5px 0;"
                                    placeholder="Search user to connect">
                         </div>
@@ -40,9 +41,9 @@
                 <div class="row">
                     <div class="col-1"></div>
                     <div class="col-10">
-                        <button class="btn btn-sm  float-end mt-4 mb-4 text-white clickBtn"
+                        <button class="rainbow-border-user-nav-btn float-end mt-4 mb-4 clickBtn"
                                 data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                                style="background-color: #f2661c; padding: 5px 14px 5px 14px; border-radius: 7px;">
+                                style="padding: 5px 14px 5px 14px; border-radius: 7px;">
                             Advance Filters
                         </button>
                     </div>
@@ -114,21 +115,21 @@
 
                                             <div class="p-1">
                                                 @if($user['connection_status'] === 0)
-                                                    <a class="btn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'connect')" style='border: 1px solid #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box; color: #f2661c; font-size: x-small; font-weight: 900;'>Connect</a>
+                                                    <a class="rainbow-border-user-connect-btn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'connect')" style=' font-size: x-small; font-weight: 900;'>Connect</a>
                                                 @elseif($user['connection_status'] === 1)
-                                                    <a class="btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="background-color: #f2661c; color: white;font-size: x-small; font-weight: 900;">Connected</a>
+                                                    <a class="rainbow-border-user-connect-btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Connected</a>
                                                 @elseif($user['connection_status'] === 2)
-                                                    <a class="btn btn-secondary btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
+                                                    <a class="rainbow-border-user-connect-btn btn-secondary btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
                                                 @elseif($user['connection_status'] === 3)
-                                                    <a class="btn btn-success btn-sm" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
+                                                    <a class="rainbow-border-user-connect-btn btn-success btn-sm" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
                                                 @endif
                                             </div>
 
                                             <div class="p-1">
                                                 @if($user['is_follow'])
-                                                    <a class="btn btn-secondary btn-sm" wire:click="followUser({{$user->id}},'connect')" style="font-size: x-small; font-weight: 900;">Following</a>
+                                                    <a class="rainbow-border-user-nav-btn btn-secondary btn-sm" wire:click="followUser({{$user->id}},'connect')" style="font-size: x-small; font-weight: 900;">Following</a>
                                                 @else
-                                                    <a class="btn updateBtn btn-sm" wire:click="followUser({{$user->id}},'un-connect')" style='background-color: #f2661c;color: white;font-size: x-small; font-weight: 900;'>Follow</a>
+                                                    <a class="rainbow-border-user-nav-btn updateBtn btn-sm" wire:click="followUser({{$user->id}},'un-connect')" style='font-size: x-small; font-weight: 900;'>Follow</a>
                                                 @endif
                                             </div>
 
@@ -139,8 +140,8 @@
                         @endforeach
 
                             @if($users->hasMorePages())
-                                <button class="btn"  wire:click.prevent="loadMore"
-                                        style="background-color: #f2661c; color: white; width: 60%; margin: auto; font-weight: 600;">
+                                <button class="rainbow-border-user-nav-btn"  wire:click.prevent="loadMore"
+                                        style=" width: 60%; margin: auto; font-weight: 600;">
                                     Load more
                                 </button>
                             @endif

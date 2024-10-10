@@ -244,17 +244,17 @@
             <section class=""> {{-- py-3 --}}
 
                 <div class="row">
-                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card">
-                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: auto;">
+                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
+                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex  flex-column ">
+                            <div class="card daily-tip-card" style="height: auto;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
-                                    <div class="description-container" style="height: 275px;">
+                                    <div class="description-container text-white" style="height: 275px;">
 
                                         {{$hide_button = false}}
 
-                                        <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
+                                        <p class="text-sm mt-3 fs-12px text-white">
                                             @if($tip && !empty($tip['description']))
                                                 @if(strlen($tip['description']) > 290)
                                                     <?php
@@ -288,8 +288,8 @@
                                                 <div
                                                     class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                     id="read_all_tip">
-                                                    <button style="background-color: #f2661c;"
-                                                            class="btn btn-sm text-white daily-tip-read-button"
+                                                    <button
+                                                            class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
                                                             {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                             onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
@@ -306,7 +306,7 @@
                                             <div
                                                 class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
                                                 <button style="background-color: #f2661c;"
-                                                        class="btn btn-sm text-white daily-tip-read-button"
+                                                        class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
                                                         {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                         onclick="onDailyTipAllRead()">
                                                     Complete Daily Tip
@@ -320,20 +320,20 @@
                         </div>
 
                         <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 540px;">
+                            <div class="card library-card " style="height: 540px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
                                         LIBRARY
                                         OF
                                         RESOURCES & TRAININGS</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> New Updatesl</p>
+                                    <p class="text-sm mt-3 text-white" > New Updatesl</p>
                                     <br>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - More Conflit Resolution
+                                    <p class="text-sm mt-3 text-white" > - More Conflit Resolution
                                         Strategies</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Optimizing Your Space
+                                    <p class="text-sm mt-3 text-white" > - Optimizing Your Space
                                         Training
                                         Added</p>
-                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> - Updated Dreivers
+                                    <p class="text-sm mt-3 text-white" > - Updated Dreivers
                                         Trainings</p>
                                 </div>
                             </div>
@@ -342,36 +342,36 @@
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
-                            <div class="card" style="height: 530px">
+                            <div class="card core-state-card" style="height: 530px">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
                                         <p class="text-sm fs-12px mt-3 text-white text-bold"
-                                           style="color: rgb(160, 174, 192)">
+                                           >
                                             CORE STATS</p>
                                         <p class="text-sm fs-12px mt-3 text-white text-bold"
-                                           style="color: rgb(160, 174, 192)">
+                                           >
                                             Interval of Life: (<span class="text-bold text-sm"
-                                                                     style="color: #f2661c">{{$user_age}}</span>)</p>
+                                                                     >{{$user_age}}</span>)</p>
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Top 3 Traits:</p>
+                                    <p class="text-sm mt-3 fs-12px text-white" > Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
-                                                <p class="fw-bold fs-12px"
-                                                   style="color: #f2661c; cursor: pointer;margin: unset"
+                                                <p class="fw-bold fs-12px text-white"
+                                                   style=" cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$index}}')">
                                                     {{ $style[1] }} [{{ $style[0] }}]
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)"> Motivational
+                                    <p class="text-sm mt-3 fs-12px text-white" > Motivational
                                         Drivers:</p>
-                                    <div class="d-flex flex-column" style="margin-top: -10px">
+                                    <div class="d-flex flex-column text-white" style="margin-top: -10px">
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $index => $feature)
-                                                <p class="fw-bold fs-12px"
-                                                   style="color: #f2661c; cursor: pointer;margin: unset"
+                                                <p class="fw-bold fs-12px "
+                                                   style=" cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$index}}')">
                                                     {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
                                                     [{{ $feature[0] }}]
@@ -379,11 +379,11 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192)">Boundaries of
+                                    <p class="text-sm mt-3 fs-12px text-white" >Boundaries of
                                         Tolerance "Alchemy":</p>
                                     @if($boundary)
-                                        <p class="fw-bold fs-12px"
-                                           style="color: #f2661c; margin-top: -10px; cursor: pointer;"
+                                        <p class="fw-bold fs-12px text-white"
+                                           style="margin-top: -10px; cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
                                             @php
                                                 $codeParts = explode('-', $boundary['code_number']);
@@ -392,13 +392,13 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Communication
+                                    <p class="text-sm fs-12px text-white" > Communication
                                         Style "Energy Centers":</p>
-                                    <div class="d-flex">
+                                    <div class="d-flex text-white">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px "
-                                                   style="color: #f2661c; cursor: pointer;"
+                                                   style=" cursor: pointer;"
                                                    onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
                                                     {{ $communication['public_name'] }} @if(!$loop->last)-->
                                                     &nbsp;@endif
@@ -406,11 +406,11 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)"> Perception of
+                                    <p class="text-sm fs-12px text-white" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
                                     @if($preception)
-                                        <p class="fw-bold fs-12px"
-                                           style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                        <p class="fw-bold fs-12px text-white"
+                                           style=" margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
                                             {{
                                                 ($preception['polarity_code'] == 40 ? "Negatively Charged" :
@@ -419,10 +419,10 @@
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                    <p class="text-sm fs-12px text-white" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
-                                        <p class="fw-bold  fs-12px "
-                                           style="color: #f2661c; margin-top: -10px;cursor: pointer;"
+                                        <p class="fw-bold  fs-12px text-white "
+                                           style="margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
                                             {{ $energyPool['code'] }}
                                         </p>
@@ -432,32 +432,33 @@
                         </div>
 
                         <div class="col-lg-12 col-md-12 col-sm-12 mb-4" style="cursor: pointer;">
-                            <div class="card" style="height: 420px;">
+                            <div class="card help-challenge-card" style="height: 420px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
                                         I'M
                                         HAVING A CHALLENGE</p>
                                     {{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
                                     {{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
-                                    <h3 class="text-center">Coming Soon</h3>
+                                    <h3 class="text-center text-white">Coming Soon</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card" style="height: 410px;">
-                                <div class="card-body p-3" style="cursor: pointer">
+                            <div class="card optimization-strategy-card" style="height: 410px;">
+                                <div class="card-body p-3 text-white" style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <p class="text-sm fs-12px mt-3 text-white text-bold"
-                                       style="color: rgb(160, 174, 192)"> YOUR
+                                      > YOUR
                                         OPTIMIZATION STRATEGIES FOR THE
                                         NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                         DAYS</p>
                                     @if($plan && !empty($plan['text']))
                                         @if(strlen($plan['text']) > 260)
+
                                             {!! substr($plan['text'], 0, 265)!!}
-                                            &nbsp;&nbsp;
+
                                             <a href="javascript:void(0)" data-bs-toggle="modal"
                                                data-bs-target="#actionPlanModal" style="color: #f2661c;">read
                                                 more...
@@ -472,7 +473,7 @@
                         </div>
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
 
-                            <div class="card" style="height: 540px;border-radius: 1rem !important;">
+                            <div class="card podcast-card" style="height: 540px;">
                                 <div class="card-body p-3">
                                     <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
                                         -
@@ -482,7 +483,7 @@
                                         <div class="card-body p-0">
                                             @if($podcast && !empty($podcast->embedded_url))
                                                 <div class="row">
-                                                    <div class="">
+                                                    <div class="podcast-card">
                                                         <div class="numbers mt-3">
                                                             <iframe class="col-lg-12 col-md-12"
                                                                     style="height: 400px; width: 100%;"

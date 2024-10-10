@@ -16,7 +16,7 @@
     </a>
 </div>
 <aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
-       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }}"
+       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3  {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start ms-3' ) }} left-nav-background"
        id="sidenav-main">
     <div class="d-flex">
         <div class="sidenav-header">
@@ -564,14 +564,14 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item rounded sign-out-btn me-3 mt-3">
+                            <li class="nav-item rounded sign-out-btn me-3 mt-3 rainbow-border-user-nav-btn text-dark">
                                 <a class="nav-link"
                                    href="{{ url('/logout')}}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                    <span class="sidenav-normal" ><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal text-bold  "> Sign Out </span>
+                                    <span class="sidenav-normal text-bold" style="color: black"> Sign Out </span>
                                 </a>
                             </li>
                             <li class="nav-item">

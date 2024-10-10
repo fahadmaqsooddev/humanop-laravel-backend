@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="d-flex justify-content-end" >
                                         <button type="submit"
-                                                class="btn updateBtn   text-white mt-4 " id="coupon-btn" >
+                                                class="rainbow-border-user-nav-btn updateBtn mt-4 " id="coupon-btn" >
                                             Submit
                                         </button>
                                     </div>
@@ -148,7 +148,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="submit" class="btn w-100 my-4 mb-2" id="discount_amount"
+                                    <button type="submit" class="rainbow-border-user-nav-btn w-100 my-4 mb-2" id="discount_amount"
                                             style="background-color: #f2661c;color:white">Pay Now
                                         (${{$stripe_setting['amount']}})
                                     </button>

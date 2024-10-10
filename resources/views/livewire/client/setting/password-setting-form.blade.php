@@ -1,4 +1,4 @@
-<div class="card mt-4" id="password">
+<div class="card mt-4 setting-box-background" id="password">
     <div class="card-header">
         <h5 class="text-white">Change Password</h5>
     </div>
@@ -42,7 +42,7 @@
                     <span class="text-sm text-white">Change it often</span>
                 </li>
             </ul>
-            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white" style="background-color: #f2661c ">
+            <button type="submit" class=" btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn" >
                 Update password
             </button>
         </div>
