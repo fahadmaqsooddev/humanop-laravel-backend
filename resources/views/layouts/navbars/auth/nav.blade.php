@@ -52,7 +52,7 @@
 
                         <a href="javascript:void(0)" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey"
                            data-toggle="tooltip" data-placement="top" title="Take the assessment first"
-                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                           class="text-white btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
                         </a>
 
                     @endif

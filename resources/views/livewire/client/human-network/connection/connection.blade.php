@@ -32,7 +32,7 @@
 {{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
 {{--                     </span>--}}
                             <input type="text" wire:model.debounce="search_connection_name"
-                                   class="beige-background-color search-bar" style="color: white;border: 1px solid white;
+                                   class="beige-background-color search-bar" style="color: black;border: 1px solid white;
                            padding: 5px; width: 84%; border-radius: 5px;"
                                    placeholder="Search user to connect">
                         </div>
