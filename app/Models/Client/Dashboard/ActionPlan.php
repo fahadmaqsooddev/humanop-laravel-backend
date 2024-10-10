@@ -27,12 +27,12 @@ class ActionPlan extends Model
 
     public function getPlanTextAttribute($value){
 
-        return "Coming Soon";
+        return "Coming Soon !";
     }
 
     public function getTextAttribute($value){
 
-        return "<h3 class='text-center'>Coming Soon</h3>";
+        return "<h3 class='text-center'>Coming Soon !</h3>";
     }
 
 
@@ -69,8 +69,8 @@ class ActionPlan extends Model
 //                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
                     $data = [
-                        '<h3>Coming Soon</h3>',
-                        '<h3>Coming Soon</h3>'
+                        '<h3>Coming Soon !</h3>',
+                        '<h3>Coming Soon !</h3>'
                     ];
 
                     $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
@@ -91,8 +91,8 @@ class ActionPlan extends Model
 //                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
 
                 $data = [
-                    '<h3>Coming Soon</h3>',
-                    '<h3>Coming Soon</h3>'
+                    '<h3>Coming Soon !</h3>',
+                    '<h3>Coming Soon !</h3>'
                 ];
 
                 self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
