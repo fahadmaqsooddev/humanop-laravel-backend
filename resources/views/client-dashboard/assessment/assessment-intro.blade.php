@@ -31,6 +31,26 @@
     .body-background {
         background-color:  #1C365E !important;
     }
+    @media (min-width: 390px) and (max-width: 768px) {
+        .introAssessmentMargin {
+            padding-left: 10%;
+        }
+        .introAssessmentLogo
+        {
+            margin-top: 0px;
+        }
+    }
+
+
+    @media (min-width: 768px) and (max-width: 2560px) {
+        .introAssessmentMargin {
+            padding-left: 10%;
+        }
+        .introAssessmentLogo
+        {
+            padding-top: 20%;
+        }
+    }
 </style>
 @section('content')
 
