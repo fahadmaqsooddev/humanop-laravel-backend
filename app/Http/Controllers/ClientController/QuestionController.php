@@ -67,11 +67,11 @@ class QuestionController extends Controller
 
             $assessment = Assessment::singleAssessment($user['id']);
 
-            if (empty($assessment))
+            if ($assessment['page'] == 0)
             {
                 Assessment::createAssessmentData($user['id'], 0);
             }
-            
+
             return view('client-dashboard.assessment.assessment-intro');
 
         } catch (\Exception $exception) {
