@@ -72,7 +72,7 @@ class DashboardController extends Controller
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
 

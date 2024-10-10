@@ -196,7 +196,7 @@ class CodeDetail extends Model
         return $result;
     }
 
-    public static function getCommunicationDetail($communication = null)
+    public static function getCommunicationDetail($communication = null, $assessment = null)
     {
         $result = [];
 
@@ -219,6 +219,7 @@ class CodeDetail extends Model
                         'description' => $record->text,
                         'video_url' => $record['video_url'],
                         'code' => $codeKey,
+                        'number' => $assessment[$codeKey] ?? null,
                     ];
 
                     array_push($result, $data);
@@ -230,6 +231,7 @@ class CodeDetail extends Model
                         'description' => $record->text,
                         'video_url' => $record->video_url,
                         'code' => $codeKey,
+                        'number' => $assessment[$codeKey] ?? null,
                     ];
 
                     array_push($result,$data);
