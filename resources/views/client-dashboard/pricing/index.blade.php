@@ -67,84 +67,84 @@
                                 @if($plan->name == 'Freemium')
 
                                 <div class="card-body text-lg-start text-center pt-0">
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                             <img src="{{asset('assets/icons/assessmentIcon.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">1 Assessment every 90 days</span>
+                                            <p class="ps-3 text-white text-sm">Assessment every 90 days</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                             <img src="{{asset('assets/icons/tips.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Daily Tip</span>
+                                            <p class="ps-3 text-white text-sm">Basic results with video and transcription</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                             <img src="{{asset('assets/icons/1 action item.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">1 Action Item</span>
+                                            <p class="ps-3 text-white text-sm">1 daily tip based on 1 element</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                             <img src="{{asset('assets/icons/Basic results only.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Basic Results</span>
+                                            <p class="ps-3 text-white text-sm">Limited 90-day action plan (1 action item)</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                             <img src="{{asset('assets/icons/action plan.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Action Plan</span>
+                                            <p class="ps-3 text-white text-sm">HAi companion</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                             <img src="{{asset('assets/icons/training strategies.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Training Strategies</span>
+                                            <p class="ps-3 text-white text-sm">Cannot download/export content</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                             <img src="{{asset('assets/icons/Renewal System.png')}}"
                                                  style="width: 12px; margin-top: 3px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Renewal System</span>
+                                            <p class="ps-3 text-white text-sm">Unlock additional content with points or referrals</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start p-2">
+                                    <div class="d-flex justify-content-start px-2">
                                         <div
                                             class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                             <img src="{{asset('assets/icons/Early Releases.png')}}"
                                                  style="width: 15px; margin-top: 5px">
                                         </div>
                                         <div>
-                                            <span class="ps-3 text-white">Early Releases</span>
+                                            <p class="ps-3 text-white text-sm">Earn free premium access through referrals</p>
                                         </div>
                                     </div>
 
@@ -166,84 +166,69 @@
                                 @elseif($plan->name == "Core") {{-- Core --}}
 
                                     <div class="card-body text-lg-start text-center pt-0">
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="pb-3">
+                                            <b class="text-white">Everything in FREEMIUM, plus:</b>
+                                        </div>
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/assessmentIcon.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">1 Assessment every 90 days</span>
+                                                <p class="ps-3 text-white text-sm">Full 90-day action plan (3 action items)</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/multiple tips.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Multiple Tips</span>
+                                                <p class="ps-3 text-white text-sm">Multiple daily tips (based on 2 elements)</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/3 action item.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+                                                     style="width: 17px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">3 Action Items</span>
+                                                <p class="ps-3 text-white text-sm">HAi companion with memory function (remembers
+                                                    conversations)</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/Detailed Results.png')}}"
                                                      style="width: 15px; margin-top: 8px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Detailed Results</span>
+                                                <p class="ps-3 text-white text-sm">Quarterly assessments</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                                 <img src="{{asset('assets/icons/action plan.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Action Plan</span>
+                                                <p class="ps-3 text-white text-sm">Focus on successful strategies</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
                                                 <img src="{{asset('assets/icons/training strategies.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Training Strategies</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-start p-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                                <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                     style="width: 12px; margin-top: 3px">
-                                            </div>
-                                            <div>
-                                                <span class="ps-3 text-muted">Renewal System</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-start p-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                                <img src="{{asset('assets/icons/Early Releases.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
-                                            <div>
-                                                <span class="ps-3 text-muted">Early Releases</span>
+                                                <p class="ps-3 text-white text-sm">Earn free premium access through referrals
+                                                </p>
                                             </div>
                                         </div>
 
@@ -266,86 +251,72 @@
                                 @elseif($plan->name == "Premium") {{-- Premium --}}
 
                                     <div class="card-body text-lg-start text-center pt-0">
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="pb-3">
+                                            <b class="text-white">Everything in CORE, plus:</b>
+                                        </div>
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/action plan.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Licensing Model</span>
+                                                <p class="ps-3 text-white text-sm">Deeper training strategies</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/multiple tips.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Multiple Daily Tips</span>
+                                                <p class="ps-3 text-white text-sm">Full 90-day action plan with weekly guidance</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/HAI Feature.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">HAI Feature</span>
+                                                <p class="ps-3 text-white text-sm">3 daily tips (morning, noon, and night) based on
+                                                    top traits</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/Gamification.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Gamification</span>
+                                                <p class="ps-3 text-white text-sm">Early access to beta releases</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/training strategies.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Training Strategies</span>
+                                                <p class="ps-3 text-white text-sm">Full access to training and resources</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
+                                        <div class="d-flex justify-content-start px-2">
                                             <div
                                                 class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
                                                 <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                     style="width: 12px; margin-top: 3px">
+                                                     style="width: 14px; margin-top: 3px">
                                             </div>
                                             <div>
-                                                <span class="ps-3 text-muted">Renewal System</span>
+                                                <p class="ps-3 text-white text-sm">HAi companion for strategy, feedback, and
+                                                    network building</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start p-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/action plan.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
-                                            <div>
-                                                <span class="ps-3 text-muted">Action Plan</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-start p-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/Early Releases.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
-                                            <div>
-                                                <span class="ps-3 text-muted">Early Releases</span>
-                                            </div>
-                                        </div>
+
 {{--                                        @if($user->plan_name == "Premium")--}}
 {{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">--}}
 {{--                                                Current Membership--}}
