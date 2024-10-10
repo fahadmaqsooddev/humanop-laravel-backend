@@ -57,24 +57,20 @@
                                 the following questions.</p>
                             <p class="text-white">The questions are simple and do not require extensive thought. It
                                 should take you no longer than 15-minutes to complete.</p>
-                            <a href="{{route('test_play')}}"
-                               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                               class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
-                            </a>
+                            @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                                <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px"
+                                   class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
+                                </a>
+                            @else
+                                <a href="{{url('client/play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px"
+                                   class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
+                                </a>
+                            @endif
                         </div>
                         <div class="col-5" style="margin-top: 40%">
                             <img  style="width:90%;height: 90%" src="{{asset('assets/img/icons/assessment_intro_icon.png')}}">
                         </div>
                     </div>
-                    @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                        <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px"
-                           class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
-                        </a>
-                    @else
-                        <a href="{{url('client/play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px"
-                           class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
-                        </a>
-                    @endif
                 </div>
             </div>
 
