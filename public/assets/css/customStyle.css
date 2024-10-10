@@ -32,3 +32,7 @@
     border: 0 solid rgba(0, 0, 0, 0.125);
     border-radius: 1rem;
 }
+
+.modal-dialog > .modal-content{
+    background-color: #1C365E;
+}

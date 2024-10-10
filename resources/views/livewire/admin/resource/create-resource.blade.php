@@ -128,7 +128,7 @@
             <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true" aria-labelledby="{{$resource['slug']}}"
                  tabindex="-1" role="dialog">
                 <a class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content" style="background-color: #0f1535; border-radius: 9px">
+                    <div class="modal-content" style=" border-radius: 9px">
                         <div class="modal-body">
                             <label class="form-label fs-4 text-white">Library Resource</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
@@ -172,7 +172,7 @@
         aria-labelledby="createResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
                     <form wire:submit.prevent="CreateResource" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -273,7 +273,7 @@
         aria-labelledby="editResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
                     <form wire:submit.prevent="updateResource">
                         @csrf
                         <div class="card-body">
@@ -397,7 +397,7 @@
          aria-labelledby="createCategory" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
 
                     <label class="form-label fs-4 text-white">Create Resource Category</label>
                     <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close" id="create-category-close-modal">
@@ -430,7 +430,7 @@
          aria-labelledby="moveResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
                     <form wire:submit.prevent="moveResourceToCategory">
                         @csrf
                         <div class="card-body">

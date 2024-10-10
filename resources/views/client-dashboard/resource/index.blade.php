@@ -415,7 +415,7 @@
         <div class="d-flex align-items-center justify-content-center h-100" style="z-index: 1000">
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" style="background-color: #0f1535; border-radius: 9px; width: 900px;">
+                    <div class="modal-body" style=" border-radius: 9px; width: 900px;">
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
