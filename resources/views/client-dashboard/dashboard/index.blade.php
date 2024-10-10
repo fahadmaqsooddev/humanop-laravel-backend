@@ -185,13 +185,13 @@
         </div>
 
         @if($admin_answer && !empty($admin_answer['question']))
-            <div class="container-fluid p-2 mt-2">
+            <div class="container-fluid p-2 mt-2 ">
 
-                <div class="d-flex justify-content-between flex-row card card-body text-white gap-5">
+                <div class="d-flex justify-content-between flex-row card card-body text-white gap-5 library-card">
                     <div class="" style="width: fit-content;cursor:pointer" data-bs-toggle="modal"
                          data-bs-target="#answerQueryModal">
                         <div>
-                        <span style="color: #f2661c;font-size: 26px;font-weight: 800;display: flex;">
+                        <span style="font-size: 26px;font-weight: 800;display: flex;" class="text-white">
                             Your Query : {{$admin_answer['question']['query'] ?? null}}
                         </span>
                         </div>
