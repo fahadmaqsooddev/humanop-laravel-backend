@@ -3,7 +3,7 @@
          aria-labelledby="updateQuestionModalLabel{{ $question['id'] }}" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style="border-radius: 9px">
                     <form wire:submit.prevent="updateQuestion">
                         @csrf
                         <div class="card-body">
@@ -56,7 +56,7 @@
          aria-labelledby="createSubQuestionModalLabel{{ $question['id'] }}" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
 
                     <form wire:submit.prevent="createSubQuestion">
                         @csrf
@@ -97,7 +97,7 @@
     <div wire:ignore.self class="modal fade" id="updateSubQuestionModal{{ $question['id'] }}" tabindex="-1" role="dialog" aria-labelledby="updateSubQuestionModalLabel{{ $question['id'] }}" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">

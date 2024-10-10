@@ -606,7 +606,7 @@
                  aria-labelledby="exampleModalMessage" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="modal-body" style="border-radius: 9px">
                             @livewire('client.client-query.client-query')
                         </div>
                     </div>
@@ -618,7 +618,7 @@
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="modal-body" style="border-radius: 9px">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
@@ -651,7 +651,7 @@
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="modal-body" style="border-radius: 9px">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
@@ -686,7 +686,7 @@
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="modal-body" style=" border-radius: 9px">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
@@ -710,7 +710,7 @@
             <!-- Modal -->
             <div class="modal fade" id="humanOpWalletModal" tabindex="-1" role="dialog" aria-labelledby="humanOpWalletModalTitle" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content py-3" style="background-color: #0f1535;">
+                    <div class="modal-content py-3">
 
                         <div class="p-2">
                             <button type="button" class="modal-close-btn" data-dismiss="modal" aria-label="Close">

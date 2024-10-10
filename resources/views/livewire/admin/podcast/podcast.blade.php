@@ -71,7 +71,7 @@
          aria-labelledby="podcastModal" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="margin-top: 80px">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style="border-radius: 9px">
                     <form wire:submit.prevent="updatePodcast">
                         <div class="card-body">
                             <div class="row">

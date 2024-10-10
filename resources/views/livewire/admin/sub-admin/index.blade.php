@@ -62,7 +62,7 @@
             <div wire:ignore.self class="modal fade" id="subadmindetail{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="subadmindetail{{ $admin->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-md" role="document">
                     <div class="modal-content">
-                        <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                        <div class="modal-body" style=" border-radius: 9px">
                             <label class="form-label fs-4 text-white">Permissions</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

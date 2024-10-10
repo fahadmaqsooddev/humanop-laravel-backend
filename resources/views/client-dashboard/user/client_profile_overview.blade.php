@@ -1804,7 +1804,7 @@
          aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+                <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">

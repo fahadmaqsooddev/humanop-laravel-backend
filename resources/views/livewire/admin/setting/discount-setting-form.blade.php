@@ -3,7 +3,7 @@
      aria-labelledby="couponModel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-body" style="background-color: #0f1535; border-radius: 9px">
+            <div class="modal-body" style=" border-radius: 9px">
                 @include('layouts.message')
                 <div class="card-body pt-0">
                     <label class="form-label fs-4 text-white">Coupon Discount</label>
