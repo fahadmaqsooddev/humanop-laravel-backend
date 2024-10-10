@@ -42,7 +42,7 @@
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             @if($plan->name != 'Freemium')
                                 <button class="rainbow-border-user-nav-btn btn-icon d-lg-block  mb-2 w-100 "  >
-                                    Coming Soon
+                                    Coming Soon !
                                 </button>
                                 <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card' : 'pricing-core-card' }}">
 
