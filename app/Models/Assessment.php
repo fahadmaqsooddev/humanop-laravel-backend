@@ -290,7 +290,7 @@ class Assessment extends Model
 
         if ($isAdminLevel == 4) {
             $query->whereHas('users', function ($query) use ($userId) {
-                $query->where('is_practitioner', $userId);
+                $query->where('practitioner_id', $userId);
             });
         }
 
@@ -384,7 +384,7 @@ class Assessment extends Model
         // Apply conditions based on admin level
         if ($isAdminLevel == 4) {
             $query->whereHas('users', function ($query) use ($userId) {
-                $query->where('is_practitioner', $userId);
+                $query->where('practitioner_id', $userId);
             });
         }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Client\Question;
 
 use App\Helpers\Helpers;
+use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Answer;
 use App\Models\AnswerCode;
@@ -282,7 +283,13 @@ class Assessment extends Component
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
         if (!$this->questions) {
-            return redirect()->route('all_assessment');
+            if (Helpers::getWebUser()['practitioner_id'] != null)
+            {
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('all-assessments'));
+            }else
+            {
+                return redirect()->route('all_assessment');
+            }
         }
     }
 

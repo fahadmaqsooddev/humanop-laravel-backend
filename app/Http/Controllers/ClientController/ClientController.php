@@ -23,6 +23,7 @@ class ClientController extends Controller
     public function index()
     {
        try {
+
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();

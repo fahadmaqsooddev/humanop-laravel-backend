@@ -31,9 +31,10 @@ class QuestionController extends Controller
 //                return redirect()->route('stripe_checkout');
 //            }else
 //            {
-                $questions = Question::getQuestion();
 
-                return view('client-dashboard.question.assessment', compact('questions'));
+            $questions = Question::getQuestion();
+
+            return view('client-dashboard.question.assessment', compact('questions'));
 //            }
 
         } catch (\Exception $exception) {
@@ -62,6 +63,15 @@ class QuestionController extends Controller
     {
         try {
 
+            $user = Helpers::getWebUser();
+
+            $assessment = Assessment::singleAssessment($user['id']);
+
+            if (empty($assessment))
+            {
+                Assessment::createAssessmentData($user['id'], 0);
+            }
+            
             return view('client-dashboard.assessment.assessment-intro');
 
         } catch (\Exception $exception) {

@@ -1,8 +1,8 @@
 <!-- Navbar -->
 <nav class="navbar  navbar-main navbar-expand-lg mt-4 top-1 px-1  shadow-none border-radius-xl z-index-sticky"
-    id="navbarBlur" data-scroll="true">
+     id="navbarBlur" data-scroll="true">
     <div class="container-fluid py-1 px-3 d-flex  ">
-        <!-- <nav aria-label="breadcrumb ">
+    <!-- <nav aria-label="breadcrumb ">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
                     <a class="opacity-3 text-dark" href="javascript:;">
@@ -29,36 +29,48 @@
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
                 <li class="breadcrumb-item text-sm text-dark active text-capitalize" aria-current="page">
                     {{ str_replace('-', ' ', Request::path()) }}
-                </li>
-            </ol>
-            <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
+        </li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0 text-capitalize">{{ str_replace('-', ' ', Request::path()) }}</h6>
         </nav>-->
 
         <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn  mx-auto "
-                        role="tablist">
-                        <div class="nav-item">
-                            <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
-                                class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
-                            </a>
-                        </div>
+             role="tablist">
+            @if((\App\Helpers\Helpers::getWebUser()['is_admin'] == 2) && (\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null))
+                <div class="nav-item">
+                    <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner/user-profile-overview')}}"
+                       style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                       class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                    </a>
+                </div>
+            @else
+                <div class="nav-item">
+                    <a href="{{route('user_profile_overview')}}"
+                       style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                       class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                    </a>
+                </div>
+            @endif
 
-                        <div class="nav-item">
-                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
-                                class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
-                            </button>
-                        </div>
-                    </div>
+            <div class="nav-item">
+                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;background-color: #f2661c"
+                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal"
+                        data-bs-target="#qrCodeModal">Get Free Pro Access!
+                </button>
+            </div>
+        </div>
 
         <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
             <div class="col-auto pb-sm-4">
                 <div class="avatar avatar-xl avatar-icon  ">
                     <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                        height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">
+                         height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">
                 </div>
             </div>
             <div class="d-flex">
                 <div class="h-100">
-                    <a href="{{route('user_profile_overview')}}">
+                    @if((\App\Helpers\Helpers::getWebUser()['is_admin'] == 2) && (\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null))
+                    <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner/user-profile-overview')}}">
                         <h5 class="mb-1 text-white">
                             {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                         </h5>
@@ -70,6 +82,20 @@
                             Solving
                             Activities</p>
                     </a>
+                    @else
+                        <a href="{{route('user_profile_overview')}}">
+                            <h5 class="mb-1 text-white">
+                                {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
+                            </h5>
+                            <p class="mb-0 font-weight-bold text-sm text-white">
+                                Optimal Trait To Be In Right Now:
+                            </p>
+                            <p class="text-white word-break text-sm col-12"> trait (Thinking) For
+                                Strategy and Problem
+                                Solving
+                                Activities</p>
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -80,7 +106,7 @@
 </nav>
 <!-- End Navbar -->
 {{--QR Code Modal--}}
-<div  class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
+<div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
      aria-labelledby="qrCodeModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -100,20 +126,28 @@
 
 
                             </div>
-                            <div >
-                               <div class="text-center" id="qrCodeContainer">
+                            <div>
+                                <div class="text-center" id="qrCodeContainer">
                                     {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
-                               </div>
+                                </div>
 
 
                                 <div class="d-flex justify-content-center">
-                                <button  class="btn btn-success" id="downloadButton" style="margin-top: 20px;">Save QR Code</button>
+                                    <button class="btn btn-success" id="downloadButton" style="margin-top: 20px;">Save
+                                        QR Code
+                                    </button>
                                 </div>
                             </div>
 
                             <div class="d-flex">
-                                <input type="text" class="form-control w-80"  style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none" value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}" readonly="">
-                                <button  class="btn mb-0 text-white w-20" id="copy_link" onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"  style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link</button>
+                                <input type="text" class="form-control w-80"
+                                       style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none"
+                                       value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}"
+                                       readonly="">
+                                <button class="btn mb-0 text-white w-20" id="copy_link"
+                                        onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
+                                        style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -134,34 +168,34 @@
             icon.classList.remove('fa-angle-left');
             icon.classList.add('fa-angle-right');
             if ($(window).width() <= 1200) {
-                $('#nav-toggle-btn').css('margin-left','0px');
-            }else{
-                $('#nav-toggle-btn').css('margin-left','282px');
+                $('#nav-toggle-btn').css('margin-left', '0px');
+            } else {
+                $('#nav-toggle-btn').css('margin-left', '282px');
             }
 
         } else {
             icon.classList.remove('fa-angle-right');
             icon.classList.add('fa-angle-left');
             if ($(window).width() <= 1200) {
-                $('#nav-toggle-btn').css('margin-left','282px');
-            }else{
+                $('#nav-toggle-btn').css('margin-left', '282px');
+            } else {
                 $('#nav-toggle-btn').css('margin-left', '112px');
             }
         }
     });
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.sidenav').hover(
-            function() {
+            function () {
                 if (icon.classList.contains('fa-angle-left')) {
 
-                    $('#nav-toggle-btn').css('margin-left','267px');
+                    $('#nav-toggle-btn').css('margin-left', '267px');
                 }
             },
-            function() {
+            function () {
                 if (icon.classList.contains('fa-angle-left')) {
                     if ($(window).width() <= 1200) {
                         $('#nav-toggle-btn').css('margin-left', '0px');
-                    }else{
+                    } else {
                         $('#nav-toggle-btn').css('margin-left', '112px');
                     }
                 }
@@ -212,12 +246,10 @@
     }
 
 
-
-
-    document.getElementById('downloadButton').addEventListener('click', function() {
+    document.getElementById('downloadButton').addEventListener('click', function () {
         const svg = document.querySelector('#qrCodeContainer svg');
         const svgData = new XMLSerializer().serializeToString(svg);
-        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const blob = new Blob([svgData], {type: 'image/svg+xml'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;

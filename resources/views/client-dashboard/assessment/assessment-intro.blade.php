@@ -42,9 +42,15 @@
                         <p class="mt-3 text-white">Before you take the HumanOp Assessment make sure that you are NOT multi-tasking and ideally in a quiet environment where you can focus on being present to the following questions.</p>
                         <p class="mt-3 text-white">The questions are simple and do not require extensive thought. It should take you no longer than 15-minutes to complete.</p>
                     </div>
-                    <a href="{{route('test_play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
-                       class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Proceed
-                    </a>
+                    @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                        <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Proceed
+                        </a>
+                    @else
+                        <a href="{{url('client/play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Proceed
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

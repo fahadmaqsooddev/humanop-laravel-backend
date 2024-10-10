@@ -10,15 +10,18 @@
             padding: 0 25px 25px 25px;
             text-align: center;
         }
+
         .feedback-card h2 {
             margin-block-end: 15px;
             color: #333333;
         }
+
         .feedback-card p {
             color: #585758;
             font-size: 15px;
             margin-block-end: 30px;
         }
+
         .comment-box {
             inline-size: calc(100% - 20px);
             padding: 10px;
@@ -36,13 +39,6 @@
         @if ($navbar == 'basic')
             @include('layouts/navbars/auth/nav-auth-basic')
         @else
-{{--            <div class="container position-sticky z-index-sticky top-0">--}}
-{{--                <div class="row">--}}
-{{--                    <div class="col-12">--}}
-{{--                        @include('layouts/navbars/auth/nav-auth-cover')--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
         @endif
         <main class="main-content max-height-vh-100 h-100">
             @yield('content')
@@ -67,6 +63,10 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
+            {{--        @elseif (\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('intro-assessment'))--}}
+            {{--            @include('layouts.navbars.guest.nav')--}}
+            {{--            @yield('content')--}}
+            {{--            @include('layouts/footers/guest/footer')--}}
         @elseif (\Request::is('client/stripe-checkout'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
@@ -75,24 +75,28 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
+            {{--        @elseif (\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play'))--}}
+            {{--            @include('layouts.navbars.guest.nav')--}}
+            {{--            @yield('content')--}}
+            {{--            @include('layouts/footers/guest/footer')--}}
         @else
             @include('layouts/navbars/auth/sidebar')
             <main
                 class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
 
-                @if (\Request::is('pages-rtl'))
-                    @include('layouts/navbars/auth/nav-rtl')
-                @else
-                    @include('layouts/navbars/auth/nav')
-                @endif
-                @if($childFolder == 'profile'||$childFolder == 'account'||Request::is('ecommerce-products-new-product'))
-                    @yield('content')
-                @else
+            @if (\Request::is('pages-rtl'))
+                @include('layouts/navbars/auth/nav-rtl')
+            @else
+                @include('layouts/navbars/auth/nav')
+            @endif
+            @if($childFolder == 'profile'||$childFolder == 'account'||Request::is('ecommerce-products-new-product'))
+                @yield('content')
+            @else
 
-                    @if($parentFolder === 'client-dashboard')
-                        @include('client-dashboard/chat-ai/chat-ai-modal')
-                    @endif
-                    <!-- added px-0 class -->
+                @if($parentFolder === 'client-dashboard')
+                    @include('client-dashboard/chat-ai/chat-ai-modal')
+                @endif
+                <!-- added px-0 class -->
                     <div class="container-fluid pt-2 pb-2 px-0">
 
                         <button type="button" data-bs-toggle="modal"
@@ -109,8 +113,9 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content" style="background-color: #0f1535;">
                                     <div class="d-flex justify-content-end p-3">
-                                        <a type="button" class="close modal-close-btn text-white" data-bs-dismiss="modal"
-                                                aria-label="Close">
+                                        <a type="button" class="close modal-close-btn text-white"
+                                           data-bs-dismiss="modal"
+                                           aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </a>
                                     </div>
@@ -122,8 +127,12 @@
                                                 <span class="text-success">Feedback sent</span>
                                             </div>
 
-                                            <textarea id="comment-value" rows="5" class="comment-box" placeholder="Add a Comment..." required></textarea>
-                                            <button type="submit" onclick="submitFeedBackForm()" class="btn" style="inline-size: 100%;background-color: #f2661c;color: white;">Submit Now</button>
+                                            <textarea id="comment-value" rows="5" class="comment-box"
+                                                      placeholder="Add a Comment..." required></textarea>
+                                            <button type="submit" onclick="submitFeedBackForm()" class="btn"
+                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                                Submit Now
+                                            </button>
 
                                         </form>
                                     </div>
@@ -144,9 +153,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 <script>
 
     var is_admin = {{\App\Helpers\Helpers::getWebUser()->is_admin ?? 0}};
@@ -155,42 +170,13 @@
 
     console.log(is_admin, feedback_exists, is_feedback);
 
-    if (is_admin === 2 && !feedback_exists){ // check if user is client then show feedback pop up
-
-        // open_modal = localStorage.getItem('modal_open_time');
-        //
-        // // if ((open_modal === "true" || is_feedback === 1) && open_modal !== "false") { // if modal open value is true then show pop-up
-        // if (open_modal !== "false") { // if modal open value is true then show pop-up
-        //
-        //     setTimeout(function (){
-        //
-        //         $('#add_feedback').click();
-        //
-        //         localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
-        //
-        //         console.log('aaa');
-        //
-        //     }, 300000);
-        //
-        //     // $(window).on('load', function() { // on page change the modal populates
-        //     //
-        //     //     setTimeout(function (){
-        //     //
-        //     //         $('#add_feedback').click();
-        //     //
-        //     //         localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
-        //     //
-        //     //         console.log('aaa');
-        //     //
-        //     //     }, 300000);
-        //     // });
-        // }
+    if (is_admin === 2 && !feedback_exists) { // check if user is client then show feedback pop up
 
         open_modal = localStorage.getItem('modal_open_time');
 
-        if (open_modal === "true"){
+        if (open_modal === "true") {
 
-            $(window).on('load', function() { // on page change the modal populates
+            $(window).on('load', function () { // on page change the modal populates
 
                 $('#add_feedback').click();
 
@@ -201,7 +187,7 @@
 
         }
 
-        if(open_modal !== 'false'){
+        if (open_modal !== 'false') {
 
             var now = new Date();
 
@@ -209,7 +195,7 @@
 
             var local_storage_time = localStorage.getItem('modal_open_time');
 
-            if(local_storage_time === null){
+            if (local_storage_time === null) {
 
                 console.log('Set');
 
@@ -218,13 +204,13 @@
                 local_storage_time = localStorage.getItem('modal_open_time');
             }
 
-            let intervalID = setInterval(function (){
+            let intervalID = setInterval(function () {
 
                 var now_date_minute = Math.floor(new Date().getMinutes());
 
                 var local_storage_date_minute = Math.floor(new Date(parseInt(local_storage_time)).getMinutes());
 
-                if (local_storage_date_minute === now_date_minute){
+                if (local_storage_date_minute === now_date_minute) {
 
                     console.log('RUN');
 
@@ -241,12 +227,12 @@
         }
     }
 
-    function submitFeedBackForm(){
+    function submitFeedBackForm() {
 
         $.ajax({
             url: '{{ route("user-feedback") }}',
             method: 'POST',
-            data: {'comment' : $('#comment-value').val()},
+            data: {'comment': $('#comment-value').val()},
             headers: {
                 'X-CSRF-TOKEN': "{{csrf_token()}}"
             },
@@ -254,7 +240,7 @@
 
                 $('#feedback_success_message').removeAttr('hidden');
 
-                setTimeout(function (){
+                setTimeout(function () {
                     $('#add_feedback').click();
                 }, 1000);
             },

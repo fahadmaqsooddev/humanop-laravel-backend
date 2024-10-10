@@ -355,11 +355,19 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $data['is_admin'] = Admin::IS_CUSTOMER;
-
         $data['status'] = 1;
-//        $age = explode('-', $data['age_range']);
-//        $data['age_min'] = $age[0];
-//        $data['age_max'] = $age[1];
+        $user = self::create($data);
+
+        return $user;
+
+    }
+
+    public static function createPractitionerUser($data = null, $practitionerId = null)
+    {
+
+        $data['is_admin'] = Admin::IS_CUSTOMER;
+        $data['status'] = 1;
+        $data['practitioner_id'] = $practitionerId;
 
         $user = self::create($data);
 
@@ -370,9 +378,6 @@ class User extends Authenticatable implements JWTSubject
     public static function createSubAdmin($data = null)
     {
         $data['is_admin'] = 3;
-//        $age = explode('-', $data['age_range']);
-//        $data['age_min'] = $age[0];
-//        $data['age_max'] = $age[1];
         $data['status'] = 1;
 
         $user = self::create($data);
@@ -644,7 +649,7 @@ class User extends Authenticatable implements JWTSubject
 
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
 
-        $users = ($isAdminLevel == 4) ? self::where('is_practitioner', $userId) : self::query();
+        $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId) : self::query();
 
         // Search by name
         if (!empty($search_name)) {

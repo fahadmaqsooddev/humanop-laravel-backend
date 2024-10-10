@@ -42,6 +42,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 //});
 
+
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     //    admin dashboard

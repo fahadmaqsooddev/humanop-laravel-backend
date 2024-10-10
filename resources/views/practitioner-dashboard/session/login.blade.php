@@ -7,7 +7,7 @@
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-7 text-center mx-auto">
-                        <h1 class="text-white mb-2 mt-5">Welcome to the Practitioner Login Form</h1>
+                        <h1 class="text-white mb-2 mt-5">Welcome!</h1>
                     </div>
                 </div>
             </div>
@@ -72,10 +72,15 @@
                         <p class="text-center text-white"><b>or</b></p>
                         <div class="card-body">
 
-                            <form role="form" action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}" class="text-start"  method="POST">
+                            <form role="form" action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}" class="text-start"
+                                  method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="name" class="text-white">Email</label>
+                                    <input type="text" class="form-control" name="first_name" value="{{$slug}}" hidden
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                    <input type="text" class="form-control" name="last_name" value="{{$slug2}}" hidden
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     <input type="email" class="form-control" placeholder="Email" aria-label="Email"
                                            name="email" id="email"
                                            @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @endif
@@ -113,7 +118,7 @@
                                     </button>
                                 </div>
                                 <p class="text-sm text-center mt-3 mb-0" style="color: rgb(160, 174, 192)">Don't have an
-                                    account? <a href="{{ url('register') }}" class="text-dark font-weight-bolder">Sign
+                                    account? <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register')}}" class="text-dark font-weight-bolder">Sign
                                         up</a>
                                 </p>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\HAIChai\HaiChat;
@@ -37,7 +38,16 @@ class SessionController extends Controller
     {
         try {
 
-            return view('practitioner-dashboard/session/login');
+            $user = User::where('first_name', $slug)->where('last_name', $slug2)->where('is_admin', 4)->exists();
+
+            if ($user)
+            {
+                return view('practitioner-dashboard/session/login', compact('slug', 'slug2'));
+            }
+            else
+            {
+                return redirect()->to('/' . $slug . '/' . $slug2 . '/login')->withErrors(['msgError' => 'This Practitioner does not exist']);
+            }
 
         } catch (\Exception $exception) {
 
@@ -97,45 +107,48 @@ class SessionController extends Controller
         }
     }
 
-    public function loginClientToPractitioner($slug1, $slug2, Request $request)
+    public function loginClientToPractitioner(Request $request)
     {
-
-        User::verifyUserExistsWithPractitionerSlugs($request->input('email', null), $slug1, $slug2);
-
         try {
+
             $attributes = request()->validate([
                 'email'=>'required|email',
                 'password'=>'required',
             ]);
 
-            if(Auth::attempt($attributes))
+            $user = User::where('first_name', $request['first_name'])->where('last_name', $request['last_name'])->where('is_admin', 4)->exists();
+
+            if ($user)
             {
-                if (isset($request['remember']) && !empty($request['remember']))
+                if(Auth::attempt($attributes))
                 {
-                    setcookie("email", $attributes['email'], 30*time()+3600);
-                    setcookie("password", $attributes['password'], 30*time()+3600);
-                }else
-                {
-                    setcookie("email", "");
-                    setcookie("password", "");
+                    if (isset($request['remember']) && !empty($request['remember']))
+                    {
+                        setcookie("email", $attributes['email'], 30*time()+3600);
+                        setcookie("password", $attributes['password'], 30*time()+3600);
+                    }else
+                    {
+                        setcookie("email", "");
+                        setcookie("password", "");
+                    }
+
+                    $user = Helpers::getWebUser();
+
+                    Session::forget('google_user'); // forget the session of the google data
+
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    DailyTip::updateUserDailyTip();
+
+                    ActionPlan::storeUserActionPlan();
+
+                    User::updateUserIsFeedback();
+
+                    return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
                 }
 
-                $user = Helpers::getWebUser();
-
-                Session::forget('google_user'); // forget the session of the google data
-
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                DailyTip::updateUserDailyTip();
-
-                ActionPlan::storeUserActionPlan();
-
-                User::updateUserIsFeedback();
-
-                return redirect()->route('admin_dashboard');
+                return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
             }
-
-            return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
 
         }catch (ValidationException $validationException){
 
@@ -159,6 +172,20 @@ class SessionController extends Controller
         Cache::forget('admin');
 
         return redirect('/')->with(['success'=>'You\'ve been logged out.']);
+    }
+
+    public static function destroyPractitioner()
+    {
+
+        HaiChat::deleteAdminChat(Cache::get('admin'));
+
+        Auth::logout();
+
+        Session::flush();
+
+        Cache::forget('admin');
+
+        return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->with(['success'=>'You\'ve been logged out.']);
     }
 
     public function loginBackToAdmin()
