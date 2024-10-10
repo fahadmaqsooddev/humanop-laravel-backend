@@ -8,20 +8,20 @@
             @if(\Illuminate\Support\Facades\Auth::user()['password_set'] == 1)
                 <label class="form-label text-white">Current password</label>
                 <div class="form-group">
-                    <input style="background-color: #0f1534;" wire:model="current_password"
-                           class="form-control text-white" type="password"
+                    <input  wire:model="current_password"
+                           class="form-control text-white setting-box-background" type="password"
                            placeholder="Current password">
                 </div>
             @endif
             <label class="form-label text-white">New password</label>
             <div class="form-group">
-                <input style="background-color: #0f1534;" class="form-control text-white" wire:model="password"
+                <input  class="form-control text-white setting-box-background" wire:model="password"
                        type="password"
                        placeholder="New password">
             </div>
             <label class="form-label text-white">Confirm new password</label>
             <div class="form-group">
-                <input style="background-color: #0f1534;" class="form-control text-white" wire:model="confirm_password"
+                <input  class="form-control text-white setting-box-background" wire:model="confirm_password"
                        type="password"
                        placeholder="Confirm password">
             </div>

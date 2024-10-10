@@ -6,9 +6,9 @@
     <form wire:submit.prevent="submitForm" class="mb-4">
         <div class="card-body pt-0">
             <label class="form-label text-white">90 Day Intention</label>
-            <div class="form-group">
+            <div class="form-group text-white">
                 <input wire:model.defer="intention"
-                       class="form-control text-white table-header-text" type="text"
+                       class="form-control text-white setting-box-background" type="text"
                        placeholder="In the next 90 Days I would like to ...">
             </div>
             <button type="submit" class="btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn" >
