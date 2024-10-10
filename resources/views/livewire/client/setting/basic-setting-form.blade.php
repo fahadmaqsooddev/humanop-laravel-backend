@@ -36,7 +36,7 @@
                     <label class="form-label mt-4 text-white">Phone Number</label>
                     <div class="input-group">
                         <input  id="phone" wire:model.defer="user.phone"
-                               class="form-control text-white setting-box-background" type="text" placeholder="Enter your phone number">
+                                maxlength="14" class="form-control text-white setting-box-background" type="tel" placeholder="Enter your phone number">
                     </div>
                 </div>
             </div>

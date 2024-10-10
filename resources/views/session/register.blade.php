@@ -133,8 +133,9 @@
                                 <div>
                                     <label for="name" class="text-white">Phone</label>
                                     <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone"
-                                        name="phone" id="phone"
-                                        style="background-color: #0F1535; color: white; border-radius: 15px;">
+                                           name="phone" id="phone" maxlength="14"
+                                            title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
+                                           style="background-color: #0F1535; color: white; border-radius: 15px;">
                                     @error('phone')
                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                     @enderror
