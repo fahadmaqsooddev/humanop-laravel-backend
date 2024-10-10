@@ -1162,7 +1162,7 @@ class Assessment extends Model
             AssessmentDetail::createAssessmentDetail($data);
         }
 
-        return $message;
+        return ($message ?? "");
 
     }
 
