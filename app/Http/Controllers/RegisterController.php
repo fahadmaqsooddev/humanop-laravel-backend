@@ -159,7 +159,7 @@ class RegisterController extends Controller
 
                 Session::forget('google_user');
 
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('practitioner/dashboard'));
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
 
             }
         } catch (\Exception $exception) {
