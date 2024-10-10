@@ -754,9 +754,7 @@ class User extends Authenticatable implements JWTSubject
 //
 //        });
 
-        $user = self::where('email', $request->input('email'))
-
-            ->first();
+        $user = self::where('email', $request->input('email'))->first();
 
         if ($user){
 
