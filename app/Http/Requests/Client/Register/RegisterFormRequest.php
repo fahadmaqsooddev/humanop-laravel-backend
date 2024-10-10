@@ -37,7 +37,7 @@ class RegisterFormRequest extends FormRequest
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => $required . '|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
-            'password' => $required . '|string|max:255',
+            'password' => $required . '|string|max:255|confirmed',
             'date_of_birth' => 'required|date',
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
