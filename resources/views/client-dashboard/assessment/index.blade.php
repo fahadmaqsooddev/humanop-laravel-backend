@@ -10,6 +10,18 @@
 
     <div class="row mt-4 container-fluid">
         <div class="col-12">
+
+            @if(session('message'))
+                <div class="m-3 alert alert-success alert-dismissible fade show text-center" id="alert-success"
+                     role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('message') }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
+
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">
