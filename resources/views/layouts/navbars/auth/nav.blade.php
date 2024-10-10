@@ -36,7 +36,13 @@
                  role="tablist">
                 <div class="nav-item">
 
-                    @if(\App\Helpers\Helpers::getWebUser()?->assessments()?->where('page', 0)?->count() > 0)
+                    @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
+
+                        <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
+                           class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
+                        </a>
+
+                    @elseif(\App\Helpers\Helpers::getWebUser()?->assessments()?->where('page', 0)?->count() > 0)
 
                         <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: #f2661c"
                            class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
