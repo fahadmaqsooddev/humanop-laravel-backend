@@ -117,6 +117,26 @@
                                     </span>
                                     </div>
                                 </div>
+
+                                <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
+                                    <div>
+                                        <label for="password" class="text-white">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="Confirm Password"
+                                               aria-label="Password" aria-describedby="password-addon" name="password_confirmation"
+                                               id="confirmPassword"
+                                               style="background-color: #0F1535; color: white; border-radius: 15px; padding-right: 40px;">
+                                        @error('password_confirmation')
+                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                    @enderror
+                                    <!-- Eye icon for toggling password visibility -->
+                                        <span class="position-absolute" id="toggleConfirmPassword"
+                                              style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
+                                        <i class="fas fa-eye pt-1 confirm-password-eye" id="confirm-password-eye"
+                                           style="    color: #f2661c !important;"></i>
+                                    </span>
+                                    </div>
+                                </div>
+
                                 <div class="mt-3">
                                     <div>
                                         <label for="name" class="text-white">Phone</label>
@@ -239,6 +259,29 @@
                     passwordInput.type = 'password';
                     icon.classList.remove('fa-eye-slash');
                     icon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
+                }
+            });
+        }
+
+        // confirm password eye toggler
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const confirmIcon = document.getElementById('confirm-password-eye');
+
+        // Add click event listener to the eye icon
+        if (toggleConfirmPassword && confirmPasswordInput) {
+            toggleConfirmPassword.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default behavior (especially for anchors)
+
+                // Toggle the password visibility and the eye icon
+                if (confirmPasswordInput.type === 'password') {
+                    confirmPasswordInput.type = 'text';
+                    confirmIcon.classList.remove('fa-eye');
+                    confirmIcon.classList.add('fa-eye-slash'); // Change to the eye-slash icon when password is visible
+                } else {
+                    confirmPasswordInput.type = 'password';
+                    confirmIcon.classList.remove('fa-eye-slash');
+                    confirmIcon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
                 }
             });
         }
