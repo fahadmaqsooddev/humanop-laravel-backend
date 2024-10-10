@@ -48,7 +48,8 @@
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
                     <th>Practitioner</th>
-                    <th></th>
+                    <th>Login Client</th>
+                    <th>Delete Client</th>
                 @endif
             </tr>
             </thead>
@@ -109,6 +110,13 @@
                                style="border: 1px solid #f2661c; color: #f2661c; background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;"
                                class="btn btn-sm float-end mt-2 mb-0">
                                 Login
+                            </a>
+                        </td>
+                        <td class="text-sm font-weight-normal">
+                            <a onclick="deleteClientProfile({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
+                               style="border: 1px solid #f2661c; color: white; background-color: red;"
+                               class="btn btn-sm float-end mt-2 mb-0">
+                                Delete
                             </a>
                         </td>
                     @endif
@@ -216,6 +224,28 @@
                     checkbox.checked = !isChecked;
                 }
             });
+        }
+
+        function deleteClientProfile(id, name) {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete " + name + " Profile</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteClientProfile', id)
+                }
+            })
         }
 
 

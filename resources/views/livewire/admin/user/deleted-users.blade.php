@@ -10,6 +10,7 @@
                 <th>#</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>User Type</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                     <td class="text-sm font-weight-normal">{{$key + 1}}</td>
                     <td class="text-sm font-weight-normal">{{$user['first_name'] . ' ' . $user['last_name']}}</td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
+                    <td class="text-sm font-weight-normal">{{$user['is_admin'] == 4 ? "Practitioner" : "Client"}}</td>
                     <td>
                         <button onclick="confirmBoxForRestoreUser({{$user->id}})" class="btn updateBtn" title="restore">
                             <i class="fa-solid fa-rotate-right"></i>
