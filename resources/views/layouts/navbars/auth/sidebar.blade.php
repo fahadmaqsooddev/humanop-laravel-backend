@@ -581,29 +581,28 @@
                             </li>
                             {{--                            download on apple--}}
                             <li class="nav-item mt-2 d-flex justify-content-center">
+                                <div class="d-flex justify-content-between">
                                 <span class="humanopMiniLogo d-none">
                                     <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
                                     alt="apple icon"
-                                    style="width: 50px; height: 50px; color: white;"/>
+                                    style="width: 40px; height: 40px; color: white;"/>
                                   </span>
                                  <span class="humanopLogo ">
-                                 <img src="{{asset('assets/icons/downloadapple.png')}}"
+                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"
                                   alt="apple icon"
-                                 style="width: 150px; height: 50px; color: white;"/>
+                                 style="width: 100px; height: 40px; color: white;"/>
                                 </span>
-                            </li>
-                            {{--                            download on android--}}
-                            <li class="nav-item mt-2 d-flex justify-content-center">
-                                <span class="humanopMiniLogo d-none">
+                                <span class="humanopMiniLogo d-none " style="margin-left: 5px">
                                   <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
                                   alt="android icon"
-                                  style="width: 50px; height: 50px;"/>
+                                  style="width: 40px; height: 40px;"/>
                                   </span>
-                                <span class="humanopLogo ">
-                                <img src="{{asset('assets/icons/downloadandroid.png')}}"
-                                  alt="android icon"
-                                  style="width: 150px; height: 50px;"/>
-                                </span>
+                                <span class="humanopLogo" style="margin-left: 5px">
+                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"
+                                    alt="android icon"
+                                    style="width: 100px;height: 35px;margin-top: 2px;"/>
+                                  </span>
+                                </div>
                             </li>
                             {{--                            end download here--}}
                             <li class="nav-item">
