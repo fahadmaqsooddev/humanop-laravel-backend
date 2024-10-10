@@ -119,5 +119,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
 
     });
 
+    Route::get('/login-back-to-admin', [SessionController::class,'loginBackToAdmin'])->name('login_back_to_admin');
+
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
 });

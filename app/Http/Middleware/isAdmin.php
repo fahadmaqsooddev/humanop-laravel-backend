@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class isAdmin
@@ -30,6 +32,17 @@ class isAdmin
                 return redirect()->route('client_dashboard');
             }
         }else{
+
+            $admin = Cache::get('admin');
+
+            if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)) {
+
+                $admin_user = User::whereId($admin['admin_id'])->first();
+
+                Auth::login($admin_user);
+
+                return redirect()->route('admin_all_users');
+            }
 
             Auth::logout();
 

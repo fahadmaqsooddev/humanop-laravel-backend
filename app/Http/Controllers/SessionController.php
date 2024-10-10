@@ -161,18 +161,18 @@ class SessionController extends Controller
         return redirect('/')->with(['success'=>'You\'ve been logged out.']);
     }
 
-    public function loginBackToAdmin(){
+    public function loginBackToAdmin()
+    {
 
-//        $admin = Session::get('admin');
         $admin = Cache::get('admin');
 
         HaiChat::deleteAdminChat($admin);
 
         Auth::logout();
 
-        if ($admin['is_admin'] ?? false && $admin['admin_id'] ?? null){
+        if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)){
 
-            $admin_user = User::whereId($admin['admin_id'])->first();
+            $admin_user = User::where('id', $admin['admin_id'])->first();
 
             Auth::login($admin_user);
 
