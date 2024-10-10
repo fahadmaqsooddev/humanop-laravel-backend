@@ -738,8 +738,6 @@ class User extends Authenticatable implements JWTSubject
     public static function checkUserFromEmailOrSocialId($request)
     {
 
-        $users = self::query();
-
 //        $users = $users->when($request->input('email'), function ($query, $email) {
 //
 //            $query->where('email', $email);
@@ -757,10 +755,6 @@ class User extends Authenticatable implements JWTSubject
 //        });
 
         $user = self::where('email', $request->input('email'))
-
-            ->orWhere('google_id', $request->input('google_id'))
-
-            ->orWhere('apple_id', $request->input('apple_id'))
 
             ->first();
 
