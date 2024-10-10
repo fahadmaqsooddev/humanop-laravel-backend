@@ -97,15 +97,16 @@
                                         aria-label="Password" aria-describedby="password-addon" name="password"
                                         id="password"
                                         style="background-color: #0F1535; color: white; border-radius: 15px; padding-right: 40px;">
-                                    @error('password')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
                                     <!-- Eye icon for toggling password visibility -->
                                     <span class="position-absolute" id="togglePassword"
-                                        style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
+                                        style="right: 15px; top: 42px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye pt-1 password-eye" id="password-eye"
                                             style="    color: #f2661c !important;"></i>
                                     </span>
+
+                                    @error('password')
+                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -121,7 +122,7 @@
                                     @enderror
                                 <!-- Eye icon for toggling password visibility -->
                                     <span class="position-absolute" id="toggleConfirmPassword"
-                                          style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
+                                          style="right: 15px; top: 42px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye pt-1 confirm-password-eye" id="confirm-password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
