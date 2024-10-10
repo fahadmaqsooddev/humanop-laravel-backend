@@ -1,4 +1,12 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+@push('css')
+    <style>
+        .setting-options:hover{
+            background-color: white !important;
+        }
+
+    </style>
+@endpush
 
 @section('content')
 
@@ -8,7 +16,7 @@
                 <div class="card position-sticky top-1 background-none">
                     <ul class="nav flex-column border-radius-lg p-3 rainbow-border-user-nav-btn" >
                         <li class="nav-item">
-                            <a class="nav-link text-body" data-scroll="" href="#profile">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#profile">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 40"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +47,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#basic-info">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#basic-info">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 44"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +73,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#password">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#password">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +102,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#intentionPlan">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#intentionPlan">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +131,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#subscription">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#subscription">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +160,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#billing">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#billing">
                                 <div class="icon me-2">
                                     <i class="fa-solid fa-address-card custom-text-dark"></i>
                                     {{--                                    <img style="width: 18px; margin-right: 10px" src="{{URL::asset('assets/icons/billing.png')}}">--}}
@@ -161,7 +169,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#paymentHistory">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#paymentHistory">
                                 <div class="icon me-2">
                                     <i class="fa-regular fa-credit-card custom-text-dark"></i>
                                 </div>
@@ -169,7 +177,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#delete">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#delete">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 45 40"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"

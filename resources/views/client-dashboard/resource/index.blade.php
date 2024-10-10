@@ -314,29 +314,29 @@
     </style>
 
 
-    <div class="row container-fluid">
-        <div class="col-lg-12 position-relative z-index-2">
-            <div class="mb-4">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="d-flex flex-column h-100">
-                                <h2 class="font-weight-bolder mb-0">Library Resources</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--    <div class="row container-fluid">--}}
+{{--        <div class="col-lg-12 position-relative z-index-2">--}}
+{{--            <div class="mb-4">--}}
+{{--                <div class="card-body p-3">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-lg-12">--}}
+{{--                            <div class="d-flex flex-column h-100">--}}
+{{--                                <h2 class="font-weight-bolder mb-0">Library Resources</h2>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="row">
+{{--            <div class="row">--}}
 
-                <div class="text-center w-100 p-5">
+{{--                <div class="text-center w-100 p-5">--}}
 {{--                    for diagonal styling--}}
 {{--                    style="display: inline-block; transform: rotate(-40deg); font-size: 24px; font-weight: bold; color: black;"--}}
 
-                    <h1 style="color: #0f1534;">Coming Soon!</h1>
+{{--                    <h1 style="color: #0f1534;">Coming Soon!</h1>--}}
 
-                </div>
+{{--                </div>--}}
 
 {{--                @foreach($categories as $category)--}}
 {{--                    <div class="col-lg-5 col-sm-5">--}}
@@ -403,9 +403,9 @@
 {{--                    </div>--}}
 {{--                @endforeach--}}
 
-            </div>
-        </div>
-    </div>
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <button data-bs-toggle="modal"
             data-bs-target="#life" hidden>
@@ -488,9 +488,13 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7">
-                <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
+        <div class="col-5 text-center" >
+            <h1 style="color: #0f1534;">Coming Soon!</h1>
+        </div>
+        <div class="col-7">
+            <div id="globe" class="position-relative d-flex justify-content-center " style="height: 600px;">
+                <canvas width="650" height="650" class=" h-lg-100 w-75 h-75"></canvas>
+                <img width="350" height="350" src="{{asset('assets/img/icons/white-icon.png')}}" class="position-absolute" style="top: 38%; left: 50%; transform: translate(-50%, -50%);opacity: 30%">
             </div>
         </div>
     </div>
