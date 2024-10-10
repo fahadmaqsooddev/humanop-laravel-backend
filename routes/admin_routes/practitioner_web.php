@@ -41,42 +41,42 @@ Route::group(['prefix' => '{slug?}/{slug2?}', 'middleware' => 'isPractitioner'],
     //90 days plan test route
     Route::get('/ninety-day-plan', [ClientController::class, 'ninetyDayPlan']);
     //end here
-    Route::get('/pricing', [PricingController::class, 'index'])->name('client_pricing');
+    Route::get('/pricing', [PricingController::class, 'index'])->name('practitioner_client_pricing');
 
 //    Route::get('/stripe-checkout', [PaymentController::class, 'showPaymentForm'])->name('stripe_checkout');
 //    Route::post('/stripe', [PaymentController::class, 'processPayment'])->name('process_payment');
 
-    Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('client_intro_assessment');
-    Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
-    Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('all_assessment');
+    Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('practitioner_client_intro_assessment');
+    Route::get('/play', [QuestionController::class, 'testPlay'])->name('practitioner_test_play');
+    Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('practitioner_all_assessment');
 
-    Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('user_detail');
-    Route::get('/user-info', [UserController::class, 'userInfo'])->name('user_info');
-    Route::get('/user-profile-overview/{id?}', [UserController::class, 'profileOverview'])->name('user_profile_overview');
-    Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('download_user_report');
-    Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('user_grid');
-    Route::get('/user-report/{id}', [UserController::class, 'report'])->name('user_report');
-    Route::get('/resource', [ResourceController::class, 'resource'])->name('resource');
-    Route::get('/newsfeed', [NetworkController::class, 'network'])->name('newsfeed');
-    Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
-    Route::post('/delete-account', [SettingController::class, 'deleteAccount'])->name('delete_account');
+    Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('practitioner_user_detail');
+    Route::get('/user-info', [UserController::class, 'userInfo'])->name('practitioner_user_info');
+    Route::get('/user-profile-overview/{id?}', [UserController::class, 'profileOverview'])->name('practitioner_user_profile_overview');
+    Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('practitioner_download_user_report');
+    Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('practitioner_user_grid');
+    Route::get('/user-report/{id}', [UserController::class, 'report'])->name('practitioner_user_report');
+    Route::get('/resource', [ResourceController::class, 'resource'])->name('practitioner_resource');
+    Route::get('/newsfeed', [NetworkController::class, 'network'])->name('practitioner_newsfeed');
+    Route::get('/setting', [SettingController::class, 'setting'])->name('practitioner_setting');
+    Route::post('/delete-account', [SettingController::class, 'deleteAccount'])->name('practitioner_delete_account');
 
-    Route::post('/check-coupon', [CouponController::class, 'checkCoupon'])->name('check_coupon');
+    Route::post('/check-coupon', [CouponController::class, 'checkCoupon'])->name('practitioner_check_coupon');
 
-    Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
+    Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('practitioner_generate_pdf');
     Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('generate_pdf');
 
-    Route::get('messages', [MessageController::class, 'index'])->name('messages');
+    Route::get('messages', [MessageController::class, 'index'])->name('practitioner_messages');
 
-    Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
+    Route::get('/stories', [\App\Http\Controllers\ClientController\StoryController::class, 'stories'])->name('practitioner_stories');
 
-    Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('user-feedback');
-    Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('follow');
-    Route::get('/connections', [NetworkController::class, 'connection'])->name('connections');
+    Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('practitioner-user-feedback');
+    Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('practitioner_follow');
+    Route::get('/connections', [NetworkController::class, 'connection'])->name('practitioner_connections');
 
-    Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('read-daily-tip');
+    Route::post('/read-daily-tip', [\App\Http\Controllers\ClientController\ClientController::class,'readDailyTip'])->name('practitioner_read-daily-tip');
 
-    Route::get('login-back-to-admin', [\App\Http\Controllers\SessionController::class,'loginBackToAdmin'])->name('login_back_to_admin');
+    Route::get('login-back-to-admin', [\App\Http\Controllers\SessionController::class,'loginBackToAdmin'])->name('practitioner_login_back_to_admin');
 
 
 });
