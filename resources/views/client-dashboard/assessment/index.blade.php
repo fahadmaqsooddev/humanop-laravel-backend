@@ -19,20 +19,20 @@
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
                         <tr>
-                            <th>Assessment</th>
-                            <th>Assessment Status</th>
                             <th>Date & Time</th>
+                            <th>Assessment Status</th>
                             <th>Practitioner</th>
+                            <th>Reference Code</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($assessments as $assessment)
                             <tr>
-                                <td class="text-sm font-weight-normal">{{$assessment['id']}} </td>
+                                <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}}</td>
                                 <td class="text-sm font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
-                                <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('Y/m/d')}}</td>
-                                <td class="text-sm font-weight-normal">Null</td>
+                                <td class="text-sm font-weight-normal">N/A</td>
+                                <td class="text-sm font-weight-normal">{{$assessment['id']}} </td>
                                 <td class="text-sm font-weight-normal"><a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">View</a></td>
                             </tr>
                         @endforeach
