@@ -259,7 +259,7 @@ class Assessment extends Component
                         $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
                     }else{
 
-                        $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+                        $this->assessmentMessage = "Congratulations on finishing your assessment!";
                     }
 
                 } else {
@@ -290,8 +290,8 @@ class Assessment extends Component
         $this->questions = Question::getQuestion($this->offset, $this->limit);
 
         if (!$this->questions) {
-            if (Helpers::getWebUser()['practitioner_id'] != null)
-            {
+
+            if (Helpers::getWebUser()['practitioner_id'] != null) {
 
                 session()->flash('message', $this->assessmentMessage);
 
@@ -299,8 +299,8 @@ class Assessment extends Component
 
 
                 // return redirect()->to(PractitionerHelpers::makePractitionerUrl('all-assessments'));
-            }else
-            {
+
+            }else {
 
                 session()->flash('message', $this->assessmentMessage);
 
