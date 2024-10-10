@@ -4,6 +4,7 @@ namespace App\Models\Admin\DailyTip;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Assessment;
 use App\Models\Client\Plan\Plan;
 use Carbon\Carbon;
@@ -75,7 +76,9 @@ class DailyTip extends Model
 
         $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
 
-        $body = ['assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
+        $url = PractitionerHelpers::makePractitionerUrl('intro-assessment');
+
+        $body = ['assessment_url', $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 
         $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
 
