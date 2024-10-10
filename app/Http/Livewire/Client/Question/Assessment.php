@@ -27,6 +27,7 @@ class Assessment extends Component
     public $currentPage = 0;
     public $totalQuestion = 0;
     public $assessmentId = 0;
+    public $assessmentMessage = "";
 
     public function mount()
     {
@@ -253,6 +254,11 @@ class Assessment extends Component
 
                         DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
                         ActionPlan::storeUserActionPlan(true);
+
+                        $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+                    }else{
+
+                        $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
                     }
 
                 } else {
@@ -281,8 +287,14 @@ class Assessment extends Component
     public function updateQuestion()
     {
         $this->questions = Question::getQuestion($this->offset, $this->limit);
+
         if (!$this->questions) {
-            return redirect()->route('all_assessment');
+
+            session()->flash('message', $this->assessmentMessage);
+
+            return redirect('/client/all-assessments');
+
+//            return redirect()->route('all_assessment');
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ClientController;
 
 use App\Helpers\Helpers;
+use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\AssessmentDetail;
@@ -101,6 +102,8 @@ class UserController extends Controller
             $dataArray['user_id'] = Helpers::getWebUser()->id;
 
             Feedback::storeClientFeedback($dataArray);
+
+            PointHelper::addPointsOnFeedbackSubmission();
 
         }catch (\Exception $exception){
 

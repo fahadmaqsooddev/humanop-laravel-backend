@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">Edit Web Page</h5>
                 </div>
                 <div class="card-body pt-0">

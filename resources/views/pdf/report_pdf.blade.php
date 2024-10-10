@@ -10,9 +10,16 @@
                         <div class="card" style="text-align: center">
                             <div class="card-body p-3 ">
                                 <div>
+
                                     <img
-                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/HumanOp.png'))) }}"
-                                        style="background:#351a0d; padding: 0px; max-width: 500px;">
+                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/img/hai_chat_logo.png'))) }}"
+                                        style="padding: 0px; max-width: 150px;">
+
+                                </div>
+                                <div>
+                                    <img
+                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/logos/HumanOp Logo.png'))) }}"
+                                        style="padding: 0px; max-width: 500px;">
                                 </div>
 
                                 <h3 class="text-white text-bold">“Advanced Human Assessment Technology for a Better

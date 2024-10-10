@@ -13,28 +13,42 @@
 
 
  {{--    @empty($messages)--}}
-    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center p-4"                   id="suggestion_text_box">
-        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap " onclick="suggestionChatQueries('I Just Received My Results…Now What?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                <p class="prompt-text fs-7px">I Just Received My Results…Now What?</p>
-            </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;
-        <div class="d-flex text-center  p-0   w-20 h-100  text-wrap" onclick="suggestionChatQueries('I’m feeling low on energy, how do I get motivated?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
 
-            <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap ">
-                <p class="prompt-text fs-7px" >I’m feeling low on energy, how do I get motivated?</p>
-            </div>
-        </div>
-        &nbsp;&nbsp;&nbsp;
+{{--    Hiding the suggestion text boxes of HaiChat--}}
+{{--    <div class="prompt-suggestion d-flex    align-items-center  justify-content-center text-center p-4"                   id="suggestion_text_box">--}}
+{{--        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100  text-wrap " onclick="suggestionChatQueries('I Just Received My Results…Now What?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+{{--            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+{{--                <p class="prompt-text fs-7px">I Just Received My Results…Now What?</p>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        &nbsp;&nbsp;&nbsp;--}}
+{{--        <div class="d-flex text-center  p-0   w-20 h-100  text-wrap" onclick="suggestionChatQueries('I’m feeling low on energy, how do I get motivated?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
 
-        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  " onclick="suggestionChatQueries('How do I best structure my day for maximum productivity?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">
-            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">
-                <p class="prompt-text fs-7px">How do I best structure my day for maximum productivity?</p>
-            </div>
-        </div>
+{{--            <div class="d-flex align-items-center  justify-content-center text-center p-2 word-wrap ">--}}
+{{--                <p class="prompt-text fs-7px" >I’m feeling low on energy, how do I get motivated?</p>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        &nbsp;&nbsp;&nbsp;--}}
+
+{{--        <div class=" d-flex align-items-center  justify-content-center text-center   p-0   w-20 h-100 text-wrap  " onclick="suggestionChatQueries('How do I best structure my day for maximum productivity?')" style="border: 1px solid #f2661c; border-radius: 7px;  cursor: pointer;">--}}
+{{--            <div class="d-flex align-items-center text-center  justify-content-center p-2 word-wrap ">--}}
+{{--                <p class="prompt-text fs-7px">How do I best structure my day for maximum productivity?</p>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
 
+
+{{--    </div>--}}
+
+{{--    Title and SubTitle div--}}
+    <div class="p-2">
+
+        <h5 style="color: black;line-height: 5px;">
+            Hello, I’m HAi!
+        </h5>
+        <p style="color: black; margin-bottom: unset;">
+            Chat with the HumanOp Authentic Intelligence (HAi) OS
+        </p>
 
     </div>
 
@@ -49,8 +63,9 @@
                       placeholder="Type your message here..."></textarea>
 
             <button type="submit" id="submitBtn">
-                <div style="background-color: #f2661c; color: white; border-radius: 50%; padding: 10px;">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
+                <div style="border-radius: 50%; padding: 10px;">
+{{--                    <i class="fa fa-phone" aria-hidden="true"></i>--}}
+                    <img src="{{asset('assets/img/hai_chat_logo.png')}}" style="width: 50px; height: 50px;">
                 </div>
             </button>
         </div>

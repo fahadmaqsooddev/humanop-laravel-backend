@@ -48,7 +48,7 @@
                                 @foreach(array_chunk(['style-0','style-1','style-2','style-3','style-4','style-5','style-6','style-7','style-8','style-9'], 2) as $index => $chunk)
                                     <div
                                         class="carousel-item {{ $index === ($style_carousel_index ? $style_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive" style="margin-left: 35px !important;">
+                                        <div class="table-responsive table-header-text" style="margin-left: 35px !important;">
                                             <table class="table table-flush" style="border-collapse: separate">
                                                 <thead class="thead-light">
                                                 <tr>
@@ -86,7 +86,7 @@
             <div class="row mt-1 ms-md-2 pe-md-2">
                 <div class="col-8">
                     <div class="card">
-                        <div class="table-responsive">
+                        <div class="table-responsive table-header-text">
                             <table class="table table-flush" style="border-collapse: separate">
                                 <thead class="thead-light">
                                 <tr>
@@ -130,7 +130,7 @@
                                 @foreach(array_chunk(['feature-0','feature-1','feature-2','feature-3','feature-4','feature-5'], 2) as $index => $chunk)
                                     <div
                                         class="carousel-item {{ $index === ($feature_carousel_index ? $feature_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive" style="margin-left: 35px !important;">
+                                        <div class="table-responsive table-header-text" style="margin-left: 35px !important;">
                                             <table class="table table-flush" style="border-collapse: separate">
                                                 <thead class="thead-light">
                                                 <tr>
@@ -168,7 +168,7 @@
             <div class="row mt-1 ms-md-2 pe-md-2">
                 <div class="col-11">
                     <div class="card">
-                        <div class="table-responsive">
+                        <div class="table-responsive table-header-text">
                             <table class="table table-flush" style="border-collapse: separate">
                                 <thead class="thead-light">
                                 <tr>
@@ -206,7 +206,7 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive w-100">
+    <div class="table-responsive w-100 table-orange-color">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr>

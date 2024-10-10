@@ -250,7 +250,7 @@
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white fs-10px">Daily Tip</h5>
-                                    <div class="description-container text-white" style="height: 275px;">
+                                    <div class="description-container" style="height: 335px;">
 
                                         {{$hide_button = false}}
 
@@ -282,7 +282,7 @@
                                             @endif
                                         </p>
 
-                                        @if($tip)
+                                        @if($tip && $assessment)
                                             <div>
 
                                                 <div
@@ -300,7 +300,7 @@
                                         @endif
                                     </div>
 
-                                    @if($tip)
+                                    @if($tip && $assessment)
                                         <div>
 
                                             <div
@@ -348,10 +348,92 @@
                                         <p class="text-sm fs-12px mt-3 text-white text-bold"
                                            >
                                             CORE STATS</p>
-                                        <p class="text-sm fs-12px mt-3 text-white text-bold"
-                                           >
-                                            Interval of Life: (<span class="text-bold text-sm"
-                                                                     >{{$user_age}}</span>)</p>
+
+                                        @if(16 <= $age && $age <= 20)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                              onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(21 <= $age && $age <= 29)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}','roadworthy_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(30 <= $age && $age <= 33)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}','power_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(34 <= $age && $age <= 42)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}','mid_life_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(43 <= $age && $age <= 52)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}','awareness_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(52 <= $age && $age <= 66)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}','forward_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+
+                                        @elseif(66 <= $age && $age <= 70)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}','liberated_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @elseif(70 <= $age && $age <= 75)
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}','being_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @else
+
+                                            <p class="text-sm fs-12px mt-3 text-white text-bold"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
+                                               style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                Interval of Life: (<span class="text-bold text-sm"
+                                                                         style="color: #f2661c">{{$user_age}}</span>)
+                                            </p>
+
+                                        @endif
+
+
                                     </div>
                                     <p class="text-sm mt-3 fs-12px text-white" > Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
@@ -400,7 +482,8 @@
                                                 <p class="fw-bold fs-12px "
                                                    style=" cursor: pointer;"
                                                    onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
-                                                    {{ $communication['public_name'] }} @if(!$loop->last)-->
+{{--                                                    {{dd($communication)}}--}}
+                                                    {{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;
                                                     &nbsp;@endif
                                                 </p>
                                             @endforeach

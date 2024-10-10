@@ -5,13 +5,13 @@
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">Assessments</h5>
                     <p class="text-sm mb-0">
                         User assessments stats
                     </p>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
                         <tr>

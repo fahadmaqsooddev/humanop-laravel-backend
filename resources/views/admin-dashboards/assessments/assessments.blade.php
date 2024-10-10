@@ -73,7 +73,9 @@
     <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card">
-                @livewire('admin.assessment.assessment')
+                <div class="table-header-text" style="border-radius: 20px;">
+                    @livewire('admin.assessment.assessment')
+                </div>
             </div>
         </div>
     </div>

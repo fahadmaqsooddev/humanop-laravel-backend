@@ -24,10 +24,10 @@
                aria-hidden="true" id="iconSidenav"></i>
             <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
             <span class="humanopLogo">
-         <img src="{{ URL::asset('assets/img/logo.png') }}" class="h-100" style="margin-left: 33px" alt="main_logo">
+         <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}" style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
         </span>
                 <span class="humanopMiniLogo d-none">
-    <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100" style="margin-left: 10px; width: 77px"
+        <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100" style="margin-left: 10px; width: 77px"
          alt="main_logo">
 </span>
             </a>
@@ -457,16 +457,16 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                <a class="nav-link {{ ($childFolder == 'human-network' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                          src="{{URL::asset('assets/icons/Human Network.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Human Network.png')}}"><b
                                             class="caret"></b></span>
-                                    <span class="sidenav-normal"> Human Network <b class="caret"></b></span>
+                                    <span class="sidenav-normal"> HumanOP Network &nbsp;&nbsp; <b class="caret"></b></span>
                                 </a>
-                                <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
+                                <div class="collapse {{ ($childFolder == 'human-network' ? 'show' : '') }}"
                                      id="vrExamples">
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item {{ (Request::is('connections') ? 'active' : '') }}">

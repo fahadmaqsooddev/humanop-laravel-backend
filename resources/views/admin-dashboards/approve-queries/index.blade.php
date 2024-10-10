@@ -65,7 +65,7 @@
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="mb-0">Approve Client Queries</h5>
                 </div>
                 @livewire('admin.approve-query.approve-query')

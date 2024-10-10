@@ -1,15 +1,16 @@
 <div>
 
-    <div class="card-header">
+    <div class="card-header table-header-text">
         <h5 class="mb-0 text-white">Deleted Client's</h5>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive table-orange-color">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr>
                 <th>#</th>
                 <th>Username</th>
                 <th>Email</th>
+                <th>User Type</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -24,6 +25,7 @@
                     <td class="text-sm font-weight-normal">{{$key + 1}}</td>
                     <td class="text-sm font-weight-normal">{{$user['first_name'] . ' ' . $user['last_name']}}</td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
+                    <td class="text-sm font-weight-normal">{{$user['is_admin'] == 4 ? "Practitioner" : "Client"}}</td>
                     <td>
                         <button onclick="confirmBoxForRestoreUser({{$user->id}})" class="btn updateBtn" title="restore">
                             <i class="fa-solid fa-rotate-right"></i>

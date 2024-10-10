@@ -7,8 +7,8 @@
         <div class="card-body pt-0">
             <label class="form-label text-white">90 Day Intention</label>
             <div class="form-group">
-                <input style="background-color: #0f1534;" wire:model.defer="intention"
-                       class="form-control text-white" type="text"
+                <input wire:model.defer="intention"
+                       class="form-control text-white table-header-text" type="text"
                        placeholder="In the next 90 Days I would like to ...">
             </div>
             <button type="submit" class="btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn" >

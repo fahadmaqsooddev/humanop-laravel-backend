@@ -24,13 +24,13 @@
             <div class="col-12 col-md-6">
 
                 <div class="input-group ms-md-4 pe-md-4">
-                     <span style="border-color: white" class="input-group-text">
-                         <i class="fas fa-search" aria-hidden="true"></i>
-                     </span>
+{{--                     <span style="color: white;" class="input-group-text beige-background-color">--}}
+{{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
+{{--                     </span>--}}
                     <input type="text" wire:model.debounce="follower_search"
-                           class="" style="background-color: transparent; color: white;border: 1px solid white;
-                           border-left: 0px; padding: 5px; width: 75%; border-radius: 0 5px 5px 0;"
-                           placeholder="Search Follower">
+                           class="beige-background-color search-bar" style="color: white;border: 1px solid white;
+                           padding: 5px; width: 75%; border-radius: 5px"
+                           placeholder="Search">
                 </div>
 
 {{--                <input type="search" wire:model="follower_search" class="form-control" placeholder="Find {{request()->input('type', 'follower')}}">--}}
@@ -57,7 +57,7 @@
 
                                 <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
 
-                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
+                                    <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$follow['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""
@@ -101,7 +101,7 @@
 
                                 <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
 
-                                    <div class="card text-center shadow-sm" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;">
+                                    <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
                                         <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5">
                                                 <img src="{{$following['follower']['photo_url']['thumbnail_url'] ?? null}}" alt=""

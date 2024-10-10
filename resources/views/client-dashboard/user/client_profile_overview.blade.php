@@ -1345,6 +1345,10 @@
                                              id="coreStats">
                                             <div class="slider-padding p-3 mt-5">
 
+                                                <div class="text-center">
+                                                    <h5 style="color: #f2661c;">Click on the Labels to see your Results!</h5>
+                                                </div>
+
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
@@ -1699,7 +1703,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{'The ' . $communication['public_name'] . ' Energy Center'}}
+                                                                        #{{($index + 1) . ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']'}}
 
                                                                     </h5>
                                                                 </div>

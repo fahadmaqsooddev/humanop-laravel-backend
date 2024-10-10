@@ -437,7 +437,7 @@
             </div>
             <!-- Card Notifications -->
             <div class="card mt-4" id="notifications">
-                <div class="card-header">
+                <div class="card-header table-header-text">
                     <h5 class="text-white">Notifications</h5>
                     <p class="text-sm text-white" >Choose how you receive notifications. These notification settings apply to the things you’re watching.</p>
                 </div>
