@@ -62,13 +62,11 @@ class QuestionController extends Controller
     public function introAssessment()
     {
         try {
-
             $user = Helpers::getWebUser();
 
             $assessment = Assessment::singleAssessment($user['id']);
 
-            if ($assessment && $assessment['page'] == 0)
-            {
+            if (empty($assessment) || ($assessment && $assessment['page'] == 0)) {
                 Assessment::createAssessmentData($user['id'], 0);
             }
 
@@ -77,7 +75,7 @@ class QuestionController extends Controller
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
-
         }
     }
+
 }
