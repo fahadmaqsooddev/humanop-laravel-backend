@@ -32,7 +32,7 @@
 
             </div>
 
-            <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn mx-auto"
+            <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn"
                  role="tablist">
 
                 <div class="nav-item pt-2">
