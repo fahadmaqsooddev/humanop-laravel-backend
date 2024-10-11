@@ -2,7 +2,7 @@
 <nav class="navbar navbar-main navbar-expand-lg mt-4 left px-1 shadow-none border-radius-xl z-index-sticky"
     id="navbarBlur" data-scroll="true">
 
-    <div class="navbar-background-color d-flex align-items-end justify-content-end" style="padding: 10px;">
+    <div class="navbar-background-color d-flex align-items-end justify-content-end" style="padding: 10px; width: 100%">
 
         <div class="container-fluid py-1 px-3 d-flex">
 
