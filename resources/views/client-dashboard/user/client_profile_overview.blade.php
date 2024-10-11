@@ -322,6 +322,10 @@
         .left-nav-blue-light-color{
             background: #2C4C7E !important;
         }
+
+        .card{
+            background: #2C4C7E !important;
+        }
     </style>
 
     <div class="row">
