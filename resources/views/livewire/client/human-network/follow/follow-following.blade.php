@@ -48,7 +48,7 @@
                     <div class="tab-pane fade pt-3 {{request()->input('type', 'follower') === "follower" ? "show active" : ""}}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                         @empty($followers[0])
-                            <p class="text-white">No follower...</p>
+                            <p style="color: #0f1535; font-size: 20px; font-weight: bold">No follower</p>
                         @endempty
 
                         <div class="row">
@@ -92,7 +92,7 @@
                     <div class="tab-pane fade pt-3 {{request()->input('type', 'follower') === "following" ? "active show" : ""}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                         @empty($followings[0])
-                            <p class="text-white">No following</p>
+                            <p style="color: #0f1535;font-size: 20px; font-weight: bold">No following</p>
                         @endempty
 
                         <div class="row pt-2">

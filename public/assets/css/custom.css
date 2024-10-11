@@ -436,7 +436,7 @@ select:focus {
     color: lightgrey !important;
 }
 .left-nav-blue-color{
-    background: #1C365E !important;
+    background: #F3DEBA !important;
 }
 
 .left-nav-blue-light-color{
@@ -450,6 +450,14 @@ select:focus {
 
 .pricing-freemium-card{
     background: #8BB1AB !important;
+}
+
+::placeholder {
+    color: #0f1535 !important;
+}
+
+::-ms-input-placeholder { /* Edge 12-18 */
+    color: #0f1535 !important;
 }
 
 .pricing-core-card{

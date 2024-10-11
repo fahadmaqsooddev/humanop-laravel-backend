@@ -32,7 +32,7 @@
 {{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
 {{--                     </span>--}}
                             <input type="text" wire:model.debounce="search_connection_name"
-                                   class="beige-background-color search-bar" style="color: black;border: 1px solid white;
+                                   class="beige-background-color search-bar" style="border: 1px solid #f2661c !important;
                            padding: 5px; width: 84%; border-radius: 5px;"
                                    placeholder="Search user to connect">
                         </div>
@@ -62,7 +62,7 @@
                         <div class="col-2"></div>
 
                         <div class="col-5">
-                            <select class="form-control text-white" style="background-color: #0f1535;width: 90%;" wire:model="style_code">
+                            <select class="form-control" style="background-color: #f3deba;width: 90%;" wire:model="style_code">
                                 <option value="">Search by style and feature</option>
                                 @foreach($style_feature_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="col-5">
-                            <select wire:model="alchemy_code" class="form-control text-white" style="background-color: #0f1535;width: 90%;">
+                            <select wire:model="alchemy_code" class="form-control" style="background-color: #f3deba;width: 90%;">
                                 <option value="">Search by alchemy code</option>
                                 @foreach($alchemy_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
@@ -152,7 +152,7 @@
                     <div class="tab-pane fade pt-3 {{request()->input('type', 'connection') === "request" ? "active show" : ""}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                         @empty($connection_requests[0])
-                            <p class="text-white">No connection request</p>
+                            <p style="color: #0f1535;font-size: 20px; font-weight: bold">No connection request</p>
                         @endempty
 
                         <div class="row">

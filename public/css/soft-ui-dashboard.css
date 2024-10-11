@@ -2615,6 +2615,10 @@ progress {
   color: #6c757d;
 }
 
+.left-nav-blue-light-color{
+    background: #2C4C7E !important;
+}
+
 .form-control {
   display: block;
   width: 100%;
@@ -2622,10 +2626,10 @@ progress {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.4rem;
-  color: #495057;
+  color: #f2661c;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #d2d6da;
+  border: 1px solid #f2661c;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
