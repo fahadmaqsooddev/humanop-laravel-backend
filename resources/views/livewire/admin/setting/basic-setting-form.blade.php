@@ -1,4 +1,4 @@
-<div class="card mt-4" id="basic-info">
+<div class="card setting-box-background mt-4" id="basic-info">
     <div class="card-header">
         <h5 class="text-white">Basic Info</h5>
     </div>
@@ -12,14 +12,14 @@
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="firstName"
                                wire:model.defer="currentUser.first_name"
-                               class="form-control text-white" type="text">
+                               class="form-control text-white setting-box-background" type="text">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label text-white">Last Name</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="lastName" wire:model.defer="currentUser.last_name"
-                               class="form-control text-white" type="text" placeholder="{{$currentUser['last_name']}}">
+                               class="form-control text-white setting-box-background" type="text" placeholder="{{$currentUser['last_name']}}">
                     </div>
                 </div>
             </div>
@@ -29,14 +29,14 @@
                     <label class="form-label mt-4 text-white">Email</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="email" wire:model.defer="currentUser.email"
-                               class="form-control text-white" type="email" placeholder="{{$currentUser['email']}}">
+                               class="form-control text-white setting-box-background" type="email" placeholder="{{$currentUser['email']}}">
                     </div>
                 </div>
                 <div class="col-6">
                     <label class="form-label mt-4 text-white">Phone Number</label>
                     <div class="input-group">
                         <input style="background-color: #0f1534;" id="phone" wire:model.defer="currentUser.phone"
-                               class="form-control text-white" type="text" placeholder="{{$currentUser['phone']}}">
+                               class="form-control text-white setting-box-background" type="text" placeholder="{{$currentUser['phone']}}">
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-white">I'm</label>
-                    <select style="background-color: #0f1535" class="form-control text-white" wire:model.defer="currentUser.gender" >
+                    <select style="background-color: #0f1535" class="form-control text-white setting-box-background" wire:model.defer="currentUser.gender" >
                         <option value="0">Male</option>
                         <option value="1">Female</option>
                     </select>
@@ -82,24 +82,24 @@
                         $current_year = (int)(\Carbon\Carbon::now()->year - 18);
                         ?>
 
-                        <select class="justify-content-center form-control m-1" wire:model="month"
-                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="month"
+                                style="border-radius: 12px;">
                             <option value="">Month</option>
                             @foreach($months as $key => $month)
                                 <option value="{{$key + 1}}">{{$month}}</option>
                             @endforeach
                         </select>
 
-                        <select class="justify-content-center form-control m-1" wire:model="day"
-                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="day"
+                                style="border-radius: 12px;">
                             <option value="">Day</option>
                             @for($i = 1; $i <= 31; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
                             @endfor
                         </select>
 
-                        <select class="justify-content-center form-control m-1" wire:model="year"
-                                style="background-color: #0F1535; color: white; border-radius: 12px;">
+                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="year"
+                                style=" border-radius: 12px;">
                             <option value="">Year</option>
                             @for($i = $current_year; $i >= 1900; $i--)
                                 <option value="{{$i}}">{{$i}}</option>
@@ -115,7 +115,9 @@
 
 
             </div>
-            <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white" style="background-color: #f2661c">Update Info</button>
+            <button type="submit" class="rainbow-border-user-nav-btn btn-sm float-end mt-4 mb-4">
+                Update Info
+            </button>
         </div>
 
     </form>

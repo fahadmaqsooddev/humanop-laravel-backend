@@ -5573,8 +5573,10 @@ fieldset:disabled .btn {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;
-  background-clip: border-box;
+  background-color: #1C365E;
+    color: white;
+  /*background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%) border-box;*/
+  /*background-clip: border-box;*/
   border: 0 solid rgba(0, 0, 0, 0.125);
   border-radius: 1rem;
 }
