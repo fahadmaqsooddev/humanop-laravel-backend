@@ -92,6 +92,11 @@ class SessionController extends Controller
                     User::updateUserIsFeedback();
                 }
 
+                if ($user->is_admin === Admin::IS_PRACTITIONER){
+
+                    return redirect('/prac/dashboard');
+                }
+
                 return redirect()->route('admin_dashboard');
             }
 
