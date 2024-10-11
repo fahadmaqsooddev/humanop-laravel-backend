@@ -6,13 +6,21 @@
           <img src="{{ Route::is('test_play') ? asset('assets/logos/HumanOp dark.png') : asset('assets/img/new_logo.png') }}" alt=""
           style="width: auto; height: 80px; margin-left: -5px;">
       </a>
-    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-      {{-- <span class="navbar-toggler-icon mt-2"> --}}
-        <span class="navbar-toggler-bar bar1"></span>
-        <span class="navbar-toggler-bar bar2"></span>
-        <span class="navbar-toggler-bar bar3"></span>
-{{--      </span>--}}
-    </button>
+
+      @if(Route::is('test_play'))
+          <a href="{{url('login')}}" class="rainbow-border-user-nav-btn mt-4">
+              Save and Exit
+          </a>
+      @else
+          <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              {{-- <span class="navbar-toggler-icon mt-2"> --}}
+              <span class="navbar-toggler-bar bar1"></span>
+              <span class="navbar-toggler-bar bar2"></span>
+              <span class="navbar-toggler-bar bar3"></span>
+              {{--      </span>--}}
+          </button>
+      @endif
+
   </div>
 </nav>
 <!-- End Navbar -->
