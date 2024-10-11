@@ -91,7 +91,7 @@
                                 <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
                                    class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
                                 </a>
-                                    <a href="{{url('client/dashboard')}}" style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
+                                    <a href="{{url('login')}}" style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
                                        class="rainbow-border-assessment-intro-btn  text-center" >
                                         <i class="fa-solid fa-arrow-left " style="color:#ED7537;"></i> <span style="color:#ED7537;">Back</span>
                                     </a>
@@ -101,7 +101,7 @@
                                 <a href="{{url('client/play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
                                    class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
                                 </a>
-                                    <a href="{{url('client/dashboard')}}"
+                                    <a href="{{url('login')}}"
                                        class=" text-center" style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"><i class="fa-solid fa-arrow-left" style="color:#ED7537;"></i> <span style="color:#ED7537;">Back</span>
                                     </a>
                                 </div>
