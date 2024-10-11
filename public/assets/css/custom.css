@@ -623,7 +623,7 @@ select:focus {
     }
 }
 
-.messageChat::placeholder{
+textarea::placeholder{
     color: white;
 }
 

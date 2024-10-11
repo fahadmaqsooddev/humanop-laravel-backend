@@ -119,9 +119,30 @@
         border-color: #f2661c !important;
     }
 
-    .haichat_form_div > .messageChat::placeholder{
+    .chatbox-input > textarea::placeholder{
         color: white;
     }
+
+    .text-color-blue{
+        color: #1c365e !important;
+    }
+
+    /*dashboard page media query*/
+    @media screen and (min-width: 300px) and (max-width: 1000px) {
+
+        .card{
+            margin: 20px;
+        }
+
+        .hai_chat_title_div{
+            padding: 20px;
+        }
+
+        .haichat_form_div{
+            padding: 20px;
+        }
+    }
+
 </style>
 @section('content')
 

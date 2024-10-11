@@ -23748,3 +23748,7 @@ pre[class*=language-] {
         padding: 20px;
     }
 }
+
+.text-color-blue{
+    color: #1c365e !important;
+}
