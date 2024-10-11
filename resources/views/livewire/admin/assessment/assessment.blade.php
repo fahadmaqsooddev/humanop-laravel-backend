@@ -2,19 +2,19 @@
     <div>
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
-        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"
-                                                                                       aria-hidden="true"></i></span>
-                <input type="text" style="background-color: #0f1534;" name="name" wire:model.debounce="name"
-                       class="form-control text-white" placeholder="Search Name">
+{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+{{--                                                                                       aria-hidden="true"></i></span>--}}
+                <input type="text" name="name" wire:model.debounce="name"
+                       class="form-control table-orange-color search-bar" placeholder="Search Name">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"
-                                                                                       aria-hidden="true"></i></span>
-                <input type="email" style="background-color: #0f1534;" name="email" wire:model.debounce="email"
-                       class="form-control text-white" placeholder="Search Email">
+{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+{{--                                                                                       aria-hidden="true"></i></span>--}}
+                <input type="email" name="email" wire:model.debounce="email"
+                       class="form-control table-orange-color search-bar" placeholder="Search Email">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-                <select style="background-color: #0f1535" class="form-control text-white" name="age"
+                <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
                         wire:model.debounce="age">
                     <option value="">Select Age</option>
                     <option value="5-6">5-6</option>
@@ -35,8 +35,8 @@
             </div>
         </div>
         <div class="pe-md-4">
-            <button class="btn btn-sm float-end mt-4 mb-4 text-white clickBtn" style="background-color: #f2661c">Advance
-                Filters
+            <button class="rainbow-border-user-nav-btn btn-sm float-end mt-4 mb-4 text-white clickBtn">
+                Advance Filters
             </button>
         </div>
         <div class="advanceFilterSearch" style="padding-top: 50px !important;">
@@ -228,8 +228,7 @@
                     <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-sm font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
-                            style="background-color: #f2661c; color: white"
-                            class="btn btn-sm float-end mt-2 mb-0">View</a>
+                            class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
                     </td>
                 </tr>
             @endforeach

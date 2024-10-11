@@ -1,5 +1,5 @@
 .table-orange-color{
-    background-color: #F6BA81;
+    background-color: #F6BA81 !important;
 }
 
 .table-header-text{
@@ -12,11 +12,15 @@
 }
 
 .beige-background-color{
-    background-color:  #F3DEBA;
+    background-color:  #F3DEBA !important;
+}
+
+.search-bar{
+    border: 1px solid white !important;
 }
 
 .search-bar::placeholder{
-    color: black;
+    color: black !important;
 }
 
 .connection-card{

@@ -16,7 +16,7 @@
                 <td class="text-sm font-weight-normal">{{$query['query']}}</td>
                 <td class="text-sm font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
-                       data-bs-target="#answerQueryModal{{$query['id']}}" style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-0">Answer</a>
+                       data-bs-target="#answerQueryModal{{$query['id']}}" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Answer</a>
                 </td>
             </tr>
             @livewire('admin.client-query.query-answer-form', ['queryId' => $query['id']], key($query->id))
