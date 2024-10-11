@@ -42,8 +42,9 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 //});
 
+$prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
-Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin']], function () {
+Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
