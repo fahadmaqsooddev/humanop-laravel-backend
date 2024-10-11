@@ -41,10 +41,10 @@
 
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             @if($plan->name != 'Freemium')
-                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block  mb-2 w-100 "  >
-                                    Coming Soon !
-                                </button>
-                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card' : 'pricing-core-card' }}">
+{{--                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block  mb-2 w-100 "  >--}}
+{{--                                    Coming Soon !--}}
+{{--                                </button>--}}
+                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card' : 'pricing-core-card' }}" style="height: 560px;">
 
                                     <div class="card-header text-center pt-4 pb-3">
                                         <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
@@ -52,16 +52,16 @@
                                             <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
                                         </h1>
                                     </div>
-                                    @else
-                                        <div class="card mt-5 pricing-freemium-card">
+                            @else
+                                <div class="card pricing-freemium-card" style="height: 560px;">
 
-                                            <div class="card-header text-center pt-4 pb-3">
-                                                <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
-                                                <h1 class="font-weight-bold mt-2 text-white">
-                                                    <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
-                                                </h1>
-                                            </div>
-                                            @endif
+                                    <div class="card-header text-center pt-4 pb-3">
+                                        <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
+                                        <h1 class="font-weight-bold mt-2 text-white">
+                                            <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
+                                        </h1>
+                                    </div>
+                            @endif
 
 
                                 @if($plan->name == 'Freemium')
@@ -191,9 +191,10 @@
                                         </div>
                                         <div class="d-flex justify-content-start px-2">
                                             <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                            style="width: 44px;">
                                                 <img src="{{asset('assets/icons/3 action item.png')}}"
-                                                     style="width: 17px; margin-top: 5px">
+                                                     style="width: 14px; margin-top: 5px">
                                             </div>
                                             <div>
                                                 <p class="ps-3 text-white text-sm">HAi companion with memory function (remembers
@@ -276,7 +277,8 @@
                                         </div>
                                         <div class="d-flex justify-content-start px-2">
                                             <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                            style="width: 37px;">
                                                 <img src="{{asset('assets/icons/HAI Feature.png')}}"
                                                      style="width: 15px; margin-top: 5px">
                                             </div>
@@ -307,9 +309,10 @@
                                         </div>
                                         <div class="d-flex justify-content-start px-2">
                                             <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                            style="width: 40px;">
                                                 <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                     style="width: 14px; margin-top: 3px">
+                                                     style="width: 12px; margin-top: 3px">s
                                             </div>
                                             <div>
                                                 <p class="ps-3 text-white text-sm">HAi companion for strategy, feedback, and
