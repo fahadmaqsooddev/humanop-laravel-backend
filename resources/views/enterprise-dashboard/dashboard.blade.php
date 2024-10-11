@@ -47,7 +47,7 @@
             <div class="row mt-lg-4 mt-2">
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card mb-4"
-                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                         >
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card mb-4"
-                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                         >
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card mb-4"
-                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                         >
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
@@ -119,7 +119,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card mb-4"
-                         style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                         >
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">

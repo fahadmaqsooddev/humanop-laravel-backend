@@ -1,21 +1,33 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
+    @push('css')
+        <style>
+            .setting-options:hover{
+                background-color: white !important;
+            }
+
+            .setting-box-background::placeholder{
+                color: white;
+            }
+
+        </style>
+    @endpush
     <div class="container-fluid my-3 py-3">
         @include('layouts.message')
         <div class="row mb-5">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
-                    <ul class="nav flex-column border-radius-lg p-3" style="background-color: #0f1535">
+                    <ul class="nav rainbow-border-user-nav-btn flex-column border-radius-lg p-3">
                         <li class="nav-item">
-                            <a class="nav-link text-body" data-scroll="" href="#profile">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#profile">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 40"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>spaceship</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-1720.000000, -592.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(4.000000, 301.000000)">
@@ -35,18 +47,18 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Profile</span>
+                                <span class="text-sm custom-text-dark">Profile</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#basic-info">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#basic-info">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 44"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>document</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-1870.000000, -591.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(154.000000, 300.000000)">
@@ -61,18 +73,18 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Basic Info</span>
+                                <span class="text-sm custom-text-dark">Basic Info</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#password">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#password">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
                                          xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <title>box-3d-50</title>
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF"
+                                            <g transform="translate(-2319.000000, -291.000000)" fill="#193862"
                                                fill-rule="nonzero">
                                                 <g transform="translate(1716.000000, 291.000000)">
                                                     <g transform="translate(603.000000, 0.000000)">
@@ -90,30 +102,30 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Change Password</span>
+                                <span class="text-sm custom-text-dark">Change Password</span>
                             </a>
                         </li>
                         @if (Auth::user()->hasRole('super admin'))
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#add-sub-admin-info">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#add-sub-admin-info">
                                 <div class="icon me-2">
-                                    <i class="fa fa-user text-white" aria-hidden="true"></i>
+                                    <i class="fa fa-user custom-text-dark" aria-hidden="true"></i>
                                 </div>
-                                <span class="text-sm text-white">Add Sub Admin</span>
+                                <span class="text-sm custom-text-dark">Add Sub Admin</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#accounts">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#accounts">
                                 <div class="icon me-2">
-                                    <i class="fa fa-cc-stripe text-white" aria-hidden="true"></i>
+                                    <i class="fa fa-cc-stripe custom-text-dark" aria-hidden="true"></i>
                                 </div>
-                                <span class="text-sm text-white">Stripe Setting</span>
+                                <span class="text-sm custom-text-dark">Stripe Setting</span>
                             </a>
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('sub admin'))
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body" data-scroll="" href="#delete">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#delete">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 45 40"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +147,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm text-white">Delete Account</span>
+                                <span class="text-sm custom-text-dark">Delete Account</span>
                             </a>
                         </li>
                         @endif
@@ -144,17 +156,22 @@
             </div>
             <div class="col-lg-9 mt-lg-0 mt-4">
                 <!-- Card Profile -->
-                <div class="card card-body" id="profile">
+                <div class="card card-body background-none" id="profile">
                     <div class="row">
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
-                                <img src="{{ URL::asset('assets/img/bruce-mars.jpg') }}" alt="bruce"
+                                @if(\App\Helpers\Helpers::getWebUser()->gender === \App\Enums\Admin\Admin::IS_MALE)
+                                <img src="{{ URL::asset('media/files/original_default/profile_pic.png') }}" alt="bruce"
                                      class="w-100 border-radius-lg shadow-sm">
+                                @else
+                                    <img src="{{ URL::asset('media/files/original_default/female_profile_pic.png') }}" alt="bruce"
+                                         class="w-100 border-radius-lg shadow-sm">
+                                @endif
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
                             <div class="h-100">
-                                <h5 class="mb-1 font-weight-bolder">
+                                <h5 class="mb-1 font-weight-bolder custom-text-dark">
                                     {{$currentUser->first_name.' '.$currentUser->last_name}}
                                 </h5>
                                 <p class="mb-0 font-weight-bold text-sm">
@@ -180,9 +197,9 @@
 
             @endif
                 <!-- Card Delete Account -->
-                <div class="card mt-4" id="delete">
+                <div class="card setting-box-background mt-4" id="delete">
                     <div class="card-header">
-                        <h5>Delete Account</h5>
+                        <h5 class="text-white">Delete Account</h5>
                         <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please
                             be certain.</p>
                     </div>
@@ -190,7 +207,7 @@
                         <div class="d-flex align-items-center mb-sm-0 mb-4">
                             <div>
                                 <div class="form-check form-switch mb-0">
-                                    <input style="background-color: #0f1534;" class="form-check-input" type="checkbox"
+                                    <input style="background-color: #1C365E;" class="form-check-input" type="checkbox"
                                            id="flexSwitchCheckDefault0">
                                 </div>
                             </div>
@@ -199,7 +216,7 @@
                                 <span class="text-xs d-block">I want to delete my account.</span>
                             </div>
                         </div>
-                        <button class="btn btn-outline-secondary mb-0 ms-auto" type="button" name="button">Deactivate
+                        <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">Deactivate
                         </button>
                         <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Delete Account
                         </button>

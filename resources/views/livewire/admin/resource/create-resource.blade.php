@@ -19,17 +19,16 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="d-flex flex-column h-100">
-                            <h2 class="font-weight-bolder mb-0">Library Resources</h2>
+                            <h2 class="font-weight-bolder custom-text-dark mb-0">Library Resources</h2>
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <button class="btn btn-sm mt-2 mb-0" type="button" data-toggle="modal" style="background-color: #f2661c; color: white"
+                        <button class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0" type="button" data-toggle="modal"
                                 data-target="#createCategory">
                             Add Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource"
-                            style="background-color: #f2661c; color: white"
-                            class="btn btn-sm float-end mt-2 mb-0">Create Resource
+                            class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
                 </div>
@@ -42,8 +41,7 @@
 
                 <div class="col-lg-8 col-sm-8">
 
-                        <div class="card mb-4"
-                             style="background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);">
+                        <div class="card mb-4">
                                 <a style="cursor: pointer;" onclick="toggleCategoryBtn(`{{$category->id}}`)" data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}">
                             <div class="card-body p-3">
                                 <div class="row">
