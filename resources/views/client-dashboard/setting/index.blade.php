@@ -331,7 +331,7 @@
                     </div>
                 </div>
 
-                {{--                Payment History--}}
+                {{-- Payment History--}}
                 <div class="card mt-4 setting-box-background" id="paymentHistory">
                     <div class="card-header">
                         <div class="row">
@@ -340,13 +340,13 @@
                                     <h5 class="text-white">Payment History</h5>
                                 </div>
 
-                                <div class="table-responsive table-orange-color" style="overflow: scroll; max-height: 300px;">
+                                <div class="table-responsive" style="overflow: scroll; max-height: 300px;">
                                     <table class="table table-flush" id="datatable-search">
                                         <thead class="thead-light">
                                         <tr>
                                             {{--                                            <th>Assessment ID</th>--}}
-                                            <th>Assessment Status</th>
-                                            <th>Coupon ID</th>
+                                            <th>Status</th>
+                                            <th>Coupon</th>
                                             <th>Discount Payment</th>
                                             <th>original Payment</th>
                                             <th>Date & Time</th>
