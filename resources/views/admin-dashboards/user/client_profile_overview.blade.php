@@ -315,7 +315,9 @@
                 display: none;
             }
         }
-
+        .left-nav-blue-light-color{
+            background: #2C4C7E !important;
+        }
         .orange-border {
             border: 1px solid #f2661c;
         }
@@ -323,11 +325,11 @@
 
     <div class="row">
         <div class="col-lg-12 position-relative z-index-2">
-            <div class="container-fluid px-0 px-md-5">
+            <div class="container-fluid px-0 px-md-5 ">
                 <section>
-                    <div class="row mt-lg-4 mt-2">
+                    <div class="row mt-lg-4 mt-2 ">
                         <div class="col-12">
-                            <div class="card px-0" style="text-align: center">
+                            <div class="card px-0 left-nav-blue-light-color" style="text-align: center">
                                 <div class="card-body p-3 ">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">

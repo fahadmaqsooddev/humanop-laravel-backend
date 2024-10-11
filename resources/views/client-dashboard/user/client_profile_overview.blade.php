@@ -319,6 +319,9 @@
         .orange-border {
             border: 1px solid #f2661c;
         }
+        .left-nav-blue-light-color{
+            background: #2C4C7E !important;
+        }
     </style>
 
     <div class="row">
@@ -327,7 +330,7 @@
                 <section>
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
-                            <div class="card px-0 left-nav-blue-color" style="text-align: center" >
+                            <div class="card px-0 left-nav-blue-light-color" style="text-align: center" >
                                 <div class="card-body p-3 ">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">

@@ -488,13 +488,13 @@
     </div>
 
     <div class="row">
-        <div class="col-2 text-center mt-5 pt-5">
+        <div class="col-2 col-md-2 col-sm-0 text-center mt-5 pt-5 col-0">
 
         </div>
-        <div class="col-4 text-center mt-5 pt-5">
+        <div class="col-4 col-md-4  col-sm-12  col-m-12 text-center mt-5 pt-5 col-12">
             <h1 class="pt-5 mx-auto" style="color: #0f1534;">Coming Soon!</h1>
         </div>
-        <div class="col-6">
+        <div class="col-6 col-md-6  col-sm-12 col-12">
             <div id="globe" class="position-relative d-flex justify-content-center" style="height: 600px;">
                 <canvas width="650" height="650" class=" h-lg-100 w-75 h-75"></canvas>
                 <img width="350" height="350" src="{{asset('assets/img/icons/white-icon.png')}}" class="position-absolute" style="top: 38%; left: 50%; transform: translate(-50%, -50%);opacity: 30%">
