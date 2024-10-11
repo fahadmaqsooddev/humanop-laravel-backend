@@ -1,6 +1,6 @@
-{{--@push('css')--}}
+@push('css')
 {{--    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">--}}
-{{--    <style>--}}
+    <style>
 {{--    .ck-editor__editable_inline {--}}
 {{--    background-color: #0f1534; /* Example: Change this to your desired background color */--}}
 {{--    }--}}
@@ -10,8 +10,13 @@
 {{--    .ck-editor{--}}
 {{--        border-radius: 0 !important;--}}
 {{--    }--}}
-{{--   </style>--}}
-{{--@endpush--}}
+
+        .card{
+            background-color: #1C365E !important;
+        }
+
+   </style>
+@endpush
 <div class="row container-fluid">
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
