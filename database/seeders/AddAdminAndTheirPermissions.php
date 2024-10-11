@@ -38,16 +38,16 @@ class AddAdminAndTheirPermissions extends Seeder
 
             foreach ($users as $user) {
 
-                $findUsers = User::where('email', $user['email'])->get();
-
-                foreach ($findUsers as $findUser) {
-
-                    DB::table('model_has_roles')->where('model_id', $findUser->id)->delete();
-
-                    DB::table('model_has_permissions')->where('model_id', $findUser->id)->delete();
-
-                    $findUser->delete();
-                }
+//                $findUsers = User::where('email', $user['email'])->get();
+//
+//                foreach ($findUsers as $findUser) {
+//
+//                    DB::table('model_has_roles')->where('model_id', $findUser->id)->delete();
+//
+//                    DB::table('model_has_permissions')->where('model_id', $findUser->id)->delete();
+//
+//                    $findUser->delete();
+//                }
 
                 $newUser = User::create([
                     'first_name' => $user['first_name'],
@@ -100,7 +100,7 @@ class AddAdminAndTheirPermissions extends Seeder
 
             foreach ($clients as $client) {
 
-                User::where('email', $client['email'])->delete();
+//                User::where('email', $client['email'])->delete();
 
                 User::create([
                     'first_name' => $client['first_name'],
