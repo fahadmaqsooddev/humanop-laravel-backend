@@ -17,6 +17,9 @@
     .border-green {
         border: 2px solid green !important;
     }
+    .left-nav-blue-light-color{
+        background: #2C4C7E !important;
+    }
 </style>
 @section('content')
     <div class="d-flex flex-column container-fluid">
@@ -298,7 +301,7 @@
 
         <div class="row mt-4">
             <div class="col-12 col-md-8">
-                <div class="card">
+                <div class="card left-nav-blue-light-color">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -368,7 +371,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12">
-                <div class="card">
+                <div class="card left-nav-blue-light-color">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -466,7 +469,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card">
+                <div class="card left-nav-blue-light-color">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -500,7 +503,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card">
+                <div class="card left-nav-blue-light-color">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
@@ -538,7 +541,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12 col-md-5">
-                <div class="card">
+                <div class="card left-nav-blue-light-color">
                     <div class="table-responsive">
                         <table class="table table-flush" style="border-collapse: separate">
                             <thead class="thead-light">
