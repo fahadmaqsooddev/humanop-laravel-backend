@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
             <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
-                <div class="card z-index-0 left-nav-blue-color">
+                <div class="card z-index-0 " style="background-color: #f3deba !important;">
                     <div class="card-header text-center pt-4">
                         <h5 style="color: #0f1535">Register with</h5>
                     </div>

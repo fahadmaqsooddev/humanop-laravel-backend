@@ -2615,6 +2615,10 @@ progress {
   color: #6c757d;
 }
 
+.left-nav-blue-light-color{
+    background: #2C4C7E !important;
+}
+
 .form-control {
   display: block;
   width: 100%;
