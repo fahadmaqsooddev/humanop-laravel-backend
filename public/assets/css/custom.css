@@ -624,7 +624,7 @@ select:focus {
 }
 
 textarea::placeholder{
-    color: white;
+    color: white !important;
 }
 
 /*dashboard page media query*/

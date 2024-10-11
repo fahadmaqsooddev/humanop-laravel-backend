@@ -120,7 +120,7 @@
     }
 
     .chatbox-input > textarea::placeholder{
-        color: white;
+        color: white !important;
     }
 
     .text-color-blue{
