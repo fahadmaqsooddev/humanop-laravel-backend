@@ -209,6 +209,7 @@ class Helpers
 
     public static function getImage($pic, $original_default = null, $is_original_name = 0)
     {
+
         if (!empty($pic)) {
 
             $upload = Upload::find($pic);
@@ -234,7 +235,7 @@ class Helpers
 
             } else { // if upload not found then return the default url
 
-                if ($original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png") {
+                if ($original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png" || $original_default == "female_profile_pic.png") {
 
                     $path = url('/') . '/media/files/' . 'original_default' . '/' . $original_default;
 
@@ -245,7 +246,7 @@ class Helpers
             }
 
         } else {
-            if ($original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png"
+            if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png"
                 || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png") {
 
                 $path = url('/') . '/media/files/' . 'original_default' . '/' . $original_default;

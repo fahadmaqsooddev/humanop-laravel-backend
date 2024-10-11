@@ -105,7 +105,7 @@
 
                                     <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
                                         <div class="card-img flex-grow-5">
-                                            <img src="{{$user['photo_url']['thumbnail_url'] ?? ""}}" alt="profile pic"
+                                            <img src="{{$user['photo_url']['url']}}" alt="profile pic"
                                                  style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
                                         </div>
                                         <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
