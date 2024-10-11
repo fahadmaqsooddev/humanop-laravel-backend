@@ -8,14 +8,17 @@
     </div>
     @foreach($questions as $index => $question)
         <hr class="" style="border: 1px solid white">
-        <div class="mb-4 text-white text-bold">
-            <h4 class="text-white">{{ $offset+($index+1) }}. {{ $question['question'] }}</h4>
+        <div class="mb-4 text-bold">
+            <h4 class="custom-text-dark">{{ $offset+($index+1) }}. {{ $question['question'] }}</h4>
             @if($question['multiple'] == 1)
                 <ul class="mb-5 pt-2 ps-0" wire:sortable="updateOrder" style="list-style: none">
                     @foreach($question['answers'] as $key => $answer)
                         <li class="mb-4 w-100" wire:sortable.item="{{$answer['id'] }}" wire:sortable.handle>
                             <div class="w-100 w-md-50 pl-3 p-2" style="border-radius: 4px; background-color: white">
-                                <span class="number p-2 text-white" style="background-color: #f2661c; margin-left: -8px; border-radius: 10% 50% 50% 10%">{{ $key + 1 }} )</span> <span class="bg-white" style="color: black;cursor: pointer;width: 400px;"> {{ $answer['answer'] }}</span>
+                                <span class="number p-2 text-white" style="background-color: #f2661c; margin-left: -8px; border-radius: 10% 50% 50% 10%">{{ $key + 1 }} )</span>
+                                <span class="bg-white" style="color: black;cursor: pointer;width: 400px;">
+                                    {{ $answer['answer'] }}
+                                </span>
                             </div>
                         </li>
                     @endforeach
@@ -28,7 +31,7 @@
                                class="q-{{ $question['id'] }} form-check-input"
                                onclick="onlyOne(this, 'q-{{ $question['id'] }}')"
                                wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}', '{{ addslashes(json_encode($answer['sub_answer_codes'] ?? $answer['answer_codes'] ?? [])) }}', '{{ addslashes($question['question']) }}', '{{ addslashes($answer['answer']) }}')">
-                        <label class="form-check-label text-white">{{ $answer['answer'] }}</label>
+                        <label class="form-check-label custom-text-dark">{{ $answer['answer'] }}</label>
                         @if($answer['image'] !== 'NULL')
                             <br>
                             <img src="{{ asset('/images/q'.$answer['image']) }}" alt="Image for {{ $answer['answer'] }}">

@@ -3,8 +3,8 @@
   <div class="container">
       <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
          href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : url('login') }}">
-          <img src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/new_logo.png') }}" alt=""
-          style="width: auto; height: 100px">
+          <img src="{{ Route::is('test_play') ? asset('assets/logos/HumanOp dark.png') : asset('assets/img/new_logo.png') }}" alt=""
+          style="width: auto; height: 80px; margin-left: -5px;">
       </a>
     <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       {{-- <span class="navbar-toggler-icon mt-2"> --}}

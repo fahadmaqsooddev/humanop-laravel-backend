@@ -120,7 +120,7 @@
                                         </a>
                                     </div>
                                     <div class="feedback-card">
-                                        <h5 style="color: white; padding: 0 0 5px 0;">Thank you for being a Beta Tester!  Give us some feedback below on how your
+                                        <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">Thank you for being a Beta Tester!  Give us some feedback below on how your
                                             experience is so far and how we can improve it.</h5>
                                         <form action="javascript:void(0);">
 

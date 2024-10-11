@@ -4,10 +4,6 @@
 <!-- Your custom styles for sortable list -->
 <style>
 
-    body{
-        background-color: #2E9CA8 !important;
-    }
-
     .sortable {
         list-style-type: none;
         margin: 0;
