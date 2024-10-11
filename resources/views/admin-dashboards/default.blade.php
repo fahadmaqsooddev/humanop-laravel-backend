@@ -433,8 +433,7 @@
 
             <div class="col-lg-5 col-sm-5">
                 <a href="{{ route('admin_pages_users_reports') }}">
-                    <div class="card"
-                         >
+                    <div class="card">
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">

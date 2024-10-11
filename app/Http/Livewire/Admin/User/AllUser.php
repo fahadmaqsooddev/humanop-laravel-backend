@@ -81,6 +81,11 @@ class AllUser extends Component
         User::deleteClientProfile($id);
     }
 
+    public function hideHaiChatFromAllClients(){
+
+        User::query()->update(['hai_chat' => Admin::HAI_CHAT_HIDE]);
+    }
+
 
 
     public function render()
