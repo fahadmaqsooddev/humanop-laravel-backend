@@ -42,7 +42,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 //});
 
-$prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'prac' ? request()->segment(1) : "admin";
+$prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
 Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 

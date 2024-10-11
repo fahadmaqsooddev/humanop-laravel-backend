@@ -94,7 +94,7 @@ class SessionController extends Controller
 
                 if ($user->is_admin === Admin::IS_PRACTITIONER){
 
-                    return redirect('/prac/dashboard');
+                    return redirect('/practitioner/dashboard');
                 }
 
                 return redirect()->route('admin_dashboard');
