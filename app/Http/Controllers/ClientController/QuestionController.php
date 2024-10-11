@@ -66,7 +66,7 @@ class QuestionController extends Controller
 
             $assessment = Assessment::singleAssessment($user['id']);
 
-            if (empty($assessment) || ($assessment && $assessment['page'] == 0)) {
+            if (empty($assessment) || ($assessment && $assessment['page'] === 0 && $assessment['page'] === null)) {
                 Assessment::createAssessmentData($user['id'], 0);
             }
 
