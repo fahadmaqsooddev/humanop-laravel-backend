@@ -77,6 +77,11 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+    document.querySelector('.sidenav-toggler-inner').addEventListener('click', function () {
+        // Toggle visibility of logos
+        $('.humanopLogo').toggleClass('d-none');
+        $('.humanopMiniLogo').toggleClass('d-none');
+    });
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

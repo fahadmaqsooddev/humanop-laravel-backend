@@ -246,15 +246,15 @@
                 <div class="row">
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
                         <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex  flex-column ">
-                            <div class="card daily-tip-card" style="height: auto;">
+                            <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
-                                    <h5 class="text-white fs-10px">Daily Tip</h5>
-                                    <div class="description-container" style="height: 335px;">
+                                    <h5 class="fs-10px text-white">Daily Tip</h5>
+                                    <div class="description-container text-white" style="height: 335px;">
 
                                         {{$hide_button = false}}
 
-                                        <p class="text-sm mt-3 fs-12px text-white">
+                                        <p class="text-sm mt-3 fs-12px ">
                                             @if($tip && !empty($tip['description']))
                                                 @if(strlen($tip['description']) > 290)
                                                     <?php
@@ -320,9 +320,9 @@
                         </div>
 
                         <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card library-card " style="height: 540px;">
+                            <div class="card library-card " style="height: 530px;">
                                 <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm  text-white text-bold" style="color: rgb(160, 174, 192)">
                                         LIBRARY
                                         OF
                                         RESOURCES & TRAININGS</p>
@@ -514,10 +514,10 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4" style="cursor: pointer;">
-                            <div class="card help-challenge-card" style="height: 420px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4 rainbow-border-help-box" style="cursor: pointer;">
+                            <div class="card help-challenge-card" style="height: 530px;">
                                 <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
+                                    <p class="text-sm  text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
                                         I'M
                                         HAVING A CHALLENGE</p>
                                     {{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
@@ -529,7 +529,7 @@
                     </div>
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card optimization-strategy-card" style="height: 410px;">
+                            <div class="card optimization-strategy-card" style="height: 530px;">
                                 <div class="card-body p-3 text-white" style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <p class="text-sm fs-12px  text-white text-bold"
@@ -556,9 +556,9 @@
                         </div>
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
 
-                            <div class="card podcast-card" style="height: 540px;">
+                            <div class="card podcast-card" style="height: 530px;">
                                 <div class="card-body p-3">
-                                    <p class="text-sm mt-3 text-white text-bold" style="color: rgb(160, 174, 192)"> HIP
+                                    <p class="text-sm  custom-text-dark text-bold"> HIP
                                         -
                                         HumanOp Integration Podcast</p>
                                     <div class="card mb-4"
@@ -567,7 +567,7 @@
                                             @if($podcast && !empty($podcast->embedded_url))
                                                 <div class="row">
                                                     <div class="podcast-card">
-                                                        <div class="numbers mt-3">
+                                                        <div class="numbers">
                                                             <iframe class="col-lg-12 col-md-12"
                                                                     style="height: 400px; width: 100%;"
                                                                     src="{{$podcast->embedded_url}}"
@@ -960,11 +960,7 @@
     <script>
         var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
 
-        document.querySelector('.sidenav-toggler-inner').addEventListener('click', function () {
-            // Toggle visibility of logos
-            $('.humanopLogo').toggleClass('d-none');
-            $('.humanopMiniLogo').toggleClass('d-none');
-        });
+
 
         function animateNumber(addPoint) {
             const navContainer = document.querySelector(".abc");

@@ -406,7 +406,6 @@ aside:hover {
 }
 .help-challenge-card{
     background: #ED7537 !important;
-    border-radius: 0 !important;
 }
 .optimization-strategy-card{
     background: #1C365E !important;
@@ -426,7 +425,13 @@ aside:hover {
 /*}*/
 .left-nav-background{
     background: linear-gradient(to bottom, #1C365E 85%, #90a2bd) !important;
+}
 
+.text-light-grey{
+    color: lightgrey !important;
+}
+.left-nav-blue-color{
+    background: #1C365E !important;
 }
 .optimization-strategy-card > div > h3{
     color:white !important;
@@ -559,7 +564,38 @@ aside:hover {
 }
 
 
+.rainbow-border-help-box {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    color: white !important;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-image: linear-gradient(#ED7537, #ED7537), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+    background-clip: padding-box, border-box;
+    background-origin: border-box;
+    cursor: pointer;
+    transition-property: background-image;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+    transition-delay: 0;
+}
 
+.rainbow-border-help-box:hover {
+    animation: changeHelpBoxGradient 1s linear infinite alternate;
+    color: white !important;
+}
+
+@keyframes changeHelpBoxGradient {
+    from {
+        background-image: linear-gradient(#ED7537, #ED7537), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+    }
+
+    to {
+        background-image: linear-gradient(#ED7537, #ED7537), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+    }
+}
 
 
 
