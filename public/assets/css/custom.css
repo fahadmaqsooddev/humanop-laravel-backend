@@ -472,6 +472,10 @@ select:focus {
     color: #193862 !important;
 }
 
+.text-color-blue{
+    color: #1c365e !important;
+}
+
 .rainbow-border-assessment-intro-btn {
     display: inline-block;
     padding: 10px 30px;

@@ -41,7 +41,7 @@
 {{--    </div>--}}
 
 {{--    Title and SubTitle div--}}
-    <div class="p-2">
+    <div class="hai_chat_title_div">
 
         <h5 style="color: black;line-height: 5px;">
             Hello, I’m HAi!
@@ -52,29 +52,35 @@
 
     </div>
 
- {{--    @endempty--}}
-    <form wire:submit.prevent="sendMessage" class="m-0">
-        @csrf
-        <div class="chatbox-input right-0 w-100" >
-{{--            <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"--}}
-{{--                   placeholder="Talk with Hai">--}}
-            <textarea rows="3" cols="3" style="background-color: #1C365E;border-radius:10px 0px 0px 10px;" wire:model="userMessage" id="userMessage"
-                      class="form-control text-white messageChat"
-                      placeholder="Type your message here..."></textarea>
+    <div class="haichat_form_div">
 
-            <button type="submit" id="submitBtn">
-                <div style="border-radius: 50%; padding: 10px;">
-{{--                    <i class="fa fa-phone" aria-hidden="true"></i>--}}
-                    <img src="{{asset('assets/icons/hai_chat_icon.png')}}" style="width: 50px; height: 50px;">
-                </div>
-            </button>
-        </div>
+        {{--    @endempty--}}
+        <form wire:submit.prevent="sendMessage" class="m-0">
+            @csrf
+            <div class="chatbox-input right-0 w-100" >
+                {{--            <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"--}}
+                {{--                   placeholder="Talk with Hai">--}}
+                <textarea rows="3" cols="3" style="background-color: #1C365E;border-radius:10px 0px 0px 10px;" wire:model="userMessage" id="userMessage"
+                          class="form-control text-white messageChat"
+                          placeholder="Type your message here..."></textarea>
 
-    </form>
+                <button type="submit" id="submitBtn">
+                    <div style="border-radius: 50%; padding: 10px;">
+                        {{--                    <i class="fa fa-phone" aria-hidden="true"></i>--}}
+                        <img src="{{asset('assets/icons/hai_chat_icon.png')}}" style="width: 50px; height: 50px;">
+                    </div>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
     <button id="toggle-btn" class="btn btn-primary w-10 align-self-center mt-2"
-            style="background-color:rgb(210, 103, 34);"><i
-            class="chat-ham fa-solid fa-bars "
-            onclick=""></i></button>
+            style="background-color:rgb(210, 103, 34);">
+        <i class="chat-ham fa-solid fa-bars" onclick=""></i>
+    </button>
+
     <div class="chatbox h-80" style="display: none;background-color: #0f1534;border-radius: 5px;border:1px solid white" id="content">
         <div style="display: flex; justify-content:flex-start;">
             <div id="chatDots" wire:loading wire:target="dislike">

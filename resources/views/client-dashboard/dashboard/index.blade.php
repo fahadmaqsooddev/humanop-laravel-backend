@@ -118,6 +118,10 @@
         color: white !important;
         border-color: #f2661c !important;
     }
+
+    .haichat_form_div > .messageChat::placeholder{
+        color: white;
+    }
 </style>
 @section('content')
 
@@ -345,13 +349,13 @@
                             <div class="card core-state-card" style="height: 530px">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-sm fs-12px text-white text-bold"
-                                           >
-                                            CORE STATS</p>
+                                        <p class="text-sm fs-12px text-color-blue text-bold">
+                                            CORE STATS
+                                        </p>
 
                                         @if(16 <= $age && $age <= 20)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px text-color-blue text-bold"
                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -360,7 +364,7 @@
 
                                         @elseif(21 <= $age && $age <= 29)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}','roadworthy_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -369,7 +373,7 @@
 
                                         @elseif(30 <= $age && $age <= 33)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}','power_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -378,7 +382,7 @@
 
                                         @elseif(34 <= $age && $age <= 42)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}','mid_life_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -387,7 +391,7 @@
 
                                         @elseif(43 <= $age && $age <= 52)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}','awareness_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -396,7 +400,7 @@
 
                                         @elseif(52 <= $age && $age <= 66)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}','forward_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -406,7 +410,7 @@
 
                                         @elseif(66 <= $age && $age <= 70)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}','liberated_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -415,7 +419,7 @@
 
                                         @elseif(70 <= $age && $age <= 75)
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}','being_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -424,7 +428,7 @@
 
                                         @else
 
-                                            <p class="text-sm fs-12px  text-white text-bold"
+                                            <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
@@ -435,11 +439,11 @@
 
 
                                     </div>
-                                    <p class="text-sm fs-12px text-white" > Top 3 Traits:</p>
+                                    <p class="text-sm fs-12px text-color-blue" > Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
-                                                <p class="fw-bold fs-12px text-white"
+                                                <p class="fw-bold fs-12px text-color-blue"
                                                    style=" cursor: pointer;margin: unset"
                                                    onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$index}}')">
                                                     {{ $style[1] }} [{{ $style[0] }}]
@@ -447,9 +451,9 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-white" > Motivational
+                                    <p class="text-sm mt-3 fs-12px text-color-blue" > Motivational
                                         Drivers:</p>
-                                    <div class="d-flex flex-column text-white" style="margin-top: -10px">
+                                    <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
                                         @if($topTwoFeatures)
                                             @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold fs-12px "
@@ -461,10 +465,10 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-white" >Boundaries of
+                                    <p class="text-sm mt-3 fs-12px text-color-blue" >Boundaries of
                                         Tolerance "Alchemy":</p>
                                     @if($boundary)
-                                        <p class="fw-bold fs-12px text-white"
+                                        <p class="fw-bold fs-12px text-color-blue"
                                            style="margin-top: -10px; cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
                                             @php
@@ -474,25 +478,25 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-white" > Communication
+                                    <p class="text-sm fs-12px text-color-blue" > Communication
                                         Style "Energy Centers":</p>
-                                    <div class="d-flex text-white">
+                                    <div class="d-flex text-color-blue flex-wrap">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
-                                                <p class="fw-bold fs-12px "
+                                                <p class="fw-bold fs-12px"
                                                    style=" cursor: pointer;"
                                                    onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
 {{--                                                    {{dd($communication)}}--}}
-                                                    {{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;
+                                                    <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
                                                     &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px text-white" style="color: rgb(160, 174, 192)"> Perception of
+                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)"> Perception of
                                         Life:</p>
                                     @if($preception)
-                                        <p class="fw-bold fs-12px text-white"
+                                        <p class="fw-bold fs-12px text-color-blue"
                                            style=" margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
                                             {{
@@ -502,9 +506,9 @@
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-white" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">Energy Pool:</p>
                                     @if($energyPool)
-                                        <p class="fw-bold  fs-12px text-white "
+                                        <p class="fw-bold  fs-12px text-color-blue "
                                            style="margin-top: -10px;cursor: pointer;"
                                            onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
                                             {{ $energyPool['code'] }}
@@ -514,43 +518,48 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4 rainbow-border-help-box" style="cursor: pointer;">
+                        <div class="col-12 col-lg-12 col-md-12 col-sm-12 mb-4 rainbow-border-help-box" style="cursor: pointer;">
                             <div class="card help-challenge-card" style="height: 530px;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm  text-white text-bold" style="color: rgb(160, 174, 192)"> HELP
-                                        I'M
-                                        HAVING A CHALLENGE</p>
+                                <p class="text-sm text-white text-center text-bold pt-2" style="color: rgb(160, 174, 192)"> HELP
+                                    I'M
+                                    HAVING A CHALLENGE</p>
+                                <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                    <div>
+                                        <h1 class="text-center text-white" style="">Coming Soon!</h1>
+                                    </div>
                                     {{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
                                     {{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
-                                    <h3 class="text-center text-white">Coming Soon</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12  features-card ">
+                    <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12 features-card">
                         <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
                             <div class="card optimization-strategy-card" style="height: 530px;">
-                                <div class="card-body p-3 text-white" style="cursor: pointer">
+                                <p class="text-sm fs-12px text-white text-bold p-2">
+                                    YOUR OPTIMIZATION STRATEGIES FOR THE
+                                    NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
+                                    DAYS
+                                </p>
+                                <div class="card-body p-3 text-white d-flex justify-content-center align-items-center" style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
-                                    <p class="text-sm fs-12px  text-white text-bold"
-                                      > YOUR
-                                        OPTIMIZATION STRATEGIES FOR THE
-                                        NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
-                                        DAYS</p>
-                                    @if($plan && !empty($plan['text']))
-                                        @if(strlen($plan['text']) > 260)
+                                    <div>
+                                        <h1 class="text-center text-white">Coming Soon!</h1>
+                                    </div>
+{{--                                    @if($plan && !empty($plan['text']))--}}
+{{--                                        @if(strlen($plan['text']) > 260)--}}
 
-                                            {!! substr($plan['text'], 0, 265)!!}
+{{--                                            {!! substr($plan['text'], 0, 265)!!}--}}
 
-                                            <a href="javascript:void(0)" data-bs-toggle="modal"
-                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read
-                                                more...
-                                            </a>
-                                        @else
-                                            {!! $plan['text'] !!}
-                                        @endif
-                                    @else
-                                    @endif
+{{--                                            <a href="javascript:void(0)" data-bs-toggle="modal"--}}
+{{--                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read--}}
+{{--                                                more...--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            {!! $plan['text'] !!}--}}
+{{--                                        @endif--}}
+{{--                                    @else--}}
+{{--                                    @endif--}}
                                 </div>
                             </div>
                         </div>

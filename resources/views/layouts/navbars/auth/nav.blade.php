@@ -1,8 +1,8 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg mt-4 top-1 px-1  shadow-none border-radius-xl z-index-sticky"
+<nav class="navbar navbar-main navbar-expand-lg mt-4 left px-1 shadow-none border-radius-xl z-index-sticky"
     id="navbarBlur" data-scroll="true">
 
-    <div class="navbar-background-color mx-auto" style="padding: 10px; width: 85%;">
+    <div class="navbar-background-color d-flex align-items-end justify-content-end" style="padding: 10px;">
 
         <div class="container-fluid py-1 px-3 d-flex">
 
@@ -32,9 +32,10 @@
 
             </div>
 
-            <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn  mx-auto "
+            <div class="nav nav-pills  nav-fill bg-transparent position-static  user-pannel-btn mx-auto"
                  role="tablist">
-                <div class="nav-item">
+
+                <div class="nav-item pt-2">
 
                     @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
@@ -58,7 +59,7 @@
                     @endif
                 </div>
 
-                <div class="nav-item">
+                <div class="nav-item pt-2">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                             class="rainbow-border-user-nav-btn ms-2 btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
                     </button>
