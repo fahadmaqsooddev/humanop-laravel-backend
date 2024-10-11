@@ -2622,10 +2622,10 @@ progress {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.4rem;
-  color: #495057;
+  color: #f2661c;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #d2d6da;
+  border: 1px solid #f2661c;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
