@@ -60,7 +60,7 @@
             <div class="chatbox-input right-0 w-100" >
                 {{--            <input type="text" wire:model="userMessage" id="userMessage" style="border-radius: 30px 0 0 30px"--}}
                 {{--                   placeholder="Talk with Hai">--}}
-                <textarea rows="3" cols="3" style="background-color: #1C365E;border-radius:10px 0px 0px 10px;" wire:model="userMessage" id="userMessage"
+                <textarea rows="3" cols="3" style="background-color: #1C365E;border-radius:10px 0 0 10px;" wire:model="userMessage" id="userMessage"
                           class="form-control text-white messageChat"
                           placeholder="Type your message here..."></textarea>
 

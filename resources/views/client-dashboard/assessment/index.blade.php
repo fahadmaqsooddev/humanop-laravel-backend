@@ -6,6 +6,10 @@
         body{
             background-color: #F3DEBA !important;
         }
+
+        .text-color-blue{
+            color: #1c365e !important;
+        }
     </style>
 
     <div class="row mt-4 container-fluid">
