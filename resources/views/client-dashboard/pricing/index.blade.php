@@ -16,11 +16,27 @@
     .bg-pricing{
         height:100vh;
     }
+    .ml-50{
+        margin-left: 50px !important;
+    }
+    .response-width{
+        width: 100% !important;
+    }
+    @media (min-width: 0px) and (max-width: 767px) {
+            .response-width{
+                width: 90% !important;
+            }
+    }
+    @media (min-width: 767px) and (max-width: 991px) {
+        .response-width{
+            width: 94% !important;
+        }
+    }
 </style>
 @section('content')
 <div class="page-header position-relative m-3 border-radius-xl ">
 {{--        <img src="{{ URL::asset('assets/img/login.webp') }}" alt="pattern-lines" class="position-absolute opacity-6 start-0 top-0 w-100 bg-pricing" >--}}
-        <div class="container pb-md-2 pb-4 pt-5 pt-md-1 my-5 ">
+        <div class="container pb-md-2 pb-4 pt-5 pt-md-1 mt-5 ">
             <div class="row">
                 <div class="col-md-8 mx-auto   text-center">
                     <h3 class="text-black">See our pricing</h3>
@@ -41,197 +57,277 @@
 
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             @if($plan->name != 'Freemium')
-{{--                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block  mb-2 w-100 "  >--}}
-{{--                                    Coming Soon !--}}
-{{--                                </button>--}}
-                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card' : 'pricing-core-card' }}" style="height: 560px;">
+                                <div class="text-center">
+                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block   response-width "  >
+                                    Coming Soon !
+                                </button>
+                                </div>
+                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card mt-2' : 'pricing-core-card mt-2' }}" style="height: 665px;">
 
                                     <div class="card-header text-center pt-4 pb-3">
-                                        <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
-                                        <h1 class="font-weight-bold mt-2 text-white">
+                                        <span class="badge rounded-pill bg-gradient  {{$plan->name == 'Core' ? 'text-color-blue' : 'text-dark'}}">{{$plan->name}}</span>
+                                        <h1 class="font-weight-bold mt-2 {{$plan->name == 'Core' ? 'text-color-blue' : 'text-white'}}">
                                             <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
                                         </h1>
                                     </div>
-                            @else
-                                <div class="card pricing-freemium-card" style="height: 560px;">
+                                    @else
+                                        <div class="card pricing-freemium-card" style="margin-top: 57px !important;">
 
-                                    <div class="card-header text-center pt-4 pb-3">
-                                        <span class="badge rounded-pill bg-gradient text-dark">{{$plan->name}}</span>
-                                        <h1 class="font-weight-bold mt-2 text-white">
-                                            <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
-                                        </h1>
-                                    </div>
-                            @endif
+                                            <div class="card-header text-center pt-4 pb-3">
+                                                <span class="badge rounded-pill bg-gradient text-dark {{$plan->name == 'Core' ? 'text-color-blue' : ''}}">{{$plan->name}}</span>
+                                                <h1 class="font-weight-bold mt-2  {{$plan->name == 'Core' ? 'text-color-blue' : 'text-white'}}">
+                                                    <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
+                                                </h1>
+                                            </div>
+                                            @endif
 
 
                                 @if($plan->name == 'Freemium')
 
-                                <div class="card-body text-lg-start text-center pt-0">
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/assessmentIcon.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
+                                <div class="card-body text-lg-start  pt-0">
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                            </div>
+                                            <div class="col-10">
+                                                <b class="text-white">Everything in Freemium</b>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Assessment every 90 days</p>
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                <img src="{{asset('assets/icons/assessmentIcon.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/tips.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Basic results with video and transcription</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/1 action item.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">1 daily tip based on 1 element</p>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Assessment every 90 days</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                            <img src="{{asset('assets/icons/Basic results only.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
+
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                <img src="{{asset('assets/icons/tips.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Limited 90-day action plan (1 action item)</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/action plan.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
-                                        </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">HAi companion</p>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Basic results with video and transcription</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/training strategies.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
+
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                <img src="{{asset('assets/icons/1 action item.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Cannot download/export content</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                 style="width: 12px; margin-top: 3px">
-                                        </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Unlock additional content with points or referrals</p>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">1 daily tip based on 1 element</p>
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-start px-2">
-                                        <div
-                                            class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                            <img src="{{asset('assets/icons/Early Releases.png')}}"
-                                                 style="width: 15px; margin-top: 5px">
+
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                <img src="{{asset('assets/icons/Basic results only.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="ps-3 text-white text-sm">Earn free premium access through referrals</p>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Limited 90-day action plan (1 action item)</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                <img src="{{asset('assets/icons/action plan.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">HAi companion</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Cannot download/export content</p>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                     style="width: 12px; margin-top: 3px">
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Unlock additional content with points or referrals</p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row pb-1">
+                                        <div class="col-2">
+                                            <div
+                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                <img src="{{asset('assets/icons/Early Releases.png')}}"
+                                                     style="width: 15px; margin-top: 5px">
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <p class="text-white text-sm">Earn free premium access through referrals</p>
                                         </div>
                                     </div>
 
                                     @if($user->plan_name == "Freemium")
+                                        <div class="text-center">
                                         <a class="rainbow-border-user-nav-btn btn-icon d-lg-block mt-3 mb-0">
                                             Current Membership
                                             <i class="fas fa-arrow-right ms-1"></i>
                                         </a>
+                                            </div>
                                     @else
+                                        <div class="text-center">
                                         <a href="{{route('stripe_checkout')}}"
                                            class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"
                                            data-bs-target="#subcriptionModel">
                                             Free Membership
                                             <i class="fas fa-arrow-right ms-1"></i>
                                         </a>
+                                        </div>
                                     @endif
                                 </div>
 
                                 @elseif($plan->name == "Core") {{-- Core --}}
 
-                                    <div class="card-body text-lg-start text-center pt-0">
-                                        <div class="pb-3">
-                                            <b class="text-white">Everything in FREEMIUM, plus:</b>
-                                        </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/assessmentIcon.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+                                    <div class="card-body text-lg-start  pt-0">
+                                        <div class="row pb-1">
+                                            <div class="col-2">
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Full 90-day action plan (3 action items)</p>
+                                            <div class="col-10">
+                                                <b class="text-color-blue ml-2">Everything in FREEMIUM, plus:</b>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/multiple tips.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/assessmentIcon.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Multiple daily tips (based on 2 elements)</p>
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">Full 90-day action plan (3 action items)</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
-                                            style="width: 44px;">
-                                                <img src="{{asset('assets/icons/3 action item.png')}}"
-                                                     style="width: 14px; margin-top: 5px">
+
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/multiple tips.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">HAi companion with memory function (remembers
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">Multiple daily tips (based on 2 elements)</p>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                                    >
+                                                    <img src="{{asset('assets/icons/3 action item.png')}}"
+                                                         style="width: 14px; margin-top: 5px">
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">HAi companion with memory function (remembers
                                                     conversations)</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/Detailed Results.png')}}"
-                                                     style="width: 15px; margin-top: 8px">
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/Detailed Results.png')}}"
+                                                         style="width: 15px; margin-top: 8px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Quarterly assessments</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                                <img src="{{asset('assets/icons/action plan.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Focus on successful strategies</p>
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">Quarterly assessments</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                                <img src="{{asset('assets/icons/training strategies.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                    <img src="{{asset('assets/icons/action plan.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Earn free premium access through referrals
-                                                </p>
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">Focus on successful strategies</p>
                                             </div>
                                         </div>
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
+                                                    <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-color-blue text-sm">Earn free premium access through referrals</p>
+                                            </div>
+                                        </div>
+
+
+
 
 
 {{--                                        @if($user->plan_name == "Core")--}}
@@ -251,74 +347,108 @@
 
                                 @elseif($plan->name == "Premium") {{-- Premium --}}
 
-                                    <div class="card-body text-lg-start text-center pt-0">
-                                        <div class="pb-3">
-                                            <b class="text-white">Everything in CORE, plus:</b>
-                                        </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/action plan.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+                                    <div class="card-body text-lg-start pt-0">
+                                        <div class="row pb-1">
+                                            <div class="col-2">
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Deeper training strategies</p>
+                                            <div class="col-10">
+                                                <b class="text-white">Everything in CORE, plus:</b>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/multiple tips.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/action plan.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Full 90-day action plan with weekly guidance</p>
+                                            <div class="col-10">
+                                                <p class="text-white">Deeper training strategies</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
-                                            style="width: 37px;">
-                                                <img src="{{asset('assets/icons/HAI Feature.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/multiple tips.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">3 daily tips (morning, noon, and night) based on
+                                            <div class="col-10">
+                                                <p class="text-white">Full 90-day action plan with weekly guidance</p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                                   >
+                                                    <img src="{{asset('assets/icons/HAI Feature.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-white">3 daily tips (morning, noon, and night) based on
                                                     top traits</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/Gamification.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/Gamification.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Early access to beta releases</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
-                                                <img src="{{asset('assets/icons/training strategies.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">Full access to training and resources</p>
+                                            <div class="col-10">
+                                                <p class="text-white">Early access to beta releases</p>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-start px-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
-                                            style="width: 40px;">
-                                                <img src="{{asset('assets/icons/Renewal System.png')}}"
-                                                     style="width: 12px; margin-top: 3px">s
+
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center">
+                                                    <img src="{{asset('assets/icons/training strategies.png')}}"
+                                                         style="width: 15px; margin-top: 5px">
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="ps-3 text-white text-sm">HAi companion for strategy, feedback, and
+                                            <div class="col-10">
+                                                <p class="text-white">Full access to training and resources</p>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        <div class="row pb-1">
+                                            <div class="col-2">
+                                                <div
+                                                    class="icon icon-shape icon-xs rounded-circle bg-gradient-primary shadow text-center"
+                                              >
+                                                    <img src="{{asset('assets/icons/Renewal System.png')}}"
+                                                         style="width: 12px; margin-top: 3px">
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <p class="text-white">HAi companion for strategy, feedback, and
                                                     network building</p>
                                             </div>
                                         </div>
+
 
 {{--                                        @if($user->plan_name == "Premium")--}}
 {{--                                            <a class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0">--}}
