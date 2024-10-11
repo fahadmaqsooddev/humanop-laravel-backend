@@ -1,6 +1,11 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
+    <style>
+        .card{
+            background-color: #1C365E !important;
+        }
+    </style>
     <div class="row container-fluid">
         <div class="col-lg-7 position-relative z-index-2">
             <div class="mb-4">
