@@ -119,7 +119,7 @@
         border-color: #f2661c !important;
     }
 
-    .chatbox-input > textarea::placeholder{
+    textarea::placeholder{
         color: white !important;
     }
 
