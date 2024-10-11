@@ -36,6 +36,7 @@
         .introAssessmentMargin {
             padding-left: 10%;
         }
+
         .introAssessmentLogo
         {
             margin-top: 0px;
@@ -47,10 +48,12 @@
         .introAssessmentMargin {
             padding-left: 10%;
         }
+
         .introAssessmentLogo
         {
             padding-top: 35%;
         }
+
     }
 </style>
 @section('content')
@@ -63,8 +66,11 @@
                 <div class="tab-pane active" id="monthly">
                     <div class="row w-100 introAssessmentMargin">
                         <div class="col-lg-7 col-md-7 col-12 mt-2">
+                            <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
+                               href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : url('login') }}">
                             <img src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/new_logo.png') }}" alt=""
                                  style="width: auto; height: 100px">
+                            </a>
                             <h3 class="text-bold text-white mt-3 pl-14">Welcome to the HumanOp Assessment</h3>
                             <h4 class="text-white text-bold pl-14">"Creating Optimal Relationships in Business, Home &
                                 Life"</h4>
@@ -81,13 +87,24 @@
                             <p class="text-white pl-14" style="display: flex; text-align: justify">The questions are simple and do not require extensive thought. It
                                 should take you no longer than 15-minutes to complete.</p>
                             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                                <div class="d-flex justify-content-between">
                                 <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
                                    class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
                                 </a>
+                                    <a href="{{url('client/dashboard')}}" style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
+                                       class="rainbow-border-assessment-intro-btn  text-center" >
+                                        <i class="fa-solid fa-arrow-left " style="color:#ED7537;"></i> <span style="color:#ED7537;">Back</span>
+                                    </a>
+                                </div>
                             @else
+                                <div class="d-flex justify-content-between">
                                 <a href="{{url('client/play')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                   class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
+                                   class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
                                 </a>
+                                    <a href="{{url('client/dashboard')}}"
+                                       class=" text-center" style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"><i class="fa-solid fa-arrow-left" style="color:#ED7537;"></i> <span style="color:#ED7537;">Back</span>
+                                    </a>
+                                </div>
                             @endif
                         </div>
                         <div class="col-lg-5 col-md-5 col-12 introAssessmentLogo pl-14" >

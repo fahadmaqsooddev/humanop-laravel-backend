@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
             <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
-                <div class="card z-index-0">
+                <div class="card z-index-0 left-nav-blue-color">
                     <div class="card-header text-center pt-4">
                         <h5 class="text-white">Register with</h5>
                     </div>
@@ -38,7 +38,7 @@
                     @endif
 
                     <p class="text-center text-white"><b>or</b></p>
-                    <div class="card-body">
+                    <div class="card-body" >
                         <form action="{{route('store_user')}}" method="post">
                             @csrf
                             <input type="hidden" name="referralCode" value="{{$referralCode ?? ''}}">

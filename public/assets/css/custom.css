@@ -411,7 +411,12 @@ aside:hover {
     background: #1C365E !important;
     border-radius: 0 !important;
 }
-
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #ff6347 !important; /* Custom border color (e.g., tomato) */
+    box-shadow: none !important; /* Ensure the default box-shadow is removed, if not desired */
+}
 .podcast-card{
     background:  #FFFFFF !important;
     border-radius: 0 !important;
@@ -433,6 +438,11 @@ aside:hover {
 .left-nav-blue-color{
     background: #1C365E !important;
 }
+
+.left-nav-blue-light-color{
+    background: #2C4C7E !important;
+}
+
 .optimization-strategy-card > div > h3{
     color:white !important;
     border-radius: 0 !important;
@@ -441,15 +451,19 @@ aside:hover {
 .pricing-freemium-card{
     background: #8BB1AB !important;
 }
+
 .pricing-core-card{
     background: #F6BA81 !important;
 }
+
 .pricing-premium-card{
     background: #ED7537 !important;
 }
+
 .background-none{
     background:none !important;
 }
+
 .setting-box-background{
     background: #8BB1AB !important;
 }
