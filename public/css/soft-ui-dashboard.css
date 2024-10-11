@@ -23732,3 +23732,19 @@ pre[class*=language-] {
 .choices {
   margin-bottom: 0 !important;
 }
+
+/*dashboard page media query*/
+@media screen and (min-width: 300px) and (max-width: 1000px) {
+
+    .card{
+        margin: 20px;
+    }
+
+    .hai_chat_title_div{
+        padding: 20px;
+    }
+
+    .haichat_form_div{
+        padding: 20px;
+    }
+}
