@@ -32,6 +32,10 @@
             width: 94% !important;
         }
     }
+
+    .text-color-blue{
+        color: #1c365e !important;
+    }
 </style>
 @section('content')
 <div class="page-header position-relative m-3 border-radius-xl ">
