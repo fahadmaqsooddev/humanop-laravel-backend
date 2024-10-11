@@ -83,7 +83,17 @@ class AllUser extends Component
 
     public function hideHaiChatFromAllClients(){
 
-        User::query()->update(['hai_chat' => Admin::HAI_CHAT_HIDE]);
+        $exists = User::where('hai_chat', Admin::HAI_CHAT_SHOW)->exists();
+
+        if ($exists){
+
+            User::query()->update(['hai_chat' => Admin::HAI_CHAT_HIDE]);
+
+        }else{
+
+            User::query()->update(['hai_chat' => Admin::HAI_CHAT_SHOW]);
+        }
+
     }
 
 

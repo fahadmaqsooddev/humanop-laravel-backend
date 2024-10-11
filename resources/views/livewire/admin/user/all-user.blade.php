@@ -36,7 +36,7 @@
         </div>
     </div>
     @if(Auth::user()->hasRole('super admin'))
-        <button wire:click="hideHaiChatFromAllClients" class="rainbow-border-user-nav-btn btn-sm float-end m-2 mb-0">Hide Hai Chat From all</button>
+        <button wire:click="hideHaiChatFromAllClients" class="rainbow-border-user-nav-btn btn-sm float-end m-2 mb-0">Hai Chat Change Status</button>
     @endif
     <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
