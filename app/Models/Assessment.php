@@ -952,33 +952,33 @@ class Assessment extends Model
 
             if ($assessment['page'] === 0) { // if assessment is finished
 
-                $free_assessment = self::where('user_id', Helpers::getUser()->id)
-                    ->where('type', 1)->where('page', 0)->latest()->first();
-
-                if ($free_assessment) { // assessment is free
-
-                    $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
-
-                    $current_time = Carbon::now();
-
-                    if ($created_at_90_days->greaterThan($current_time)) { // If user attempting another assessment with in 90 days
-
-                        return false;
-
-                    } else { // If user attempting another assessment after 90 days
-
-                        $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
-
-                        $assessment_data = Assessment::where('id', $assessment['id'])->first();
-
-                        AssessmentColorCode::createStylesCodeAndColor($assessment_data);
-
-                        AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
-
-                        return 0;
-                    }
-
-                } elseif ($assessment['type'] === 0) {
+//                $free_assessment = self::where('user_id', Helpers::getUser()->id)
+//                    ->where('type', 1)->where('page', 0)->latest()->first();
+//
+//                if ($free_assessment) { // assessment is free
+//
+//                    $created_at_90_days = Carbon::parse($free_assessment->created_at)->addDays(90);
+//
+//                    $current_time = Carbon::now();
+//
+//                    if ($created_at_90_days->greaterThan($current_time)) { // If user attempting another assessment with in 90 days
+//
+//                        return false;
+//
+//                    } else { // If user attempting another assessment after 90 days
+//
+//                        $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+//
+//                        $assessment_data = Assessment::where('id', $assessment['id'])->first();
+//
+//                        AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+//
+//                        AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+//
+//                        return 0;
+//                    }
+//
+//                } elseif ($assessment['type'] === 0) {
 
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
@@ -989,7 +989,7 @@ class Assessment extends Model
                     AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
 
                     return 0;
-                }
+//                }
 
             } else { // For abandoned assessment
 
