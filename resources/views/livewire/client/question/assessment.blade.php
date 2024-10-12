@@ -9,7 +9,7 @@
     @foreach($questions as $index => $question)
         <hr class="" style="border: 1px solid white">
         <div class="mb-4 text-bold">
-            <h4 class="custom-text-dark">{{ $offset+($index+1) }}. {{ $question['question'] }}</h4>
+            <h4 class="custom-text-dark" style="font-weight: 800; font-size: 28px;">{{ $offset+($index+1) }}. {{ $question['question'] }}</h4>
             @if($question['multiple'] == 1)
                 <ul class="mb-5 pt-2 ps-0" wire:sortable="updateOrder" style="list-style: none">
                     @foreach($question['answers'] as $key => $answer)
@@ -31,7 +31,7 @@
                                class="q-{{ $question['id'] }} form-check-input"
                                onclick="onlyOne(this, 'q-{{ $question['id'] }}')"
                                wire:click="selectAnswer({{ $question['id'] }}, '{{ $answer['id'] }}', '{{ addslashes(json_encode($answer['sub_answer_codes'] ?? $answer['answer_codes'] ?? [])) }}', '{{ addslashes($question['question']) }}', '{{ addslashes($answer['answer']) }}')">
-                        <label class="form-check-label custom-text-dark">{{ $answer['answer'] }}</label>
+                        <label class="form-check-label custom-text-dark" style="font-weight: 600; font-size: 20px;">{{ $answer['answer'] }}</label>
                         @if($answer['image'] !== 'NULL')
                             <br>
                             <img src="{{ asset('/images/q'.$answer['image']) }}" alt="Image for {{ $answer['answer'] }}">

@@ -479,7 +479,7 @@
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Human Network.png')}}"><b
                                             class="caret"></b></span>
-                                    <span class="sidenav-normal"> HumanOP Network &nbsp;&nbsp; <b
+                                    <span class="sidenav-normal"> HumanOp Network &nbsp;&nbsp; <b
                                             class="caret"></b></span>
                                 </a>
                                 <div class="collapse {{ ($childFolder == 'human-network' ? 'show' : '') }}"

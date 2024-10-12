@@ -373,7 +373,7 @@
                                                 <td class="text-sm font-weight-normal text-center">{{$history['coupons'] ? $history['coupons']['coupon'] : 'N/A'}} </td>
                                                 <td class="text-sm font-weight-normal text-center">{{$history['discount_price']}}</td>
                                                 <td class="text-sm font-weight-normal text-center">{{$history['total_price']}}</td>
-                                                <td class="text-sm font-weight-normal text-center">{{\Carbon\Carbon::parse($history['created_at'])->format('M, d, Y h:i A')}}</td>
+                                                <td class="text-sm font-weight-normal text-center">{{\Carbon\Carbon::parse($history['created_at'])->format('M, d, Y h:i A')}} (GMT)</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
