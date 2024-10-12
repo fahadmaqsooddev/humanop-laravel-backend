@@ -1,13 +1,13 @@
 <div class="card setting-box-background mt-4" id="add-sub-admin-info">
     <div class="card-header">
-        <h5 class="text-white">Add Sub Admin</h5>
+        <h5 class="text-color-dark setting-form-heading">Add Sub Admin</h5>
     </div>
     @include('layouts.message')
     <form wire:submit.prevent="submitForm" >
         <div class="card-body pt-0">
             <div class="row">
                 <div class="col-6">
-                    <label class="form-label text-white">First Name</label>
+                    <label class="form-label text-color-dark">First Name</label>
                     <div class="input-group">
                         <input id="firstName"
                                wire:model.defer="sub_admin.first_name"
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <label class="form-label text-white">Last Name</label>
+                    <label class="form-label text-color-dark">Last Name</label>
                     <div class="input-group">
                         <input id="lastName" wire:model.defer="sub_admin.last_name"
                                class="form-control setting-box-background" type="text" placeholder="Last Name">
@@ -25,32 +25,32 @@
 
             <div class="row">
                 <div class="col-6">
-                    <label class="form-label mt-4 text-white">Email</label>
+                    <label class="form-label mt-4 text-color-dark">Email</label>
                     <div class="input-group">
                         <input id="email" wire:model.defer="sub_admin.email"
-                               class="form-control setting-box-background" type="email" placeholder="email">
+                               class="form-control setting-box-background" type="Email" placeholder="email">
                     </div>
                 </div>
                 <div class="col-6">
-                    <label class="form-label mt-4 text-white">Phone Number</label>
+                    <label class="form-label mt-4 text-color-dark">Phone Number</label>
                     <div class="input-group">
                         <input id="phone" wire:model.defer="sub_admin.phone"
-                               class="form-control setting-box-background" type="text" placeholder="phone">
+                               class="form-control setting-box-background" type="text" placeholder="Phone #">
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-6">
-                    <label class="form-label mt-4 text-white">Password</label>
+                    <label class="form-label mt-4 text-color-dark">Password</label>
                     <div class="input-group">
                         <input wire:model="sub_admin.password" class="form-control setting-box-background" type="password"
-                               placeholder="Current password">
+                               placeholder="Password">
                     </div>
                 </div>
                 <div class="col-sm-4 col-6 w-50">
-                    <label class="form-label mt-4 text-white">I'm</label>
-                    <select class="form-control setting-box-background" wire:model.defer="sub_admin.gender" >
+                    <label class="form-label mt-4 text-color-dark">I'm</label>
+                    <select class="form-control setting-box-background text-color-dark" wire:model.defer="sub_admin.gender" >
                         <option value="0">Male</option>
                         <option value="1">Female</option>
                     </select>
@@ -58,7 +58,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
-                    <label for="name" class="text-white mt-4">Date of Birth</label>
+                    <label for="name" class="text-color-dark mt-4">Date of Birth</label>
 
                     <div class="d-flex w-100">
 
@@ -69,21 +69,21 @@
                         $current_year = (int)(\Carbon\Carbon::now()->year - 18);
                         ?>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="month">
+                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="month">
                             <option value="">Month</option>
                             @foreach($months as $key => $month)
                                 <option value="{{$key + 1}}">{{$month}}</option>
                             @endforeach
                         </select>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="day">
+                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="day">
                             <option value="">Day</option>
                             @for($i = 1; $i <= 31; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
                             @endfor
                         </select>
 
-                        <select class="justify-content-center form-control m-1 setting-box-background" wire:model="year">
+                        <select class="justify-content-center form-control m-1 setting-box-background text-color-dark" wire:model="year">
                             <option value="">Year</option>
                             @for($i = $current_year; $i >= 1900; $i--)
                                 <option value="{{$i}}">{{$i}}</option>
@@ -123,53 +123,53 @@
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.users">
-                        <label class="form-check-label text-white">Client</label>
+                        <label class="form-check-label text-color-dark">Client</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.deletedClient">
-                        <label class="form-check-label text-white">Deleted Client</label>
+                        <label class="form-check-label text-color-dark">Deleted Client</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.clientQueries">
-                        <label class="form-check-label text-white">Client Queries</label>
+                        <label class="form-check-label text-color-dark">Client Queries</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.questions">
-                        <label class="form-check-label text-white">Questions</label>
+                        <label class="form-check-label text-color-dark">Questions</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.resources">
-                        <label class="form-check-label text-white">Resources</label>
+                        <label class="form-check-label text-color-dark">Resources</label>
                     </div>
                     <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.cms">
-                        <label class="form-check-label text-white">CMS</label>
+                        <label class="form-check-label text-color-dark">CMS</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.chat">
-                        <label class="form-check-label text-white">H.A.I Chat</label>
+                        <label class="form-check-label text-color-dark">H.A.I Chat</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.projects">
-                        <label class="form-check-label text-white">Projects</label>
+                        <label class="form-check-label text-color-dark">Projects</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.abandonedAssessment">
-                        <label class="form-check-label text-white">Abandoned Assessment</label>
+                        <label class="form-check-label text-color-dark">Abandoned Assessment</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
                                wire:model.defer="permission.approveQueries">
-                        <label class="form-check-label text-white">Approve Queries</label>
+                        <label class="form-check-label text-color-dark">Approve Queries</label>
                     </div>
                 </div>
 
@@ -177,24 +177,24 @@
             <button type="submit" class="rainbow-border-user-nav-btn btn-sm float-end mt-4 mb-4">
                 Create Sub Admin
             </button>
-            <p class="text-muted mt-4 mb-2">
-                Please follow this guide for a strong password:
-            </p>
+{{--            <p class="text-muted mt-4 mb-2">--}}
+{{--                Please follow this guide for a strong password:--}}
+{{--            </p>--}}
 
-            <ul class="text-muted ps-4 mb-3 float-start">
-                <li>
-                    <span class="text-sm text-white">One special characters</span>
-                </li>
-                <li>
-                    <span class="text-sm text-white">Min 6 characters</span>
-                </li>
-                <li>
-                    <span class="text-sm text-white">One number (2 are recommended)</span>
-                </li>
-                <li>
-                    <span class="text-sm text-white">Change it often</span>
-                </li>
-            </ul>
+{{--            <ul class="text-muted ps-4 mb-3 float-start">--}}
+{{--                <li>--}}
+{{--                    <span class="text-sm text-color-dark">One special characters</span>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <span class="text-sm text-color-dark">Min 6 characters</span>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <span class="text-sm text-color-dark">One number (2 are recommended)</span>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <span class="text-sm text-color-dark">Change it often</span>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
 
         </div>
 

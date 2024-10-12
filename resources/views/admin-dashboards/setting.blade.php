@@ -7,8 +7,17 @@
                 background-color: white !important;
             }
 
-            .setting-box-background::placeholder{
-                color: white;
+            .text-color-dark{
+                color: #0f1534 !important;
+            }
+
+            input::placeholder{
+                color: #0f1534 !important;
+            }
+
+            .setting-form-heading{
+                font-size: 22px;
+                font-weight: bold;
             }
 
         </style>
@@ -171,10 +180,10 @@
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
                             <div class="h-100">
-                                <h5 class="mb-1 font-weight-bolder custom-text-dark">
+                                <h5 class="mb-1 font-weight-bolder text-color-dark">
                                     {{$currentUser->first_name.' '.$currentUser->last_name}}
                                 </h5>
-                                <p class="mb-0 font-weight-bold text-sm">
+                                <p class="mb-0 font-weight-bold text-sm text-color-dark">
                                   @if($currentUser->is_admin == 1)
                                       Admin
                                       @endif
@@ -199,8 +208,8 @@
                 <!-- Card Delete Account -->
                 <div class="card setting-box-background mt-4" id="delete">
                     <div class="card-header">
-                        <h5 class="text-white">Delete Account</h5>
-                        <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please
+                        <h5 class="text-color-dark setting-form-heading">Delete Account</h5>
+                        <p class="text-sm mb-0 text-color-dark">Once you delete your account, there is no going back. Please
                             be certain.</p>
                     </div>
                     <div class="card-body d-sm-flex pt-0">
@@ -212,8 +221,8 @@
                                 </div>
                             </div>
                             <div class="ms-2">
-                                <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                <span class="text-xs d-block">I want to delete my account.</span>
+                                <span class="text-color-dark font-weight-bold d-block text-sm">Confirm</span>
+                                <span class="text-xs d-block text-color-dark">I want to delete my account.</span>
                             </div>
                         </div>
                         <button class="btn btn-outline-secondary mb-0 ms-auto invisible" type="button" name="button">Deactivate
