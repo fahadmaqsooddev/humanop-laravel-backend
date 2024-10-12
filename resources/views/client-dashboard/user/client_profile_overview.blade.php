@@ -323,8 +323,12 @@
             background: #2C4C7E !important;
         }
 
-        .card{
+        .card-ko{
             background: #2C4C7E !important;
+        }
+
+        .card{
+            background: #1C365E; !important;
         }
     </style>
 
@@ -334,7 +338,7 @@
                 <section>
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
-                            <div class="card px-0 left-nav-blue-light-color" style="text-align: center" >
+                            <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center" >
                                 <div class="card-body p-3 ">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
@@ -891,7 +895,7 @@
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Motivation Introduction:</span>
-                                                    This video is an
+                                                    <span style="color: white;">This video is an
                                                     introduction to Motivation (or what's driving you to do
                                                     what you do). There are 12 motivators or drivers in
                                                     everyone's “vehicle of self”, but only two are
@@ -900,7 +904,7 @@
                                                     identifying what your two drivers are will help you to
                                                     understand why you do things a certain way and what fuel
                                                     you specifically need every day in order to thrive. The
-                                                    following videos will explore your two drivers.
+                                                        following videos will explore your two drivers.</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -1353,7 +1357,7 @@
                                             <div class="slider-padding p-3 mt-5">
 
                                                 <div class="text-center">
-                                                    <h5 style="color: #f2661c;">Click on the Labels to see your Results!</h5>
+                                                    <h4 style="color: #f2661c; text-transform: uppercase; font-size: 27px;"><strong>Click on the Labels to see your Results!</strong></h4>
                                                 </div>
 
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
