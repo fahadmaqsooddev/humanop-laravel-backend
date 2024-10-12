@@ -205,13 +205,14 @@
                             </div>
                             <div class="mt-3">
                                 <label for="name" style="color: #0f1535; font-size: 15px">90 Day Intention</label>
-                                <select class="form-control" name="gender" id="gender" name="user_type"
-                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                    <option value="" selected hidden>In the next 90 Days I would like to ...
-                                    </option>
-                                    <option value="0">ABC</option>
-                                    <option value="1">abc</option>
-                                    <option value="1">xyz</option>
+                                <select class="form-control" name="ninety_day_intention" style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                    <option value="" selected hidden>In the next 90 Days I would like to ...</option>
+                                    <option value="Personal Growth and Development">Personal Growth and Development</option>
+                                    <option value="Business Optimization">Business Optimization</option>
+                                    <option value="Relationship Optimization">Relationship Optimization</option>
+                                    <option value="Career Optimization">Career Optimization</option>
+                                    <option value="Team Optimization">Team Optimization</option>
+                                    <option value="Health & Fitness">Health & Fitness</option>
                                 </select>
 {{--                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"--}}
 {{--                                       style="background-color: #f3deba; color: black; border-radius: 15px;">--}}
