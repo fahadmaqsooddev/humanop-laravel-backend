@@ -205,7 +205,7 @@
                             </div>
                             <div class="mt-3">
                                 <label for="name" style="color: #0f1535; font-size: 15px">90 Day Intention</label>
-                                <select class="form-control " multiple name="ninety_day_intention[]" style="background-color: #f3deba; color: black; border-radius: 15px; overflow: hidden; height: 160px">
+                                <select class="form-control" name="ninety_day_intention[]" style="background-color: #f3deba; color: black; border-radius: 15px; overflow: hidden;">
                                     <option style="color: #f2661c; font-weight: bold" value="" disabled>Your Intention For Using HumanOp</option>
                                     <option value="Personal Growth and Development">Personal Growth and Development</option>
                                     <option value="Business Optimization">Business Optimization</option>
