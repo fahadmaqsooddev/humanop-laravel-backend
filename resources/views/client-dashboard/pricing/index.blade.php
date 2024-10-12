@@ -66,7 +66,7 @@
                                     Coming Soon !
                                 </button>
                                 </div>
-                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card mt-2' : 'pricing-core-card mt-2' }}" style="height: 665px;">
+                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card mt-2' : 'pricing-core-card mt-2' }}" style="height: 700px;">
 
                                     <div class="card-header text-center pt-4 pb-3">
                                         <span class="badge rounded-pill bg-gradient  {{$plan->name == 'Core' ? 'text-color-blue' : 'text-dark'}}">{{$plan->name}}</span>
@@ -75,7 +75,7 @@
                                         </h1>
                                     </div>
                                     @else
-                                        <div class="card pricing-freemium-card" style="margin-top: 57px !important;">
+                                        <div class="card pricing-freemium-card" style="margin-top: 57px !important; height: 700px">
 
                                             <div class="card-header text-center pt-4 pb-3">
                                                 <span class="badge rounded-pill bg-gradient text-dark {{$plan->name == 'Core' ? 'text-color-blue' : ''}}">{{$plan->name}}</span>
