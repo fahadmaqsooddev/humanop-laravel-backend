@@ -15,7 +15,8 @@
     <div class="container-fluid">
 
         <div class="row mt-4">
-            <div class="col-12">
+
+            <div class="d-none d-sm-inline">
 
                 @if(session('message'))
                     <div class="m-3 alert alert-success alert-dismissible fade show text-center" id="alert-success"
@@ -56,10 +57,32 @@
                             @endforeach
                             </tbody>
                         </table>
-
-                        {{$assessments->links()}}
                     </div>
                 </div>
+            </div>
+
+            <div class="d-sm-none col-12">
+
+                @foreach($assessments as $assessment)
+
+                    <div class="card" style="background-color: white !important;">
+
+                            <div class="card-body">
+
+                                <h4 style="font-weight: bold;">Date : {{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</h4>
+                                <p style="color: black !important;">Status : Complete</p>
+                                <a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
+                                   style="background-color: white !important; color: black !important;">
+                                    View
+                                </a>
+
+                            </div>
+
+                    </div>
+
+                @endforeach
+
+
             </div>
         </div>
 
