@@ -13,6 +13,11 @@
             width: 100%;
         }
 
+        .searchInput
+        {
+            margin-top: 10px;
+        }
+
     }
 </style>
 <div>
