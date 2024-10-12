@@ -33,6 +33,18 @@
         }
     }
 
+    @media (min-width: 1440px) and (max-width: 2560px) {
+        .cardHeightPro{
+            height: 655px !important;
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1024px) {
+        .cardHeightPro{
+            height: 700px !important;
+        }
+    }
+
     .text-color-blue{
         color: #1c365e !important;
     }
@@ -66,7 +78,7 @@
                                     Coming Soon !
                                 </button>
                                 </div>
-                                <div class="card {{$plan->name == 'Premium' ? 'pricing-premium-card mt-2' : 'pricing-core-card mt-2' }}" style="height: 700px;">
+                                <div class="card cardHeightPro {{$plan->name == 'Premium' ? 'pricing-premium-card mt-2' : 'pricing-core-card mt-2' }}">
 
                                     <div class="card-header text-center pt-4 pb-3">
                                         <span class="badge rounded-pill bg-gradient  {{$plan->name == 'Core' ? 'text-color-blue' : 'text-dark'}}">{{$plan->name}}</span>
@@ -75,7 +87,7 @@
                                         </h1>
                                     </div>
                                     @else
-                                        <div class="card pricing-freemium-card" style="margin-top: 57px !important; height: 700px">
+                                        <div class="card cardHeightPro pricing-freemium-card" style="margin-top: 57px !important; ">
 
                                             <div class="card-header text-center pt-4 pb-3">
                                                 <span class="badge rounded-pill bg-gradient text-dark {{$plan->name == 'Core' ? 'text-color-blue' : ''}}">{{$plan->name}}</span>
