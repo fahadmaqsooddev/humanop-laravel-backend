@@ -1,4 +1,26 @@
 <style>
+    
+    @media (min-width: 360px) and (max-width: 991px) {
+
+        .connectionDev
+        {
+            width: 100%;
+            margin-top: 5px;
+
+        }
+
+        .connectionBtn
+        {
+            width: 100%;
+        }
+        .searchInput
+        {
+            margin-top: 10px;
+        }
+
+    }
+
+
     .updateBtn{
         background-color: #f2661c;
         color: white;
