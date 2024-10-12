@@ -325,6 +325,10 @@
 
         .card-ko{
             background: #2C4C7E !important;
+            height:auto;
+            text-wrap: wrap;
+            word-wrap: break-word;
+            margin 10px;
         }
 
         .card{
@@ -339,7 +343,7 @@
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
                             <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center" >
-                                <div class="card-body p-3 ">
+                                <div class="card-body p-3">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
@@ -1297,7 +1301,7 @@
                                     @endif
 
                                     <ul style="justify-content: space-evenly; background-color: transparent; padding-top: 20px;"
-                                        class="nav nav-pills">
+                                        class="nav nav-pills text-sm" id="profile_overview_nav">
                                         <li><a href="#summaryReport"
                                                class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
@@ -1332,7 +1336,7 @@
                                                     use your natural talents versus learned talents you gain energy.
                                                     Maximizing your fuel efficiency allows you to access your true self
                                                     and enjoy life in the process.</p>
-                                                <h4 class="primaryColor">The HumanOp Summary Report proves valuable in
+                                                <h4 class="primaryColor summary_report_points_heading">The HumanOp Summary Report proves valuable in
                                                     various contexts:</h4>
                                                 <ul>
                                                     <li>Employer and agency recruitment</li>
@@ -1357,10 +1361,12 @@
                                             <div class="slider-padding p-3 mt-5">
 
                                                 <div class="text-center">
-                                                    <h4 style="color: #f2661c; text-transform: uppercase; font-size: 27px;"><strong>Click on the Labels to see your Results!</strong></h4>
+                                                    <h4 class="instruction_text">
+                                                        <strong>Click on the Labels to see your Results!</strong>
+                                                    </h4>
                                                 </div>
 
-                                                <h4 class="primaryColor">Main Results Introduction:</h4>
+                                                <h4 class="primaryColor core_stats_heading">Main Results Introduction:</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
@@ -1601,7 +1607,7 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="style_{{$index.'_heading'}}" class="card"
+                                                            <div id="style_{{$index.'_heading'}}" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
@@ -1632,9 +1638,9 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div id="feature_{{$index}}_heading" class="card"
+                                                            <div id="feature_{{$index}}_heading" class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1707,7 +1713,7 @@
                                                     @foreach($topCommunication as $index => $communication)
 
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="communication_{{$index}}_heading" class="card"
+                                                            <div id="communication_{{$index}}_heading" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
@@ -1795,8 +1801,15 @@
                                         </div>
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
-                                                <div>
-                                                    {!! $actionPlan['plan_text'] ?? null !!}
+                                                <div class="w-100">
+                                                    <div class="d-flex justify-content-center align-items-center">
+
+                                                        <h2 class="text-white">
+                                                            {!! $actionPlan['plan_text'] ?? null !!}
+                                                        </h2>
+
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

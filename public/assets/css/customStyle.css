@@ -40,3 +40,62 @@
 .modal-dialog > .modal-content{
     background-color: #1C365E;
 }
+
+.instruction_text{
+    color: #f2661c;
+    text-transform: uppercase;
+    font-size: 27px;
+}
+
+@media screen and (min-width: 300px) and (max-width: 900px){
+
+    .nav.nav-pills .nav-link.active{
+        height: auto !important;
+    }
+
+    #profile_overview_nav{
+
+    }
+
+    #profile_overview_nav > li{
+        font-size: 10px;
+    }
+
+    #profile_overview_nav > li > a{
+        padding: 5px;
+    }
+
+    #summaryReport > .slider-padding{
+        padding: 0 0 0 0 !important;
+    }
+
+    #summaryReport > .slider-padding > .summary_report_points_heading{
+        font-size: 20px !important;
+        font-weight: bold;
+    }
+
+    #coreStats > .slider-padding{
+        padding: 0 0 0 0 !important;
+    }
+
+    #coreStats > .slider-padding > .core_stats_heading{
+        font-size: 20px !important;
+    }
+
+    #coreStats > .slider-padding > div > .instruction_text{
+        font-size: 15px !important;
+    }
+
+    #coreStats > .slider-padding > .row{
+        margin: -15px -15px 5px -15px !important;
+    }
+
+    #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card{
+        margin: -1px 17px 0 21px !important;
+    }
+
+    #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card_motivation{
+        margin: -1px 17px 7px 21px !important;
+    }
+
+}
