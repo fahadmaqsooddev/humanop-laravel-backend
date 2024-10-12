@@ -250,7 +250,7 @@
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
-                                    <h5 class="fs-10px text-white client-dashboard-stats-heading">Daily Tip</h5>
+                                    <h5 class="text-white client-dashboard-stats-heading">Daily Tip</h5>
                                     <div class="description-container" style="height: 335px;">
 
                                         {{$hide_button = false}}
