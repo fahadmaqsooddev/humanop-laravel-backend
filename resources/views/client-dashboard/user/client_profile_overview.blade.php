@@ -323,9 +323,80 @@
             background: #2C4C7E !important;
         }
 
-        .card{
+        .card-ko{
             background: #2C4C7E !important;
+            height:auto;
+            text-wrap: wrap;
+            word-wrap: break-word;
+            margin 10px;
         }
+
+        .card{
+            background: #1C365E; !important;
+        }
+
+        .instruction_text{
+            color: #f2661c;
+            text-transform: uppercase;
+            font-size: 27px;
+        }
+
+
+        /*Full Result page Responsiveness code*/
+
+        @media screen and (min-width: 300px) and (max-width: 900px){
+
+            .nav.nav-pills .nav-link.active{
+                height: auto !important;
+            }
+
+            #profile_overview_nav{
+
+            }
+
+            #profile_overview_nav > li{
+                font-size: 10px;
+            }
+
+            #profile_overview_nav > li > a{
+                padding: 5px;
+            }
+
+            #summaryReport > .slider-padding{
+                padding: 0 0 0 0 !important;
+            }
+
+            #summaryReport > .slider-padding > .summary_report_points_heading{
+                font-size: 20px !important;
+                font-weight: bold;
+            }
+
+            #coreStats > .slider-padding{
+                padding: 0 0 0 0 !important;
+            }
+
+            #coreStats > .slider-padding > .core_stats_heading{
+                font-size: 20px !important;
+            }
+
+            #coreStats > .slider-padding > div > .instruction_text{
+                font-size: 15px !important;
+            }
+
+            #coreStats > .slider-padding > .row{
+                margin: -15px -15px 5px -15px !important;
+            }
+
+            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card{
+                margin: -1px 17px 0 21px !important;
+            }
+
+            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card_motivation{
+                margin: -1px 17px 7px 21px !important;
+            }
+
+        }
+
     </style>
 
     <div class="row">
@@ -334,8 +405,8 @@
                 <section>
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
-                            <div class="card px-0 left-nav-blue-light-color" style="text-align: center" >
-                                <div class="card-body p-3 ">
+                            <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center" >
+                                <div class="card-body p-3">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
@@ -891,7 +962,7 @@
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Motivation Introduction:</span>
-                                                    This video is an
+                                                    <span style="color: white;">This video is an
                                                     introduction to Motivation (or what's driving you to do
                                                     what you do). There are 12 motivators or drivers in
                                                     everyone's “vehicle of self”, but only two are
@@ -900,7 +971,7 @@
                                                     identifying what your two drivers are will help you to
                                                     understand why you do things a certain way and what fuel
                                                     you specifically need every day in order to thrive. The
-                                                    following videos will explore your two drivers.
+                                                        following videos will explore your two drivers.</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -1293,7 +1364,7 @@
                                     @endif
 
                                     <ul style="justify-content: space-evenly; background-color: transparent; padding-top: 20px;"
-                                        class="nav nav-pills">
+                                        class="nav nav-pills text-sm" id="profile_overview_nav">
                                         <li><a href="#summaryReport"
                                                class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
@@ -1328,7 +1399,7 @@
                                                     use your natural talents versus learned talents you gain energy.
                                                     Maximizing your fuel efficiency allows you to access your true self
                                                     and enjoy life in the process.</p>
-                                                <h4 class="primaryColor">The HumanOp Summary Report proves valuable in
+                                                <h4 class="primaryColor summary_report_points_heading">The HumanOp Summary Report proves valuable in
                                                     various contexts:</h4>
                                                 <ul>
                                                     <li>Employer and agency recruitment</li>
@@ -1353,10 +1424,12 @@
                                             <div class="slider-padding p-3 mt-5">
 
                                                 <div class="text-center">
-                                                    <h5 style="color: #f2661c;">Click on the Labels to see your Results!</h5>
+                                                    <h4 class="instruction_text">
+                                                        <strong>Click on the Labels to see your Results!</strong>
+                                                    </h4>
                                                 </div>
 
-                                                <h4 class="primaryColor">Main Results Introduction:</h4>
+                                                <h4 class="primaryColor core_stats_heading">Main Results Introduction:</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
@@ -1597,7 +1670,7 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="style_{{$index.'_heading'}}" class="card"
+                                                            <div id="style_{{$index.'_heading'}}" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
@@ -1628,9 +1701,9 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div id="feature_{{$index}}_heading" class="card"
+                                                            <div id="feature_{{$index}}_heading" class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1703,7 +1776,7 @@
                                                     @foreach($topCommunication as $index => $communication)
 
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="communication_{{$index}}_heading" class="card"
+                                                            <div id="communication_{{$index}}_heading" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
@@ -1791,8 +1864,15 @@
                                         </div>
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
-                                                <div>
-                                                    {!! $actionPlan['plan_text'] ?? null !!}
+                                                <div class="w-100">
+                                                    <div class="d-flex justify-content-center align-items-center">
+
+                                                        <h2 class="text-white">
+                                                            {!! $actionPlan['plan_text'] ?? null !!}
+                                                        </h2>
+
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

@@ -311,6 +311,13 @@
                 display: none;
             }
         }
+
+        @media screen and (min-width: 300px) and (max-width: 800px){
+            .library_resource_coming_soon{
+                padding: 0 40px 50px 10px;
+                font-size: 40px;
+            }
+        }
     </style>
 
 
@@ -491,8 +498,8 @@
         <div class="col-2 col-md-2 col-sm-0 text-center mt-5 pt-5 col-0">
 
         </div>
-        <div class="col-4 col-md-4  col-sm-12  col-m-12 text-center mt-5 pt-5 col-12">
-            <h1 class="pt-5 mx-auto" style="color: #0f1534;">Coming Soon!</h1>
+        <div class="col-8 col-md-4 col-sm-12 col-m-12 mt-5 pt-5 d-flex justify-content-end">
+            <h1 class="pt-5 library_resource_coming_soon" style="color: #0f1534;">Coming Soon!</h1>
         </div>
         <div class="col-6 col-md-6  col-sm-12 col-12">
             <div id="globe" class="position-relative d-flex justify-content-center" style="height: 600px;">

@@ -45,7 +45,7 @@
                         <tbody>
                         @foreach($assessments as $assessment)
                             <tr>
-                                <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}}</td>
+                                <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</td>
                                 <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
                                 <td class="text-sm text-color-blue font-weight-normal">N/A</td>
                                 <td class="text-sm text-color-blue font-weight-normal">{{$assessment['id']}} </td>
