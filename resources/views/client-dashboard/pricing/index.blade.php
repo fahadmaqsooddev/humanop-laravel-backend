@@ -223,13 +223,13 @@
                                         </div>
                                     </div>
 
-                                    @if($user->plan_name == "Freemium")
+{{--                                    @if($user->plan_name == "Freemium")--}}
                                         <div class="text-center">
-                                        <a class="rainbow-border-user-nav-btn btn-icon d-lg-block mt-3 mb-0">
-                                            Current Membership
-                                            <i class="fas fa-arrow-right ms-1"></i>
-                                        </a>
-                                            </div>
+                                            <a class="rainbow-border-user-nav-btn btn-icon d-lg-block mt-3 mb-0">
+                                                Current Membership
+                                                <i class="fas fa-arrow-right ms-1"></i>
+                                            </a>
+                                        </div>
 {{--                                    @else--}}
 {{--                                        <div class="text-center">--}}
 {{--                                        <a href="{{route('stripe_checkout')}}"--}}
@@ -239,7 +239,7 @@
 {{--                                            <i class="fas fa-arrow-right ms-1"></i>--}}
 {{--                                        </a>--}}
 {{--                                        </div>--}}
-                                    @endif
+{{--                                    @endif--}}
                                 </div>
 
                                 @elseif($plan->name == "Core") {{-- Core --}}

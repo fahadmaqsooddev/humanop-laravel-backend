@@ -55,6 +55,8 @@
                     @endif
                 </div>
 
+                &nbsp;
+
                 <div class="nav-item pt-2">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                             class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd" data-bs-toggle="modal"
