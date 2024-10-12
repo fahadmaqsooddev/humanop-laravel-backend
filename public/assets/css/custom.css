@@ -406,6 +406,8 @@ aside:hover {
 }
 .help-challenge-card{
     background: #ED7537 !important;
+    border-radius: 0 !important;
+
 }
 .optimization-strategy-card{
     background: #1C365E !important;
@@ -537,6 +539,22 @@ select:focus {
     transition-duration: 2s;
     transition-timing-function: linear;
     transition-delay: 0;
+}
+
+@media screen and (min-width: 360px) and (max-width: 446px) {
+
+    .navButtonResponsive
+    {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 439px) and (max-width: 1460px) {
+
+    .btnMarginAdd
+    {
+        margin-left: 10px;
+    }
 }
 
 .rainbow-border-user-nav-btn:hover {
