@@ -81,7 +81,7 @@ class DailyTip extends Model
 
             $user = User::user($user->practitioner_id);
 
-            $url = url('/') . '/' . $user->first_name . '/' . $user->last_name . '/client/intro-assessment';
+            $url = url('/') . '/' . $user->first_name . '/' . $user->last_name . '/intro-assessment';
 
         }else{
 
