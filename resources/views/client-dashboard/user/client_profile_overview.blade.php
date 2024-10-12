@@ -1745,7 +1745,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="boundary_dynamic_div_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="text-align: center">
+                                                                <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1778,7 +1778,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="communication_{{$index}}_heading" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="text-align: center">
+                                                                <div class="card-body p-3 " >
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
