@@ -1,16 +1,17 @@
 <!-- Navbar -->
 <nav class="navbar navbar-main navbar-expand-lg mt-4 left px-1 shadow-none border-radius-xl z-index-sticky"
-    id="navbarBlur" data-scroll="true">
+     id="navbarBlur" data-scroll="true">
 
     <div class="navbar-background-color d-flex align-items-end justify-content-end" style="padding: 10px; width: 100%">
 
-        <div class="container-fluid py-1 px-3 d-flex">
+        <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center">
 
             <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
                 <div class="col-auto">
                     <div class="avatar avatar-xl avatar-icon  ">
-                        <img src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                             height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">
+                        <img
+                            src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                            height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">
                     </div>
                 </div>
                 <div class="d-flex">
@@ -19,13 +20,6 @@
                             <h5 class="mb-1 custom-text-dark">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-{{--                            <p class="mb-0 font-weight-bold text-sm text-white">--}}
-{{--                                Optimal Trait To Be In Right Now:--}}
-{{--                            </p>--}}
-{{--                            <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
-{{--                                Strategy and Problem--}}
-{{--                                Solving--}}
-{{--                                Activities</p>--}}
                         </a>
                     </div>
                 </div>
@@ -40,28 +34,31 @@
                     @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
                         <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Access Your Results
+                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Your Results
                         </a>
 
                     @elseif(\App\Helpers\Helpers::getWebUser()?->assessments()?->where('page', 0)?->count() > 0)
 
-                        <a href="{{route('user_profile_overview')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Access Your Results
+                        <a href="{{route('user_profile_overview')}}"
+                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Your Results
                         </a>
 
                     @else
 
-                        <a href="javascript:void(0)" style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey"
+                        <button
+                           style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"
                            data-toggle="tooltip" data-placement="top" title="Take the assessment first"
-                           class="text-white btn-sm-1 btn-md-3 btn-lg-5 ">Access Your Results
-                        </a>
+                           class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Your Results
+                        </button>
 
                     @endif
                 </div>
 
                 <div class="nav-item pt-2">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                            class="rainbow-border-user-nav-btn ms-2 btn-sm-2 btn-md-3 btn-lg-5 " data-bs-toggle="modal" data-bs-target="#qrCodeModal"  >Get Free Pro Access!
+                            class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd" data-bs-toggle="modal"
+                            data-bs-target="#qrCodeModal">Get Free Pro Access!
                     </button>
                 </div>
             </div>
