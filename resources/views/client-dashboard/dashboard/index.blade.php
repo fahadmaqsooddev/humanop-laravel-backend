@@ -166,6 +166,10 @@
         color: #1c365e !important;
     }
 
+    .traitHeading{
+        font-size: 18px;
+        font-weight: bold;
+    }
 </style>
 @section('content')
 
@@ -421,7 +425,7 @@
 
 
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue"> Top 3 Traits:</p>
+                                    <p class="text-sm fs-12px text-color-blue traitHeading"> Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
@@ -433,7 +437,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue"> Motivational
+                                    <p class="text-sm mt-3 fs-12px text-color-blue traitHeading"> Motivational
                                         Drivers:</p>
                                     <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
                                         @if($topTwoFeatures)
@@ -447,7 +451,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue">Boundaries of
+                                    <p class="text-sm mt-3 fs-12px text-color-blue traitHeading">Boundaries of
                                         Tolerance "Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px text-color-blue"
@@ -460,7 +464,7 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue"> Communication
+                                    <p class="text-sm fs-12px text-color-blue traitHeading"> Communication
                                         Style "Energy Centers":</p>
                                     <div class="d-flex text-color-blue flex-wrap">
                                         @if($topCommunication)
@@ -475,7 +479,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">
+                                    <p class="text-sm fs-12px text-color-blue traitHeading" style="color: rgb(160, 174, 192)">
                                         Perception of
                                         Life:</p>
                                     @if($preception)
@@ -489,7 +493,7 @@
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">Energy
+                                    <p class="text-sm fs-12px text-color-blue traitHeading" style="color: rgb(160, 174, 192)">Energy
                                         Pool:</p>
                                     @if($energyPool)
                                         <p class="fw-bold  fs-12px text-color-blue "
