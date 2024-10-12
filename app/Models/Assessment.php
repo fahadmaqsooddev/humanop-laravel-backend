@@ -1227,8 +1227,6 @@ class Assessment extends Model
     {
         $energy_code = self::getEnergyPool($assessment);
 
-        dd($energy_code);
-
         $code_detail = CodeDetail::whereId($energy_code)->first();
 
         if ($code_detail) {
