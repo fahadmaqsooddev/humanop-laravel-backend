@@ -1,3 +1,20 @@
+<style>
+    @media (min-width: 360px) and (max-width: 991px) {
+
+        .connectionDev
+        {
+            width: 100%;
+            margin-top: 5px;
+
+        }
+
+        .connectionBtn
+        {
+            width: 100%;
+        }
+
+    }
+</style>
 <div>
 
     <div class="container  pt-3">
