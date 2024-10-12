@@ -381,7 +381,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">Deeper training strategies</p>
+                                                <p class="text-white text-sm">Deeper training strategies</p>
                                             </div>
                                         </div>
 
@@ -395,7 +395,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">Full 90-day action plan with weekly guidance</p>
+                                                <p class="text-white text-sm">Full 90-day action plan with weekly guidance</p>
                                             </div>
                                         </div>
 
@@ -411,7 +411,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">3 daily tips (morning, noon, and night) based on
+                                                <p class="text-white text-sm">3 daily tips (morning, noon, and night) based on
                                                     top traits</p>
                                             </div>
                                         </div>
@@ -426,7 +426,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">Early access to beta releases</p>
+                                                <p class="text-white text-sm">Early access to beta releases</p>
                                             </div>
                                         </div>
 
@@ -442,7 +442,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">Full access to training and resources</p>
+                                                <p class="text-white text-sm">Full access to training and resources</p>
                                             </div>
                                         </div>
 
@@ -460,7 +460,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-white">HAi companion for strategy, feedback, and
+                                                <p class="text-white text-sm">HAi companion for strategy, feedback, and
                                                     network building</p>
                                             </div>
                                         </div>
