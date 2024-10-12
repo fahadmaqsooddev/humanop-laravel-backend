@@ -437,7 +437,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue traitHeading"> Motivational
+                                    <p class="text-color-blue traitHeading"> Motivational
                                         Drivers:</p>
                                     <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
                                         @if($topTwoFeatures)
@@ -451,7 +451,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue traitHeading">Boundaries of
+                                    <p class="text-color-blue traitHeading">Boundaries of
                                         Tolerance "Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px text-color-blue"
