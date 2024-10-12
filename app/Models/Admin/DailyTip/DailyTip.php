@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Assessment;
 use App\Models\Client\Plan\Plan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -76,7 +77,16 @@ class DailyTip extends Model
 
         $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
 
-        $url = PractitionerHelpers::makePractitionerUrl('client/intro-assessment');
+        if (!empty($user->practitioner_id)){
+
+            $user = User::user($user->practitioner_id);
+
+            $url = url('/') . '/' . $user->first_name . '/' . $user->last_name . '/client/intro-assessment';
+
+        }else{
+
+            $url = url('/client/intro-assessment');
+        }
 
         $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 
