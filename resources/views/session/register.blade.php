@@ -205,16 +205,16 @@
                             </div>
                             <div class="mt-3">
                                 <label for="name" style="color: #0f1535; font-size: 15px">90 Day Intention</label>
-{{--                                <select class="form-control" name="gender" id="gender" name="user_type"--}}
-{{--                                        style="background-color: #f3deba; color: black; border-radius: 15px;">--}}
-{{--                                    <option value="" selected hidden>In the next 90 Days I would like to ...--}}
-{{--                                    </option>--}}
-{{--                                    <option value="0">ABC</option>--}}
-{{--                                    <option value="1">abc</option>--}}
-{{--                                    <option value="1">xyz</option>--}}
-{{--                                </select>--}}
-                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"
-                                       style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                <select class="form-control" name="gender" id="gender" name="user_type"
+                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                    <option value="" selected hidden>In the next 90 Days I would like to ...
+                                    </option>
+                                    <option value="0">ABC</option>
+                                    <option value="1">abc</option>
+                                    <option value="1">xyz</option>
+                                </select>
+{{--                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"--}}
+{{--                                       style="background-color: #f3deba; color: black; border-radius: 15px;">--}}
                             </div>
                             <div class="form-check form-switch mt-4">
                                 <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
