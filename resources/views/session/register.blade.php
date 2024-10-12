@@ -204,16 +204,42 @@
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <label for="name" style="color: #0f1535; font-size: 15px">90 Day Intention</label>
-                                <select class="form-control" name="ninety_day_intention[]" style="background-color: #f3deba; color: black; border-radius: 15px; overflow: hidden;">
-                                    <option style="color: #f2661c; font-weight: bold" value="" disabled>Your Intention For Using HumanOp</option>
-                                    <option value="Personal Growth and Development">Personal Growth and Development</option>
-                                    <option value="Business Optimization">Business Optimization</option>
-                                    <option value="Relationship Optimization">Relationship Optimization</option>
-                                    <option value="Career Optimization">Career Optimization</option>
-                                    <option value="Team Optimization">Team Optimization</option>
-                                    <option value="Health & Fitness">Health & Fitness</option>
-                                </select>
+                                <label for="name" style="color: #0f1535; font-size: 17px">90 Day Intention</label><br>
+                                <label for="name" style="color: #f2661c; font-size: 15px">Your Intention For Using HumanOp</label>
+{{--                                <select class="form-control" data-type="select-multiple" name="ninety_day_intention[]" style="background-color: #f3deba; color: black; border-radius: 15px; overflow: hidden; height: 155px">--}}
+{{--                                    <option style="color: #f2661c; font-weight: bold" value="" disabled>Your Intention For Using HumanOp</option>--}}
+{{--                                    <option value="Personal Growth and Development">Personal Growth and Development</option>--}}
+{{--                                    <option value="Business Optimization">Business Optimization</option>--}}
+{{--                                    <option value="Relationship Optimization">Relationship Optimization</option>--}}
+{{--                                    <option value="Career Optimization">Career Optimization</option>--}}
+{{--                                    <option value="Team Optimization">Team Optimization</option>--}}
+{{--                                    <option value="Health & Fitness">Health & Fitness</option>--}}
+{{--                                </select>--}}
+
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Personal Growth and Development" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Personal Growth and Development</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Business Optimization" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Business Optimization</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Relationship Optimization" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Relationship Optimization</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Career Optimization" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Career Optimization</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Team Optimization" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Team Optimization</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="ninety_day_intention[]" value="Health & Fitness" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">Health & Fitness</label>
+                                </div>
 
 {{--                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"--}}
 {{--                                       style="background-color: #f3deba; color: black; border-radius: 15px;">--}}
