@@ -1207,7 +1207,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$energyPool['public_name'] . ' [' . $energyPool['id'] . ']'}}:</span>
+                                                            style="color: #f2661c;">{{$energyPool['code']}}:</span>
                                                         {{$energyPool['text']}}
                                                     </p>
                                                 </div>
@@ -1743,7 +1743,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{$energyPool['public_name'] . ' [' . $energyPool['id'] . ']'}}
+                                                                        {{$energyPool['code']}}
 
                                                                     </h5>
                                                                 </div>
