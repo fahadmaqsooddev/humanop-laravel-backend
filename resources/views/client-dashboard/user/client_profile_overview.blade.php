@@ -1429,7 +1429,7 @@
                                                     </h4>
                                                 </div>
 
-                                                <h4 class="primaryColor core_stats_heading">Main Results Introduction:</h4>
+                                                <h4 class="primaryColor core_stats_heading">Main Results Introduction</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
@@ -1465,11 +1465,11 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_cycle_to_life_heading" class="card"
                                                              style="height: auto;">
-                                                            <div class="card-body p-3">
+                                                            <div class="card-body p-3" style="text-align: center">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to The Cycle of Life.mp4')}}', 1, 'intro_to_cycle_to_life')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Cycle of Life Introduction:
+                                                                    Cycle of Life Introduction
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1481,11 +1481,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="motivation_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Motivation (16-20):
+                                                                            Cycle of Life - Motivation (16-20)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1535,11 +1535,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="roadworthy_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}', 1, 'roadworthy_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Roadworthy (21-29):
+                                                                            Cycle of Life - Roadworthy (21-29)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1550,11 +1550,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="power_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}', 1, 'power_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - The Power Interval (30-33):
+                                                                            Cycle of Life - The Power Interval (30-33)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1565,12 +1565,12 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="mid_life_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}', 1, 'mid_life_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Mid-Life Transformation
-                                                                            (34-42):
+                                                                            (34-42)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1581,11 +1581,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="awareness_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}', 1, 'awareness_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Awareness (43-52):
+                                                                            Cycle of Life - Awareness (43-52)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1596,11 +1596,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}', 1, 'forward_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Pay It Forward (52-66):
+                                                                            Cycle of Life - Pay It Forward (52-66)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1611,11 +1611,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="liberated_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}', 1, 'liberated_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Liberated (66-70):
+                                                                            Cycle of Life - Liberated (66-70)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1626,11 +1626,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="being_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}', 1, 'being_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Being (70-75):
+                                                                            Cycle of Life - Being (70-75)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1641,11 +1641,11 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="review_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 ">
+                                                                    <div class="card-body p-3 " style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Life Review (75-84):
+                                                                            Cycle of Life - Life Review (75-84)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1657,11 +1657,11 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_trait_heading" class="card"
                                                              style="height: auto;">
-                                                            <div class="card-body p-3">
+                                                            <div class="card-body p-3" style="text-align: center">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1, 'intro_to_trait')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Traits Introduction:
+                                                                    Traits Introduction
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1672,7 +1672,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="style_{{$index.'_heading'}}" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1688,11 +1688,11 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_motivation_heading" class="card"
                                                              style="height: auto;">
-                                                            <div class="card-body p-3 ">
+                                                            <div class="card-body p-3 " style="text-align: center">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1, 'your_motivation')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Motivation Introduction:
+                                                                    Motivation Introduction
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1703,7 +1703,7 @@
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
                                                             <div id="feature_{{$index}}_heading" class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3">
+                                                                <div class="card-body p-3" style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1726,14 +1726,14 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_boundary_heading" class="card"
                                                              style="height: auto">
-                                                            <div class="card-body p-3 ">
+                                                            <div class="card-body p-3 " style="text-align: center">
                                                                 <h5 data-toggle="collapse"
                                                                     data-target="#your_boundaries" aria-expanded="true"
                                                                     aria-controls="your_boundaries"
                                                                     onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1, 'your_boundary')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Intro To Boundaries:
+                                                                    Intro To Boundaries
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1745,7 +1745,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="boundary_dynamic_div_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1761,11 +1761,11 @@
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_communication_heading" class="card"
                                                              style="height: auto">
-                                                            <div class="card-body p-3 ">
+                                                            <div class="card-body p-3 " style="text-align: center">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1, 'your_communication')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Intro To Communication Style:
+                                                                    Intro To Communication Style
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1778,7 +1778,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="communication_{{$index}}_heading" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1796,11 +1796,11 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="energy_pool_heading" class="card" style="height: auto">
-                                                            <div class="card-body p-3 ">
+                                                            <div class="card-body p-3 " style="text-align: center">
                                                                 <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1, 'energy_pool')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
-                                                                    Intro To Energy Pool:
+                                                                    Intro To Energy Pool
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1811,7 +1811,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="energy_pool_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1829,11 +1829,11 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="your_perception_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1, 'your_perception')"
                                                                         style="cursor: pointer;color: #f2661c;"
                                                                         class="fs-10px">
-                                                                        Intro To Perception of Life:
+                                                                        Intro To Perception of Life
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1846,7 +1846,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="perception_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 ">
+                                                                <div class="card-body p-3 " style="text-align: center">
                                                                     <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
