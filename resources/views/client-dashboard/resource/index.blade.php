@@ -498,7 +498,7 @@
         <div class="col-2 col-md-2 col-sm-0 text-center mt-5 pt-5 col-0">
 
         </div>
-        <div class="col-8 col-md-4 col-sm-12 col-m-12 mt-5 pt-5 d-flex justify-content-end">
+        <div class="col-8 col-md-4 col-sm-12 col-m-12 mt-5 d-flex justify-content-end" style="padding-top: 5rem;">
             <h1 class="pt-5 library_resource_coming_soon" style="color: #0f1534;">Coming Soon!</h1>
         </div>
         <div class="col-6 col-md-6  col-sm-12 col-12">
