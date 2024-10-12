@@ -1535,7 +1535,7 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="roadworthy_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 ">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}', 1, 'roadworthy_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1672,7 +1672,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="style_{{$index.'_heading'}}" class="card core_stats_dynamic_card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="text-align: center">
+                                                                <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1703,7 +1703,7 @@
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
                                                             <div id="feature_{{$index}}_heading" class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3" style="text-align: center">
+                                                                <div class="card-body p-3">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1811,7 +1811,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="energy_pool_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="text-align: center">
+                                                                <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1846,7 +1846,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="perception_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " style="text-align: center">
+                                                                <div class="card-body p-3 " >
                                                                     <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
