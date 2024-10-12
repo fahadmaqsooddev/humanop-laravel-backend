@@ -1,6 +1,6 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 my-3 w-100 shadow-none navbar-transparent mt-4">
-  <div class="container">
+  <div class="container" style="justify-content: center">
       <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
          href="{{ Auth::check() && Auth::user()->is_admin == 2 ? url('client/dashboard') : url('login') }}">
           <img src="{{ Route::is('test_play') ? asset('assets/logos/HumanOp dark.png') : asset('assets/img/new_logo.png') }}" alt=""

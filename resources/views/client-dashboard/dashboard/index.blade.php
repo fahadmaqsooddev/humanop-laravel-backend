@@ -119,27 +119,35 @@
         border-color: #f2661c !important;
     }
 
-    textarea::placeholder{
+    textarea::placeholder {
         color: white !important;
     }
 
-    .text-color-blue{
+    .text-color-blue {
         color: #1c365e !important;
     }
 
     /*dashboard page media query*/
     @media screen and (min-width: 300px) and (max-width: 1000px) {
 
-        .card{
+        .card {
             margin: 20px;
         }
 
-        .hai_chat_title_div{
+        .hai_chat_title_div {
             padding: 20px;
         }
 
-        .haichat_form_div{
+        .haichat_form_div {
             padding: 20px;
+        }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+
+        .mainCardFlex
+        {
+            display: flex;
         }
     }
 
@@ -162,49 +170,15 @@
                             </div>
                         </div>
                         <div class="d-flex">
-                            <div class="h-100">
+                            <div class="h-100 my-4">
                                 <a href="{{route('user_profile_overview')}}">
                                     <h5 class="mb-1 text-white">
                                         {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                                     </h5>
-                                    <p class="mb-0 font-weight-bold text-sm text-white">
-                                        Optimal Trait To Be In Right Now:
-                                    </p>
-                                    <p class="  text-white  word-break text-sm col-12">Perceptive Trait (Thinking) For
-                                        Strategy and Problem
-                                        Solving
-                                        Activities</p>
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    <div class="d-flex flex-column ">
-                    {{--                        <div class="nav nav-pills  nav-fill bg-transparent position-static   user-pannel-btn   "--}}
-                    {{--                             role="tablist">--}}
-                    {{--                            <div class="nav-item">--}}
-                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-                    {{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
-                    {{--                                </button>--}}
-                    {{--                            </div>--}}
-
-                    {{--                            <div class="nav-item">--}}
-                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-                    {{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
-                    {{--                                    Access!--}}
-                    {{--                                </button>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    <!-- <div class="coins d-flex ">
-                        <span class="fw-bold total-points "
-                            style="color: #f2661c; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; margin-left: 25px;margin-top: 30px; ">100</span>
-                        <img src="{{asset('assets/img/coins.gif')}}" alt="Coins falling"
-                            style="width: 100px;height:100px;">
-                        <span class="animated-number fade-in disappear"
-                            style="color: orange; font-weight: 900; font-size: 2rem; text-shadow: orange 0px 0px 5px, orange 0px 0px 10px;">+1</span>
-                    </div> -->
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -241,24 +215,6 @@
                             </div>
                         </div>
                     </div>
-                    {{--                    <div class="d-none d-lg-flex flex-column">--}}
-                    {{--                        <div--}}
-                    {{--                            class="nav nav-pills z-index-1 nav-fill bg-transparent position-static pb-5 user-pannel-btn "--}}
-                    {{--                            role="tablist">--}}
-                    {{--                            <div class="nav-item">--}}
-                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-                    {{--                                        class="text-white btn btn-sm-1 btn-md-3 btn-lg-5 ">Access Your<br> Results--}}
-                    {{--                                </button>--}}
-                    {{--                            </div>--}}
-
-                    {{--                            <div class="nav-item">--}}
-                    {{--                                <button style="padding: 2px 16px 2px 16px; border-radius: 7px;background-color: #f2661c"--}}
-                    {{--                                        class=" ms-2 text-white btn btn-sm-2 btn-md-3 btn-lg-5 ">Get Free Pro<br>--}}
-                    {{--                                    Access!--}}
-                    {{--                                </button>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
                 </div>
 
             </div>
@@ -269,8 +225,9 @@
             <section class=""> {{-- py-3 --}}
 
                 <div class="row">
-                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 d-flex features-card ">
-                        <div class="col-lg-12  col-md-5 col-sm-12 mb-4 d-flex  flex-column ">
+                    <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 mainCardFlex">
+
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
@@ -295,11 +252,6 @@
                                                         more...
                                                     </a>
                                                     </span>
-                                                    &nbsp;&nbsp;
-                                                    {{--                                                    <a href="javascript:void(0)" data-bs-toggle="modal"--}}
-                                                    {{--                                                       data-bs-target="#dailyTipModal" style="color: #f2661c;">read--}}
-                                                    {{--                                                        more...--}}
-                                                    {{--                                                    </a>--}}
                                                 @else
                                                     {!! $tip['description'] !!}
 
@@ -314,9 +266,9 @@
                                                     class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                     id="read_all_tip">
                                                     <button
-                                                            class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
-                                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
-                                                            onclick="onDailyTipAllRead()">
+                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
+                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
                                                     </button>
                                                 </div>
@@ -343,30 +295,24 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-12 col-md-5 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card library-card " style="height: 530px;">
-                                <div class="card-body p-3">
-                                    <p class="text-sm  text-white text-bold" style="color: rgb(160, 174, 192)">
-                                        LIBRARY
-                                        OF
-                                        RESOURCES & TRAININGS</p>
-                                    <p class="text-sm mt-3 text-white" > New Updatesl</p>
-                                    <br>
-                                    <p class="text-sm mt-3 text-white" > - More Conflit Resolution
-                                        Strategies</p>
-                                    <p class="text-sm mt-3 text-white" > - Optimizing Your Space
-                                        Training
-                                        Added</p>
-                                    <p class="text-sm mt-3 text-white" > - Updated Dreivers
-                                        Trainings</p>
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
+                            <div class="card library-card" style="height: 530px!important;">
+                                <p class="text-sm text-white text-center text-bold pt-2"
+                                   style="color: rgb(160, 174, 192)"> LIBRARY
+                                    OF
+                                    RESOURCES & TRAININGS</p>
+                                <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                    <div>
+                                        <h1 class="text-center text-white" style="">Coming Soon!</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
-                    <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 ">
-                        <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+                    <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 mainCardFlex">
+
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card core-state-card" style="height: 530px">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
@@ -377,7 +323,7 @@
                                         @if(16 <= $age && $age <= 20)
 
                                             <p class="text-sm fs-12px text-color-blue text-bold"
-                                              onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
+                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
                                                 Interval of Life: (<span class="text-bold text-sm"
                                                                          style="color: #f2661c">{{$user_age}}</span>)
@@ -460,7 +406,7 @@
 
 
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue" > Top 3 Traits:</p>
+                                    <p class="text-sm fs-12px text-color-blue"> Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
@@ -472,7 +418,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue" > Motivational
+                                    <p class="text-sm mt-3 fs-12px text-color-blue"> Motivational
                                         Drivers:</p>
                                     <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
                                         @if($topTwoFeatures)
@@ -486,7 +432,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm mt-3 fs-12px text-color-blue" >Boundaries of
+                                    <p class="text-sm mt-3 fs-12px text-color-blue">Boundaries of
                                         Tolerance "Alchemy":</p>
                                     @if($boundary)
                                         <p class="fw-bold fs-12px text-color-blue"
@@ -499,7 +445,7 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue" > Communication
+                                    <p class="text-sm fs-12px text-color-blue"> Communication
                                         Style "Energy Centers":</p>
                                     <div class="d-flex text-color-blue flex-wrap">
                                         @if($topCommunication)
@@ -507,14 +453,15 @@
                                                 <p class="fw-bold fs-12px"
                                                    style=" cursor: pointer;"
                                                    onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
-{{--                                                    {{dd($communication)}}--}}
+                                                    {{--                                                    {{dd($communication)}}--}}
                                                     <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
                                                     &nbsp;@endif
                                                 </p>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)"> Perception of
+                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">
+                                        Perception of
                                         Life:</p>
                                     @if($preception)
                                         <p class="fw-bold fs-12px text-color-blue"
@@ -527,7 +474,8 @@
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">Energy Pool:</p>
+                                    <p class="text-sm fs-12px text-color-blue" style="color: rgb(160, 174, 192)">Energy
+                                        Pool:</p>
                                     @if($energyPool)
                                         <p class="fw-bold  fs-12px text-color-blue "
                                            style="margin-top: -10px;cursor: pointer;"
@@ -538,61 +486,49 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-12 col-lg-12 col-md-12 col-sm-12 mb-4 rainbow-border-help-box" style="cursor: pointer;">
-                            <div class="card help-challenge-card" style="height: 530px;">
-                                <p class="text-sm text-white text-center text-bold pt-2" style="color: rgb(160, 174, 192)"> HELP
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4"
+                             style="cursor: pointer;">
+                            <div class="card help-challenge-card" style="height: 530px!important;">
+                                <p class="text-sm text-white text-center text-bold pt-2"
+                                   style="color: rgb(160, 174, 192)"> HELP
                                     I'M
                                     HAVING A CHALLENGE</p>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
                                     </div>
-                                    {{--                                    <p class="text-sm mt-3" style="color: rgb(160, 174, 192)"> [CLICK TO ACCESS H. A. I.--}}
-                                    {{--                                        SELF-OPTIMIZATION TROUBLESHOOTING INTERFACE]</p>--}}
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12 features-card">
-                        <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
-                            <div class="card optimization-strategy-card" style="height: 530px;">
+                    <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12 mainCardFlex">
+
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
+                            <div class="card optimization-strategy-card" style="height: 530px!important;">
                                 <p class="text-sm fs-12px text-white text-bold p-2">
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                     DAYS
                                 </p>
-                                <div class="card-body p-3 text-white d-flex justify-content-center align-items-center" style="cursor: pointer">
+                                <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"
+                                     style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <div>
                                         <h1 class="text-center text-white">Coming Soon!</h1>
                                     </div>
-{{--                                    @if($plan && !empty($plan['text']))--}}
-{{--                                        @if(strlen($plan['text']) > 260)--}}
-
-{{--                                            {!! substr($plan['text'], 0, 265)!!}--}}
-
-{{--                                            <a href="javascript:void(0)" data-bs-toggle="modal"--}}
-{{--                                               data-bs-target="#actionPlanModal" style="color: #f2661c;">read--}}
-{{--                                                more...--}}
-{{--                                            </a>--}}
-{{--                                        @else--}}
-{{--                                            {!! $plan['text'] !!}--}}
-{{--                                        @endif--}}
-{{--                                    @else--}}
-{{--                                    @endif--}}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12  col-md-12 col-sm-12 mb-4 d-flex flex-column">
+                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
 
-                            <div class="card podcast-card" style="height: 530px;">
+                            <div class="card podcast-card" style="height: 530px!important;">
                                 <div class="card-body p-3">
                                     <p class="text-sm  custom-text-dark text-bold"> HIP
                                         -
                                         HumanOp Integration Podcast</p>
                                     <div class="card mb-4"
-                                         >
+                                    >
                                         <div class="card-body p-0">
                                             @if($podcast && !empty($podcast->embedded_url))
                                                 <div class="row">
@@ -622,7 +558,9 @@
                             </div>
 
                         </div>
+
                     </div>
+
                     <!-- <div class="row "> -->
                     @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
                         @livewire('client.chat.index')
@@ -738,7 +676,8 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="humanOpWalletModal" tabindex="-1" role="dialog" aria-labelledby="humanOpWalletModalTitle" aria-hidden="true">
+            <div class="modal fade" id="humanOpWalletModal" tabindex="-1" role="dialog"
+                 aria-labelledby="humanOpWalletModalTitle" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content py-3">
 
@@ -756,12 +695,14 @@
                             </div>
                             <div class="d-flex justify-content-center">
                                 <!-- Points Counter Circle -->
-                                <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-count"
+                                <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
+                                     id="coin-count"
                                      style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;;z-index:4">
                                     <span>{{ Auth::user()['point'] }}</span>
                                 </div>
                                 <!-- Coins Label - extending from the circle -->
-                                <div class="fw-bold display-5 d-flex align-items-center justify-content-center" id="coin-label"
+                                <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
+                                     id="coin-label"
                                      style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:2; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
                                     <span style="color: #f2661c;">coins</span>
                                 </div>
@@ -989,7 +930,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
-
 
 
         function animateNumber(addPoint) {

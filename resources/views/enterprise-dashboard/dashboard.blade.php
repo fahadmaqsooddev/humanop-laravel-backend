@@ -17,10 +17,6 @@
                         <h5 class="mb-1 text-white">
                             Mark Johnson
                         </h5>
-                        <p class="mb-0 font-weight-bold text-sm text-white">
-                            Optimal Trait To Be In Right Now:
-                        </p>
-                        <p class="text-white text-sm col-12">Perceptive Trait (Thinking) for Strategy and Problem-Solving Activities</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 ms-sm-auto me-sm-0 mx-auto mt-3">

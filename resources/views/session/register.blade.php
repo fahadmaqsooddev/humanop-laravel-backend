@@ -135,7 +135,7 @@
                             <div class="mt-3">
                                 <div>
                                     <label for="name" style="color: #0f1535; font-size: 15px">Phone</label>
-                                    <input type="tel" class="form-control" placeholder="Phone" aria-label="Phone"
+                                    <input type="tel" class="form-control" placeholder="+1 (123) 456-7890" aria-label="Phone"
                                            name="phone" id="phone" maxlength="14"
                                             title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
