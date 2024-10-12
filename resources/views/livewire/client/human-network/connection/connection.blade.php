@@ -19,6 +19,15 @@
         }
 
     }
+
+    @media (min-width: 991px) and (max-width: 2560px) {
+
+        .profileCard
+        {
+            display: flex;
+            justify-content: center;
+        }
+    }
 </style>
 <div>
 
@@ -133,7 +142,7 @@
                                         <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
                                             {{$user->first_name . ' ' . $user->last_name}}
                                         </h5>
-                                        <div class="" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
+                                        <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
                                             <div class="p-1">
                                                 @if($user['connection_status'] === 0)
@@ -192,7 +201,7 @@
                                             <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">
                                                 {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}
                                             </h5>
-                                            <div class="d-flex flex-row justify-content-center flex-1" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
+                                            <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
                                                 <div class="p-1">
                                                     <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
