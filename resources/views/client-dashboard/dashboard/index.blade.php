@@ -251,7 +251,7 @@
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
                                     <h5 class="text-white client-dashboard-stats-heading">Daily Tip</h5>
-                                    <div class="description-container" style="height: 335px;">
+                                    <div class="description-container text-justify" style="height: 335px;">
 
                                         {{$hide_button = false}}
 
