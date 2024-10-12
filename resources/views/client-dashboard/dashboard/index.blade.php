@@ -151,6 +151,21 @@
         }
     }
 
+    .client-dashboard-stats-heading{
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .client-dashboard-long-heading{
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .description-container > p{
+        color: #1c365e !important;
+    }
+
 </style>
 @section('content')
 
@@ -231,12 +246,12 @@
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
-                                    <h5 class="fs-10px text-white">Daily Tip</h5>
-                                    <div class="description-container text-white" style="height: 335px;">
+                                    <h5 class="fs-10px text-white client-dashboard-stats-heading">Daily Tip</h5>
+                                    <div class="description-container" style="height: 335px;">
 
                                         {{$hide_button = false}}
 
-                                        <p class="text-sm mt-3 fs-12px ">
+                                        <p class="text-sm mt-3 fs-12px daily_tip_text">
                                             @if($tip && !empty($tip['description']))
                                                 @if(strlen($tip['description']) > 290)
                                                     <?php
@@ -297,7 +312,7 @@
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card library-card" style="height: 530px!important;">
-                                <p class="text-sm text-white text-center text-bold pt-2"
+                                <p class="text-white client-dashboard-long-heading pt-2"
                                    style="color: rgb(160, 174, 192)"> LIBRARY
                                     OF
                                     RESOURCES & TRAININGS</p>
@@ -316,7 +331,7 @@
                             <div class="card core-state-card" style="height: 530px">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-sm fs-12px text-color-blue text-bold">
+                                        <p class="text-color-blue client-dashboard-stats-heading">
                                             CORE STATS
                                         </p>
 
@@ -506,7 +521,7 @@
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card optimization-strategy-card" style="height: 530px!important;">
-                                <p class="text-sm fs-12px text-white text-bold p-2">
+                                <p class="client-dashboard-long-heading text-white p-2">
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                     DAYS
@@ -524,7 +539,7 @@
 
                             <div class="card podcast-card" style="height: 530px!important;">
                                 <div class="card-body p-3">
-                                    <p class="text-sm  custom-text-dark text-bold"> HIP
+                                    <p class="custom-text-dark client-dashboard-long-heading"> HIP
                                         -
                                         HumanOp Integration Podcast</p>
                                     <div class="card mb-4"
