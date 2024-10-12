@@ -18,7 +18,7 @@
     </div>
     <div class="container">
         <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-            <div class="col-xl-5 col-lg-5 col-md-7 mx-auto">
+            <div class="col-xl-6 col-lg-6 col-md-7 mx-auto">
                 <div class="card z-index-0 " style="background-color: #f3deba !important;">
                     <div class="card-header text-center pt-4">
                         <h5 style="color: #0f1535">Register with</h5>
@@ -205,8 +205,8 @@
                             </div>
                             <div class="mt-3">
                                 <label for="name" style="color: #0f1535; font-size: 15px">90 Day Intention</label>
-                                <select class="form-control" name="ninety_day_intention" style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                    <option value="" selected hidden>In the next 90 Days I would like to ...</option>
+                                <select class="form-control " multiple name="ninety_day_intention[]" style="background-color: #f3deba; color: black; border-radius: 15px; overflow: hidden; height: 160px">
+                                    <option style="color: #f2661c; font-weight: bold" value="" disabled>Your Intention For Using HumanOp</option>
                                     <option value="Personal Growth and Development">Personal Growth and Development</option>
                                     <option value="Business Optimization">Business Optimization</option>
                                     <option value="Relationship Optimization">Relationship Optimization</option>
@@ -214,6 +214,7 @@
                                     <option value="Team Optimization">Team Optimization</option>
                                     <option value="Health & Fitness">Health & Fitness</option>
                                 </select>
+
 {{--                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"--}}
 {{--                                       style="background-color: #f3deba; color: black; border-radius: 15px;">--}}
                             </div>

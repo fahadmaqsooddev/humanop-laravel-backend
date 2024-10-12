@@ -17,12 +17,18 @@ class IntentionPlan extends Model
         parent::__construct($attributes);
     }
 
-    public static function createIntentionPlan($userId = null, $plan = null)
+    public static function createIntentionPlan($userId = null, $intentionplans = null)
     {
-        return self::create([
-            'user_id' => $userId,
-            'ninety_day_intention' => $plan,
-        ]);
+
+        foreach ($intentionplans as $intention)
+        {
+            $intention_plan = self::create([
+                'user_id' => $userId,
+                'ninety_day_intention' => $intention,
+            ]);
+        }
+
+        return $intention_plan;
     }
 
     public static function getIntentionPlan($userId = null)
