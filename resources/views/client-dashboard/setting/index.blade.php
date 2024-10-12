@@ -5,6 +5,19 @@
             background-color: white !important;
         }
 
+        .text-color-dark{
+            color: #0f1534 !important;
+        }
+
+        input::placeholder{
+            color: #0f1534 !important;
+        }
+
+        .setting-form-heading{
+            font-size: 22px;
+            font-weight: bold;
+        }
+
     </style>
 @endpush
 
@@ -242,30 +255,30 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
-                                <h5 class="text-white">Subscription Status</h5>
+                                <h5 class="text-color-dark setting-form-heading">Subscription Status</h5>
                                 <div class="d-flex mt-2">
-                                    <p class="text-white">Your Subscription:</p>
+                                    <p class="text-color-dark">Your Subscription:</p>
                                     <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$user['plan_name']}}</p>
                                 </div>
                                 <div class="d-flex">
-                                    <p class="text-white">Subscription Status:</p>
+                                    <p class="text-color-dark">Subscription Status:</p>
                                     <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$subscription['stripe_status'] ?? 'active'}}</p>
                                 </div>
                                 <div class="d-flex">
-                                    <p class="text-white">Subscription Start Date:</p>
+                                    <p class="text-color-dark">Subscription Start Date:</p>
                                     <p style="color: #f2661c; font-weight: bold; margin-left: 15px">
                                         {{$subscription ? \Carbon\Carbon::parse($subscription->created_at)->format('d/m/Y') : \Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
-                                <h5 class="text-white">Include Features</h5>
+                                <h5 class="text-color-dark">Include Features</h5>
                                 <ul>
-                                    <li class="text-white">Get 1 assessment free after 90 days.</li>
-                                    <li class="text-white">Basic Results Only</li>
-                                    <li class="text-white">Get 1 Point After Daily Login</li>
-                                    <li class="text-white">Get 1 Point After Complete Daily Tip</li>
-                                    <li class="text-white">Get 90 Points After 90 consecutive Login days</li>
+                                    <li class="text-color-dark">Get 1 assessment free after 90 days.</li>
+                                    <li class="text-color-dark">Basic Results Only</li>
+                                    <li class="text-color-dark">Get 1 Point After Daily Login</li>
+                                    <li class="text-color-dark">Get 1 Point After Complete Daily Tip</li>
+                                    <li class="text-color-dark">Get 90 Points After 90 consecutive Login days</li>
                                 </ul>
                             </div>
                         </div>
@@ -286,7 +299,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="pb-2">
-                                    <h5 class="text-white">Billing</h5>
+                                    <h5 class="text-color-dark setting-form-heading">Billing</h5>
                                 </div>
 
                                 <div class="card bg-transparent shadow-xl">
@@ -337,13 +350,13 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="pb-2">
-                                    <h5 class="text-white">Payment History</h5>
+                                    <h5 class="text-color-dark setting-form-heading">Payment History</h5>
                                 </div>
 
                                 <div class="table-responsive" style="overflow: scroll; max-height: 300px;">
                                     <table class="table table-flush" id="datatable-search">
                                         <thead class="thead-light">
-                                        <tr>
+                                        <tr class="text-color-dark">
                                             {{--                                            <th>Assessment ID</th>--}}
                                             <th>Status</th>
                                             <th>Coupon</th>
@@ -354,7 +367,7 @@
                                         </thead>
                                         <tbody>
                                         @foreach($payment_history as $history)
-                                            <tr>
+                                            <tr class="text-color-dark">
                                                 {{--                                                <td class="text-sm font-weight-normal">{{$history['assessments'] ? $history['assessments']['id'] : ''}} </td>--}}
                                                 <td class="text-sm font-weight-normal text-center">{{$history['assessments'] ? $history['assessments']['page'] === 0 ? 'Complete' : 'Incomplete' : ''}} </td>
                                                 <td class="text-sm font-weight-normal text-center">{{$history['coupons'] ? $history['coupons']['coupon'] : 'N/A'}} </td>
@@ -374,8 +387,8 @@
                 <!-- Card Delete Account -->
                 <div class="card mt-4 setting-box-background" id="delete">
                     <div class="card-header">
-                        <h5 class="text-white">Delete Account</h5>
-                        <p class="text-sm mb-0 text-white">Once you delete your account, there is no going back. Please
+                        <h5 class="text-color-dark setting-form-heading">Delete Account</h5>
+                        <p class="text-sm mb-0 text-color-dark">Once you delete your account, there is no going back. Please
                             be certain.</p>
                     </div>
                     <div class="card-body d-sm-flex pt-0 justify-content-end">
