@@ -43,10 +43,14 @@
 
         </div>
 
-        <button id="toggle-btn" class="btn btn-primary w-10 align-self-center mt-2"
-                style="background-color:rgb(210, 103, 34);">
-            <i class="chat-ham fa-solid fa-bars" onclick=""></i>
-        </button>
+        <div class="w-100 d-flex justify-content-center">
+
+            <button id="toggle-btn" class="btn btn-primary w-10 align-self-center p-2"
+                    style="background-color:rgb(210, 103, 34);">
+                <i class="chat-ham fa-solid fa-bars" onclick=""></i>
+            </button>
+
+        </div>
 
         <div class="container-fluid">
             <div class="chatbox h-80"
