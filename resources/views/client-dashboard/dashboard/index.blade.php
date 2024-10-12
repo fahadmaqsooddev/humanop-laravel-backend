@@ -332,7 +332,7 @@
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 mainCardFlex">
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card core-state-card" style="height: 530px">
+                            <div class="card core-state-card" style="height: auto;">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
                                         <p class="text-color-blue client-dashboard-stats-heading">
