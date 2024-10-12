@@ -170,6 +170,33 @@
         font-size: 17px;
         font-weight: bold;
     }
+
+    @media screen and (min-width: 550px) and (max-width: 766px){
+
+        .core-state-card{
+            height: auto !important;
+        }
+
+    }
+
+    @media screen and (min-width: 766px) and (max-width: 992px){
+
+        .core-state-card{
+            height: 700px !important;
+        }
+
+        .help-challenge-card{
+            height: 700px !important;
+        }
+    }
+
+    @media screen and (min-width: 992px) and (max-width: 1200px){
+
+        .core_stats_heading{
+            font-size: 20px;
+            margin-bottom: -25px;
+        }
+    }
 </style>
 @section('content')
 
@@ -335,7 +362,7 @@
                             <div class="card core-state-card" style="height: 530px;">
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-color-blue client-dashboard-stats-heading">
+                                        <p class="text-color-blue client-dashboard-stats-heading core_stats_heading">
                                             CORE STATS
                                         </p>
 
@@ -507,7 +534,7 @@
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4"
                              style="cursor: pointer;">
-                            <div class="card help-challenge-card" style="height: 530px!important;">
+                            <div class="card help-challenge-card" style="height: 530px;">
                                 <p class="text-sm text-white text-center text-bold pt-2"
                                    style="color: rgb(160, 174, 192)"> HELP
                                     I'M
