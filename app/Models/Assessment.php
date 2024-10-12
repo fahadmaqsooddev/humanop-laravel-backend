@@ -429,6 +429,7 @@ class Assessment extends Model
 
         $ep = $positive + $negative;
 
+
         if ($ep < 25) {
             $energy_code = 21;
         } elseif ($ep >= 25 and $ep <= 30) {
@@ -440,6 +441,26 @@ class Assessment extends Model
         }
 
         return $energy_code;
+    }
+
+    public static function GetEP($assessment = null)
+    {
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
+        $ep = $positive + $negative;
+
+        if ($ep < 25) {
+            $energy_code = 21;
+        } elseif ($ep >= 25 and $ep <= 30) {
+            $energy_code = 18;
+        } elseif ($ep >= 31 and $ep <= 35) {
+            $energy_code = 20;
+        } elseif ($ep >= 36) {
+            $energy_code = 16;
+        }
+
+        return $data = ['energy_pool' => $ep, 'energy_code' => $energy_code];
     }
 
     public static function getPolarity($assessment = null)
@@ -461,28 +482,31 @@ class Assessment extends Model
 
     public static function getEnergyPoolPublicName($assessment = null)
     {
-        $energy_code = self::getEnergyPool($assessment);
+        $energy_code = self::getEP($assessment);
+        $publicName = '';
 
-        if ($energy_code == 16) {
-            $publicName = "Above Excellent [$energy_code]";
-        } elseif ($energy_code == 18) {
-            $publicName = "Average [$energy_code]";
-        } elseif ($energy_code == 20) {
-            $publicName = "Excellent [$energy_code]";
-        } elseif ($energy_code == 21) {
-            $publicName = "Fair [$energy_code]";
+        if ($energy_code['energy_code'] == 16) {
+            $publicName = "Above Excellent [{$energy_code['energy_pool']}]";
+        } elseif ($energy_code['energy_code'] == 18) {
+            $publicName = "Average [{$energy_code['energy_pool']}]";
+        } elseif ($energy_code['energy_code'] == 20) {
+            $publicName = "Excellent [{$energy_code['energy_pool']}]";
+        } elseif ($energy_code['energy_code'] == 21) {
+            $publicName = "Fair [{$energy_code['energy_pool']}]";
         }
 
-        $record = CodeDetail::whereId($energy_code)->first();
+        // Ensure energy_code is a valid ID for the query
+        $record = CodeDetail::whereId($energy_code['energy_code'])->first();
 
         $data = [
             'code' => $publicName,
+            'text' => $record['text'],
             'video_url' => $record['video_url'] ?? null,
         ];
 
         return $data;
-
     }
+
 
     public static function getPreceptionReport($assessment = null)
     {

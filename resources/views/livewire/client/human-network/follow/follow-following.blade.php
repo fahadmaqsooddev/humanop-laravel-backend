@@ -1,35 +1,93 @@
+<style>
+    
+    @media (min-width: 360px) and (max-width: 991px) {
+
+        .connectionDev
+        {
+            width: 100%;
+            margin-top: 5px;
+
+        }
+
+        .connectionBtn
+        {
+            width: 100%;
+        }
+        .searchInput
+        {
+            margin-top: 10px;
+        }
+
+    }
+
+
+    .updateBtn{
+        background-color: #f2661c;
+        color: white;
+    }
+
+    .updateBtn:hover{
+        background-color: #f2661c;
+        color: white;
+    }
+
+    body{
+        background-color: #F3DEBA !important;
+    }
+
+    @media (min-width: 360px) and (max-width: 991px) {
+
+        .connectionDev
+        {
+            width: 100%;
+            margin-top: 5px;
+
+        }
+
+        .connectionBtn
+        {
+            width: 100%;
+        }
+        .searchInput
+        {
+            margin-top: 20px;
+        }
+
+    }
+
+</style>
 <div>
 
     <div class="container pt-3">
 
         <div class="row">
+            <div class="col-12 col-md-6 nav-tab  ">
 
-            <div class="col-12 col-md-6 nav-tab ">
-
-                <div class="nav nav-tabs border-0" id="myTab" role="tablist" style="max-width: max-content;">
-                    <div class="nav-item" role="presentation">
-                        <button class="rainbow-border-user-nav-btn me-2 updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
+                    <div class="nav-item connectionDev" role="presentation">
+                        <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'follower') === "follower" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                                style='background-color: #f2661c;color: white;'
+
                                 aria-selected="true">Followers</button>
                     </div>
-                    <div class="nav-item" role="presentation">
-                        <button class="rainbow-border-user-nav-btn updateBtn {{request()->input('type', 'follower') === "following" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
+
+                    <div class="nav-item connectionDev" role="presentation">
+                        <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'follower') === "following" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
-                                style="background-color: #f2661c;color: white;"
+
                                 aria-controls="profile-tab-pane" aria-selected="false">Following</button>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-6">
 
-                <div class="input-group ms-md-4 pe-md-4">
+                <div class="input-group ms-md-4 pe-md-4 searchInput">
 {{--                     <span style="color: white;" class="input-group-text beige-background-color">--}}
 {{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
 {{--                     </span>--}}
                     <input type="text" wire:model.debounce="follower_search"
-                           class="beige-background-color search-bar" style="color: black;border: 1px solid white;
-                           padding: 5px; width: 75%; border-radius: 5px"
+                           class="beige-background-color search-bar" style="border: 1px solid #f2661c !important;
+                           padding: 5px; width: 100%; border-radius: 5px;"
                            placeholder="Search">
                 </div>
 

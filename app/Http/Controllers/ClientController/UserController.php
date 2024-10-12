@@ -129,7 +129,7 @@ class UserController extends Controller
             $perception_life = CodeDetail::getPerceptionStaticText();
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $actionPlan = ActionPlan::userActionPlan();
 
             return view('client-dashboard.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age'));
