@@ -7,15 +7,15 @@
             <div class="col-12 col-md-6 nav-tab  ">
 
                 <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
-                    <div class="nav-item" role="presentation">
-                        <button class="rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                    <div class="nav-item connectionDev" role="presentation">
+                        <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
 
                                 aria-selected="true">Connections</button>
                     </div>
 
-                    <div class="nav-item" role="presentation">
-                        <button class="rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
+                    <div class="nav-item connectionDev" role="presentation">
+                        <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
 
                                 aria-controls="profile-tab-pane" aria-selected="false">Connection Request</button>
@@ -27,13 +27,13 @@
                 <div class="row mt-1">
 
                     <div class="col-12">
-                        <div class="input-group ms-md-4 pe-md-4">
+                        <div class="input-group ms-md-4 pe-md-4 searchInput">
 {{--                     <span style="background-color: #0f1534;color: white;" class="input-group-text">--}}
 {{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
 {{--                     </span>--}}
                             <input type="text" wire:model.debounce="search_connection_name"
                                    class="beige-background-color search-bar" style="border: 1px solid #f2661c !important;
-                           padding: 5px; width: 84%; border-radius: 5px;"
+                           padding: 5px; width: 100%; border-radius: 5px;"
                                    placeholder="Search user to connect">
                         </div>
                     </div>
@@ -61,8 +61,8 @@
 
                         <div class="col-2"></div>
 
-                        <div class="col-5">
-                            <select class="form-control" style="background-color: #f3deba;width: 90%;" wire:model="style_code">
+                        <div class="col-lg-5 col-12">
+                            <select class="form-control" style="background-color: #f3deba;width: 90%;margin-top: 5px" wire:model="style_code">
                                 <option value="">Search by style and feature</option>
                                 @foreach($style_feature_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
@@ -70,8 +70,8 @@
                             </select>
                         </div>
 
-                        <div class="col-5">
-                            <select wire:model="alchemy_code" class="form-control" style="background-color: #f3deba;width: 90%;">
+                        <div class="col-lg-5 col-12">
+                            <select wire:model="alchemy_code" class="form-control" style="background-color: #f3deba;width: 90%;margin-top: 5px">
                                 <option value="">Search by alchemy code</option>
                                 @foreach($alchemy_color_codes as $code)
                                     <option value="{{$code->code}}">{{$code->public_name}}</option>
