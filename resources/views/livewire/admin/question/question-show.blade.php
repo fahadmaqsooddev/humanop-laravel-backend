@@ -2,7 +2,7 @@
 
     <table class="table table-flush" id="datatable-search">
         <thead class="thead-light">
-        <tr>
+        <tr class="table-text-color">
             <th>Questions</th>
             <th></th>
             <th>Gender</th>
@@ -11,9 +11,9 @@
         </thead>
         <tbody>
         @foreach($questions as $q)
-            <tr>
-                <td class="text-sm font-weight-normal px-4">
-                    <h6 class="text-white">{{ $q->question }}</h6>
+            <tr class="table-text-color">
+                <td class="text-md font-weight-normal px-4">
+                    <h6 class="table-text-color">{{ $q->question }}</h6>
                     <div>
                         @foreach($q->answers as $answer)
 
@@ -28,7 +28,7 @@
                         @endforeach
                     </div>
                 </td>
-                <td class="text-sm font-weight-normal">
+                <td class="text-md font-weight-normal">
                     <div>
                     <button type="button" data-bs-toggle="modal"
                             data-bs-target="#createSubQuestionModal{{ $q->id }}"
@@ -45,10 +45,10 @@
                         </div>
                     @endif
                 </td>
-                <td class="text-sm font-weight-normal">
+                <td class="text-md font-weight-normal">
                     <p class="mt-2">{{ $q->gender === '2' ? 'Male & Female' : ($q->gender === '1' ? 'Female' : ($q->gender === '0' ? 'Male' : '')) }}</p>
                 </td>
-                <td class="text-sm font-weight-normal px-4">
+                <td class="text-md font-weight-normal px-4">
                     <button type="button" data-bs-toggle="modal"
                             data-bs-target="#updateQuestionModal{{ $q->id }}"
                             class="btn btn-sm updateBtn float-end mt-2 mb-0">Edit

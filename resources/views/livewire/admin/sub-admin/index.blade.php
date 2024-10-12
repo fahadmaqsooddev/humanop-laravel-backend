@@ -1,6 +1,6 @@
 <div class="table-responsive table-orange-color">
     <table class="table table-flush" id="datatable-search">
-        <thead class="thead-light">
+        <thead class="table-text-color">
         <tr>
             <th>Name</th>
             <th>Email</th>
@@ -16,7 +16,7 @@
                 $permissions = $admin->getAllPermissions();
                 $permissionNames = $permissions->pluck('name')->toArray();
             @endphp
-            <tr>
+            <tr class="table-text-color">
                 @if(session('success'.$admin->id))
                     <div class="m-3  alert alert-success alert-dismissible fade show" id="alert" role="alert">
                         <span class="alert-text text-white">

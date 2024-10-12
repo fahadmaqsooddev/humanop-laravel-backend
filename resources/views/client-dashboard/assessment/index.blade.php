@@ -12,51 +12,57 @@
         }
     </style>
 
-    <div class="row mt-4 container-fluid">
-        <div class="col-12">
+    <div class="container-fluid">
 
-            @if(session('message'))
-                <div class="m-3 alert alert-success alert-dismissible fade show text-center" id="alert-success"
-                     role="alert">
+        <div class="row mt-4">
+            <div class="col-12">
+
+                @if(session('message'))
+                    <div class="m-3 alert alert-success alert-dismissible fade show text-center" id="alert-success"
+                         role="alert">
                         <span class="alert-text text-white">
                             {{ session('message') }}</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <i class="fa fa-close" aria-hidden="true"></i>
-                    </button>
-                </div>
-            @endif
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <i class="fa fa-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                @endif
 
-            <div class="card" >
-                <!-- Card header -->
-                <div class="card-header table-header-text">
-                    <h5 class="mb-0 text-color-blue">Assessments</h5>
-                </div>
-                <div class="table-responsive table-orange-color table-orange-color">
-                    <table class="table table-flush" id="datatable-search">
-                        <thead class="thead-light">
-                        <tr>
-                            <th class="text-color-blue">Date & Time</th>
-                            <th class="text-color-blue">Assessment Status</th>
-                            <th class="text-color-blue">Practitioner</th>
-                            <th class="text-color-blue">Reference Code</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($assessments as $assessment)
+                <div class="w-100">
+                    <!-- Card header -->
+                    <div class="card-header table-header-text">
+                        <h5 class="mb-0 text-color-blue">All Assessments</h5>
+                    </div>
+                    <div class="table-responsive table-orange-color table-orange-color w-100">
+                        <table class="table table-flush">
+                            <thead class="thead-light">
                             <tr>
-                                <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</td>
-                                <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
-                                <td class="text-sm text-color-blue font-weight-normal">N/A</td>
-                                <td class="text-sm text-color-blue font-weight-normal">{{$assessment['id']}} </td>
-                                <td class="text-sm text-color-blue font-weight-normal"><a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                <th class="text-color-blue">Date & Time</th>
+                                <th class="text-color-blue">Assessment Status</th>
+                                <th class="text-color-blue">Practitioner</th>
+                                <th class="text-color-blue">Reference Code</th>
+                                <th></th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @foreach($assessments as $assessment)
+                                <tr>
+                                    <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</td>
+                                    <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
+                                    <td class="text-sm text-color-blue font-weight-normal">N/A</td>
+                                    <td class="text-sm text-color-blue font-weight-normal">{{$assessment['id']}} </td>
+                                    <td class="text-sm text-color-blue font-weight-normal"><a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                        {{$assessments->links()}}
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 

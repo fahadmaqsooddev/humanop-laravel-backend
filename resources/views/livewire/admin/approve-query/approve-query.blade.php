@@ -1,7 +1,7 @@
 <div class="table-responsive table-orange-color">
     <table class="table table-flush" id="datatable-search">
         <thead class="thead-light">
-        <tr>
+        <tr class="text-color-blue">
             <th>Question</th>
             <th>Answer</th>
             <th>Edit</th>
@@ -10,8 +10,8 @@
         </thead>
         <tbody>
         @foreach($unApprovedQueries as $query)
-            <tr>
-                <td class="text-sm font-weight-normal">
+            <tr class="text-color-blue">
+                <td class="text-md font-weight-normal">
 
                     @if($query['question'] && strlen($query['question']['query']) > 40)
 
@@ -26,7 +26,7 @@
                         {{$query['question']['query'] ?? null}}
                     @endif
                 </td>
-                <td class="text-sm font-weight-normal">
+                <td class="text-md font-weight-normal">
 
                     @if(strlen($query['answer']) > 40)
 
@@ -42,13 +42,13 @@
                     @endif
 
                 </td>
-                <td class="text-sm font-weight-normal">
+                <td class="text-md font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
                        data-bs-target="#editQueryModal{{$query['id']}}" class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0">
                         Edit
                     </a>
                 </td>
-                <td class="text-sm font-weight-normal">
+                <td class="text-md font-weight-normal">
                     <a wire:click="approveAnswer({{$query['id']}})" class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0">
                         Approve
                     </a>

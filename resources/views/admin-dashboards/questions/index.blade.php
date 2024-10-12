@@ -18,6 +18,14 @@
         border-color: #f2661c !important;
     }
 
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
+
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">
@@ -25,7 +33,7 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header table-header-text">
-                    <h5 class="mb-0">All Questions</h5>
+                    <h5 class="mb-0 table-text-color">All Questions</h5>
                 </div>
                 @livewire('admin.question.question-show',['questions' => $questions])
             </div>

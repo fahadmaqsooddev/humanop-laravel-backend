@@ -11,6 +11,14 @@ float:right;
 border-radius: 3px;
 padding: 0px 10px 1px 10px;
 }
+
+.table-text-color{
+    color: #1c365e !important;
+}
+
+.dataTable-table th a{
+    color: #1c365e !important;
+}
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">
@@ -18,7 +26,7 @@ padding: 0px 10px 1px 10px;
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">
-                    <h5 class="mb-0">Sub Admins</h5>
+                    <h5 class="mb-0 table-text-color">Sub Admins</h5>
                 </div>
 
                 @livewire('admin.sub-admin.index',['admins' => $admins])

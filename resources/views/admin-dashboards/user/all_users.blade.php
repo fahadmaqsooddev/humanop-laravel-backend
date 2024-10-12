@@ -5,6 +5,14 @@
         border-color: rgba(58, 65, 111, 0.95);
         background-color: forestgreen !important;
     }
+
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
     </style>
 @endpush
 @section('content')

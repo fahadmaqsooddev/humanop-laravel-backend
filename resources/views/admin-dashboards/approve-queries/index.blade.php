@@ -59,6 +59,14 @@
     {
         border: 2px solid green !important;
     }
+
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
 </style>
 @section('content')
     <div class="container-fluid row mt-4">

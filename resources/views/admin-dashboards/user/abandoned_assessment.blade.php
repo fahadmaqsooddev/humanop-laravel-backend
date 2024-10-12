@@ -1,5 +1,14 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
+<style>
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
+</style>
 @section('content')
     <div class="row mt-4 container-fluid">
         <div class="col-12">
@@ -11,7 +20,7 @@
                 <div class="table-responsive table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
-                        <tr>
+                        <tr class="table-text-color">
                             <th>Name</th>
                             <th>Date & Time</th>
                             <th>Practitioner</th>
@@ -22,13 +31,13 @@
                         </thead>
                         <tbody>
                         @foreach($assessments as $assessment)
-                            <tr>
-                                <td class="text-sm font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
-                                <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'] ?? null)->format('Y/m/d')}}</td>
-                                <td class="text-sm font-weight-normal">Null</td>
-                                <td class="text-sm font-weight-normal">Null</td>
-                                <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? ""}}</td>
-                                <td class="text-sm font-weight-normal">Incomplete</td>
+                            <tr class="table-text-color">
+                                <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
+                                <td class="text-md font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'] ?? null)->format('Y/m/d')}}</td>
+                                <td class="text-md font-weight-normal">Null</td>
+                                <td class="text-md font-weight-normal">Null</td>
+                                <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? ""}}</td>
+                                <td class="text-md font-weight-normal">Incomplete</td>
                             </tr>
                         @endforeach
 

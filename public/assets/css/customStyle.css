@@ -16,11 +16,11 @@
 }
 
 .search-bar{
-    border: 1px solid white !important;
+    border: 1px solid #1c365e !important;
 }
 
 .search-bar::placeholder{
-    color: black !important;
+    color: #1c365e !important;
 }
 
 .connection-card{

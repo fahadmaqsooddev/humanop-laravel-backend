@@ -110,7 +110,7 @@
                                                 }
                                             }
                                         @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
+                                        <th class="text-center border text-color-blue cursor-pointer {{ $colorClass }}"
                                             onclick="changeStyleBackgroundColor(this, '{{ $select_style_code }}')">
                                             {{ strtoupper($select_style_code) }}
                                         </th>
@@ -192,7 +192,7 @@
                                                 }
                                             }
                                         @endphp
-                                        <th class="text-center border cursor-pointer {{ $colorClass }}"
+                                        <th class="text-center text-color-blue border cursor-pointer {{ $colorClass }}"
                                             onclick="changeFeatureBackgroundColor(this, '{{ $select_feature_code }}')">
                                             {{ strtoupper($select_feature_code) }}
                                         </th>
@@ -209,7 +209,7 @@
     <div class="table-responsive w-100 table-orange-color">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
-            <tr>
+            <tr class="text-color-blue">
                 <th>Name</th>
                 <th>Date & Time</th>
                 <th>Practitioner</th>
@@ -220,13 +220,13 @@
             </thead>
             <tbody>
             @foreach($assessments as $assessment)
-                <tr>
-                    <td class="text-sm font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
-                    <td class="text-sm font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
-                    <td class="text-sm font-weight-normal">Null</td>
-                    <td class="text-sm font-weight-normal">Null</td>
-                    <td class="text-sm font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
-                    <td class="text-sm font-weight-normal"><a
+                <tr class="text-color-blue">
+                    <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
+                    <td class="text-md font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
+                    <td class="text-md font-weight-normal">Null</td>
+                    <td class="text-md font-weight-normal">Null</td>
+                    <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
+                    <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
                             class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
                     </td>

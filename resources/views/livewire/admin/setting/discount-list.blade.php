@@ -2,7 +2,7 @@
     <div class="table-responsive table-orange-color">
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
-            <tr>
+            <tr class="table-text-color">
                 <th>Discount</th>
                 <th>Discount Limit</th>
                 <th>Coupon Code</th>
@@ -11,10 +11,10 @@
             </thead>
             <tbody>
             @foreach($coupons as $coupon)
-                <tr>
-                    <td class="text-sm font-weight-normal">{{$coupon['discount']}}% </td>
-                    <td class="text-sm font-weight-normal">{{$coupon['limit'] ?? 'Unlimited' }} </td>
-                    <td class="text-sm font-weight-normal">{{$coupon['coupon']}} </td>
+                <tr class="table-text-color">
+                    <td class="text-md font-weight-normal">{{$coupon['discount']}}% </td>
+                    <td class="text-md font-weight-normal">{{$coupon['limit'] ?? 'Unlimited' }} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['coupon']}} </td>
                     <td>
                         <button class="btn btn-sm btn-danger" onclick="confirmBoxForPermanentDelete({{$coupon->id}})">
                             delete

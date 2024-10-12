@@ -28,6 +28,14 @@
         border-color: #f2661c !important;
     }
 
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
+
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">

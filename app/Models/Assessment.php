@@ -222,7 +222,7 @@ class Assessment extends Model
             ->where('page', 0)
             ->orderBy('created_at', 'desc')
             ->selection()
-            ->get();
+            ->paginate(10);
     }
 
     public static function singleAssessment($user_id = null)

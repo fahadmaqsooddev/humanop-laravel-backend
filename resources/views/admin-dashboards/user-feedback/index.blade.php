@@ -21,6 +21,14 @@
         border-color: #f2661c !important;
     }
 
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
+
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">
@@ -33,7 +41,7 @@
                 <div class="table-responsive pagination table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
-                        <tr>
+                        <tr class="table-text-color">
                             <th>#</th>
                             <th>Username</th>
                             <th>Feedback</th>
@@ -41,15 +49,15 @@
                         </thead>
                         <tbody>
                         @if(!isset($feedbacks[0]))
-                            <tr>
+                            <tr class="table-text-color">
                                 <td>No any feedback...</td>
                             </tr>
                         @endif
                         @foreach($feedbacks as $key => $feedback)
-                            <tr>
-                                <td class="text-sm font-weight-normal">{{$key + 1}}</td>
-                                <td class="text-sm font-weight-normal">{{$feedback['user'] ? $feedback['user']['first_name'] . ' ' . $feedback['user']['last_name'] : ""}}</td>
-                                <td class="text-sm font-weight-normal">{{$feedback['comment']}}</td>
+                            <tr class="table-text-color">
+                                <td class="text-md font-weight-normal">{{$key + 1}}</td>
+                                <td class="text-md font-weight-normal">{{$feedback['user'] ? $feedback['user']['first_name'] . ' ' . $feedback['user']['last_name'] : ""}}</td>
+                                <td class="text-md font-weight-normal">{{$feedback['comment']}}</td>
                             </tr>
                         @endforeach
 

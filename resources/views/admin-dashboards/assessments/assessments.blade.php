@@ -68,6 +68,18 @@
         height: 52px !important;
     }
 
+    .table-text-color{
+        color: #1c365e !important;
+    }
+
+    .dataTable-table th a{
+        color: #1c365e !important;
+    }
+
+    .border{
+        border: 1px solid #1c365e !important;
+    }
+
 </style>
 @section('content')
     <div class="row mt-4 container-fluid">
