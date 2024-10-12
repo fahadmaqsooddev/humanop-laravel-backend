@@ -425,7 +425,7 @@
 
 
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue traitHeading"> Top 3 Traits:</p>
+                                    <p class="text-color-blue traitHeading"> Top 3 Traits:</p>
                                     <div class="d-flex flex-column" style="margin-top: -10px">
                                         @if($topThreeStyles)
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
@@ -464,7 +464,7 @@
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue traitHeading"> Communication
+                                    <p class="text-color-blue traitHeading"> Communication
                                         Style "Energy Centers":</p>
                                     <div class="d-flex text-color-blue flex-wrap">
                                         @if($topCommunication)
@@ -479,7 +479,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-sm fs-12px text-color-blue traitHeading" style="color: rgb(160, 174, 192)">
+                                    <p class="text-color-blue traitHeading" style="color: rgb(160, 174, 192)">
                                         Perception of
                                         Life:</p>
                                     @if($preception)
@@ -493,7 +493,7 @@
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
                                     @endif
-                                    <p class="text-sm fs-12px text-color-blue traitHeading" style="color: rgb(160, 174, 192)">Energy
+                                    <p class="text-color-blue traitHeading" style="color: rgb(160, 174, 192)">Energy
                                         Pool:</p>
                                     @if($energyPool)
                                         <p class="fw-bold  fs-12px text-color-blue "
