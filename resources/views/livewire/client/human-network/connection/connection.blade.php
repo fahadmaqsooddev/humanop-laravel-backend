@@ -121,7 +121,7 @@
                     <div class="row  pt-2 ">
 
                         @foreach($users as $user)
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
+                            <div class="col-6 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
 
                                 <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
 
@@ -133,7 +133,7 @@
                                         <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
                                             {{$user->first_name . ' ' . $user->last_name}}
                                         </h5>
-                                        <div class="d-flex flex-row justify-content-center flex-1" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
+                                        <div class="" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
 
                                             <div class="p-1">
                                                 @if($user['connection_status'] === 0)
