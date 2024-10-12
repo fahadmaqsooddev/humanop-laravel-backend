@@ -230,15 +230,15 @@
                                             <i class="fas fa-arrow-right ms-1"></i>
                                         </a>
                                             </div>
-                                    @else
-                                        <div class="text-center">
-                                        <a href="{{route('stripe_checkout')}}"
-                                           class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"
-                                           data-bs-target="#subcriptionModel">
-                                            Free Membership
-                                            <i class="fas fa-arrow-right ms-1"></i>
-                                        </a>
-                                        </div>
+{{--                                    @else--}}
+{{--                                        <div class="text-center">--}}
+{{--                                        <a href="{{route('stripe_checkout')}}"--}}
+{{--                                           class="btn btn-icon bg-gradient-primary d-lg-block mt-3 mb-0" data-bs-toggle="modal"--}}
+{{--                                           data-bs-target="#subcriptionModel">--}}
+{{--                                            Free Membership--}}
+{{--                                            <i class="fas fa-arrow-right ms-1"></i>--}}
+{{--                                        </a>--}}
+{{--                                        </div>--}}
                                     @endif
                                 </div>
 
