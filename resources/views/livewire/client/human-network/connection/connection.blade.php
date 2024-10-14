@@ -1,3 +1,4 @@
+@push('css')
 <style>
     @media (min-width: 360px) and (max-width: 991px) {
 
@@ -29,6 +30,7 @@
         }
     }
 </style>
+@endpush
 <div>
 
     <div class="container  pt-3">
