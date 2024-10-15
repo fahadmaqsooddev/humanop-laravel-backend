@@ -57,6 +57,7 @@ class SessionController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             $attributes = request()->validate([
                 'email'=>'required|email',

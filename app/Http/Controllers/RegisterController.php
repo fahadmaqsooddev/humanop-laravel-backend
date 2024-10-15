@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\IntentionPlan\IntentionOption;
 use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Http\Request;
@@ -28,11 +29,12 @@ class RegisterController extends Controller
 
     public function create(Request $request)
     {
+
         $referralCode = $request->query('ref');
 
         $google_user = Session::get('google_user', []);
-
-        return view('session/register', compact('google_user', 'referralCode'));
+        $intention_options = IntentionOption::all();
+        return view('session/register', compact('google_user', 'referralCode','intention_options'));
     }
 
     public function practitionerRegister(Request $request, $slug, $slug2)

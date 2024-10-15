@@ -17,6 +17,7 @@ use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
+use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
@@ -35,7 +36,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except('googleLoginSignup');
+        $this->middleware('auth:api')->except(['googleLoginSignup','intentionOption']);
 
         $this->user = $user;
     }
@@ -249,16 +250,31 @@ class UserController extends Controller
     {
         try {
             $user = Helpers::getUser();
+            IntentionPlan::where('user_id',$user['id'])->delete();
 
-            IntentionPlan::updateIntentionPlan($user['id'], $request['ninety_day_intention']);
+            IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
-            return Helpers::successResponse('90 Days Intention Plan updated successfully.');
+
+            return Helpers::successResponse('90 Days Intention Plan updated successfully.',$request->ninety_day_intention);
 
         }catch (\Exception $exception){
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+
+    }
+    public function intentionOption()
+    {
+        try {
+
+            $intention_option = IntentionOption::getOptions();
+            return Helpers::successResponse('success', $intention_option);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 

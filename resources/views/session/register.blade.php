@@ -215,31 +215,12 @@
 {{--                                    <option value="Team Optimization">Team Optimization</option>--}}
 {{--                                    <option value="Health & Fitness">Health & Fitness</option>--}}
 {{--                                </select>--}}
-
+                          @foreach($intention_options as $option)
                                 <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Personal Growth and Development" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Personal Growth and Development</label>
+                                    <input type="checkbox" name="ninety_day_intention[]" value="{{$option['id']}}" class=" form-check-input">
+                                    <label for="name" style="color: #0f1535; font-size: 15px">{{$option['description']}}</label>
                                 </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Business Optimization" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Business Optimization</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Relationship Optimization" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Relationship Optimization</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Career Optimization" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Career Optimization</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Team Optimization" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Team Optimization</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" name="ninety_day_intention[]" value="Health & Fitness" class=" form-check-input">
-                                    <label for="name" style="color: #0f1535; font-size: 15px">Health & Fitness</label>
-                                </div>
+                                @endforeach
 
 {{--                                <input type="text" class="form-control " placeholder="In the next 90 Days I would like to ..." name="ninety_day_intention"--}}
 {{--                                       style="background-color: #f3deba; color: black; border-radius: 15px;">--}}

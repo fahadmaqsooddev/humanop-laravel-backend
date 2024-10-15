@@ -379,5 +379,9 @@ return [
             'table' => 'model_has_roles',
             'fillable' => ['role_id', 'model_type','model_id']
         ],
+        'IntentionOption' => [
+            'table' => 'intention_options',
+            'fillable' => ['description']
+        ],
     ]
 ];

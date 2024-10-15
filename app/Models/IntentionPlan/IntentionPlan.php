@@ -4,6 +4,7 @@ namespace App\Models\IntentionPlan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class IntentionPlan extends Model
 {
@@ -36,20 +37,19 @@ class IntentionPlan extends Model
         return self::where('user_id', $userId)->first('ninety_day_intention');
     }
 
-    public static function updateIntentionPlan($userId = null, $intentionPlan = null)
+    public static function updateIntentionPlan($userId = null, $intentionPlan = [])
     {
         $plan = self::where('user_id', $userId)->first();
 
         if ($plan) {
-
-            $plan->update(['ninety_day_intention' => $intentionPlan]);
-
-        } else {
-
-            $plan = self::createIntentionPlan($userId, $intentionPlan);
+            self::where('user_id', $userId)->delete();
         }
 
-        return $plan;
+        DB::transaction(function() use ($intentionPlan,$userId){
+                self::createIntentionPlan($userId, $intentionPlan);
+        });
+
+        return $intentionPlan;
     }
 
 }
