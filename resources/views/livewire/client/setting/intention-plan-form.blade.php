@@ -14,7 +14,7 @@
                                name="intention"
                                class="form-check-input">
                         <label for="name" style="color: #0f1535; font-size: 15px">
-                            {{ \App\Enums\Admin\Admin::getIntentionOption($option->ninety_day_intention) }}
+                            {{ $option['intentionOptions']['description'] }}
                         </label>
                     </div>
                 @endforeach

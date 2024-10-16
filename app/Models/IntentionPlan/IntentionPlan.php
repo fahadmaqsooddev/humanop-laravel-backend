@@ -40,7 +40,7 @@ class IntentionPlan extends Model
 
     public static function getIntentionPlan($userId = null)
     {
-        return self::where('user_id', $userId)->get();
+        return self::where('user_id', $userId)->with('intentionOptions')->get();
     }
 
     public static function updateIntentionPlan($userId = null, $intentionPlan = [])
