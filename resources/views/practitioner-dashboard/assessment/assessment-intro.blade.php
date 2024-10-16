@@ -105,7 +105,7 @@
                                 </div>
                             @else
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{url('client/play')}}"
+                                    <a href="{{url('practitioner/play')}}"
                                        style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
                                        class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
                                     </a>

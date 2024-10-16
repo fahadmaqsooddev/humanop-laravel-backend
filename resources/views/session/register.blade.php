@@ -42,207 +42,237 @@
 
                         <p class="text-center" style="color: #0f1535"><b>or</b></p>
                         <div class="card-body">
-                            <form action="{{route('store_user')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="referralCode" value="{{$referralCode ?? ''}}">
-                                <div>
-                                    <div class="">
-                                        <label for="name" style="color: #0f1535; font-size: 15px">First Name</label>
-                                        <input type="text" class="form-control " placeholder="first name"
-                                               aria-label="Name"
-                                               value="{{$google_user['first_name'] ?? ""}}"
-                                               aria-describedby="email-addon"
-                                               name="first_name" id="first_name"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                    </div>
-                                    @error('first_name')
-                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div>
-                                    <div class="mt-3">
-                                        <label for="name" style="color: #0f1535; font-size: 15px">Last Name</label>
-                                        <input type="text" class="form-control " placeholder="last name"
-                                               aria-label="Name"
-                                               value="{{$google_user['last_name'] ?? ""}}"
-                                               aria-describedby="email-addon"
-                                               name="last_name" id="last_name"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                    </div>
-                                    @error('last_name')
-                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <div class="mt-3" {{$google_user ? 'hidden' : ""}}>
-                                    <div class=" ">
-                                        <label for="email" style="color: #0f1535; font-size: 15px">Email</label>
+                            @if(request()->segment(1) === 'register')
+                                <form action="{{route('store_user')}}" method="post">
+                                    @else
+                                        <form
+                                            action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register-client-to-practitioner')}}"
+                                            method="post">
+                                            @endif
+                                            @csrf
+                                            <input type="hidden" name="referralCode" value="{{$referralCode ?? ''}}">
+                                            <div>
+                                                <div class="">
+                                                    <label for="name" style="color: #0f1535; font-size: 15px">First
+                                                        Name</label>
+                                                    <input type="text" class="form-control " placeholder="first name"
+                                                           aria-label="Name"
+                                                           value="{{$google_user['first_name'] ?? ""}}"
+                                                           aria-describedby="email-addon"
+                                                           name="first_name" id="first_name"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                </div>
+                                                @error('first_name')
+                                                <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div>
+                                                <div class="mt-3">
+                                                    <label for="name" style="color: #0f1535; font-size: 15px">Last
+                                                        Name</label>
+                                                    <input type="text" class="form-control " placeholder="last name"
+                                                           aria-label="Name"
+                                                           value="{{$google_user['last_name'] ?? ""}}"
+                                                           aria-describedby="email-addon"
+                                                           name="last_name" id="last_name"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                </div>
+                                                @error('last_name')
+                                                <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                            <div class="mt-3" {{$google_user ? 'hidden' : ""}}>
+                                                <div class=" ">
+                                                    <label for="email"
+                                                           style="color: #0f1535; font-size: 15px">Email</label>
 
-                                        <input type="email" class="form-control " placeholder="Email" aria-label="Email"
-                                               aria-describedby="email-addon" name="email" id="email"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                               value="{{$google_user['email'] ?? ""}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
-                                        @error('email')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="mt-3" hidden>
-                                    <div class=" ">
-                                        <label for="email" style="color: #0f1535; font-size: 15px">Google id in case of
-                                            signup from
-                                            google</label>
+                                                    <input type="email" class="form-control " placeholder="Email"
+                                                           aria-label="Email"
+                                                           aria-describedby="email-addon" name="email" id="email"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                           value="{{$google_user['email'] ?? ""}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
+                                                    @error('email')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="mt-3" hidden>
+                                                <div class=" ">
+                                                    <label for="email" style="color: #0f1535; font-size: 15px">Google id
+                                                        in case of
+                                                        signup from
+                                                        google</label>
 
-                                        <input type="text" class="form-control" aria-describedby="email-addon"
-                                               name="google_id" id="google_id"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                               value="{{$google_user['google_id'] ?? ""}}">
-                                    </div>
-                                </div>
-                                <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
-                                    <div>
-                                        <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
-                                        <input type="password" class="form-control" placeholder="Password"
-                                               aria-label="Password" aria-describedby="password-addon" name="password"
-                                               id="password"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                        <!-- Eye icon for toggling password visibility -->
-                                        <span class="position-absolute" id="togglePassword"
-                                              style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
+                                                    <input type="text" class="form-control"
+                                                           aria-describedby="email-addon"
+                                                           name="google_id" id="google_id"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                           value="{{$google_user['google_id'] ?? ""}}">
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
+                                                <div>
+                                                    <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
+                                                    <input type="password" class="form-control" placeholder="Password"
+                                                           aria-label="Password" aria-describedby="password-addon"
+                                                           name="password"
+                                                           id="password"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                    <!-- Eye icon for toggling password visibility -->
+                                                    <span class="position-absolute" id="togglePassword"
+                                                          style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye pt-1 password-eye" id="password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
 
-                                        @error('password')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
+                                                    @error('password')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
-                                    <div>
-                                        <label for="password" style="color: #0f1535; font-size: 15px">Confirm
-                                            Password</label>
-                                        <input type="password" class="form-control" placeholder="Confirm Password"
-                                               aria-label="Password" aria-describedby="password-addon"
-                                               name="password_confirmation"
-                                               id="confirmPassword"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                        @error('password_confirmation')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
-                                    <!-- Eye icon for toggling password visibility -->
-                                        <span class="position-absolute" id="toggleConfirmPassword"
-                                              style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
+                                            <div class="mt-3 position-relative" {{$google_user ? 'hidden' : ""}}>
+                                                <div>
+                                                    <label for="password" style="color: #0f1535; font-size: 15px">Confirm
+                                                        Password</label>
+                                                    <input type="password" class="form-control"
+                                                           placeholder="Confirm Password"
+                                                           aria-label="Password" aria-describedby="password-addon"
+                                                           name="password_confirmation"
+                                                           id="confirmPassword"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                    @error('password_confirmation')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                @enderror
+                                                <!-- Eye icon for toggling password visibility -->
+                                                    <span class="position-absolute" id="toggleConfirmPassword"
+                                                          style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye pt-1 confirm-password-eye" id="confirm-password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
-                                    </div>
-                                </div>
+                                                </div>
+                                            </div>
 
-                                <div class="mt-3">
-                                    <div>
-                                        <label for="name" style="color: #0f1535; font-size: 15px">Phone</label>
-                                        <input type="tel" class="form-control" placeholder="+1 (123) 456-7890"
-                                               aria-label="Phone"
-                                               name="phone" id="phone" maxlength="14"
-                                               title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
-                                               style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                        @error('phone')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <div class="">
-                                        <label for="name" style="color: #0f1535; font-size: 15px">Gender at
-                                            Birth</label>
-                                        <select class="form-control" name="gender" id="gender" name="user_type"
-                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                            <option value="" selected hidden>Gender at Birth
-                                            </option>
-                                            <option value="0">Male (XY)</option>
-                                            <option value="1">Female (XX)</option>
-                                        </select>
-                                        @error('gender')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <div>
-                                        <label for="name" style="color: #0f1535; font-size: 15px">Date of Birth</label>
+                                            <div class="mt-3">
+                                                <div>
+                                                    <label for="name"
+                                                           style="color: #0f1535; font-size: 15px">Phone</label>
+                                                    <input type="tel" class="form-control"
+                                                           placeholder="+1 (123) 456-7890"
+                                                           aria-label="Phone"
+                                                           name="phone" id="phone" maxlength="14"
+                                                           title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                    @error('phone')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <div class="">
+                                                    <label for="name" style="color: #0f1535; font-size: 15px">Gender at
+                                                        Birth</label>
+                                                    <select class="form-control" name="gender" id="gender"
+                                                            name="user_type"
+                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                        <option value="" selected hidden>Gender at Birth
+                                                        </option>
+                                                        <option value="0">Male (XY)</option>
+                                                        <option value="1">Female (XX)</option>
+                                                    </select>
+                                                    @error('gender')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <div>
+                                                    <label for="name" style="color: #0f1535; font-size: 15px">Date of
+                                                        Birth</label>
 
-                                        <div class="d-flex w-100">
+                                                    <div class="d-flex w-100">
 
-                                            <?php
-                                            $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                                                'August', 'September', 'October', 'November', 'December'];
+                                                        <?php
+                                                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                                                            'August', 'September', 'October', 'November', 'December'];
 
-                                            $current_year = (int)(\Carbon\Carbon::now()->year - 18);
-                                            ?>
+                                                        $current_year = (int)(\Carbon\Carbon::now()->year - 18);
+                                                        ?>
 
-                                            <select class="justify-content-center form-control m-2" name="month"
-                                                    style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                                <option value="">Month</option>
-                                                @foreach($months as $key => $month)
-                                                    <option value="{{$key + 1}}">{{$month}}</option>
+                                                        <select class="justify-content-center form-control m-2"
+                                                                name="month"
+                                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                            <option value="">Month</option>
+                                                            @foreach($months as $key => $month)
+                                                                <option value="{{$key + 1}}">{{$month}}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        <select class="justify-content-center form-control m-2"
+                                                                name="day"
+                                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                            <option value="">Day</option>
+                                                            @for($i = 1; $i <= 31; $i++)
+                                                                <option value="{{$i}}">{{$i}}</option>
+                                                            @endfor
+                                                        </select>
+
+                                                        <select class="justify-content-center form-control m-2"
+                                                                name="year"
+                                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                            <option value="">Year</option>
+                                                            @for($i = $current_year; $i >= 1900; $i--)
+                                                                <option
+                                                                    value="{{$i}}" {{$i === 1980 ? 'selected' : ''}}>{{$i}}</option>
+                                                            @endfor
+                                                        </select>
+
+                                                    </div>
+
+                                                    @error('date_of_birth')
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label for="name" style="color: #0f1535; font-size: 17px">90 Day
+                                                    Intention</label><br>
+                                                <label for="name" style="color: #f2661c; font-size: 15px">Your Intention
+                                                    For Using
+                                                    HumanOp</label>
+                                                @foreach($intention_options as $option)
+                                                    <div class="form-check">
+                                                        <input type="checkbox" name="ninety_day_intention[]"
+                                                               value="{{$option['id']}}" class=" form-check-input">
+                                                        <label for="name"
+                                                               style="color: #0f1535; font-size: 15px">{{$option['description']}}</label>
+                                                    </div>
                                                 @endforeach
-                                            </select>
-
-                                            <select class="justify-content-center form-control m-2" name="day"
-                                                    style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                                <option value="">Day</option>
-                                                @for($i = 1; $i <= 31; $i++)
-                                                    <option value="{{$i}}">{{$i}}</option>
-                                                @endfor
-                                            </select>
-
-                                            <select class="justify-content-center form-control m-2" name="year"
-                                                    style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                                <option value="">Year</option>
-                                                @for($i = $current_year; $i >= 1900; $i--)
-                                                    <option
-                                                        value="{{$i}}" {{$i === 1980 ? 'selected' : ''}}>{{$i}}</option>
-                                                @endfor
-                                            </select>
-
-                                        </div>
-
-                                        @error('date_of_birth')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="name" style="color: #0f1535; font-size: 17px">90 Day
-                                        Intention</label><br>
-                                    <label for="name" style="color: #f2661c; font-size: 15px">Your Intention For Using
-                                        HumanOp</label>
-                                    @foreach($intention_options as $option)
-                                        <div class="form-check">
-                                            <input type="checkbox" name="ninety_day_intention[]"
-                                                   value="{{$option['id']}}" class=" form-check-input">
-                                            <label for="name"
-                                                   style="color: #0f1535; font-size: 15px">{{$option['description']}}</label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="form-check form-switch mt-4">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
-                                    <label style="color: #0f1535" class="form-check-label"
-                                           for="rememberMe">Remember
-                                        me</label>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn w-100 my-4 mb-2"
-                                            style="background-color: #f2661c;color:white">Sign up
-                                    </button>
-                                </div>
-                                <p class="text-sm mt-3 mb-0" style="color: #0f1535">Already have an account?
-                                    <a href="{{ url('login') }}" class=" font-weight-bolder" style="color: #0f1535">Sign
-                                        in</a>
-                                </p>
-                            </form>
+                                            </div>
+                                            <div class="form-check form-switch mt-4">
+                                                <input class="form-check-input" type="checkbox" name="remember"
+                                                       id="rememberMe">
+                                                <label style="color: #0f1535" class="form-check-label"
+                                                       for="rememberMe">Remember
+                                                    me</label>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn w-100 my-4 mb-2"
+                                                        style="background-color: #f2661c;color:white">Sign up
+                                                </button>
+                                            </div>
+                                            <p class="text-sm mt-3 mb-0" style="color: #0f1535">Already have an account?
+                                                @if(request()->segment(1) === 'register')
+                                                    <a href="{{ url('login') }}" class=" font-weight-bolder"
+                                                       style="color: #0f1535">Sign
+                                                        in</a>
+                                                @else
+                                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login')}}"
+                                                       class=" font-weight-bolder" style="color: #0f1535">Sign
+                                                        in</a>
+                                                @endif
+                                            </p>
+                                        </form>
                         </div>
                     </div>
                 </div>
