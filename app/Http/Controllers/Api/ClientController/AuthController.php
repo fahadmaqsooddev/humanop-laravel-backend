@@ -45,7 +45,6 @@ class AuthController extends Controller
             if ($token){
 
                 $user_data = User::user(Helpers::getUser()->id);
-
 //                User::updateUserIsFeedback();
 
                 DailyTip::updateUserDailyTip();
@@ -100,6 +99,7 @@ class AuthController extends Controller
 
             if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention']))
             {
+
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 

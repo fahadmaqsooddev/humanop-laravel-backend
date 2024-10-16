@@ -76,7 +76,7 @@
                         </div>
                         <p class="text-center" style="color: #0f1535"><b>or</b></p>
                         <div class="card-body">
-                            @if(request()->segment(1) === 'login')
+                            @if(request()->segment(1) === null || request()->segment(1) === 'login')
                                 <form role="form" class="text-start" action="{{url('/session')}}" method="POST">
                                     @else
                                         <form role="form" class="text-start"
