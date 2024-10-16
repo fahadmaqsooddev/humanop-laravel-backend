@@ -29,4 +29,19 @@ final class Admin
     const SUB_ADMIN_ROLE = 2;
 
     const PRACTITIONER_ROLE = 3;
+
+
+    private static $intentionOption = [
+             1 => 'Personal Growth and Development',
+             2 => 'Business Optimization',
+             3 => 'Relationship Optimization',
+             4 => 'Career Optimization',
+             5 => 'Team Optimization',
+             6 => 'Health & Fitness',
+    ];
+
+    public static function getIntentionOption($value)
+    {
+        return self::$intentionOption[$value] ?? '';
+    }
 }

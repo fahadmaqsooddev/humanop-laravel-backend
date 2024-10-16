@@ -3,13 +3,16 @@
         <h5 class="text-color-dark setting-form-heading">90 Days Intention Plan</h5>
     </div>
     @include('layouts.message')
+
     <form wire:submit.prevent="submitForm" class="mb-4">
         <div class="card-body pt-0">
-            <label class="form-label text-color-dark">90 Day Intention</label>
             <div class="form-group text-color-dark">
-                <input wire:model.defer="intention"
-                       class="form-control text-color-dark setting-box-background" type="text"
-                       placeholder="In the next 90 Days I would like to ...">
+                @foreach($intention as $option)
+                    <div class="form-check">
+                        <input type="checkbox" wire:model.defer="intention"  class=" form-check-input">
+                        <label for="name" style="color: #0f1535; font-size: 15px">{{\App\Enums\Admin\Admin::getIntentionOption($option->ninety_day_intention)}}</label>
+                    </div>
+                @endforeach
             </div>
 {{--            @foreach($intentionPlans as $option)--}}
 {{--                <div class="form-check">--}}

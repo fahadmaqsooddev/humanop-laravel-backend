@@ -13,9 +13,9 @@ class IntentionPlanForm extends Component
     public function mount()
     {
         $user = Helpers::getWebUser();
-
+        $intentionPlan = IntentionPlan::getIntentionPlan($user['id']);
+        $this->intention = $intentionPlan ?? '';
         $this->userId = $user['id'];
-
     }
 
     public function submitForm()
@@ -35,8 +35,6 @@ class IntentionPlanForm extends Component
 
     public function render()
     {
-        $intentionPlans = IntentionPlan::getIntentionPlan($this->userId);
-
-        return view('livewire.client.setting.intention-plan-form', ['intentionPlans' => $intentionPlans['intentionOptions']]);
+        return view('livewire.client.setting.intention-plan-form');
     }
 }
