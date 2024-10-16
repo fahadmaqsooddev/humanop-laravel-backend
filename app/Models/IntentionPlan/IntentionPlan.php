@@ -18,14 +18,20 @@ class IntentionPlan extends Model
         parent::__construct($attributes);
     }
 
+    public function intentionOptions()
+    {
+        return $this->belongsTo(IntentionOption::class,'intention_option_id', 'id');
+    }
+
     public static function createIntentionPlan($userId = null, $intentionplans = null)
     {
 
         foreach ($intentionplans as $intention)
         {
+
             $intention_plan = self::create([
                 'user_id' => $userId,
-                'ninety_day_intention' => $intention,
+                'intention_option_id' => $intention,
             ]);
         }
 
@@ -34,7 +40,7 @@ class IntentionPlan extends Model
 
     public static function getIntentionPlan($userId = null)
     {
-        return self::where('user_id', $userId)->first('ninety_day_intention');
+        return self::with('intentionOptions')->where('user_id', $userId)->first('intention_option_id');
     }
 
     public static function updateIntentionPlan($userId = null, $intentionPlan = [])

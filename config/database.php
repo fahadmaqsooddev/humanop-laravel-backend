@@ -367,7 +367,7 @@ return [
         ],
         'IntentionPlan' => [
             'table' => 'intention_plan',
-            'fillable' => ['user_id', 'ninety_day_intention'],
+            'fillable' => ['user_id', 'intention_option_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'PdfGenerate' => [

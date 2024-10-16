@@ -11,7 +11,15 @@
                        class="form-control text-color-dark setting-box-background" type="text"
                        placeholder="In the next 90 Days I would like to ...">
             </div>
-            <button type="submit" class="btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn" >
+{{--            @foreach($intentionPlans as $option)--}}
+{{--                <div class="form-check">--}}
+{{--                    <input type="checkbox" name="ninety_day_intention[]"--}}
+{{--                           value="{{$option['id']}}" class=" form-check-input">--}}
+{{--                    <label for="name"--}}
+{{--                           style="color: #0f1535; font-size: 15px">{{$option['description']}}</label>--}}
+{{--                </div>--}}
+{{--            @endforeach--}}
+            <button type="submit" class="btn-sm float-end mt-6 mb-0 rainbow-border-user-nav-btn">
                 Update intention
             </button>
         </div>

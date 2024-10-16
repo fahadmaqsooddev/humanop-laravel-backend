@@ -8,15 +8,12 @@ use App\Helpers\Helpers;
 
 class IntentionPlanForm extends Component
 {
-    public $intention, $userId;
+    public $userId;
 
     public function mount()
     {
         $user = Helpers::getWebUser();
 
-        $intentionPlan = IntentionPlan::getIntentionPlan($user['id']);
-
-        $this->intention = $intentionPlan['ninety_day_intention'] ?? '';
         $this->userId = $user['id'];
 
     }
@@ -38,8 +35,8 @@ class IntentionPlanForm extends Component
 
     public function render()
     {
+        $intentionPlans = IntentionPlan::getIntentionPlan($this->userId);
 
-
-        return view('livewire.client.setting.intention-plan-form');
+        return view('livewire.client.setting.intention-plan-form', ['intentionPlans' => $intentionPlans['intentionOptions']]);
     }
 }
