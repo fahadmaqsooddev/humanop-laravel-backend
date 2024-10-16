@@ -17,7 +17,7 @@ class IntentionOption extends Model
     }
 
      public static function getOptions(){
-         return self::get()->pluck('description','id')->toArray();
+         return self::select(['id','description'])->get();
      }
 
 }

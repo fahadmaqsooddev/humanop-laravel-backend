@@ -381,7 +381,8 @@ return [
         ],
         'IntentionOption' => [
             'table' => 'intention_options',
-            'fillable' => ['description']
+            'fillable' => ['description'],
+            'hidden' => ['created_at','updated_at'],
         ],
     ]
 ];

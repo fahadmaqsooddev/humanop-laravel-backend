@@ -17,5 +17,3 @@ Route::post('register-client', 'AuthController@registerClient');
 Route::post('logout-client', 'AuthController@logoutClient');
 Route::post('forgot-password', 'AuthController@forgotPassword');
 Route::post('social-login', 'AuthController@socialLogin');
-
-Route::get('intention-option', 'UserController@intentionOption');
