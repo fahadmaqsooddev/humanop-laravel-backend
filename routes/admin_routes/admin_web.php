@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminControllers\CodeController;
 use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\CouponController;
+use App\Http\Controllers\AdminControllers\IntentionPlanController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
@@ -96,6 +97,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('feedback', [AdminController::class, 'userFeedback'])->name('feedback');
         Route::get('podcast', [PodcastController::class, 'podcast'])->name('podcast');
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
+
+        Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {

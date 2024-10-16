@@ -4,6 +4,7 @@ namespace App\Models\IntentionPlan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class IntentionOption extends Model
 {
@@ -19,5 +20,22 @@ class IntentionOption extends Model
      public static function getOptions(){
          return self::select(['id','description'])->get();
      }
+    public static function allOptions(){
+         return self::orderBy('created_at', 'desc');
+    }
 
+    public static function createPlanOption($data = null)
+    {
+        return self::create($data);
+    }
+
+    public static function updateIntentionPlan($data = null, $id = null)
+    {
+
+        $intention_plan = self::find($id);
+
+        $intention_plan->update($data);
+
+        return $intention_plan;
+    }
 }
