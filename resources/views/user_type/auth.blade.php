@@ -63,10 +63,10 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
-            {{--        @elseif (\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('intro-assessment'))--}}
-            {{--            @include('layouts.navbars.guest.nav')--}}
-            {{--            @yield('content')--}}
-            {{--            @include('layouts/footers/guest/footer')--}}
+        @elseif (request()->segment(3) === 'intro-assessment')
+            @include('layouts.navbars.guest.nav')
+            @yield('content')
+            @include('layouts/footers/guest/footer')
         @elseif (\Request::is('client/stripe-checkout'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
@@ -75,10 +75,10 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
-            {{--        @elseif (\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play'))--}}
-            {{--            @include('layouts.navbars.guest.nav')--}}
-            {{--            @yield('content')--}}
-            {{--            @include('layouts/footers/guest/footer')--}}
+        @elseif (request()->segment(3) === 'play')
+            @include('layouts.navbars.guest.nav')
+            @yield('content')
+            @include('layouts/footers/guest/footer')
         @else
             @include('layouts/navbars/auth/sidebar')
             <main
@@ -120,7 +120,8 @@
                                         </a>
                                     </div>
                                     <div class="feedback-card">
-                                        <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">Thank you for being a Beta Tester!  Give us some feedback below on how your
+                                        <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
+                                            Thank you for being a Beta Tester! Give us some feedback below on how your
                                             experience is so far and how we can improve it.</h5>
                                         <form action="javascript:void(0);">
 
@@ -129,8 +130,12 @@
                                                     you a point as a token of our appreciation!</span>
                                             </div>
 
-                                            <textarea id="comment-value" rows="5" class="comment-box" placeholder="Add a Comment..." required></textarea>
-                                            <button type="submit" onclick="submitFeedBackForm()" class="btn" style="inline-size: 100%;background-color: #f2661c;color: white;">Submit Feedback</button>
+                                            <textarea id="comment-value" rows="5" class="comment-box"
+                                                      placeholder="Add a Comment..." required></textarea>
+                                            <button type="submit" onclick="submitFeedBackForm()" class="btn"
+                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                                Submit Feedback
+                                            </button>
 
                                         </form>
                                     </div>
@@ -240,7 +245,7 @@
 
                 animateNumber(1);
 
-                setTimeout(function (){
+                setTimeout(function () {
                     $('#add_feedback').click();
                 }, 2000);
             },
