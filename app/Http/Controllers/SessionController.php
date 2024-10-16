@@ -42,11 +42,11 @@ class SessionController extends Controller
 
             if ($user)
             {
-                return view('practitioner-dashboard/session/login', compact('slug', 'slug2'));
+                return view('session/login', compact('slug', 'slug2'));
             }
             else
             {
-                return redirect()->to('/' . $slug . '/' . $slug2 . '/login')->withErrors(['msgError' => 'This Practitioner does not exist']);
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('/login'))->withErrors(['msgError' => 'This Practitioner does not exist']);
             }
 
         } catch (\Exception $exception) {

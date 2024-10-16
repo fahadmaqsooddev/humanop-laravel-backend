@@ -49,7 +49,9 @@ class RegisterController extends Controller
 
                 $google_user = Session::get('google_user', []);
 
-                return view('practitioner-dashboard/session/registration', compact('google_user', 'referralCode', 'slug', 'slug2'));
+                $intention_options = IntentionOption::all();
+
+                return view('session/register', compact('google_user', 'referralCode', 'slug', 'slug2', 'intention_options'));
             } else {
                 return redirect()->to('/' . $slug . '/' . $slug2 . '/login')->withErrors(['msgError' => 'This Practitioner does not exist']);
             }
