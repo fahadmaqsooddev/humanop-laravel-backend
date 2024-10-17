@@ -99,4 +99,19 @@ class QuestionController extends Controller
         }
     }
 
+    public static function allAssessment()
+    {
+        try {
+
+            $assessments = Assessment::getAssessment();
+
+            return view('practitioner-dashboard.assessment.index', compact('assessments'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
 }

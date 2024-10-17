@@ -7,6 +7,12 @@
                 <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
+        @elseif(Auth::check() && (Auth::user()->is_admin == 4))
+            <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
+               href="{{ url('practitioner/dashboard') }}">
+                <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
+                     alt="" style="width: auto; height: 80px; margin-left: -5px;">
+            </a>
         @else
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ request()->segment(1) != null && request()->segment(1) !== 'login' ? \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login') :  url('login') }}">
@@ -15,8 +21,12 @@
             </a>
         @endif
 
-        @if(Auth::check() && (Route::is('test_play')))
+        @if(Auth::check() && (Route::is('test_play') && (Auth::user()->is_admin == 2)))
             <a href="{{url('login')}}" class="rainbow-border-user-nav-btn mt-4">
+                Save and Exit
+            </a>
+        @elseif(Auth::check() && (Route::is('admin_test_play') && (Auth::user()->is_admin == 4)))
+            <a href="{{ url('practitioner/dashboard') }}" class="rainbow-border-user-nav-btn mt-4">
                 Save and Exit
             </a>
         @else

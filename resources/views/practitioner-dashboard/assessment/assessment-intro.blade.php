@@ -1,4 +1,4 @@
-@extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+@extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
     .modal-close-btn {
         background: #f2661c;
@@ -66,7 +66,7 @@
                     <div class="row w-100 introAssessmentMargin">
                         <div class="col-lg-7 col-md-7 col-12 mt-2">
                             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
-                               href="{{ Auth::check() ? (request()->segment(1) === 'client' ? url('client/dashboard') : \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')) : url('login') }}">
+                               href="{{ Auth::check() ? (request()->segment(1) === 'client' ? url('client/dashboard') : url('practitioner/dashboard')) : url('login') }}">
                                 <img
                                     src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/new_logo.png') }}"
                                     alt=""

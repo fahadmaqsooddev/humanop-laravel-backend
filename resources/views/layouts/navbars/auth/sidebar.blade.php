@@ -115,13 +115,23 @@
                             @endcan
                             @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
                                 <li class="nav-item {{ (Request::is('intro-assessment') ? 'active' : '') }}">
-                                    <a class="nav-link {{ (Request::is('assintro-assessmentessments') ? 'active' : '') }}"
+                                    <a class="nav-link {{ (Request::is('intro-assessment') ? 'active' : '') }}"
                                        href="{{ route('practitioner_intro_assessment') }}">
                                         <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                              src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                         <span class="sidenav-normal"> Take Assessments </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ (Request::is('all-practitioner-assessment') ? 'active' : '') }}">
+                                    <a class="nav-link {{ (Request::is('all-practitioner-assessment') ? 'active' : '') }}"
+                                       href="{{ route('admin_all_assessment') }}">
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                             src="{{URL::asset('assets/icons/Results.png')}}"></span>
+                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                          src="{{URL::asset('assets/icons/Results.png')}}"></span>
+                                        <span class="sidenav-normal"> Results </span>
                                     </a>
                                 </li>
                             @endif
@@ -133,7 +143,7 @@
                                                                              src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                                        <span class="sidenav-normal"> Assessments </span>
+                                        <span class="sidenav-normal"> {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 ? 'Client' : ''}} Assessments </span>
                                     </a>
                                 </li>
 
