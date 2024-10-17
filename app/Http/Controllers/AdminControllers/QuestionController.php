@@ -76,7 +76,7 @@ class QuestionController extends Controller
     {
         try {
 
-            $user = Helpers::getWebUser();
+//            $user = Helpers::getWebUser();
 
 
 //            $assessmentCheck = Helpers::checkAssessment($user['id']);

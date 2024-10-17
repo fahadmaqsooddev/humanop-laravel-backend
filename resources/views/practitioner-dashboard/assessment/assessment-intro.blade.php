@@ -105,11 +105,11 @@
                                 </div>
                             @else
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{url('practitioner/play')}}"
+                                    <a href="{{ url('practitioner/play') }}"
                                        style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
                                        class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
                                     </a>
-                                    <a href="{{url('login')}}"
+                                    <a href="{{ route('admin_dashboard') }}"
                                        class=" text-center"
                                        style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"><i
                                             class="fa-solid fa-arrow-left" style="color:#ED7537;"></i> <span

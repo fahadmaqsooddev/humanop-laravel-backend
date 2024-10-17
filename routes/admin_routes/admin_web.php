@@ -51,7 +51,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
     Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('practitioner_intro_assessment');
-    Route::get('/play', [QuestionController::class, 'testPlay'])->name('practitoner_test_play');
+    Route::get('/play', [QuestionController::class, 'testPlay'])->name('practitioner_test_play');
 
     Route::group(['middleware' => ['permission:users']], function () {
         Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
