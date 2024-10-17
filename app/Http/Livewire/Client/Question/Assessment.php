@@ -11,6 +11,7 @@ use App\Models\AssessmentDetail;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use App\Models\Assessment as AssessmentModal;
@@ -293,10 +294,13 @@ class Assessment extends Component
 
             if (Helpers::getWebUser()['practitioner_id'] != null) {
 
+                $practitionerId = Helpers::getWebUser()['practitioner_id'];
+
+                $user = User::getSingleUser($practitionerId);
+
                 session()->flash('message', $this->assessmentMessage);
 
-                return redirect(PractitionerHelpers::makePractitionerUrl('all-assessments'));
-
+                return redirect('/'. $user['first_name'] . '/' . $user['last_name'] . '/all-assessments');
 
                 // return redirect()->to(PractitionerHelpers::makePractitionerUrl('all-assessments'));
 

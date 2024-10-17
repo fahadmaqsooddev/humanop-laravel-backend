@@ -82,51 +82,67 @@
                                         <form role="form" class="text-start"
                                               action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('login-client-to-practitioner')}}"
                                               method="POST">
+                                            <input type="text" class="form-control" hidden name="slug" value="{{$slug}}"
+                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                            <input type="text" class="form-control" hidden name="slug2"
+                                                   value="{{$slug2}}"
+                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
                                             @endif
                                             @csrf
                                             <div class="mb-3">
                                                 <label for="email" style="color: #0f1535; font-size: 15px">Email</label>
                                                 <input type="email" class="form-control" placeholder="Email"
                                                        aria-label="Email" name="email" id="email"
-                                                       @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}" @endif
+                                                       @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}"
+                                                       @endif
                                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
                                             </div>
 
                                             <div class="mb-1 position-relative">
-                                                <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
+                                                <label for="password"
+                                                       style="color: #0f1535; font-size: 15px">Password</label>
                                                 <input type="password" class="form-control" placeholder="Password"
                                                        aria-label="Password" name="password" id="password"
-                                                       @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
+                                                       @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}"
+                                                       @endif
                                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
 
                                                 <!-- Password toggle icon -->
                                                 <a class="position-absolute" id="togglePassword"
                                                    style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
-                                                    <i class="fas fa-eye pt-1 password-eye" id="password-eye" style="color: #f2661c !important;"></i>
+                                                    <i class="fas fa-eye pt-1 password-eye" id="password-eye"
+                                                       style="color: #f2661c !important;"></i>
                                                 </a>
                                             </div>
 
                                             <div class="form-check" style="font-size: 13px">
-                                                <a href="{{url('login/forgot-password')}}" class="float-end" style="color: #0f1535; font-size: 15px">
+                                                <a href="{{url('login/forgot-password')}}" class="float-end"
+                                                   style="color: #0f1535; font-size: 15px">
                                                     Forgot your password?
                                                 </a>
                                             </div>
 
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" @if(isset($_COOKIE['email'])) checked @endif type="checkbox" name="remember" id="rememberMe">
-                                                <label class="form-check-label text-bold" for="rememberMe" style="color: #0f1535">Remember me</label>
+                                                <input class="form-check-input" @if(isset($_COOKIE['email'])) checked
+                                                       @endif type="checkbox" name="remember" id="rememberMe">
+                                                <label class="form-check-label text-bold" for="rememberMe"
+                                                       style="color: #0f1535">Remember me</label>
                                             </div>
 
                                             <div class="text-center">
-                                                <button type="submit" class="btn w-100 my-4 mb-2" style="background-color: #f2661c; color: white;">Sign in</button>
+                                                <button type="submit" class="btn w-100 my-4 mb-2"
+                                                        style="background-color: #f2661c; color: white;">Sign in
+                                                </button>
                                             </div>
 
                                             <p class="text-sm text-center mt-3 mb-0" style="color: #0f1535;">
                                                 Don't have an account?
                                                 @if(request()->segment(1) === 'login')
-                                                    <a href="{{ url('register') }}" class="font-weight-bolder" style="color: #0f1535;">Sign up</a>
+                                                    <a href="{{ url('register') }}" class="font-weight-bolder"
+                                                       style="color: #0f1535;">Sign up</a>
                                                 @else
-                                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register') }}" class="font-weight-bolder" style="color: #0f1535;">Sign up</a>
+                                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register') }}"
+                                                       class="font-weight-bolder" style="color: #0f1535;">Sign up</a>
                                                 @endif
                                             </p>
                                         </form>

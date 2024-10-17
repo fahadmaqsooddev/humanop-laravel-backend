@@ -114,10 +114,13 @@ class UserController extends Controller
 
     }
 
-    public function profileOverview($id = null)
+    public function profileOverview($slug1, $slug2, $id = null)
     {
         try {
 
+            $id = last(request()->segments());
+
+            $user = Helpers::getWebUser()['is_admin'];
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;
             $assessment = Assessment::singleAssessmentFromId($id);

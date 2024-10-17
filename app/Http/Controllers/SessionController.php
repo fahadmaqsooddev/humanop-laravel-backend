@@ -46,7 +46,9 @@ class SessionController extends Controller
             }
             else
             {
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('/login'))->withErrors(['msgError' => 'This Practitioner does not exist']);
+                return view('errors/404');
+
+//                return redirect()->to(PractitionerHelpers::makePractitionerUrl('login'))->withErrors(['msgError' => 'This Practitioner does not exist']);
             }
 
         } catch (\Exception $exception) {
@@ -117,12 +119,13 @@ class SessionController extends Controller
     {
         try {
 
+
             $attributes = request()->validate([
                 'email'=>'required|email',
                 'password'=>'required',
             ]);
 
-            $user = User::where('first_name', $request['first_name'])->where('last_name', $request['last_name'])->where('is_admin', 4)->exists();
+            $user = User::where('first_name', $request['slug'])->where('last_name', $request['slug2'])->where('is_admin', 4)->exists();
 
             if ($user)
             {

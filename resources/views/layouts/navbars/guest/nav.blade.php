@@ -1,9 +1,15 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 my-3 w-100 shadow-none navbar-transparent mt-4">
     <div class="container" style="justify-content: center">
-        @if(Auth::check() && (Auth::user()->is_admin == 2))
+        @if(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id == null)
             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                href="{{ url('client/dashboard') }}">
+                <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
+                     alt="" style="width: auto; height: 80px; margin-left: -5px;">
+            </a>
+        @elseif(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id != null)
+            <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
+               href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
                 <img src="{{ asset('assets/logos/HumanOp dark.png') }}"
                      alt="" style="width: auto; height: 80px; margin-left: -5px;">
             </a>
@@ -21,8 +27,12 @@
             </a>
         @endif
 
-        @if(Auth::check() && (Route::is('test_play') && (Auth::user()->is_admin == 2)))
+        @if(Auth::check() && (Route::is('test_play') && (Auth::user()->is_admin == 2) && Auth::user()->practitioner_id == null))
             <a href="{{url('login')}}" class="rainbow-border-user-nav-btn mt-4">
+                Save and Exit
+            </a>
+        @elseif(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id != null)
+            <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}" class="rainbow-border-user-nav-btn mt-4">
                 Save and Exit
             </a>
         @elseif(Auth::check() && (Route::is('admin_test_play') && (Auth::user()->is_admin == 4)))

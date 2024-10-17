@@ -20,7 +20,7 @@ use App\Models\User;
 class PractitionerHelpers
 {
 
-    public static function makePractitionerUrl($url){
+    public static function makePractitionerUrl($url, $id = null){
 
         $request_segments = request()->segments();
 
@@ -32,7 +32,14 @@ class PractitionerHelpers
 
             if ($segment_first && $segment_second){
 
-                return (url('/') . '/' . $segment_first . '/' . $segment_second . '/' . $url);
+                if (!empty($id))
+                {
+                    return (url('/') . '/' . $segment_first . '/' . $segment_second . '/' . $url. '/' . $id['id']);
+                }
+                else
+                {
+                    return (url('/') . '/' . $segment_first . '/' . $segment_second . '/' . $url);
+                }
 
             }
 

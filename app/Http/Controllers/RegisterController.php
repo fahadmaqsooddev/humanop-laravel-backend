@@ -166,6 +166,10 @@ class RegisterController extends Controller
                 return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
 
             }
+            else
+            {
+                return view('errors/404');
+            }
         } catch (\Exception $exception) {
 
             DB::rollBack();

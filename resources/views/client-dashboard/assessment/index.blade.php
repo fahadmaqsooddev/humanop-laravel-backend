@@ -3,11 +3,11 @@
 @section('content')
 
     <style>
-        body{
+        body {
             background-color: #F3DEBA !important;
         }
 
-        .text-color-blue{
+        .text-color-blue {
             color: #1c365e !important;
         }
     </style>
@@ -41,18 +41,30 @@
                                 <th class="text-color-blue">Date & Time</th>
                                 <th class="text-color-blue">Assessment Status</th>
                                 <!-- <th class="text-color-blue">Practitioner</th> -->
-                                <!-- <th class="text-color-blue">Reference Code</th> -->
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($assessments as $assessment)
                                 <tr>
-                                    <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</td>
+                                    <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}}
+                                        (GMT)
+                                    </td>
                                     <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
                                     <!-- <td class="text-sm text-color-blue font-weight-normal">N/A</td> -->
-                                    <!-- <td class="text-sm text-color-blue font-weight-normal">{{$assessment['id']}} </td> -->
-                                    <td class="text-sm text-color-blue font-weight-normal"><a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                    @if(request()->segment(1) == 'client')
+                                        <td class="text-sm text-color-blue font-weight-normal"><a
+                                                href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}"
+                                                type="submit" style="background-color: #f2661c; color: white"
+                                                class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
+                                        </td>
+                                    @else
+                                        <td class="text-sm text-color-blue font-weight-normal"><a
+                                                href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('user-profile-overview-p',['id' => $assessment['id'] ]) }}"
+                                                type="submit" style="background-color: #f2661c; color: white"
+                                                class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
@@ -67,16 +79,18 @@
 
                     <div class="card" style="background-color: white !important;">
 
-                            <div class="card-body">
+                        <div class="card-body">
 
-                                <h4 style="font-weight: bold;">Date : {{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</h4>
-                                <p style="color: black !important;">Status : Complete</p>
-                                <a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
-                                   style="background-color: white !important; color: black !important;">
-                                    View
-                                </a>
+                            <h4 style="font-weight: bold;">Date
+                                : {{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</h4>
+                            <p style="color: black !important;">Status : Complete</p>
+                            <a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}"
+                               class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
+                               style="background-color: white !important; color: black !important;">
+                                View
+                            </a>
 
-                            </div>
+                        </div>
 
                     </div>
 

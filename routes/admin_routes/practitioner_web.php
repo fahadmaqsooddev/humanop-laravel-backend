@@ -33,7 +33,7 @@ Route::post('/{slug?}/{slug2?}/register-client-to-practitioner', [RegisterContro
 Route::get('/{slug?}/{slug2?}/logout', [SessionController::class, 'destroyPractitioner']);
 
 
-Route::group(['prefix' => '{slug?}/{slug2?}', 'middleware' => 'isPractitioner'], function () {
+Route::group(['prefix' => '{slug}/{slug2}', 'middleware' => 'isPractitioner'], function () {
 
 //    practitioner dashboard
     Route::get('/dashboard', [ClientController::class, 'index'])->name('practitioner_dashboard');
@@ -52,7 +52,7 @@ Route::group(['prefix' => '{slug?}/{slug2?}', 'middleware' => 'isPractitioner'],
 
     Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('practitioner_user_detail');
     Route::get('/user-info', [UserController::class, 'userInfo'])->name('practitioner_user_info');
-    Route::get('/user-profile-overview/{id?}', [UserController::class, 'profileOverview'])->name('practitioner_user_profile_overview');
+    Route::get('/user-profile-overview-p/{id}', [UserController::class, 'profileOverview'])->name('practitioner_user_profile_overview');
     Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('practitioner_download_user_report');
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('practitioner_user_grid');
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('practitioner_user_report');

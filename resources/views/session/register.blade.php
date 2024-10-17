@@ -48,6 +48,12 @@
                                         <form
                                             action="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register-client-to-practitioner')}}"
                                             method="post">
+
+                                            <input type="text" class="form-control" hidden name="slug" value="{{$slug}}"
+                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                            <input type="text" class="form-control" hidden name="slug2"
+                                                   value="{{$slug2}}"
+                                                   style="background-color: #f3deba; color: black; border-radius: 15px;">
                                             @endif
                                             @csrf
                                             <input type="hidden" name="referralCode" value="{{$referralCode ?? ''}}">
