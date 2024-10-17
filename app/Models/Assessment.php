@@ -1225,14 +1225,16 @@ class Assessment extends Model
 
     public static function getEnergyPoolDetail($assessment = null)
     {
-        $energy_code = self::getEnergyPool($assessment);
+        $energy_code = self::GetEP($assessment);
 
-        $code_detail = CodeDetail::whereId($energy_code)->first();
+
+        $code_detail = CodeDetail::whereId($energy_code['energy_code'])->first();
 
         if ($code_detail) {
 
             $code_detail['public_name'] = str_replace('Energy', '', $code_detail['public_name']);
         }
+
 
         return $code_detail;
     }
