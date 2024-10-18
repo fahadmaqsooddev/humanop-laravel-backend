@@ -48,7 +48,7 @@
                         </div>
                         @if($google_user)
                             <div class="text-center mt-0">
-                                <p>Email : {{$google_user['email']}}</p>
+                                <p style="color: #0f1535; font-size: 15px">Email : {{$google_user['email']}}</p>
                             </div>
                         @endif
 

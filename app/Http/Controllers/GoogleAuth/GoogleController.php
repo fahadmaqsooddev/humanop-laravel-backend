@@ -32,7 +32,7 @@ class GoogleController extends Controller
             {
                 $practitioner = User::where('first_name', $slug)->where('last_name', $slug2)->first('id');
 
-                $finduser = User::where('google_id', $user->id)->where('practitioner_id', $practitioner['id'])->orWhere('email', $user->email)->first();
+                $finduser = User::where('practitioner_id', $practitioner['id'])->orWhere('google_id', $user->id)->orWhere('email', $user->email)->first();
             }
             else
             {
@@ -56,7 +56,9 @@ class GoogleController extends Controller
 
                 Session::put(['google_user' => $data_array]);
 
-                return redirect()->to('/register');
+                $redirectUrl = (!empty($slug) && !empty($slug2)) ? "/$slug/$slug2/register" : '/register';
+
+                return redirect()->to($redirectUrl);
 
             }
 
