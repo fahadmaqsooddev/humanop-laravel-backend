@@ -99,7 +99,9 @@ class GoogleController extends Controller
 
             if (!empty($practitionerSession))
             {
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+                $parts = explode(' ', $practitionerSession);
+
+                return redirect()->to('/'. $parts[0] . '/' . $parts[1]. '/dashboard');
 
             }
             else
