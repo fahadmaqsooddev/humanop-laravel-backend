@@ -158,6 +158,10 @@ class SessionController extends Controller
 
                 return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
             }
+            else
+            {
+                return view('errors/404');
+            }
 
         }catch (ValidationException $validationException){
 

@@ -14,6 +14,8 @@ use App\Http\Controllers\ClientController\SettingController;
 use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ClientController\MessageController;
+use App\Http\Controllers\GoogleAuth\GoogleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +33,8 @@ Route::post('/{slug?}/{slug2?}/login-client-to-practitioner', [SessionController
 Route::get('/{slug?}/{slug2?}/register', [RegisterController::class, 'practitionerRegister'])->name('practitioner_register');
 Route::post('/{slug?}/{slug2?}/register-client-to-practitioner', [RegisterController::class, 'registerClientToPractitioner'])->name('register_client_to_practitioner');
 Route::get('/{slug?}/{slug2?}/logout', [SessionController::class, 'destroyPractitioner']);
-
+Route::get('/{slug?}/{slug2?}/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/{slug?}/{slug2?}/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => '{slug}/{slug2}', 'middleware' => 'isPractitioner'], function () {
 
