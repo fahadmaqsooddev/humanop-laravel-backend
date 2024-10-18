@@ -34,7 +34,7 @@ Route::get('/{slug?}/{slug2?}/register', [RegisterController::class, 'practition
 Route::post('/{slug?}/{slug2?}/register-client-to-practitioner', [RegisterController::class, 'registerClientToPractitioner'])->name('register_client_to_practitioner');
 Route::get('/{slug?}/{slug2?}/logout', [SessionController::class, 'destroyPractitioner']);
 Route::get('/{slug?}/{slug2?}/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/{slug?}/{slug2?}/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('/{slug?}/{slug2?}/google/callback', [GoogleController::class, 'handleGoogleCallbackk']);
 
 Route::group(['prefix' => '{slug}/{slug2}', 'middleware' => 'isPractitioner'], function () {
 

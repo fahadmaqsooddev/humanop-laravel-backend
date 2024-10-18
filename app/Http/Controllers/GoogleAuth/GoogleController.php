@@ -22,7 +22,7 @@ class GoogleController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback($slug = null, $slug2 = null)
+    public function handleGoogleCallbackk($slug = null, $slug2 = null)
     {
         try {
 
