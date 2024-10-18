@@ -125,12 +125,6 @@
             display: none;
         }
 
-        .instruction_text{
-            color: #f2661c;
-            text-transform: uppercase;
-            font-size: 27px;
-        }
-
         .video-timeline:hover .progress-bar::before,
         .video-timeline:hover .progress-area span {
             display: block;
@@ -1298,11 +1292,9 @@
 
                                     <ul style="justify-content: space-evenly; background-color: transparent; padding-top: 20px;"
                                         class="nav nav-pills">
-                                        @if(App\Helpers\Helpers::getWebUser()->is_admin != 2 && App\Helpers\Helpers::getWebUser()->is_admin != '2')
-                                            <li><a href="{{route('admin_user_grid',['id' => $id])}}" target="_blank"
-                                                   class="flex-sm-fill text-lg-center nav-link text-white text-bold">Grid</a>
-                                            </li>
-                                        @endif
+                                        <li><a href="{{route('practitioner_grid',['id' => $id])}}" target="_blank"
+                                               class="flex-sm-fill text-lg-center nav-link text-white text-bold">Grid</a>
+                                        </li>
                                         <li><a href="#summaryReport"
                                                class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
@@ -1350,7 +1342,7 @@
                                                 </ul>
 
                                                 @if($assessment)
-                                                    <a href="{{url('admin/download-user-report/'. $assessment->id)}}"
+                                                    <a href="{{url('practitioner/download-practitioner-report/'. $assessment->id)}}"
                                                        target="_blank"
                                                        class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
                                                        style="background-color: #f2661c">Download Summary Report</a>
@@ -1360,11 +1352,7 @@
                                         <div class="tab-pane {{request()->has('video_url') ? 'active' : ""}}"
                                              id="coreStats">
                                             <div class="slider-padding p-3 mt-5">
-                                                <div class="text-center">
-                                                    <h4 class="instruction_text">
-                                                        <strong>Click on the Labels to see your Results!</strong>
-                                                    </h4>
-                                                </div>
+
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
@@ -1800,15 +1788,8 @@
                                         </div>
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
-                                                <div class="w-100">
-                                                    <div class="d-flex justify-content-center align-items-center">
-
-                                                        <h2 class="text-white">
-                                                            {!! $actionPlan['plan_text'] ?? null !!}
-                                                        </h2>
-
-                                                    </div>
-
+                                                <div>
+                                                    {!! $actionPlan['plan_text'] ?? null !!}
                                                 </div>
                                             </div>
                                         </div>

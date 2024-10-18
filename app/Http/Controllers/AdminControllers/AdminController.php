@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\StripeSetting\StripeSetting;
@@ -150,7 +151,14 @@ class AdminController extends Controller
 
             $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
 
-            return view('admin-dashboards.user.user_grid', compact('grid', 'grid_code_color'));
+            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
+            {
+                return view('practitioner-dashboard.user.grid', compact('grid', 'grid_code_color'));
+            }
+            else
+            {
+                return view('admin-dashboards.user.user_grid', compact('grid', 'grid_code_color'));
+            }
 
         } catch (\Exception $exception) {
 
@@ -327,10 +335,14 @@ class AdminController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $actionPlan = ActionPlan::userActionPlan();
 
-
-//            dd($energyPool);
-
-            return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+            if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
+            {
+                return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+            }
+            else
+            {
+                return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+            }
 
         }catch (\Exception $exception){
 
