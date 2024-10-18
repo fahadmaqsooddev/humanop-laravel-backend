@@ -95,11 +95,11 @@ class GoogleController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
-//            Session::forget('practitioner');
+            Session::forget('practitioner');
 
             if (!empty($practitionerSession))
             {
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('practitioner_dashboard'));
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
 
             }
             else
