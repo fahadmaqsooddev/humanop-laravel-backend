@@ -34,22 +34,38 @@
                     @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
                         <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Your Results
+                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
+                            Your Results
                         </a>
 
-                    @elseif(\App\Helpers\Helpers::getWebUser()?->assessments()?->where('page', 0)?->count() > 0)
+                    @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
 
-                        <a href="{{route('user_profile_overview')}}"
-                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Your Results
-                        </a>
+                        @php
+                            $userId = \App\Helpers\Helpers::getWebUser()['id'];
+
+                            $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
+
+                        @endphp
+                        @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
+                            <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
+                               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
+                                Your Results
+                            </a>
+                        @else
+                            <a href="{{route('user_profile_overview', $assessment['id'])}}"
+                               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
+                                Your Results
+                            </a>
+                        @endif
 
                     @else
 
                         <button
-                           style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"
-                           data-toggle="tooltip" data-placement="top" title="Take the assessment first"
-                           class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Your Results
+                            style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"
+                            data-toggle="tooltip" data-placement="top" title="Take the assessment first"
+                            class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Your Results
                         </button>
 
                     @endif
@@ -59,7 +75,8 @@
 
                 <div class="nav-item pt-2">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                            class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd" data-bs-toggle="modal"
+                            class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
+                            data-bs-toggle="modal"
                             data-bs-target="#qrCodeModal">Get Free Pro Access!
                     </button>
                 </div>
