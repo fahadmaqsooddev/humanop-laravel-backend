@@ -26,6 +26,8 @@ class GoogleController extends Controller
     {
         try {
 
+            dd($slug, $slug2);
+
             $user = Socialite::driver('google')->user();
 
             if (!empty($slug) && !empty($slug2))
