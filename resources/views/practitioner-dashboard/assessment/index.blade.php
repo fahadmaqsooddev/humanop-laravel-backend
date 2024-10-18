@@ -52,7 +52,7 @@
                                     <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
                                     <!-- <td class="text-sm text-color-blue font-weight-normal">N/A</td> -->
                                 <!-- <td class="text-sm text-color-blue font-weight-normal">{{$assessment['id']}} </td> -->
-                                    <td class="text-sm text-color-blue font-weight-normal"><a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a></td>
+                                    <td class="text-sm text-color-blue font-weight-normal"><a href="{{ route('practitioner_profile_overview',['id' => $assessment['id'] ]) }}" type="submit" style="background-color: #f2661c; color: white" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a></td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -71,7 +71,7 @@
 
                             <h4 style="font-weight: bold;">Date : {{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</h4>
                             <p style="color: black !important;">Status : Complete</p>
-                            <a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}" class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
+                            <a href="{{ route('practitioner_profile_overview',['id' => $assessment['id'] ]) }}" class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
                                style="background-color: white !important; color: black !important;">
                                 View
                             </a>

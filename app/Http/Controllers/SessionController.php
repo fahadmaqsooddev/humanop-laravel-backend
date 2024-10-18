@@ -125,38 +125,49 @@ class SessionController extends Controller
                 'password'=>'required',
             ]);
 
-            $user = User::where('first_name', $request['slug'])->where('last_name', $request['slug2'])->where('is_admin', 4)->exists();
+            $practitioner = User::where('first_name', $request['slug'])->where('last_name', $request['slug2'])->where('is_admin', 4)->first();
 
-            if ($user)
+            if ($practitioner)
             {
-                if(Auth::attempt($attributes))
+
+                $checkUser = User::where('email', $request['email'])->where('practitioner_id', $practitioner['id'])->exists();
+
+                if ($checkUser)
                 {
-                    if (isset($request['remember']) && !empty($request['remember']))
+                    if(Auth::attempt($attributes))
                     {
-                        setcookie("email", $attributes['email'], 30*time()+3600);
-                        setcookie("password", $attributes['password'], 30*time()+3600);
-                    }else
-                    {
-                        setcookie("email", "");
-                        setcookie("password", "");
+                        if (isset($request['remember']) && !empty($request['remember']))
+                        {
+                            setcookie("email", $attributes['email'], 30*time()+3600);
+                            setcookie("password", $attributes['password'], 30*time()+3600);
+                        }else
+                        {
+                            setcookie("email", "");
+                            setcookie("password", "");
+                        }
+
+                        $user = Helpers::getWebUser();
+
+                        Session::forget('google_user'); // forget the session of the google data
+
+                        Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                        DailyTip::updateUserDailyTip();
+
+                        ActionPlan::storeUserActionPlan();
+
+                        User::updateUserIsFeedback();
+
+                        return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
                     }
 
-                    $user = Helpers::getWebUser();
-
-                    Session::forget('google_user'); // forget the session of the google data
-
-                    Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                    DailyTip::updateUserDailyTip();
-
-                    ActionPlan::storeUserActionPlan();
-
-                    User::updateUserIsFeedback();
-
-                    return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
                 }
 
                 return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+            }
+            else
+            {
+                return view('errors/404');
             }
 
         }catch (ValidationException $validationException){

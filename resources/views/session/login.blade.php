@@ -64,7 +64,8 @@
                         </div>
                         <div class="css-mgpqwz d-flex justify-content-center">
                             <div>
-                                <a href="{{ url('auth/google') }}">
+                                @if(!empty($slug) && !empty($slug2))
+                                <a href="{{ url('/' . $slug. '/'. $slug2 .'/auth/google') }}">
                                     <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                             type="button"
                                             style="background-color: rgb(19, 21, 54);">
@@ -72,6 +73,16 @@
                                              width="30px" ;>
                                     </button>
                                 </a>
+                                @else
+                                    <a href="{{ url('auth/google') }}">
+                                        <button class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
+                                                type="button"
+                                                style="background-color: rgb(19, 21, 54);">
+                                            <img src="https://www.svgrepo.com/show/303108/google-icon-logo.svg" alt=""
+                                                 width="30px" ;>
+                                        </button>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                         <p class="text-center" style="color: #0f1535"><b>or</b></p>

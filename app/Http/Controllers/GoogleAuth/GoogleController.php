@@ -16,61 +16,84 @@ use App\Helpers\Helpers;
 class GoogleController extends Controller
 {
 
-    public function redirectToGoogle()
+    public function redirectToGoogle($slug = null, $slug2 = null)
     {
+
+        if (!empty($slug) && !empty($slug2)) {
+
+            Session::put('practitioner', $slug . ' ' . $slug2);
+
+        }
+
         return Socialite::driver('google')->redirect();
     }
-
     public function handleGoogleCallback()
     {
         try {
+            $practitionerSession = Session::get('practitioner');
 
-            $user = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->user();
 
-            $finduser = User::where('google_id', $user->id)->orWhere('email', $user->email)->first();
+            $finduser = null;
 
-            if($finduser){
+            if (!empty($practitionerSession)) {
 
-                Auth::login($finduser);
+                $parts = explode(' ', $practitionerSession);
 
-            }else{
-//                $newUser = User::create([
-//                    'email' => $user->email,
-//                    'first_name' => $user->user['given_name'] ?? "",
-//                    'last_name' => $user->user['family_name'] ?? "",
-//                    'google_id'=> $user->id,
-//                    'password' => $user->id,
-//                    'is_admin' => 2,
-//                    'password_set' => 2,
-//                ]);
-//
-//                Auth::login($newUser);
+                if (count($parts) >= 2) {
+                    $firstName = $parts[0];
+                    $lastName = $parts[1];
 
-                $name = explode(' ', $user->name);
+                    $practitioner = User::where('first_name', $firstName)
+                        ->where('last_name', $lastName)
+                        ->first('id');
 
-                $data_array = [
-                    'google_id' => $user->id,
-                    'first_name' => $name[0] ?? "",
-                    'last_name' => $name[1] ?? "",
-                    'email' => $user->email,
-                ];
-
-                Session::put(['google_user' => $data_array]);
-
-                return redirect()->to('/register');
-
+                    if ($practitioner) {
+                        $finduser = User::where('practitioner_id', $practitioner->id)
+                            ->orWhere('google_id', $googleUser->id)
+                            ->orWhere('email', $googleUser->email)
+                            ->first();
+                    }
+                }
+            } else {
+                $finduser = User::where('google_id', $googleUser->id)
+                    ->orWhere('email', $googleUser->email)
+                    ->first();
             }
 
-            DailyTip::updateUserDailyTip();
+            if ($finduser) {
+                Auth::login($finduser);
+            } else {
+
+                $nameParts = explode(' ', $googleUser->name);
+
+                $dataArray = [
+                    'google_id' => $googleUser->id,
+                    'first_name' => $nameParts[0] ?? "",
+                    'last_name' => $nameParts[1] ?? "",
+                    'email' => $googleUser->email,
+                ];
+
+                Session::put('google_user', $dataArray);
+
+                if (!empty($practitionerSession) && count($parts) >= 2) {
+                    $redirectUrl = "/$firstName/$lastName/register";
+                } else {
+                    $redirectUrl = '/register';
+                }
+
+                return redirect()->to($redirectUrl);
+            }
 
             ActionPlan::storeUserActionPlan();
-
             User::updateUserIsFeedback();
 
-            $user = Helpers::getWebUser();
+            $authenticatedUser = Helpers::getWebUser();
 
-            Helpers::createCustomerAndSubscriptionOnStripe($user);
+            Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
+            Session::forget('practitioner');
+            
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $e) {
@@ -78,5 +101,6 @@ class GoogleController extends Controller
             return redirect()->to('/login')->with('error', $e->getMessage());
         }
     }
+
 
 }
