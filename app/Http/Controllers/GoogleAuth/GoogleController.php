@@ -19,60 +19,78 @@ class GoogleController extends Controller
     public function redirectToGoogle($slug = null, $slug2 = null)
     {
 
+        if (!empty($slug) && !empty($slug2)) {
+
+            Session::put('practitioner', $slug . ' ' . $slug2);
+
+        }
+
         return Socialite::driver('google')->redirect();
     }
-
-    public function handleGoogleCallbackk($slug = null, $slug2 = null)
+    public function handleGoogleCallback()
     {
         try {
+            $practitionerSession = Session::get('practitioner');
 
-            dd($slug, $slug2);
+            $googleUser = Socialite::driver('google')->user();
 
-            $user = Socialite::driver('google')->user();
+            $finduser = null;
 
-            if (!empty($slug) && !empty($slug2))
-            {
-                $practitioner = User::where('first_name', $slug)->where('last_name', $slug2)->first('id');
+            if (!empty($practitionerSession)) {
 
-                $finduser = User::where('practitioner_id', $practitioner['id'])->orWhere('google_id', $user->id)->orWhere('email', $user->email)->first();
+                $parts = explode(' ', $practitionerSession);
+
+                if (count($parts) >= 2) {
+                    $firstName = $parts[0];
+                    $lastName = $parts[1];
+
+                    $practitioner = User::where('first_name', $firstName)
+                        ->where('last_name', $lastName)
+                        ->first('id');
+
+                    if ($practitioner) {
+                        $finduser = User::where('practitioner_id', $practitioner->id)
+                            ->orWhere('google_id', $googleUser->id)
+                            ->orWhere('email', $googleUser->email)
+                            ->first();
+                    }
+                }
+            } else {
+                $finduser = User::where('google_id', $googleUser->id)
+                    ->orWhere('email', $googleUser->email)
+                    ->first();
             }
-            else
-            {
-                $finduser = User::where('google_id', $user->id)->orWhere('email', $user->email)->first();
-            }
 
-            if($finduser){
-
+            if ($finduser) {
                 Auth::login($finduser);
+            } else {
 
-            }else{
+                $nameParts = explode(' ', $googleUser->name);
 
-                $name = explode(' ', $user->name);
-
-                $data_array = [
-                    'google_id' => $user->id,
-                    'first_name' => $name[0] ?? "",
-                    'last_name' => $name[1] ?? "",
-                    'email' => $user->email,
+                $dataArray = [
+                    'google_id' => $googleUser->id,
+                    'first_name' => $nameParts[0] ?? "",
+                    'last_name' => $nameParts[1] ?? "",
+                    'email' => $googleUser->email,
                 ];
 
-                Session::put(['google_user' => $data_array]);
+                Session::put('google_user', $dataArray);
 
-                $redirectUrl = (!empty($slug) && !empty($slug2)) ? "/$slug/$slug2/register" : '/register';
+                if (!empty($practitionerSession) && count($parts) >= 2) {
+                    $redirectUrl = "/$firstName/$lastName/register";
+                } else {
+                    $redirectUrl = '/register';
+                }
 
                 return redirect()->to($redirectUrl);
-
             }
 
-//            DailyTip::updateUserDailyTip();
-
             ActionPlan::storeUserActionPlan();
-
             User::updateUserIsFeedback();
 
-            $user = Helpers::getWebUser();
+            $authenticatedUser = Helpers::getWebUser();
 
-            Helpers::createCustomerAndSubscriptionOnStripe($user);
+            Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
             return redirect()->route('client_dashboard');
 
@@ -81,5 +99,6 @@ class GoogleController extends Controller
             return redirect()->to('/login')->with('error', $e->getMessage());
         }
     }
+
 
 }
