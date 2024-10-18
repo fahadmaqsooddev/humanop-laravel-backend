@@ -55,7 +55,8 @@ class GoogleController extends Controller
                             ->first();
                     }
                 }
-            } else {
+            }
+            else {
                 $finduser = User::where('google_id', $googleUser->id)
                     ->orWhere('email', $googleUser->email)
                     ->first();
@@ -63,7 +64,8 @@ class GoogleController extends Controller
 
             if ($finduser) {
                 Auth::login($finduser);
-            } else {
+            }
+            else {
 
                 $nameParts = explode(' ', $googleUser->name);
 
@@ -92,10 +94,18 @@ class GoogleController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
+            Session::forget('practitioner');
 
-            return redirect()->route('client_dashboard');
+            if (!empty($practitionerSession))
+            {
+                return redirect()->route('admin_dashboard');
 
-//            Session::forget('practitioner');
+            }
+            else
+            {
+                return redirect()->route('client_dashboard');
+            }
+
 
         } catch (\Exception $e) {
 
