@@ -92,6 +92,8 @@ class GoogleController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
+            Session::forget('practitioner');
+            
             return redirect()->route('client_dashboard');
 
         } catch (\Exception $e) {
