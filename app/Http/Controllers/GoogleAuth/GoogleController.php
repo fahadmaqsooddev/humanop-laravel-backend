@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\GoogleAuth;
 
+use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -98,7 +99,7 @@ class GoogleController extends Controller
 
             if (!empty($practitionerSession))
             {
-                return redirect()->route('practitioner_dashboard');
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('practitioner_dashboard'));
 
             }
             else
