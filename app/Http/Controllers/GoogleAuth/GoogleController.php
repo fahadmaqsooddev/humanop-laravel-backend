@@ -95,7 +95,7 @@ class GoogleController extends Controller
 
             return redirect()->route('client_dashboard');
 
-            Session::forget('practitioner');
+//            Session::forget('practitioner');
 
         } catch (\Exception $e) {
 
