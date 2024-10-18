@@ -27,7 +27,7 @@ use App\Http\Controllers\GoogleAuth\GoogleController;
 */
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('google/callback', [GoogleController::class, 'handleGoogleCallback']);
+//Route::get('google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
