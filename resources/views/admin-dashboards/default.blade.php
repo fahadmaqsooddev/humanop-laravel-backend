@@ -1297,6 +1297,44 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="humanOpWalletModal" tabindex="-1" role="dialog"
+         aria-labelledby="humanOpWalletModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content py-3">
+
+                <div class="p-2">
+                    <button type="button" class="modal-close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="coins d-flex justify-content-center">
+                        <img src="{{ asset('assets/img/coins.gif') }}" alt="Coins falling"
+                             style="width: 100px; height: 150px; margin-top: -80px;">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <!-- Points Counter Circle -->
+                        <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
+                             id="coin-count"
+                             style="border-radius: 50%; height: 50px; width: 50px; font-size: 16px; border: 1px solid white; color: white; text-shadow: 0 0 5px #f2661c, 0 0 10px #f2661c; background-color: #f2661c; margin-right: -5px;;z-index:4">
+                            <span>{{ Auth::user()['point'] }}</span>
+                        </div>
+                        <!-- Coins Label - extending from the circle -->
+                        <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
+                             id="coin-label"
+                             style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:2; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
+                            <span style="color: #f2661c;">coins</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7">

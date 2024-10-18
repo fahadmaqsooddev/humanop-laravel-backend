@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Helpers;
+use App\Helpers\Points\PointHelper;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -26,6 +28,22 @@ class isAdmin
 
             if (Auth::user()['is_admin'] == 1 || Auth::user()['is_admin'] == 3  || Auth::user()['is_admin'] == 4)
             {
+
+
+                if (Auth::user()['is_admin'] == 4)
+                {
+
+                    $user = Auth::user();
+
+                    $plan = $user['plan_name'];
+
+                    if($plan){
+
+                        PointHelper::addPointsToLog($user['id'],$plan);
+
+                    }
+                }
+
                 return $next($request);
 
             }else{

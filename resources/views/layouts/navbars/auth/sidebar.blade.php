@@ -396,6 +396,53 @@
                                 </a>
                             </li>
 
+                            @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
+                            <li class="nav-item mt-2 d-flex justify-content-center">
+                                <div class="d-flex justify-content-between">
+                                <span class="humanopMiniLogo d-none">
+                                    <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
+                                         alt="apple icon"
+                                         style="width: 40px; height: 40px; color: white;"/>
+                                  </span>
+                                    <span class="humanopLogo ">
+                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"
+                                      alt="apple icon"
+                                      style="width: 100px; height: 40px; color: white;"/>
+                                </span>
+                                    <span class="humanopMiniLogo d-none " style="margin-left: 5px">
+                                  <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
+                                       alt="android icon"
+                                       style="width: 40px; height: 40px;"/>
+                                  </span>
+                                    <span class="humanopLogo" style="margin-left: 5px">
+                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"
+                                        alt="android icon"
+                                        style="width: 100px;height: 35px;margin-top: 2px;"/>
+                                  </span>
+                                </div>
+                            </li>
+                            @endif
+                            <li class="nav-item">
+                                <div class="abc mb-3" style="text-align: center">
+                                    @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_PRACTITIONER)
+
+                                        <div class="d-flex justify-content-center mt-3">
+
+                                            <div class="bg-white py-1"
+                                                 style="cursor: pointer; width: 60px; height: 60px; border-radius: 50%;"
+                                                 data-toggle="modal" data-target="#humanOpWalletModal">
+
+                                                <img src="{{asset('assets/icons/wallet-humanop.svg')}}"
+                                                     alt="wallet icon"
+                                                     style="width: 50px; height: 50px; color: white;"/>
+
+                                            </div>
+
+                                        </div>
+
+                                    @endif
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -617,7 +664,7 @@
                             {{--                            end download here--}}
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
-                                    @if(Auth::user()['is_admin'] == 2)
+                                    @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_CUSTOMER)
 
                                         <div class="d-flex justify-content-center mt-3">
 
@@ -827,12 +874,36 @@
                                     <span class="sidenav-normal text-bold  "> Sign Out </span>
                                 </a>
                             </li>
+                            <li class="nav-item mt-2 d-flex justify-content-center">
+                                <div class="d-flex justify-content-between">
+                                <span class="humanopMiniLogo d-none">
+                                    <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
+                                         alt="apple icon"
+                                         style="width: 40px; height: 40px; color: white;"/>
+                                  </span>
+                                    <span class="humanopLogo ">
+                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"
+                                      alt="apple icon"
+                                      style="width: 100px; height: 40px; color: white;"/>
+                                </span>
+                                    <span class="humanopMiniLogo d-none " style="margin-left: 5px">
+                                  <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
+                                       alt="android icon"
+                                       style="width: 40px; height: 40px;"/>
+                                  </span>
+                                    <span class="humanopLogo" style="margin-left: 5px">
+                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"
+                                        alt="android icon"
+                                        style="width: 100px;height: 35px;margin-top: 2px;"/>
+                                  </span>
+                                </div>
+                            </li>
 
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
-                                    @if(Auth::user()['is_admin'] == 2)
+                                    @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_CUSTOMER)
 
-                                        <div class="d-flex justify-content-center mt-5">
+                                        <div class="d-flex justify-content-center mt-3">
 
                                             <div class="bg-white py-1"
                                                  style="cursor: pointer; width: 60px; height: 60px; border-radius: 50%;"
