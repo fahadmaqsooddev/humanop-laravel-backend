@@ -27,7 +27,6 @@ class DailyTip extends Model
     }
 
     public function tip(){
-
         return $this->hasOne(TipRecord::class,'tip_id','id')->whereNot('user_id', Helpers::getUser()->id);
     }
 
@@ -35,12 +34,26 @@ class DailyTip extends Model
     {
         return self::get();
     }
-
+    public static function allTips(){
+        return self::orderBy('created_at', 'desc');
+    }
     public static function createTip($data = null)
     {
         return self::create($data);
     }
+    public static function updateIntentionPlan($data = null, $id = null)
+    {
 
+        $daily_tip = self::find($id);
+
+
+        $daily_tip->update($data);
+
+        return $daily_tip;
+    }
+    public static function deleteDailyTip($id){
+        self::whereId($id)->delete();
+    }
     public static function getSingleTip()
     {
 

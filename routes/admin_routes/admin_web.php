@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminControllers\WebPagesController;
 use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\IntentionPlanController;
+use App\Http\Controllers\AdminControllers\DailyTipController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\HAIChat\ClientQueryController;
@@ -103,6 +104,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
 
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
+
+        Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {

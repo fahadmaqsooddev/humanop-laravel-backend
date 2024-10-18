@@ -303,6 +303,18 @@
                                                     <span class="sidenav-normal"> Coupons </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}"
+                                                   href="{{ route('admin_all_daily_tip') }}">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                    <span class="sidenav-normal"> Daily Tip </span>
+                                                </a>
+                                            </li>
                                             <li class="nav-item {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}"
                                                    href="{{ route('admin_all_intention_plan') }}">
