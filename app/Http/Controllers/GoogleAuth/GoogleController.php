@@ -19,7 +19,9 @@ class GoogleController extends Controller
     public function redirectToGoogle($slug = null, $slug2 = null)
     {
 
-        return Socialite::driver('google')->redirect();
+        $data =  Socialite::driver('google')->redirect();
+
+        dd($data);
     }
 
     public function handleGoogleCallback($slug = null, $slug2 = null)
