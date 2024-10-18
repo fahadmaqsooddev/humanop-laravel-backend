@@ -98,7 +98,7 @@ class GoogleController extends Controller
 
             if (!empty($practitionerSession))
             {
-                return redirect()->route('admin_dashboard');
+                return redirect()->route('practitioner_dashboard');
 
             }
             else
