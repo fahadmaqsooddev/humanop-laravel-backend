@@ -95,7 +95,7 @@ class GoogleController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
-            Session::forget('practitioner');
+//            Session::forget('practitioner');
 
             if (!empty($practitionerSession))
             {
