@@ -110,10 +110,15 @@
 
                             </div>
                             <div>
+                                @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                                 <div class="text-center" id="qrCodeContainer">
-                                    {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
+                                    {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate( \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) ) }}
                                 </div>
-
+                                @else
+                                    <div class="text-center" id="qrCodeContainer">
+                                        {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
+                                    </div>
+                                @endif
 
                                 <div class="d-flex justify-content-center">
                                     <button class="btn btn-success" id="downloadButton" style="margin-top: 20px;">Save
@@ -122,16 +127,29 @@
                                 </div>
                             </div>
 
+                            @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                             <div class="d-flex">
                                 <input type="text" class="form-control w-80"
                                        style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none"
-                                       value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}"
+                                       value="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}"
                                        readonly="">
                                 <button class="btn mb-0 text-white w-20" id="copy_link"
-                                        onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
+                                        onclick="copyToClipboard('{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
                                         style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                                 </button>
                             </div>
+                            @else
+                                <div class="d-flex">
+                                    <input type="text" class="form-control w-80"
+                                           style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none"
+                                           value="{{url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)}}"
+                                           readonly="">
+                                    <button class="btn mb-0 text-white w-20" id="copy_link"
+                                            onclick="copyToClipboard('{{ url('/register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
+                                            style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
+                                    </button>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
