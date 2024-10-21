@@ -55,7 +55,7 @@ Route::group(['prefix' => '{slug}/{slug2}', 'middleware' => 'isPractitioner'], f
 
     Route::get('/user-detail/{id}', [UserController::class, 'userDetail'])->name('practitioner_user_detail');
     Route::get('/user-info', [UserController::class, 'userInfo'])->name('practitioner_user_info');
-    Route::get('/user-profile-overview-p/{id}', [UserController::class, 'profileOverview'])->name('practitioner_user_profile_overview');
+    Route::get('/practitioner-client-profile-overview/{id}', [UserController::class, 'profileOverview'])->name('practitioner_user_profile_overview');
     Route::get('/download-user-report/{id}', [UserController::class, 'downloadUserReport'])->name('practitioner_download_user_report');
     Route::get('/user-grid/{id}', [UserController::class, 'grid'])->name('practitioner_user_grid');
     Route::get('/user-report/{id}', [UserController::class, 'report'])->name('practitioner_user_report');

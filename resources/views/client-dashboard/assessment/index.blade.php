@@ -60,7 +60,7 @@
                                         </td>
                                     @else
                                         <td class="text-sm text-color-blue font-weight-normal"><a
-                                                href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('user-profile-overview-p',['id' => $assessment['id'] ]) }}"
+                                                href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview',['id' => $assessment['id'] ]) }}"
                                                 type="submit" style="background-color: #f2661c; color: white"
                                                 class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
                                         </td>

@@ -52,6 +52,12 @@
                                class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
                                 Your Results
                             </a>
+                        @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                            <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
+                               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
+                                Your Results
+                            </a>
                         @else
                             <a href="{{route('user_profile_overview', $assessment['id'])}}"
                                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
