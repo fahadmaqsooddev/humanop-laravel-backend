@@ -19,7 +19,7 @@ class InformationIcon extends Model
 
     public static function getInfo()
     {
-        return self::all();
+        return self::select(['name','information'])->get();
     }
 
     public static function createInfo($name = null, $information = null)

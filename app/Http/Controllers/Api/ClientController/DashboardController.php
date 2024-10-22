@@ -10,6 +10,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Information\InformationIcon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -130,6 +131,21 @@ class DashboardController extends Controller
             $plan = ActionPlan::userActionPlan();
 
             return Helpers::successResponse('Action plan', $plan);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function informationIcon(){
+
+        try {
+
+            $info = InformationIcon::getInfo();
+
+            return Helpers::successResponse('Information Icons', $info);
 
         }catch (\Exception $exception){
 
