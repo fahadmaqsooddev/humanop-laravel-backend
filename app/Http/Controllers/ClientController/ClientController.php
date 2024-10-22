@@ -10,6 +10,7 @@ use App\Models\HAIChai\QueryAnswer;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Information\InformationIcon;
 use App\Models\TipRecord;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
@@ -42,8 +43,13 @@ class ClientController extends Controller
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationPublicName($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
+            $coreStatsInfo = InformationIcon::getCoreStatsInfo();
+            $actionPlanInfo = InformationIcon::getActionPlanInfo();
+            $dailyTipInfo = InformationIcon::getDailyTipInfo();
+            $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
+            $helpInfo = InformationIcon::getHelpInfo();
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo'));
 
         } catch (\Exception $exception) {
 
