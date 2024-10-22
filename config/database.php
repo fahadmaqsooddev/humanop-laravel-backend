@@ -389,5 +389,10 @@ return [
             'fillable' => ['name','information'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'Emailtemplate' => [
+            'table' => 'email_templates',
+            'fillable' => ['name','format'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];

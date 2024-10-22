@@ -33,11 +33,14 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 //Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'create']);
     Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
+    Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
+    Route::get('/call-back-register', [RegisterController::class, 'callBackRegistration'])->name('call_back_registration');
+    Route::get('/resend-email-verification', [RegisterController::class, 'resendEmailVerification'])->name('resend_email_verification');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/session', [SessionController::class, 'store']);
     Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
     Route::get('/login/forgot-password', [ChangePasswordController::class, 'create']);
-    Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
+//    Route::post('/forgot-password', [ChangePasswordController::class, 'sendEmail']);
     Route::get('/reset-password/{token}', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
     Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
     Route::get('/logout', [SessionController::class, 'destroy']);

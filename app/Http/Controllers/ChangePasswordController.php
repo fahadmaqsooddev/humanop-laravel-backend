@@ -34,8 +34,8 @@ class ChangePasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-                    ? redirect('/login')->with('success', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect('/login')->with('success', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 
     public function create()
@@ -45,21 +45,15 @@ class ChangePasswordController extends Controller
 
     public function sendEmail(Request $request)
     {
-//        if(env('IS_DEMO'))
-//        {
-//            return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t recover your password.']);
-//        }
-//        else{
-            $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email']);
 
-            $status = Password::sendResetLink(
-                $request->only('email')
-            );
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-            return $status === Password::RESET_LINK_SENT
-                        ? back()->with(['success' => __($status)])
-                        : back()->withErrors(['email' => __($status)]);
-//        }
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['success' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function resetPass(Request $request, $token)
