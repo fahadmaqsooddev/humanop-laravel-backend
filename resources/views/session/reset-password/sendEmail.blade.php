@@ -16,7 +16,7 @@
         </div>
         <div class="container">
             <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-                <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+                <div class="col-xl-6 col-lg-6 col-md-7 mx-auto">
                     <div class="card z-index-0 left-nav-blue-color">
 
                         @if($errors->any())
@@ -56,21 +56,21 @@
                             </div>
                         @endif
                             <div class="card-header pb-0 text-left">
-                                <h3 class="text-white" >Reset Password</h3>
-                                <p class="mb-0" >You will receive an e-mail in maximum 60 seconds</p>
+                                <h3 style="color: #0f1535;">Reset Password</h3>
+                                <p class="mb-0" style="color: #0f1535;">You will receive an e-mail in maximum 60 seconds</p>
                             </div>
                         <div class="card-body">
                             <form action="/forgot-password" method="POST" role="form text-left">
                                 @csrf
                                 <div>
-                                    <label class="text-white">Email</label>
+                                    <label style="color: #0f1535; font-size: 15px">Email</label>
                                     <div class=" mb-3">
-                                        <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" style="background-color: #0F1535; color: white; border-radius: 15px;" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
+                                        <input type="email" class="form-control" placeholder="Enter your e-mail" aria-label="Email" style="background-color: #f3deba; color: black; border-radius: 15px;" aria-describedby="email-addon" name="email" id="email" value="{{ old('email') }}" required>
                                     </div>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn  w-100 mt-4 mb-0 text-white" style="background-color: #f2661c !important;">Reset</button>
-                                    <div class="mt-3"> Already have an account?  <a href="{{url('login')}}" class="text-white">Sign in</a></div>
+                                    <div class="mt-3" style="color: #0f1535;"> Already have an account?  <a href="{{url('login')}}" style="color: #0f1535; font-weight: bold">Sign in</a></div>
                                 </div>
                             </form>
                         </div>
