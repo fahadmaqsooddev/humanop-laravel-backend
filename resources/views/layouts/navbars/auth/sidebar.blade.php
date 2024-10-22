@@ -351,6 +351,18 @@
                                                     <span class="sidenav-normal"> User Feedback </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item {{ (Request::is('admin/information-icon') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/information-icon') ? 'active' : '') }}"
+                                                   href="{{ route('admin_get_info') }}">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                    <span class="sidenav-normal"> Information Icon </span>
+                                                </a>
+                                            </li>
                                             <li class="nav-item {{ (Request::is('admin/podcast') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/podcast') ? 'active' : '') }}"
                                                    href="{{ route('podcast') }}">
@@ -409,30 +421,30 @@
                             </li>
 
                             @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
-                            <li class="nav-item mt-2 d-flex justify-content-center">
-                                <div class="d-flex justify-content-between">
+                                <li class="nav-item mt-2 d-flex justify-content-center">
+                                    <div class="d-flex justify-content-between">
                                 <span class="humanopMiniLogo d-none">
                                     <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
                                          alt="apple icon"
                                          style="width: 40px; height: 40px; color: white;"/>
                                   </span>
-                                    <span class="humanopLogo ">
+                                        <span class="humanopLogo ">
                                  <img src="{{asset('assets/icons/downloadapple.svg')}}"
                                       alt="apple icon"
                                       style="width: 100px; height: 40px; color: white;"/>
                                 </span>
-                                    <span class="humanopMiniLogo d-none " style="margin-left: 5px">
+                                        <span class="humanopMiniLogo d-none " style="margin-left: 5px">
                                   <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
                                        alt="android icon"
                                        style="width: 40px; height: 40px;"/>
                                   </span>
-                                    <span class="humanopLogo" style="margin-left: 5px">
+                                        <span class="humanopLogo" style="margin-left: 5px">
                                    <img src="{{asset('assets/icons/downloadandroid.png')}}"
                                         alt="android icon"
                                         style="width: 100px;height: 35px;margin-top: 2px;"/>
                                   </span>
-                                </div>
-                            </li>
+                                    </div>
+                                </li>
                             @endif
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">

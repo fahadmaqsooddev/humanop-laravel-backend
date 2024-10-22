@@ -384,5 +384,10 @@ return [
             'fillable' => ['description'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'InformationIcon' => [
+            'table' => 'information_icon',
+            'fillable' => ['name','information'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];

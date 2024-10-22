@@ -145,57 +145,63 @@
 
     @media screen and (min-width: 768px) and (max-width: 991px) {
 
-        .mainCardFlex
-        {
+        .mainCardFlex {
             display: flex;
         }
     }
 
-    .client-dashboard-stats-heading{
+    .client-dashboard-stats-heading {
         font-size: 28px;
         font-weight: bold;
     }
 
-    .client-dashboard-long-heading{
+    .client-dashboard-long-heading {
         font-size: 20px;
         font-weight: bold;
         text-align: center;
     }
 
-    .description-container > p{
+    .description-container > p {
         color: #1c365e !important;
     }
 
-    .traitHeading{
+    .traitHeading {
         font-size: 17px;
         font-weight: bold;
     }
 
-    @media screen and (min-width: 550px) and (max-width: 766px){
+    @media screen and (min-width: 550px) and (max-width: 766px) {
 
-        .core-state-card{
+        .core-state-card {
             height: auto !important;
         }
 
     }
 
-    @media screen and (min-width: 766px) and (max-width: 992px){
+    @media screen and (min-width: 766px) and (max-width: 992px) {
 
-        .core-state-card{
+        .core-state-card {
             height: 700px !important;
         }
 
-        .help-challenge-card{
+        .help-challenge-card {
             height: 700px !important;
         }
     }
 
-    @media screen and (min-width: 992px) and (max-width: 1200px){
+    @media screen and (min-width: 992px) and (max-width: 1200px) {
 
-        .core_stats_heading{
+        .core_stats_heading {
             font-size: 20px;
             margin-bottom: -25px;
         }
+    }
+
+    .iconInfo {
+        font-size: 16px;
+        cursor: pointer;
+        color: lightgrey;
+        margin-bottom: 5px;
     }
 </style>
 @section('content')
@@ -276,8 +282,9 @@
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
-                                    {{--                                     data-bs-toggle="modal" data-bs-target="#dailyTipModal">--}}
-                                    <h5 class="text-white client-dashboard-stats-heading">Daily Tip</h5>
+                                    <h5 class="text-white client-dashboard-stats-heading">Daily Tip <span
+                                            class="iconInfo" data-bs-toggle="modal"
+                                            data-bs-target="#dailyTipModel">ⓘ</span></h5>
                                     <div class="description-container text-justify" style="height: 335px;">
 
                                         {{$hide_button = false}}
@@ -346,7 +353,8 @@
                                 <p class="text-white client-dashboard-long-heading pt-2"
                                    style="color: rgb(160, 174, 192)"> LIBRARY
                                     OF
-                                    RESOURCES & TRAININGS</p>
+                                    RESOURCES & TRAININGS <span class="iconInfo" data-bs-toggle="modal"
+                                                                data-bs-target="#libraryResourceModel">ⓘ</span></p>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -363,7 +371,8 @@
                                 <div class="card-body p-3">
                                     <div class="d-flex justify-content-between">
                                         <p class="text-color-blue client-dashboard-stats-heading core_stats_heading">
-                                            CORE STATS
+                                            CORE STATS <span style="color: white!important;" class="iconInfo" data-bs-toggle="modal"
+                                                             data-bs-target="#coreStatsModel">ⓘ</span>
                                         </p>
 
                                         @if(16 <= $age && $age <= 20)
@@ -535,10 +544,11 @@
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4"
                              style="cursor: pointer;">
                             <div class="card help-challenge-card" style="height: 530px;">
-                                <p class="text-sm text-white text-center text-bold pt-2"
+                                <p class="text-lg text-white text-center text-bold pt-2"
                                    style="color: rgb(160, 174, 192)"> HELP
                                     I'M
-                                    HAVING A CHALLENGE</p>
+                                    HAVING A CHALLENGE <span class="iconInfo" data-bs-toggle="modal"
+                                                             data-bs-target="#helpChallangeModel">ⓘ</span></p>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -555,7 +565,8 @@
                                 <p class="client-dashboard-long-heading text-white p-2">
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
-                                    DAYS
+                                    DAYS <span class="iconInfo" data-bs-toggle="modal"
+                                               data-bs-target="#actionPlanModel">ⓘ</span>
                                 </p>
                                 <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"
                                      style="cursor: pointer">
@@ -759,6 +770,103 @@
                 </div>
             </div>
         </div>
+
+        <!-- Daily Tip Info Model -->
+        <div class="modal fade" id="dailyTipModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$dailyTipInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$dailyTipInfo['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 90 days Plan Info Model -->
+        <div class="modal fade" id="actionPlanModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$actionPlanInfo['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Core Stats Info Model -->
+        <div class="modal fade" id="coreStatsModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$coreStatsInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$coreStatsInfo['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Library Resource Info Model -->
+        <div class="modal fade" id="libraryResourceModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$libraryResourceInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$libraryResourceInfo['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Help I'm having Challenging Info Model -->
+        <div class="modal fade" id="helpChallangeModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$helpInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$helpInfo['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
 
