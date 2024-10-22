@@ -47,9 +47,9 @@
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">All Icons Information</h5>
-{{--                    <a data-bs-toggle="modal"--}}
-{{--                       data-bs-target="#informationIconModel"--}}
-{{--                       style="background-color: #f2661c; color: white" class="btn btn-sm float-end mb-0">Add info</a>--}}
+                    <a data-bs-toggle="modal"
+                       data-bs-target="#informationIconModel"
+                       style="background-color: #f2661c; color: white" class="btn btn-sm float-end mb-0">Add info</a>
                 </div>
                 @livewire('admin.information-icon.information-list')
             </div>
