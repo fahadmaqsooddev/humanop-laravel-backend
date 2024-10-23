@@ -259,7 +259,7 @@ class User extends Authenticatable implements JWTSubject
     public function userIntensionPlan()
     {
 
-        return $this->hasOne(IntentionPlan::class, 'user_id', 'id');
+        return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
     // query
