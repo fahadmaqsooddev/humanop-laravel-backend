@@ -11,6 +11,8 @@ use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use Dompdf\Exception;
@@ -25,16 +27,17 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient','registerClient','forgotPassword','socialLogin']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin']);
 
         $this->auth = Auth::guard('api');
     }
 
-    public function loginClient(LoginRequest $request){
+    public function loginClient(LoginRequest $request)
+    {
 
         try {
 
-            $credentials = $request->only(['email','password']);
+            $credentials = $request->only(['email', 'password']);
 
             $credentials['status'] = 1;
 
@@ -42,7 +45,7 @@ class AuthController extends Controller
 
             $token = $this->auth->attempt($credentials);
 
-            if ($token){
+            if ($token) {
 
                 $user_data = User::user(Helpers::getUser()->id);
 //                User::updateUserIsFeedback();
@@ -63,20 +66,21 @@ class AuthController extends Controller
                     ]
                 ];
 
-                return Helpers::successResponse('User loggedIn successfully',$data);
+                return Helpers::successResponse('User loggedIn successfully', $data);
 
-            }else{
+            } else {
 
                 return Helpers::unauthResponse('Wrong Password');
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function registerClient(RegisterRequest $request){
+    public function registerClient(RegisterRequest $request)
+    {
 
         DB::beginTransaction();
 
@@ -84,50 +88,49 @@ class AuthController extends Controller
 
             $user = new User();
 
-//            $request = Helpers::explodeAgeRangeIntoAge($request);
-
             $dataArray = $request->only($user->getFillable());
 
             $user = User::createClient($dataArray);
 
-            if($request->has('referred_by_code') && !empty($request['referred_by_code'])){
+            if ($request->has('referred_by_code') && !empty($request['referred_by_code'])) {
                 $referredBy = User::where('referral_code', $request['referred_by_code'])->first();
-                if($referredBy){
+                if ($referredBy) {
                     $user->update(['referred_by' => $referredBy->id]);
                 }
             }
 
-            if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention']))
-            {
+            if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention'])) {
 
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
-            $token = $this->auth->login($user);
+            $baseUrl = url('/check-email/', $user['id']);
 
-            $user = User::userLoggedInData();
+            $userData = [
+                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$link}' => $baseUrl . $user['id'],
+            ];
+
+
+            $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
+
+            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
+
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-            $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
-
-            DailyTip::updateUserDailyTip();
-
-            ActionPlan::storeUserActionPlan();
 
             DB::commit();
 
             $data = [
-                'user' => $user,
                 'authorization' => [
-                    'token' => $token,
+                    'status' => true,
                     'type' => 'bearer',
                 ]
             ];
 
             return Helpers::successResponse('User register successfully', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
@@ -136,7 +139,8 @@ class AuthController extends Controller
 
     }
 
-    public function logoutClient(){
+    public function logoutClient()
+    {
 
         try {
 
@@ -144,13 +148,14 @@ class AuthController extends Controller
 
             return Helpers::successResponse('User logged out successfully');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function forgotPassword(ForgotPasswordRequest $request){
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
 
         try {
 
@@ -158,20 +163,21 @@ class AuthController extends Controller
 
             return Helpers::successResponse('Password reset email successfully sent');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function socialLogin(SocialLoginRequest $request){
+    public function socialLogin(SocialLoginRequest $request)
+    {
 
         try {
 
             $user = User::checkUserFromEmailOrSocialId($request);
 
-            if ($user){
+            if ($user) {
 
                 $token = $this->auth->login($user);
 
@@ -193,7 +199,7 @@ class AuthController extends Controller
 
             return Helpers::validationResponse('Email does not exists');
 
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

@@ -32,21 +32,13 @@
         <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
             <div class="col-xl-6 col-lg-6 col-md-7 mx-auto">
                 <div class="card z-index-0" style="background-color: #F3DEBA">
-                    <div class="card-header text-center pt-4">
+                    <div class="card-header text-center" style="padding: 0px !important;">
                         <div class="card-body">
-                            <h2 class="mb-2" style="color: #f2661c">Email Verification</h2>
-                            <p class="d-flex text-justify text-bold" style="color: #0f1534">Thanks for signing
-                                up! Before getting started, could you verify your email address by
-                                clicking on the link we just emailed to you? if you didn't receive the email, we
-                                will gladly send you another.</p>
-{{--                            <div class="d-flex justify-content-between">--}}
-{{--                                <a href="{{route('resend_email_verification')}}"--}}
-{{--                                   class="btn my-4 mb-2 text-white" style="background-color: #f2661c;">RESEND--}}
-{{--                                    VERIFICATION EMAIL</a>--}}
-{{--                                <a href="{{route('call_back_registration')}}" class="btn my-4 mb-2 text-white"--}}
-{{--                                   style="background-color: #f2661c;"><i class="fa-solid fa-arrow-left"></i>--}}
-{{--                                    Back</a>--}}
-{{--                            </div>--}}
+                            <h5 class="mb-2" style="color: #f2661c">Email Verified Successfully!</h5>
+                            <p class="d-flex text-justify text-bold" style="color: #0f1534">Your email has been
+                                successfully verified. You can now log in to your account and explore the app. Thank you
+                                for verifying your email, and we look forward to having you onboard! If you have any
+                                issues, feel free to reach out to our support team.</p>
                         </div>
                     </div>
                 </div>

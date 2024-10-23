@@ -67,9 +67,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-//        DB::beginTransaction();
-//
-//        try {
+        DB::beginTransaction();
+
+        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -88,21 +88,6 @@ class RegisterController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//            Auth::login($user);
-//
-//            DailyTip::updateUserDailyTip();
-//
-//            ActionPlan::storeUserActionPlan();
-
-            $data = [
-                '{$userId}' => $user['id'],
-                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
-            ];
-
-            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
-
-            Email::sendEmailVerification(['content' => $email_template],env('MAIL_FROM_ADDRESS'),'emails.Email_Template', 'Email Verification');
-
             if (isset($request['remember']) && !empty($request['remember'])) {
                 setcookie("email", $request['email'], 30 * time() + 3600);
                 setcookie("password", $request['password'], 30 * time() + 3600);
@@ -111,18 +96,29 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
+            $baseUrl = url('/check-email/', $user['id']);
+
+            $data = [
+                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                '{$link}' =>  $baseUrl,
+            ];
+
+            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+
+            Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
+
             Session::forget('google_user');
 
-//            DB::commit();
+            DB::commit();
 
             return redirect()->route('email_verify');
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function registerClientToPractitioner(RegisterFormRequest $request)
@@ -152,12 +148,16 @@ class RegisterController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($userCreate);
 
-                Auth::login($userCreate);
+                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email/', $userCreate['id']);
 
+                $data = [
+                    '{$userName}' => $userCreate['first_name'] .' ' . $userCreate['last_name'],
+                    '{$link}' =>  $baseUrl.$userCreate['id'],
+                ];
 
-                DailyTip::updateUserDailyTip();
+                $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-                ActionPlan::storeUserActionPlan();
+                Email::sendEmailVerification(['content' => $email_template], $userCreate['email'],'emails.Email_Template', 'Email Verification');
 
                 if (isset($request['remember']) && !empty($request['remember'])) {
                     setcookie("email", $request['email'], 30 * time() + 3600);
@@ -173,7 +173,7 @@ class RegisterController extends Controller
 
                 Session::forget('google_user');
 
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('email-verify'));
 
             } else {
                 return view('errors/404');
@@ -187,6 +187,30 @@ class RegisterController extends Controller
     }
 
     public function emailVerify()
+    {
+        try {
+
+            return view('session/email-verify');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function emailVerified()
+    {
+        try {
+
+            return view('session/app-client-email-verified');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function practitionerEmailVerify()
     {
         try {
 
@@ -236,6 +260,29 @@ class RegisterController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function practitionerCheckEmail($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+
+        } else
+        {
+            return redirect()->to('/register');
         }
     }
 }

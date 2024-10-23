@@ -18,7 +18,13 @@ class EmailTemplateSeeder extends Seeder
     {
         DB::table('email_templates')->truncate();
 
-        $email_verification = '<p>email verification send</p>';
+        $email_verification = '
+        <h1>Email Verification</h1>
+    <p>Hi, {$userName}</p>
+    <p>Thank you for registering with us. Please click the link below to verify your email address:</p>
+    <a href="{$link}" target="_blank" style="color: #f2661c; font-weight: bold; font-size: 20px"> Verify Email</a>
+    <p>If you did not create an account, no further action is required.</p>
+    <p>Regards,<br>Team</p>';
 
         $email_template = [
             ['name' => 'email-verification', 'format' => $email_verification],

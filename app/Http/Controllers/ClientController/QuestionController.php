@@ -64,6 +64,11 @@ class QuestionController extends Controller
         try {
             $user = Helpers::getWebUser();
 
+//            if (empty($user['timezone']))
+//            {
+//
+//            }
+
             $assessment = Assessment::singleAssessment($user['id']);
 
             if (!$assessment || $assessment['page'] === 0) {

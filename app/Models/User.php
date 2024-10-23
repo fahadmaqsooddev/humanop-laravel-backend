@@ -117,12 +117,9 @@ class User extends Authenticatable implements JWTSubject
     public function getPhotoUrlAttribute()
     {
 
-        if ($this->gender == '1')
-        {
+        if ($this->gender == '1') {
             $profilePic = 'female_profile_pic.png';
-        }
-        else
-        {
+        } else {
             $profilePic = 'profile_pic.png';
         }
 
@@ -766,21 +763,20 @@ class User extends Authenticatable implements JWTSubject
 
         $user = self::where('email', $request->input('email'))->first();
 
-        if ($user){
+        if ($user) {
 
-            if ($request->has('apple_id') && !empty($request->input('apple_id')) && empty($user['apple_id'])){
+            if ($request->has('apple_id') && !empty($request->input('apple_id')) && empty($user['apple_id'])) {
 
                 $user->update(['apple_id' => $request->input('apple_id')]);
 
             }
-            if($request->has('google_id') && !empty($request->input('google_id')) && empty($user['google_id'])){
+            if ($request->has('google_id') && !empty($request->input('google_id')) && empty($user['google_id'])) {
 
                 $user->update(['google_id' => $request->input('google_id')]);
 
             }
 
             $user = $user->where('email', $request->input('email'))
-
                 ->with('userIntensionPlan')->selection()->first();
 
             $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
@@ -802,9 +798,25 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function deleteClientProfile($id){
+    public static function deleteClientProfile($id)
+    {
 
         self::whereId($id)->delete();
+    }
+
+    public static function editTimezone($userId = null, $timezone = null)
+    {
+        return self::whereId($userId)->update(['timezone' => $timezone]);
+    }
+
+    public static function emailVerified($userId = null)
+    {
+        return self::whereId($userId)->update(['email_verified_at' => Carbon::now()]);
+    }
+
+    public static function checkEmail($userEmail = null)
+    {
+        return self::where('email', $userEmail)->first();
     }
 
 }

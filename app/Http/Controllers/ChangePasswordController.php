@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\View;
@@ -66,5 +70,52 @@ class ChangePasswordController extends Controller
             'token' => $token,
             'email' => $email,
         ]);
+    }
+
+    public function checkEmail($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('client_dashboard');
+        } else
+        {
+            return redirect()->to('/register');
+        }
+    }
+
+    public function checkEmailFromApp($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            $user = User::userLoggedInData();
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('email_verified');
+
+        } else
+        {
+            return redirect()->to('/register');
+        }
     }
 }
