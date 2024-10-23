@@ -31,7 +31,11 @@ class ClientController extends Controller
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $userPlanName = $user['plan_name'];
-            $tip = DailyTip::getSingleTip();
+
+//            $tip = DailyTip::getSingleTip();
+
+           $tip = DailyTip::getTodayTip();
+
             $plan = ActionPlan::userActionPlan();
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
@@ -45,8 +49,10 @@ class ClientController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $coreStatsInfo = InformationIcon::getCoreStatsInfo();
             $actionPlanInfo = InformationIcon::getActionPlanInfo();
+
             $dailyTipInfo = InformationIcon::getDailyTipInfo();
-            $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
+
+           $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
             $helpInfo = InformationIcon::getHelpInfo();
 
             return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo'));

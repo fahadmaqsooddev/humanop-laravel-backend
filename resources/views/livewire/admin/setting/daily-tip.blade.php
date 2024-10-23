@@ -1,5 +1,7 @@
 <div>
+
     <div class="table-responsive table-orange-color">
+        @include('layouts.message')
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
@@ -25,8 +27,6 @@
                         </button>
                     </td>
                 </tr>
-
-{{--                @livewire('admin.setting.intention-plan-update-form', ['description' => $option['description'], 'plan_id' => $option['id']], key($option->id))--}}
             @endforeach
 
             </tbody>
