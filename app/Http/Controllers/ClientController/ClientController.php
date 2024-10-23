@@ -34,8 +34,8 @@ class ClientController extends Controller
 
 //            $tip = DailyTip::getSingleTip();
 
-           $tip = DailyTip::getTodayTip();
-
+            $tip = DailyTip::getTodayTip();
+            $traitDescription = CodeDetail::getSinglePublicName($tip['code']);
             $plan = ActionPlan::userActionPlan();
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
@@ -55,7 +55,7 @@ class ClientController extends Controller
            $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
             $helpInfo = InformationIcon::getHelpInfo();
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo','traitDescription'));
 
         } catch (\Exception $exception) {
 

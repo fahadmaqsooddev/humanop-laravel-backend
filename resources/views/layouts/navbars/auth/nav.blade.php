@@ -15,11 +15,12 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="h-100 my-4">
+                    <div class="h-100 mt-2">
                         <a href="javascript:void(0)">
                             <h5 class="mb-1 custom-text-dark">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
+                            <h6>{{$traitDescription['public_name'] ?? ''}}</h6>
                         </a>
                     </div>
                 </div>
