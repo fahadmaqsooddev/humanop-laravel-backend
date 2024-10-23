@@ -20,9 +20,8 @@ class TimezoneForm extends Component
     public function submitForm()
     {
         try {
-            $user = Helpers::getWebUser();
 
-            User::editTimezone($user['id'], $this->timezone);
+            User::updateUserTimezone($this->timezone);
 
             session()->flash('success', 'timezone create successfully');
 

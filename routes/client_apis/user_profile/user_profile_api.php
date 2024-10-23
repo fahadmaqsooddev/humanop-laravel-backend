@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('user-profile', 'UserController@userProfile');
 Route::post('update-user-profile', 'UserController@updateUserProfile');
+Route::post('update-user-timezone', 'UserController@updateUserTimezone');
 Route::post('change-password', 'UserController@changePassword');
 Route::post('update-intention-plan', 'UserController@updateintentionPlan');
 
@@ -23,3 +24,4 @@ Route::post('/google/login/signup', 'UserController@googleLoginSignup');
 Route::get('profile-overview-result', 'UserController@profileOverviewResult');
 Route::get('summary-report', 'UserController@summaryReport');
 Route::get('intention-option', 'UserController@intentionOption');
+Route::get('timezone', 'UserController@getTimezone');

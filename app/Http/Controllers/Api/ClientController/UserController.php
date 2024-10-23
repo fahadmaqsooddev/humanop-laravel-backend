@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
@@ -36,13 +37,14 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['googleLoginSignup','intentionOption']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption']);
 
         $this->user = $user;
     }
 
 
-    public function userProfile(){
+    public function userProfile()
+    {
 
         try {
 
@@ -50,26 +52,27 @@ class UserController extends Controller
 
             return Helpers::successResponse('User information', $user);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function updateUserProfile(UpdateUserProfileRequest $request){
+    public function updateUserProfile(UpdateUserProfileRequest $request)
+    {
 
         try {
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-            if ($request->profile_image){
+            if ($request->profile_image) {
 
-                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image','png', true);
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
                 $request->merge(['image_id' => $upload_id]);
-                $dataArray = $request->only(['first_name','last_name','phone','age_max','age_min','gender','image_id']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id']);
 
-            }else{
-                $dataArray = $request->only(['first_name','last_name','phone','date_of_birth','gender']);
+            } else {
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender']);
 
             }
 
@@ -78,42 +81,74 @@ class UserController extends Controller
 
             return Helpers::successResponse('User updated successfully', $updated_user);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function changePassword(ChangePasswordRequest $request){
+    public function changePassword(ChangePasswordRequest $request)
+    {
 
         try {
 
-            if (Hash::check($request->input('current_password'), Helpers::getUser()->password)){
+            if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
-                if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)){
+                if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
 
                     User::updateUserPassword($request->input('new_password'));
 
                     return Helpers::successResponse('Password successfully updated');
 
-                }else{
+                } else {
 
                     return Helpers::validationResponse('The current and new passwords cannot be the same.');
                 }
 
-            }else{
+            } else {
 
                 return Helpers::validationResponse('Current Password is incorrect');
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function deleteProfile(){
+    public function updateUserTimezone(ChangeTimezoneRequest $request)
+    {
+
+        try {
+
+            User::updateUserTimezone($request->input('timezone'));
+
+            return Helpers::successResponse('Timezone successfully updated');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function getTimezone()
+    {
+
+        try {
+
+            $timezones = Helpers::timeZone();
+
+            return Helpers::successResponse('Timezone successfully updated', $timezones);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function deleteProfile()
+    {
 
         try {
 
@@ -123,14 +158,15 @@ class UserController extends Controller
 
             return Helpers::successResponse('User deleted successfully');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function userFeedback(StoreUserFeedback $request){
+    public function userFeedback(StoreUserFeedback $request)
+    {
 
         try {
 
@@ -144,24 +180,25 @@ class UserController extends Controller
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function googleLoginSignup(GoogleLoginSignupRequest $request){
+    public function googleLoginSignup(GoogleLoginSignupRequest $request)
+    {
 
         try {
 
             $user = Socialite::driver('google')->userFromToken($request->input('google_access_token'));
 
-            if ($user){
+            if ($user) {
 
                 $finduser = User::where('google_id', $user->id)->orWhere('email', $user->email)->first();
 
-                if($finduser){
+                if ($finduser) {
 
                     $token = Auth::guard('api')->login($finduser);
 
@@ -191,13 +228,13 @@ class UserController extends Controller
 
                     $message = "LoggedIn successfully";
 
-                }else{
+                } else {
 
                     $newUser = User::create([
                         'email' => $user->email,
                         'first_name' => $user->user['given_name'] ?? "",
                         'last_name' => $user->user['family_name'] ?? "",
-                        'google_id'=> $user->id,
+                        'google_id' => $user->id,
                         'password' => $user->id,
                         'is_admin' => 2,
                         'password_set' => 2,
@@ -234,12 +271,12 @@ class UserController extends Controller
 
                 return Helpers::successResponse($message, $data);
 
-            }else{
+            } else {
 
                 return Helpers::validationResponse('User not found on google');
             }
 
-        }catch(\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -250,20 +287,21 @@ class UserController extends Controller
     {
         try {
             $user = Helpers::getUser();
-            IntentionPlan::where('user_id',$user['id'])->delete();
+            IntentionPlan::where('user_id', $user['id'])->delete();
 
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
 
-            return Helpers::successResponse('90 Days Intention Plan updated successfully.',$request->ninety_day_intention);
+            return Helpers::successResponse('90 Days Intention Plan updated successfully.', $request->ninety_day_intention);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
 
     }
+
     public function intentionOption()
     {
         try {
@@ -271,14 +309,15 @@ class UserController extends Controller
             $intention_option = IntentionOption::getOptions();
             return Helpers::successResponse('success', $intention_option);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function profileOverviewResult(Request $request){
+    public function profileOverviewResult(Request $request)
+    {
 
         try {
 
@@ -317,18 +356,19 @@ class UserController extends Controller
 
             return Helpers::successResponse('Profile overview data', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function summaryReport(Request $request){
+    public function summaryReport(Request $request)
+    {
 
         try {
 
-            $user_name = Helpers::getUser()->first_name. ' ' . Helpers::getUser()->last_name;
+            $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
             $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
@@ -346,7 +386,7 @@ class UserController extends Controller
             $ep = $assessment != null ? $positive + $negative : null;
             $pv = $assessment != null ? $positive - $negative : null;
 
-            if ($assessment){
+            if ($assessment) {
 
                 $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getUser()->id, $Styles);
             }
@@ -370,7 +410,7 @@ class UserController extends Controller
 
             return Helpers::successResponse('Summary Report', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

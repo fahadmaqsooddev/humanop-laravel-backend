@@ -64,16 +64,14 @@ class QuestionController extends Controller
         try {
             $user = Helpers::getWebUser();
 
-//            if (empty($user['timezone']))
-//            {
-//
-//            }
+            if (!empty($user['timezone']))
+            {
+                $assessment = Assessment::singleAssessment($user['id']);
 
-            $assessment = Assessment::singleAssessment($user['id']);
+                if (!$assessment || $assessment['page'] === 0) {
 
-            if (!$assessment || $assessment['page'] === 0) {
-
-                Assessment::createAssessmentData($user['id'], 0);
+                    Assessment::createAssessmentData($user['id'], 0);
+                }
             }
 
             return view('client-dashboard.assessment.assessment-intro');
