@@ -130,4 +130,36 @@
 
 
     </div>
+     @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
+         <div class="modal fade" id="timeZoneModel" tabindex="-1"
+              role="dialog"
+              aria-labelledby="couponModel" aria-hidden="true">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                     <div class="modal-body" style=" border-radius: 9px">
+                         <div class="card-body pt-0">
+                             <label class="form-label fs-4 text-white">Time Zone</label>
+
+                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                     aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                             </button>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    @endif
+    <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#timeZoneModel" id="open-time-zone-modal">
+    </button>
+
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#open-time-zone-modal').trigger('click');
+        });
+    </script>
+@endpush
