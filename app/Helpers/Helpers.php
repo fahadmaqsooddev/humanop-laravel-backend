@@ -156,8 +156,8 @@ class Helpers
 
     }
 
-    public static function timeZone()
-    {
+    public static function timeZone(){
+
         $zones_array = array();
 
         $timestamp = time();
@@ -170,13 +170,14 @@ class Helpers
 
             $zones_array[$key]['offset'] = (int) ((int) date('O', $timestamp)) / 100;
 
-            $zones_array[$key]['diff_from_GMT'] = '(UTC' . date('P', $timestamp) .')';
+            $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
 
-            $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' ' . $zones_array[$key]['zone'];
+            $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' - ' . $zones_array[$key]['zone'];
 
         }
 
         return $zones_array;
+
     }
 
     public static function explodeAgeRangeIntoAge($request = null)

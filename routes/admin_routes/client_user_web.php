@@ -43,6 +43,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::post('/stripe', [PaymentController::class, 'processPayment'])->name('process_payment');
 
     Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('client_intro_assessment');
+    Route::post('/set-timezone', [QuestionController::class, 'setTimezone'])->name('client_set_timezone');
     Route::get('/play', [QuestionController::class, 'testPlay'])->name('test_play');
     Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('all_assessment');
 

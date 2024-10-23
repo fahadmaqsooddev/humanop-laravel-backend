@@ -259,7 +259,7 @@ class User extends Authenticatable implements JWTSubject
     public function userIntensionPlan()
     {
 
-        return $this->hasOne(IntentionPlan::class, 'user_id', 'id');
+        return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
     // query
@@ -281,6 +281,11 @@ class User extends Authenticatable implements JWTSubject
     public static function allUser()
     {
         return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
+    }
+
+    public static function allPractitioner()
+    {
+        return self::where('is_admin', \App\Enums\Admin\Admin::IS_PRACTITIONER)->get();
     }
 
     public static function allSubAdmin()
