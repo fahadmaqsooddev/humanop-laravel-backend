@@ -47,6 +47,11 @@
             @endif
         </main>
     @else
+        @if(\Request::is('email-verify'))
+            @include('layouts.navbars.guest.nav')
+            @yield('content')
+            @include('layouts.footers.guest.footer')
+        @endif
         @if (\Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info'))
             <div>
                 @include('layouts/navbars/auth/nav')

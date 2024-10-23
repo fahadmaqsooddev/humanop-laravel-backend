@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\View;
@@ -34,8 +38,8 @@ class ChangePasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-                    ? redirect('/login')->with('success', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect('/login')->with('success', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 
     public function create()
@@ -45,21 +49,15 @@ class ChangePasswordController extends Controller
 
     public function sendEmail(Request $request)
     {
-//        if(env('IS_DEMO'))
-//        {
-//            return redirect()->back()->withErrors(['msgError' => 'You are in a demo version, you can\'t recover your password.']);
-//        }
-//        else{
-            $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email']);
 
-            $status = Password::sendResetLink(
-                $request->only('email')
-            );
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-            return $status === Password::RESET_LINK_SENT
-                        ? back()->with(['success' => __($status)])
-                        : back()->withErrors(['email' => __($status)]);
-//        }
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['success' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function resetPass(Request $request, $token)
@@ -72,5 +70,52 @@ class ChangePasswordController extends Controller
             'token' => $token,
             'email' => $email,
         ]);
+    }
+
+    public function checkEmail($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('client_dashboard');
+        } else
+        {
+            return redirect()->to('/register');
+        }
+    }
+
+    public function checkEmailFromApp($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            $user = User::userLoggedInData();
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('email_verified');
+
+        } else
+        {
+            return redirect()->to('/register');
+        }
     }
 }

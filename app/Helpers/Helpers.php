@@ -156,6 +156,29 @@ class Helpers
 
     }
 
+    public static function timeZone()
+    {
+        $zones_array = array();
+
+        $timestamp = time();
+
+        foreach (timezone_identifiers_list() as $key => $zone) {
+
+            date_default_timezone_set($zone);
+
+            $zones_array[$key]['zone'] = $zone;
+
+            $zones_array[$key]['offset'] = (int) ((int) date('O', $timestamp)) / 100;
+
+            $zones_array[$key]['diff_from_GMT'] = '(UTC' . date('P', $timestamp) .')';
+
+            $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' ' . $zones_array[$key]['zone'];
+
+        }
+
+        return $zones_array;
+    }
+
     public static function explodeAgeRangeIntoAge($request = null)
     {
 

@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\User;
 use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -34,7 +37,7 @@ class RegisterController extends Controller
 
         $google_user = Session::get('google_user', []);
         $intention_options = IntentionOption::all();
-        return view('session/register', compact('google_user', 'referralCode','intention_options'));
+        return view('session/register', compact('google_user', 'referralCode', 'intention_options'));
     }
 
     public function practitionerRegister(Request $request, $slug, $slug2)
@@ -85,12 +88,6 @@ class RegisterController extends Controller
 
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-            Auth::login($user);
-
-            DailyTip::updateUserDailyTip();
-
-            ActionPlan::storeUserActionPlan();
-
             if (isset($request['remember']) && !empty($request['remember'])) {
                 setcookie("email", $request['email'], 30 * time() + 3600);
                 setcookie("password", $request['password'], 30 * time() + 3600);
@@ -99,13 +96,22 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            session()->flash('success', 'Your account has been created.');
+            $baseUrl = url('/check-email/', $user['id']);
 
-            DB::commit();
+            $data = [
+                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                '{$link}' =>  $baseUrl,
+            ];
+
+            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+
+            Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
 
             Session::forget('google_user');
 
-            return redirect()->route('client_dashboard');
+            DB::commit();
+
+            return redirect()->route('email_verify');
 
         } catch (\Exception $exception) {
 
@@ -142,12 +148,16 @@ class RegisterController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($userCreate);
 
-                Auth::login($userCreate);
+                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email/', $userCreate['id']);
 
+                $data = [
+                    '{$userName}' => $userCreate['first_name'] .' ' . $userCreate['last_name'],
+                    '{$link}' =>  $baseUrl.$userCreate['id'],
+                ];
 
-                DailyTip::updateUserDailyTip();
+                $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-                ActionPlan::storeUserActionPlan();
+                Email::sendEmailVerification(['content' => $email_template], $userCreate['email'],'emails.Email_Template', 'Email Verification');
 
                 if (isset($request['remember']) && !empty($request['remember'])) {
                     setcookie("email", $request['email'], 30 * time() + 3600);
@@ -163,11 +173,9 @@ class RegisterController extends Controller
 
                 Session::forget('google_user');
 
-                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('email-verify'));
 
-            }
-            else
-            {
+            } else {
                 return view('errors/404');
             }
         } catch (\Exception $exception) {
@@ -175,6 +183,106 @@ class RegisterController extends Controller
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function emailVerify()
+    {
+        try {
+
+            return view('session/email-verify');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function emailVerified()
+    {
+        try {
+
+            return view('session/app-client-email-verified');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function practitionerEmailVerify()
+    {
+        try {
+
+            return view('session/email-verify');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function callBackRegistration()
+    {
+        try {
+
+            Auth::logout();
+
+            Session::flush();
+
+            Cache::forget('admin');
+
+            return redirect('/register')->with(['success' => 'You\'ve been logged out.']);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function resendEmailVerification()
+    {
+        try {
+
+            $user = Helpers::getWebUser();
+
+            $data = [
+                '{$userId}' => $user['id'],
+                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+            ];
+
+            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+
+            Email::sendEmailVerification(['content' => $email_template],env('MAIL_FROM_ADDRESS'),'emails.Email_Template', 'Email Verification');
+
+            return redirect('/email-verify');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function practitionerCheckEmail($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            User::emailVerified($user['id']);
+
+            Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+
+        } else
+        {
+            return redirect()->to('/register');
         }
     }
 }

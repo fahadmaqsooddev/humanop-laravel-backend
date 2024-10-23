@@ -35,6 +35,8 @@ Route::post('/{slug?}/{slug2?}/register-client-to-practitioner', [RegisterContro
 Route::get('/{slug?}/{slug2?}/logout', [SessionController::class, 'destroyPractitioner']);
 Route::get('/{slug?}/{slug2?}/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/{slug?}/{slug2?}/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('/{slug?}/{slug2?}/email-verify', [RegisterController::class, 'practitionerEmailVerify'])->name('practitioner_email_verify');
+Route::get('/{slug?}/{slug2?}/check-email/{id}', [RegisterController::class, 'practitionerCheckEmail'])->name('practitioner_check_email');
 
 Route::group(['prefix' => '{slug}/{slug2}', 'middleware' => 'isPractitioner'], function () {
 
