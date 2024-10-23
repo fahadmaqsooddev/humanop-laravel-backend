@@ -16,19 +16,12 @@ class AllUserEmailverifiedSeeder extends Seeder
     public function run()
     {
 
-        $clients = User::allUser();
+        $clients = User::get();
 
         foreach ($clients as $client)
         {
             User::emailVerified($client['id']);
         }
 
-        $practitioners = User::allPractitioner();
-
-        foreach ($practitioners as $practitioner)
-        {
-            User::emailVerified($practitioner['id']);
-
-        }
     }
 }
