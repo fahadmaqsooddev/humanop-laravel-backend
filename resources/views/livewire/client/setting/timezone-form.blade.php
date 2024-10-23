@@ -8,8 +8,8 @@
             <label class="form-label text-color-dark">Timezone</label>
             <div class="form-group">
                 <select class="form-control setting-box-background text-color-dark" name="timezone" wire:model="timezone">
-                    @foreach($timezones as $timezone)
-                        <option {{$user['timezone'] == $timezone ? 'selected' : ''}} value="{{$timezone}}">{{$timezone}}</option>
+                @foreach($timezones as $timezone)
+                        <option value="{{$timezone}}">{{$timezone}}</option>
                     @endforeach
                 </select>
             </div>

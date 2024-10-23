@@ -11,6 +11,12 @@ class TimezoneForm extends Component
 
     public $timezone;
 
+    public function mount()
+    {
+        $user = Helpers::getWebUser();
+
+        $this->timezone = $user['timezone'];
+    }
     public function submitForm()
     {
         try {
@@ -31,8 +37,6 @@ class TimezoneForm extends Component
     {
         $timezones = Helpers::timeZone();
 
-        $user = Helpers::getWebUser();
-
-        return view('livewire.client.setting.timezone-form', ['timezones' => $timezones, 'user' => $user]);
+        return view('livewire.client.setting.timezone-form', ['timezones' => $timezones]);
     }
 }
