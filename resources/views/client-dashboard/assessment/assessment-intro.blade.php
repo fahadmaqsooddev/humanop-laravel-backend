@@ -145,6 +145,23 @@
                                  <span aria-hidden="true">&times;</span>
                              </button>
 
+                             <form method="post" action="{{route('client_set_timezone')}}" class="mb-4">
+                                 @csrf
+                                 <div class="card-body pt-0">
+                                     <label class="form-label" style="color: #f2661c; font-size: 18px">Timezone</label>
+                                     <div class="form-group">
+                                         <select class="form-control text-color-dark" style="background-color: #1c365e; color: white" name="timezone">
+                                             @foreach($timezones as $timezone)
+                                                 <option value="{{$timezone}}">{{$timezone}}</option>
+                                             @endforeach
+                                         </select>
+                                     </div>
+                                     <button type="submit" class="btn-sm float-end mt-2 mb-0" style="background-color: #f2661c; color: white; font-size: 14px">
+                                         set timezone
+                                     </button>
+                                 </div>
+                             </form>
+
                          </div>
                      </div>
                  </div>
