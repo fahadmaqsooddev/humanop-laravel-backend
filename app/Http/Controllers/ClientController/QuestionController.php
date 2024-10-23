@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -62,6 +64,7 @@ class QuestionController extends Controller
     public function introAssessment()
     {
         try {
+
             $user = Helpers::getWebUser();
 
             if (!empty($user['timezone']))
@@ -74,7 +77,23 @@ class QuestionController extends Controller
                 }
             }
 
-            return view('client-dashboard.assessment.assessment-intro');
+            $timezones = Helpers::timeZone();
+
+            return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+    }
+
+    public function setTimezone(Request $request)
+    {
+        try {
+
+            User::updateUserTimezone($request['timezone']);
+
+            return redirect()->back()->with('success', 'Timezone Successfully updated');
 
         } catch (\Exception $exception) {
 
