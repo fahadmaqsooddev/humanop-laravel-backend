@@ -8,6 +8,7 @@ use App\Models\Assessment;
 use App\Helpers\Helpers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class QuestionController extends Controller
 {
@@ -72,6 +73,16 @@ class QuestionController extends Controller
                 $assessment = Assessment::singleAssessment($user['id']);
 
                 if (!$assessment || $assessment['page'] === 0) {
+
+                    $timezone_string = $user['timezone'];
+
+                    $timezone = explode(' ', $timezone_string);
+
+                    $updatedDate = Carbon::parse($assessment['updated_at']);
+
+                    $updatedDate = $updatedDate->addMinutes((int)$timezone[1]);
+
+                    $time = $updatedDate;
 
                     Assessment::createAssessmentData($user['id'], 0);
                 }
