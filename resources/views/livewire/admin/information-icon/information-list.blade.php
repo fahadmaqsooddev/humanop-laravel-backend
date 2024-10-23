@@ -1,5 +1,6 @@
 <div>
     <div class="table-responsive table-orange-color">
+        @include('layouts.message')
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
@@ -15,57 +16,11 @@
                     <td class="text-md font-weight-normal">{{$info['information']}} </td>
                     <td>
                         <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#editInformationIconModel-{{$info['id']}}">
+                                data-bs-target="#informationIconModel" wire:click="updateEditModal({{$info['id']}},`{{$info['name']}}`,`{{$info['information']}}`)">
                             update
                         </button>
                     </td>
                 </tr>
-
-                <div wire:ignore.self class="modal fade" id="editInformationIconModel-{{$info['id']}}" tabindex="-1"
-                     role="dialog"
-                     aria-labelledby="editInformationIconModel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body" style=" border-radius: 9px">
-                                <div class="card-body pt-0">
-                                    <label class="form-label fs-4 text-white">Edit Information Icon</label>
-
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="close-info-modal-button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <form wire:submit.prevent="editSubmitForm">
-                                        <div class="card-body pt-0">
-                                            <div class="row mt-2">
-                                                <div class="col-12">
-                                                    <label class="form-label text-white">Name</label>
-                                                    <div class="form-group">
-                                                        <input style="background-color: #0f1534;" class="form-control text-white"
-                                                               type="text" name="name" value="{{$info['name']}}"
-                                                               placeholder="icon name">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label class="form-label text-white">Information</label>
-                                                    <div class="form-group">
-                                            <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                      rows="10" cols="10"
-                                                      name="information">{!! $info['information'] !!}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit" class="btn btn-sm float-end mt-3 mb-0 text-white"
-                                                    style="background-color: #f2661c ">Update Information
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             @endforeach
 
@@ -87,7 +42,7 @@
                                 aria-label="Close" id="close-info-modal-button">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <form wire:submit.prevent="submitForm">
+                        <form wire:submit.prevent="updateInfo">
                             <div class="card-body pt-0">
                                 <div class="row mt-2">
                                     <div class="col-12">
@@ -117,7 +72,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                        style="background-color: #f2661c ">Create Information
+                                        style="background-color: #f2661c ">Update Information
                                 </button>
                             </div>
                         </form>
@@ -136,7 +91,11 @@
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
     <script>
-
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('closeUpdateModal', () => {
+                $('#informationIconModel').modal('hide');
+            });
+        });
 
         function confirmBoxForPermanentDelete(coupon_id){
 
@@ -163,8 +122,9 @@
     </script>
     <script>
         window.Livewire.on('closeInfoModal', function (e) {
-
             $('#close-info-modal-button').click();
         })
+
     </script>
+
 @endpush
