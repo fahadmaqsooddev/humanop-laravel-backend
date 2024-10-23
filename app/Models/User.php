@@ -283,6 +283,11 @@ class User extends Authenticatable implements JWTSubject
         return self::where('is_admin', \App\Enums\Admin\Admin::IS_CUSTOMER)->get();
     }
 
+    public static function allPractitioner()
+    {
+        return self::where('is_admin', \App\Enums\Admin\Admin::IS_PRACTITIONER)->get();
+    }
+
     public static function allSubAdmin()
     {
         $subAdmins = self::where('is_admin', 3)->get();
