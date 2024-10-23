@@ -131,3 +131,12 @@
 
     </div>
 @endsection
+@push('js')
+    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+    <script>
+        const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+            searchable: true,
+            fixedHeight: true
+        });
+    </script>
+@endpush

@@ -452,6 +452,16 @@ class User extends Authenticatable implements JWTSubject
         return self::user($user_id);
     }
 
+    public static function updateUserTimezone($timezone = null)
+    {
+
+        $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+
+        self::whereId($user_id)->update(['timezone' => $timezone]);
+
+        return self::user($user_id);
+    }
+
     public static function updateUserPassword($password = null)
     {
 
@@ -802,11 +812,6 @@ class User extends Authenticatable implements JWTSubject
     {
 
         self::whereId($id)->delete();
-    }
-
-    public static function editTimezone($userId = null, $timezone = null)
-    {
-        return self::whereId($userId)->update(['timezone' => $timezone]);
     }
 
     public static function emailVerified($userId = null)
