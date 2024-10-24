@@ -156,7 +156,8 @@ class Helpers
 
     }
 
-    public static function timeZone(){
+    public static function timeZone()
+    {
 
         $zones_array = array();
 
@@ -168,7 +169,7 @@ class Helpers
 
             $zones_array[$key]['zone'] = $zone;
 
-            $zones_array[$key]['offset'] = (int) ((int) date('O', $timestamp)) / 100;
+            $zones_array[$key]['offset'] = (int)((int)date('O', $timestamp)) / 100;
 
             $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
 
@@ -209,12 +210,12 @@ class Helpers
 
         $key = StripeSetting::getSingle();
 
-        if (!$user->hasStripeId()){
+        if (!$user->hasStripeId()) {
 
             User::createCustomerOnStripe($user, $key);
         }
 
-        if (!$user->subscription('main')){ // If user has no subscription then create subscription on stripe
+        if (!$user->subscription('main')) { // If user has no subscription then create subscription on stripe
 
             $stripe = new StripeClient($key['api_key']);
 
@@ -238,7 +239,7 @@ class Helpers
 
             $upload = Upload::find($pic);
 
-            if ($upload->extension === 'mp4'){
+            if ($upload->extension === 'mp4') {
                 return [];
             }
 
@@ -309,6 +310,29 @@ class Helpers
                 return array('path' => $path, 'original_name' => $original_name);
 
             }
+        }
+    }
+
+    public static function explodeTimezoneWithHours($userTimezone = null)
+    {
+        $timezone_string = $userTimezone;
+
+        if (isset($timezone_string) && !empty($timezone_string)) {
+
+            $timezone = explode(' ', $timezone_string);
+
+            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+
+            $exploded_value = explode(':', $standard_time);
+
+            if (isset($exploded_value[1]) && $exploded_value[1] !== "00") {
+
+                $standard_time = (intval($exploded_value[0]) + (intval($exploded_value[1]) / 60));
+
+            }
+
+            return $standard_time;
+
         }
     }
 

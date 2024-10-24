@@ -7,6 +7,7 @@ use App\Models\Question;
 use App\Models\Assessment;
 use App\Helpers\Helpers;
 use App\Models\User;
+use Faker\Extension\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -65,38 +66,58 @@ class QuestionController extends Controller
     public function introAssessment()
     {
         try {
-
             $user = Helpers::getWebUser();
 
-            if (!empty($user['timezone']))
-            {
+            if (!empty($user['timezone'])) {
+
                 $assessment = Assessment::singleAssessment($user['id']);
 
                 if (!$assessment || $assessment['page'] === 0) {
 
-                    $timezone_string = $user['timezone'];
+                    $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
-                    $timezone = explode(' ', $timezone_string);
+                    $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
+                        ->addMinutes($minutes * 60)
+                        ->toDateTimeString();
 
-                    $updatedDate = Carbon::parse($assessment['updated_at']);
+                    $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
-                    $updatedDate = $updatedDate->addMinutes((int)$timezone[1]);
+                    if ($difference > 90) {
 
-                    $time = $updatedDate;
+                        Assessment::createAssessmentData($user['id'], 0);
 
-                    Assessment::createAssessmentData($user['id'], 0);
+                        $timezones = Helpers::timeZone();
+
+                        return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
+                    } else {
+
+                        $takeAssessment = 90 - $difference;
+
+                        return redirect()->route('client_dashboard')->with('error', 'You can take another assessment after ' . $takeAssessment . ' days.');
+                    }
+                }
+                else
+                {
+                    $timezones = Helpers::timeZone();
+
+                    return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
                 }
             }
+            else
+            {
 
-            $timezones = Helpers::timeZone();
+                $timezones = Helpers::timeZone();
 
-            return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
+                return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
+
+            }
 
         } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
+
 
     public function setTimezone(Request $request)
     {
