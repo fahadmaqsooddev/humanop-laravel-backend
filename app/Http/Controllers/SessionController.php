@@ -6,6 +6,8 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\HAIChai\HaiChat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -68,42 +70,54 @@ class SessionController extends Controller
 
             $attributes['status'] = 1;
 
-            if(Auth::attempt($attributes))
+            $userEmailVerify = User::where('email', $request['email'])->first();
+
+            if ($userEmailVerify['email_verified_at'] != null)
             {
-                if (isset($request['remember']) && !empty($request['remember']))
+
+                if(Auth::attempt($attributes))
                 {
-                    setcookie("email", $attributes['email'], 30*time()+3600);
-                    setcookie("password", $attributes['password'], 30*time()+3600);
-                }else
-                {
-                    setcookie("email", "");
-                    setcookie("password", "");
+                    if (isset($request['remember']) && !empty($request['remember']))
+                    {
+                        setcookie("email", $attributes['email'], 30*time()+3600);
+                        setcookie("password", $attributes['password'], 30*time()+3600);
+                    }else
+                    {
+                        setcookie("email", "");
+                        setcookie("password", "");
+                    }
+
+                    $user = Helpers::getWebUser();
+
+                    Session::forget('google_user'); // forget the session of the google data
+
+                    if ($user->is_admin == Admin::IS_CUSTOMER){
+
+                        Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                        DailyTip::updateUserDailyTip();
+
+                        ActionPlan::storeUserActionPlan();
+
+                        User::updateUserIsFeedback();
+                    }
+
+                    if ($user->is_admin === Admin::IS_PRACTITIONER){
+
+                        return redirect('/practitioner/dashboard');
+                    }
+
+                    return redirect()->route('admin_dashboard');
                 }
 
-                $user = Helpers::getWebUser();
+                return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
 
-                Session::forget('google_user'); // forget the session of the google data
+            }else
+            {
 
-                if ($user->is_admin == Admin::IS_CUSTOMER){
+                return back()->withErrors(['msgError' => 'Your email is not verified.']);
 
-                    Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                    DailyTip::updateUserDailyTip();
-
-                    ActionPlan::storeUserActionPlan();
-
-                    User::updateUserIsFeedback();
-                }
-
-                if ($user->is_admin === Admin::IS_PRACTITIONER){
-
-                    return redirect('/practitioner/dashboard');
-                }
-
-                return redirect()->route('admin_dashboard');
             }
-
-            return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
 
         }catch (ValidationException $validationException){
 
