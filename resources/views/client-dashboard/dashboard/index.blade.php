@@ -307,8 +307,11 @@
                                                     </span>
                                                 @else
                                                     {!! $tip['description'] !!}
-
                                                 @endif
+                                            @else
+                                                <p>Click here to:
+                                                <a href="{{url('client/intro-assessment')}}" target="_self" style="color: orange;">Take the Assessment</a>
+                                                </p>
                                             @endif
                                         </p>
 
