@@ -212,8 +212,7 @@
             <tr class="text-color-blue">
                 <th>Name</th>
                 <th>Date & Time</th>
-                <th>Practitioner</th>
-                <th>Project</th>
+                <th>CountDown</th>
                 <th>Email</th>
                 <th></th>
             </tr>
@@ -223,8 +222,7 @@
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
                     <td class="text-md font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
-                    <td class="text-md font-weight-normal">Null</td>
-                    <td class="text-md font-weight-normal">Null</td>
+                    <td class="text-md font-weight-normal">{{\App\Helpers\Helpers::explodeAssessmentTimezoneWithHours($assessment['users'] ? $assessment['users']['timezone'] : '', $assessment['updated_at'])}}</td>
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"

@@ -336,5 +336,35 @@ class Helpers
         }
     }
 
+    public static function explodeAssessmentTimezoneWithHours($userTimezone = null, $assessmentUpdatedAt = null)
+    {
+        $timezone_string = $userTimezone ? $userTimezone : 'UTC/GMT -07:00 - America/Los_Angeles';
+
+        if (isset($timezone_string) && !empty($timezone_string)) {
+
+            $timezone = explode(' ', $timezone_string);
+
+            $standard_time = isset($timezone[1]) ? $timezone[1] : "+00:00";
+
+            $exploded_value = explode(':', $standard_time);
+
+            if (isset($exploded_value[1]) && $exploded_value[1] !== "00") {
+
+                $standard_time = (intval($exploded_value[0]) + (intval($exploded_value[1]) / 60));
+
+            }
+
+            $minutes = intval($standard_time);
+
+            $userTime = \Carbon\Carbon::parse($assessmentUpdatedAt)
+                ->addMinutes($minutes * 60)
+                ->toDateTimeString();
+
+            $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+
+            return $difference;
+        }
+    }
+
 }
 
