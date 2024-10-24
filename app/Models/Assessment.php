@@ -232,6 +232,7 @@ class Assessment extends Model
 
     public static function getLatestAssessment($user_id = null)
     {
+
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
 

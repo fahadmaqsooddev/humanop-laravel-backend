@@ -66,11 +66,14 @@ class DailyTip extends Model
 
     public static function getTodayTip()
     {
+
+
         $userDailyTip = UserDailyTip::getLatestTip();
+
          if($userDailyTip && $userDailyTip->created_at >= now()->subDay()){
              return $userDailyTip->dailyTip;
          }else{
-             $user_id = Helpers::getWebUser()['id'];
+             $user_id = Helpers::getWebUser()['id'] ?? Helpers::getUser()['id'];
              UserDailyTip::removeUserTip($user_id);
              $assessment = Assessment::getLatestAssessment($user_id);
              if($assessment){
