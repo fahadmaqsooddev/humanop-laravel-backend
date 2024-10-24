@@ -394,5 +394,10 @@ return [
             'fillable' => ['name','format'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'UserDailyTip' => [
+            'table' => 'user_daily_tips',
+            'fillable' => ['user_id','daily_tip_id'],
+            'hidden' => ['updated_at'],
+        ],
     ]
 ];

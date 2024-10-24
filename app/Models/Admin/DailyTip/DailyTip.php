@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Client\Plan\Plan;
 use App\Models\User;
 use Carbon\Carbon;
@@ -62,6 +63,32 @@ class DailyTip extends Model
         return $tip;
 
     }
+
+    public static function getTodayTip()
+    {
+
+
+        $userDailyTip = UserDailyTip::getLatestTip();
+
+         if($userDailyTip && $userDailyTip->created_at >= now()->subDay()){
+             return $userDailyTip->dailyTip;
+         }else{
+             $user_id = Helpers::getWebUser()['id'] ?? Helpers::getUser()['id'];
+             UserDailyTip::removeUserTip($user_id);
+             $assessment = Assessment::getLatestAssessment($user_id);
+             if($assessment){
+                 $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+                 $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
+                  if($newDailyTip){
+                      $newUserDailyTip = UserDailyTip::createUserDailyTip($user_id,$newDailyTip['id']);
+                      $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+                      return $todayTip;
+                  }
+             }
+         }
+         return '';
+    }
+
 
 
     public static function dailyTip(){
@@ -136,4 +163,11 @@ class DailyTip extends Model
         return $daily_tip_read;
     }
 
+    public static function getSameCodeTips($code = null){
+        return self::where('code',$code)->inRandomOrder()->first();
+    }
+
+    public static function findTip($id = null){
+        return self::where('id',$id)->first();
+    }
 }

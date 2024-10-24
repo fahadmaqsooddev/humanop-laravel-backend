@@ -8,7 +8,7 @@ use Livewire\Component;
 class DailyTipCreateForm extends Component
 {
     public $title,$description,$code,$tip_id;
-    protected $listeners = ['updateEditTipValues','emptyDailyTipValues'];
+    protected $listeners = ['updateEditTipValues','emptyDailyTipValues','updateContent'];
     protected $rules = [
         'code' => 'required',
         'title' => 'required',
@@ -25,16 +25,22 @@ class DailyTipCreateForm extends Component
         $this->code = $selectedCode;
     }
 
+
+       public function updateContent($editorId, $data)
+       {
+        $this->description = $data;
+       }
+
       public function updateEditTipValues($id,$code,$title,$description){
               $this->emptyDailyTipValues();
               $this->tip_id = $id;
               $this->code = $code;
               $this->title = $title;
               $this->description = $description;
-      }
+              $this->emit('contentUpdated', $this->description);
+    }
 
     public function emptyDailyTipValues(){
-
         $this->tip_id = '';
         $this->code = '';
         $this->title = '';
@@ -48,21 +54,17 @@ class DailyTipCreateForm extends Component
 
             if($this->tip_id){
                 DailyTip::updateIntentionPlan($validatedData,$this->tip_id);
-
+                $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshDailyTips');
-
-                session()->flash('success', 'Daily Tip updated successfully.');
+                $this->emit('updateSession','Updated');
             }else{
                 DailyTip::createTip($validatedData);
-
+                $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshDailyTips');
-
-                session()->flash('success', 'Daily Tip created successfully.');
+                $this->emit('updateSession','Created');
             }
-
-
         } catch (\Exception $exception) {
             session()->flash('error', $exception->getMessage());
         }

@@ -50,6 +50,7 @@
                        onclick="emptyDailytipModal();"
                        class="btn btn-sm float-end mb-0">Add Daily Tip</a>
                 </div>
+
                 @livewire('admin.setting.daily-tip')
             </div>
         </div>

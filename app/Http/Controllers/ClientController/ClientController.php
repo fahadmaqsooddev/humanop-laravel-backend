@@ -25,13 +25,21 @@ class ClientController extends Controller
     public function index()
     {
        try {
-
+            $traitDescription = '';
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
             $age = Carbon::parse(Helpers::getWebUser()->date_of_birth)->age;
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $userPlanName = $user['plan_name'];
-            $tip = DailyTip::getSingleTip();
+
+//            $tip = DailyTip::getSingleTip();
+
+            $tip = DailyTip::getTodayTip();
+
+            if($tip) {
+                $traitDescription = CodeDetail::getSinglePublicName($tip['code']);
+            }
+
             $plan = ActionPlan::userActionPlan();
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
@@ -45,11 +53,13 @@ class ClientController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $coreStatsInfo = InformationIcon::getCoreStatsInfo();
             $actionPlanInfo = InformationIcon::getActionPlanInfo();
+
             $dailyTipInfo = InformationIcon::getDailyTipInfo();
-            $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
+
+           $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
             $helpInfo = InformationIcon::getHelpInfo();
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception','user_age','energyPool','plan','userPlanName','age','coreStatsInfo','helpInfo','actionPlanInfo','dailyTipInfo','libraryResourceInfo','traitDescription'));
 
         } catch (\Exception $exception) {
 

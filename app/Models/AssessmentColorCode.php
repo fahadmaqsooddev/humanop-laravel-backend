@@ -527,4 +527,8 @@ class AssessmentColorCode extends Model
         return $feature_highlighted_string;
 
     }
+
+    public static function getGreenCodes($assessment_id = null){
+        return self::where('assessment_id',$assessment_id)->where('code_color','green')->select(['id','code'])->inRandomOrder()->first();
+    }
 }

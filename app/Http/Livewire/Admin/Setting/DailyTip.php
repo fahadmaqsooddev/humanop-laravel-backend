@@ -15,7 +15,7 @@ class DailyTip extends Component
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $queryString = ['search'];
-    protected $listeners = ['refreshDailyTips','deleteTip'];
+    protected $listeners = ['refreshDailyTips','deleteTip','updateSession'];
     public $title,$description,$code,$tip_id;
     public function refreshDailyTips(){
         $this->getTips();
@@ -29,7 +29,9 @@ class DailyTip extends Component
     public function editTip($id,$code,$title,$description){
         $this->emit('updateEditTipValues', $id, $code, $title, $description);
     }
-
+    public function updateSession($type){
+        session()->flash('success', 'Daily Tip '.$type.' successfully.');
+    }
 public function deleteTip($tip_id){
 
     DailyTipModel::deleteDailyTip($tip_id);
