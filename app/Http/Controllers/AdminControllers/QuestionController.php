@@ -57,14 +57,59 @@ class QuestionController extends Controller
         try {
             $user = Helpers::getWebUser();
 
-            $assessment = Assessment::singleAssessment($user['id']);
+//            $assessment = Assessment::singleAssessment($user['id']);
+//
+//            if (!$assessment || $assessment['page'] === 0) {
+//
+//                Assessment::createAssessmentData($user['id'], 0);
+//            }
 
-            if (!$assessment || $assessment['page'] === 0) {
+//            return view('practitioner-dashboard.assessment.assessment-intro');
 
-                Assessment::createAssessmentData($user['id'], 0);
+            if (!empty($user['timezone'])) {
+
+                $assessment = Assessment::singleAssessment($user['id']);
+
+                if (!$assessment || $assessment['page'] === 0) {
+
+                    $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+                    $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
+                        ->addMinutes($minutes * 60)
+                        ->toDateTimeString();
+
+                    $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+
+                    if ($difference > 90) {
+
+                        Assessment::createAssessmentData($user['id'], 0);
+
+                        $timezones = Helpers::timeZone();
+
+                        return view('practitioner-dashboard.assessment.assessment-intro', compact('timezones'));
+                    } else {
+
+                        $takeAssessment = 90 - $difference;
+
+                        return redirect()->route('admin_dashboard')->with('error', 'You can take another assessment after ' . $takeAssessment . ' days.');
+                    }
+                }
+                else
+                {
+                    $timezones = Helpers::timeZone();
+
+                    return view('practitioner-dashboard.assessment.assessment-intro', compact('timezones'));
+                }
+            }
+            else
+            {
+
+                $timezones = Helpers::timeZone();
+
+                return view('practitioner-dashboard.assessment.assessment-intro', compact('timezones'));
+
             }
 
-            return view('practitioner-dashboard.assessment.assessment-intro');
 
         } catch (\Exception $exception) {
 

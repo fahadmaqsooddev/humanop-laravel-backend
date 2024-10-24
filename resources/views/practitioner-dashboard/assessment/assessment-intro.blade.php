@@ -125,9 +125,54 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
+    @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
+        <div class="modal fade" id="timeZoneModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="couponModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">Time Zone</label>
+
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                            <form method="post" action="{{route('admin_set_timezone')}}" class="mb-4">
+                                @csrf
+                                <div class="card-body pt-0">
+                                    <label class="form-label" style="color: #f2661c; font-size: 18px">Timezone</label>
+                                    <div class="form-group">
+                                        <select class="form-control text-color-dark" style="background-color: #1c365e; color: white" name="timezone">
+                                            @foreach($timezones as $timezone)
+                                                <option value="{{$timezone}}">{{$timezone}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn-sm float-end mt-2 mb-0" style="background-color: #f2661c; color: white; font-size: 14px">
+                                        set timezone
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#timeZoneModel" id="open-time-zone-modal">
+    </button>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#open-time-zone-modal').trigger('click');
+        });
+    </script>
+@endpush
