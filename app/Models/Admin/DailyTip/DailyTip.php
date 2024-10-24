@@ -66,30 +66,56 @@ class DailyTip extends Model
 
     public static function getTodayTip()
     {
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
 
         $userDailyTip = UserDailyTip::getLatestTip();
 
-         if($userDailyTip && $userDailyTip->created_at >= now()->subDay()){
-             return $userDailyTip->dailyTip;
-         }else{
-             $user_id = Helpers::getWebUser()['id'] ?? Helpers::getUser()['id'];
-             UserDailyTip::removeUserTip($user_id);
-             $assessment = Assessment::getLatestAssessment($user_id);
-             if($assessment){
-                 $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
-                  if($codeColor) {
-                      $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
-                      if ($newDailyTip) {
-                          $newUserDailyTip = UserDailyTip::createUserDailyTip($user_id, $newDailyTip['id']);
-                          $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
-                          return $todayTip;
-                      }
-                  }
-             }
-         }
-         return '';
+        if ($userDailyTip) {
+            if (!empty($user['timezone'])) {
+
+                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+
+                $userTime = \Carbon\Carbon::parse($userDailyTip->created_at)
+                    ->addMinutes($minutes)
+                    ->toDateTimeString();
+
+
+                $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+                $dayCheck = $difference < 1;
+            } else {
+                $dayCheck = $userDailyTip->created_at >= now()->subDay();
+            }
+
+            if ($dayCheck) {
+                return $userDailyTip->dailyTip;
+            }
+        }
+
+
+        UserDailyTip::removeUserTip($user['id']);
+
+
+        $assessment = Assessment::getLatestAssessment($user['id']);
+        if ($assessment) {
+            $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+            if ($codeColor) {
+
+                $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
+
+                if ($newDailyTip) {
+
+                    $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id']);
+                    $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+                    return $todayTip;
+                }
+            }
+        }
+
+        return '';
     }
+
 
 
 

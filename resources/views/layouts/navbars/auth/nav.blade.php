@@ -15,12 +15,21 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="h-100 mt-2">
+                    <div class="h-100">
                         <a href="javascript:void(0)">
-                            <h5 class="mb-1 custom-text-dark" >
+                            <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}" >
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-                            <h6>{{$traitDescription['public_name'] ?? ''}}</h6>
+                             @if(!empty($traitDescription['public_name']))
+                                                        <p class="mb-0 font-weight-bold text-sm">
+                                                            Optimal Trait To Be In Right Now:
+                                                        </p>
+                            <h6> <strong>{{$traitDescription['public_name'] ?? ''}}</strong></h6>
+                            @endif
+{{--                                                        <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
+{{--                                                            Strategy and Problem--}}
+{{--                                                            Solving--}}
+{{--                                                            Activities</p>--}}
                         </a>
                     </div>
                 </div>
