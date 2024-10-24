@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use App\Models\Client\Feedback\Feedback;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Assessment;
@@ -387,5 +388,19 @@ class AdminController extends Controller
         $filename = $user_name. '_report.pdf';
 
         return $pdf->stream($filename);
+    }
+
+    public function setAdminTimezone(Request $request)
+    {
+        try {
+
+            User::updateUserTimezone($request['timezone']);
+
+            return redirect()->back()->with('success', 'Timezone Successfully updated');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 }
