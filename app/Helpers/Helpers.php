@@ -331,7 +331,7 @@ class Helpers
 
             }
 
-            return $standard_time;
+            return intval($standard_time);
 
         }
     }
