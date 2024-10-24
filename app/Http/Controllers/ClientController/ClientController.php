@@ -25,7 +25,7 @@ class ClientController extends Controller
     public function index()
     {
        try {
-
+            $traitDescription = '';
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
             $age = Carbon::parse(Helpers::getWebUser()->date_of_birth)->age;
             $podcast = Podcast::getPodcast();
@@ -35,7 +35,11 @@ class ClientController extends Controller
 //            $tip = DailyTip::getSingleTip();
 
             $tip = DailyTip::getTodayTip();
-            $traitDescription = CodeDetail::getSinglePublicName($tip['code']);
+
+            if($tip) {
+                $traitDescription = CodeDetail::getSinglePublicName($tip['code']);
+            }
+
             $plan = ActionPlan::userActionPlan();
             $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);

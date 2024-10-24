@@ -23,15 +23,18 @@ class DashboardController extends Controller
     }
 
     public function dailyTip(){
-
         try {
+            $traitDescription = '';
+//            $daily_tip = DailyTip::dailyTip();
+            $daily_tip = DailyTip::getTodayTip();
+            if($daily_tip) {
+                $traitDescription = CodeDetail::getSinglePublicName($daily_tip['code']);
+            }
 
-            $daily_tip = DailyTip::dailyTip();
-
-            return Helpers::successResponse('Daily Tip', $daily_tip);
-
+            $data = ['daily_tip' => $daily_tip,'trait' => $traitDescription];
+            
+            return Helpers::successResponse('Daily Tip', $data);
         }catch (\Exception $exception){
-
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
