@@ -65,6 +65,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     Route::get('/practitioner-profile-overview/{id?}', [AdminController::class, 'profileOverview'])->name('practitioner_profile_overview');
     Route::get('/practitioner-grid/{id}', [AdminController::class, 'grid'])->name('practitioner_grid');
     Route::get('/download-practitioner-report/{id}', [AdminController::class, 'downloadUserReport'])->name('download_practitioner_report');
+    Route::post('/set-timezone', [AdminController::class, 'setAdminTimezone'])->name('admin_set_timezone');
 
     Route::group(['middleware' => ['permission:users']], function () {
         Route::get('/users', [AdminController::class, 'allUsers'])->name('admin_all_users');
