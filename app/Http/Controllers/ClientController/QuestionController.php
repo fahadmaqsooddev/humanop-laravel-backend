@@ -68,12 +68,22 @@ class QuestionController extends Controller
         try {
             $user = Helpers::getWebUser();
 
+
             if (!empty($user['timezone'])) {
 
                 $assessment = Assessment::singleAssessment($user['id']);
 
                 if (!$assessment || $assessment['page'] === 0) {
 
+                    if (!$assessment)
+                    {
+                        Assessment::createAssessmentData($user['id'], 0);
+
+                        $timezones = Helpers::timeZone();
+
+                        return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
+
+                    }
                     $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
                     $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
@@ -89,7 +99,8 @@ class QuestionController extends Controller
                         $timezones = Helpers::timeZone();
 
                         return view('client-dashboard.assessment.assessment-intro', compact('timezones'));
-                    } else {
+                    }
+                    else {
 
                         $takeAssessment = 90 - $difference;
 
