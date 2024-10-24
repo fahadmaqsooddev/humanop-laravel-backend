@@ -78,11 +78,13 @@ class DailyTip extends Model
              $assessment = Assessment::getLatestAssessment($user_id);
              if($assessment){
                  $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
-                 $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
-                  if($newDailyTip){
-                      $newUserDailyTip = UserDailyTip::createUserDailyTip($user_id,$newDailyTip['id']);
-                      $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
-                      return $todayTip;
+                  if($codeColor) {
+                      $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
+                      if ($newDailyTip) {
+                          $newUserDailyTip = UserDailyTip::createUserDailyTip($user_id, $newDailyTip['id']);
+                          $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+                          return $todayTip;
+                      }
                   }
              }
          }
