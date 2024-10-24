@@ -96,7 +96,7 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            $baseUrl = url('/check-email/', $user['id']);
+            $baseUrl = url('/check-email', $user['id']);
 
             $data = [
                 '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
@@ -148,7 +148,7 @@ class RegisterController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($userCreate);
 
-                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email/', $userCreate['id']);
+                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email', $userCreate['id']);
 
                 $data = [
                     '{$userName}' => $userCreate['first_name'] .' ' . $userCreate['last_name'],
@@ -190,7 +190,16 @@ class RegisterController extends Controller
     {
         try {
 
-            return view('session/email-verify');
+            $auth = Helpers::getWebUser();
+
+            if ($auth)
+            {
+                return redirect()->route('client_dashboard');
+
+            }else
+            {
+                return view('session/email-verify');
+            }
 
         } catch (\Exception $exception) {
 
