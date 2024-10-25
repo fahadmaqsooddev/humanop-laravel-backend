@@ -36,7 +36,7 @@ class DailyTip extends Model
         return self::get();
     }
     public static function allTips(){
-        return self::orderBy('created_at', 'desc');
+        return self::whereNotNull('code')->orderBy('created_at', 'desc');
     }
     public static function createTip($data = null)
     {
