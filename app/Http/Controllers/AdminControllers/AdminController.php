@@ -192,7 +192,20 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat.index');
+            return view('admin-dashboards.hai-chat');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function haiChatDetail()
+    {
+        try {
+
+            return view('admin-dashboards.hai-chat.detail');
 
         } catch (\Exception $exception) {
 

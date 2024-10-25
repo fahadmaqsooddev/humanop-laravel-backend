@@ -14,6 +14,59 @@
     input::placeholder {
         color: white !important;
     }
+
+    /* Custom styles */
+    body div {
+        font-size: small;
+    }
+
+    input {
+        font-size: small;
+    }
+
+    .card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+    }
+
+    .card-body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    h5 i {
+        margin-right: 8px;
+    }
+
+    .text-muted i {
+        margin-right: 4px;
+    }
+
+    button.btn-outline-secondary i,
+    button.btn-outline-danger i {
+        font-size: 1.2rem;
+    }
+
+    .sidebar {
+        height: 100vh;
+        padding-top: 20px;
+    }
+
+    .nav-link {
+        font-size: 1.1rem;
+    }
+
+    .content-page {
+        padding: 20px;
+    }
+
+    .content-page h2 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
 </style>
 @section('content')
     <div class="container-fluid mt-4">
@@ -36,7 +89,7 @@
             <div class="card mt-3 col-md-6" style="padding-right: 5px">
                 <div class="card-body">
                     <div class="d-flex flex-column gap-3">
-                        <a href="./Pages/chatdetails.html">
+                        <a href="{{route('admin_hai_chat_detail')}}">
                             <div class="text-white text-decoration-none"><i class="bi bi-robot"></i> Brain</div>
                             <p class="card-text text-white">This is an example description</p>
                         </a>
