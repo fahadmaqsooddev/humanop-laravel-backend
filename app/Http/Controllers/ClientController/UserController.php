@@ -114,7 +114,7 @@ class UserController extends Controller
 
     }
 
-    public function profileOverview($slug1, $slug2, $id = null)
+    public function profileOverview($slug1 = null, $slug2 = null, $id = null)
     {
         try {
 
