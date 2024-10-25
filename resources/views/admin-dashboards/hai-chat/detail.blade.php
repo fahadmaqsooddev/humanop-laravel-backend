@@ -229,33 +229,41 @@ Only share URL present in the [[CONTEXT]]. Do not make up any URL.</textarea>
                     <div class="d-flex flex-wrap" style="font-size: small;">
                         <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
                             <div class="card-body" style="display: block">
-                                <div class="text-white">Whatsapp</div>
-                                <div class="pb-2">Connect your AI to respond to WhatsApp messages</div>
-                                <a href="#" class="btn btn-primary">Button</a>
-                            </div>
-                        </div>
-
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
-                            <div class="card-body" style="display: block">
-                                <div class="card-title text-white">Twilio</div>
-                                <div class="card-text pb-2">Connect your AI to respond to SMS messages</div>
-                                <a href="#" class="btn btn-primary">Button</a>
-                            </div>
-                        </div>
-
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
-                            <div class="card-body" style="display: block">
-                                <div class="card-title text-white">Telegram</div>
-                                <div class="card-text pb-2">Publish your AI as a Telegram bot</div>
-                                <a href="#" class="btn btn-primary">Button</a>
-                            </div>
-                        </div>
-
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
-                            <div class="card-body" style="display: block">
-                                <div class="card-title text-white">Messenger</div>
+                                <h4 class="text-white">Whatsapp</h4>
                                 <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
-                                <a href="#" class="btn btn-primary">Button</a>
+                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
+                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                            <div class="card-body" style="display: block">
+                                <h4 class="card-title text-white">Twilio</h4>
+                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
+                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
+                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                            <div class="card-body" style="display: block">
+                                <h4 class="card-title text-white">Telegram</h4>
+                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
+                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
+                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                            <div class="card-body" style="display: block">
+                                <h4 class="card-title text-white">Messenger</h4>
+                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
+                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
+                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                </button>
                             </div>
                         </div>
                     </div>
