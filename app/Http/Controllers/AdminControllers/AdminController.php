@@ -192,7 +192,7 @@ class AdminController extends Controller
     {
         try {
 
-            return view('admin-dashboards.hai-chat');
+            return view('admin-dashboards.hai-chat.index');
 
         } catch (\Exception $exception) {
 

@@ -382,7 +382,7 @@
                                                                              src="{{URL::asset('assets/icons/Chat.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/Chat.png')}}"></span>
-                                        <span class="sidenav-normal"> H.A.I. Chat </span>
+                                        <span class="sidenav-normal"> HAI Chat </span>
                                     </a>
                                 </li>
                             @endcan
