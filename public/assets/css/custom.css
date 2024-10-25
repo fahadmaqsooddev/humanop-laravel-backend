@@ -11,14 +11,16 @@
     background-image: url('../img/background-body-admin.05c0b5b9.png');
     background-size: cover;
 }
-.password-eye{
+
+.password-eye {
     /* color: #f2661c !important; */
 }
 
 .top_pannel {
     padding-bottom: 40px;
 }
-.btn-orange{
+
+.btn-orange {
     background-color: rgb(210, 103, 34) !important;
 }
 
@@ -40,16 +42,69 @@
     margin: 10px 0;
 }
 
+/* Custom styles */
+body div {
+    font-size: small;
+}
+
+input {
+    font-size: small;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h5 i {
+    margin-right: 8px;
+}
+
+.text-muted i {
+    margin-right: 4px;
+}
+
+button.btn-outline-secondary i,
+button.btn-outline-danger i {
+    font-size: 1.2rem;
+}
+
+.sidebar {
+    height: 100vh;
+    padding-top: 20px;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+}
+
+.content-page {
+    padding: 20px;
+}
+
+.content-page h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
 .prompt-suggestion {
     background-color: rgb(18, 20, 57);
     /* padding: 20px 10px; */
 }
 
- .prompt-text, .responsive-text {
+.prompt-text, .responsive-text {
     /* font-size: small; */
 }
-.card{
-    height:auto;
+
+.card {
+    height: auto;
     text-wrap: wrap;
     word-wrap: break-word;
 
@@ -82,12 +137,12 @@
     color: white;
     font-weight: bold;
     font-size: x-large;
-    float:right;
+    float: right;
     border-radius: 3px;
     padding: 0px 10px 1px 10px;
 }
 
-.primaryColor{
+.primaryColor {
     color: #f2661c;
 }
 
@@ -143,24 +198,24 @@ ul.slider-padding {
     background-image: linear-gradient(310deg, #f2661c 0%, #f2661c 100%);
 }
 
-.greenBox
-{
+.greenBox {
     background-color: green !important;
 }
-.redBox
-{
+
+.redBox {
     background-color: red !important;
 }
-.lightGreenBox
-{
+
+.lightGreenBox {
     background-color: yellow !important;
     color: black !important;
     font-weight: bold !important;
 }
-.border-green
-{
+
+.border-green {
     border: 2px solid green !important;
 }
+
 .sidenav:hover {
     transition: none !important;
     transform: none !important;
@@ -198,6 +253,7 @@ aside:hover {
 .remove-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
 }
+
 #remove-scrollbar-nav {
     overflow: scroll;
     scrollbar-width: none; /* For Firefox */
@@ -215,43 +271,55 @@ aside:hover {
 
 /**/
 .animated-number {
-    opacity: 0;                  /* Initially hidden */
-    position: relative;           /* To allow left/right movement */
-    font-size: 2rem;              /* Example font size */
-    animation: moveLeftRight 2s ease-in-out 5;  /* Loop movement */
-    transition: opacity 1s ease;  /* Smooth fade-in effect */
+    opacity: 0; /* Initially hidden */
+    position: relative; /* To allow left/right movement */
+    font-size: 2rem; /* Example font size */
+    animation: moveLeftRight 2s ease-in-out 5; /* Loop movement */
+    transition: opacity 1s ease; /* Smooth fade-in effect */
     animation-play-state: paused; /* Initially paused */
-    pointer-events: none;         /* Disable pointer events (optional) */
-  }
+    pointer-events: none; /* Disable pointer events (optional) */
+}
 
-  /* Delay fade-in after 3s */
-  .animated-number.fade-in {
+/* Delay fade-in after 3s */
+.animated-number.fade-in {
     opacity: 1;
     transition-delay: 3s;
     animation-play-state: running; /* Start movement after fade-in */
-  }
+}
 
-  /* Keyframes for left-right movement */
-  @keyframes moveLeftRight {
-    0% { transform: translate(0,  0px); }
-    50%  { transform: translate(0, 10px); }
-    100%   { transform: translate(0, -0px); }
-  }
+/* Keyframes for left-right movement */
+@keyframes moveLeftRight {
+    0% {
+        transform: translate(0, 0px);
+    }
+    50% {
+        transform: translate(0, 10px);
+    }
+    100% {
+        transform: translate(0, -0px);
+    }
+}
 
-  /* Keyframes for disappearing after 5 seconds */
-  @keyframes disappear {
-    0%, 90% { opacity: 1; } /* Stay visible until near the end */
-    100% { opacity: 0; }    /* Fade out at the end */
-  }
+/* Keyframes for disappearing after 5 seconds */
+@keyframes disappear {
+    0%, 90% {
+        opacity: 1;
+    }
+    /* Stay visible until near the end */
+    100% {
+        opacity: 0;
+    }
+    /* Fade out at the end */
+}
 
-  .animated-number.disappear {
+.animated-number.disappear {
     animation: disappear 2s ease forwards;
     animation-delay: none; /* Disappear after the total delay and movement (3s + 5s) */
-  }
+}
 
-  .total-points{
+.total-points {
     font-size: 40px;
-  }
+}
 
 /**/
 
@@ -311,13 +379,16 @@ aside:hover {
 
         width: 100%;
     }
-    .card{
-        height:auto !important;
+
+    .card {
+        height: auto !important;
     }
-     .prompt-text{
+
+    .prompt-text {
         font-size: 7px !important;
     }
-     .responsive-text{
+
+    .responsive-text {
         font-size: 12px !important;
     }
 
@@ -330,19 +401,24 @@ aside:hover {
         flex-direction: row;
         justify-content: end;
     }
+
     .fs-5px {
         font-size: 5px !important;
     }
+
     .fs-7px {
         font-size: 7px !important;
     }
-    .card{
-        height:auto;
+
+    .card {
+        height: auto;
     }
-     .prompt-text{
+
+    .prompt-text {
         font-size: 10px !important;
     }
-     .responsive-text{
+
+    .responsive-text {
         font-size: 13px !important;
     }
 }
@@ -353,16 +429,20 @@ aside:hover {
         justify-content: space-around;
 
     }
+
     .fs-7px {
         font-size: 7px !important;
     }
-    .card{
-        height:auto;
+
+    .card {
+        height: auto;
     }
-     .prompt-text {
+
+    .prompt-text {
         font-size: 10px !important;
     }
-      .responsive-text{
+
+    .responsive-text {
         font-size: 15px !important;
     }
 
@@ -370,15 +450,13 @@ aside:hover {
 
 @media (min-width: 360px) and (max-width: 991px) {
 
-    .connectionDev
-    {
+    .connectionDev {
         width: 100%;
         margin-top: 5px;
 
     }
 
-    .connectionBtn
-    {
+    .connectionBtn {
         width: 100%;
     }
 
@@ -386,17 +464,17 @@ aside:hover {
 
 @media (min-width: 360px) and (max-width: 767px) {
 
-    .searchInput
-    {
+    .searchInput {
         margin-top: 30px !important;
     }
 
 }
 
-@media (min-width: 992px)  {
-    .card{
-        height:auto;
+@media (min-width: 992px) {
+    .card {
+        height: auto;
     }
+
     .fs-12px {
         font-size: 12px;
     }
@@ -406,10 +484,11 @@ aside:hover {
         font-size: 7px;
     }
 
-     .prompt-text {
+    .prompt-text {
         font-size: 13px !important;
     }
-     .responsive-text {
+
+    .responsive-text {
         font-size: 13px !important;
     }
 
@@ -417,65 +496,73 @@ aside:hover {
 }
 
 
-.daily-tip-card{
+.daily-tip-card {
     background: #8BB1AB !important;
     border-radius: 0 !important;
 }
-.library-card{
+
+.library-card {
     background: #2E9CA8 !important;
     border-radius: 0 !important;
 }
-.core-state-card{
-    background:  #F6BA81 !important;
+
+.core-state-card {
+    background: #F6BA81 !important;
     border-radius: 0 !important;
 }
-.help-challenge-card{
+
+.help-challenge-card {
     background: #ED7537 !important;
     border-radius: 0 !important;
 
 }
-.optimization-strategy-card{
+
+.optimization-strategy-card {
     background: #1C365E !important;
     border-radius: 0 !important;
 }
+
 input:focus,
 textarea:focus,
 select:focus {
     border-color: #ff6347 !important; /* Custom border color (e.g., tomato) */
     box-shadow: none !important; /* Ensure the default box-shadow is removed, if not desired */
 }
-.podcast-card{
-    background:  #FFFFFF !important;
+
+.podcast-card {
+    background: #FFFFFF !important;
     border-radius: 0 !important;
 }
 
-.body-background{
-    background:  #F3DEBA ;
+.body-background {
+    background: #F3DEBA;
 }
+
 /*.assessment-intro-background{*/
 /*    background:  #1C365E !important;*/
 /*}*/
-.left-nav-background{
+.left-nav-background {
     background: linear-gradient(to bottom, #1C365E 85%, #90a2bd) !important;
 }
 
-.text-light-grey{
+.text-light-grey {
     color: lightgrey !important;
 }
-.left-nav-blue-color{
+
+.left-nav-blue-color {
     background: #F3DEBA !important;
 }
 
-.left-nav-blue-light-color{
+.left-nav-blue-light-color {
     background: #2C4C7E !important;
 }
 
-.optimization-strategy-card > div > h3{
-    color:white !important;
+.optimization-strategy-card > div > h3 {
+    color: white !important;
     border-radius: 0 !important;
 }
 
-.pricing-freemium-card{
+.pricing-freemium-card {
     background: #8BB1AB !important;
 }
 
@@ -487,27 +574,27 @@ select:focus {
     color: #0f1535 !important;
 }
 
-.pricing-core-card{
+.pricing-core-card {
     background: #F6BA81 !important;
 }
 
-.pricing-premium-card{
+.pricing-premium-card {
     background: #ED7537 !important;
 }
 
-.background-none{
-    background:none !important;
+.background-none {
+    background: none !important;
 }
 
-.setting-box-background{
+.setting-box-background {
     background: #8BB1AB !important;
 }
 
-.custom-text-dark{
+.custom-text-dark {
     color: #193862 !important;
 }
 
-.text-color-blue{
+.text-color-blue {
     color: #1c365e !important;
 }
 
@@ -546,7 +633,6 @@ select:focus {
 }
 
 
-
 .rainbow-border-user-nav-btn {
     display: inline-block;
     padding: 10px 30px;
@@ -568,16 +654,14 @@ select:focus {
 
 @media screen and (min-width: 360px) and (max-width: 446px) {
 
-    .navButtonResponsive
-    {
+    .navButtonResponsive {
         width: 100%;
     }
 }
 
 @media screen and (min-width: 439px) and (max-width: 1460px) {
 
-    .btnMarginAdd
-    {
+    .btnMarginAdd {
         margin-left: 10px;
     }
 }
@@ -607,7 +691,7 @@ select:focus {
     background-color: transparent;
     border: 2px solid transparent;
     border-radius: 8px;
-    background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+    background-image: linear-gradient(#F6BA81, #F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
     background-clip: padding-box, border-box;
     background-origin: border-box;
     cursor: pointer;
@@ -624,11 +708,11 @@ select:focus {
 
 @keyframes changeUserConnectGradient {
     from {
-        background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        background-image: linear-gradient(#F6BA81, #F6BA81), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
     }
 
     to {
-        background-image: linear-gradient(#F6BA81,#F6BA81), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+        background-image: linear-gradient(#F6BA81, #F6BA81), linear-gradient(135deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
     }
 }
 
@@ -666,22 +750,22 @@ select:focus {
     }
 }
 
-textarea::placeholder{
+textarea::placeholder {
     color: white !important;
 }
 
 /*dashboard page media query*/
 @media screen and (min-width: 300px) and (max-width: 1000px) {
 
-    .card{
+    .card {
         margin: 20px;
     }
 
-    .hai_chat_title_div{
+    .hai_chat_title_div {
         padding: 20px;
     }
 
-    .haichat_form_div{
+    .haichat_form_div {
         padding: 20px;
     }
 }

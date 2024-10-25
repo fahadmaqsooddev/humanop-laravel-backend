@@ -127,7 +127,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     });
 
     Route::group(['middleware' => ['permission:chat']], function () {
-        Route::get('/dashboard-hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
+        Route::get('/hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
     });
     Route::group(['middleware' => ['permission:resources']], function () {
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
