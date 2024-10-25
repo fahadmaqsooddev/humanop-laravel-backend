@@ -56,6 +56,7 @@
     @yield('guest')
   @endguest
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <!--   Core JS Files   -->
   <script src="{{ URL::asset('assets/js/core/popper.min.js') }}"></script>
   <script src="{{ URL::asset('assets/js/core/bootstrap.min.js') }}"></script>
@@ -69,6 +70,34 @@
   <script src="{{ URL::asset('assets/js/plugins/threejs.js') }}"></script>
   <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
 
+  <script>
+      function submitFeedBackForm() {
+
+          $.ajax({
+              url: '{{ route("user-feedback") }}',
+              method: 'POST',
+              data: {'comment': $('#comment-value').val()},
+              headers: {
+                  'X-CSRF-TOKEN': "{{csrf_token()}}"
+              },
+              success: function (response) {
+
+                  $('#feedback_success_message').removeAttr('hidden');
+
+                  animateNumber(1);
+
+                  setTimeout(function () {
+                      $('#add_feedback').click();
+                  }, 2000);
+              },
+              error: function (response) {
+                  $('#add_feedback').click();
+                  console.log(response);
+              }
+          });
+      }
+  </script>
+  
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
