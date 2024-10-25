@@ -148,11 +148,11 @@ class RegisterController extends Controller
 
                 Helpers::createCustomerAndSubscriptionOnStripe($userCreate);
 
-                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email', $userCreate['id']);
+                $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email', ['id' => $userCreate['id']]);
 
                 $data = [
                     '{$userName}' => $userCreate['first_name'] .' ' . $userCreate['last_name'],
-                    '{$link}' =>  $baseUrl.$userCreate['id'],
+                    '{$link}' =>  $baseUrl,
                 ];
 
                 $email_template = EmailTemplate::getTemplate($data, 'email-verification');
@@ -223,7 +223,16 @@ class RegisterController extends Controller
     {
         try {
 
-            return view('session/email-verify');
+            $auth = Helpers::getWebUser();
+
+            if ($auth)
+            {
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+
+            }else
+            {
+                return view('session/email-verify');
+            }
 
         } catch (\Exception $exception) {
 
@@ -274,6 +283,9 @@ class RegisterController extends Controller
 
     public function practitionerCheckEmail($id = null)
     {
+
+        $id = last(request()->segments());
+
         $user = User::getSingleUser($id);
 
         if ($user)
