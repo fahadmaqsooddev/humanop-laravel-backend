@@ -223,7 +223,16 @@ class RegisterController extends Controller
     {
         try {
 
-            return view('session/email-verify');
+            $auth = Helpers::getWebUser();
+
+            if ($auth)
+            {
+                return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
+
+            }else
+            {
+                return view('session/email-verify');
+            }
 
         } catch (\Exception $exception) {
 
