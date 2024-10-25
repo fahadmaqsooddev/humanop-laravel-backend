@@ -28,8 +28,7 @@ class UserController extends Controller
 
             return view('client-dashboard.user.client_user_detail', compact('id'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -43,8 +42,7 @@ class UserController extends Controller
             $user = Auth::user();
             return view('client-dashboard.user.client_user_info', compact('user'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -61,8 +59,7 @@ class UserController extends Controller
 
             return view('client-dashboard.user.client_grid', compact('grid', 'grid_code_color'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
@@ -81,17 +78,17 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id', 'style_position', 'feature_position','alchl_code'));
+            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id', 'style_position', 'feature_position', 'alchl_code'));
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             return redirect()->back()->with('error', $exception->getMessage());
 
         }
     }
 
-    public function userFeedback(Request $request){
+    public function userFeedback(Request $request)
+    {
 
         try {
 
@@ -107,23 +104,34 @@ class UserController extends Controller
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function profileOverview($slug1 = null, $slug2 = null, $id = null)
+    public function profileOverview($id = null)
     {
         try {
 
-            $id = last(request()->segments());
+            if (empty($id))
+            {
+                $userId = Helpers::getWebUser()['id'];
 
+                $assessment = Assessment::getLatestAssessment($userId);
+            }else
+            {
+                $assessment = Assessment::singleAssessmentFromId($id);
+
+            }
+
+//            $id = last(request()->segments());
+            
             $user = Helpers::getWebUser()['is_admin'];
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;
-            $assessment = Assessment::singleAssessmentFromId($id);
+
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
@@ -135,9 +143,9 @@ class UserController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $actionPlan = ActionPlan::userActionPlan();
 
-            return view('client-dashboard.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age'));
+            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -145,7 +153,7 @@ class UserController extends Controller
 
     public function downloadUserReport($id)
     {
-        $user_name = Helpers::getWebUser()->first_name. ' ' . Helpers::getWebUser()->last_name;
+        $user_name = Helpers::getWebUser()->first_name . ' ' . Helpers::getWebUser()->last_name;
         $assessment = Assessment::singleAssessmentFromId($id);
         $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
         $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
@@ -175,8 +183,8 @@ class UserController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name','style_position','feature_position','alchl_code','ep','pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
-        $filename = $user_name. '_report.pdf';
+        $pdf->loadView('pdf.report_pdf', compact('allStyles', 'topTwoFeatures', 'assessment', 'boundary', 'perception', 'topCommunication', 'energyPool', 'user_name', 'style_position', 'feature_position', 'alchl_code', 'ep', 'pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $filename = $user_name . '_report.pdf';
 
         return $pdf->stream($filename);
     }
