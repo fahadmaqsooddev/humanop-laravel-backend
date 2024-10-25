@@ -48,9 +48,9 @@
                                     <div class="col-12">
                                         <label class="form-label text-white">Name</label>
                                         <div class="form-group">
-                                            <input style="background-color: #0f1534;" class="form-control text-white"
+                                            <input style="background-color: #0f1534;color: lightgrey !important" class="form-control text-white"
                                                    type="text" name="limit"
-                                                   wire:model="name" placeholder="icon name">
+                                                   wire:model="name" placeholder="icon name" disabled>
                                             @error('name')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
