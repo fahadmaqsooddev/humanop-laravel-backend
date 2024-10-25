@@ -284,7 +284,7 @@
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     <h5 class="text-white client-dashboard-stats-heading">Daily Tip <span
                                             class="iconInfo" data-bs-toggle="modal"
-                                            data-bs-target="#dailyTipModel">ⓘ</span></h5>
+                                            data-bs-target="#dailyTipModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
                                     <div class="description-container text-justify" style="height: 335px;">
 
                                         {{$hide_button = false}}
@@ -357,7 +357,7 @@
                                    style="color: rgb(160, 174, 192)"> LIBRARY
                                     OF
                                     RESOURCES & TRAININGS <span class="iconInfo" data-bs-toggle="modal"
-                                                                data-bs-target="#libraryResourceModel">ⓘ</span></p>
+                                                                data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></p>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -372,10 +372,11 @@
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card core-state-card" style="height: 530px;">
                                 <div class="card-body p-3">
-                                    <div class="d-flex justify-content-between">
+                                    <div
+
                                         <p class="text-color-blue client-dashboard-stats-heading core_stats_heading">
                                             CORE STATS <span style="color: white!important;" class="iconInfo" data-bs-toggle="modal"
-                                                             data-bs-target="#coreStatsModel">ⓘ</span>
+                                                             data-bs-target="#coreStatsModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span>
                                         </p>
 
                                         @if(16 <= $age && $age <= 20)
@@ -505,7 +506,7 @@
                                     @endif
                                     <p class="text-color-blue traitHeading"> Communication
                                         Style "Energy Centers":</p>
-                                    <div class="d-flex text-color-blue flex-wrap">
+                                    <div class="d-flex text-color-blue flex-wrap" style="margin-top: -15px">
                                         @if($topCommunication)
                                             @foreach($topCommunication as $communication)
                                                 <p class="fw-bold fs-12px"
@@ -518,7 +519,7 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    <p class="text-color-blue traitHeading" style="color: rgb(160, 174, 192)">
+                                    <p class="text-color-blue traitHeading" style="color: rgb(160, 174, 192); margin-top: -13px">
                                         Perception of
                                         Life:</p>
                                     @if($preception)
@@ -551,7 +552,7 @@
                                    style="color: rgb(160, 174, 192)"> HELP
                                     I'M
                                     HAVING A CHALLENGE <span class="iconInfo" data-bs-toggle="modal"
-                                                             data-bs-target="#helpChallangeModel">ⓘ</span></p>
+                                                             data-bs-target="#helpChallangeModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></p>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -569,7 +570,7 @@
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                     DAYS <span class="iconInfo" data-bs-toggle="modal"
-                                               data-bs-target="#actionPlanModel">ⓘ</span>
+                                               data-bs-target="#actionPlanModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #F6BA81;"></i></span>
                                 </p>
                                 <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"
                                      style="cursor: pointer">
