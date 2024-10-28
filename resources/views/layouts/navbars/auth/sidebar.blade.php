@@ -1134,6 +1134,9 @@
                     </div>
                 </li>
             @endif
+                <li class="nav-item">
+                    <p class="text-white text-center mt-4">Version 1.0.0</p>
+                </li>
         </ul>
     </div>
 

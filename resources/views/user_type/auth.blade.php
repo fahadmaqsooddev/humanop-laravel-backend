@@ -190,7 +190,7 @@
 
         open_modal = localStorage.getItem('modal_open_time');
 
-        if (open_modal === "true") {
+        if (open_modal === "true" || is_feedback == 1) {
 
             $(window).on('load', function () { // on page change the modal populates
 

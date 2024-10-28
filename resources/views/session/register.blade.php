@@ -257,11 +257,8 @@
                                                 </div>
                                             </div>
                                             <div class="mt-3">
-                                                <label for="name" style="color: #0f1535; font-size: 17px">90 Day
-                                                    Intention</label><br>
-                                                <label for="name" style="color: #f2661c; font-size: 15px">Your Intention
-                                                    For Using
-                                                    HumanOp</label>
+{{--                                                <label for="name" style="color: #0f1535; font-size: 17px">Your Intention for using the HumanOp® Technology</label><br>--}}
+                                                <label for="name" style="color: #f2661c; font-size: 15px">Your Intention for using the HumanOp® Technology</label>
                                                 @foreach($intention_options as $option)
                                                     <div class="form-check">
                                                         <input type="checkbox" name="ninety_day_intention[]"

@@ -16,9 +16,11 @@ use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use Dompdf\Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -27,7 +29,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin','appVersion','resendEmailVerification']);
 
         $this->auth = Auth::guard('api');
     }
@@ -116,13 +118,13 @@ class AuthController extends Controller
 
             Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
-
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             DB::commit();
 
             $data = [
                 'authorization' => [
+                    'userId' => $user['id'],
                     'status' => true,
                     'type' => 'bearer',
                 ]
@@ -200,6 +202,48 @@ class AuthController extends Controller
             return Helpers::validationResponse('Email does not exists');
 
         } catch (Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function appVersion()
+    {
+
+        try {
+
+            return Helpers::successResponse('version', 'Version 1.0.0');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function resendEmailVerification(Request $request)
+    {
+
+        try {
+
+            $user = User::getSingleUser($request->input('user_id'));
+
+            $baseUrl = url('/check-email', $user['id']);
+
+            $data = [
+                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                '{$link}' =>  $baseUrl,
+            ];
+
+            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+
+            Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
+
+
+            return Helpers::successResponse('Resend email sent successfully!', $user);
+
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
