@@ -24,9 +24,9 @@ class AddDailyTipsSeeder extends Seeder
         foreach($codeArray as $code){
             $dailyTip = [
                 [
-                    'title' => 'This daily tip belongs to '.$code,
+                    'title' => 'For Your Creating Order Driver',
                     'code' => $code,
-                    'description' => '<p><strong>Description For '.$code.' :</strong></p> <p>Today, practice patience by counting to ten when feeling frustrated, allowing yourself a moment to breathe before reacting, which can temper your abruptness and improve interactions with others.</p>',
+                    'description' => '<p><strong>For Your Creating Order Driver :</strong></p> <p>Today, practice patience by counting to ten when feeling frustrated, allowing yourself a moment to breathe before reacting, which can temper your abruptness and improve interactions with others.</p>',
                     'created_at' => now(),
                     'updated_at' => now()
                 ]

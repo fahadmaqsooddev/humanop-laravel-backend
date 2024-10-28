@@ -282,9 +282,11 @@
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
-                                    <h5 class="text-white client-dashboard-stats-heading">Daily Tip <span
+                                    <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
+                                        <h5 class="text-white mb-0 text-center" > <strong>Daily Tip</strong> <span
                                             class="iconInfo" data-bs-toggle="modal"
                                             data-bs-target="#dailyTipModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
+                                    </div>
                                     <div class="description-container text-justify" style="height: 335px;">
 
                                         {{$hide_button = false}}
@@ -352,12 +354,14 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card library-card" style="height: 530px!important;">
-                                <p class="text-white client-dashboard-long-heading pt-2"
-                                   style="color: rgb(160, 174, 192)"> LIBRARY
+                            <div class="card library-card p-3" style="height: 530px!important;">
+                                <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
+                                <h5 class="text-white mb-0 text-center"
+                                   style="color: rgb(160, 174, 192)"> <strong>LIBRARY
                                     OF
-                                    RESOURCES & TRAININGS <span class="iconInfo" data-bs-toggle="modal"
-                                                                data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></p>
+                                        RESOURCES & TRAININGS </strong><span class="iconInfo" data-bs-toggle="modal"
+                                                                data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
+                                </div>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -372,13 +376,13 @@
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
                             <div class="card core-state-card" style="height: 530px;">
                                 <div class="card-body p-3">
-                                    <div
-
-                                        <p class="text-color-blue client-dashboard-stats-heading core_stats_heading">
-                                            CORE STATS <span style="color: white!important;" class="iconInfo" data-bs-toggle="modal"
+                                    <div>
+                                        <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
+                                        <h5 class="text-color-blue mb-0 text-center">
+                                            <strong>  CORE STATS </strong><span style="color: white!important;" class="iconInfo" data-bs-toggle="modal"
                                                              data-bs-target="#coreStatsModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span>
-                                        </p>
-
+                                        </h5>
+                                        </div>
                                         @if(16 <= $age && $age <= 20)
 
                                             <p class="text-sm fs-12px text-color-blue text-bold"
@@ -547,12 +551,14 @@
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4"
                              style="cursor: pointer;">
-                            <div class="card help-challenge-card" style="height: 530px;">
-                                <p class="text-lg text-white text-center text-bold pt-2"
-                                   style="color: rgb(160, 174, 192)"> HELP
+                            <div class="card help-challenge-card p-3" style="height: 530px;">
+                                <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
+                                <h5 class="text-white mb-0 text-center"
+                                   style="color: rgb(160, 174, 192)"> <strong>HELP
                                     I'M
-                                    HAVING A CHALLENGE <span class="iconInfo" data-bs-toggle="modal"
-                                                             data-bs-target="#helpChallangeModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></p>
+                                        HAVING A CHALLENGE </strong><span class="iconInfo" data-bs-toggle="modal"
+                                                             data-bs-target="#helpChallangeModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
+                                </div>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
                                         <h1 class="text-center text-white" style="">Coming Soon!</h1>
@@ -565,13 +571,16 @@
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12 mainCardFlex">
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card optimization-strategy-card" style="height: 530px!important;">
-                                <p class="client-dashboard-long-heading text-white p-2">
+                            <div class="card optimization-strategy-card p-3" style="height: 530px!important;">
+                                <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
+                                <h5 class="text-white mb-0 text-center" >
+                                    <strong>
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
-                                    DAYS <span class="iconInfo" data-bs-toggle="modal"
+                                        DAYS </strong><span class="iconInfo" data-bs-toggle="modal"
                                                data-bs-target="#actionPlanModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #F6BA81;"></i></span>
-                                </p>
+                                </h5>
+                                </div>
                                 <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"
                                      style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
@@ -585,9 +594,11 @@
 
                             <div class="card podcast-card" style="height: 530px!important;">
                                 <div class="card-body p-3">
-                                    <p class="custom-text-dark client-dashboard-long-heading"> HIP
+                                    <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
+                                    <h5 class="custom-text-dark mb-0 text-center"> <strong> HIP
                                         -
-                                        HumanOp Integration Podcast</p>
+                                            HumanOp Integration Podcast</strong></h5>
+                                    </div>
                                     <div class="card mb-4"
                                     >
                                         <div class="card-body p-0">
