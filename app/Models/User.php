@@ -441,6 +441,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['status'] = 1;
 
+        $data['hai_chat'] = 2;
+
         return self::create($data);
 
     }

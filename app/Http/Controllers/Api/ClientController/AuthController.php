@@ -118,13 +118,13 @@ class AuthController extends Controller
 
             Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
-
             Helpers::createCustomerAndSubscriptionOnStripe($user);
 
             DB::commit();
 
             $data = [
                 'authorization' => [
+                    'userId' => $user['id'],
                     'status' => true,
                     'type' => 'bearer',
                 ]
