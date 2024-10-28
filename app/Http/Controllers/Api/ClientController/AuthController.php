@@ -106,11 +106,11 @@ class AuthController extends Controller
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
-            $baseUrl = url('/check-email/', $user['id']);
+            $baseUrl = url('/check-email', $user['id']);
 
             $userData = [
                 '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-                '{$link}' => $baseUrl . $user['id'],
+                '{$link}' => $baseUrl,
             ];
 
 
