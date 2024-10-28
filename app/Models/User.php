@@ -368,6 +368,7 @@ class User extends Authenticatable implements JWTSubject
 
         $data['is_admin'] = Admin::IS_CUSTOMER;
         $data['status'] = 1;
+        $data['hai_chat'] = 2;
         $user = self::create($data);
 
         return $user;
