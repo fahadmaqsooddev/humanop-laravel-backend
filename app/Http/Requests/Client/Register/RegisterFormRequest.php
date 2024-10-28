@@ -31,6 +31,7 @@ class RegisterFormRequest extends FormRequest
      */
     public function rules()
     {
+
         $required = (request()->has('google_id') && !empty(request()->input('google_id')) ? 'nullable' : 'required');
 
         return [

@@ -75,7 +75,7 @@
                                                         Name</label>
                                                     <input type="text" class="form-control " placeholder="first name"
                                                            aria-label="Name"
-                                                           value="{{$google_user['first_name'] ?? ""}}"
+                                                           value="{{$google_user['first_name'] ?? old('first_name')}}"
                                                            aria-describedby="email-addon"
                                                            name="first_name" id="first_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
@@ -90,7 +90,7 @@
                                                         Name</label>
                                                     <input type="text" class="form-control " placeholder="last name"
                                                            aria-label="Name"
-                                                           value="{{$google_user['last_name'] ?? ""}}"
+                                                           value="{{$google_user['last_name'] ?? old('last_name')}}"
                                                            aria-describedby="email-addon"
                                                            name="last_name" id="last_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
@@ -108,7 +108,7 @@
                                                            aria-label="Email"
                                                            aria-describedby="email-addon" name="email" id="email"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                                           value="{{$google_user['email'] ?? ""}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
+                                                           value="{{$google_user['email'] ?? old('email')}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
                                                     @error('email')
                                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                     @enderror
@@ -142,7 +142,7 @@
                                         <i class="fas fa-eye pt-1 password-eye" id="password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
-
+                                                    <div id="validatePassword"></div>
                                                     @error('password')
                                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                     @enderror
@@ -159,9 +159,10 @@
                                                            name="password_confirmation"
                                                            id="confirmPassword"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                    <div id="validateConfirmPassword"></div>
                                                     @error('password_confirmation')
-                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                                @enderror
+                                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    @enderror
                                                 <!-- Eye icon for toggling password visibility -->
                                                     <span class="position-absolute" id="toggleConfirmPassword"
                                                           style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
@@ -178,7 +179,7 @@
                                                     <input type="tel" class="form-control"
                                                            placeholder="+1 (123) 456-7890"
                                                            aria-label="Phone"
-                                                           name="phone" id="phone" maxlength="14"
+                                                           name="phone" value="{{old('phone')}}" id="phone" maxlength="14"
                                                            title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                     @error('phone')
@@ -190,13 +191,12 @@
                                                 <div class="">
                                                     <label for="name" style="color: #0f1535; font-size: 15px">Gender at
                                                         Birth</label>
-                                                    <select class="form-control" name="gender" id="gender"
-                                                            name="user_type"
+                                                    <select class="form-control" name="gender"  id="gender"
                                                             style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                         <option value="" selected hidden>Gender at Birth
                                                         </option>
-                                                        <option value="0">Male (XY)</option>
-                                                        <option value="1">Female (XX)</option>
+                                                        <option value="0" {{old('gender') == 0 ? 'selected' : ''}}>Male (XY)</option>
+                                                        <option value="1" {{old('gender') == 1 ? 'selected' : ''}}>Female (XX)</option>
                                                     </select>
                                                     @error('gender')
                                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
@@ -216,34 +216,38 @@
 
                                                         $current_year = (int)(\Carbon\Carbon::now()->year - 18);
                                                         ?>
-
+                                                            <div class="flex-fill" style="margin-right: 10px" >
                                                         <select class="justify-content-center form-control m-2"
                                                                 name="month"
+                                                                id="month"
                                                                 style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                             <option value="">Month</option>
                                                             @foreach($months as $key => $month)
-                                                                <option value="{{$key + 1}}">{{$month}}</option>
+                                                                <option value="{{$key + 1}}" {{old('month') == $key + 1 ? 'selected' : ''}}>{{$month}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                            </div>
+                                                                <div class="flex-fill " style="margin-right: 10px">
                                                         <select class="justify-content-center form-control m-2"
                                                                 name="day"
-                                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                                style="background-color: #f3deba; color: black; border-radius: 15px;" id="day">
                                                             <option value="">Day</option>
                                                             @for($i = 1; $i <= 31; $i++)
-                                                                <option value="{{$i}}">{{$i}}</option>
+                                                                <option value="{{$i}}" {{old('day') == $i ? 'selected' : ''}} >{{$i}}</option>
                                                             @endfor
                                                         </select>
-
-                                                        <select class="justify-content-center form-control m-2"
+                                                                </div>
+                                                            <div class="flex-fill">
+                                                        <select class="justify-content-center form-control m-2" id="year"
                                                                 name="year"
                                                                 style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                             <option value="">Year</option>
                                                             @for($i = $current_year; $i >= 1900; $i--)
                                                                 <option
-                                                                    value="{{$i}}" {{$i === 1980 ? 'selected' : ''}}>{{$i}}</option>
+                                                                    value="{{$i}}" {{old('year') == $i  ? 'selected' : ''}}>{{$i}}</option>
                                                             @endfor
                                                         </select>
+                                                            </div>
 
                                                     </div>
 
@@ -261,15 +265,15 @@
                                                 @foreach($intention_options as $option)
                                                     <div class="form-check">
                                                         <input type="checkbox" name="ninety_day_intention[]"
-                                                               value="{{$option['id']}}" class=" form-check-input">
+                                                               value="{{$option['id']}}" class="form-check-input"  {{ is_array(old('ninety_day_intention')) && in_array($option['id'], old('ninety_day_intention')) ? 'checked' : '' }} >
                                                         <label for="name"
-                                                               style="color: #0f1535; font-size: 15px">{{$option['description']}}</label>
+                                                               style="color: #0f1535; font-size: 15px" >{{$option['description']}}</label>
                                                     </div>
                                                 @endforeach
                                             </div>
                                             <div class="form-check form-switch mt-4">
                                                 <input class="form-check-input" type="checkbox" name="remember"
-                                                       id="rememberMe">
+                                                       id="rememberMe" {{old('remember') ? 'checked' : ''}}>
                                                 <label style="color: #0f1535" class="form-check-label"
                                                        for="rememberMe">Remember
                                                     me</label>
@@ -348,6 +352,123 @@
             });
         }
     });
+
+
+    //form validation code
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const fields = {
+            first_name: {
+                element: document.getElementById("first_name"),
+                errorMessage: "First name is required",
+            },
+            last_name: {
+                element: document.getElementById("last_name"),
+                errorMessage: "Last name is required",
+            },
+            email: {
+                element: document.getElementById("email"),
+                errorMessage: "Please enter a valid email",
+            },
+            password: {
+                element: document.getElementById("password"),
+                errorMessage: "Password must be at least 6 characters",
+            },
+            confirmPassword: {
+                element: document.getElementById("confirmPassword"),
+                errorMessage: "Passwords do not match",
+            },
+            phone: {
+                element: document.getElementById("phone"),
+                errorMessage: "Phone is required",
+            },
+            gender: {
+                element: document.getElementById("gender"),
+                errorMessage: "Please select your gender",
+            },
+            year : {
+                element: document.getElementById("year"),
+                errorMessage: "Select year",
+            },
+            month : {
+                element: document.getElementById("month"),
+                errorMessage: "Select month",
+            },
+            day : {
+                element: document.getElementById("day"),
+                errorMessage: "Select day",
+            }
+        };
+
+        // Function to validate individual fields
+        function validateField(field, value) {
+            let isValid = true;
+            let message = "";
+
+            // Validation conditions
+            if (value.trim() === "") {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "password" && value.length < 6) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "confirmPassword" && value !== fields.password.element.value) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "day" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage; // Assuming errorMessage is set properly for each field
+            } else if (field.element.id === "month" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "year" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage;
+            }
+
+
+            // Get or create error message container
+            let errorElement = field.element.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error-message')) {
+                errorElement = document.createElement("p");
+                errorElement.className = "text-danger error-message mt-2 mb-2";
+                field.element.insertAdjacentElement("afterend", errorElement);
+            }
+
+            // Show or hide the error message
+            errorElement.textContent = isValid ? "" : message;
+
+            return isValid;
+        }
+
+        // Event listeners for real-time validation
+        Object.keys(fields).forEach(key => {
+            const field = fields[key];
+            field.element.addEventListener("input", (event) => {
+                validateField(field, event.target.value);
+            });
+        });
+
+        // Form submit validation
+        form.addEventListener("submit", function (e) {
+            let formIsValid = true;
+
+            // Check each field on form submission
+            Object.keys(fields).forEach(key => {
+                const field = fields[key];
+                const isValid = validateField(field, field.element.value);
+                if (!isValid) formIsValid = false;
+            });
+
+            if (!formIsValid) {
+                e.preventDefault(); // Prevent form submission if any field is invalid
+            }
+        });
+    });
+
 
     // function disableBack() { window.history.forward(); }
     // setTimeout("disableBack()", 0);
