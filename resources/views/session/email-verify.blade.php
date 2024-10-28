@@ -35,18 +35,14 @@
                     <div class="card-header text-center pt-4">
                         <div class="card-body">
                             <h2 class="mb-2" style="color: #f2661c">Email Verification</h2>
-                            <p class="d-flex text-justify text-bold" style="color: #0f1534">Thanks for signing
-                                up! Before getting started, could you verify your email address by
-                                clicking on the link we just emailed to you? if you didn't receive the email, we
-                                will gladly send you another.</p>
-{{--                            <div class="d-flex justify-content-between">--}}
-{{--                                <a href="{{route('resend_email_verification')}}"--}}
-{{--                                   class="btn my-4 mb-2 text-white" style="background-color: #f2661c;">RESEND--}}
-{{--                                    VERIFICATION EMAIL</a>--}}
-{{--                                <a href="{{route('call_back_registration')}}" class="btn my-4 mb-2 text-white"--}}
-{{--                                   style="background-color: #f2661c;"><i class="fa-solid fa-arrow-left"></i>--}}
-{{--                                    Back</a>--}}
-{{--                            </div>--}}
+                            <p class="d-flex text-justify text-bold" style="color: #0f1534">Thanks for signing up!</p>
+                            <p class="d-flex text-justify text-bold" style="color: #0f1534">Before we get you started,
+                                please verify your email by clicking on the link we just emailed you.</p>
+                            <p class="d-flex text-justify text-bold" style="color: #0f1534">If you didn't receive the
+                                email, and it’s not in your spam, we will gladly send you another by clicking the link
+                                below.</p>
+                            <a href="{{route('resend_email_verification')}}" style="color: #f2661c"
+                               class="float-start text-bold">“Please Resend Verification Email”</a>
                         </div>
                     </div>
                 </div>

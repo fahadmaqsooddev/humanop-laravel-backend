@@ -27,7 +27,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin','appVersion']);
 
         $this->auth = Auth::guard('api');
     }
@@ -200,6 +200,20 @@ class AuthController extends Controller
             return Helpers::validationResponse('Email does not exists');
 
         } catch (Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function appVersion()
+    {
+
+        try {
+
+            return Helpers::successResponse('version', 'Version 1.0.0');
+
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

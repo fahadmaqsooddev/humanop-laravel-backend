@@ -107,6 +107,8 @@ class RegisterController extends Controller
 
             Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
 
+            Session::put('userId', $user['id']);
+
             Session::forget('google_user');
 
             DB::commit();
@@ -262,18 +264,20 @@ class RegisterController extends Controller
     {
         try {
 
-            $user = Helpers::getWebUser();
+            $user = User::getSingleUser(Session::get('userId'));
+
+            $baseUrl = url('/check-email', $user['id']);
 
             $data = [
-                '{$userId}' => $user['id'],
                 '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                '{$link}' =>  $baseUrl,
             ];
 
             $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-            Email::sendEmailVerification(['content' => $email_template],env('MAIL_FROM_ADDRESS'),'emails.Email_Template', 'Email Verification');
+            Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
 
-            return redirect('/email-verify');
+            return redirect('/email-verify')->with(['success' => 'Resend email sent successfully!']);
 
         } catch (\Exception $exception) {
 
