@@ -18,3 +18,4 @@ Route::post('logout-client', 'AuthController@logoutClient');
 Route::post('forgot-password', 'AuthController@forgotPassword');
 Route::post('social-login', 'AuthController@socialLogin');
 Route::get('version', 'AuthController@appVersion');
+Route::get('resend-email-verification', 'AuthController@resendEmailVerification');
