@@ -1,10 +1,12 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg mt-4 left px-1 shadow-none border-radius-xl z-index-sticky"
+<nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky" style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
      id="navbarBlur" data-scroll="true">
 
-    <div class="navbar-background-color d-flex align-items-end justify-content-end" style="padding: 10px; width: 100%">
+{{--    <div class="navbar-background-color d-flex align-items-end justify-content-end"--}}
+    <div class="d-flex "
+         style="width: 100%; border-radius: 0px !important;">
 
-        <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center">
+        <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center; padding: 10px !important;">
 
             <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
                 <div class="col-auto">
@@ -17,19 +19,19 @@
                 <div class="d-flex">
                     <div class="h-100">
                         <a href="javascript:void(0)">
-                            <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}" >
+                            <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-                             @if(!empty($traitDescription['public_name']))
-                                                        <p class="mb-0 font-weight-bold text-sm">
-                                                            Optimal Trait To Be In Right Now:
-                                                        </p>
-                            <h6> <strong>{{$traitDescription['public_name'] ?? ''}}</strong></h6>
+                            @if(!empty($traitDescription['public_name']))
+                                <p class="mb-0 font-weight-bold text-sm">
+                                    Optimal Trait To Be In Right Now:
+                                </p>
+                                <h6><strong>{{$traitDescription['public_name'] ?? ''}}</strong></h6>
                             @endif
-{{--                                                        <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
-{{--                                                            Strategy and Problem--}}
-{{--                                                            Solving--}}
-{{--                                                            Activities</p>--}}
+                            {{--                                                        <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
+                            {{--                                                            Strategy and Problem--}}
+                            {{--                                                            Solving--}}
+                            {{--                                                            Activities</p>--}}
                         </a>
                     </div>
                 </div>
@@ -87,8 +89,6 @@
                     @endif
                 </div>
 
-                &nbsp;
-
                 <div class="nav-item pt-2">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                             class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
@@ -97,9 +97,9 @@
                     </button>
                 </div>
             </div>
-
-
         </div>
+
+        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
 
     </div>
 </nav>
@@ -127,9 +127,9 @@
                             </div>
                             <div>
                                 @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                                <div class="text-center" id="qrCodeContainer">
-                                    {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate( \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) ) }}
-                                </div>
+                                    <div class="text-center" id="qrCodeContainer">
+                                        {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate( \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) ) }}
+                                    </div>
                                 @else
                                     <div class="text-center" id="qrCodeContainer">
                                         {{ SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->generate(url('/register?ref=' .\App\Helpers\Helpers::getWebUser()->referral_code)) }}
@@ -144,16 +144,16 @@
                             </div>
 
                             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                            <div class="d-flex">
-                                <input type="text" class="form-control w-80"
-                                       style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none"
-                                       value="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}"
-                                       readonly="">
-                                <button class="btn mb-0 text-white w-20" id="copy_link"
-                                        onclick="copyToClipboard('{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
-                                        style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
-                                </button>
-                            </div>
+                                <div class="d-flex">
+                                    <input type="text" class="form-control w-80"
+                                           style="background-color: #0f1534;border-radius: 5px 0px 0px 5px;border-right: none"
+                                           value="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}"
+                                           readonly="">
+                                    <button class="btn mb-0 text-white w-20" id="copy_link"
+                                            onclick="copyToClipboard('{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('register?ref=' . \App\Helpers\Helpers::getWebUser()->referral_code) }}')"
+                                            style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
+                                    </button>
+                                </div>
                             @else
                                 <div class="d-flex">
                                     <input type="text" class="form-control w-80"
