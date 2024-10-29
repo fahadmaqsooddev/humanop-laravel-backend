@@ -328,7 +328,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
-                                <h2 class="font-weight-bolder mb-0">Library Resources</h2>
+                                <h3 class="font-weight-bolder mb-0">Library of Resources & Trainings</h3>
                             </div>
                         </div>
                     </div>
