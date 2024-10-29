@@ -262,17 +262,17 @@
                                 </div>
                                 <div class="d-flex">
                                     <p class="text-color-dark">Subscription Status:</p>
-                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$subscription['stripe_status'] ?? 'active'}}</p>
+                                    <p style="color: #f2661c; font-weight: bold; margin-left: 15px">{{$subscription['stripe_status'] ?? 'Active'}}</p>
                                 </div>
                                 <div class="d-flex">
                                     <p class="text-color-dark">Subscription Start Date:</p>
                                     <p style="color: #f2661c; font-weight: bold; margin-left: 15px">
-                                        {{$subscription ? \Carbon\Carbon::parse($subscription->created_at)->format('d/m/Y') : \Carbon\Carbon::parse($user->created_at)->format('d/m/Y')}}
+                                        {{$subscription ? \Carbon\Carbon::parse($subscription->created_at)->format('m/d/Y') : \Carbon\Carbon::parse($user->created_at)->format('m/d/Y')}}
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
-                                <h5 class="text-color-dark">Include Features</h5>
+                                <h5 class="text-color-dark">Included Features</h5>
                                 <ul>
                                     <li class="text-color-dark">Get 1 assessment free after 90 days.</li>
                                     <li class="text-color-dark">Basic Results Only</li>
@@ -287,7 +287,7 @@
                         <div>
                             <a href="{{route('client_pricing')}}" class="rainbow-border-user-nav-btn mb-0 ms-2 "
 
-                               type="button" name="button">Update My Subscription
+                               type="button" name="button">Upgrade/Downgrade My Subscription
                             </a>
                         </div>
                     </div>
@@ -543,8 +543,8 @@
                 background: '#3442b4',
             })
             swalWithBootstrapButtons.fire({
-                title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete your account !</span>",
+                title: '<span style="color: #e70000; font-size: 21px; font-weight: bold">WARNING: For security purposes and to honor YOUR choice, once you choose to delete your account, we purge EVERYTHING from our servers</span>',
+                html: "<span style='color: white; font-size: 18px'>You will have to start from scratch if you come back again. Please be certain before deleting.</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
