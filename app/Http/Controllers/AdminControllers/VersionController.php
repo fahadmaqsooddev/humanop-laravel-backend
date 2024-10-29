@@ -15,7 +15,7 @@ class VersionController extends Controller
 
             $version = Version::getLatestVersion();
 
-            return view('admin-dashboards/version-control/index');
+            return view('client-dashboard/version/index', compact('version'));
 
         } catch (\Exception $exception) {
 
