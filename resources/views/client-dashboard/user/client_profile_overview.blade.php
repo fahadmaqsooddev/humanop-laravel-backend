@@ -319,23 +319,25 @@
         .orange-border {
             border: 1px solid #f2661c;
         }
-        .left-nav-blue-light-color{
+
+        .left-nav-blue-light-color {
             background: #2C4C7E !important;
         }
 
-        .card-ko{
+        .card-ko {
             background: #2C4C7E !important;
-            height:auto;
+            height: auto;
             text-wrap: wrap;
             word-wrap: break-word;
             margin 10px;
         }
 
-        .card{
-            background: #1C365E; !important;
+        .card {
+            background: #1C365E;
+        !important;
         }
 
-        .instruction_text{
+        .instruction_text {
             color: #f2661c;
             text-transform: uppercase;
             font-size: 27px;
@@ -344,54 +346,54 @@
 
         /*Full Result page Responsiveness code*/
 
-        @media screen and (min-width: 300px) and (max-width: 900px){
+        @media screen and (min-width: 300px) and (max-width: 900px) {
 
-            .nav.nav-pills .nav-link.active{
+            .nav.nav-pills .nav-link.active {
                 height: auto !important;
             }
 
-            #profile_overview_nav{
+            #profile_overview_nav {
 
             }
 
-            #profile_overview_nav > li{
+            #profile_overview_nav > li {
                 font-size: 10px;
             }
 
-            #profile_overview_nav > li > a{
+            #profile_overview_nav > li > a {
                 padding: 5px;
             }
 
-            #summaryReport > .slider-padding{
+            #summaryReport > .slider-padding {
                 padding: 0 0 0 0 !important;
             }
 
-            #summaryReport > .slider-padding > .summary_report_points_heading{
+            #summaryReport > .slider-padding > .summary_report_points_heading {
                 font-size: 20px !important;
                 font-weight: bold;
             }
 
-            #coreStats > .slider-padding{
+            #coreStats > .slider-padding {
                 padding: 0 0 0 0 !important;
             }
 
-            #coreStats > .slider-padding > .core_stats_heading{
+            #coreStats > .slider-padding > .core_stats_heading {
                 font-size: 20px !important;
             }
 
-            #coreStats > .slider-padding > div > .instruction_text{
+            #coreStats > .slider-padding > div > .instruction_text {
                 font-size: 15px !important;
             }
 
-            #coreStats > .slider-padding > .row{
+            #coreStats > .slider-padding > .row {
                 margin: -15px -15px 5px -15px !important;
             }
 
-            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card{
+            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card {
                 margin: -1px 17px 0 21px !important;
             }
 
-            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card_motivation{
+            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card_motivation {
                 margin: -1px 17px 7px 21px !important;
             }
 
@@ -405,12 +407,15 @@
                 <section>
                     <div class="row mt-lg-4 mt-2">
                         <div class="col-12">
-                            <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center" >
+                            <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center">
                                 <div class="card-body p-3">
-                                    <h1 class="text-white">Your HumanOp Profile Overview</h1>
+                                    <h1 class="text-white">Your HumanOp Profile Overview<span class="iconInfo" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="#profileOverviewModel"><i
+                                                class="fa-regular fa-circle-question" style="color: white; font-size: 25px"></i></span>
+                                    </h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
-                                            class="center-play-pause mx-auto d-flex justify-content-center" style="width: 10%; position: absolute; top:40%; left:45%;">
+                                            class="center-play-pause mx-auto d-flex justify-content-center"
+                                            style="width: 10%; position: absolute; top:40%; left:45%;">
                                             <button class="btn play-pause-center fs-1"
                                                     style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
                                             </button>
@@ -948,7 +953,8 @@
                                                 <div id="style_{{$index}}_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
+                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                            style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1399,7 +1405,8 @@
                                                     use your natural talents versus learned talents you gain energy.
                                                     Maximizing your fuel efficiency allows you to access your true self
                                                     and enjoy life in the process.</p>
-                                                <h4 class="primaryColor summary_report_points_heading">The HumanOp Summary Report proves valuable in
+                                                <h4 class="primaryColor summary_report_points_heading">The HumanOp
+                                                    Summary Report proves valuable in
                                                     various contexts:</h4>
                                                 <ul>
                                                     <li>Employer and agency recruitment</li>
@@ -1410,12 +1417,14 @@
                                                     <li>Roommate selection</li>
                                                     <li>Self-understanding and interpersonal relationships</li>
                                                 </ul>
-
-                                                @if($assessment)
-                                                    <a href="{{url('client/download-user-report/'. $assessment->id)}}"
-                                                       target="_blank"
-                                                       class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
-                                                       style="background-color: #f2661c">Download Summary Report</a>
+                                                @if(\App\Helpers\Helpers::getWebUser()['plan_name'] != 'Freemium')
+                                                    @if($assessment)
+                                                        <a href="{{url('client/download-user-report/'. $assessment->id)}}"
+                                                           target="_blank"
+                                                           class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
+                                                           style="background-color: #f2661c">Download Summary Report</a>
+                                                    @endif
+                                                @else
                                                 @endif
                                             </div>
                                         </div>
@@ -1427,9 +1436,13 @@
                                                     <h4 class="instruction_text">
                                                         <strong>Click on the Labels to see your Results!</strong>
                                                     </h4>
+                                                    <h4 class="instruction_text">
+                                                        <strong>CLICK THE LABEL AGAIN TO TOGGLE THE TRANSCRIPT</strong>
+                                                    </h4>
                                                 </div>
 
-                                                <h4 class="primaryColor core_stats_heading">Main Results Introduction</h4>
+                                                <h4 class="primaryColor core_stats_heading">Main Results
+                                                    Introduction</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
@@ -1481,7 +1494,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="motivation_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1550,7 +1564,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="power_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}', 1, 'power_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1565,7 +1580,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="mid_life_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}', 1, 'mid_life_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1581,7 +1597,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="awareness_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}', 1, 'awareness_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1596,7 +1613,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}', 1, 'forward_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1611,7 +1629,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="liberated_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}', 1, 'liberated_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1626,7 +1645,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="being_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}', 1, 'being_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1641,7 +1661,8 @@
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="review_life_cycle_heading" class="card"
                                                                      style="height: auto">
-                                                                    <div class="card-body p-3 " style="text-align: center">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
@@ -1670,7 +1691,8 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="style_{{$index.'_heading'}}" class="card core_stats_dynamic_card"
+                                                            <div id="style_{{$index.'_heading'}}"
+                                                                 class="card core_stats_dynamic_card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
@@ -1701,7 +1723,8 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div id="feature_{{$index}}_heading" class="card core_stats_dynamic_card_motivation"
+                                                            <div id="feature_{{$index}}_heading"
+                                                                 class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3">
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
@@ -1776,9 +1799,10 @@
                                                     @foreach($topCommunication as $index => $communication)
 
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="communication_{{$index}}_heading" class="card core_stats_dynamic_card"
+                                                            <div id="communication_{{$index}}_heading"
+                                                                 class="card core_stats_dynamic_card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " >
+                                                                <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1846,7 +1870,7 @@
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="perception_dynamic_dev_heading" class="card"
                                                                  style="height: auto">
-                                                                <div class="card-body p-3 " >
+                                                                <div class="card-body p-3 ">
                                                                     <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
@@ -1882,6 +1906,25 @@
                         </div>
                     </div>
                 </section>
+            </div>
+        </div>
+    </div>
+    <!-- Daily Tip Info Model -->
+    <div class="modal fade" id="profileOverviewModel" tabindex="-1"
+         role="dialog"
+         aria-labelledby="dailyTipModel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <div class="card-body pt-0">
+                        <label class="form-label fs-4 text-white">{{$profileInfo['name']}}</label>
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-info-modal-button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p class="text-white mt-4" style="text-align: justify">{{$profileInfo['information']}}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -11,6 +11,7 @@ use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
+use App\Models\Information\InformationIcon;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -127,7 +128,7 @@ class UserController extends Controller
             }
 
 //            $id = last(request()->segments());
-            
+
             $user = Helpers::getWebUser()['is_admin'];
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;
@@ -142,8 +143,9 @@ class UserController extends Controller
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $actionPlan = ActionPlan::userActionPlan();
+            $profileInfo = InformationIcon::getProfileOverviewInfo();
 
-            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age'));
+            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age','profileInfo'));
 
         } catch (\Exception $exception) {
 

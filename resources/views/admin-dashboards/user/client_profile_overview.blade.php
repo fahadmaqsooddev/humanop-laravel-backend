@@ -1364,6 +1364,9 @@
                                                     <h4 class="instruction_text">
                                                         <strong>Click on the Labels to see your Results!</strong>
                                                     </h4>
+                                                    <h4 class="instruction_text">
+                                                        <strong>CLICK THE LABEL AGAIN TO TOGGLE THE TRANSCRIPT</strong>
+                                                    </h4>
                                                 </div>
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
                                                 <p class="mt-4">You're about to experience your Human Op ULT assessment
