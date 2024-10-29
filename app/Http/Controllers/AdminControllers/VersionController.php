@@ -13,7 +13,7 @@ class VersionController extends Controller
     {
         try {
 
-            $version = Version::getLastestVersion();
+            $version = Version::getLatestVersion();
 
             return view('admin-dashboards/version-control/index');
 
