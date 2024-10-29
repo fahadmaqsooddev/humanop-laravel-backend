@@ -241,7 +241,7 @@ class AuthController extends Controller
             Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
 
 
-            return Helpers::successResponse('Resend email sent successfully!', $user);
+            return Helpers::successResponse('Resend email sent successfully!');
 
         } catch (\Exception $exception) {
 
