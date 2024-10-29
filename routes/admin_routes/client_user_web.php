@@ -14,6 +14,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ClientController\MessageController;
 use App\Http\Controllers\ClientController\StoryController;
 use App\Http\Controllers\GoogleAuth\GoogleController;
+use App\Http\Controllers\AdminControllers\VersionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,8 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/newsfeed', [NetworkController::class, 'network'])->name('newsfeed');
     Route::get('/setting', [SettingController::class, 'setting'])->name('setting');
     Route::post('/delete-account', [SettingController::class, 'deleteAccount'])->name('delete_account');
+
+    Route::get('/version', [VersionController::class, 'getLatestVersion'])->name('get_latest_version');
 
     Route::post('/check-coupon', [CouponController::class, 'checkCoupon'])->name('check_coupon');
 

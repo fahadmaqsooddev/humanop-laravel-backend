@@ -399,5 +399,10 @@ return [
             'fillable' => ['user_id','daily_tip_id'],
             'hidden' => ['updated_at'],
         ],
+        'Version' => [
+            'table' => 'version_control',
+            'fillable' => ['version','details'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
+        ],
     ]
 ];

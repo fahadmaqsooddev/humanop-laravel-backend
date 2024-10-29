@@ -13,6 +13,7 @@ use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -125,6 +126,22 @@ class UserController extends Controller
             $timezones = Helpers::timeZone();
 
             return Helpers::successResponse('Timezone successfully updated', $timezones);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function getLatestVersion()
+    {
+
+        try {
+
+            $version = Version::getLatestVersion();
+
+
+            return Helpers::successResponse('Get Latest Version', $version);
 
         } catch (\Exception $exception) {
 

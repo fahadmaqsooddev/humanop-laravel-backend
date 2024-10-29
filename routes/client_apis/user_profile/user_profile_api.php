@@ -25,3 +25,4 @@ Route::get('profile-overview-result', 'UserController@profileOverviewResult');
 Route::get('summary-report', 'UserController@summaryReport');
 Route::get('intention-option', 'UserController@intentionOption');
 Route::get('timezone', 'UserController@getTimezone');
+Route::get('version', 'UserController@getLatestVersion');

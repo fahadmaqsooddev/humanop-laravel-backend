@@ -363,6 +363,18 @@
                                                     <span class="sidenav-normal"> Information Icon </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item {{ (Request::is('admin/version-control') ? 'active' : '') }}">
+                                                <a class="nav-link {{ (Request::is('admin/version-control') ? 'active' : '') }}"
+                                                   href="{{ route('admin_get_version') }}">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                    <span class="sidenav-normal"> Version Control </span>
+                                                </a>
+                                            </li>
                                             <li class="nav-item {{ (Request::is('admin/podcast') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/podcast') ? 'active' : '') }}"
                                                    href="{{ route('podcast') }}">
@@ -707,6 +719,12 @@
                                     @endif
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (Request::is('client/version') ? 'active' : '') }}"
+                                   href="{{ route('get_latest_version') }}">
+                                    <p class="text-white text-center mt-4">HumanOp Version</p>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -944,6 +962,7 @@
                                     @endif
                                 </div>
                             </li>
+
                         </ul>
                     </div>
                 </li>
@@ -1134,9 +1153,7 @@
                     </div>
                 </li>
             @endif
-                <li class="nav-item">
-                    <p class="text-white text-center mt-4">Version 1.0.0</p>
-                </li>
+
         </ul>
     </div>
 
