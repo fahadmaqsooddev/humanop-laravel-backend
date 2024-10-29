@@ -9,7 +9,7 @@ use App\Helpers\Helpers;
 
 class IntentionPlanForm extends Component
 {
-    public $userId;
+    public $userId, $selectIntention;
 
     public function mount()
     {

@@ -283,7 +283,7 @@
                             <div class="card daily-tip-card" style="height: 530px;">
                                 <div class="card-body p-3" style="cursor: pointer;">
                                     <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
-                                        <h5 class="text-white mb-0 text-center" > <strong>Daily Tip</strong> <span
+                                        <h5 class="mb-0 text-center"> <strong>Daily Tip</strong> <span
                                             class="iconInfo" data-bs-toggle="modal"
                                             data-bs-target="#dailyTipModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
                                     </div>
@@ -360,7 +360,7 @@
                                    style="color: rgb(160, 174, 192)"> <strong>LIBRARY
                                     OF
                                         RESOURCES & TRAININGS </strong><span class="iconInfo" data-bs-toggle="modal"
-                                                                data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
+                                                                data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: white;"></i></span></h5>
                                 </div>
 
                                 <a href="{{route('resource')}}">
@@ -564,7 +564,7 @@
                                    style="color: rgb(160, 174, 192)"> <strong>HELP
                                     I'M
                                         HAVING A CHALLENGE </strong><span class="iconInfo" data-bs-toggle="modal"
-                                                             data-bs-target="#helpChallangeModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
+                                                             data-bs-target="#helpChallangeModel"><i class="fa-regular fa-circle-question fa-lg" style="color: white;"></i></span></h5>
                                 </div>
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                     <div>
@@ -585,7 +585,7 @@
                                     YOUR OPTIMIZATION STRATEGIES FOR THE
                                     NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
                                         DAYS </strong><span class="iconInfo" data-bs-toggle="modal"
-                                               data-bs-target="#actionPlanModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #F6BA81;"></i></span>
+                                               data-bs-target="#actionPlanModel"><i class="fa-regular fa-circle-question fa-lg" style="color: white;"></i></span>
                                 </h5>
                                 </div>
                                 <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"

@@ -45,34 +45,43 @@ class AuthController extends Controller
 
             $credentials['is_admin'] = Admin::IS_CUSTOMER;
 
-            $token = $this->auth->attempt($credentials);
+            $checkUser = User::where('email', $credentials['email'])->whereNotNull('email_verified_at')->exists();
 
-            if ($token) {
+            if ($checkUser == true)
+            {
+                $token = $this->auth->attempt($credentials);
+                if ($token) {
 
-                $user_data = User::user(Helpers::getUser()->id);
+                    $user_data = User::user(Helpers::getUser()->id);
 //                User::updateUserIsFeedback();
 
-                DailyTip::updateUserDailyTip();
+                    DailyTip::updateUserDailyTip();
 
-                ActionPlan::storeUserActionPlan();
+                    ActionPlan::storeUserActionPlan();
 
-                $user = Helpers::getUser();
+                    $user = Helpers::getUser();
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                $data = [
-                    'user' => $user_data,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ]
-                ];
+                    $data = [
+                        'user' => $user_data,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
 
-                return Helpers::successResponse('User loggedIn successfully', $data);
+                    return Helpers::successResponse('User loggedIn successfully', $data);
 
-            } else {
+                }
+                else {
 
-                return Helpers::unauthResponse('Wrong Password');
+                    return Helpers::unauthResponse('Wrong Password');
+                }
+            }else
+            {
+                return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
+
             }
 
         } catch (\Exception $exception) {

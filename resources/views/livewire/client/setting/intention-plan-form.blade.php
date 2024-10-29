@@ -14,7 +14,7 @@
                                @foreach($intention as $userIntention)
                                {{$userIntention['intentionOptions'] ? $userIntention['intentionOptions']['id'] == $option['id'] ? 'checked' : '' : ''}}
                                @endforeach
-                               name="selectIntention"
+                               name="intention" value="{{$option['id']}}"
                                class="form-check-input">
                         <label for="name" style="color: #0f1535; font-size: 15px">
                             {{ $option['description'] }}

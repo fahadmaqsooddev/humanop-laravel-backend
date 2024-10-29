@@ -134,13 +134,12 @@
                                     </div>
                                     <div class="feedback-card">
                                         <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
-                                            Thank you for being a Beta Tester! Give us some feedback below on how your
-                                            experience is so far and how we can improve it.</h5>
+                                            Thanks for being a Beta Tester! In the last 3 logins, do you have any
+                                            constructive feedback of what’s working well or what could be improved?</h5>
                                         <form action="javascript:void(0);">
 
                                             <div class="p-2" id="feedback_success_message" hidden>
-                                                <span class="text-success">Thank you for your feedback! We have given
-                                                    you a point as a token of our appreciation!</span>
+                                                <span class="text-success">Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!</span>
                                             </div>
 
                                             <textarea id="comment-value" rows="5" class="comment-box"
@@ -207,7 +206,7 @@
 
             var now = new Date();
 
-            var modal_open_time = now.setMinutes(now.getMinutes() + 5); // add 5 minutes in login time to open modal
+            var modal_open_time = now.setMinutes(now.getMinutes() + 1); // add 30 minutes in login time to open modal
 
             var local_storage_time = localStorage.getItem('modal_open_time');
 
