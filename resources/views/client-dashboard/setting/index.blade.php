@@ -173,14 +173,6 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body setting-options" data-scroll="" href="#timezone">
-                                <div class="icon me-2">
-                                    <i class="fa-solid fa-address-card custom-text-dark"></i>
-                                </div>
-                                <span class="text-sm custom-text-dark">TimeZone</span>
-                            </a>
-                        </li>
-                        <li class="nav-item pt-2">
                             <a class="nav-link text-body setting-options" data-scroll="" href="#billing">
                                 <div class="icon me-2">
                                     <i class="fa-solid fa-address-card custom-text-dark"></i>
@@ -258,8 +250,6 @@
                 @livewire('client.setting.password-setting-form')
                 <!-- Card Intention Plan -->
                 @livewire('client.setting.intention-plan-form')
-                <!-- Timezone -->
-                @livewire('client.setting.timezone-form')
                 <!-- Subcription Detail -->
                 <div class="card mt-4 setting-box-background" id="subscription">
                     <div class="card-header">

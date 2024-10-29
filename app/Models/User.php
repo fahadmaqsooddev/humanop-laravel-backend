@@ -460,16 +460,6 @@ class User extends Authenticatable implements JWTSubject
         return self::user($user_id);
     }
 
-    public static function updateUserTimezone($timezone = null)
-    {
-
-        $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-
-        self::whereId($user_id)->update(['timezone' => $timezone]);
-
-        return self::user($user_id);
-    }
-
     public static function updateUserPassword($password = null)
     {
 

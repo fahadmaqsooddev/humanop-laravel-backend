@@ -16,7 +16,7 @@ class BasicSettingForm extends Component
     use WithFileUploads;
     use HandlesValidationErrors;
 
-    public $user, $ageRange ,$profile_image, $is_abandon_assessment, $day, $month, $year;
+    public $user, $ageRange ,$profile_image, $is_abandon_assessment, $day, $month, $year, $timezone;
 
     protected $listeners = ['deleteAbandonAssessmentOnGenderChange'];
 
@@ -44,7 +44,7 @@ class BasicSettingForm extends Component
 
         try {
 
-            $keysToKeep = ['first_name', 'last_name','date_of_birth', 'gender', 'phone'];
+            $keysToKeep = ['first_name', 'last_name','date_of_birth', 'gender', 'phone','timezone'];
 
             if ($this->profile_image){
                 $upload_id = Upload::uploadFile($this->profile_image, 200, 200, 'base64Image','png', true);
@@ -55,6 +55,7 @@ class BasicSettingForm extends Component
             $data = array_intersect_key($this->user, array_flip($keysToKeep));
 
             User::updateUser($data, $this->user['id']);
+
             auth()->user()->refresh();
 
             $this->emit('userBasicSettingUpdated', auth()->user());
@@ -75,6 +76,8 @@ class BasicSettingForm extends Component
 
     public function render()
     {
-        return view('livewire.client.setting.basic-setting-form');
+        $timezones = Helpers::timeZone();
+
+        return view('livewire.client.setting.basic-setting-form', ['timezones' => $timezones]);
     }
 }

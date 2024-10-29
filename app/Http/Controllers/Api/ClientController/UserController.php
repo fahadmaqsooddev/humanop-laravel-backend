@@ -69,10 +69,10 @@ class UserController extends Controller
 
                 $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
                 $request->merge(['image_id' => $upload_id]);
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id','timezone']);
 
             } else {
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender','timezone']);
 
             }
 
@@ -110,21 +110,6 @@ class UserController extends Controller
 
                 return Helpers::validationResponse('Current Password is incorrect');
             }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function updateUserTimezone(ChangeTimezoneRequest $request)
-    {
-
-        try {
-
-            User::updateUserTimezone($request->input('timezone'));
-
-            return Helpers::successResponse('Timezone successfully updated');
 
         } catch (\Exception $exception) {
 

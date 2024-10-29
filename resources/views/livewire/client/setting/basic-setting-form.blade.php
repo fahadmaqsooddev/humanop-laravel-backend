@@ -97,6 +97,17 @@
                 </div>
 
                 <div class="col-md-6 col-sm-12">
+                    <label class="form-label mt-4 text-color-dark">Timezone</label>
+                    <div class="form-group">
+                        <select class="form-control setting-box-background text-color-dark" name="timezone" wire:model="user.timezone">
+                            @foreach($timezones as $timezone)
+                                <option value="{{$timezone}}">{{$timezone}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Profile Image</label>
                     <input type="file" wire:model="profile_image" class="form-control text-color-dark setting-box-background">
                 </div>
