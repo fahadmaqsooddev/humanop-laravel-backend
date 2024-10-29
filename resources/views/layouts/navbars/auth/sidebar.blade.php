@@ -214,7 +214,7 @@
                                                                              src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
-                                        <span class="sidenav-normal"> Resources </span>
+                                        <span class="sidenav-normal"> Resources & Trainings </span>
                                     </a>
                                 </li>
                             @endcan
@@ -549,7 +549,7 @@
                                                                          src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
-                                    <span class="sidenav-normal"> Library Resources </span>
+                                    <span class="sidenav-normal"> Resources & Trainings </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -788,7 +788,7 @@
                                                                          src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
-                                    <span class="sidenav-normal"> Library Resources </span>
+                                    <span class="sidenav-normal"> Resources & Trainings </span>
                                 </a>
                             </li>
                             <li class="nav-item ">

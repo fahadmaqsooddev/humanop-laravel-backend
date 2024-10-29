@@ -362,11 +362,18 @@
                                         RESOURCES & TRAININGS </strong><span class="iconInfo" data-bs-toggle="modal"
                                                                 data-bs-target="#libraryResourceModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
                                 </div>
-                                <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                    <div>
-                                        <h1 class="text-center text-white" style="">Coming Soon!</h1>
-                                    </div>
-                                </div>
+
+                                <a href="{{route('resource')}}">
+                                <p style="font-size: 15px;cursor:pointer" class="my-1 text-white"><strong> Click here to access Resources & Trainings for:</strong></p>
+                                </a>
+                                        <ul>
+                                            <li style="font-size: 14px">Deeper understanding of the science behind the patented technology</li>
+                                            <li style="font-size: 14px"> How to use the results of this technology to optimize your life and work</li>
+                                            <li style="font-size: 14px"> Deeper dives into understanding each element of your authentic self</li>
+                                            <li style="font-size: 14px">  How to strategies to help resolve challenges you’re experiencing in all areas of your life.</li>
+                                        </ul>
+
+
                             </div>
                         </div>
 
@@ -776,7 +783,7 @@
                                 <div class="fw-bold display-5 d-flex align-items-center justify-content-center"
                                      id="coin-label"
                                      style="border-radius: 0px 40% 40% 0px; height: 40px;z-index:2; width: 70px; font-size: 16px; border: 1px solid #f2661c; color: #f2661c; background-color: white; margin-left: -4px;margin-top: 5px">
-                                    <span style="color: #f2661c;">coins</span>
+                                    <span style="color: #f2661c;">HP</span>
                                 </div>
                             </div>
 
