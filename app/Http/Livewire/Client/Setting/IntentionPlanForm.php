@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client\Setting;
 
+use App\Models\IntentionPlan\IntentionOption;
 use Livewire\Component;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Helpers\Helpers;
@@ -35,6 +36,8 @@ class IntentionPlanForm extends Component
 
     public function render()
     {
-        return view('livewire.client.setting.intention-plan-form');
+        $intentionOptions = IntentionOption::getOptions();
+
+        return view('livewire.client.setting.intention-plan-form', ['intentionOptions' => $intentionOptions]);
     }
 }
