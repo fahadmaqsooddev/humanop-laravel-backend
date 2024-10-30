@@ -99,7 +99,11 @@
             </div>
         </div>
 
-        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
+        <div class="betaTagDiv">
+            <p class="betaTag">Beta</p>
+        </div>
+
+{{--        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">--}}
 
     </div>
 </nav>

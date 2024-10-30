@@ -22,6 +22,52 @@
     background-color: rgb(210, 103, 34) !important;
 }
 
+.betaTagDiv
+{
+    background-color: #f2661c;
+    width: 150px;
+    margin: auto;
+    text-align: center;
+    transform: rotate(45deg);
+    position: relative;
+    left: 35px;
+    top: -13px;
+}
+
+.betaTag
+{
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+    margin: auto;
+}
+
+@media (min-width: 360px) and (max-width: 528px) {
+    .betaTagDiv {
+        background-color: #f2661c;
+        width: 232px;
+        margin: auto;
+        text-align: center;
+        transform: rotate(45deg);
+        position: relative;
+        left: 41px;
+        top: -30px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 360px) {
+    .betaTagDiv {
+        background-color: #f2661c;
+        width: 232px;
+        margin: auto;
+        text-align: center;
+        transform: rotate(45deg);
+        position: relative;
+        left: 34px;
+        top: -61px;
+    }
+}
+
 .user-pannel-btn {
     display: flex;
     align-items: center;

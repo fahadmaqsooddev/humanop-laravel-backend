@@ -64,7 +64,7 @@
             <div class="tab-content tab-space ">
                 <div class="tab-pane active" id="monthly">
                     <div class="row w-100 introAssessmentMargin">
-                        <div class="col-lg-7 col-md-7 col-12 mt-2">
+                        <div class="col-lg-7 col-md-7 col-12 mt-2 text-white">
                             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
                                href="{{ Auth::check() ? (request()->segment(1) === 'client' ? url('client/dashboard') : \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')) : url('login') }}">
                                 <img
@@ -73,7 +73,7 @@
                                     style="width: auto; height: 100px">
                             </a>
                             <h4 class="text-white text-bold pl-14">{{$version['version']}}</h4>
-                            <p class="text-white pl-14" style="display: flex; text-align: justify">{{$version['details']}}</p>
+                            <p class="text-white pl-14" style="display: flex; text-align: justify">{!! $version['details'] !!}</p>
                         </div>
                         <div class="col-lg-5 col-md-5 col-12 introAssessmentLogo pl-14">
                             <img style="width:90%;height: 90%"

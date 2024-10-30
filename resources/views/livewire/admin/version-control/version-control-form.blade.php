@@ -1,3 +1,23 @@
+@push('css')
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+    <style>
+        .ck-editor__editable_inline {
+            background-color: #0f1534; /* Example: Change this to your desired background color */
+        }
+        .ck-editor__editable{
+            background-color: #0f1534 !important;
+        }
+        .ck-editor{
+            border-radius: 0 !important;
+            width: 100% !important;
+        }
+
+        .card{
+            background-color: #1C365E !important;
+        }
+
+    </style>
+@endpush
 <div>
     <div class="table-responsive table-orange-color">
         @include('layouts.message')
@@ -66,7 +86,7 @@
                                         <label class="form-label text-white">Version Detail</label>
                                         <div class="form-group">
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                      rows="10" cols="10"
+                                                      rows="10" cols="10" id="editor"
                                                       name="information"
                                                       wire:model="details"></textarea>
                                             @error('details')
@@ -120,7 +140,7 @@
                                         <label class="form-label text-white">Version Detail</label>
                                         <div class="form-group">
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                      rows="10" cols="10"
+                                                      rows="10" cols="10" id="update_editor"
                                                       name="information"
                                                       wire:model="details"></textarea>
                                             @error('details')
@@ -141,7 +161,80 @@
     </div>
 
 </div>
+@push('javascript')
+    <script type="importmap">
+    {
+        "imports": {
+            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
+            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+        }
+    }
+</script>
 
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font,
+            List
+        } from 'ckeditor5';
+
+        // Function to initialize CKEditor for a specific textarea by ID
+
+        const editorElement = document.getElementById('editor');
+        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
+            ClassicEditor
+                .create(editorElement, {
+                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List ],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                    ]
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                    @this.set('details', editor.getData());
+                    })
+                    Livewire.on('contentUpdated', content => {
+                        editor.setData(content); // Set new content into CKEditor
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+
+        const updateEditorElement = document.getElementById('update_editor');
+        if (updateEditorElement && !updateEditorElement.classList.contains('ck-editor')) { // Check if not already initialized
+            ClassicEditor
+                .create(updateEditorElement, {
+                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List ],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                    ]
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                    @this.set('details', editor.getData());
+                    })
+                    Livewire.on('contentUpdated', content => {
+                        editor.setData(content); // Set new content into CKEditor
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+    </script>
+@endpush
 @push('js')
 
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
