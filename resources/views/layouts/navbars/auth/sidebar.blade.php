@@ -641,6 +641,47 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ ($childFolder == 'support' ? 'active' : '') }}"
+                                   data-bs-toggle="collapse" aria-expanded="false" href="#support">
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Human Network.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Human Network.png')}}"><b
+                                            class="caret"></b></span>
+                                    <span class="sidenav-normal"> Support &nbsp;&nbsp; <b
+                                            class="caret"></b></span>
+                                </a>
+                                <div class="collapse {{ ($childFolder == 'support' ? 'show' : '') }}"
+                                     id="support">
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item {{ (Request::is('connections') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('connections') ? 'active' : '') }}"
+                                               href="{{ route('connections', ['type' => 'connection']) }}">
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Beta Feedback</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item {{ (Request::is('client/tutorials') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/tutorials') ? 'active' : '') }}"
+                                               href="{{ route('user_tutorial') }}">
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Tutorials</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="nav-item {{ (Request::is('client/pricing') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/pricing') ? 'active' : '') }}"
                                    href="{{ route('client_pricing') }}">

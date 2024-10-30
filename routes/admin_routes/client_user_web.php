@@ -15,6 +15,7 @@ use App\Http\Controllers\ClientController\MessageController;
 use App\Http\Controllers\ClientController\StoryController;
 use App\Http\Controllers\GoogleAuth\GoogleController;
 use App\Http\Controllers\AdminControllers\VersionController;
+use App\Http\Controllers\AdminControllers\InformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
 
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
+    Route::get('/tutorials', [InformationController::class, 'tutorials'])->name('user_tutorial');
 
     Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('user-feedback');
     Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('follow');
