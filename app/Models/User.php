@@ -845,4 +845,13 @@ class User extends Authenticatable implements JWTSubject
         return self::where('email', $userEmail)->first();
     }
 
+    public static function updateUserTimezone($timezone = null)
+    {
+        $userId = Helpers::getWebUser()['id'];
+
+        return self::whereId($userId)->update(['timezone' => $timezone]);
+
+    }
+
+
 }
