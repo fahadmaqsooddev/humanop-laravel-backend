@@ -76,9 +76,12 @@ class AssessmentController extends Controller
 
                 $status = Assessment::assessmentStatusForApi();
 
+                $latest_assessment = Assessment::getLatestAssessment($user['id']);
+
                 $assessment_price = StripeSetting::getSingle();
 
                 $data = [
+                    'latest_assessment_id' => $latest_assessment['id'],
                     'assessment_page_number' => $status,
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
