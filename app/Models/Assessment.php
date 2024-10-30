@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use Carbon\Carbon;
+use Faker\Extension\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,15 @@ class Assessment extends Model
     public function getCreatedAtAttribute($value)
     {
 
-        return Carbon::parse($value)->format('m/d/Y h:i A');
+        $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'];
+
+        $minutes = Helpers::explodeTimezoneWithHours($timezone);
+
+        return Carbon::parse($value)
+            ->addMinutes($minutes * 60)
+            ->format('m/d/Y h:i A');
+
+//        return Carbon::parse($value)->format('m/d/Y h:i A');
     }
 
     // scope
