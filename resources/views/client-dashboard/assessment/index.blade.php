@@ -47,7 +47,14 @@
                             <tbody>
                             @foreach($assessments as $assessment)
                                 <tr>
-                                    <td class="text-sm text-color-blue font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('m/d/Y h:i A')}}
+                                    @php
+                                        $timezone = \App\Helpers\Helpers::getWebUser()['timezone'];
+
+                                        $minutes = \App\Helpers\Helpers::explodeTimezoneWithHours($timezone);
+
+                                        $time =  \Illuminate\Support\Carbon::parse($assessment['updated_at'])->addMinutes($minutes * 60)->format('m/d/Y h:i A');
+                                    @endphp
+                                    <td class="text-sm text-color-blue font-weight-normal">{{ $time }}
                                         (GMT)
                                     </td>
                                     <td class="text-sm text-color-blue font-weight-normal">{{$assessment['page'] === 0 ? 'Complete' : 'Incomplete'}} </td>
