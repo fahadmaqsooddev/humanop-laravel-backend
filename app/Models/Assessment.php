@@ -47,7 +47,7 @@ class Assessment extends Model
     }
 
     // Accessor
-    public function getUpdatedAtAttribute($value)
+    public function getCreatedAtAttribute($value)
     {
 
         $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'];
