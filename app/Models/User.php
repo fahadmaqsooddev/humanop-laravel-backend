@@ -117,9 +117,11 @@ class User extends Authenticatable implements JWTSubject
 
             $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
+            return $optionalTrait;
+
         }
 
-        return $optionalTrait;
+        return '';
     }
 
     public function getPointAttribute()
