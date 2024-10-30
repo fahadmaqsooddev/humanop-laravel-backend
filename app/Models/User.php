@@ -33,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
     protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-        , 'age_group', 'plan_name'];
+        , 'age_group', 'plan_name', 'optional_trait'];
 
     public function __construct(array $attributes = array())
     {
@@ -99,6 +99,27 @@ class User extends Authenticatable implements JWTSubject
     public function getUserPictureUrlAttribute()
     {
         return (request()->getSchemeAndHttpHost() . "/assets/img/bruce-mars.jpg");
+    }
+
+    public function getOptionalTraitAttribute()
+    {
+        $timezone = $this->timezone;
+
+        $assessment = Assessment::getLatestAssessment($this->id);
+
+        if (!empty($assessment)) {
+
+            $topThreeStyles = Assessment::getAllStyles($assessment);
+
+            $topFeatures = Assessment::getFeatures($assessment);
+
+            $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+
+            $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
+
+        }
+
+        return $optionalTrait;
     }
 
     public function getPointAttribute()

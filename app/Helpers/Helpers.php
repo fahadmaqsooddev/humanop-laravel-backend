@@ -336,6 +336,39 @@ class Helpers
         }
     }
 
+    public static function getOptionalTrait($timezone = null, $traits = null, $features = null)
+    {
+        $stylesAndDrivers = array_merge($traits, $features);
+
+        $minutes = Helpers::explodeTimezoneWithHours($timezone);
+
+        $currentTime = Carbon::now()->addMinutes($minutes);
+
+        $morningStart = Carbon::createFromTimeString('05:00 AM');
+
+        $morningEnd = Carbon::createFromTimeString('12:00 PM');
+
+        $afternoonStart = Carbon::createFromTimeString('12:00 PM');
+
+        $eveningStart = Carbon::createFromTimeString('05:00 PM');
+
+        if ($currentTime->between($morningStart, $morningEnd)) {
+
+            $optionalTrait = $stylesAndDrivers[0][1];
+
+        } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+
+            $optionalTrait = $stylesAndDrivers[1][1];
+
+        } else {
+
+            $optionalTrait = $stylesAndDrivers[2][1];
+
+        }
+
+        return $optionalTrait;
+    }
+
     public static function explodeAssessmentTimezoneWithHours($userTimezone = null, $assessmentUpdatedAt = null)
     {
         $timezone_string = $userTimezone ? $userTimezone : 'UTC/GMT -07:00 - America/Los_Angeles';

@@ -116,9 +116,6 @@ class DailyTip extends Model
         return '';
     }
 
-
-
-
     public static function dailyTip(){
 
         return self::where('user_id', Helpers::getUser()->id)->first();

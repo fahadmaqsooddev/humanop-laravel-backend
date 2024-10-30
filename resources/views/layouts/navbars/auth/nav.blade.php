@@ -1,8 +1,9 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky" style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
+<nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
+     style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
      id="navbarBlur" data-scroll="true">
 
-{{--    <div class="navbar-background-color d-flex align-items-end justify-content-end"--}}
+    {{--    <div class="navbar-background-color d-flex align-items-end justify-content-end"--}}
     <div class="d-flex "
          style="width: 100%; border-radius: 0px !important;">
 
@@ -22,16 +23,12 @@
                             <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-                            @if(!empty($traitDescription['public_name']))
+                            @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
                                 <p class="mb-0 font-weight-bold text-sm">
                                     Optimal Trait To Be In Right Now:
                                 </p>
-                                <h6><strong>{{$traitDescription['public_name'] ?? ''}}</strong></h6>
+                                <h6><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'] }}</strong></h6>
                             @endif
-                            {{--                                                        <p class="text-white word-break text-sm col-12"> trait (Thinking) For--}}
-                            {{--                                                            Strategy and Problem--}}
-                            {{--                                                            Solving--}}
-                            {{--                                                            Activities</p>--}}
                         </a>
                     </div>
                 </div>
@@ -103,7 +100,7 @@
             <p class="betaTag">Beta</p>
         </div>
 
-{{--        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">--}}
+        {{--        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">--}}
 
     </div>
 </nav>
