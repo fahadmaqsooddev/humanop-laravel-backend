@@ -73,6 +73,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('/tutorials', [InformationController::class, 'tutorials'])->name('user_tutorial');
 
     Route::post('/user-feedback', [UserController::class, 'userFeedback'])->name('user-feedback');
+    Route::get('/beta-feedback', [UserController::class, 'Feedback'])->name('user_beta_feedback');
     Route::get('/follow', [NetworkController::class, 'followFollowing'])->name('follow');
     Route::get('/connections', [NetworkController::class, 'connection'])->name('connections');
 

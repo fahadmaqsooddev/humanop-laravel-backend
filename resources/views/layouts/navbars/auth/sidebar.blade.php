@@ -655,9 +655,9 @@
                                 <div class="collapse {{ ($childFolder == 'support' ? 'show' : '') }}"
                                      id="support">
                                     <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item {{ (Request::is('connections') ? 'active' : '') }}">
-                                            <a class="nav-link {{ (Request::is('connections') ? 'active' : '') }}"
-                                               href="{{ route('connections', ['type' => 'connection']) }}">
+                                        <li class="nav-item {{ (Request::is('client/beta-feedback') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/beta-feedback') ? 'active' : '') }}"
+                                               href="{{ route('user_beta_feedback') }}">
                                                 <span class="sidenav-mini-icon"><img
                                                         style="width: 18px; margin-right: 10px"
                                                         src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>

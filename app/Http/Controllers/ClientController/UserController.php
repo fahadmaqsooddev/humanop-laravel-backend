@@ -36,6 +36,19 @@ class UserController extends Controller
         }
     }
 
+    public function feedback()
+    {
+        try {
+
+            return view('client-dashboard.feedback.index');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
     public function userInfo()
     {
         try {
