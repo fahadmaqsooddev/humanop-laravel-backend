@@ -24,7 +24,7 @@ class Assessment extends Model
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
         $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
-        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+//        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
 
@@ -47,7 +47,7 @@ class Assessment extends Model
     }
 
     // Accessor
-    public function getCreatedAtAttribute($value)
+    public function getUpdatedAtAttribute($value)
     {
 
         $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'];
@@ -957,7 +957,7 @@ class Assessment extends Model
 
         $assessments = self::where('user_id', Helpers::getUser()->id)
             ->where('page', 0)
-            ->select(['id', 'page', 'created_at'])
+            ->select(['id', 'page', 'updated_at'])
             ->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));

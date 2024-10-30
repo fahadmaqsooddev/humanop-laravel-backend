@@ -74,6 +74,7 @@ class AssessmentController extends Controller
             if (!empty($user['timezone']))
             {
 
+
                 $status = Assessment::assessmentStatusForApi();
 
                 $latest_assessment = Assessment::getLatestAssessment($user['id']);
@@ -81,7 +82,7 @@ class AssessmentController extends Controller
                 $assessment_price = StripeSetting::getSingle();
 
                 $data = [
-                    'latest_assessment_id' => $latest_assessment['id'],
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
                     'assessment_page_number' => $status,
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
