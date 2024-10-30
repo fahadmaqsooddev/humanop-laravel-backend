@@ -10,7 +10,7 @@
         <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center; padding: 10px !important;">
 
             <div class="d-none d-lg-flex flex-2 abc ps-5 mx-auto">
-                <div class="col-auto">
+                <div class="col-auto" style="margin: auto">
                     <div class="avatar avatar-xl avatar-icon  ">
                         <img
                             src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
@@ -86,7 +86,7 @@
                     @endif
                 </div>
 
-                <div class="nav-item pt-2">
+                <div class="nav-item pt-2" style="margin-left: 5px">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                             class="rainbow-border-user-nav-btn btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive btnMarginAdd"
                             data-bs-toggle="modal"

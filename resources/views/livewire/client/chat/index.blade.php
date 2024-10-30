@@ -43,7 +43,7 @@
 
         </div>
 
-        <div class="w-100 d-flex justify-content-center">
+        <div class="w-100 d-flex justify-content-center mt-2">
 
             <button id="toggle-btn" class="btn btn-primary w-10 align-self-center p-2"
                     style="background-color:rgb(210, 103, 34);">
