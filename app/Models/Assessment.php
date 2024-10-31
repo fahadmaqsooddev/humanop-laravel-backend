@@ -49,23 +49,25 @@ class Assessment extends Model
     // Accessor
     public function getUpdatedAtAttribute($value)
     {
+        $formattedTimestamp = str_replace('T', ' ', $value);
+
+        $formattedTimestamp = explode('.', $formattedTimestamp)[0];
 
         $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'];
 
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
-        return Carbon::parse($value)
+        return Carbon::parse($formattedTimestamp)
             ->addMinutes($minutes * 60)
             ->format('m/d/Y h:i A');
 
-//        return Carbon::parse($value)->format('m/d/Y h:i A');
     }
 
     // scope
     public function scopeSelection($query)
     {
 
-        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at']);
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at','updated_at']);
     }
 
     // queries
