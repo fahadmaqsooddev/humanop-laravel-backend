@@ -234,13 +234,13 @@
 
         open_modal = localStorage.getItem('modal_open_time');
 
-        if (is_feedback == 1) {
+        if (open_modal === null && is_feedback == 1) {
 
             $(window).on('load', function () { // on page change the modal populates
 
                 $('#add_feedback').click();
 
-                // localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
+                localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
 
                 console.log('aaa');
             });
@@ -248,7 +248,7 @@
         }
 
 
-        if (open_modal !== 'false') {
+        if (open_modal !== 'true') {
 
             var now = new Date();
 
