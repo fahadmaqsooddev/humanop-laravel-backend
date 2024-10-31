@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Client\Point\PointLog;
 use App\Models\HAIChai\QueryAnswer;
 use App\Models\Admin\Code\CodeDetail;
@@ -81,7 +82,7 @@ class ClientController extends Controller
 
             DB::beginTransaction();
 
-            $daily_tip_updated = DailyTip::readUserDailyTip();
+            $daily_tip_updated = UserDailyTip::readUserDailyTip();
 
             if (!$daily_tip_updated) {
 

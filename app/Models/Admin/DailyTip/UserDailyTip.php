@@ -31,4 +31,18 @@ class UserDailyTip extends Model
     public static function createUserDailyTip($user_id = null,$daily_tip_id = null){
        return  self::create(['user_id' => $user_id,'daily_tip_id' =>$daily_tip_id]);
     }
+
+    public static function readUserDailyTip(){
+
+        $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
+
+        $daily_tip_read = $daily_tip->is_read ?? 1;
+
+        if ($daily_tip){
+            $daily_tip->update(['is_read' => 1]);
+        }
+
+        return $daily_tip_read;
+    }
+
 }
