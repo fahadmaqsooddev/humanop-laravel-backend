@@ -121,6 +121,11 @@
                                 id="add_feedback"
                                 class="btn btn-sm updateBtn mt-2 mb-0" hidden>Add
                         </button>
+                        <button type="button" data-bs-toggle="modal"
+                                data-bs-target="#afterThirtyMinsFeedBackModal"
+                                id="add_feedback_after_thirty_mins"
+                                class="btn btn-sm updateBtn mt-2 mb-0" hidden>Add
+                        </button>
 
 
                         <!-- Modal -->
@@ -159,6 +164,42 @@
                             </div>
                         </div>
 
+                        <!-- After 30 mins feedback Modal -->
+                        <div class="modal fade" id="afterThirtyMinsFeedBackModal" tabindex="-1"
+                             role="dialog"
+                             aria-labelledby="feedBackModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="d-flex justify-content-end p-3">
+                                        <a type="button" class="close modal-close-btn text-white"
+                                           data-bs-dismiss="modal"
+                                           aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </a>
+                                    </div>
+                                    <div class="feedback-card">
+                                        <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
+                                            Thanks for being a Beta Tester! Wow! You’ve been on the app for over 30
+                                            minutes! Would love to hear some constructive feedback as to why you’ve been
+                                            on this long…what do you love about it…or are you stuck? Let us know!</h5>
+                                        <form action="javascript:void(0);">
+
+                                            <div class="p-2" id="feedback_success_message" hidden>
+                                                <span class="text-success">Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!</span>
+                                            </div>
+
+                                            <textarea id="comment-value" rows="5" class="comment-box"
+                                                      placeholder="Add a Comment..." required></textarea>
+                                            <button type="submit" onclick="submitFeedBackForm()" class="btn"
+                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                                Submit Feedback
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         @yield('content')
                         @include('layouts/footers/auth/footer')
@@ -193,35 +234,36 @@
 
         open_modal = localStorage.getItem('modal_open_time');
 
-        if (open_modal === "true" || is_feedback == 1) {
+        if (is_feedback == 1) {
 
             $(window).on('load', function () { // on page change the modal populates
 
                 $('#add_feedback').click();
 
-                localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
+                // localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
 
                 console.log('aaa');
             });
 
         }
 
+
         if (open_modal !== 'false') {
 
             var now = new Date();
 
-            var modal_open_time = now.setMinutes(now.getMinutes() + 1); // add 30 minutes in login time to open modal
+            var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
 
             var local_storage_time = localStorage.getItem('modal_open_time');
 
-            if (local_storage_time === null) {
+            // if (local_storage_time === null) {
 
                 console.log('Set');
 
                 localStorage.setItem('modal_open_time', modal_open_time);
 
                 local_storage_time = localStorage.getItem('modal_open_time');
-            }
+            // }
 
             let intervalID = setInterval(function () {
 
@@ -232,6 +274,8 @@
                 if (local_storage_date_minute === now_date_minute) {
 
                     console.log('RUN');
+
+                    $('#add_feedback_after_thirty_mins').click();
 
                     localStorage.setItem('modal_open_time', true);
 
