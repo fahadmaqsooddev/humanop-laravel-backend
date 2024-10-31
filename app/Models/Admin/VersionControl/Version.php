@@ -50,4 +50,8 @@ class Version extends Model
 
         return $version;
     }
+
+    public static function allVersions(){
+        return self::orderBy('created_at', 'asc');
+    }
 }

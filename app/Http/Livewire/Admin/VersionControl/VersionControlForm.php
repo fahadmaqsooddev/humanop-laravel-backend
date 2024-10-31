@@ -4,86 +4,42 @@ namespace App\Http\Livewire\Admin\VersionControl;
 
 use App\Models\Admin\VersionControl\Version;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class VersionControlForm extends Component
 {
 
-    public $verionId, $version, $details;
+    use WithPagination;
 
-    protected $rules = [
-        'version' => 'required',
-        'details' => 'required|max:2000',
-    ];
+    public $search = '';
+    protected $versions;
+    public    $perPage = 10;
+    protected $paginationTheme = 'bootstrap';
+    protected $queryString = ['search'];
+    protected $listeners = ['refreshVersions','updateSession'];
+    public $description;
 
-    protected $messages = [
-        'version.required' => 'Version is required',
-        'details.required' => 'Version Details is required',
-    ];
-
-    public function updateEditModal($id, $version, $details)
-    {
-        $this->verionId = $id;
-        $this->version = $version;
-        $this->details= $details;
-
+    public function refreshVersions(){
+        $this->getVersions();
     }
 
-    public function createVersion()
+    public function getVersions()
     {
-
-        try {
-
-            $this->validate();
-
-            Version::createVersion($this->version, $this->details);
-
-            session()->flash('success', "{$this->version} create successfully.");
-
-            $this->emit('closeUpdateModal');
-
-            $this->resetForm();
-
-        }catch (\Exception $exception)
-        {
-
-            session()->flash('error', $exception->getMessage());
-
-        }
+        $this->versions = Version::allVersions()->paginate($this->perPage);
     }
 
-    public function updateVersion()
-    {
-
-        try {
-
-            $this->validate();
-
-            Version::editVersion($this->verionId,$this->version, $this->details);
-
-            session()->flash('success', "{$this->version} Updated successfully.");
-
-            $this->emit('closeUpdateModal');
-
-            $this->resetForm();
-
-        }catch (\Exception $exception)
-        {
-
-            session()->flash('error', $exception->getMessage());
-
-        }
+    public function editVersion($id,$version,$description){
+        $this->emit('updateVersionValues', $id, $version, $description);
     }
 
-    public function resetForm()
-    {
-        $this->reset(['version', 'details']);
+    public function updateSession($type){
+        session()->flash('success', 'Version '.$type.' successfully.');
     }
+
 
     public function render()
     {
-
-        $versions = Version::getVersions();
-
-        return view('livewire.admin.version-control.version-control-form', ['versions' => $versions]);
+        $this->getVersions();
+        return view('livewire.admin.version-control.version-control-form', ['versions' => $this->versions]);
     }
 }

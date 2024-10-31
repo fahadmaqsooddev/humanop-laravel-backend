@@ -193,7 +193,7 @@
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
-
+        let editorInstance;
             const editorElement = document.getElementById('editor');
             if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
                 ClassicEditor
@@ -212,13 +212,18 @@
                         Livewire.on('contentUpdated', content => {
                             editor.setData(content); // Set new content into CKEditor
                         });
+                        editorInstance = editor;
                     })
                     .catch(error => {
                         console.error(error);
                     });
 
             }
-
+        $('.createForm').on('click', function() {
+            if (editorInstance) {
+                editorInstance.setData('');
+            }
+        });
 
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeModal', () => {
