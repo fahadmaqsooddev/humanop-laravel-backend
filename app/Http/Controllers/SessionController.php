@@ -72,11 +72,26 @@ class SessionController extends Controller
 
             $userEmailVerify = User::where('email', $request['email'])->first();
 
+            if($userEmailVerify['two_way_auth'] == 1){
+                 $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
+                 if($status){
+                     Session::put(['two_way_auth.id' => $userEmailVerify['id'],'two_way_auth.phone' => $userEmailVerify['phone']]);
+                     session()->flash('success', 'Verification Code Sent To Your Number Successfully');
+                     return redirect()->route('two.way.auth');
+                 }else{
+                     session()->flash('error', 'Something Went Wrong During Sending Code');
+                     return redirect()->route('two.way.auth');
+                 }
+            }
+
+
             if ($userEmailVerify['email_verified_at'] != null)
             {
 
                 if(Auth::attempt($attributes))
                 {
+
+
                     if (isset($request['remember']) && !empty($request['remember']))
                     {
                         setcookie("email", $attributes['email'], 30*time()+3600);

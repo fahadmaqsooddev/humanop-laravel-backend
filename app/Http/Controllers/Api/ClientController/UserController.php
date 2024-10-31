@@ -6,6 +6,8 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
+use App\Http\Requests\Api\Client\TwoWayAuthRequest;
+use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
@@ -38,7 +40,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption','getLatestVersion']);
+        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion']);
 
         $this->user = $user;
     }
@@ -59,6 +61,40 @@ class UserController extends Controller
         }
 
     }
+
+    public function changeTwoWayAuth(TwoWayAuthRequest $request){
+        try {
+                 $status = $request->status;
+
+                if($status == 1){
+                    User::updateUser(['two_way_auth' => 1], Helpers::getUser()->id);
+                }else{
+                    User::updateUser(['two_way_auth' => 2], Helpers::getUser()->id);
+                }
+            return Helpers::successResponse('2 Way Auth successfully updated');
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function sendPhoneOtp(SendPhoneOtpRequest $request){
+        try {
+            $phone = $request->phone;
+            $otp = Helpers::sendNumberOtp($phone,true);
+            if($otp){
+                return Helpers::successResponse('Otp sent Successfully',['otp' => $otp]);
+            }else{
+                return Helpers::validationResponse('something went wrong during sending otp');
+            }
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+
 
     public function updateUserProfile(UpdateUserProfileRequest $request)
     {

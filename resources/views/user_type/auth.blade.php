@@ -187,7 +187,7 @@
     var feedback_exists = "{{\App\Helpers\Helpers::getWebUser()->feedback()->exists() ?? ""}}";
     var is_feedback = {{\App\Helpers\Helpers::getWebUser()->is_feedback ?? 3}};
 
-    console.log(is_admin, feedback_exists, is_feedback);
+    // console.log(is_admin, feedback_exists, is_feedback);
 
     if (is_admin === 2 && !feedback_exists) { // check if user is client then show feedback pop up
 

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
@@ -93,6 +94,30 @@ class ChangePasswordController extends Controller
             return redirect()->to('/register');
         }
     }
+
+    public function loginUserToDashboard($id = null)
+    {
+        $user = User::getSingleUser($id);
+
+        if ($user)
+        {
+
+            Auth::login($user);
+
+            DailyTip::updateUserDailyTip();
+
+            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('client_dashboard');
+        } else
+        {
+            return redirect()->to('/register');
+        }
+    }
+
+
+
+
 
     public function checkEmailFromApp($id = null)
     {

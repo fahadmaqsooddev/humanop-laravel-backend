@@ -29,4 +29,10 @@ final class Admin
     const SUB_ADMIN_ROLE = 2;
 
     const PRACTITIONER_ROLE = 3;
+
+
+    const TWO_WAY_AUTH_ACTIVE = 1;
+
+    const TWO_WAY_AUTH_DISABLED = 2;
+
 }

@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;
 use App\Models\User;
-
+use App\Services\TwilioServices\TwilioServices;
 class Helpers
 {
     # ====================================
@@ -399,5 +401,24 @@ class Helpers
         }
     }
 
+    public static function sendNumberOtp($phone,$api = null){
+        $otp = Str::random(4);
+
+        $to = $phone;
+        $message = 'Your Human Op verification code is '.$otp;
+        $status = TwilioServices::sendOtp($to, $message);
+
+        if($status != false) {
+            if($api){
+                return $otp;
+            }else{
+                Session::put(['two_way_auth.otp' => $otp]);
+
+                return true;
+            }
+        }else {
+            return false;
+        }
+    }
 }
 

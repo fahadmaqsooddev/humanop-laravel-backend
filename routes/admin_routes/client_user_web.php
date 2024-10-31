@@ -13,6 +13,7 @@ use App\Http\Controllers\ClientController\CouponController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ClientController\MessageController;
 use App\Http\Controllers\ClientController\StoryController;
+use App\Http\Controllers\ClientController\TwilioController;
 use App\Http\Controllers\GoogleAuth\GoogleController;
 use App\Http\Controllers\AdminControllers\VersionController;
 use App\Http\Controllers\AdminControllers\InformationController;
@@ -31,6 +32,9 @@ use App\Http\Controllers\AdminControllers\InformationController;
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::get('send-phone-otp', [TwilioController::class, 'sendNumberOtp'])->name('send.phone.otp');
+
+Route::view('two-way-auth','session.two-way-auth')->name('two.way.auth');
 Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
 //    client dashboard
