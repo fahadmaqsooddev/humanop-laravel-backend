@@ -27,7 +27,7 @@
                                 <p class="mb-0 font-weight-bold text-sm">
                                     Optimal Trait To Be In Right Now:
                                 </p>
-                                <h6><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'] }}</strong></h6>
+                                <h6 onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_0')"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong></h6>
                             @endif
                         </a>
                     </div>
@@ -43,8 +43,7 @@
                     @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
                         <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
-                            Your Results
+                           class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results
                         </a>
 
                     @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
@@ -58,20 +57,17 @@
                         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
                             <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
                                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
-                                Your Results
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results
                             </a>
                         @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                             <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
                                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
-                                Your Results
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results
                             </a>
                         @else
                             <a href="{{route('user_profile_overview', $assessment['id'])}}"
                                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access
-                                Your Results
+                               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results
                             </a>
                         @endif
 
@@ -80,7 +76,7 @@
                         <button
                             style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"
                             data-toggle="tooltip" data-placement="top" title="Take the assessment first"
-                            class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Your Results
+                            class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results
                         </button>
 
                     @endif
@@ -201,6 +197,11 @@
             }
         }
     });
+
+    function goToProfileOverviewPage(src, content_name) {
+
+        window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
+    }
 
     $(document).ready(function () {
         $('.sidenav').hover(

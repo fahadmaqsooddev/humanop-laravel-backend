@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
@@ -117,8 +118,9 @@ class User extends Authenticatable implements JWTSubject
 
             $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
 
-            return $optionalTrait;
+            $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
 
+            return $optionalTraitDetail;
         }
 
         return '';

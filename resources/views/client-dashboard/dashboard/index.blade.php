@@ -223,7 +223,7 @@
                         </div>
                         <div class="d-flex">
                             <div class="h-100 my-4">
-                                <a href="{{route('user_profile_overview')}}">
+                                <a href="javascript:void(0)">
                                     <h5 class="mb-1 text-white">
                                         {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                                     </h5>
@@ -231,7 +231,7 @@
                                         <p class="mb-0 font-weight-bold text-sm text-white">
                                             Optimal Trait To Be In Right Now:
                                         </p>
-                                        <h6 class="text-white"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'] }}</strong></h6>
+                                        <h6 class="text-white" onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_0')"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong></h6>
                                     @endif
                                 </a>
                             </div>
@@ -588,9 +588,7 @@
                                 <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
                                 <h5 class="text-white mb-0 text-center" >
                                     <strong>
-                                    YOUR OPTIMIZATION STRATEGIES FOR THE
-                                    NEXT {{ $userPlanName == 'Core' ? '30' : ($userPlanName == 'Premium' ? '7' : '90') }}
-                                        DAYS </strong><span class="iconInfo" data-bs-toggle="modal"
+                                        Your 90-Day Optimization Plan </strong><span class="iconInfo" data-bs-toggle="modal"
                                                data-bs-target="#actionPlanModel"><i class="fa-regular fa-circle-question fa-lg" style="color: white;"></i></span>
                                 </h5>
                                 </div>

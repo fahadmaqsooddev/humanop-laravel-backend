@@ -65,7 +65,7 @@ class InformationIcon extends Model
 
     public static function getHelpInfo()
     {
-        return self::where('name', "HELP! I'm having challenging")->first(['name', 'information']);
+        return self::where('name', "HELP! I’M HAVING A CHALLENGE…")->first(['name', 'information']);
     }
 
     public static function getProfileOverviewInfo()

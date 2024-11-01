@@ -26,7 +26,7 @@ class CodeDetail extends Model
 
         if (!empty($this->video)) {
 
-            return asset('assets/video') .'/'. $this->video;
+            return asset('assets/video') . '/' . $this->video;
         }
     }
 
@@ -149,6 +149,19 @@ class CodeDetail extends Model
         return $codeDetail;
     }
 
+    public static function getOptionalTraitDetail($trait = null)
+    {
+
+        $result = self::where('public_name', $trait)->where('number', 1)->first();
+
+        if ($result && isset($result->public_name)) {
+
+            $codeDetail = [$result->public_name, $result->text, $result->video_url];
+        }
+
+        return $codeDetail;
+    }
+
     public static function getSinglePublicName($codeKey = null)
     {
         return self::where('code', $codeKey)->where('number', 1)->first();
@@ -168,7 +181,7 @@ class CodeDetail extends Model
 
                 $last_words = substr($record->public_name, -2);
 
-                if ($last_words === 'ly'){
+                if ($last_words === 'ly') {
 
                     $str_len = strlen($record->public_name) - 2;
 
@@ -180,7 +193,7 @@ class CodeDetail extends Model
 
                     array_push($result, $data);
 
-                }else{
+                } else {
 
                     $data = [
                         'public_name' => $record->public_name,
@@ -224,7 +237,7 @@ class CodeDetail extends Model
 
                     array_push($result, $data);
 
-                }else{
+                } else {
 
                     $data = [
                         'public_name' => $record->public_name,
@@ -234,7 +247,7 @@ class CodeDetail extends Model
                         'number' => $assessment[$codeKey] ?? null,
                     ];
 
-                    array_push($result,$data);
+                    array_push($result, $data);
                 }
 
             }
@@ -242,7 +255,8 @@ class CodeDetail extends Model
         return $result;
     }
 
-    public static function getPerceptionStaticText(){
+    public static function getPerceptionStaticText()
+    {
 
         return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
 
