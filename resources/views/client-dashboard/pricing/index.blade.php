@@ -118,7 +118,7 @@
                                             </div>
                                         </div>
                                         <div class="col-10">
-                                            <p class="text-white text-sm">Assessment every 90 days</p>
+                                            <p class="text-white text-sm">Free Assessment Credit Every Season (90 Days)/p>
                                         </div>
                                     </div>
 
@@ -177,7 +177,7 @@
                                             </div>
                                         </div>
                                         <div class="col-10">
-                                            <p class="text-white text-sm">HAi companion</p>
+                                            <p class="text-white text-sm">Basic HAi Companion</p>
                                         </div>
                                     </div>
 
@@ -212,14 +212,14 @@
 
                                     <div class="row pb-1">
                                         <div class="col-2">
-                                            <div
-                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">
-                                                <img src="{{asset('assets/icons/Early Releases.png')}}"
-                                                     style="width: 15px; margin-top: 5px">
-                                            </div>
+{{--                                            <div--}}
+{{--                                                class="icon icon-shape icon-xs rounded-circle bg-gradient-secondary shadow text-center">--}}
+{{--                                                <img src="{{asset('assets/icons/Early Releases.png')}}"--}}
+{{--                                                     style="width: 15px; margin-top: 5px">--}}
+{{--                                            </div>--}}
                                         </div>
                                         <div class="col-10">
-                                            <p class="text-white text-sm">Earn free premium access through referrals</p>
+                                            <p class="text-white text-sm"></p>
                                         </div>
                                     </div>
 
@@ -308,7 +308,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-10">
-                                                <p class="text-color-blue text-sm">Quarterly assessments</p>
+                                                <p class="text-color-blue text-sm">Ability To Purchase Extra Assessments</p>
                                             </div>
                                         </div>
 

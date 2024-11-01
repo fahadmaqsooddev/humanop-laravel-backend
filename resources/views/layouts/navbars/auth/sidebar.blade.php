@@ -878,7 +878,7 @@
                                                                          src="{{URL::asset('assets/icons/Results.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Results.png')}}"></span>
-                                    <span class="sidenav-normal"> Results </span>
+                                    <span class="sidenav-normal"> Your Assessment Results </span>
                                 </a>
                             </li>
 
