@@ -72,4 +72,9 @@ class InformationIcon extends Model
     {
         return self::where('name', "Your HumanOp Profile Overview")->first(['name', 'information']);
     }
+
+    public static function getHaiChatInfo()
+    {
+        return self::where('name', "HAi Chat")->first(['name', 'information']);
+    }
 }

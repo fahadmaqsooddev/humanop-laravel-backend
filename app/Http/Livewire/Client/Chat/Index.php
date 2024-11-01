@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client\Chat;
 
+use App\Models\Information\InformationIcon;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use GuzzleHttp\Client;
@@ -94,8 +95,10 @@ class Index extends Component
 
         $chats = HaiChat::getChat($this->chatFilter, 1, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
+        $hai_tutorial = InformationIcon::getHaiChatInfo();
+
         $this->emit('scrollToBottom');
         $this->emit('showChatBox');
-        return view('livewire.client.chat.index', ['messages' => $chats]);
+        return view('livewire.client.chat.index', ['messages' => $chats, 'hai_tutorial' => $hai_tutorial]);
     }
 }

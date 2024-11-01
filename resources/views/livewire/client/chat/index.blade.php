@@ -13,7 +13,9 @@
         <div class="hai_chat_title_div">
 
             <h5 style="color: black;line-height: 5px;">
-                Hello, I’m HAi!
+                Hello, I’m HAi! <span
+                    class="iconInfo" data-bs-toggle="modal"
+                    data-bs-target="#haiCHatModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span>
             </h5>
             <p style="color: black; margin-bottom: unset;">
                 Chat with the HumanOp Authentic Intelligence (HAi) OS
@@ -108,6 +110,25 @@
             </div>
         </div>
 
+        <!-- Daily Tip Info Model -->
+        <div class="modal fade" id="haiCHatModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$hai_tutorial['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify">{{$hai_tutorial['information']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
 
