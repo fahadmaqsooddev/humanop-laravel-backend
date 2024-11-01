@@ -5,7 +5,7 @@
 
     {{--    <div class="navbar-background-color d-flex align-items-end justify-content-end"--}}
     <div class="d-flex "
-         style="width: 100%; border-radius: 0px !important;">
+         style="width: 100%; border-radius: 0px !important;"  data-step="4" >
 
         <div class="container-fluid py-1 px-3 d-flex" style="justify-content: center; padding: 10px !important;">
 

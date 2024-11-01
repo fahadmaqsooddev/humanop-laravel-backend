@@ -1,4 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
+@push('css')
+<link href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css" rel="stylesheet">
+@endpush
 <style>
     .description-container::-webkit-scrollbar {
         width: 10px;
@@ -205,7 +208,6 @@
     }
 </style>
 @section('content')
-
     <div class="parent px-lg-5">
         <div class="container-fluid px-0 d-lg-none">
             <div class="page-header min-height-100 border-radius-xl">
@@ -286,14 +288,14 @@
                     <div class="mt-lg-4 mt-2 col-lg-3 col-sm-12 col-md-12 mainCardFlex">
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card daily-tip-card" style="height: 530px;">
-                                <div class="card-body p-3" style="cursor: pointer;">
-                                    <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
+                            <div  class="card daily-tip-card" style="height: 530px;">
+                                <div class="card-body p-3" data-step="2"  style="cursor: pointer;">
+                                    <div class="d-flex justify-content-center"  style="border: 2px solid #1c365e;border-radius: 5px">
                                         <h5 class="mb-0 text-center"> <strong>Daily Tip</strong> <span
                                             class="iconInfo" data-bs-toggle="modal"
                                             data-bs-target="#dailyTipModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span></h5>
                                     </div>
-                                    <div class="description-container text-justify" style="height: 335px;">
+                                    <div class="description-container text-justify"  style="height: 335px;">
 
                                         {{$hide_button = false}}
 
@@ -360,7 +362,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card library-card p-3" style="height: 530px!important;">
+                            <div class="card library-card p-3" style="height: 530px!important;"  data-step="6" >
                                 <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
                                 <h5 class="text-white mb-0 text-center"
                                    style="color: rgb(160, 174, 192)"> <strong>LIBRARY
@@ -381,13 +383,15 @@
 
 
                             </div>
+
                         </div>
 
                     </div>
+
                     <div class="mt-lg-4 mt-2 col-lg-5 col-sm-12 col-md-12 mainCardFlex">
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card core-state-card" style="height: 530px;">
+                            <div class="card core-state-card" style="height: 530px;" data-step="3">
                                 <div class="card-body p-3">
                                     <div>
                                         <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
@@ -396,6 +400,7 @@
                                                              data-bs-target="#coreStatsModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span>
                                         </h5>
                                         </div>
+
                                         @if(16 <= $age && $age <= 20)
 
                                             <p class="text-sm fs-12px text-color-blue text-bold"
@@ -564,7 +569,7 @@
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4"
                              style="cursor: pointer;">
-                            <div class="card help-challenge-card p-3" style="height: 530px;">
+                            <div class="card help-challenge-card p-3" style="height: 530px;"  data-step="8">
                                 <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
                                 <h5 class="text-white mb-0 text-center"
                                    style="color: rgb(160, 174, 192)"> <strong>HELP
@@ -584,7 +589,7 @@
                     <div class="mt-lg-4 mt-2 col-lg-4 col-sm-12 col-md-12 mainCardFlex">
 
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-                            <div class="card optimization-strategy-card p-3" style="height: 530px!important;">
+                            <div class="card optimization-strategy-card p-3" style="height: 530px!important;"  data-step="5">
                                 <div class="d-flex justify-content-center" style="border: 2px solid white;border-radius: 5px">
                                 <h5 class="text-white mb-0 text-center" >
                                     <strong>
@@ -603,8 +608,8 @@
                         </div>
                         <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
 
-                            <div class="card podcast-card" style="height: 530px!important;">
-                                <div class="card-body p-3">
+                            <div class="card podcast-card" style="height: 530px!important;"  data-step="7">
+                                <div class="card-body p-3" >
                                     <div class="d-flex justify-content-center" style="border: 2px solid #1c365e;border-radius: 5px">
                                     <h5 class="custom-text-dark mb-0 text-center"> <strong> HIP
                                         -
@@ -894,10 +899,53 @@
         </div>
 
     </div>
+
+
+{{--    intro pop up --}}
+
+        <div class="modal fade" id="introModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="couponModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <div class="form-label fs-4 text-white text-center">Welcome to the HumanOp Assessment!
+                            </div>
+                             <br>
+                                <div class="card-body pt-0 text-white">
+                                       <p>
+                                           You’re about to begin a life-changing journey. The HumanOp Assessment is designed to unveil your true nature not based on opinions, but guided by the unchanging physical laws of nature and cutting-edge science.
+                                       </p>
+                                    <p class="text-white">
+                                        Ready to discover what makes you truly unique and learn the actionable steps to optimize your life? Click the link to get started!
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <button id="start-tour" data-bs-dismiss="modal" aria-label="Close" class="btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                            Start Tutorial
+                                        </button>
+                                        <button data-bs-dismiss="modal"
+                                                aria-label="Close" class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                            Skip Tutorial
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#introModel" id="open-intro-modal">
+    </button>
 @endsection
 
 @push('javascript')
     <script>
+
         const descriptionContainer = document.querySelector('.description-container');
         descriptionContainer.addEventListener('wheel', (event) => {
             event.preventDefault();
@@ -1002,7 +1050,23 @@
 
         }
 
+        function introCompleted() {
+            $.ajax({
+                url: '{{ route("complete_intro") }}',
+                method: 'POST',
+                data: [],
+                headers: {
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
+                },
+                success: function (response) {
 
+                },
+                error: function (response) {
+
+                }
+            });
+
+        }
     </script>
     <script>
         function scrollToBottom() {
@@ -1080,12 +1144,10 @@
             } else {
                 content.style.display = "none";
                 toggleButton.className = 'fa-solid fa-bars'
-
             }
         });
 
         function goToProfileOverviewPage(src, content_name) {
-
             window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
         }
 
@@ -1108,7 +1170,95 @@
 
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
     <script>
+        window.onload = function() {
+            // Set up the button click event to start the tour
+            document.getElementById('start-tour').addEventListener('click', function() {
+                introJs().setOptions({
+                    exitOnOverlayClick: false,
+                    tooltipPosition: 'bottom',
+                    scrollToElement: true,
+                    doneLabel: 'Exit Tutorial',
+                    steps: [
+                        {
+                            element: document.querySelector('[data-step="1"]'),
+                            title: 'HumanOp Assessment',
+                            intro: 'Here is where you can take your very first HumanOp Assessment. Taking your first assessment will not only unlock all the features on the platform but it is also the first step on your path to understanding your true nature and optimizing your life.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="2"]'),
+                            title: 'Daily Tips',
+                            intro: 'Here is where you will see your daily tips. After you take your HumanOp Assessment, HAi will generate daily tips to help you optimize your day - every day!',
+                        },
+                        {
+                            element: document.querySelector('[data-step="3"]'),
+                            title: 'Core Stats',
+                            intro: 'Here is where your Core Stats are. These stats are a quick summary of your latest HumanOp Assessment to help remind you of your results.  Clicking on each stat will take you to the Full Results page so you can watch the explanations of each component.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="4"]'),
+                            title: 'Optimal Trait To Be In Right Now',
+                            intro: 'Check here in the morning, mid-day, and in the evening to reference the most optimal trait to align with at these various times a day.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="5"]'),
+                            title: '90-Day Optimization Plan',
+                            intro: 'Here is where you access your 90-Day Optimization Plan.  This plan references your latest assessment results and offers you specific optimization strategies related to your results that you can implement over the next 90-days.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="6"]'),
+                            title: 'Library of Resources & Trainings',
+                            intro: 'Here is where you’ll find an ever growing library of resources and trainings that will deepen the understanding of your results and support you on your self-optimization journey.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="7"]'),
+                            title: 'HumanOp Integration Podcast',
+                            intro: 'Here is where you access the HumanOp Integration Podcast - listen to the latest episodes and learn about how to optimally integrate and make the most of your HumanOp experience.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="8"]'),
+                            title: 'Help I’m Having A Challenge',
+                            intro: 'This is where you can go to interact with HAi® to share any challenge you may be having and where you will receive supportive feedback.',
+
+                        },
+                        {
+                            element: document.querySelector('[data-step="9"]'),
+                            title: 'Ask HAi Questions',
+                            intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.
+                       <div class="d-flex justify-content-center">
+              <a href="{{ url('client/intro-assessment') }}" class="btn-sm mt-2 mb-1 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+
+                   Take Assessment
+                        </a>
+                                </div>
+                         </div>`,
+                        }
+                    ]
+                }).onbeforechange(function(targetElement) {
+                    // Custom scroll behavior for deeply nested elements
+                    targetElement.scrollIntoView();
+                }).start();
+            });
+
+            // Trigger the click event with a delay of 2 seconds (2000 milliseconds) after the page is fully loaded
+            $(document).ready(function() {
+                if({{\App\Helpers\Helpers::getWebUser()['intro_check'] == 2}}){
+                    $('#open-intro-modal').trigger('click');
+                    introCompleted();
+                }
+            });
+                // $('#start-tour').trigger('click');
+        };
+    </script>
+
+    <script>
+
         var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
 
 

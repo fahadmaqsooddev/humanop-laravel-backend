@@ -101,4 +101,24 @@ class ClientController extends Controller
         }
 
     }
+
+
+    public function completeIntro()
+    {
+
+        try {
+
+
+              User::updateUser(['intro_check' => 1],Helpers::getWebUser()['id']);
+
+
+            return Helpers::successResponse('Intro Completed Successfully');
+
+        } catch (\Exception $exception) {
+
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

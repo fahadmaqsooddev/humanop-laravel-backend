@@ -23,7 +23,7 @@
 
         </div>
 
-        <div class="haichat_form_div">
+        <div class="haichat_form_div" data-step="9">
 
             {{--    @endempty--}}
             <form wire:submit.prevent="sendMessage" class="m-0">

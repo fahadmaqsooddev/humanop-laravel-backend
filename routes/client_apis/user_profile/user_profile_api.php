@@ -18,6 +18,7 @@ Route::post('update-user-timezone', 'UserController@updateUserTimezone');
 Route::post('change-password', 'UserController@changePassword');
 Route::post('update-intention-plan', 'UserController@updateintentionPlan');
 Route::post('update-two-way-auth', 'UserController@changeTwoWayAuth');
+Route::post('complete-intro-guide', 'UserController@completeIntro');
 Route::post('send-phone-otp', 'UserController@sendPhoneOtp');
 Route::delete('delete-profile', 'UserController@deleteProfile');
 Route::post('user-feedback', 'UserController@userFeedback');

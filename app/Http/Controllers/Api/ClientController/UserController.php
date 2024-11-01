@@ -28,6 +28,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
@@ -78,6 +79,21 @@ class UserController extends Controller
         }
     }
 
+    public function completeIntro(Request $request){
+        try {
+
+
+            User::updateUser(['intro_check' => 1],Helpers::getUser()->id);
+
+
+            return Helpers::successResponse('Intro Completed Successfully');
+
+        } catch (\Exception $exception) {
+
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
     public function sendPhoneOtp(SendPhoneOtpRequest $request){
         try {

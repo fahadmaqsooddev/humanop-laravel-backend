@@ -574,7 +574,7 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
+                            <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"   data-step="1" >
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
                                    href="{{ url('client/intro-assessment') }}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
@@ -861,7 +861,7 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}">
+                            <li  class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"   data-step="1"      >
                                 <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
                                    href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('intro-assessment') }}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"

@@ -35,4 +35,10 @@ final class Admin
 
     const TWO_WAY_AUTH_DISABLED = 2;
 
+
+
+    const INTRO_CHECK_READ = 1;
+
+    const INTRO_CHECK_UN_READ = 2;
+
 }
