@@ -801,10 +801,11 @@
                                     @endif
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ (Request::is('client/version') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('client/version') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"
                                    href="{{ route('get_latest_version') }}">
-                                    <p class="text-white text-center mt-4">HumanOp Version</p>
+{{--                                    <span class="humanop-version sidenav-mini-icon">HAI</span>--}}
+                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion()['version']}} </span>
                                 </a>
                             </li>
                         </ul>
