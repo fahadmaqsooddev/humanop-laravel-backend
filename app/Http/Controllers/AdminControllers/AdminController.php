@@ -201,11 +201,37 @@ class AdminController extends Controller
         }
     }
 
+    public function embeddings()
+    {
+        try {
+
+            return view('admin-dashboards.hai-chat.embedding');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
     public function haiChatDetail()
     {
         try {
 
             return view('admin-dashboards.hai-chat.detail');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function embeddingDetail()
+    {
+        try {
+
+            return view('admin-dashboards.hai-chat.embedding-detail');
 
         } catch (\Exception $exception) {
 

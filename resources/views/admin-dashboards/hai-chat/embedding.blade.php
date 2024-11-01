@@ -67,13 +67,18 @@
         margin-bottom: 20px;
     }
 
+    .embedding-card
+    {
+        width: 100%;
+    }
+
 </style>
 @section('content')
     <div class="container-fluid mt-4">
         <div class="d-flex justify-content-end">
             <a data-bs-toggle="modal" data-bs-target="#createChatModal"
                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Create chat
+               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Create Embedding
             </a>
         </div>
 
@@ -88,8 +93,8 @@
             <!-- Example Card -->
             <div class="card mt-3 col-md-6" style="padding-right: 5px">
                 <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
-                        <a href="{{route('admin_hai_chat_detail')}}">
+                    <div class="d-flex flex-column gap-3 embedding-card">
+                        <a href="{{route('admin_embedding_detail')}}">
                             <h3 class="text-white text-decoration-none"><i class="bi bi-robot"></i> Brain</h3>
                             <p class="card-text text-white">This is an example description</p>
                         </a>
@@ -201,9 +206,9 @@
                     const cardHtml = `
             <div class="card mt-3 col-md-6" >
                 <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
-                                                <a href="./Pages/chatdetails.html">
-                        <div class="text-white text-decoration-none"><i class="bi bi-robot"></i> ${name}</div>
+                    <div class="d-flex flex-column gap-3 embedding-card">
+                                                <a href="{{route('admin_embedding_detail')}}">
+                        <h3 class="text-white text-decoration-none"><i class="bi bi-robot"></i> ${name}</h3>
                         <p class="card-text text-white">${description}</p>
                                                 </a>
                         <div class="d-flex justify-content-between">
