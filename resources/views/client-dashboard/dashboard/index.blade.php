@@ -214,7 +214,7 @@
                 <div class="d-flex justify-content-between flex-wrap">
 
                     <div class="d-flex">
-                        <div class="col-auto pb-sm-4">
+                        <div class="col-auto" style="margin-top: 25px">
                             <div class="avatar avatar-xl avatar-icon  ">
                                 <img
                                     src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
@@ -227,6 +227,12 @@
                                     <h5 class="mb-1 text-white">
                                         {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                                     </h5>
+                                    @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                                        <p class="mb-0 font-weight-bold text-sm text-white">
+                                            Optimal Trait To Be In Right Now:
+                                        </p>
+                                        <h6 class="text-white"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'] }}</strong></h6>
+                                    @endif
                                 </a>
                             </div>
                         </div>
