@@ -375,10 +375,10 @@
                 element: document.getElementById("confirmPassword"),
                 errorMessage: "Passwords do not match",
             },
-            phone: {
-                element: document.getElementById("phone"),
-                errorMessage: "Phone is required",
-            },
+            // phone: {
+            //     element: document.getElementById("phone"),
+            //     errorMessage: "Phone is required",
+            // },
             gender: {
                 element: document.getElementById("gender"),
                 errorMessage: "Please select your gender",
