@@ -38,7 +38,7 @@
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">User Feedback's</h5>
                 </div>
-                <div class="table-responsive pagination table-orange-color">
+                <div class="table-responsive table-orange-color">
                     <table class="table table-flush" id="datatable-search">
                         <thead class="thead-light">
                         <tr class="table-text-color">
@@ -48,11 +48,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!isset($feedbacks[0]))
-                            <tr class="table-text-color">
-                                <td>No any feedback...</td>
-                            </tr>
-                        @endif
+{{--                        @if(!isset($feedbacks[0]))--}}
+{{--                            <tr class="table-text-color">--}}
+{{--                                <td>No any feedback...</td>--}}
+{{--                            </tr>--}}
+{{--                        @endif--}}
                         @foreach($feedbacks as $key => $feedback)
                             <tr class="table-text-color">
                                 <td class="text-md font-weight-normal">{{$key + 1}}</td>
@@ -60,7 +60,6 @@
                                 <td class="text-md font-weight-normal">{{$feedback['comment']}}</td>
                             </tr>
                         @endforeach
-
                         </tbody>
                     </table>
                 </div>

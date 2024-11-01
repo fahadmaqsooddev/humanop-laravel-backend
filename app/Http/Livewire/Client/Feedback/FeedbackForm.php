@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client\Feedback;
 
+use App\Helpers\Helpers;
 use App\Models\Client\Feedback\Feedback;
 use Livewire\Component;
 
@@ -11,7 +12,7 @@ class FeedbackForm extends Component
 
     public function submitForm()
     {
-        Feedback::create(['comment' => $this->comment]);
+        Feedback::create(['comment' => $this->comment, 'user_id' => Helpers::getWebUser()['id']]);
 
         session()->flash('success', 'Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!');
 
