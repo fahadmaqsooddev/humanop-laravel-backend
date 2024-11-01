@@ -15,6 +15,7 @@ class FeedbackForm extends Component
 
         session()->flash('success', 'Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!');
 
+        $this->reset();
     }
 
     public function render()
