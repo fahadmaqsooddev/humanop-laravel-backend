@@ -20,6 +20,12 @@
                 font-weight: bold;
             }
 
+            .card
+            {
+                background-color: #8bb1ab !important;
+                box-shadow: none !important;
+            }
+
         </style>
     @endpush
     <div class="container-fluid my-3 py-3">
@@ -60,7 +66,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link setting-options text-body" data-scroll="" href="#basic-info">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#train">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 40 44"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +92,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link text-body setting-options" data-scroll="" href="#password">
+                            <a class="nav-link text-body setting-options" data-scroll="" href="#capture">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +122,7 @@
                         </li>
                         <li class="nav-item pt-2">
                             <a class="nav-link text-body setting-options" data-scroll=""
-                               href="#practitionerTimezone">
+                               href="#conversation">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 42 42"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +177,7 @@
                             </a>
                         </li>
                         <li class="nav-item pt-2">
-                            <a class="nav-link setting-options text-body" data-scroll="" href="#delete">
+                            <a class="nav-link setting-options text-body" data-scroll="" href="#setting">
                                 <div class="icon me-2">
                                     <svg class="text-dark mb-1" width="16px" height="16px" viewBox="0 0 45 40"
                                          version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +212,7 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0">
                         <textarea class="form-control" id="chatDescription"
-                                  style="background-color: #1c365e; color: white" rows="10"
+                                  style="background-color: #8bb1ab; color: #0f1535" rows="10"
                                   placeholder="Enter chat description">You are an autoregressive language model that has been fine-tuned with instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful, nuanced answers, and are brilliant at reasoning. If you think there might not be a correct answer, you say so.Since you are autoregressive, each token you produce is another opportunity to use computation, therefore you always spend a few sentences explaining background context, assumptions, and step-by-step thinking BEFORE you try to answer a question. Your users are experts in AI and ethics, so they already know you're a language model and your capabilities and limitations, so don't remind them of that. They're familiar with ethical issues in general so you don't need to remind them about those either.
                             </textarea>
                     </div>
@@ -215,7 +221,7 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0">
                         <textarea class="form-control" id="chatDescription"
-                                  style="background-color: #1c365e; color: white" rows="10"
+                                  style="background-color: #8bb1ab; color: #0f1535" rows="10"
                                   placeholder="Enter chat description">Don't be verbose in your answers, but do provide details and examples where it might help the explanation. You can use the [[CONTEXT]] to help you decide what details to include.
 
 ONLY share information mentioned in the [[CONTEXT]]. If you can not answer based on [[CONTEXT]], say "I do not know" or "I am not sure".
@@ -225,47 +231,700 @@ REFUSE to answer their questions, share information, or engage further if they a
 Only share URL present in the [[CONTEXT]]. Do not make up any URL.</textarea>
                     </div>
                 </div>
+                <div class="card setting-box-background mt-4" id="train">
+                    <div class="card-header">
+                        <div id="train" class="content-page">
+                            <!-- Responsive Dropdown Section -->
+                            <div class="d-flex p-2">
+                                <div class="btn-group col-md-4 d-flex justify-content-between ">
+                                    <button class="btn btn-outline-secondary text-dark dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" style="font-size: small; color: #0f1534; background-color: #8bb1ab" aria-expanded="false">
+                                        Select a Chatbot
+                                    </button>
+                                    <ul class="dropdown-menu" id="chatbotDropdown" style="width: 100%;">
+                                        <li><a class="dropdown-item" href="#" disabled>Select a chatbot</a></li>
+                                        <!-- Chatbot options will be populated here -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column flex-md-row gap-3">
+                                <!-- Left Column -->
+                                <div class="col-md-4">
+                                    <!-- Search Box -->
+                                    <div class="container-fluid mt-4 mx-0 px-0">
+                                        <div class="textarea-with-icon">
+                                        <textarea class="form-control" rows="3" style="font-size: small; background-color: #8bb1ab"
+                                                  placeholder="Search across all documents"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- Responsive Tabs -->
+                                    <ul class="nav nav-tabs justify-content-between flex-wrap mt-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" style="color: #0f1534" aria-current="page" href="#">All</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="color: #0f1534" href="#">Pending</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="color: #0f1534" href="#">Deleted</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" style="color: #0f1534" href="#">Failed</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Right Column with Upload Options -->
+                                <div class="col-md-8">
+                                    <div class="d-flex flex-wrap justify-content-around p-5">
+                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                            <i class="bi bi-graph-up"></i>
+                                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                                <div class="fw-bold" style="color: #0f1534">Upload files</div>
+                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                            </div>
+                                            <input type="file" id="fileInput" style="display: none;"/>
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                upload
+                                            </button>
+                                        </div>
+
+                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                            <i class="bi bi-graph-up"></i>
+                                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                                <div class="fw-bold" style="color: #0f1534">From Text</div>
+                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                            </div>
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                add
+                                            </button>
+                                        </div>
+
+                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                            <i class="bi bi-graph-up"></i>
+                                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                                <div class="fw-bold" style="color: #0f1534">From questions and answers</div>
+                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                            </div>
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card setting-box-background mt-4" id="capture">
+                    <div class="card-header">
+                        <h5 class="text-color-dark setting-form-heading">Capture</h5>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label mt-4 text-color-dark">Email</label>
+                                <div class="input-group">
+                                    <input id="email"
+
+                                           class="form-control text-color-dark setting-box-background" type="email"
+                                           placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label mt-4 text-color-dark">Type</label><br>
+                                <span class="mt-4 text-color-dark">What type of data is this?</span>
+                                <div class="input-group">
+                                    <input id="email"
+
+                                           class="form-control text-color-dark setting-box-background" type="email"
+                                           placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label mt-4 text-color-dark">Description</label><br>
+                                <span class="mt-4 text-color-dark">Helpful description of the field, so your AI
+                                    can understand what<br> this field is about and can potentially analyze or qualify
+                                    them.</span>
+                                <div class="input-group">
+                                    <textarea class="form-control" id="chatDescription"
+                                              style="background-color: #8bb1ab; color: #0f1535" rows="5"
+                                              placeholder="Enter chat description">eg:Name of the customer</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="form-label mt-4 text-color-dark">Message</label><br>
+                                <span class="mt-4 text-color-dark">How should your AI ask for this field?</span>
+                                <div class="input-group">
+                                    <textarea class="form-control" id="chatDescription"
+                                              style="background-color: #8bb1ab; color: #0f1535" rows="5"
+                                              placeholder="Enter chat description">eg:Could you please share your email so that we can follow up with you</textarea>
+                                </div>
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                        class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    Add new field
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card setting-box-background mt-4" id="conversation">
+                    <div class="row h-100">
+                        <!-- Left-side Navigation Tabs -->
+                        <div class="col-md-4 col-12 border-dark">
+                            <ul class="nav nav-tabs flex-column flex-md-row">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#"
+                                       style="font-size: small;">Active</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" style="font-size: small;">Archive</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" style="font-size: small;">Unread</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" style="font-size: small;">Star</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Chatbot Conversation Section -->
+                        <div class="col-md-8 col-12 d-flex flex-column container-fluid"
+                             style="height: 85vh;">
+                            <div class="p-3" style="font-size: small; color: #0f1534">Assistant</div>
+                            <div class="d-flex flex-column justify-content-between flex-grow-1 p-3"
+                                 style="overflow-y: auto;">
+                                <!-- Message Container -->
+                                <div id="chatMessages" class="d-flex flex-column gap-3">
+                                    <!-- Initial Assistant Message -->
+                                    <div class="d-flex flex-row gap-3 align-items-start">
+                                        <div class="bg-primary text-white rounded p-2"
+                                             style="max-width: 70%; font-size:small;">How can I help you?
+                                        </div>
+                                    </div>
+                                    <!-- Initial User Message -->
+                                    <div class="d-flex flex-row gap-3 justify-content-end">
+                                        <div class="bg-secondary text-white rounded p-2"
+                                             style="max-width: 70%; font-size:small;">I need assistance with my
+                                            account.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Input Field and Send Button at the bottom -->
+                                <div class="d-flex flex-row gap-3 mt-3" style="width: 100%;">
+                                    <input type="text" style="flex-grow: 1; background-color: #8bb1ab" class="form-control" id="userInput"
+                                           placeholder="Type your message...">
+                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                        send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card setting-box-background mt-4" id="integration">
                     <div class="d-flex flex-wrap" style="font-size: small;">
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem); border: 2px solid #f2661c" >
                             <div class="card-body" style="display: block">
-                                <h4 class="text-white">Whatsapp</h4>
-                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
-                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                <h4 class="">Whatsapp</h4>
+                                <p class="card-text pb-2 " style="color: #0f1535">Connect your AI to respond to Facebook messages</p>
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                        class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    Button
                                 </button>
                             </div>
                         </div>
 
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem); border: 2px solid #f2661c">
                             <div class="card-body" style="display: block">
-                                <h4 class="card-title text-white">Twilio</h4>
-                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
-                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                <h4 class="card-title ">Twilio</h4>
+                                <p class="card-text pb-2 " style="color: #0f1535">Connect your AI to respond to Facebook messages</p>
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                        class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    Button
                                 </button>
                             </div>
                         </div>
 
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem); border: 2px solid #f2661c">
                             <div class="card-body" style="display: block">
-                                <h4 class="card-title text-white">Telegram</h4>
-                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
-                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                <h4 class="card-title ">Telegram</h4>
+                                <p class="card-text pb-2 " style="color: #0f1535">Connect your AI to respond to Facebook messages</p>
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                        class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    Button
                                 </button>
                             </div>
                         </div>
 
-                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem);">
+                        <div class="card m-2" style="flex: 1 1 calc(50% - 1rem); border: 2px solid #f2661c">
                             <div class="card-body" style="display: block">
-                                <h4 class="card-title text-white">Messenger</h4>
-                                <p class="card-text pb-2">Connect your AI to respond to Facebook messages</p>
-                                <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                        data-bs-dismiss="modal" style="background-color: #f2661c">Button
+                                <h4 class="card-title ">Messenger</h4>
+                                <p class="card-text pb-2 " style="color: #0f1535">Connect your AI to respond to Facebook messages</p>
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                        class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    Button
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="card setting-box-background mt-4" id="setting">
+                    <div class="card-header">
+                        <!-- Personalize Section -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Personalize</div>
+                                        <div class="card-text"  style="color: #0f1535">Customize your chatbot by giving it a name
+                                            and avatar
+                                            and tweaking its personality.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+                                        <!-- Bot Name -->
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Bot name</label>
+                                            <input type="text" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="Assistant">
+                                        </div>
+
+                                        <!-- Bot Avatar -->
+                                        <div class="mb-3">
+                                            <label for="botAvatar" class="form-label fw-bold">Bot
+                                                avatar</label>
+                                            <div class="d-flex align-items-center">
+                                                <!-- <input type="file" class="form-control-file" id="botAvatar"> -->
+                                                <button class="btn btn-link ms-2"><i
+                                                        class="bi bi-upload"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Model Selection -->
+                                        <div class="mb-3">
+                                            <label for="modelSelect" class="form-label fw-bold">Model (Total
+                                                token
+                                                limit: 128000)</label>
+                                            <select class="form-select" style="font-size: small; background-color: #8bb1ab"
+                                                    id="modelSelect">
+                                                <option selected>GPT-4-0125-preview</option>
+                                                <option value="1">GPT-3.5</option>
+                                                <option value="2">GPT-3.0</option>
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+
+                                        <!-- Temperature Setting -->
+                                        <div class="mb-3">
+                                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-label fw-bold">Temperature
+                                                (Randomness)</label>
+                                            <input type="number" class="form-control "
+                                                   style="font-size: small; background-color: #8bb1ab" id="temperature" value="1" min="0"
+                                                   max="1.5" step="0.1">
+                                            <small class="form-text text-muted">
+                                                Amount of randomness injected into the response. Ranges from
+                                                0
+                                                to 1.5. Use closer to 0 for analytical/multiple choice, and
+                                                closer to 1 for creative and generative tasks.
+                                            </small>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                save
+                                            </button>
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                reset
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
+
+                        <!-- Personalize Section -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Limits</div>
+                                        <div class="card-text"  style="color: #0f1535">Set limits for each conversation and control
+                                            the usage of your chatbot.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+                                        <!-- Bot Name -->
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Input token
+                                                limit</label>
+                                            <div  style="color: #0f1535">Note: Input = Prompt + History + Embedding + User's message
+                                            </div>
+                                            <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="3400">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Output token
+                                                limit</label>
+                                            <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="600">
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Limit
+                                                Threads</label>
+                                            <div class="d-flex align-items-center gap-1">
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName"
+                                                       placeholder="10000">
+                                                <div  style="color: #0f1535">every</div>
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName" placeholder="30">
+                                                <div  style="color: #0f1535">days</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Limit Messages
+                                                Per Threads</label>
+                                            <div class="d-flex align-items-center gap-1">
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName"
+                                                       placeholder="10000">
+                                                <div  style="color: #0f1535">every</div>
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName" placeholder="30">
+                                                <div  style="color: #0f1535">days</div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                           <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                             class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                               save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
+
+
+                        <!-- Personalize Section -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Branding</div>
+                                        <div class="card-text"  style="color: #0f1535">Shape the chatbot to your brand and make it
+                                            feel like your own.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+
+
+                                        <div class="mb-3">
+                                            <div class="fw-bold"  style="color: #0f1535">Become a partner</div>
+                                            <div class="fw-bold"  style="color: #0f1535">... and get rewarded with 30% of the
+                                                revenue
+                                                for every user you refer to re:tune, forever!
+                                                <span style="color:blue;">Set up here</span>
+
+
+                                            </div>
+
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="flexSwitchCheckChecked" checked>
+                                                <!-- <label class="form-check-label"
+                                                    for="flexSwitchCheckChecked">Checked switch checkbox
+                                                    input</label> -->
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Bot Avatar -->
+                                        <div class="mb-3">
+                                            <label for="botAvatar" class="form-label fw-bold">Chat
+                                                icon</label>
+                                            <div class="d-flex align-items-center">
+                                                <!-- <input type="file" class="form-control-file" id="botAvatar"> -->
+                                                <button class="btn btn-link ms-2"><i
+                                                        class="bi bi-upload"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <div class="fw-bold"  style="color: #0f1535">Theme</div>
+                                            <input type="color" id="favcolor" name="favcolor"
+                                                   value="#323444"><br><br>
+
+                                        </div>
+
+                                        <!-- Bot Name -->
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Greeting</label>
+                                            <div  style="color: #0f1535">Say hi to your visitors when they open the chat, in your
+                                                own words!
+                                            </div>
+                                            <input type="text" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="Assistant">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName"
+                                                   class="form-label fw-bold">Placeholder</label>
+                                            <div  style="color: #0f1535">Set your custom placeholder text for the chat input!
+
+                                            </div>
+                                            <input type="text" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="Assistant">
+                                        </div>
+
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
+
+                        <!-- Personalize Section -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Limits</div>
+                                        <div class="card-text"  style="color: #0f1535">Set limits for each conversation and control
+                                            the usage of your chatbot.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+                                        <!-- Bot Name -->
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Input token
+                                                limit</label>
+                                            <div  style="color: #0f1535">Note: Input = Prompt + History + Embedding + User's message
+                                            </div>
+                                            <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="3400">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Output token
+                                                limit</label>
+                                            <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName" placeholder="600">
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Limit
+                                                Threads</label>
+                                            <div class="d-flex align-items-center gap-1">
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName"
+                                                       placeholder="10000">
+                                                <div  style="color: #0f1535">every</div>
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName" placeholder="30">
+                                                <div  style="color: #0f1535">days</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Limit Messages
+                                                Per Threads</label>
+                                            <div class="d-flex align-items-center gap-1">
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName"
+                                                       placeholder="10000">
+                                                <div  style="color: #0f1535">every</div>
+                                                <input type="number" style="font-size: small; background-color: #8bb1ab"
+                                                       class="form-control w-25" id="botName" placeholder="30">
+                                                <div  style="color: #0f1535">days</div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
+
+
+                        <!-- Personalize Section -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Publish</div>
+                                        <div class="card-text"  style="color: #0f1535">Settings to help you publish your chatbot on
+                                            your website.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+
+
+                                        <div class="mb-3">
+                                            <div class="fw-bold"  style="color: #0f1535">Ask users to use their API key
+                                            </div>
+                                            <div style="color: #0f1535">Publish your chatbot without your API key. This
+                                                will allow your users to connect their own API key to your
+                                                chatbot. This is useful if you do not want to spend for the
+                                                tokens your users use.
+                                            </div>
+
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="flexSwitchCheckChecked" checked>
+                                                <!-- <label class="form-check-label"
+                                                                                        for="flexSwitchCheckChecked">Checked switch checkbox
+                                                                                        input</label> -->
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Bot Name -->
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Restrict to
+                                                specific domain(s)</label>
+                                            <div  style="color: #0f1535">Please make sure it's a comma separated list of domains or
+                                                wildcard domains. If you misconfgure this, your chatbot may
+                                                not be able to load on your website.
+                                            </div>
+                                            <input type="text" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName"
+                                                   placeholder="Eg: mydomain.com, *.mydomain.com">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="botName" class="form-label fw-bold">Human handoff
+                                                URL (optional)
+                                            </label>
+                                            <div  style="color: #0f1535">If you want to redirect your users to a human agent, you
+                                                can specify a URL here where your users can talk to a human.
+                                            </div>
+                                            <input type="text" style="font-size: small; background-color: #8bb1ab"
+                                                   class="form-control" id="botName"
+                                                   placeholder="Eg: https://yourwebsite.com/livechat">
+                                        </div>
+
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
+
+
+                        <!-- Personalize Section -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <div class="d-flex ">
+                                    <div class="col-md-4">
+                                        <div class="card-title fw-bold" style="color: #0f1535">Advanced</div>
+                                        <div class="card-text"  style="color: #0f1535">Experimental settings to help you get the
+                                            most out of your chatbot.
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <form>
+
+
+                                        <div class="mb-5">
+                                            <div class="fw-bold"  style="color: #0f1535">Reduce URL hallucinations
+                                            </div>
+                                            <div style="color: #0f1535">If you notice your AI is making up URLs, you can
+                                                turn this on to preprocess URLs in the input to reduce
+                                                hallucinations.<span class="fw-bold"  style="color: #0f1535"> This settings is
+                                                                experimental and may not work for all use cases.</span>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="flexSwitchCheckChecked" checked>
+                                                <!-- <label class="form-check-label"
+                                                                                                                            for="flexSwitchCheckChecked">Checked switch checkbox                                                                       input</label> -->
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <div class="fw-bold"  style="color: #0f1535">Allow Rating
+                                            </div>
+                                            <div style="color: #0f1535">This will allow your users to rate the responses
+                                                from the chatbot.
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox"
+                                                       id="flexSwitchCheckChecked" checked>
+                                                <!-- <label class="form-check-label"
+                                                                                                                            for="flexSwitchCheckChecked">Checked switch checkbox
+                                                                                                                            input</label> -->
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex gap-2">
+                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                                save
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Personalize Section -->
                     </div>
                 </div>
             </div>
