@@ -67,6 +67,11 @@
         margin-bottom: 20px;
     }
 
+    .chat-card
+    {
+        width: 100%;
+    }
+
 </style>
 @section('content')
     <div class="container-fluid mt-4">
@@ -88,7 +93,7 @@
             <!-- Example Card -->
             <div class="card mt-3 col-md-6" style="padding-right: 5px">
                 <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-3 chat-card">
                         <a href="{{route('admin_hai_chat_detail')}}">
                             <h3 class="text-white text-decoration-none"><i class="bi bi-robot"></i> Brain</h3>
                             <p class="card-text text-white">This is an example description</p>
@@ -201,7 +206,7 @@
                     const cardHtml = `
             <div class="card mt-3 col-md-6" >
                 <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-3 chat-card">
                                                 <a href="./Pages/chatdetails.html">
                         <div class="text-white text-decoration-none"><i class="bi bi-robot"></i> ${name}</div>
                         <p class="card-text text-white">${description}</p>
