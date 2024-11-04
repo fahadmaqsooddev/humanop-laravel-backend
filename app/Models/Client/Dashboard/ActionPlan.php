@@ -93,8 +93,6 @@ class ActionPlan extends Model
 
                 $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
 
-                dd($data);
-
 //                $data = [
 //                    '<h3>Coming Soon !</h3>',
 //                    '<h3>Coming Soon !</h3>'

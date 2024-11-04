@@ -28,7 +28,8 @@ class Feedback extends Model
 
 
     // query
-    public static function storeClientFeedback($data = null){
+    public static function storeClientFeedback($data = null)
+    {
 
         self::create($data);
     }

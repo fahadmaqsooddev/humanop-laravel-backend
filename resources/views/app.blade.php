@@ -96,8 +96,34 @@
               }
           });
       }
+
+      function submitAfterThirtyFeedBackForm() {
+
+          $.ajax({
+              url: '{{ route("user-feedback") }}',
+              method: 'POST',
+              data: {'comment': $('#feedback-comment-value').val()},
+              headers: {
+                  'X-CSRF-TOKEN': "{{csrf_token()}}"
+              },
+              success: function (response) {
+
+                  $('#feedback_success').removeAttr('hidden');
+
+                  animateNumber(1);
+
+                  setTimeout(function () {
+                      $('#add_feedback_after_thirty_mins').click();
+                  }, 2000);
+              },
+              error: function (response) {
+                  $('#add_feedback').click();
+                  console.log(response);
+              }
+          });
+      }
   </script>
-  
+
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

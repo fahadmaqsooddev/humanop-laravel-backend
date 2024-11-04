@@ -112,9 +112,10 @@ class SessionController extends Controller
 
                         DailyTip::updateUserDailyTip();
 
-                        ActionPlan::storeUserActionPlan();
-
                         User::updateUserIsFeedback();
+
+//                        ActionPlan::storeUserActionPlan();
+
                     }
 
                     if ($user->is_admin === Admin::IS_PRACTITIONER){
