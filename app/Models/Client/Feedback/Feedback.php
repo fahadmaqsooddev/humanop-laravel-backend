@@ -13,17 +13,18 @@ class Feedback extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
     // relation
-    public function user(){
+    public function user()
+    {
 
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 
@@ -34,8 +35,9 @@ class Feedback extends Model
         self::create($data);
     }
 
-    public static function userFeedbacks(){
-
-        return self::has('user')->with('user')->paginate(10);
+    public static function userFeedbacks()
+    {
+        return self::whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
     }
+
 }

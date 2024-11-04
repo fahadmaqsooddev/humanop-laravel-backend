@@ -48,11 +48,11 @@
                         </tr>
                         </thead>
                         <tbody>
-{{--                        @if(!isset($feedbacks[0]))--}}
-{{--                            <tr class="table-text-color">--}}
-{{--                                <td>No any feedback...</td>--}}
-{{--                            </tr>--}}
-{{--                        @endif--}}
+                        @if(!isset($feedbacks[0]))
+                            <tr class="table-text-color">
+                                <td>No any feedback...</td>
+                            </tr>
+                        @endif
                         @foreach($feedbacks as $key => $feedback)
                             <tr class="table-text-color">
                                 <td class="text-md font-weight-normal">{{$key + 1}}</td>
