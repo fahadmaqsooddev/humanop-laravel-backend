@@ -395,7 +395,7 @@ class UserController extends Controller
 
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : null;
+            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
             $data = [
                 'user_age' => $user_age,
