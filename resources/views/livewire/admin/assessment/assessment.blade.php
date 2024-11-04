@@ -221,7 +221,7 @@
             @foreach($assessments as $assessment)
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
-                    <td class="text-md font-weight-normal">{{\Carbon\Carbon::parse($assessment['updated_at'])->format('Y/m/d')}}</td>
+                    <td class="text-md font-weight-normal">{{$assessment['updated_at']}} (GMT)</td>
                     <td class="text-md font-weight-normal">{{\App\Helpers\Helpers::explodeAssessmentTimezoneWithHours($assessment['users'] ? $assessment['users']['timezone'] : '', $assessment['updated_at'])}}</td>
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-md font-weight-normal"><a

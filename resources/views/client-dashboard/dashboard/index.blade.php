@@ -600,9 +600,9 @@
                                 <div class="card-body p-3 text-white d-flex justify-content-center align-items-center"
                                      style="cursor: pointer">
                                     {{--                                     data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
-                                    <div>
-                                        <h1 class="text-center text-white">Coming Soon!</h1>
-                                    </div>
+{{--                                    <div>--}}
+{{--                                        <h1 class="text-center text-white">Coming Soon!</h1>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>

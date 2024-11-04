@@ -16,21 +16,23 @@ class ActionPlan extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
     // accessor
 
-    public function getPlanTextAttribute($value){
+    public function getPlanTextAttribute($value)
+    {
 
         return "Coming Soon !";
     }
 
-    public function getTextAttribute($value){
+    public function getTextAttribute($value)
+    {
 
         return "<h3 class='text-center'>Coming Soon !</h3>";
     }
@@ -38,11 +40,12 @@ class ActionPlan extends Model
 
     // query
 
-    public static function storeUserActionPlan($ignore_days_restriction = false){
+    public static function storeUserActionPlan($ignore_days_restriction = false)
+    {
 
-//        $app_env = env('APP_ENV');
-//
-//        if ($app_env != 'production' || $app_env != 'staging'){
+        $app_env = env('APP_ENV');
+
+        if ($app_env != 'production' || $app_env != 'staging') {
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
             $plan = $user['plan_name'];
@@ -53,61 +56,64 @@ class ActionPlan extends Model
 
             $user_action_plan = self::where('user_id', $user->id)->first();
 
-            if ($user_action_plan){
+            if ($user_action_plan) {
 
-                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today()) || $ignore_days_restriction){
+//                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today()) || $ignore_days_restriction) {
 
-//                    $latestAssessment = Assessment::getLatestAssessment($user->id);
-//
-//                    if ($latestAssessment){
-//
-//                        $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
-//                    }
+                    $latestAssessment = Assessment::getLatestAssessment($user->id);
 
-//                    $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
+                    if ($latestAssessment) {
 
-//                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
+                        $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
+                    }
 
-                    $data = [
-                        '<h3>Coming Soon !</h3>',
-                        '<h3>Coming Soon !</h3>'
-                    ];
+                    $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
+
+                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
+
+//                    $data = [
+//                        '<h3>Coming Soon !</h3>',
+//                        '<h3>Coming Soon !</h3>'
+//                    ];
 
                     $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
 
+//                }
+
+            } else {
+
+                $latestAssessment = Assessment::getLatestAssessment($user->id);
+
+                if ($latestAssessment) {
+
+                    $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
                 }
 
-            }else{
+                $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
 
-//                $latestAssessment = Assessment::getLatestAssessment($user->id);
-//
-//                if ($latestAssessment){
-//
-//                    $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
-//                }
-//
-//                $body = ['grid' => $assessmentDetails ?? null,'plan' => $plan];
-//
-//                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan',$body);
+                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
 
-                $data = [
-                    '<h3>Coming Soon !</h3>',
-                    '<h3>Coming Soon !</h3>'
-                ];
+                dd($data);
+
+//                $data = [
+//                    '<h3>Coming Soon !</h3>',
+//                    '<h3>Coming Soon !</h3>'
+//                ];
 
                 self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
 
             }
 
-//        }
+        }
 
     }
 
-    public static function userActionPlan(){
+    public static function userActionPlan()
+    {
 
         $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
 
-        return self::where('user_id', $user_id)->select(['id','plan_text','text'])->first();
+        return self::where('user_id', $user_id)->select(['id', 'plan_text', 'text'])->first();
     }
 
 

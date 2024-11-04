@@ -53,7 +53,8 @@ class Assessment extends Model
 
         $formattedTimestamp = explode('.', $formattedTimestamp)[0];
 
-        $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'];
+
+        $timezone = Helpers::getWebUser()['timezone'] ? Helpers::getUser()['timezone'] : '';
 
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
