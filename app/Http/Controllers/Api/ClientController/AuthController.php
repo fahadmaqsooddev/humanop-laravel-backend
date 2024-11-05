@@ -194,7 +194,7 @@ class AuthController extends Controller
 
                 DailyTip::updateUserDailyTip();
 
-                ActionPlan::storeUserActionPlan();
+//                ActionPlan::storeUserActionPlan();
 
                 $data = [
                     'user' => $user,
