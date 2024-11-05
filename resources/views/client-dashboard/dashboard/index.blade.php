@@ -332,8 +332,7 @@
                                                     class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                     id="read_all_tip">
                                                     <button
-                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
-                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn" data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                         onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
                                                     </button>
@@ -350,7 +349,7 @@
                                                 class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
                                                 <button style="background-color: #f2661c;"
                                                         class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
-                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                         onclick="onDailyTipAllRead()">
                                                     Complete Daily Tip
                                                 </button>
@@ -690,7 +689,6 @@
                                     <div class="form-group mt-2">
                                         <button style="background-color: #f2661c;"
                                                 class="btn btn-sm text-white daily-tip-read-button"
-                                                {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                 onclick="onDailyTipAllRead()">
                                             Complete Daily Tip
                                         </button>
@@ -938,7 +936,26 @@
                 </div>
             </div>
         </div>
-
+{{--daily tip already completed--}}
+    <div class="modal fade" id="daily-tip-completed" tabindex="-1"
+         role="dialog"
+         aria-labelledby="dailyTipCompleted" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <div class="card-body pt-0">
+                        <label class="form-label fs-4 text-white">Daily Tip Completed! 🌟</label>
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-info-modal-button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <p class="text-white mt-4" style="text-align: justify"> Well done! You’ve completed today’s tip. Keep this momentum going and check back tomorrow for another tip!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{{--    end daily tip complete here--}}
     <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#introModel" id="open-intro-modal">
     </button>
 @endsection
@@ -1023,7 +1040,6 @@
 
         function onDailyTipAllRead() {
 
-            $('.daily-tip-read-button').attr('disabled', true);
 
             $.ajax({
                 url: '{{ route("read-daily-tip") }}',
