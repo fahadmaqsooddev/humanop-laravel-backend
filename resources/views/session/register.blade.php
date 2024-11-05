@@ -364,120 +364,123 @@
     });
 
 
-    // //form validation code
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     const form = document.querySelector("form");
-    //     const fields = {
-    //         first_name: {
-    //             element: document.getElementById("first_name"),
-    //             errorMessage: "First name is required",
-    //         },
-    //         last_name: {
-    //             element: document.getElementById("last_name"),
-    //             errorMessage: "Last name is required",
-    //         },
-    //         email: {
-    //             element: document.getElementById("email"),
-    //             errorMessage: "Please enter a valid email",
-    //         },
-    //         password: {
-    //             element: document.getElementById("password"),
-    //             errorMessage: "Password must be at least 6 characters",
-    //         },
-    //         confirmPassword: {
-    //             element: document.getElementById("confirmPassword"),
-    //             errorMessage: "Passwords do not match",
-    //         },
-    //         // phone: {
-    //         //     element: document.getElementById("phone"),
-    //         //     errorMessage: "Phone is required",
-    //         // },
-    //         gender: {
-    //             element: document.getElementById("gender"),
-    //             errorMessage: "Please select your gender",
-    //         },
-    //         year : {
-    //             element: document.getElementById("year"),
-    //             errorMessage: "Select year",
-    //         },
-    //         month : {
-    //             element: document.getElementById("month"),
-    //             errorMessage: "Select month",
-    //         },
-    //         day : {
-    //             element: document.getElementById("day"),
-    //             errorMessage: "Select day",
-    //         }
-    //     };
-    //
-    //     // Function to validate individual fields
-    //     function validateField(field, value) {
-    //         let isValid = true;
-    //         let message = "";
-    //
-    //         // Validation conditions
-    //         if (value.trim() === "") {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         } else if (field.element.id === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         } else if (field.element.id === "password" && value.length < 6) {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         } else if (field.element.id === "confirmPassword" && value !== fields.password.element.value) {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         } else if (field.element.id === "day" && field.element.value === "") {
-    //             isValid = false;
-    //             message = field.errorMessage; // Assuming errorMessage is set properly for each field
-    //         } else if (field.element.id === "month" && field.element.value === "") {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         } else if (field.element.id === "year" && field.element.value === "") {
-    //             isValid = false;
-    //             message = field.errorMessage;
-    //         }
-    //
-    //
-    //         // Get or create error message container
-    //         let errorElement = field.element.nextElementSibling;
-    //         if (!errorElement || !errorElement.classList.contains('error-message')) {
-    //             errorElement = document.createElement("p");
-    //             errorElement.className = "text-danger error-message mt-2 mb-2";
-    //             field.element.insertAdjacentElement("afterend", errorElement);
-    //         }
-    //
-    //         // Show or hide the error message
-    //         errorElement.textContent = isValid ? "" : message;
-    //
-    //         return isValid;
-    //     }
-    //
-    //     // Event listeners for real-time validation
-    //     Object.keys(fields).forEach(key => {
-    //         const field = fields[key];
-    //         field.element.addEventListener("input", (event) => {
-    //             validateField(field, event.target.value);
-    //         });
-    //     });
-    //
-    //     // Form submit validation
-    //     form.addEventListener("submit", function (e) {
-    //         let formIsValid = true;
-    //
-    //         // Check each field on form submission
-    //         Object.keys(fields).forEach(key => {
-    //             const field = fields[key];
-    //             const isValid = validateField(field, field.element.value);
-    //             if (!isValid) formIsValid = false;
-    //         });
-    //
-    //         if (!formIsValid) {
-    //             e.preventDefault(); // Prevent form submission if any field is invalid
-    //         }
-    //     });
-    // });
+    //form validation code
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const fields = {
+            first_name: {
+                element: document.getElementById("first_name"),
+                errorMessage: "First name is required",
+            },
+            last_name: {
+                element: document.getElementById("last_name"),
+                errorMessage: "Last name is required",
+            },
+            email: {
+                element: document.getElementById("email"),
+                errorMessage: "Please enter a valid email",
+            },
+            password: {
+                element: document.getElementById("password"),
+                errorMessage: "Password must be at least 6 characters",
+            },
+            confirmPassword: {
+                element: document.getElementById("confirmPassword"),
+                errorMessage: "Passwords do not match",
+            },
+            gender: {
+                element: document.getElementById("gender"),
+                errorMessage: "Please select your gender",
+            },
+            year: {
+                element: document.getElementById("year"),
+                errorMessage: "Select year",
+            },
+            month: {
+                element: document.getElementById("month"),
+                errorMessage: "Select month",
+            },
+            day: {
+                element: document.getElementById("day"),
+                errorMessage: "Select day",
+            }
+        };
+
+        // Function to check if an element is visible
+        function isVisible(element) {
+            return element.offsetParent !== null;
+        }
+
+        // Function to validate individual fields
+        function validateField(field, value) {
+            if (!isVisible(field.element)) return true; // Skip validation if field is hidden
+
+            let isValid = true;
+            let message = "";
+
+            // Validation conditions
+            if (value.trim() === "") {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "password" && value.length < 6) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "confirmPassword" && value !== fields.password.element.value) {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "day" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "month" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage;
+            } else if (field.element.id === "year" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessage;
+            }
+
+            // Get or create error message container
+            let errorElement = field.element.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains('error-message')) {
+                errorElement = document.createElement("p");
+                errorElement.className = "text-danger error-message mt-2 mb-2";
+                field.element.insertAdjacentElement("afterend", errorElement);
+            }
+
+            // Show or hide the error message
+            errorElement.textContent = isValid ? "" : message;
+
+            return isValid;
+        }
+
+        // Event listeners for real-time validation
+        Object.keys(fields).forEach(key => {
+            const field = fields[key];
+            field.element.addEventListener("input", (event) => {
+                validateField(field, event.target.value);
+            });
+        });
+
+        // Form submit validation
+        form.addEventListener("submit", function (e) {
+            let formIsValid = true;
+
+            // Check each field on form submission
+            Object.keys(fields).forEach(key => {
+                const field = fields[key];
+                const isValid = validateField(field, field.element.value);
+                if (!isValid) formIsValid = false;
+            });
+
+            if (!formIsValid) {
+                e.preventDefault(); // Prevent form submission if any field is invalid
+            }
+        });
+    });
+
 
 
     // function disableBack() { window.history.forward(); }
