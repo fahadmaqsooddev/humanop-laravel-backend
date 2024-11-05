@@ -921,7 +921,7 @@
                                         Ready to discover what makes you truly unique and learn the actionable steps to optimize your life? Click the link to get started!
                                     </p>
                                     <div class="d-flex justify-content-between">
-                                        <button id="start-tour" data-bs-dismiss="modal" aria-label="Close" class="btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                        <button  data-bs-dismiss="modal" aria-label="Close" class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
                                             Start Tutorial
                                         </button>
                                         <button data-bs-dismiss="modal"
@@ -1172,9 +1172,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
     <script>
-        window.onload = function() {
+
             // Set up the button click event to start the tour
-            document.getElementById('start-tour').addEventListener('click', function() {
+            $('.start-tour').on('click', function() {
                 introJs().setOptions({
                     exitOnOverlayClick: false,
                     tooltipPosition: 'bottom',
@@ -1245,16 +1245,14 @@
                     targetElement.scrollIntoView();
                 }).start();
             });
-
-            // Trigger the click event with a delay of 2 seconds (2000 milliseconds) after the page is fully loaded
-            $(document).ready(function() {
-                if({{\App\Helpers\Helpers::getWebUser()['intro_check'] == 2}}){
-                    $('#open-intro-modal').trigger('click');
-                    introCompleted();
-                }
+            window.onload = function() {
+             $(document).ready(function() {
+                if({{\App\Helpers\Helpers::getWebUser()['intro_check']}} == 2){
+                     $('#open-intro-modal').trigger('click');
+                      introCompleted();
+                 }
             });
-                // $('#start-tour').trigger('click');
-        };
+           };
     </script>
 
     <script>
