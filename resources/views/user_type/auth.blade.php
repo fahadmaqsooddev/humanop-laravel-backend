@@ -99,7 +99,7 @@
         @else
             @include('layouts/navbars/auth/sidebar')
             <main
-                class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative border-radius-lg overflow-hidden' : 'position-relative border-radius-lg')) }}">
+                class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative  overflow-hidden' : 'position-relative ')) }}">
 
             @if (\Request::is('pages-rtl'))
                 @include('layouts/navbars/auth/nav-rtl')
