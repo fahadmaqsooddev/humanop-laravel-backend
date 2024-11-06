@@ -120,7 +120,7 @@ class RegisterController extends Controller
             {
                 Auth::login($user);
 
-                DailyTip::updateUserDailyTip();
+//                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::checkUserActionPlan();
 
