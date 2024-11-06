@@ -96,9 +96,8 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            if (!empty($request['google_id']))
+            if (empty($request['google_id']))
             {
-                dd(1);
                 $baseUrl = url('/check-email', $user['id']);
 
                 $data = [
@@ -119,7 +118,6 @@ class RegisterController extends Controller
                 return redirect()->route('email_verify');
             }else
             {
-                dd(2);
                 Auth::login($user);
 
                 DailyTip::updateUserDailyTip();
