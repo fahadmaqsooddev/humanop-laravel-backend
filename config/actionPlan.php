@@ -326,7 +326,8 @@ return [
 <p class='text-white'>By diligently following this 90-day plan by focusing on eating right, getting plenty of rest, and engaging in regular exercise, as you nurture your two main drivers, this will lead to increased energy and improved decision-making abilities. This approach will help you access your full potential and maintain optimal performance in your daily life.</p>",
 
 
-    'priority_4' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_4' => "<p class='text-white'>At this point in time, you're not fully tapping into your potential, which can leave you feeling tired and less motivated. To optimize this over the next 90 days, concentrate on nurturing your two main drivers. Discover and consistently apply new ways to “fuel” the strong states of these two driving forces in you. By doing so, you'll feel more energized and engaged, and this in turn provides you with greater access to your full potential. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To regain energy and motivation by consistently fueling the strong states of your two main drivers.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
