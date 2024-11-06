@@ -15,6 +15,7 @@ use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
+use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,8 @@ class AuthController extends Controller
             }
             else
             {
+                User::emailVerified($user['id']);
+
                 $token = $this->auth->login($user);
 
                 $user = User::userLoggedInData();
