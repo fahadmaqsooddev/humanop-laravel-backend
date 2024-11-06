@@ -184,7 +184,7 @@ class SessionController extends Controller
 
                         DailyTip::updateUserDailyTip();
 
-                        ActionPlan::storeUserActionPlan();
+//                        ActionPlan::storeUserActionPlan();
 
                         User::updateUserIsFeedback();
 

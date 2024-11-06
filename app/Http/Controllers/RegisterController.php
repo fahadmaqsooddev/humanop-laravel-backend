@@ -96,24 +96,41 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            $baseUrl = url('/check-email', $user['id']);
+            if (!empty(Session::get('google_user')))
+            {
+                $baseUrl = url('/check-email', $user['id']);
 
-            $data = [
-                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
-                '{$link}' =>  $baseUrl,
-            ];
+                $data = [
+                    '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                    '{$link}' =>  $baseUrl,
+                ];
 
-            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+                $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-            Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
+                Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
 
-            Session::put('userId', $user['id']);
+                Session::put('userId', $user['id']);
 
-            Session::forget('google_user');
+                Session::forget('google_user');
 
-            DB::commit();
+                DB::commit();
 
-            return redirect()->route('email_verify');
+                return redirect()->route('email_verify');
+            }else
+            {
+                Auth::login($user);
+
+                DailyTip::updateUserDailyTip();
+
+//                ActionPlan::checkUserActionPlan();
+
+                Session::forget('google_user');
+
+                session()->flash('success', 'Your account has been created.');
+
+                return redirect()->route('client_dashboard');
+
+            }
 
         } catch (\Exception $exception) {
 
@@ -301,7 +318,7 @@ class RegisterController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-            ActionPlan::storeUserActionPlan();
+//            ActionPlan::storeUserActionPlan();
 
             return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
 
