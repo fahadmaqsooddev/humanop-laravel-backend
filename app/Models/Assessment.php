@@ -107,7 +107,7 @@ class Assessment extends Model
     public static function getAllRowGrid($id = null)
     {
         $grid = self::whereId($id)->first();
-        $gridColor = AssessmentColorCode::getCodeColor($grid['id']);
+        $gridColor = AssessmentColorCode::getAssessmentCodeAndColor($grid['id']);
 
         // Second Row Style
         $second_row_sa = $grid['sa'] + $grid['ma'] + $grid['mer'];
@@ -147,6 +147,7 @@ class Assessment extends Model
             'so' => $grid['so'],
             'de' => $grid['de'],
             'dom' => $grid['dom'],
+            'sp' => $grid['sp'],
             'fe' => $grid['fe'],
             'gre' => $grid['gre'],
             'lun' => $grid['lun'],
@@ -181,6 +182,7 @@ class Assessment extends Model
             'nai' => $grid['so'],
             'ne' => $grid['sa'] + $grid['lu'] + $grid['ven'],
             'pow' => $grid['jo'] + $grid['mer'],
+            'sp' => $grid['jo'],
             'tra' => $grid['jo'] + $grid['ven'],
             'van' => $grid['jo'] + $grid['ven'] + $grid['mer'] + $grid['so'],
             'wil' => $grid['ma'] + $grid['lu'],

@@ -48,10 +48,14 @@ class ClientController extends Controller
             $actionPlanInfo = InformationIcon::getActionPlanInfo();
             $dailyTipInfo = InformationIcon::getDailyTipInfo();
 
+            ActionPlan::checkUserActionPlan($assessment);
+            $actionPlan = ActionPlan::userActionPlan($assessment);
+
+
             $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
             $helpInfo = InformationIcon::getHelpInfo();
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo'));
+            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan'));
 
         } catch (\Exception $exception) {
 

@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
 use Carbon\Carbon;
+use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,86 +26,350 @@ class ActionPlan extends Model
 
     // accessor
 
-    public function getPlanTextAttribute($value)
-    {
+//    public function getPlanTextAttribute($value)
+//    {
+//
+//        return "Coming Soon !";
+//    }
 
-        return "Coming Soon !";
-    }
-
-    public function getTextAttribute($value)
-    {
-
-        return "<h3 class='text-center'>Coming Soon !</h3>";
-    }
+//    public function getTextAttribute($value)
+//    {
+//
+//        return "<h3 class='text-center'>Coming Soon !</h3>";
+//    }
 
 
     // query
 
-    public static function storeUserActionPlan($ignore_days_restriction = false)
+//    public static function storeUserActionPlan($ignore_days_restriction = false)
+//    {
+//
+//        $app_env = env('APP_ENV');
+//
+//        if ($app_env != 'production' || $app_env != 'staging') {
+//            $user = Helpers::getWebUser() ?? Helpers::getUser();
+//
+//            $plan = $user['plan_name'];
+//
+//            $days_according_to_plan = $user['plan_name'] === 'Freemium' || $user['plan_name'] === 'Core' ?
+//
+//                $user['plan_name'] === 'Core' ? 30 : 90 : 7;
+//
+//            $user_action_plan = self::where('user_id', $user->id)->first();
+//
+//            if ($user_action_plan) {
+//
+////                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today()) || $ignore_days_restriction) {
+//
+//                    $latestAssessment = Assessment::getLatestAssessment($user->id);
+//
+//                    if ($latestAssessment) {
+//
+//                        $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
+//                    }
+//
+//                    $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
+//
+//                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
+//
+////                    $data = [
+////                        '<h3>Coming Soon !</h3>',
+////                        '<h3>Coming Soon !</h3>'
+////                    ];
+//
+//                    $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
+//
+////                }
+//
+//            } else {
+//
+//                $latestAssessment = Assessment::getLatestAssessment($user->id);
+//
+//                if ($latestAssessment) {
+//
+//                    $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
+//                }
+//
+//                $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
+//
+//                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
+//
+////                $data = [
+////                    '<h3>Coming Soon !</h3>',
+////                    '<h3>Coming Soon !</h3>'
+////                ];
+//
+//                self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
+//
+//            }
+//
+//        }
+//
+//    }
+
+    public static function checkUserActionPlan($assessment = null)
     {
+        if (!empty($assessment)) {
 
-        $app_env = env('APP_ENV');
-
-        if ($app_env != 'production' || $app_env != 'staging') {
             $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $plan = $user['plan_name'];
+            $existingPlan = self::where('user_id', $user['id'])->latest()->first();
 
-            $days_according_to_plan = $user['plan_name'] === 'Freemium' || $user['plan_name'] === 'Core' ?
+            if (empty($existingPlan)) {
 
-                $user['plan_name'] === 'Core' ? 30 : 90 : 7;
-
-            $user_action_plan = self::where('user_id', $user->id)->first();
-
-            if ($user_action_plan) {
-
-//                if (Carbon::parse($user_action_plan['updated_at'])->addDays($days_according_to_plan)->lessThan(Carbon::today()) || $ignore_days_restriction) {
-
-                    $latestAssessment = Assessment::getLatestAssessment($user->id);
-
-                    if ($latestAssessment) {
-
-                        $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
-                    }
-
-                    $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
-
-                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
-
-//                    $data = [
-//                        '<h3>Coming Soon !</h3>',
-//                        '<h3>Coming Soon !</h3>'
-//                    ];
-
-                    $user_action_plan->update(['plan_text' => $data[0], 'text' => $data[1]]);
-
-//                }
+                self::storeUserActionPlan($assessment, $user);
 
             } else {
 
-                $latestAssessment = Assessment::getLatestAssessment($user->id);
+                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
-                if ($latestAssessment) {
+                $userTime = Carbon::parse($existingPlan['updated_at'])
+                    ->addMinutes($minutes * 60)
+                    ->toDateTimeString();
 
-                    $assessmentDetails = Assessment::getAllRowGrid($latestAssessment->id);
+                $difference = Carbon::now()->diffInDays($userTime);
+
+                if ($difference > 90) {
+
+                    self::storeUserActionPlan($assessment, $user);
+
                 }
-
-                $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
-
-                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
-
-//                $data = [
-//                    '<h3>Coming Soon !</h3>',
-//                    '<h3>Coming Soon !</h3>'
-//                ];
-
-                self::create(['plan_text' => $data[0], 'text' => $data[1], 'user_id' => $user->id]);
 
             }
 
         }
 
     }
+
+
+    public static function storeUserActionPlan($assessment = null, $user = null)
+    {
+
+        $assessmentDetails = Assessment::getAllRowGrid($assessment['id']);
+
+        $bridge = [];
+
+        if (!empty($assessmentDetails['gridColor'])) {
+
+            foreach ($assessmentDetails['gridColor'] as $key => $gridColor) {
+
+                if ($gridColor == 'border-green') {
+
+                    $bridge[] = $key;
+
+                }
+
+            }
+
+        }
+
+        $firstRowDriver = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil'];
+
+        $firstRowStyle = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+        $matchingKeys = array_intersect(array_keys($assessmentDetails['firstRow']), $firstRowDriver);
+
+        $countFirstRowDriver = 0;
+
+        foreach ($matchingKeys as $key) {
+
+            $countFirstRowDriver += $assessmentDetails['firstRow'][$key];
+        }
+
+        $values = [
+            $assessmentDetails['firstRow']['em'],
+            $assessmentDetails['firstRow']['ins'],
+            $assessmentDetails['firstRow']['int'],
+            $assessmentDetails['firstRow']['mov']
+        ];
+
+        $countGreaterThan12 = count(array_filter($values, function ($value) {
+            return $value > 12;
+        }));
+
+        $countLessThan7 = count(array_filter($values, function ($value) {
+            return $value < 7;
+        }));
+
+        $authenticTraitCount = 0;
+
+        foreach ($firstRowStyle as $trait) {
+            if ($assessmentDetails['firstRow'][$trait] >= 5) { // Replace 'green' with the actual condition
+                $authenticTraitCount++;
+            }
+        }
+
+        $authenticDriverCount = 0;
+
+        foreach ($firstRowDriver as $driver) {
+            if (isset($assessmentDetails['gridColor'][$driver]) && in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow'])) {
+                $authenticDriverCount++;
+            }
+        }
+
+        $pilotDriverCount = 0;
+
+        foreach ($firstRowDriver as $driver) {
+            if (isset($assessmentDetails['gridColor'][$driver]) && ($assessmentDetails['gridColor'][$driver] == 'green') && ($assessmentDetails['firstRow'][$driver] < 3)) {
+                $pilotDriverCount++;
+            }
+        }
+
+        $actionPlan = null;
+
+        if ($assessmentDetails['firstRow']['van'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_1');
+
+        } elseif ($assessmentDetails['firstRow']['sa'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.regal');
+
+        } elseif ($assessmentDetails['firstRow']['ma'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.energetic');
+
+        } elseif ($assessmentDetails['firstRow']['jo'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.absorptive');
+
+        } elseif ($assessmentDetails['firstRow']['ven'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.sympathetic');
+
+        } elseif ($assessmentDetails['firstRow']['mer'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.perceptive');
+
+        } elseif ($assessmentDetails['firstRow']['so'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_2.effervescent');
+
+        } elseif (
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            (!in_array('jo', $bridge) || !in_array('mer', $bridge)) &&
+            ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30 && $assessmentDetails['thirdRow']['so'] < 30)
+        ) {
+
+            $actionPlan = config('actionPlan.priority_3');
+
+        } elseif ($authenticTraitCount < 3) {
+
+            $actionPlan = config('actionPlan.priority_4');
+
+        } elseif (
+
+            ($assessmentDetails['firstRow']['ma'] < 5 && $assessmentDetails['firstRow']['lu'] < 5) &&
+            (!in_array('ma', $bridge) || !in_array('lu', $bridge)) &&
+            ($assessmentDetails['thirdRow']['ma'] < 30 && $assessmentDetails['thirdRow']['lu'] < 30)
+        ) {
+
+            $actionPlan = config('actionPlan.priority_5');
+
+        } elseif (
+
+            ($assessmentDetails['firstRow']['sa'] < 5 && $assessmentDetails['firstRow']['ven'] < 5) &&
+            (!in_array('sa', $bridge) || !in_array('ven', $bridge)) &&
+            ($assessmentDetails['thirdRow']['sa'] < 30 && $assessmentDetails['thirdRow']['ven'] < 30)
+        ) {
+
+            $actionPlan = config('actionPlan.priority_6');
+
+        } elseif ($authenticDriverCount > 3) {
+
+            $actionPlan = config('actionPlan.priority_7');
+
+        } elseif ($authenticDriverCount == 3) {
+
+            $actionPlan = config('actionPlan.priority_8');
+
+        } elseif ($authenticDriverCount == 2) {
+
+            $actionPlan = config('actionPlan.priority_9');
+
+        } elseif ($authenticDriverCount == 1) {
+
+            $actionPlan = config('actionPlan.priority_10');
+
+        } elseif ($pilotDriverCount == 2) {
+
+            $actionPlan = config('actionPlan.priority_11');
+
+        } elseif ($pilotDriverCount == 1) {
+
+            $actionPlan = config('actionPlan.priority_12');
+
+        } elseif ($countFirstRowDriver > 21) {
+
+            $actionPlan = config('actionPlan.priority_13');
+
+        } elseif ($countFirstRowDriver < 16) {
+
+            $actionPlan = config('actionPlan.priority_14');
+
+        } elseif (in_array($assessmentDetails['alchemy'], [700, 610, 601, 520, 511, 502, 430])) {
+
+            $actionPlan = config('actionPlan.priority_15');
+
+        } elseif (in_array($assessmentDetails['alchemy'], [223, 133, 043, 214, 124, 115, 034, 007])) {
+
+            $actionPlan = config('actionPlan.priority_16');
+
+        } elseif ($countGreaterThan12 >= 2) {
+
+            $actionPlan = config('actionPlan.priority_17');
+
+        } elseif (count(array_filter($values, function ($value) {
+                return $value > 12;
+            })) > 0) {
+
+            $actionPlan = config('actionPlan.priority_18');
+
+        } elseif ($countLessThan7 >= 2) {
+
+            $actionPlan = config('actionPlan.priority_19');
+
+        } elseif (count(array_filter($values, function ($value) {
+                return $value < 7;
+            })) > 0) {
+
+            $actionPlan = config('actionPlan.priority_20');
+
+        } elseif ($assessmentDetails['firstRow']['pv'] == 0) {
+
+            $actionPlan = config('actionPlan.priority_21');
+
+        } elseif ($assessmentDetails['firstRow']['pv'] < 0) {
+
+            $actionPlan = config('actionPlan.priority_22');
+
+        } elseif ($assessmentDetails['firstRow']['pv'] > 12) {
+
+            $actionPlan = config('actionPlan.priority_23');
+
+        } elseif ($assessmentDetails['firstRow']['ep'] < 25) {
+
+            $actionPlan = config('actionPlan.priority_24');
+
+        } elseif ($assessmentDetails['firstRow']['ep'] > 35) {
+
+            $actionPlan = config('actionPlan.priority_25');
+
+        } else {
+
+            $actionPlan = config('actionPlan.priority_26');
+
+        }
+
+        $plan = self::create([
+            'user_id' => $user['id'],
+            'plan_text' => $actionPlan,
+        ]);
+
+        return $plan;
+
+    }
+
 
     public static function userActionPlan()
     {
