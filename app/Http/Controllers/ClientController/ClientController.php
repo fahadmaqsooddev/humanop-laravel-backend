@@ -25,7 +25,7 @@ class ClientController extends Controller
 
     public function index()
     {
-//        try {
+        try {
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
             $age = Carbon::parse(Helpers::getWebUser()->date_of_birth)->age;
             $podcast = Podcast::getPodcast();
@@ -57,11 +57,11 @@ class ClientController extends Controller
 
             return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan'));
 
-//        } catch (\Exception $exception) {
-//
-//            return redirect()->back()->with('error', $exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
     }
 
 

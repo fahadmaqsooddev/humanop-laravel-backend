@@ -88,7 +88,7 @@ class GoogleController extends Controller
                 return redirect()->to($redirectUrl);
             }
 
-            ActionPlan::storeUserActionPlan();
+//            ActionPlan::storeUserActionPlan();
             User::updateUserIsFeedback();
 
             $authenticatedUser = Helpers::getWebUser();
