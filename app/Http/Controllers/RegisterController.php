@@ -118,6 +118,9 @@ class RegisterController extends Controller
                 return redirect()->route('email_verify');
             }else
             {
+
+                User::emailVerified($user['id']);
+                
                 Auth::login($user);
 
                 DailyTip::updateUserDailyTip();
