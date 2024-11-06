@@ -132,6 +132,7 @@ class Assessment extends Component
 
     public function updateAssessment()
     {
+
         $filteredQuestions = array_filter($this->questions, function ($question) {
             return $question['multiple'] == 0;
         });
@@ -204,7 +205,9 @@ class Assessment extends Component
         //end of calculation
 
         try {
+
             $totalPages = ceil($this->totalQuestion / $this->limit);
+
             $codeArray = [];
             ksort($this->answers);
 
@@ -227,6 +230,7 @@ class Assessment extends Component
             if ($existingAssessment) {
 
                 $this->offset += 3;
+
                 $oldResult = $existingAssessment->toArray();
                 $resultArray = [];
 
@@ -254,8 +258,8 @@ class Assessment extends Component
 
                     if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
 
-                        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
-                        ActionPlan::storeUserActionPlan(true);
+//                        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
+                        ActionPlan::checkUserActionPlan($existingAssessment);
 
                         $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
                     }else{

@@ -49,7 +49,7 @@ class ClientController extends Controller
             $dailyTipInfo = InformationIcon::getDailyTipInfo();
 
             ActionPlan::checkUserActionPlan($assessment);
-            $actionPlan = ActionPlan::userActionPlan($assessment);
+            $actionPlan = ActionPlan::userActionPlan();
 
 
             $libraryResourceInfo = InformationIcon::getLibraryResourceInfo();
