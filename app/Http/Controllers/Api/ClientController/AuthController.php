@@ -115,29 +115,58 @@ class AuthController extends Controller
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
-            $baseUrl = url('/check-email', $user['id']);
+            if (empty($request['google_id']))
+            {
+                $baseUrl = url('/check-email', $user['id']);
 
-            $userData = [
-                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-                '{$link}' => $baseUrl,
-            ];
+                $userData = [
+                    '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                    '{$link}' => $baseUrl,
+                ];
 
 
-            $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
+                $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
 
-            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
+                Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
-            Helpers::createCustomerAndSubscriptionOnStripe($user);
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-            DB::commit();
+                DB::commit();
 
-            $data = [
-                'authorization' => [
-                    'userId' => $user['id'],
-                    'status' => true,
-                    'type' => 'bearer',
-                ]
-            ];
+                $data = [
+                    'authorization' => [
+                        'userId' => $user['id'],
+                        'status' => true,
+                        'type' => 'bearer',
+                    ]
+                ];
+
+            }
+            else
+            {
+                $token = $this->auth->login($user);
+
+                $user = User::userLoggedInData();
+
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
+
+                DailyTip::updateUserDailyTip();
+
+//                ActionPlan::storeUserActionPlan();
+
+                DB::commit();
+
+                $data = [
+                    'user' => $user,
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ]
+                ];
+
+            }
 
             return Helpers::successResponse('User register successfully', $data);
 
