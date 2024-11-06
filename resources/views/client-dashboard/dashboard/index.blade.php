@@ -281,7 +281,7 @@
                 </div>
 
             </div>
-    @endif
+        @endif
 
     <!-- main features section -->
         <div class="container-fluid px-0 ">
@@ -305,32 +305,26 @@
 
                                         {{$hide_button = false}}
 
-                                        <p class="text-sm mt-3 fs-12px daily_tip_text">
-                                            @if($tip && !empty($tip['description']))
-                                                @if(strlen($tip['description']) > 290)
-                                                    <?php
-                                                    $hide_button = true;
-                                                    ?>
-                                                    <span id="daily-tip-text">
-
-                                                        {!! substr($tip['text'], 0, 305)!!}
-
-                                                        <a href="javascript:void(0)"
-                                                           onclick="showDailyTipCompleteText(`{{$tip['description']}}`)"
-                                                           style="color: #f2661c;">read
-                                                        more...
-                                                    </a>
-                                                    </span>
-                                                @else
-                                                    {!! $tip['description'] !!}
-                                                @endif
+                                        @if($tip && !empty($tip['description']))
+                                            @if(strlen($tip['description']) > 290)
+                                                <?php
+                                                $hide_button = true;
+                                                ?>
+                                                <span id="daily-tip-text">
+            {!! substr($tip['description'], 0, 305) !!}
+            <a href="javascript:void(0)"
+               onclick="showDailyTipCompleteText(`{{$tip['description']}}`)"
+               style="color: #f2661c;">read more...</a>
+        </span>
                                             @else
-                                                <p>Click here to:
-                                                <a href="{{url('client/intro-assessment')}}" target="_self" style="color: orange;">Take the Assessment</a>
-                                                </p>
+                                                {!! $tip['description'] !!}
                                             @endif
-                                        </p>
-
+                                        @else
+                                            <p>Click here to:
+                                                <a href="{{ url('client/intro-assessment') }}" target="_self"
+                                                   style="color: orange;">Take the Assessment</a>
+                                            </p>
+                                        @endif
                                         @if($tip && $assessment)
                                             <div>
 
@@ -338,7 +332,8 @@
                                                     class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                     id="read_all_tip">
                                                     <button
-                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn" data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
+                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
+                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
                                                         onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
                                                     </button>
@@ -346,30 +341,6 @@
 
                                             </div>
                                         @endif
-                                        @else
-                                            <p>Click here to:
-                                                <a href="{{url('client/intro-assessment')}}" target="_self"
-                                                   style="color: orange;">Take the Assessment</a>
-                                            </p>
-                                            @endif
-                                            </p>
-
-                                            @if($tip && $assessment)
-                                                <div>
-
-                                                    <div
-                                                        class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
-                                                        id="read_all_tip">
-                                                        <button
-                                                            class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
-                                                            {{$tip['is_read'] ?? null ? "disabled" : ""}}
-                                                            onclick="onDailyTipAllRead()">
-                                                            Complete Daily Tip
-                                                        </button>
-                                                    </div>
-
-                                                </div>
-                                            @endif
                                     </div>
 
                                     @if($tip && $assessment)
@@ -696,10 +667,12 @@
 
                                             {!! $firstTag !!}
                                             {!! $secondTag !!}
-                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan" style="color: #f2661c; cursor: pointer">view more...</span>
+                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"
+                                                  style="color: #f2661c; cursor: pointer">view more...</span>
                                         @else
                                             <p>Click here to:
-                                                <a href="{{ url('client/intro-assessment') }}" target="_self" style="color: orange;">Take the Assessment</a>
+                                                <a href="{{ url('client/intro-assessment') }}" target="_self"
+                                                   style="color: orange;">Take the Assessment</a>
                                             </p>
                                         @endif
 
@@ -1009,29 +982,6 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <div class="form-label fs-4 text-white text-center">Welcome to the HumanOp Assessment!
-                            </div>
-                             <br>
-                                <div class="card-body pt-0 text-white">
-                                       <p>
-                                           You’re about to begin a life-changing journey. The HumanOp Assessment is designed to unveil your true nature not based on opinions, but guided by the unchanging physical laws of nature and cutting-edge science.
-                                       </p>
-                                    <p class="text-white">
-                                        Ready to discover what makes you truly unique and learn the actionable steps to optimize your life? Click the link to get started!
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <button  data-bs-dismiss="modal" aria-label="Close" class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
-                                            Start Tutorial
-                                        </button>
-                                        <button data-bs-dismiss="modal"
-                                                aria-label="Close" class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
-                                            Skip Tutorial
-                                        </button>
-                                    </div>
-
-                                </div>
-
-
                             <label class="form-label fs-4 text-white">Your 90-Day Optimization Plan</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
@@ -1044,175 +994,177 @@
                 </div>
             </div>
         </div>
-{{--daily tip already completed--}}
-    <div class="modal fade" id="daily-tip-completed" tabindex="-1"
-         role="dialog"
-         aria-labelledby="dailyTipCompleted" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style=" border-radius: 9px">
-                    <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Daily Tip Completed! 🌟</label>
-                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                aria-label="Close" id="close-info-modal-button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <p class="text-white mt-4" style="text-align: justify"> Well done! You’ve completed today’s tip. Keep this momentum going and check back tomorrow for another tip!</p>
+        {{--daily tip already completed--}}
+        <div class="modal fade" id="daily-tip-completed" tabindex="-1"
+             role="dialog"
+             aria-labelledby="dailyTipCompleted" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">Daily Tip Completed! 🌟</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <p class="text-white mt-4" style="text-align: justify"> Well done! You’ve completed today’s
+                                tip. Keep this momentum going and check back tomorrow for another tip!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-{{--    end daily tip complete here--}}
-    <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#introModel" id="open-intro-modal">
-    </button>
-@endsection
+        {{--    end daily tip complete here--}}
+        <button class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#introModel"
+                id="open-intro-modal">
+        </button>
+        @endsection
 
-@push('javascript')
-    <script>
+        @push('javascript')
+            <script>
 
-        const descriptionContainer = document.querySelector('.description-container');
-        descriptionContainer.addEventListener('wheel', (event) => {
-            event.preventDefault();
+                const descriptionContainer = document.querySelector('.description-container');
+                descriptionContainer.addEventListener('wheel', (event) => {
+                    event.preventDefault();
 
-            descriptionContainer.scrollBy({
-                top: event.deltaY < 0 ? -30 : 30,
-            });
-        });
+                    descriptionContainer.scrollBy({
+                        top: event.deltaY < 0 ? -30 : 30,
+                    });
+                });
 
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        // Function to pause the video and reload the page
-        var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
+            </script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                // Function to pause the video and reload the page
+                var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
 
-        function pauseVideoAndReload() {
-            var video = document.getElementById('podcastVideo');
-            video.pause();  // Pause the video
-            window.location.reload();  // Reload the page
-        }
+                function pauseVideoAndReload() {
+                    var video = document.getElementById('podcastVideo');
+                    video.pause();  // Pause the video
+                    window.location.reload();  // Reload the page
+                }
 
-        // Example: Call the function when the video ends
-        var video = document.getElementById('podcastVideo');
-        video.onended = function () {
-            pauseVideoAndReload();
-        };
+                // Example: Call the function when the video ends
+                var video = document.getElementById('podcastVideo');
+                video.onended = function () {
+                    pauseVideoAndReload();
+                };
 
-        // Example: Call the function when a button is clicked
-        document.getElementById('someButton').addEventListener('click', pauseVideoAndReload);
-    </script>
-    <script>
-        document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
+                // Example: Call the function when a button is clicked
+                document.getElementById('someButton').addEventListener('click', pauseVideoAndReload);
+            </script>
+            <script>
+                document.querySelector('.fixed-plugin-button').addEventListener('click', function () {
 
-            var message = document.querySelector('.messageChat').value;
+                    var message = document.querySelector('.messageChat').value;
 
-            Livewire.emit('chatMessage', message);
-        });
+                    Livewire.emit('chatMessage', message);
+                });
 
-        document.querySelector('.messageChat').addEventListener('keypress', function (e) {
-            if (e.key === '\n' && e.ctrlKey) {
-
-
-                $('.fixed-plugin-button').click();
-
-                var message = document.querySelector('.messageChat').value;
-
-                Livewire.emit('chatMessage', message);
-
-                setTimeout(function () {
-
-                    $('#submitBtn').click()
-
-                    $('#messageChat').val('');
-                }, 1000);
-
-            }
-        });
-
-        window.Livewire.on('hideModal', function () {
-
-            console.log('hide client query modal');
-
-            setTimeout(function () {
-                $('#exampleModalMessage').modal('hide');
-                $('#add_feedback').click();
-            }, 1000);
-        })
-
-        document.querySelector('.haiChatBtn').addEventListener('click', function () {
-            document.querySelector('.chatBoxShow').classList.remove('d-block');
-            document.querySelector('.chatBoxShow').classList.add('d-none');
-            document.querySelector('.chatBoxx').classList.remove('d-none');
-            document.querySelector('.chatBoxx').classList.add('d-block');
-        });
-
-        function onDailyTipAllRead() {
+                document.querySelector('.messageChat').addEventListener('keypress', function (e) {
+                    if (e.key === '\n' && e.ctrlKey) {
 
 
-            $.ajax({
-                url: '{{ route("read-daily-tip") }}',
-                method: 'POST',
-                data: [],
-                headers: {
-                    'X-CSRF-TOKEN': "{{csrf_token()}}"
-                },
-                success: function (response) {
+                        $('.fixed-plugin-button').click();
 
-                    $('#daily-tip-modal-close-button').click();
+                        var message = document.querySelector('.messageChat').value;
 
-                    if (response.result.data.point > 0) {
-                        animateNumber('+' + response.result.data.point);
+                        Livewire.emit('chatMessage', message);
 
-                        old_count = $('#coin-count').text();
-                        $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
+                        setTimeout(function () {
+
+                            $('#submitBtn').click()
+
+                            $('#messageChat').val('');
+                        }, 1000);
+
                     }
-                },
-                error: function (response) {
+                });
+
+                window.Livewire.on('hideModal', function () {
+
+                    console.log('hide client query modal');
+
+                    setTimeout(function () {
+                        $('#exampleModalMessage').modal('hide');
+                        $('#add_feedback').click();
+                    }, 1000);
+                })
+
+                document.querySelector('.haiChatBtn').addEventListener('click', function () {
+                    document.querySelector('.chatBoxShow').classList.remove('d-block');
+                    document.querySelector('.chatBoxShow').classList.add('d-none');
+                    document.querySelector('.chatBoxx').classList.remove('d-none');
+                    document.querySelector('.chatBoxx').classList.add('d-block');
+                });
+
+                function onDailyTipAllRead() {
+
+
+                    $.ajax({
+                        url: '{{ route("read-daily-tip") }}',
+                        method: 'POST',
+                        data: [],
+                        headers: {
+                            'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        },
+                        success: function (response) {
+
+                            $('#daily-tip-modal-close-button').click();
+
+                            if (response.result.data.point > 0) {
+                                animateNumber('+' + response.result.data.point);
+
+                                old_count = $('#coin-count').text();
+                                $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
+                            }
+                        },
+                        error: function (response) {
+
+                        }
+                    });
 
                 }
-            });
 
-        }
+                function introCompleted() {
+                    $.ajax({
+                        url: '{{ route("complete_intro") }}',
+                        method: 'POST',
+                        data: [],
+                        headers: {
+                            'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        },
+                        success: function (response) {
 
-        function introCompleted() {
-            $.ajax({
-                url: '{{ route("complete_intro") }}',
-                method: 'POST',
-                data: [],
-                headers: {
-                    'X-CSRF-TOKEN': "{{csrf_token()}}"
-                },
-                success: function (response) {
+                        },
+                        error: function (response) {
 
-                },
-                error: function (response) {
+                        }
+                    });
 
                 }
-            });
+            </script>
+            <script>
+                function scrollToBottom() {
+                    const chatboxContent = $('#chatbox-content');
+                    chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
+                }
 
-        }
-    </script>
-    <script>
-        function scrollToBottom() {
-            const chatboxContent = $('#chatbox-content');
-            chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
-        }
+                document.addEventListener('livewire:load', function () {
+                    const submitBtn = document.getElementById('submitBtn');
 
-        document.addEventListener('livewire:load', function () {
-            const submitBtn = document.getElementById('submitBtn');
+                    $('#submitBtn').on('click', function () {
 
-            $('#submitBtn').on('click', function () {
+                        let userMsg = $('#userMessage').val();
 
-                let userMsg = $('#userMessage').val();
-
-                if (userMsg.trim() !== '') {
-                    $('#chatbox-new-content').append(`<div style="display: flex; justify-content: flex-end">
+                        if (userMsg.trim() !== '') {
+                            $('#chatbox-new-content').append(`<div style="display: flex; justify-content: flex-end">
                                                                 <div class="message user-message">` + userMsg + `</div>
                                                             </div>`);
-                }
-                $('#userMessage').val('');
+                        }
+                        $('#userMessage').val('');
 
-                $('#chatbox-new-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
+                        $('#chatbox-new-content').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
                                                             <div id="chatDots">
                                                                 <span class="chatDot"></span>
                                                                 <span class="chatDot"></span>
@@ -1220,141 +1172,141 @@
                                                             </div>
                                                         </div>`);
 
-            });
-        });
-    </script>
+                    });
+                });
+            </script>
 
-    <script>
-        window.Livewire.on('showUserAnswerModal', function () {
-            // Close any open plugin modal
-            $('.fixed-plugin-close-button').click();
+            <script>
+                window.Livewire.on('showUserAnswerModal', function () {
+                    // Close any open plugin modal
+                    $('.fixed-plugin-close-button').click();
 
-            $('.chatBoxClose').click();
+                    $('.chatBoxClose').click();
 
-            // Trigger the modal to show
-            $('#exampleModalMessage').modal('show'); // Assuming you're using Bootstrap's modal
+                    // Trigger the modal to show
+                    $('#exampleModalMessage').modal('show'); // Assuming you're using Bootstrap's modal
 
-            // Alternatively, if you're not using Bootstrap, you might need to trigger the modal using custom jQuery:
-            // $('#chat_ai_question_modal').click();
-        });
+                    // Alternatively, if you're not using Bootstrap, you might need to trigger the modal using custom jQuery:
+                    // $('#chat_ai_question_modal').click();
+                });
 
-        function suggestionQueries(text) {
+                function suggestionQueries(text) {
 
-            $('#userMessage').val(text);
+                    $('#userMessage').val(text);
 
-            Livewire.emit('chatMessage', text);
+                    Livewire.emit('chatMessage', text);
 
-            setTimeout(function () {
-                $('#submitBtn').click();
-            }, 1000)
-        }
+                    setTimeout(function () {
+                        $('#submitBtn').click();
+                    }, 1000)
+                }
 
-    </script>
+            </script>
 
-    <script>
-        const content = document.getElementById('content');
-        const toggleButton = document.querySelector('.chat-ham')
-        document.getElementById('toggle-btn').addEventListener('click', function () {
-
-
-            // toggleButton.className = 'fa-solid fa-bars'
+            <script>
+                const content = document.getElementById('content');
+                const toggleButton = document.querySelector('.chat-ham')
+                document.getElementById('toggle-btn').addEventListener('click', function () {
 
 
-            // Toggle between showing and hiding the content
-            if (content.style.display === "none" || content.style.display === "") {
-                content.style.display = "flex";
-                toggleButton.className = 'fa-solid fa-xmark'
+                    // toggleButton.className = 'fa-solid fa-bars'
 
-            } else {
-                content.style.display = "none";
-                toggleButton.className = 'fa-solid fa-bars'
-            }
-        });
 
-        function goToProfileOverviewPage(src, content_name) {
-            window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
-        }
+                    // Toggle between showing and hiding the content
+                    if (content.style.display === "none" || content.style.display === "") {
+                        content.style.display = "flex";
+                        toggleButton.className = 'fa-solid fa-xmark'
 
-        function showDailyTipCompleteText(html_text) {
+                    } else {
+                        content.style.display = "none";
+                        toggleButton.className = 'fa-solid fa-bars'
+                    }
+                });
 
-            $('.description-container').css('overflow-y', 'scroll');
+                function goToProfileOverviewPage(src, content_name) {
+                    window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
+                }
 
-            $('#daily-tip-text').html(html_text);
+                function showDailyTipCompleteText(html_text) {
 
-            if ($('#read_all_tip').hasClass('d-none')) {
+                    $('.description-container').css('overflow-y', 'scroll');
 
-                $('#read_all_tip').removeClass('d-none');
+                    $('#daily-tip-text').html(html_text);
 
-                $('#read_all_tip').addClass('d-flex');
-            }
+                    if ($('#read_all_tip').hasClass('d-none')) {
 
-        }
-    </script>
-@endpush
+                        $('#read_all_tip').removeClass('d-none');
 
-@push('javascript')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
-    <script>
+                        $('#read_all_tip').addClass('d-flex');
+                    }
 
-            // Set up the button click event to start the tour
-            $('.start-tour').on('click', function() {
-                introJs().setOptions({
-                    exitOnOverlayClick: false,
-                    tooltipPosition: 'bottom',
-                    scrollToElement: true,
-                    doneLabel: 'Exit Tutorial',
-                    steps: [
-                        {
-                            element: document.querySelector('[data-step="1"]'),
-                            title: 'HumanOp Assessment',
-                            intro: 'Here is where you can take your very first HumanOp Assessment. Taking your first assessment will not only unlock all the features on the platform but it is also the first step on your path to understanding your true nature and optimizing your life.',
-                        },
-                        {
-                            element: document.querySelector('[data-step="2"]'),
-                            title: 'Daily Tips',
-                            intro: 'Here is where you will see your daily tips. After you take your HumanOp Assessment, HAi will generate daily tips to help you optimize your day - every day!',
-                        },
-                        {
-                            element: document.querySelector('[data-step="3"]'),
-                            title: 'Core Stats',
-                            intro: 'Here is where your Core Stats are. These stats are a quick summary of your latest HumanOp Assessment to help remind you of your results.  Clicking on each stat will take you to the Full Results page so you can watch the explanations of each component.',
+                }
+            </script>
+        @endpush
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="4"]'),
-                            title: 'Optimal Trait To Be In Right Now',
-                            intro: 'Check here in the morning, mid-day, and in the evening to reference the most optimal trait to align with at these various times a day.',
+        @push('javascript')
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
+            <script>
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="5"]'),
-                            title: '90-Day Optimization Plan',
-                            intro: 'Here is where you access your 90-Day Optimization Plan.  This plan references your latest assessment results and offers you specific optimization strategies related to your results that you can implement over the next 90-days.',
+                // Set up the button click event to start the tour
+                $('.start-tour').on('click', function () {
+                    introJs().setOptions({
+                        exitOnOverlayClick: false,
+                        tooltipPosition: 'bottom',
+                        scrollToElement: true,
+                        doneLabel: 'Exit Tutorial',
+                        steps: [
+                            {
+                                element: document.querySelector('[data-step="1"]'),
+                                title: 'HumanOp Assessment',
+                                intro: 'Here is where you can take your very first HumanOp Assessment. Taking your first assessment will not only unlock all the features on the platform but it is also the first step on your path to understanding your true nature and optimizing your life.',
+                            },
+                            {
+                                element: document.querySelector('[data-step="2"]'),
+                                title: 'Daily Tips',
+                                intro: 'Here is where you will see your daily tips. After you take your HumanOp Assessment, HAi will generate daily tips to help you optimize your day - every day!',
+                            },
+                            {
+                                element: document.querySelector('[data-step="3"]'),
+                                title: 'Core Stats',
+                                intro: 'Here is where your Core Stats are. These stats are a quick summary of your latest HumanOp Assessment to help remind you of your results.  Clicking on each stat will take you to the Full Results page so you can watch the explanations of each component.',
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="6"]'),
-                            title: 'Library of Resources & Trainings',
-                            intro: 'Here is where you’ll find an ever growing library of resources and trainings that will deepen the understanding of your results and support you on your self-optimization journey.',
+                            },
+                            {
+                                element: document.querySelector('[data-step="4"]'),
+                                title: 'Optimal Trait To Be In Right Now',
+                                intro: 'Check here in the morning, mid-day, and in the evening to reference the most optimal trait to align with at these various times a day.',
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="7"]'),
-                            title: 'HumanOp Integration Podcast',
-                            intro: 'Here is where you access the HumanOp Integration Podcast - listen to the latest episodes and learn about how to optimally integrate and make the most of your HumanOp experience.',
+                            },
+                            {
+                                element: document.querySelector('[data-step="5"]'),
+                                title: '90-Day Optimization Plan',
+                                intro: 'Here is where you access your 90-Day Optimization Plan.  This plan references your latest assessment results and offers you specific optimization strategies related to your results that you can implement over the next 90-days.',
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="8"]'),
-                            title: 'Help I’m Having A Challenge',
-                            intro: 'This is where you can go to interact with HAi® to share any challenge you may be having and where you will receive supportive feedback.',
+                            },
+                            {
+                                element: document.querySelector('[data-step="6"]'),
+                                title: 'Library of Resources & Trainings',
+                                intro: 'Here is where you’ll find an ever growing library of resources and trainings that will deepen the understanding of your results and support you on your self-optimization journey.',
 
-                        },
-                        {
-                            element: document.querySelector('[data-step="9"]'),
-                            title: 'Ask HAi Questions',
-                            intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.
+                            },
+                            {
+                                element: document.querySelector('[data-step="7"]'),
+                                title: 'HumanOp Integration Podcast',
+                                intro: 'Here is where you access the HumanOp Integration Podcast - listen to the latest episodes and learn about how to optimally integrate and make the most of your HumanOp experience.',
+
+                            },
+                            {
+                                element: document.querySelector('[data-step="8"]'),
+                                title: 'Help I’m Having A Challenge',
+                                intro: 'This is where you can go to interact with HAi® to share any challenge you may be having and where you will receive supportive feedback.',
+
+                            },
+                            {
+                                element: document.querySelector('[data-step="9"]'),
+                                title: 'Ask HAi Questions',
+                                intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.
                        <div class="d-flex justify-content-center">
               <a href="{{ url('client/intro-assessment') }}" class="btn-sm mt-2 mb-1 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
 
@@ -1362,55 +1314,55 @@
                         </a>
                                 </div>
                          </div>`,
+                            }
+                        ]
+                    }).onbeforechange(function (targetElement) {
+                        // Custom scroll behavior for deeply nested elements
+                        targetElement.scrollIntoView();
+                    }).start();
+                });
+                window.onload = function () {
+                    $(document).ready(function () {
+                        if ({{\App\Helpers\Helpers::getWebUser()['intro_check']}} == 2) {
+                            $('#open-intro-modal').trigger('click');
+                            introCompleted();
                         }
-                    ]
-                }).onbeforechange(function (targetElement) {
-                    // Custom scroll behavior for deeply nested elements
-                    targetElement.scrollIntoView();
-                }).start();
-            });
-            window.onload = function() {
-             $(document).ready(function() {
-                if({{\App\Helpers\Helpers::getWebUser()['intro_check']}} == 2){
-                     $('#open-intro-modal').trigger('click');
-                      introCompleted();
-                 }
-            });
-           };
-    </script>
+                    });
+                };
+            </script>
 
-    <script>
+            <script>
 
-        var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
+                var addPoint = `{{Session::has('add_point') ? '+' . Session::pull('add_point') : '' }}`;
 
 
-        function animateNumber(addPoint) {
-            const navContainer = document.querySelector(".abc");
-            const animationEffect = document.createElement('span');
+                function animateNumber(addPoint) {
+                    const navContainer = document.querySelector(".abc");
+                    const animationEffect = document.createElement('span');
 
-            animationEffect.classList.add('animated-number');
-            animationEffect.textContent = addPoint;
-            animationEffect.style.color = 'orange';
-            animationEffect.style.fontWeight = '900';
-            animationEffect.style.fontSize = '2rem';
-            animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
-            navContainer.appendChild(animationEffect);
+                    animationEffect.classList.add('animated-number');
+                    animationEffect.textContent = addPoint;
+                    animationEffect.style.color = 'orange';
+                    animationEffect.style.fontWeight = '900';
+                    animationEffect.style.fontSize = '2rem';
+                    animationEffect.style.textShadow = '0 0 5px orange, 0 0 10px orange';
+                    navContainer.appendChild(animationEffect);
 
-            // Add a slight delay before starting the animation
-            setTimeout(() => {
-                animationEffect.classList.add('fade-in');
-            }, 100); // Slightly longer delay to allow the element to render
+                    // Add a slight delay before starting the animation
+                    setTimeout(() => {
+                        animationEffect.classList.add('fade-in');
+                    }, 100); // Slightly longer delay to allow the element to render
 
-            setTimeout(() => {
-                animationEffect.classList.add('disappear');
-            }, 8000);
+                    setTimeout(() => {
+                        animationEffect.classList.add('disappear');
+                    }, 8000);
 
-            setTimeout(() => {
-                animationEffect.remove();
-            }, 9000);
-        }
+                    setTimeout(() => {
+                        animationEffect.remove();
+                    }, 9000);
+                }
 
-        animateNumber(addPoint);
+                animateNumber(addPoint);
 
-    </script>
-@endpush
+            </script>
+    @endpush
