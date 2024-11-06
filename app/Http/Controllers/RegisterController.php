@@ -124,9 +124,11 @@ class RegisterController extends Controller
 
 //                ActionPlan::checkUserActionPlan();
 
-//                session()->flash('success', 'Your account has been created.');
+                session()->flash('success', 'Your account has been created.');
 
-//                Session::forget('google_user');
+                Session::forget('google_user');
+
+                DB::commit();
 
                 return redirect()->route('client_dashboard');
 

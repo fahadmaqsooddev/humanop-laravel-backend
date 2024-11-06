@@ -86,7 +86,7 @@ class ChangePasswordController extends Controller
 
             DailyTip::updateUserDailyTip();
 
-            ActionPlan::storeUserActionPlan();
+//            ActionPlan::storeUserActionPlan();
 
             return redirect()->route('client_dashboard');
         } else
