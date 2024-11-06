@@ -72,8 +72,6 @@ class RegisterController extends Controller
         try {
 
             $dataArray = $request->only($this->user->getFillable());
-
-            dd($dataArray, $request['google_id']);
             
             $user = User::createUser($dataArray);
 
