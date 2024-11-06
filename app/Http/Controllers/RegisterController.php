@@ -120,13 +120,15 @@ class RegisterController extends Controller
             {
                 Auth::login($user);
 
+                dd(Auth::user());
+
                 DailyTip::updateUserDailyTip();
 
 //                ActionPlan::checkUserActionPlan();
-                
-                session()->flash('success', 'Your account has been created.');
 
-                Session::forget('google_user');
+//                session()->flash('success', 'Your account has been created.');
+
+//                Session::forget('google_user');
 
                 return redirect()->route('client_dashboard');
 
