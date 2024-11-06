@@ -27,7 +27,7 @@
                                 <p class="mb-0 font-weight-bold text-sm">
                                     Optimal Trait To Be In Right Now:
                                 </p>
-                                <h6 onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_0')"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong></h6>
+                                <h6 onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong></h6>
                             @endif
                         </a>
                     </div>

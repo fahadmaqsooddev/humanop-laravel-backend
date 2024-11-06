@@ -234,7 +234,7 @@
                                             Optimal Trait To Be In Right Now:
                                         </p>
                                         <h6 class="text-white"
-                                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_0')">
+                                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
                                             <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
                                         </h6>
                                     @endif
@@ -510,7 +510,7 @@
                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
                                                 <p class="fw-bold fs-12px text-color-blue"
                                                    style=" cursor: pointer;margin: unset"
-                                                   onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$index}}')">
+                                                   onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
                                                     {{ $style[1] }} [{{ $style[0] }}]
                                                 </p>
                                             @endforeach
@@ -523,7 +523,7 @@
                                             @foreach($topTwoFeatures as $index => $feature)
                                                 <p class="fw-bold fs-12px "
                                                    style=" cursor: pointer;margin: unset"
-                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$index}}')">
+                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
                                                     {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
                                                     [{{ $feature[0] }}]
                                                 </p>
