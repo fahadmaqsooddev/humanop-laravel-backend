@@ -73,6 +73,8 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
+            dd($dataArray, $request['google_id']);
+            
             $user = User::createUser($dataArray);
 
             if ($request->referralCode) {
@@ -96,7 +98,7 @@ class RegisterController extends Controller
                 setcookie("password", "");
             }
 
-            if (!empty(Session::get('google_user')))
+            if (!empty($request['google_id']))
             {
                 $baseUrl = url('/check-email', $user['id']);
 
