@@ -24,21 +24,6 @@ class ActionPlan extends Model
         parent::__construct($attributes);
     }
 
-    // accessor
-
-//    public function getPlanTextAttribute($value)
-//    {
-//
-//        return "Coming Soon !";
-//    }
-
-//    public function getTextAttribute($value)
-//    {
-//
-//        return "<h3 class='text-center'>Coming Soon !</h3>";
-//    }
-
-
     // query
 
 //    public static function storeUserActionPlan($ignore_days_restriction = false)
