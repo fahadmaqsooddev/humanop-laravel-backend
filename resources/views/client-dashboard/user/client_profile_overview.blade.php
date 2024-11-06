@@ -1889,7 +1889,7 @@
                                         <div class="tab-pane" id="dayPlan">
                                             <div class="slider-padding p-3 mt-5">
                                                 <div class="w-100">
-                                                    <div class="d-flex justify-content-center align-items-center">
+                                                    <div class="">
 
                                                         <h2 class="text-white">
                                                             {!! $actionPlan['plan_text'] ?? null !!}
