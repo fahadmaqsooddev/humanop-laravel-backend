@@ -72,7 +72,7 @@ class RegisterController extends Controller
         try {
 
             $dataArray = $request->only($this->user->getFillable());
-            
+
             $user = User::createUser($dataArray);
 
             if ($request->referralCode) {
@@ -98,6 +98,7 @@ class RegisterController extends Controller
 
             if (!empty($request['google_id']))
             {
+                dd(1);
                 $baseUrl = url('/check-email', $user['id']);
 
                 $data = [
@@ -118,6 +119,7 @@ class RegisterController extends Controller
                 return redirect()->route('email_verify');
             }else
             {
+                dd(2);
                 Auth::login($user);
 
                 DailyTip::updateUserDailyTip();
