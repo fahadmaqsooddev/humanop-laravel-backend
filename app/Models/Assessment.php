@@ -1139,8 +1139,11 @@ class Assessment extends Model
 
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
+                    $latestAssessment = Assessment::getLatestAssessment($userId);
+
                     DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
-                    ActionPlan::storeUserActionPlan(true);
+                    
+                    ActionPlan::checkUserActionPlan($latestAssessment);
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
 
