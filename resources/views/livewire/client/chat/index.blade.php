@@ -1,4 +1,6 @@
-<div class="d-flex container-fluid px-0">
+<div class="d-flex container-fluid px-0"
+     style="max-height: 720px;"
+>
 
     <div>
         <!-- Button trigger modal -->
@@ -8,16 +10,16 @@
         </button>
     </div>
 
-    <div class="col-12 col-lg-12  px-0 d-flex flex-column ">
+    <div class="col-12 col-lg-12  px-0 d-flex flex-column " style="max-height: 800px">
 
         <div class="hai_chat_title_div">
 
-            <h5 style="color: black;line-height: 5px;">
+            <h5 style="color: black;line-height: 5px;" class="chat-heading mb-3">
                 Hello, I’m HAi! <span
                     class="iconInfo" data-bs-toggle="modal"
-                    data-bs-target="#haiCHatModel"><i class="fa-regular fa-circle-question fa-lg" style="color: #0F1535;"></i></span>
+                    data-bs-target="#haiCHatModel"><i class="fa-regular fa-circle-question fa-lg chat-heading chat-question-mark" style="color: #0F1535;"></i></span>
             </h5>
-            <p style="color: black; margin-bottom: unset;">
+            <p style="color: black; margin-bottom: unset;" class="chat-heading mb-3">
                 Chat with the HumanOp Authentic Intelligence (HAi) OS
             </p>
 
@@ -54,8 +56,8 @@
 
         </div>
 
-        <div class="container-fluid">
-            <div class="chatbox h-80"
+        <div class="container-fluid" >
+            <div class="chatbox"
                  style="display: none;background-color: #0f1534;border-radius: 5px;border:1px solid white" id="content">
                 <div style="display: flex; justify-content:flex-start;">
                     <div id="chatDots" wire:loading wire:target="dislike">
@@ -65,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="chatbox-content  d-flex flex-column justify-content-between" id="chatbox-content">
+                <div class="chatbox-content  d-flex flex-column justify-content-between" id="chatbox-content" style="max-height: 800px">
 
                     <div id="chat-box-new-content" wire:ignore.self>
 

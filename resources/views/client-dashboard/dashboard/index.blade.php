@@ -594,13 +594,13 @@
                                         style="color: rgb(160, 174, 192)"><strong>HELP
                                             I'M
                                             HAVING A CHALLENGE </strong><span class="iconInfo" data-bs-toggle="modal"
-                                                                              data-bs-target="#helpChallangeModel"><i
+                                                                              data-bs-target="#helpChallangeModel" ><i
                                                 class="fa-regular fa-circle-question fa-lg"
                                                 style="color: white;"></i></span></h5>
                                 </div>
-                                <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                    <div>
-                                        <h1 class="text-center text-white" style="">Coming Soon!</h1>
+                                <div class="card-body p-3 d-flex justify-content-center align-items-center" >
+                                    <div >
+                                        <button  class="rainbow-border-user-nav-btn btn-lg " id="open-chat-btn" style="">Get Help!</button>
                                     </div>
                                 </div>
                             </div>
@@ -725,9 +725,13 @@
                     </div>
 
                     <!-- <div class="row "> -->
+                    <div id="chat-component-main-container">
+                    <div id="chat-component-container">
                     @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
                         @livewire('client.chat.index')
                     @endif
+                    </div>
+                    </div>
                 </div>
             </section>
 
@@ -1031,6 +1035,31 @@
                 </div>
             </div>
         </div>
+{{--        having challenge modal--}}
+        <div class="modal fade" id="having-challenge-modal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="having-challenge-modal" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">Having Challenge Let Me Help You!</label>
+                            <button type="button" class="close modal-close-btn" id="close-challenge-modal" data-bs-dismiss="modal"
+                                    aria-label="Close" >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+
+                            <div id="having-challenge-chat"  >
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{--daily tip already completed--}}
         <div class="modal fade" id="daily-tip-completed" tabindex="-1"
              role="dialog"
@@ -1400,6 +1429,38 @@
                 }
 
                 animateNumber(addPoint);
+
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    const $chatContainer = $('#chat-component-container'); // Original location
+                    const $chatModalContainer = $('#having-challenge-chat'); // Modal container
+
+                    // Show modal and move component
+                    $('#open-chat-btn').on('click', function () {
+                        $chatContainer.appendTo($chatModalContainer); // Move to modal
+                        $('.chat-heading').css('color','white');
+                        $('.chat-heading').css('margin-top','10px');
+                        $('.chat-question-mark').css('display','none');
+                        $('#having-challenge-modal').modal('show'); // Show the modal
+                    });
+
+                    // Log and move component back when modal is hidden
+                    $('#close-challenge-modal').on('click', function () {
+                        $chatContainer.appendTo($('#chat-component-main-container')); // Move back to original location
+                        $('.chat-heading').css('color','black');
+                        $('.chat-heading').css('margin-top','0px');
+                        $('.chat-question-mark').css('display','inline-block');
+                    });
+                       $('#having-challenge-modal').on('hidden.bs.modal', function () {
+                           $chatContainer.appendTo($('#chat-component-main-container'));
+                           $('.chat-heading').css('color','black');
+                           $('.chat-heading').css('margin-top','0px');
+                           $('.chat-question-mark').css('display','inline-block');
+                       });
+                    });
+
 
             </script>
     @endpush
