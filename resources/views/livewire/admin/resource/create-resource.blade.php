@@ -435,7 +435,7 @@
                     </button>
                     <br>
 
-                    <label>Category Name </label>
+                    <label class="text-white">Category Name </label>
                     <input style="background-color: #0f1534;" class="form-control text-white"
                            wire:model.defer="category_name" placeholder="Enter category name" type="text">
 

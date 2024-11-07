@@ -421,7 +421,7 @@
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px; width: 900px;">
-                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" id="life-modal-close-btn"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -483,8 +483,8 @@
 
                         <div class="container" id="container_audio">
 
-                            <audio controls style="width: 100%;">
-                                <source id="audio" type="audio/mp3">
+                            <audio controls style="width: 100%;" id="audio">
+
                             </audio>
 
                         </div>
@@ -552,20 +552,23 @@
             }else if (audio_src){
 
                 $('#life').modal('show');
-
                 $('#container_image').hide();
                 $('#container_video').hide();
-
                 $('#container_audio').show();
+                $('#resource_text').html(description);
 
-                $('#resource_text').html(description)
-
-                $('#audio').attr('src', audio_src);
-                $('#audio')[0].play();
-
+                // Set src on the <audio> element and reload
+                let audioElement = $('#audio').attr('src', audio_src).get(0);
+                audioElement.load();  // Reloads the audio with the new source
             }
 
         }
+
+            $('#life-modal-close-btn').on('click',function(){
+                let audioElement = $('#audio').get(0);
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            })
 
         const container = document.querySelector("#container_video"),
             // blurvid = document.querySelector("video"),
