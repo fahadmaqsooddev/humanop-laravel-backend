@@ -624,51 +624,50 @@
                                     </h5>
                                 </div>
                                 <div class="card-body p-3 text-white "
-                                     style="cursor: pointer">
+                                     style="cursor: pointer; overflow: auto">
                                     {{--                                    data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <div>
                                         @if($actionPlan)
-                                            @php
-                                                $html = $actionPlan['plan_text'] ?? null;
+{{--                                            @php--}}
+{{--                                                $html = $actionPlan['plan_text'] ?? null;--}}
 
-                                                if ($html) {
-                                                    // Create a new DOMDocument instance
-                                                    $dom = new DOMDocument();
+{{--                                                if ($html) {--}}
+{{--                                                    // Create a new DOMDocument instance--}}
+{{--                                                    $dom = new DOMDocument();--}}
 
-                                                    // Suppress warnings due to invalid HTML and load the HTML
-                                                    libxml_use_internal_errors(true);
-                                                    $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-                                                    libxml_clear_errors();
+{{--                                                    // Suppress warnings due to invalid HTML and load the HTML--}}
+{{--                                                    libxml_use_internal_errors(true);--}}
+{{--                                                    $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));--}}
+{{--                                                    libxml_clear_errors();--}}
 
-                                                    // Initialize variables to hold the first two tags
-                                                    $firstTag = null;
-                                                    $secondTag = null;
-                                                    $tagsFound = 0;
+{{--                                                    // Initialize variables to hold the first two tags--}}
+{{--                                                    $firstTag = null;--}}
+{{--                                                    $secondTag = null;--}}
+{{--                                                    $tagsFound = 0;--}}
 
-                                                    // Iterate through all child nodes of the body to find the first two tags
-                                                    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {
-                                                        if ($node->nodeType === XML_ELEMENT_NODE) { // Check if it is an element node (tag)
-                                                            if (!$firstTag) {
-                                                                $firstTag = $dom->saveHTML($node);
-                                                                $tagsFound++;
-                                                            } elseif (!$secondTag) {
-                                                                $secondTag = $dom->saveHTML($node);
-                                                                $tagsFound++;
-                                                            }
+{{--                                                    // Iterate through all child nodes of the body to find the first two tags--}}
+{{--                                                    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {--}}
+{{--                                                        if ($node->nodeType === XML_ELEMENT_NODE) { // Check if it is an element node (tag)--}}
+{{--                                                            if (!$firstTag) {--}}
+{{--                                                                $firstTag = $dom->saveHTML($node);--}}
+{{--                                                                $tagsFound++;--}}
+{{--                                                            } elseif (!$secondTag) {--}}
+{{--                                                                $secondTag = $dom->saveHTML($node);--}}
+{{--                                                                $tagsFound++;--}}
+{{--                                                            }--}}
 
-                                                            // Stop after capturing two tags
-                                                            if ($tagsFound === 2) {
-                                                                break;
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            @endphp
+{{--                                                            // Stop after capturing two tags--}}
+{{--                                                            if ($tagsFound === 2) {--}}
+{{--                                                                break;--}}
+{{--                                                            }--}}
+{{--                                                        }--}}
+{{--                                                    }--}}
+{{--                                                }--}}
+{{--                                            @endphp--}}
 
-                                            {!! $firstTag !!}
-                                            {!! $secondTag !!}
-                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"
-                                                  style="color: #f2661c; cursor: pointer">view more...</span>
+                                        {!! $actionPlan['plan_text'] !!}
+{{--                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"--}}
+{{--                                                  style="color: #f2661c; cursor: pointer">view more...</span>--}}
                                         @else
                                             <p>Click here to:
                                                 <a href="{{ url('client/intro-assessment') }}" target="_self"
@@ -974,26 +973,6 @@
             </div>
         </div>
 
-        <!-- 90 days Action Plan Model -->
-        <div class="modal fade" id="nintyDaysActionPlan" tabindex="-1"
-             role="dialog"
-             aria-labelledby="nintyDaysActionPlan" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body" style=" border-radius: 9px">
-                        <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">Your 90-Day Optimization Plan</label>
-                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                    aria-label="Close" id="close-info-modal-button">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <p class="text-white mt-4"
-                               style="text-align: justify">{!! $actionPlan['plan_text'] ?? '' !!}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         {{--    intro pop up --}}
 
         <div class="modal fade" id="introModel" tabindex="-1"

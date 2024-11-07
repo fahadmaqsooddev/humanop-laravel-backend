@@ -1,7 +1,7 @@
 @push('css')
-{{--    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">--}}
+    {{--    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">--}}
     <style>
-{{--    .ck-editor__editable_inline {--}}
+        {{--    .ck-editor__editable_inline {--}}
 {{--    background-color: #0f1534; /* Example: Change this to your desired background color */--}}
 {{--    }--}}
 {{--    .ck-editor__editable{--}}
@@ -11,11 +11,11 @@
 {{--        border-radius: 0 !important;--}}
 {{--    }--}}
 
-        .card{
+        .card {
             background-color: #1C365E !important;
         }
 
-   </style>
+    </style>
 @endpush
 <div class="row container-fluid">
     <div class="col-lg-9 position-relative z-index-2">
@@ -33,7 +33,7 @@
                             Add Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource"
-                            class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
+                                class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
                 </div>
@@ -46,14 +46,17 @@
 
                 <div class="col-lg-8 col-sm-8">
 
-                        <div class="card mb-4">
-                                <a style="cursor: pointer;" onclick="toggleCategoryBtn(`{{$category->id}}`)" data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}">
+                    <div class="card mb-4">
+                        <a style="cursor: pointer;" onclick="toggleCategoryBtn(`{{$category->id}}`)"
+                           data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false"
+                           aria-controls="collapse-{{$category->name}}">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8 m-auto">
                                         <div class="numbers">
 
-                                            <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold"
+                                               style="color: white;">
                                                 {{$category['name']}}
                                             </p>
 
@@ -63,7 +66,8 @@
                                     <div class="col-4 text-end">
 
 
-                                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
                                             <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
 
@@ -71,13 +75,19 @@
 
                                 </div>
                             </div>
-                    </a>
-                            <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}" >
-                                <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px" onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete Category</button>
+                        </a>
+                        <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}">
+                            <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
+                                    onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete
+                                Category
+                            </button>
 
-                                <button style="background-color: #f2661c; color: white;margin-bottom: 0px" wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal" data-bs-target="#moveResource" class="btn btn-sm mb-2">Edit Category</button>
-                            </div>
+                            <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
+                                    wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal"
+                                    data-bs-target="#moveResource" class="btn btn-sm mb-2">Edit Category
+                            </button>
                         </div>
+                    </div>
 
 
                 </div>
@@ -96,7 +106,8 @@
                                                     <div class="row">
                                                         <div class="col-8 m-auto">
                                                             <div class="numbers">
-                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold" style="color: white;">
+                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold"
+                                                                   style="color: white;">
                                                                     {{$resource['heading']}}
                                                                 </p>
                                                             </div>
@@ -104,7 +115,8 @@
                                                         <div class="col-4 text-end">
                                                             <div
                                                                 class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                                                <i class="ni ni-world-2 text-lg opacity-10" aria-hidden="true"></i>
+                                                                <i class="ni ni-world-2 text-lg opacity-10"
+                                                                   aria-hidden="true"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -128,13 +140,15 @@
     @foreach($categories as $category)
         @foreach($category['libraryResources'] as $resource)
 
-            <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true" aria-labelledby="{{$resource['slug']}}"
+            <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true"
+                 aria-labelledby="{{$resource['slug']}}"
                  tabindex="-1" role="dialog">
                 <a class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content" style=" border-radius: 9px">
                         <div class="modal-body">
                             <label class="form-label fs-4 text-white">Library Resource</label>
-                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
 
@@ -145,22 +159,30 @@
                                 </p>
 
                             </div>
-
                             @if(!empty($resource['photo_url']))
-                                <img style="width: 100%; max-height: 400px;" src="{{$resource['photo_url']['url']}}">
-                            @else
-                                <video controls style="width: 100%; max-height: 400px;"
-                                       src="{{$resource['video_url']['path']}}">
+                                <img style="width: 100%; max-height: 400px;" src="{{ $resource['photo_url']['url'] }}">
+                            @elseif(!empty($resource['video_url']))
+                                <video controls style="width: 100%; max-height: 400px;">
+                                    <source src="{{ $resource['video_url']['path'] }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @elseif(!empty($resource['audio_url']))
+                                <audio controls style="width: 100%;">
+                                    <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
                             @endif
 
                         </div>
                         <div>
                             <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
-                                    style="background-color: red; color: white" class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete
+                                    style="background-color: red; color: white"
+                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete
                                 Resource
                             </button>
                             <button wire:click="editResource({{ $resource['id'] }})"
-                                    style="background-color: #f2661c; color: white" class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit
+                                    style="background-color: #f2661c; color: white"
+                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit
                                 Resource
                             </button>
                         </div>
@@ -172,7 +194,7 @@
     @endforeach
     {{-- Create Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="createResource" tabindex="-1" role="dialog"
-        aria-labelledby="createResource" aria-hidden="true">
+         aria-labelledby="createResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
@@ -183,27 +205,28 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                        aria-label="Close">
+                                            aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                            wire:model.defer="heading" placeholder="heading" type="text">
+                                               wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Description</label>
                                         <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="description"  placeholder="Enter description" rows="3">
+                                                  wire:model.defer="description" placeholder="Enter description"
+                                                  rows="3">
                                         </textarea>
                                     </div>
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Category</label>
                                         <select style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="category_id" placeholder="Select category">
+                                                wire:model.defer="category_id" placeholder="Select category">
 
                                             <option>Select a category</option>
 
@@ -214,14 +237,16 @@
                                         </select>
 
                                         @error('category_id')
-                                            <span>{{$message}}</span>
+                                        <span>{{$message}}</span>
                                         @enderror
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
+                                        <label class="form-label fs-4 text-white">Resource (Image or Video or
+                                            Audio)</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                            class="form-control text-white" type="file" accept="image/*,video/*">
+                                               class="form-control text-white" type="file"
+                                               accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource">
                                             Uploading ...
                                         </span>
@@ -231,30 +256,30 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                    class="form-check-input option-checkbox" id="freemium">
+                                                       class="form-check-input option-checkbox" id="freemium">
                                                 <label class="form-check-label text-white"
-                                                    for="freemium">Freemium</label>
+                                                       for="freemium">Freemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                    class="form-check-input option-checkbox" id="core">
+                                                       class="form-check-input option-checkbox" id="core">
                                                 <label class="form-check-label text-white" for="core">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                    class="form-check-input option-checkbox" id="preemium">
+                                                       class="form-check-input option-checkbox" id="preemium">
                                                 <label class="form-check-label text-white"
-                                                    for="preemium">Preemium</label>
+                                                       for="preemium">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                    class="form-check-input" id="allOptions">
+                                                       class="form-check-input" id="allOptions">
                                                 <label class="form-check-label text-white" for="allOptions">All of
                                                     these</label>
                                             </div>
@@ -273,7 +298,7 @@
 
     {{-- Edit Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="editResource" tabindex="-1" role="dialog"
-        aria-labelledby="editResource" aria-hidden="true">
+         aria-labelledby="editResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
@@ -284,20 +309,21 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Edit Library Resource</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                        aria-label="Close">
+                                            aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                            wire:model.defer="heading" placeholder="heading" type="text">
+                                               wire:model.defer="heading" placeholder="heading" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Description</label>
                                         <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="description" placeholder="Enter description" rows="3">
+                                                  wire:model.defer="description" placeholder="Enter description"
+                                                  rows="3">
                                         </textarea>
                                     </div>
 
@@ -315,22 +341,22 @@
                                     <div class="form-group mt-4" hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                            wire:model.defer="resourceId" type="text">
+                                               wire:model.defer="resourceId" type="text">
                                     </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                            class="form-control text-white" type="file" accept="image/*,video/*">
+                                               class="form-control text-white" type="file" accept="image/*,video/*">
                                     </div>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
-                                                width="200">
+                                                 width="200">
                                         </div>
                                     @else
                                         <div class="form-group mt-4">
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
-                                                style="height: 200px;"></video>
+                                                   style="height: 200px;"></video>
                                         </div>
                                     @endif
                                     <label class="form-label fs-4 text-white">Permission</label>
@@ -357,7 +383,7 @@
                                             <div class="form-check">
 
                                                 <input type="checkbox" wire:model.defer="permission" value="1"
-                                                    class="form-check-input">
+                                                       class="form-check-input">
 
                                                 <label class="form-check-label text-white">Freemium</label>
                                             </div>
@@ -365,21 +391,21 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                    class="form-check-input">
+                                                       class="form-check-input">
                                                 <label class="form-check-label text-white">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                    class="form-check-input">
+                                                       class="form-check-input">
                                                 <label class="form-check-label text-white">Premium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                    class="form-check-input">
+                                                       class="form-check-input">
                                                 <label class="form-check-label text-white">All of these</label>
                                             </div>
                                         </div>
@@ -403,7 +429,8 @@
                 <div class="modal-body" style=" border-radius: 9px">
 
                     <label class="form-label fs-4 text-white">Create Resource Category</label>
-                    <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close" id="create-category-close-modal">
+                    <button type="button" class="close modal-close-btn" data-dismiss="modal" aria-label="Close"
+                            id="create-category-close-modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <br>
@@ -421,14 +448,16 @@
                     @endif
 
                     <div class="p-2">
-                        <button wire:click="createCategory" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">submit</button>
+                        <button wire:click="createCategory" style="background-color: #f2661c; color: white"
+                                class="btn btn-sm float-end">submit
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-{{--    move resouces--}}
+    {{--    move resouces--}}
     <div wire:ignore.self class="modal fade" id="moveResource" tabindex="-1" role="dialog"
          aria-labelledby="moveResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -445,16 +474,17 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
-                                     <br/>
                                     <br/>
-                                    <label class="form-label fs-5 text-white">Move Resources To An Other Category</label>
+                                    <br/>
+                                    <label class="form-label fs-5 text-white">Move Resources To An Other
+                                        Category</label>
                                     <br/>
                                     <select style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="category_id" placeholder="Select category">
                                         <option>Select a category</option>
                                         @foreach($dropDownCategories as $category)
                                             @if($current_category != $category->id)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -471,59 +501,59 @@
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{{--    <script type="importmap">--}}
-{{--    {--}}
-{{--        "imports": {--}}
-{{--            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",--}}
-{{--            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"--}}
-{{--        }--}}
-{{--    }--}}
-{{--</script>--}}
+    {{--    <script type="importmap">--}}
+    {{--    {--}}
+    {{--        "imports": {--}}
+    {{--            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",--}}
+    {{--            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"--}}
+    {{--        }--}}
+    {{--    }--}}
+    {{--</script>--}}
 
-{{--    <script type="module">--}}
-{{--        import {--}}
-{{--            ClassicEditor,--}}
-{{--            Essentials,--}}
-{{--            Paragraph,--}}
-{{--            Bold,--}}
-{{--            Italic,--}}
-{{--            Font--}}
-{{--        } from 'ckeditor5';--}}
+    {{--    <script type="module">--}}
+    {{--        import {--}}
+    {{--            ClassicEditor,--}}
+    {{--            Essentials,--}}
+    {{--            Paragraph,--}}
+    {{--            Bold,--}}
+    {{--            Italic,--}}
+    {{--            Font--}}
+    {{--        } from 'ckeditor5';--}}
 
-{{--        // Function to initialize CKEditor for all textareas with the 'editor' class--}}
-{{--        function initializeEditors() {--}}
-{{--            const editors = document.querySelectorAll('.editor');--}}
-{{--            editors.forEach(editorElement => {--}}
-{{--                if (!editorElement.classList.contains('ck-editor')) { // Check if not already initialized--}}
-{{--                    ClassicEditor--}}
-{{--                        .create(editorElement, {--}}
-{{--                            plugins: [ Essentials, Paragraph, Bold, Italic, Font ],--}}
-{{--                            toolbar: [--}}
-{{--                                'undo', 'redo', '|', 'bold', 'italic', '|',--}}
-{{--                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'--}}
-{{--                            ]--}}
-{{--                        })--}}
-{{--                        .then(editor => {--}}
-{{--                            editor.model.document.on('change:data', () => {--}}
-{{--                                editorElement.dispatchEvent(new Event('input')); // Trigger Livewire input event--}}
-{{--                            });--}}
-{{--                        })--}}
-{{--                        .catch(error => {--}}
-{{--                            console.error(error);--}}
-{{--                        });--}}
-{{--                }--}}
-{{--            });--}}
-{{--        }--}}
+    {{--        // Function to initialize CKEditor for all textareas with the 'editor' class--}}
+    {{--        function initializeEditors() {--}}
+    {{--            const editors = document.querySelectorAll('.editor');--}}
+    {{--            editors.forEach(editorElement => {--}}
+    {{--                if (!editorElement.classList.contains('ck-editor')) { // Check if not already initialized--}}
+    {{--                    ClassicEditor--}}
+    {{--                        .create(editorElement, {--}}
+    {{--                            plugins: [ Essentials, Paragraph, Bold, Italic, Font ],--}}
+    {{--                            toolbar: [--}}
+    {{--                                'undo', 'redo', '|', 'bold', 'italic', '|',--}}
+    {{--                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'--}}
+    {{--                            ]--}}
+    {{--                        })--}}
+    {{--                        .then(editor => {--}}
+    {{--                            editor.model.document.on('change:data', () => {--}}
+    {{--                                editorElement.dispatchEvent(new Event('input')); // Trigger Livewire input event--}}
+    {{--                            });--}}
+    {{--                        })--}}
+    {{--                        .catch(error => {--}}
+    {{--                            console.error(error);--}}
+    {{--                        });--}}
+    {{--                }--}}
+    {{--            });--}}
+    {{--        }--}}
 
-{{--        // Initialize CKEditor when Livewire component is loaded or updated--}}
-{{--        document.addEventListener('livewire:load', () => {--}}
-{{--            initializeEditors(); // Initialize editors when Livewire component loads--}}
-{{--        });--}}
+    {{--        // Initialize CKEditor when Livewire component is loaded or updated--}}
+    {{--        document.addEventListener('livewire:load', () => {--}}
+    {{--            initializeEditors(); // Initialize editors when Livewire component loads--}}
+    {{--        });--}}
 
-{{--        document.addEventListener('livewire:update', () => {--}}
-{{--            initializeEditors(); // Reinitialize editors after Livewire updates--}}
-{{--        });--}}
-{{--    </script>--}}
+    {{--        document.addEventListener('livewire:update', () => {--}}
+    {{--            initializeEditors(); // Reinitialize editors after Livewire updates--}}
+    {{--        });--}}
+    {{--    </script>--}}
 
     <script>
         window.livewire.on('toggleCreateResourceModal', () => {
@@ -539,7 +569,6 @@
                 $('#editResource').modal('toggle')
             })
         })
-
 
 
         window.livewire.on('toggleShowResourceModal', (slug) => {
@@ -578,24 +607,25 @@
                 });
             });
         });
-        function toggleCategoryBtn(id){
-            if($('#category_edit_'+id).hasClass('d-flex')){
-                $('#category_edit_'+id).removeClass('d-flex justify-content-end').addClass('d-none');
-            } else{
-                $('#category_edit_'+id).removeClass('d-none').addClass('d-flex justify-content-end');
+
+        function toggleCategoryBtn(id) {
+            if ($('#category_edit_' + id).hasClass('d-flex')) {
+                $('#category_edit_' + id).removeClass('d-flex justify-content-end').addClass('d-none');
+            } else {
+                $('#category_edit_' + id).removeClass('d-none').addClass('d-flex justify-content-end');
             }
         }
 
 
-        function confirmDeleteCategory(category_id){
+        function confirmDeleteCategory(category_id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn bg-gradient-danger m-2',
-                    cancelButton:  'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-primary m-2',
                 },
                 buttonsStyling: false,
-                background : '#3442b4',
+                background: '#3442b4',
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
@@ -603,8 +633,8 @@
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
-                if(result.isConfirmed){
-                    window.livewire.emit('deleteCategoryPermanently',category_id);
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteCategoryPermanently', category_id);
                 }
             })
         }

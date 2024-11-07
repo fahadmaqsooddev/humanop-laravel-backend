@@ -337,14 +337,6 @@
 
             <div class="row">
 
-{{--                <div class="text-center w-100 p-5">--}}
-{{--                    for diagonal styling--}}
-{{--                    style="display: inline-block; transform: rotate(-40deg); font-size: 24px; font-weight: bold; color: black;"--}}
-
-{{--                    <h1 style="color: #0f1534;">Coming Soon!</h1>--}}
-
-{{--                </div>--}}
-
                 @foreach($categories as $category)
                     <div class="col-lg-12 col-sm-12">
                         <a data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}" style="cursor: pointer;">
@@ -379,7 +371,7 @@
                                     @foreach($category['libraryResources'] as $resource)
 
                                         <div class="col-lg-6 col-sm-12">
-                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}', '{{$resource['description']}}')" style="cursor: pointer;">
+                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}','{{$resource['description']}}')" style="cursor: pointer;">
                                                 <div class="card mb-4"
                                                      >
                                                     <div class="card-body p-3">
@@ -489,6 +481,14 @@
 
                         </div>
 
+                        <div class="container" id="container_audio">
+
+                            <audio controls style="width: 100%;">
+                                <source id="audio" type="audio/mp3">
+                            </audio>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -499,12 +499,6 @@
         <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
         <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
     </div>
-
-    {{--    <a class="git-icon" href="https://github.com/vaibhav1663" target="_blank">--}}
-    {{--        <img src="https://github.com/fluidicon.png" alt="">--}}
-    {{--    </a>--}}
-    {{--    <video src="https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4" poster="https://vaibhav1663.github.io/Youtube-Ambient-Mode/poster.jpg" id="blurred"></video>--}}
-
 
 @endsection
 
@@ -527,17 +521,17 @@
             });
         });
 
-        function showModal(img_src, video_src, description = null) {
+        function showModal(img_src, video_src, audio_src, description = null) {
 
             if (img_src){
 
                 $('#life').modal('show');
 
                 $('#container_video').hide();
+                $('#container_audio').hide();
 
                 $('#container_image').show();
 
-                // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
                 $('#image').attr('src', img_src);
 
                 $('#resource_text').html(description)
@@ -547,13 +541,27 @@
                 $('#life').modal('show');
 
                 $('#container_image').hide();
+                $('#container_audio').hide();
 
                 $('#container_video').show();
 
-                // $('#video').attr('src', "https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4");
                 $('#video').attr('src', video_src);
 
                 $('#resource_text').html(description)
+
+            }else if (audio_src){
+
+                $('#life').modal('show');
+
+                $('#container_image').hide();
+                $('#container_video').hide();
+
+                $('#container_audio').show();
+
+                $('#resource_text').html(description)
+
+                $('#audio').attr('src', audio_src);
+                $('#audio')[0].play();
 
             }
 

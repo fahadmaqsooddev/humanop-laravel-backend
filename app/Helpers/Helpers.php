@@ -241,8 +241,10 @@ class Helpers
 
             $upload = Upload::find($pic);
 
-            if ($upload->extension === 'mp4') {
+            if ($upload->extension === 'mp4' || $upload->extension === 'mp3') {
+
                 return [];
+
             }
 
             if (!empty($upload)) {
@@ -289,6 +291,12 @@ class Helpers
     {
         if (!empty($video)) {
             $upload = Upload::find($video);
+
+            if ($upload->extension === 'mp3' && $upload->extension != 'mp4') {
+
+                return [];
+            }
+
             $path = url('/') . '/media/videos/' . $upload->hash . '/' . $upload->name;
             if ($is_original_name) {
 
@@ -302,9 +310,17 @@ class Helpers
 
     public static function getAudio($audio, $is_original_name = 0)
     {
+
         if (!empty($audio)) {
             $upload = Upload::find($audio);
+
+            if ($upload->extension === 'mp4' && $upload->extension != 'mp3') {
+
+                return [];
+            }
+
             $path = url('/') . '/media/audios/' . $upload->hash . '/' . $upload->name;
+
             if ($is_original_name) {
 
                 $original_name = $upload['original_name'];

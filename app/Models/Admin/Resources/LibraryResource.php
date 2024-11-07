@@ -20,7 +20,7 @@ class LibraryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url','video_url'];
+    protected $appends = ['photo_url','video_url','audio_url'];
 
     // relation
     public function libraryPermissions(){
@@ -38,6 +38,11 @@ class LibraryResource extends Model
     public function getVideoUrlAttribute(){
 
         return Helpers::getVideo($this->upload_id,1);
+    }
+
+    public function getAudioUrlAttribute(){
+
+        return Helpers::getAudio($this->upload_id,1);
     }
 
 

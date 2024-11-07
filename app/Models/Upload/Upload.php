@@ -131,7 +131,7 @@ class Upload extends Model
 
         $thumbnail_path = base_path() . config('urls.thumbnail') . $date_append . $filename;
 
-        if ($type != 'svg' && $type != 'gif' && $type != 'video'){ // if original is present but thumbnail not present
+        if ($type != 'svg' && $type != 'gif' && $type != 'video' && $type != 'audio'){ // if original is present but thumbnail not present
 
             if (!$resize){
 
@@ -162,6 +162,7 @@ class Upload extends Model
                 "original_name" => $original_name,
                 "hash" => "",
             ]);
+
 
             // apply unique random hash to file
             while(true){

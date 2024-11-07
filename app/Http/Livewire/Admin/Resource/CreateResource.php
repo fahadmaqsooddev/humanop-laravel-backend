@@ -14,13 +14,13 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId,$current_category, $resourceSlug, $heading, $description, $resource, $category_id,$permission = [], $editResourceData, $category_name;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $resource, $category_id, $permission = [], $editResourceData, $category_name;
 
-    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery','deleteCategoryPermanently' => 'deleteCategory'];
+    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
     protected $rules = [
         'heading' => 'required',
-        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mp4|max:204800', // Max file size 200MB
+        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|max:1000',
@@ -46,6 +46,9 @@ class CreateResource extends Component
 
                 $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
 
+            } elseif (in_array($this->resource->extension(), ['mp3', 'mpeg'])) {
+
+                $upload_id = Upload::uploadFile($this->resource, '', '', 'audio');
             } else {
 
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
@@ -106,7 +109,7 @@ class CreateResource extends Component
 
     public function resetForm()
     {
-        $this->reset(['heading', 'resource', 'permission','resource']);
+        $this->reset(['heading', 'resource', 'permission', 'resource']);
     }
 
     public function handleRefreshQuery()
@@ -114,7 +117,8 @@ class CreateResource extends Component
         $this->render();
     }
 
-    public function editResource($resource_id){
+    public function editResource($resource_id)
+    {
 
         $this->emit('toggleEditResourceModal');
 
@@ -129,30 +133,34 @@ class CreateResource extends Component
         $this->description = $this->editResourceData['description'] ?? null;
     }
 
-    public function editMoveResource($category_id){
-       $this->current_category = $category_id;
+    public function editMoveResource($category_id)
+    {
+        $this->current_category = $category_id;
     }
 
-    public function moveResourceToCategory(){
+    public function moveResourceToCategory()
+    {
 
-        if($this->current_category){
-            LibraryResource::updateCategory($this->current_category,$this->category_id);
+        if ($this->current_category) {
+            LibraryResource::updateCategory($this->current_category, $this->category_id);
         }
         session()->flash('success', 'Resource Moved successfully.');
         $this->current_category = '';
     }
 
-    public function deleteCategory($id){
-          ResourceCategory::deleteSingleCategory($id);
+    public function deleteCategory($id)
+    {
+        ResourceCategory::deleteSingleCategory($id);
     }
 
-    public function updateResource(){
+    public function updateResource()
+    {
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required','category_id' => 'required','description' => 'nullable|max:1000']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000']);
 
-        if ($this->resource){
+        if ($this->resource) {
 
             if (in_array($this->resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
 
@@ -163,7 +171,7 @@ class CreateResource extends Component
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
             }
 
-        }else{
+        } else {
 
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
@@ -182,7 +190,8 @@ class CreateResource extends Component
 
     }
 
-    public function createCategory(){
+    public function createCategory()
+    {
 
         $rule = [
             'category_name' => 'required',
@@ -213,6 +222,6 @@ class CreateResource extends Component
 
         $resourceSlug = $this->resourceSlug;
 
-        return view('livewire.admin.resource.create-resource', compact('resourceSlug','categories','dropDownCategories'));
+        return view('livewire.admin.resource.create-resource', compact('resourceSlug', 'categories', 'dropDownCategories'));
     }
 }
