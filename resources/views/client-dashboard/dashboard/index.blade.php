@@ -994,6 +994,43 @@
                 </div>
             </div>
         </div>
+        {{--    intro pop up --}}
+
+        <div class="modal fade" id="introModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="couponModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <div class="form-label fs-4 text-white text-center">Welcome to the HumanOp Assessment!
+                            </div>
+                            <br>
+                            <div class="card-body pt-0 text-white">
+                                <p>
+                                    You’re about to begin a life-changing journey. The HumanOp Assessment is designed to unveil your true nature not based on opinions, but guided by the unchanging physical laws of nature and cutting-edge science.
+                                </p>
+                                <p class="text-white">
+                                    Ready to discover what makes you truly unique and learn the actionable steps to optimize your life? Click the link to get started!
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <button  data-bs-dismiss="modal" aria-label="Close" class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                        Start Tutorial
+                                    </button>
+                                    <button data-bs-dismiss="modal"
+                                            aria-label="Close" class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                        Skip Tutorial
+                                    </button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{--daily tip already completed--}}
         <div class="modal fade" id="daily-tip-completed" tabindex="-1"
              role="dialog"
