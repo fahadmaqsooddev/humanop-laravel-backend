@@ -125,7 +125,7 @@
             display: none;
         }
 
-        .instruction_text{
+        .instruction_text {
             color: #f2661c;
             text-transform: uppercase;
             font-size: 27px;
@@ -1790,7 +1790,12 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}
+{{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
+
+                                                                        {{($perception['id'] == 40 ? "Negatively Charged" :
+                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
+                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
+                                                                        }} [{{ $perception['pv'] ?? '' }}]
 
                                                                     </h5>
                                                                 </div>
