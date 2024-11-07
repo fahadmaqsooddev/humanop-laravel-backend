@@ -496,8 +496,8 @@
                                             <p class="text-sm fs-12px  text-color-blue text-bold"
                                                onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
                                                style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age}}</span>)
+{{--                                                Interval of Life: (<span class="text-bold text-sm"--}}
+{{--                                                                         style="color: #f2661c">{{$user_age}}</span>)--}}
                                             </p>
 
                                         @endif
