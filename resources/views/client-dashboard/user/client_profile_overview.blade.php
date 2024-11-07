@@ -409,8 +409,12 @@
                         <div class="col-12">
                             <div class="card-ko px-0 left-nav-blue-light-color" style="text-align: center">
                                 <div class="card-body p-3">
-                                    <h1 class="text-white">Your HumanOp Profile Overview<span class="iconInfo" style="margin-left: 10px" data-bs-toggle="modal" data-bs-target="#profileOverviewModel"><i
-                                                class="fa-regular fa-circle-question" style="color: white; font-size: 25px"></i></span>
+                                    <h1 class="text-white">Your HumanOp Profile Overview<span class="iconInfo"
+                                                                                              style="margin-left: 10px"
+                                                                                              data-bs-toggle="modal"
+                                                                                              data-bs-target="#profileOverviewModel"><i
+                                                class="fa-regular fa-circle-question"
+                                                style="color: white; font-size: 25px"></i></span>
                                     </h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
@@ -1362,7 +1366,12 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}</span>
+                                                            style="color: #f2661c;">
+                                                            {{($perception['id'] == 40 ? "Negatively Charged" :
+                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
+                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
+                                                                        }} [{{ $perception['pv'] ?? '' }}]
+                                                        </span>
                                                         {{$perception['text']}}
                                                     </p>
                                                 </div>
@@ -1876,7 +1885,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-{{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
+                                                                        {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
 
                                                                         {{($perception['id'] == 40 ? "Negatively Charged" :
                                                                           ($perception['id'] == 41 ? "Neutrally Charged" :

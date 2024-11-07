@@ -1288,7 +1288,12 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}</span>
+                                                            style="color: #f2661c;">
+                                                            {{($perception['id'] == 40 ? "Negatively Charged" :
+                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
+                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
+                                                                        }} [{{ $perception['pv'] ?? '' }}]
+                                                        </span>
                                                         {{$perception['text']}}
                                                     </p>
                                                 </div>
@@ -1790,7 +1795,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-{{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
+                                                                        {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
 
                                                                         {{($perception['id'] == 40 ? "Negatively Charged" :
                                                                           ($perception['id'] == 41 ? "Neutrally Charged" :
