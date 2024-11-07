@@ -92,7 +92,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code','timezone','two_way_auth','intro_check']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check']);
     }
 
     // appends
@@ -331,51 +331,61 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
 
         switch ($age) {
-            case (0 == $age):
-                $interval = 'Interval of Surrender';
-                break;
-            case (0 < $age && $age <= 3):
-                $interval = 'Generic Interval';
-                break;
-            case (3 <= $age && $age <= 7):
-                $interval = 'Socialization Interval';
-                break;
-            case (7 <= $age && $age <= 12):
-                $interval = 'Ready to Learn - Energy Centers';
-                break;
-            case (12 <= $age && $age <= 16):
-                $interval = 'Alchemical Revelation';
-                break;
             case (16 <= $age && $age <= 21):
-                $interval = 'Motivation';
+                $interval = [
+                    'interval' => 'motivation_life_cycle',
+                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4')
+                ];
                 break;
             case (21 <= $age && $age <= 29):
-                $interval = 'Roadworthy';
+                $interval = [
+                    'interval' => 'roadworthy_life_cycle',
+                    'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')
+                ];
                 break;
             case (30 <= $age && $age <= 33):
-                $interval = 'Power Interval';
+                $interval = [
+                    'interval' => 'power_life_cycle',
+                    'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')
+                ];
                 break;
-            case (34 <= $age && $age <= 43):
-                $interval = 'Mid-Life Transformation Interval';
+            case (34 <= $age && $age <= 42):
+                $interval = [
+                    'interval' => 'mid_life_life_cycle',
+                    'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')
+                ];
                 break;
             case (43 <= $age && $age <= 52):
-                $interval = 'Awareness Interval';
+                $interval = [
+                    'interval' => 'awareness_life_cycle',
+                    'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')
+                ];
                 break;
             case (52 <= $age && $age <= 66):
-                $interval = 'Pay It Forward Interval';
+                $interval = [
+                    'interval' => 'forward_life_cycle',
+                    'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')
+                ];
                 break;
             case (66 <= $age && $age <= 70):
-                $interval = 'Interval of Liberation';
+                $interval = [
+                    'interval' => 'liberated_life_cycle',
+                    'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4')
+                ];
                 break;
             case (70 <= $age && $age <= 75):
-                $interval = 'Interval of “Being”';
-                break;
-            case (75 <= $age && $age <= 84):
-                $interval = 'Life Review Interval';
+                $interval = [
+                    'interval' => 'being_life_cycle',
+                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
+                ];
                 break;
             default:
-                $interval = 'Interval of Surrender';
+                $interval = [
+                    'interval' => 'review_life_cycle',
+                    'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')
+                ];
                 break;
+
         }
 
         return $interval;
