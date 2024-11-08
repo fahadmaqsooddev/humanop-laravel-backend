@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminControllers\ResourceController;
 use App\Http\Controllers\AdminControllers\CouponController;
 use App\Http\Controllers\AdminControllers\IntentionPlanController;
 use App\Http\Controllers\AdminControllers\DailyTipController;
+use App\Http\Controllers\AdminControllers\OptimizationPlanController;
 use App\Http\Controllers\AdminControllers\PaymentController;
 use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\AdminControllers\InformationController;
@@ -123,6 +124,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
 
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
+            Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {
