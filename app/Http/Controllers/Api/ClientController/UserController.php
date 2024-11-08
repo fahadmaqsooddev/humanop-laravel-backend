@@ -262,7 +262,7 @@ class UserController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                    DailyTip::updateUserDailyTip();
+//                    DailyTip::updateUserDailyTip();
 
 //                    ActionPlan::storeUserActionPlan();
 
@@ -303,7 +303,7 @@ class UserController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                    DailyTip::updateUserDailyTip();
+//                    DailyTip::updateUserDailyTip();
 
 //                    ActionPlan::storeUserActionPlan();
 

@@ -110,7 +110,7 @@ class SessionController extends Controller
 
                         Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                        DailyTip::updateUserDailyTip();
+//                        DailyTip::updateUserDailyTip();
 
                         User::updateUserIsFeedback();
 
@@ -182,7 +182,7 @@ class SessionController extends Controller
 
                         Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                        DailyTip::updateUserDailyTip();
+//                        DailyTip::updateUserDailyTip();
 
 //                        ActionPlan::storeUserActionPlan();
 

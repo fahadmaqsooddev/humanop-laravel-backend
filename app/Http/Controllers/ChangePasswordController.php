@@ -84,7 +84,7 @@ class ChangePasswordController extends Controller
 
             Auth::login($user);
 
-            DailyTip::updateUserDailyTip();
+//            DailyTip::updateUserDailyTip();
 
 //            ActionPlan::storeUserActionPlan();
 
@@ -104,7 +104,7 @@ class ChangePasswordController extends Controller
 
             Auth::login($user);
 
-            DailyTip::updateUserDailyTip();
+//            DailyTip::updateUserDailyTip();
 
             ActionPlan::storeUserActionPlan();
 
@@ -132,7 +132,7 @@ class ChangePasswordController extends Controller
 
             $user = User::userLoggedInData();
 
-            DailyTip::updateUserDailyTip();
+//            DailyTip::updateUserDailyTip();
 
             ActionPlan::storeUserActionPlan();
 
