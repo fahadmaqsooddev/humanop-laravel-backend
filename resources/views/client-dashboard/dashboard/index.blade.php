@@ -333,8 +333,9 @@
                                                     class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                     id="read_all_tip">
                                                     <button
-                                                        class="btn btn-sm text-white daily-tip-read-button rainbow-border-user-nav-btn"
-                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}
+                                                        class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+{{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
+data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                         onclick="onDailyTipAllRead()">
                                                         Complete Daily Tip
                                                     </button>
