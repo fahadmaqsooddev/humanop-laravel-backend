@@ -373,7 +373,8 @@ class AdminController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
-            $actionPlan = ActionPlan::userActionPlan();
+
+            $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
 
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
             {

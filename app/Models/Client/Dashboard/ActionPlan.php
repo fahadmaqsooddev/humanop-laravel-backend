@@ -364,5 +364,11 @@ class ActionPlan extends Model
         return self::where('user_id', $user_id)->select(['id', 'plan_text', 'text'])->first();
     }
 
+    public static function getUserActionPlan($user_id = null)
+    {
+
+        return self::where('user_id', $user_id)->select(['id', 'plan_text', 'text'])->first();
+    }
+
 
 }
