@@ -120,10 +120,10 @@ class RegisterController extends Controller
             {
 
                 User::emailVerified($user['id']);
-                
+
                 Auth::login($user);
 
-                DailyTip::updateUserDailyTip();
+//                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::checkUserActionPlan();
 

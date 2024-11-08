@@ -155,7 +155,7 @@ class AuthController extends Controller
 
                 $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
 
-                DailyTip::updateUserDailyTip();
+//                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::storeUserActionPlan();
 
