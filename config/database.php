@@ -404,5 +404,10 @@ return [
             'fillable' => ['version','details'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
+        'OptimizationPlan' => [
+            'table' => 'optimization_plan',
+            'fillable' => ['priority','condition','content'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];
