@@ -306,9 +306,10 @@
                                         {{$hide_button = false}}
 
                                         @if($tip && !empty($tip['description']))
+                                            <h6>{{$tip['title']}}</h6>
                                             @if(strlen($tip['description']) > 290)
                                                 <?php
-                                                $hide_button = true;
+                                                  $hide_button = true;
                                                 ?>
                                                 <span id="daily-tip-text">
             {!! substr($tip['description'], 0, 305) !!}

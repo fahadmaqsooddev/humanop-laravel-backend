@@ -34,7 +34,7 @@ class UserDailyTip extends Model
 
     public static function readUserDailyTip(){
 
-        $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
+        $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->latest()->first();
 
         $daily_tip_read = $daily_tip->is_read ?? 1;
 

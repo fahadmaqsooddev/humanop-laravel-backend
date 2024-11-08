@@ -93,19 +93,31 @@ class DailyTip extends Model
             }
         }
 
-
-        UserDailyTip::removeUserTip($user['id']);
-
-
         $assessment = Assessment::getLatestAssessment($user['id']);
         if ($assessment) {
             $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
-            if ($codeColor) {
+            $codeAlchemy = Assessment::getAlchemy($assessment)['code'];
+            $codeCommunication = Assessment::getEnergy($assessment)[0];
+            $selectedCodeList = [
+                $codeColor['code'],
+                $codeAlchemy,
+                $codeCommunication
+            ];
+            $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
-                $newDailyTip = DailyTip::getSameCodeTips($codeColor['code']);
+
+            if ($randomCode) {
+
+                $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
                 if ($newDailyTip) {
-
+                    $latestTip = UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id', $newDailyTip['id'])
+                        ->latest()
+                        ->first();
+                    $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                    if($alreadyExist){
+                        self::getTodayTip();
+                    }
                     $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id']);
                     $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
                     return $todayTip;
