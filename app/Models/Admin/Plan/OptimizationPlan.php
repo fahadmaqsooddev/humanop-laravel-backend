@@ -18,4 +18,14 @@ class OptimizationPlan extends Model
         parent::__construct($attributes);
     }
 
+    public static function allOptimizationPlans()
+    {
+        return self::orderBy('created_at', 'desc');
+    }
+
+    public static function updateOptimizationPlan($priority = null, $content = null)
+    {
+        return self::where('priority', $priority)->update(['content' => $content]);
+    }
+
 }
