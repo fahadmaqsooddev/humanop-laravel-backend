@@ -1,15 +1,17 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <div>
     <div>
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
-{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
-{{--                                                                                       aria-hidden="true"></i></span>--}}
+                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="text" name="name" wire:model.debounce="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
             </div>
             <div class="input-group ms-md-4 pe-md-4">
-{{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
-{{--                                                                                       aria-hidden="true"></i></span>--}}
+                {{--        <span style="background-color: #0f1534;" class="input-group-text text-body"><i class="fas fa-search"--}}
+                {{--                                                                                       aria-hidden="true"></i></span>--}}
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
             </div>
@@ -48,7 +50,8 @@
                                 @foreach(array_chunk(['style-0','style-1','style-2','style-3','style-4','style-5','style-6','style-7','style-8','style-9'], 2) as $index => $chunk)
                                     <div
                                         class="carousel-item {{ $index === ($style_carousel_index ? $style_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive table-header-text" style="margin-left: 35px !important;">
+                                        <div class="table-responsive table-header-text"
+                                             style="margin-left: 35px !important;">
                                             <table class="table table-flush" style="border-collapse: separate">
                                                 <thead class="thead-light">
                                                 <tr>
@@ -85,6 +88,16 @@
             </div>
             <div class="row mt-1 ms-md-2 pe-md-2">
                 <div class="col-8">
+                    @if(session('success'))
+                        <div class="m-3 alert alert-success alert-dismissible fade show text-center" id="alert-success"
+                             role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('success') }}</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <i class="fa fa-close" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="table-responsive table-header-text">
                             <table class="table table-flush" style="border-collapse: separate">
@@ -130,7 +143,8 @@
                                 @foreach(array_chunk(['feature-0','feature-1','feature-2','feature-3','feature-4','feature-5'], 2) as $index => $chunk)
                                     <div
                                         class="carousel-item {{ $index === ($feature_carousel_index ? $feature_carousel_index : 0) ? 'active' : '' }}">
-                                        <div class="table-responsive table-header-text" style="margin-left: 35px !important;">
+                                        <div class="table-responsive table-header-text"
+                                             style="margin-left: 35px !important;">
                                             <table class="table table-flush" style="border-collapse: separate">
                                                 <thead class="thead-light">
                                                 <tr>
@@ -212,7 +226,6 @@
             <tr class="text-color-blue">
                 <th>Name</th>
                 <th>Date & Time</th>
-                <th>CountDown</th>
                 <th>Email</th>
                 <th></th>
             </tr>
@@ -221,8 +234,18 @@
             @foreach($assessments as $assessment)
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
-                    <td class="text-md font-weight-normal">{{$assessment['updated_at']}} (GMT)</td>
-                    <td class="text-md font-weight-normal">{{\App\Helpers\Helpers::explodeAssessmentTimezoneWithHours($assessment['users'] ? $assessment['users']['timezone'] : '', $assessment['updated_at'])}}</td>
+                    <td class="text-md font-weight-normal">
+                        <div class="d-flex align-items-center" style="border: 2px solid #f2661c; border-radius: 5px">
+                            <input
+                                type="text"
+                                class="form-control datepicker"
+                                value="{{ \Carbon\Carbon::parse($assessment['updated_at'])->format('m/d/Y h:i A') }}"
+                                data-id="{{ $assessment['id'] }}"
+                                style="border: none; background: transparent; cursor: pointer;color: #1c3e6d;height: 45px; width: 170px"
+                            />
+                            (GMT)
+                        </div>
+                    </td>
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
@@ -237,34 +260,50 @@
 </div>
 
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
-        function adminLoggedInToUserAccount(id, name){
+        function adminLoggedInToUserAccount(id, name) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn bg-gradient-primary m-2',
-                    cancelButton:  'btn bg-gradient-secondary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
                 },
                 buttonsStyling: false,
-                background : '#3442b4',
+                background: '#3442b4',
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to log in as "+name+"</span>",
+                html: "<span style='color: white;'>Want to log in as " + name + "</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Log in',
             }).then((result) => {
-                if(result.isConfirmed){
+                if (result.isConfirmed) {
                     window.livewire.emit('logInAdminAsUser', id)
                 }
             })
 
         }
 
-        function changeUserMemberShip(e, user_id){
+        function changeUserMemberShip(e, user_id) {
 
             window.Livewire.emit('changeUserMemberShip', e.options.selectedIndex, user_id);
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize Flatpickr on the input elements with the class 'datepicker'
+            flatpickr('.datepicker', {
+                dateFormat: 'm/d/Y h:i K',
+                onChange: function (selectedDates, dateStr, instance) {
+                    const assessmentId = instance.element.getAttribute('data-id');
+
+                    // Make an AJAX request to update the date in the database
+                    window.Livewire.emit('changeUserAssessmentStatus', assessmentId, dateStr);
+                }
+            });
+        });
+    </script>
+
 @endpush

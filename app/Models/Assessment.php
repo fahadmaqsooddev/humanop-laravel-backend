@@ -1142,7 +1142,7 @@ class Assessment extends Model
                     $latestAssessment = Assessment::getLatestAssessment($userId);
 
                     DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
-                    
+
                     ActionPlan::checkUserActionPlan($latestAssessment);
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
@@ -1288,4 +1288,14 @@ class Assessment extends Model
 
     }
 
+    public static function changeAssessmentTime($assessmentId = null, $assessmentTime = null)
+    {
+        $assessment =  self::whereId($assessmentId)->first();
+
+        $assessment->update([
+            'updated_at' => $assessmentTime
+        ]);
+
+        return $assessment;
+    }
 }

@@ -30,7 +30,7 @@ class Assessment extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserMemberShip'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserAssessmentStatus'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -110,17 +110,14 @@ class Assessment extends Component
 
     }
 
-    public function changeUserMemberShip($memberShipValue, $user_id){
+    public function changeUserAssessmentStatus($assessmentId, $assessmentDate)
+    {
 
-        $plan = Plan::findPlanFromIntValue($memberShipValue);
+        \App\Models\Assessment::changeAssessmentTime($assessmentId, $assessmentDate);
 
-        if ($plan){
+        session()->flash('success', "Date and time updated successfully");
 
-            Subscription::updateUserSubscriptionFromAdmin($plan->plan_id, $user_id);
-        }
-
-        $this->searchFilter();
-
+        $this->render();
     }
 
     public function render()
