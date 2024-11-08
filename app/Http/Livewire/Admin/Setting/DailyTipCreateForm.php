@@ -32,6 +32,7 @@ class DailyTipCreateForm extends Component
        }
 
       public function updateEditTipValues($id,$code,$title,$description){
+
               $this->emptyDailyTipValues();
               $this->tip_id = $id;
               $this->code = $code;

@@ -1017,6 +1017,7 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
             </div>
         </div>
 {{--        having challenge modal--}}
+        @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
         <div class="modal fade" id="having-challenge-modal" tabindex="-1"
              role="dialog"
              aria-labelledby="having-challenge-modal" aria-hidden="true">
@@ -1040,7 +1041,7 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                 </div>
             </div>
         </div>
-
+         @endif
         {{--daily tip already completed--}}
         <div class="modal fade" id="daily-tip-completed" tabindex="-1"
              role="dialog"

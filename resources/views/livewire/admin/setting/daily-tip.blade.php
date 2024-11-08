@@ -17,7 +17,7 @@
                     <td class="text-md font-weight-normal">{{$tip['title']}} </td>
                     <td>
                         <button class="btn btn-sm text-white" data-bs-toggle="modal"
-                                wire:click="editTip({{ $tip['id'] }}, '{{ $tip['code'] }}', '{{ $tip['title'] }}', '{{ $tip['description'] }}')"
+                                wire:click="editTip({{ $tip['id'] }}, `{{ $tip['code'] }}`, `{{ $tip['title'] }}`, `{{ $tip['description'] }}`)"
                                 data-bs-target="#dailyTipModel"  style="background-color: #f2661c;" >
                             update
                         </button>
