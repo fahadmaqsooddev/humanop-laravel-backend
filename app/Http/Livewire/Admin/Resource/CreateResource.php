@@ -14,7 +14,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description,$update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
@@ -133,7 +133,9 @@ class CreateResource extends Component
 
         $this->description = $this->editResourceData['description'] ?? null;
 
-        $this->content = $this->editResourceData['content'] ?? null;
+        $this->update_content = $this->editResourceData['content'] ?? null;
+
+        $this->emit('contentUpdated', $this->update_content ?? '');
     }
 
     public function editMoveResource($category_id)
@@ -156,12 +158,25 @@ class CreateResource extends Component
         ResourceCategory::deleteSingleCategory($id);
     }
 
+    public function emptyCreateForm(){
+      $this->category_id = '';
+      $this->heading = '';
+      $this->description = '';
+      $this->content = '';
+      $this->resource = '';
+       $this->permission = [];
+    }
+    public function updateContent($editorId, $data)
+    {
+        $this->update_content = $data;
+    }
+
     public function updateResource()
     {
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
         if ($this->resource) {
 
@@ -182,7 +197,7 @@ class CreateResource extends Component
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
 
-        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 

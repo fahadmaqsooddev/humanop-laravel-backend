@@ -34,7 +34,7 @@
                                 data-target="#createCategory">
                             Add Category
                         </button>
-                        <button data-bs-toggle="modal" data-bs-target="#createResource"
+                        <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm" id="create_resourse_btn"
                                 class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
@@ -252,7 +252,7 @@
                                         </textarea>
                                     </div>
 
-                                    <div class="form-group mt-4">
+                                    <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4 text-white">Content</label>
                                         <textarea style="background-color: #0f1534;" class="form-control text-white"
                                                   id="editor" name="content" wire:model="content" rows="10" cols="10">
@@ -262,7 +262,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="resource"
+                                        <input style="background-color: #0f1534;" wire:model.defer="resource" id="resourse_file"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource">
@@ -359,10 +359,10 @@
                                         </textarea>
                                     </div>
 
-                                    <div class="form-group mt-4">
+                                    <div class="form-group mt-4" wire:ignore>
                                         <label class="form-label fs-4 text-white">Content</label>
                                         <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                  wire:model.defer="content" name="content"
+                                                  id="resourse_editor" name="update_content" wire:model="update_content"
                                                   rows="10">
                                         </textarea>
                                     </div>
@@ -562,8 +562,10 @@
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
-        let editorInstance;
+        let editorInstance,updateEditorInstance;
         const editorElement = document.getElementById('editor');
+        const updateEditorElement = document.getElementById('resourse_editor');
+
         if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
             ClassicEditor
                 .create(editorElement, {
@@ -578,7 +580,7 @@
                     editor.model.document.on('change:data', () => {
                     @this.set('content', editor.getData());
                     })
-                    Livewire.on('contentUpdated', content => {
+                    Livewire.on('editorContentUpdated', content => {
                         editor.setData(content); // Set new content into CKEditor
                     });
                     editorInstance = editor;
@@ -588,6 +590,39 @@
                 });
 
         }
+
+        $('#create_resourse_btn').on('click',function(){
+            if (editorInstance) {
+                editorInstance.setData('');
+            }
+            $('#resourse_file').val('');
+        });
+        if (updateEditorElement && !updateEditorElement.classList.contains('ck-editor')) { // Check if not already initialized
+            ClassicEditor
+                .create(updateEditorElement, {
+                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                    ]
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                    @this.set('update_content', editor.getData());
+                    })
+                    Livewire.on('contentUpdated', content => {
+                        editor.setData(content); // Set new content into CKEditor
+                    });
+
+                    updateEditorInstance = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+
         $('.createForm').on('click', function () {
             if (editorInstance) {
                 editorInstance.setData('');

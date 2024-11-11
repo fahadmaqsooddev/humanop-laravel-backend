@@ -71,70 +71,71 @@ class SessionController extends Controller
             $attributes['status'] = 1;
 
             $userEmailVerify = User::where('email', $request['email'])->first();
+           if($userEmailVerify) {
+               if ($userEmailVerify['two_way_auth'] == 1) {
 
-            if($userEmailVerify['two_way_auth'] == 1){
-                 $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
-                 if($status){
-                     Session::put(['two_way_auth.id' => $userEmailVerify['id'],'two_way_auth.phone' => $userEmailVerify['phone']]);
-                     session()->flash('success', 'Verification Code Sent To Your Number Successfully');
-                     return redirect()->route('two.way.auth');
-                 }else{
-                     session()->flash('error', 'Something Went Wrong During Sending Code');
-                     return redirect()->route('two.way.auth');
-                 }
-            }
+                   $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
+                   if ($status) {
+                       Session::put(['two_way_auth.id' => $userEmailVerify['id'], 'two_way_auth.phone' => $userEmailVerify['phone']]);
+                       session()->flash('success', 'Verification Code Sent To Your Number Successfully');
+                       return redirect()->route('two.way.auth');
+                   } else {
+                       session()->flash('error', 'Something Went Wrong During Sending Code');
+                       return redirect()->route('two.way.auth');
+                   }
+               }
+               if ($userEmailVerify['email_verified_at'] != null)
+               {
+
+                   if(Auth::attempt($attributes))
+                   {
 
 
-            if ($userEmailVerify['email_verified_at'] != null)
-            {
+                       if (isset($request['remember']) && !empty($request['remember']))
+                       {
+                           setcookie("email", $attributes['email'], 30*time()+3600);
+                           setcookie("password", $attributes['password'], 30*time()+3600);
+                       }else
+                       {
+                           setcookie("email", "");
+                           setcookie("password", "");
+                       }
 
-                if(Auth::attempt($attributes))
-                {
+                       $user = Helpers::getWebUser();
 
+                       Session::forget('google_user'); // forget the session of the google data
 
-                    if (isset($request['remember']) && !empty($request['remember']))
-                    {
-                        setcookie("email", $attributes['email'], 30*time()+3600);
-                        setcookie("password", $attributes['password'], 30*time()+3600);
-                    }else
-                    {
-                        setcookie("email", "");
-                        setcookie("password", "");
-                    }
+                       if ($user->is_admin == Admin::IS_CUSTOMER){
 
-                    $user = Helpers::getWebUser();
-
-                    Session::forget('google_user'); // forget the session of the google data
-
-                    if ($user->is_admin == Admin::IS_CUSTOMER){
-
-                        Helpers::createCustomerAndSubscriptionOnStripe($user);
+                           Helpers::createCustomerAndSubscriptionOnStripe($user);
 
 //                        DailyTip::updateUserDailyTip();
 
-                        User::updateUserIsFeedback();
+                           User::updateUserIsFeedback();
 
 //                        ActionPlan::storeUserActionPlan();
 
-                    }
+                       }
 
-                    if ($user->is_admin === Admin::IS_PRACTITIONER){
+                       if ($user->is_admin === Admin::IS_PRACTITIONER){
 
-                        return redirect('/practitioner/dashboard');
-                    }
+                           return redirect('/practitioner/dashboard');
+                       }
 
-                    return redirect()->route('admin_dashboard');
-                }
+                       return redirect()->route('admin_dashboard');
+                   }
 
-                return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+                   return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
 
-            }else
-            {
+               }else
+               {
 
-                return back()->withErrors(['msgError' => 'Your email is not verified.']);
+                   return back()->withErrors(['msgError' => 'Your email is not verified.']);
 
-            }
-
+               }
+           }else{
+               return back()->withErrors(['msgError' => 'The email or password you entered is incorrect']);
+           }
         }catch (ValidationException $validationException){
 
             return back()->with(['errors' => $validationException->validator->errors()]);

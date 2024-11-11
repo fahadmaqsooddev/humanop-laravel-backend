@@ -600,11 +600,13 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                 class="fa-regular fa-circle-question fa-lg"
                                                 style="color: white;"></i></span></h5>
                                 </div>
+                                @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
                                 <div class="card-body p-3 d-flex justify-content-center align-items-center" >
                                     <div >
                                         <button  class="rainbow-border-user-nav-btn btn-lg " id="open-chat-btn" style="">Get Help!</button>
                                     </div>
                                 </div>
+                                    @endif
                             </div>
                         </div>
 
