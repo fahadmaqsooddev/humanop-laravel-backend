@@ -96,12 +96,20 @@ class DailyTip extends Model
         $assessment = Assessment::getLatestAssessment($user['id']);
         if ($assessment) {
             $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
-            $codeAlchemy = Assessment::getAlchemy($assessment)['code'];
-            $codeCommunication = Assessment::getEnergy($assessment)[0];
+            $alchemy = Assessment::getAlchemy($assessment);
+            if($alchemy){
+                $codeAlchemy = $alchemy['code'];
+            }
+            $communication = Assessment::getEnergy($assessment);
+            if($communication){
+                $codeCommunication =$communication[0];
+            }
+
+        
             $selectedCodeList = [
-                $codeColor['code'],
-                $codeAlchemy,
-                $codeCommunication
+                $codeColor['code'] ?? '',
+                $codeAlchemy ?? '',
+                $codeCommunication ?? ''
             ];
             $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
