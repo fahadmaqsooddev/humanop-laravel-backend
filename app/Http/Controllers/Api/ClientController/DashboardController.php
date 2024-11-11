@@ -23,7 +23,7 @@ class DashboardController extends Controller
     }
 
     public function dailyTip(){
-        try {
+//        try {
 
 //            $daily_tip = DailyTip::dailyTip();
             $daily_tip = DailyTip::getTodayTip();
@@ -39,9 +39,9 @@ class DashboardController extends Controller
             $data = ['daily_tip' => $daily_tip,'trait' => $traitDescription];
 
             return Helpers::successResponse('Daily Tip', $data);
-        }catch (\Exception $exception){
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        }catch (\Exception $exception){
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function latestPodcast(){
