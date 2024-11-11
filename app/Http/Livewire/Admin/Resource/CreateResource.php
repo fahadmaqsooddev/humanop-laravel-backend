@@ -20,7 +20,7 @@ class CreateResource extends Component
 
     protected $rules = [
         'heading' => 'required',
-        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4|max:204800', // Max file size 200MB
+        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|max:1000',
@@ -47,7 +47,7 @@ class CreateResource extends Component
 
                 $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
 
-            } elseif (in_array($this->resource->extension(), ['mp3', 'mpeg'])) {
+            } elseif (in_array($this->resource->extension(), ['mp3', 'wav', 'mpeg'])) {
 
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'audio');
             } else {
@@ -161,7 +161,7 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'content' => 'nullable']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
         if ($this->resource) {
 
@@ -169,6 +169,9 @@ class CreateResource extends Component
 
                 $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
 
+            } elseif (in_array($this->resource->extension(), ['mp3', 'wav', 'mpeg'])) {
+
+                $upload_id = Upload::uploadFile($this->resource, '', '', 'audio');
             } else {
 
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');

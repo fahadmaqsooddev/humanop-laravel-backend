@@ -261,7 +261,7 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
-                                            [formats])</label>
+                                            [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
@@ -375,7 +375,7 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
-                                            [])</label>
+                                            [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
