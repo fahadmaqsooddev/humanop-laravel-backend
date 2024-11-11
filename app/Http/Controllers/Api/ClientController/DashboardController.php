@@ -161,4 +161,41 @@ class DashboardController extends Controller
         }
 
     }
+
+    public function optionalTrait()
+    {
+        try {
+
+            $user = Helpers::getUser();
+
+            $assessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($assessment)) {
+
+                $timezone = $user['timezone'];
+
+                $topThreeStyles = Assessment::getAllStyles($assessment);
+
+                $topFeatures = Assessment::getFeatures($assessment);
+
+                $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+
+                $optionalTrait = Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
+
+                $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
+
+                return Helpers::successResponse('optional trait', $optionalTraitDetail);
+
+            }
+            else
+            {
+                return Helpers::notFoundResponse('Assessment not found');
+            }
+
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }

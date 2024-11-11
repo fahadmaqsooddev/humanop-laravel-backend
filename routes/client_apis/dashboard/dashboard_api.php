@@ -18,3 +18,4 @@ Route::get('core-stats', 'DashboardController@coreStats');
 Route::post('daily-tip-read', 'DashboardController@dailyTipRead');
 Route::get('action-plan', 'DashboardController@actionPlan');
 Route::get('information-icon', 'DashboardController@informationIcon');
+Route::get('optional-trait', 'DashboardController@optionalTrait');
