@@ -56,7 +56,7 @@ class AuthController extends Controller
                     $user_data = User::user(Helpers::getUser()->id);
 //                User::updateUserIsFeedback();
 
-                    DailyTip::updateUserDailyTip();
+//                    DailyTip::updateUserDailyTip();
 
 //                    ActionPlan::storeUserActionPlan();
 
@@ -224,7 +224,7 @@ class AuthController extends Controller
 
                 $token = $this->auth->login($user);
 
-                DailyTip::updateUserDailyTip();
+//                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::storeUserActionPlan();
 
