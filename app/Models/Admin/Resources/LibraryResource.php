@@ -52,7 +52,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null)
     {
         $resource =  self::create([
             'heading' => $heading,
@@ -60,12 +60,13 @@ class LibraryResource extends Model
             'upload_id' => $uploadId,
             'resource_category_id' => $category_id,
             'description' => $description,
+            'content' => $content,
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
     {
         self::whereId($id)->update([
             'heading' => $heading,
@@ -73,6 +74,7 @@ class LibraryResource extends Model
             'upload_id' => $uploadId,
             'resource_category_id' => $category_id,
             'description' => $description,
+            'content' => $content,
         ]);
     }
 

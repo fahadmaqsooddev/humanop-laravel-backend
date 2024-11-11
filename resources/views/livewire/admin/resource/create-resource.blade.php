@@ -1,15 +1,17 @@
 @push('css')
-    {{--    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">--}}
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
     <style>
-        {{--    .ck-editor__editable_inline {--}}
-{{--    background-color: #0f1534; /* Example: Change this to your desired background color */--}}
-{{--    }--}}
-{{--    .ck-editor__editable{--}}
-{{--        background-color: #0f1534 !important;--}}
-{{--    }--}}
-{{--    .ck-editor{--}}
-{{--        border-radius: 0 !important;--}}
-{{--    }--}}
+        .ck-editor__editable_inline {
+            background-color: #0f1534; /* Example: Change this to your desired background color */
+        }
+
+        .ck-editor__editable {
+            background-color: #0f1534 !important;
+        }
+
+        .ck-editor {
+            border-radius: 0 !important;
+        }
 
         .card {
             background-color: #1C365E !important;
@@ -173,6 +175,14 @@
                                 </audio>
                             @endif
 
+                            <div class="mt-2 text-white">
+
+                                <p class="text-white text-sm">
+                                    {!! $resource['content'] !!}
+                                </p>
+
+                            </div>
+
                         </div>
                         <div>
                             <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
@@ -209,19 +219,6 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Heading</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="heading" placeholder="heading" type="text">
-                                    </div>
-
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Description</label>
-                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                  wire:model.defer="description" placeholder="Enter description"
-                                                  rows="3">
-                                        </textarea>
-                                    </div>
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Category</label>
@@ -242,8 +239,29 @@
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Resource (Image or Video or
-                                            Audio)</label>
+                                        <label class="form-label fs-4 text-white">Heading</label>
+                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model.defer="heading" placeholder="heading" type="text">
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Description</label>
+                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                                  wire:model.defer="description" placeholder="Enter description"
+                                                  rows="3">
+                                        </textarea>
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Content</label>
+                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                                  id="editor" name="content" wire:model="content" rows="10" cols="10">
+                                        </textarea>
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
+                                            [formats])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
@@ -251,7 +269,7 @@
                                             Uploading ...
                                         </span>
                                     </div>
-                                    <label class="form-label fs-4 text-white">Permission</label>
+                                    <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-check">
@@ -263,25 +281,25 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox" id="core">
-                                                <label class="form-check-label text-white" for="core">Core</label>
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
+                                                       class="form-check-input option-checkbox" id="preemium">
+                                                <label class="form-check-label text-white" for="preemium">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input option-checkbox" id="preemium">
+                                                <input type="checkbox" wire:model.defer="permission" value="2"
+                                                       class="form-check-input option-checkbox" id="core">
                                                 <label class="form-check-label text-white"
-                                                       for="preemium">Preemium</label>
+                                                       for="coew">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input" id="allOptions">
-                                                <label class="form-check-label text-white" for="allOptions">All of
-                                                    these</label>
+                                                <label class="form-check-label text-white" for="allOptions">All Of The
+                                                    Above</label>
                                             </div>
                                         </div>
                                     </div>
@@ -313,6 +331,20 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Category</label>
+                                        <select style="background-color: #0f1534;" class="form-control text-white"
+                                                wire:model.defer="category_id" placeholder="Select category">
+
+                                            <option>Select a category</option>
+
+                                            @foreach($dropDownCategories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
@@ -327,39 +359,46 @@
                                         </textarea>
                                     </div>
 
-                                    <label class="form-label fs-4 text-white">Category</label>
-                                    <select style="background-color: #0f1534;" class="form-control text-white"
-                                            wire:model.defer="category_id" placeholder="Select category">
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Content</label>
+                                        <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                                  wire:model.defer="content" name="content"
+                                                  rows="10">
+                                        </textarea>
+                                    </div>
 
-                                        <option>Select a category</option>
-
-                                        @foreach($dropDownCategories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
-                                        @endforeach
-
-                                    </select>
                                     <div class="form-group mt-4" hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
+
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Resource (Image or Video)</label>
+                                        <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
+                                            [])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                               class="form-control text-white" type="file" accept="image/*,video/*">
+                                               class="form-control text-white" type="file"
+                                               accept="image/*,video/*,audio/*">
                                     </div>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
                                                  width="200">
                                         </div>
-                                    @else
+                                    @elseif(!empty($editResourceData['video_url']))
                                         <div class="form-group mt-4">
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
+                                    @else
+                                        <div class="form-group mt-4">
+                                            <audio controls style="width: 100%;">
+                                                <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
                                     @endif
-                                    <label class="form-label fs-4 text-white">Permission</label>
+                                    <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
 
                                         <ul>
@@ -390,6 +429,13 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
+                                                <input type="checkbox" wire:model.defer="permission" value="3"
+                                                       class="form-check-input">
+                                                <label class="form-check-label text-white">Preemium</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
                                                        class="form-check-input">
                                                 <label class="form-check-label text-white">Core</label>
@@ -397,16 +443,9 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
-                                                <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">Premium</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input">
-                                                <label class="form-check-label text-white">All of these</label>
+                                                <label class="form-check-label text-white">All Of The Above</label>
                                             </div>
                                         </div>
                                     </div>
@@ -498,62 +537,70 @@
             </div>
         </div>
     </div>
+
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{--    <script type="importmap">--}}
-    {{--    {--}}
-    {{--        "imports": {--}}
-    {{--            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",--}}
-    {{--            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"--}}
-    {{--        }--}}
-    {{--    }--}}
-    {{--</script>--}}
+    <script type="importmap">
+    {
+        "imports": {
+            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
+            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+        }
+    }
+    </script>
 
-    {{--    <script type="module">--}}
-    {{--        import {--}}
-    {{--            ClassicEditor,--}}
-    {{--            Essentials,--}}
-    {{--            Paragraph,--}}
-    {{--            Bold,--}}
-    {{--            Italic,--}}
-    {{--            Font--}}
-    {{--        } from 'ckeditor5';--}}
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font,
+            List
+        } from 'ckeditor5';
 
-    {{--        // Function to initialize CKEditor for all textareas with the 'editor' class--}}
-    {{--        function initializeEditors() {--}}
-    {{--            const editors = document.querySelectorAll('.editor');--}}
-    {{--            editors.forEach(editorElement => {--}}
-    {{--                if (!editorElement.classList.contains('ck-editor')) { // Check if not already initialized--}}
-    {{--                    ClassicEditor--}}
-    {{--                        .create(editorElement, {--}}
-    {{--                            plugins: [ Essentials, Paragraph, Bold, Italic, Font ],--}}
-    {{--                            toolbar: [--}}
-    {{--                                'undo', 'redo', '|', 'bold', 'italic', '|',--}}
-    {{--                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'--}}
-    {{--                            ]--}}
-    {{--                        })--}}
-    {{--                        .then(editor => {--}}
-    {{--                            editor.model.document.on('change:data', () => {--}}
-    {{--                                editorElement.dispatchEvent(new Event('input')); // Trigger Livewire input event--}}
-    {{--                            });--}}
-    {{--                        })--}}
-    {{--                        .catch(error => {--}}
-    {{--                            console.error(error);--}}
-    {{--                        });--}}
-    {{--                }--}}
-    {{--            });--}}
-    {{--        }--}}
+        // Function to initialize CKEditor for a specific textarea by ID
+        let editorInstance;
+        const editorElement = document.getElementById('editor');
+        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
+            ClassicEditor
+                .create(editorElement, {
+                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                    ]
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                    @this.set('content', editor.getData());
+                    })
+                    Livewire.on('contentUpdated', content => {
+                        editor.setData(content); // Set new content into CKEditor
+                    });
+                    editorInstance = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-    {{--        // Initialize CKEditor when Livewire component is loaded or updated--}}
-    {{--        document.addEventListener('livewire:load', () => {--}}
-    {{--            initializeEditors(); // Initialize editors when Livewire component loads--}}
-    {{--        });--}}
+        }
+        $('.createForm').on('click', function () {
+            if (editorInstance) {
+                editorInstance.setData('');
+            }
+        });
 
-    {{--        document.addEventListener('livewire:update', () => {--}}
-    {{--            initializeEditors(); // Reinitialize editors after Livewire updates--}}
-    {{--        });--}}
-    {{--    </script>--}}
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('closeModal', () => {
+                // Close the modal
+                $('#dailyTipModel').modal('hide');
+            });
+        });
+    </script>
 
     <script>
         window.livewire.on('toggleCreateResourceModal', () => {

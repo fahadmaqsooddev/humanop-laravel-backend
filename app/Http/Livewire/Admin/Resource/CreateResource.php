@@ -14,7 +14,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $resource, $category_id, $permission = [], $editResourceData, $category_name;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
@@ -24,6 +24,7 @@ class CreateResource extends Component
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|max:1000',
+        'content' => 'nullable',
     ];
 
     protected $messages = [
@@ -31,7 +32,7 @@ class CreateResource extends Component
         'resource.required' => 'Resource is required',
         'resource.mimes' => 'Resource must be a valid image or video file (jpeg, png, jpg, gif, mp4, mov, avi, mkv).',
         'permission.required' => 'At least one permission is required',
-        'description.max' => 'Description maximum length is 1000 characters',
+        'description.max' => 'Description maximum length is 1000 characters'
     ];
 
     public function CreateResource()
@@ -54,7 +55,7 @@ class CreateResource extends Component
                 $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
             }
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -131,6 +132,8 @@ class CreateResource extends Component
         $this->category_id = $this->editResourceData['resource_category_id'] ?? null;
 
         $this->description = $this->editResourceData['description'] ?? null;
+
+        $this->content = $this->editResourceData['content'] ?? null;
     }
 
     public function editMoveResource($category_id)
@@ -158,7 +161,7 @@ class CreateResource extends Component
 
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'content' => 'nullable']);
 
         if ($this->resource) {
 
@@ -176,7 +179,7 @@ class CreateResource extends Component
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
 
-        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description);
+        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
