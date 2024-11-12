@@ -134,7 +134,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::group(['middleware' => ['permission:chat']], function () {
         Route::get('/hai-chat', [AdminController::class, 'haiChat'])->name('admin_hai_chat');
-        Route::get('/hai-chat-detail', [AdminController::class, 'haiChatDetail'])->name('admin_hai_chat_detail');
+        Route::get('/hai-chat-detail/{name}', [AdminController::class, 'haiChatDetail'])->name('admin_hai_chat_detail');
         Route::get('/embeddings', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
     });

@@ -409,5 +409,10 @@ return [
             'fillable' => ['priority','condition','content'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'Chatbot' => [
+            'table' => 'chatbot',
+            'fillable' => ['name','description'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];

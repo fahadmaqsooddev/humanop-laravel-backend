@@ -9,6 +9,7 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use App\Models\Client\Feedback\Feedback;
+use App\Models\HAIChai\Chatbot;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -214,11 +215,13 @@ class AdminController extends Controller
         }
     }
 
-    public function haiChatDetail()
+    public function haiChatDetail($name)
     {
         try {
 
-            return view('admin-dashboards.hai-chat.detail');
+            $chatName = Chatbot::getChatFromVendorName($name);
+
+            return view('admin-dashboards.hai-chat.detail', compact('chatName'));
 
         } catch (\Exception $exception) {
 
