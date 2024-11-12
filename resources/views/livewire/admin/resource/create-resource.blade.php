@@ -517,7 +517,6 @@
                                     <br/>
                                     <select style="background-color: #0f1534;" class="form-control text-white"
                                             wire:model.defer="category_id" placeholder="Select category">
-                                        <option>Select a category</option>
                                         @foreach($dropDownCategories as $category)
                                             @if($current_category != $category->id)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
