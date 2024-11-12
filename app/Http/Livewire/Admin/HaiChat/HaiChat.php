@@ -52,7 +52,14 @@ class HaiChat extends Component
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete-folder', ['folder_n' => $chat['name']]);
 
-        dd($aiReply);
+        if ($aiReply == 1)
+        {
+
+            Chatbot::deleteChat($id);
+            
+            session()->flash('success', "{$chat['name']} deleted successfully.");
+
+        }
 
     }
 
