@@ -336,9 +336,6 @@
                                         <label class="form-label fs-4 text-white">Category</label>
                                         <select style="background-color: #0f1534;" class="form-control text-white"
                                                 wire:model.defer="category_id" placeholder="Select category">
-
-                                            <option>Select a category</option>
-
                                             @foreach($dropDownCategories as $category)
                                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
