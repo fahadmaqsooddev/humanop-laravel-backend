@@ -414,5 +414,15 @@ return [
             'fillable' => ['name','description'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'ChatPrompt' => [
+            'table' => 'hai_chat_prompts',
+            'fillable' => ['name','prompt','restriction'],
+            'hidden' => ['created_at','updated_at'],
+        ],
+        'HaiChatEmbedding' => [
+            'table' => 'hai_chat_embeddings',
+            'fillable' => ['name','request_id'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];

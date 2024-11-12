@@ -205,122 +205,14 @@
                     </ul>
                 </div>
             </div>
+            @php
+                $urlParts = explode('/', request()->url());
+                $lastSegment = array_pop($urlParts);
+            @endphp
             <div class="col-lg-9 mt-lg-0 mt-4">
-                <div class="card setting-box-background mt-4" id="prompt">
-                    <div class="card-header">
-                        <h5 class="text-color-dark setting-form-heading">Base Prompt</h5>
-                    </div>
-                    <div class="card-body d-sm-flex pt-0">
-                        <textarea class="form-control" id="chatDescription"
-                                  style="background-color: #8bb1ab; color: #0f1535" rows="10"
-                                  placeholder="Enter chat description">You are an autoregressive language model that has been fine-tuned with instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful, nuanced answers, and are brilliant at reasoning. If you think there might not be a correct answer, you say so.Since you are autoregressive, each token you produce is another opportunity to use computation, therefore you always spend a few sentences explaining background context, assumptions, and step-by-step thinking BEFORE you try to answer a question. Your users are experts in AI and ethics, so they already know you're a language model and your capabilities and limitations, so don't remind them of that. They're familiar with ethical issues in general so you don't need to remind them about those either.
-                            </textarea>
-                    </div>
-                    <div class="card-header">
-                        <h5 class="text-color-dark setting-form-heading">Restrictions</h5>
-                    </div>
-                    <div class="card-body d-sm-flex pt-0">
-                        <textarea class="form-control" id="chatDescription"
-                                  style="background-color: #8bb1ab; color: #0f1535" rows="10"
-                                  placeholder="Enter chat description">Don't be verbose in your answers, but do provide details and examples where it might help the explanation. You can use the [[CONTEXT]] to help you decide what details to include.
+                @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])
+                @livewire('admin.hai-chat.setting.embedding')
 
-ONLY share information mentioned in the [[CONTEXT]]. If you can not answer based on [[CONTEXT]], say "I do not know" or "I am not sure".
-
-REFUSE to answer their questions, share information, or engage further if they are not on topic.
-
-Only share URL present in the [[CONTEXT]]. Do not make up any URL.</textarea>
-                    </div>
-                </div>
-                <div class="card setting-box-background mt-4" id="train">
-                    <div class="card-header">
-                        <div id="train" class="content-page">
-                            <!-- Responsive Dropdown Section -->
-                            <div class="d-flex p-2">
-                                <div class="btn-group col-md-4 d-flex justify-content-between ">
-                                    <button class="btn btn-outline-secondary text-dark dropdown-toggle" type="button"
-                                            data-bs-toggle="dropdown" style="font-size: small; color: #0f1534; background-color: #8bb1ab" aria-expanded="false">
-                                        Select a Chatbot
-                                    </button>
-                                    <ul class="dropdown-menu" id="chatbotDropdown" style="width: 100%;">
-                                        <li><a class="dropdown-item" href="#" disabled>Select a chatbot</a></li>
-                                        <!-- Chatbot options will be populated here -->
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-column flex-md-row gap-3">
-                                <!-- Left Column -->
-                                <div class="col-md-4">
-                                    <!-- Search Box -->
-                                    <div class="container-fluid mt-4 mx-0 px-0">
-                                        <div class="textarea-with-icon">
-                                        <textarea class="form-control" rows="3" style="font-size: small; background-color: #8bb1ab"
-                                                  placeholder="Search across all documents"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <!-- Responsive Tabs -->
-                                    <ul class="nav nav-tabs justify-content-between flex-wrap mt-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" style="color: #0f1534" aria-current="page" href="#">All</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" style="color: #0f1534" href="#">Pending</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" style="color: #0f1534" href="#">Deleted</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" style="color: #0f1534" href="#">Failed</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Right Column with Upload Options -->
-                                <div class="col-md-8">
-                                    <div class="d-flex flex-wrap justify-content-around p-5">
-                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                            <i class="bi bi-graph-up"></i>
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <div class="fw-bold" style="color: #0f1534">Upload files</div>
-                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                            </div>
-                                            <input type="file" id="fileInput" style="display: none;"/>
-                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                                upload
-                                            </button>
-                                        </div>
-
-                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                            <i class="bi bi-graph-up"></i>
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <div class="fw-bold" style="color: #0f1534">From Text</div>
-                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                            </div>
-                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                                add
-                                            </button>
-                                        </div>
-
-                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                            <i class="bi bi-graph-up"></i>
-                                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <div class="fw-bold" style="color: #0f1534">From questions and answers</div>
-                                                <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                            </div>
-                                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                                add
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card setting-box-background mt-4" id="capture">
                     <div class="card-header">
                         <h5 class="text-color-dark setting-form-heading">Capture</h5>
