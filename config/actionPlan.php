@@ -368,7 +368,8 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <p class='text-white'>By diligently following this 90-day plan, you'll nurture your two main drivers, leading to increased energy and motivation. This approach will help you access your full potential and maintain optimal performance in your daily life.</p>
 ",
 
-    'priority_5' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_5' => "<p class='text-white'>At this point in time, you are experiencing difficulty getting things done. This can make you feel overwhelmed or stressed. It's important to acknowledge this challenge and approach it with kindness towards yourself.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To reduce overwhelm by focusing on manageable tasks and practicing self-compassion, allowing you to increase productivity without overextending yourself.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -443,7 +444,8 @@ Benefit: Helps maintain steady progress without exhaustion, improving overall pr
 <p class='text-white'>As you engage in this 90-day plan, notice how aligning with reasoned individuals and cultivating supportive practices helps you regain a clear and expanded view of life. By surrounding yourself with positive influences and focusing on personal growth, you'll find it easier to see more pathways to navigate challenges and move forward with renewed confidence and purpose. Remember, taking deliberate steps each day contributes to a greater sense of direction and well-being in your daily life.</p>",
 
 
-    'priority_7' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_7' => "<p class='text-white'>At this point in time, you are putting attention on many driving forces that do not have a \"license\" to drive your \"vehicle of self.\" These inauthentic drivers are not aligned with your true self, and as a result, you experience them in a weakened form. This misalignment drains all of your energy each day, leaving you feeling exhausted and disconnected from your authentic path.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -485,7 +487,8 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 ",
 
 
-    'priority_8' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_8' => "<p class='text-white'>At this point in time, you are putting attention on three driving forces that do not have a \"license\" to drive your \"vehicle of self.\" Since these forces aren't truly aligned with your authentic self, you experience them only in a weakened form. This misalignment drains your energy each day and can leave you feeling exhausted and disconnected from your true path.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -528,7 +531,8 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>Remember, the journey toward authenticity is a gradual process. Be patient with yourself as you make these shifts. Each day presents a new opportunity to choose actions that honor your true self and move you closer to a life of increased energy and purpose.</p>
 ",
 
-    'priority_9' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_9' => "<p class='text-white'>At this point in time, you are putting attention on two driving forces that do not have a \"license\" to drive your \"vehicle of self.\" Since these forces aren't truly aligned with your authentic self, you experience them only in a weakened form. This misalignment drains most of your energy each day, and can leave you feeling exhausted and disconnected from your true path.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -571,7 +575,8 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>Remember, the journey toward authenticity is a gradual process. Be patient with yourself as you make these shifts. Each day presents a new opportunity to choose actions that honor your true self and move you closer to a life of increased energy and purpose.</p>
 ",
 
-    'priority_10' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_10' => "<p class='text-white'>At this point in time, you are putting attention on one driving force that does not have a \"license\" to drive your \"vehicle of self.\" Since this force isn't truly aligned with your authentic self, you experience it only in a weakened form. This misalignment will drain some of your energy each day and leave you somewhat disconnected from your true path.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -614,7 +619,8 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>Remember, the journey toward authenticity is a gradual process. Be patient with yourself as you make these shifts. Each day presents a new opportunity to choose actions that honor your true self and move you closer to a life of increased energy and purpose.</p>
 ",
 
-    'priority_11' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_11' => "<p class='text-white'>At this time both of your drivers aren’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of both drivers is likely more prevalent for you. Over the next 90-days, explore and implement more ways to “fuel” the strong states of your two driving forces. Ask HAI for suggestions on what healthy “fuel” is for you.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To nourish the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -657,7 +663,8 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <p class='text-white'>Remember, the journey toward authenticity is a gradual process. Be patient with yourself as you make these shifts. Each day presents a new opportunity to choose actions that honor your true self and move you closer to a life of increased energy and purpose.</p>
 ",
 
-    'priority_12' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_12' => "<p class='text-white'>At this point in time, your Co-Pilot Driver isn’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of this driver is likely more prevalent for you. Over the next 90-days, explore and implement more ways to “fuel” the strong states of both of your  driving forces (spending a little extra time “feeding or fueling” your Co-Pilot).  Ask HAI for suggestions on what healthy “fuel” is for you.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -1152,7 +1159,8 @@ Benefit: Creates space for others to feel heard, making them more open to hearin
 </ul>
 ",
 
-    'priority_24' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_24' => "<p class='text-white'>Maintaining energy reserves is crucial for effective life management. However, the chaos of daily life can often deplete or overstimulate one’s energy, compromising performance. Both energy deficiency and excess can lead to judgment from others and cause personal feelings of depression or even anger. At this time, your Energy Pool is compromised, which often indicates an underlying physical issue. This could be a known condition or a silent one, such as a congenital disorder, thyroid problem, or other. Regardless of the cause, there are ways to boost your energy levels to keep pace with life’s demand.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To restore and optimize your energy levels, enabling more effective life management. The focus is on sustaining balanced energy reserves, preventing depletion or overstimulation, and promoting overall well-being.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
@@ -1232,7 +1240,8 @@ Benefit: Harmonizes energy, allowing for better interpersonal interactions.</p>
 <p class='text-white'>By consistently implementing these strategies over the next 90 days, you'll experience harmonized energy, enhanced resilience, and improved well-being.</p>
 ",
 
-    'priority_26' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_26' => "<p class='text-white'>Over the next 90-days, explore and implement more ways to “fuel” the strong states of both of your driving forces.  This optimization strategy will help you fully engage in the driving forces that keep you energized and optimized.  This, in turn, helps fine-tune your focus and raise your energy levels so you can remain energized and optimized. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
 <p class='text-white'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and focus.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
