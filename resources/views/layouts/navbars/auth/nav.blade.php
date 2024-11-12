@@ -23,11 +23,31 @@
                             <h5 class="mb-1 custom-text-dark {{!empty($traitDescription['public_name']) ? '' : 'my-3'}}">
                                 {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}
                             </h5>
-                            @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                            @php
+                                $user = \App\Helpers\Helpers::getWebUser();
+                                $optionalTraitDetail = null;
+
+                                if (!empty($user)) {
+                                    $assessment = \App\Models\Assessment::getLatestAssessment($user['id']);
+
+                                    if (!empty($assessment)) {
+                                        $timezone = $user['timezone'];
+                                        $topThreeStyles = \App\Models\Assessment::getAllStyles($assessment);
+                                        $topFeatures = \App\Models\Assessment::getFeatures($assessment);
+                                        $topTwoFeatures = \App\Models\Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+                                        $optionalTrait = \App\Helpers\Helpers::getOptionalTrait($timezone, $topThreeStyles, $topTwoFeatures);
+                                        $optionalTraitDetail = \App\Models\Admin\Code\CodeDetail::getOptionalTraitDetail($optionalTrait);
+                                    }
+                                }
+                            @endphp
+
+                            @if(!empty($optionalTraitDetail))
                                 <p class="mb-0 font-weight-bold text-sm">
                                     Optimal Trait To Be In Right Now:
                                 </p>
-                                <h6 onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')"><strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong></h6>
+                                <h6 onclick="goToProfileOverviewPage('{{ $optionalTraitDetail[2] }}', 'style_{{ $optionalTraitDetail[0] }}')">
+                                    <strong>{{ $optionalTraitDetail[0] }}</strong>
+                                </h6>
                             @endif
                         </a>
                     </div>
