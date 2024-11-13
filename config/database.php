@@ -424,5 +424,10 @@ return [
             'fillable' => ['name','request_id'],
             'hidden' => ['created_at','updated_at'],
         ],
+        'HaiChatActiveEmbedding' => [
+            'table' => 'hai_chat_active_embeddings',
+            'fillable' => ['chat_bot','request_id'],
+            'hidden' => ['created_at','updated_at'],
+        ]
     ]
 ];

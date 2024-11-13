@@ -7,13 +7,28 @@
                     <div class="btn-group col-md-4 d-flex justify-content-between ">
                         <button class="btn btn-outline-secondary text-dark dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" style="font-size: small; color: #0f1534; background-color: #8bb1ab" aria-expanded="false">
-                            Select a Chatbot
+                            {{$selected_embedding}}
                         </button>
                         <ul class="dropdown-menu" id="chatbotDropdown" style="width: 100%;">
-                            <li><a class="dropdown-item" href="#" disabled>Select a chatbot</a></li>
+                            <li><button class="dropdown-item bg-dark text-white" disabled>All Embeddings</button></li>
+                            @foreach($embeddings as $embedding)
+                            <li><button class="dropdown-item"  wire:click="changeEmbeddingSelect(`{{$embedding['name']}}`,`{{$embedding['request_id']}}`)">{{$embedding['name'] ?? ''}}</button></li>
+                             @endforeach
+                            <li><button class="dropdown-item bg-dark text-white" disabled>Active Embeddings</button></li>
+                            @foreach($active_embeddings as $active)
+                                <li><button class="dropdown-item"  wire:click="changeEmbeddingSelect(`{{$active['embedding']['name']}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button></li>
+                            @endforeach
                             <!-- Chatbot options will be populated here -->
                         </ul>
                     </div>
+                    @if($button_status_display)
+                    <div style="margin-left: 10px">
+                        <button style="padding:5px 10px 5px 10px; border-radius: 7px;" wire:click="changeEmbeddingStatus"
+                                   class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                            {{$button_status}}
+                        </button>
+                    </div>
+                        @endif
                 </div>
 
                 <div class="d-flex flex-column flex-md-row gap-3">

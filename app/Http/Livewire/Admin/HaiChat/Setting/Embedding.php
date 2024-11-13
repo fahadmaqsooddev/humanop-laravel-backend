@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -10,8 +11,17 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding;
+    public $name,$embedding,$bot_name,$request_id,$button_status;
+    public $button_status_display = false;
+    public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
+
+    public function mount($bot_name)
+    {
+        $this->bot_name = $bot_name;
+    }
+
+
     protected $rules = [
         'name' => 'required',
         'embedding' => 'required|file|mimes:txt,pdf', // Corrected 'memes' to 'mimes'
@@ -52,6 +62,7 @@ class Embedding extends Component
             ]);
             if(!empty($aiReply['request_id'])){
                $embedding = HaiChatEmbedding::createEmbedding($this->name,$aiReply['request_id']);
+                HaiChatActiveEmbedding::createActiveEmbedding($this->bot_name, $aiReply['request_id']);
                if($embedding){
                    session()->flash('success', "Created Successfully.");
                }else{
@@ -62,6 +73,41 @@ class Embedding extends Component
         {
             session()->flash('error', $exception->getMessage());
         }
+    }
+    public function changeEmbeddingSelect($name,$request_id){
+        $this->selected_embedding = $name;
+        $this->request_id = $request_id;
+        $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id);
+        if($activeEmbedding){
+            $this->button_status = 'Disconnect';
+        }else{
+            $this->button_status = 'Connect';
+        }
+        $this->button_status_display = true;
+    }
+
+    public function changeEmbeddingStatus(){
+        if($this->request_id && $this->bot_name){
+            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id);
+            if($activeEmbedding){
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                 if($aiReply){
+                     if($aiReply['exists']){
+                         HaiChatActiveEmbedding::deleteActiveEmbedding($this->request_id);
+                         $this->button_status = 'Connect';
+                     }
+                 }
+            }else{
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                if($aiReply){
+                    if($aiReply['exists']) {
+                        HaiChatActiveEmbedding::createActiveEmbedding($this->bot_name, $this->request_id);
+                        $this->button_status = 'Disconnect';
+                    }
+                }
+            }
+        }
+
     }
     public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
@@ -88,8 +134,39 @@ class Embedding extends Component
     }
 
 
+    public function sendEmbeddingRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+    public function getEmbeddings()
+    {
+        $request_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
+        $this->embeddings = HaiChatEmbedding::allEmbeddingsExcept($request_ids);
+    }
+    public function getActiveEmbeddings()
+    {
+        $this->active_embeddings = HaiChatActiveEmbedding::allActiveEmbeddings($this->bot_name);
+    }
     public function render()
     {
+        $this->getEmbeddings();
+        $this->getActiveEmbeddings();
         return view('livewire.admin.hai-chat.setting.embedding');
     }
 }

@@ -25,6 +25,10 @@ class HaiChatEmbedding extends Model
     {
         return self::orderBy('created_at', 'desc')->get();
     }
+    public static function allEmbeddingsExcept($embeddings = [])
+    {
+        return self::orderBy('created_at', 'desc')->whereNotIn('request_id',$embeddings)->get();
+    }
 
     public static function createEmbedding($name = null, $request_id = null)
     {
