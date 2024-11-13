@@ -84,6 +84,6 @@ class QueryAnswer extends Model
             'answer' => $answer->answer ?? null,
         ];
 
-        GuzzleHelpers::sendRequestFromGuzzle('post','http://44.201.128.253:8000/qa_bucket',$body);
+        GuzzleHelpers::sendRequestFromGuzzle('post','http://18.234.162.68:8000/qa_bucket',$body);
     }
 }
