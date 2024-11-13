@@ -22,27 +22,33 @@ class DashboardController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function dailyTip(){
+    public function dailyTip()
+    {
         try {
-
-//            $daily_tip = DailyTip::dailyTip();
             $daily_tip = DailyTip::getTodayTip();
 
-            if($daily_tip) {
-                $traitDescription = CodeDetail::getSinglePublicName($daily_tip['code'])->public_name;
-                $daily_tip = $daily_tip['description'];
-            }else{
-                $daily_tip = '';
-                $traitDescription = '';
+            if ($daily_tip) {
+
+                $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
+
+                $data = [
+                    'title' => $daily_tip['title'],
+                    'description' => $daily_tip['description'],
+                    'trait' => $trait ? $trait->public_name : null
+                ];
+            } else {
+
+                $data = [];
             }
 
-            $data = ['daily_tip' => $daily_tip,'trait' => $traitDescription];
-
             return Helpers::successResponse('Daily Tip', $data);
-        }catch (\Exception $exception){
+
+        } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
 
     public function latestPodcast(){
 
