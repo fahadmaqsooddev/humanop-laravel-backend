@@ -360,7 +360,7 @@ class Helpers
 
         $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
-        $currentTime = Carbon::now()->addMinutes($minutes);
+        $currentTime = Carbon::now()->addMinutes($minutes * 60);
 
         $morningStart = Carbon::createFromTimeString('05:00 AM');
 
