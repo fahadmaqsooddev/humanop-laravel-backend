@@ -584,7 +584,7 @@ select:focus {
 }
 
 .rainbow-border-assessment-intro-btn:hover {
-    animation: changeAssessmentIntroGradient 1s linear infinite alternate;
+    animation: changeAssessmentIntroGradient 0.3s linear infinite alternate;
     color: white;
 }
 
@@ -636,7 +636,7 @@ select:focus {
 }
 
 .rainbow-border-user-nav-btn:hover {
-    animation: changeUserNavGradient 1s linear infinite alternate;
+    animation: changeUserNavGradient 0.3s linear infinite alternate;
     color: black !important;
 }
 
@@ -671,7 +671,7 @@ select:focus {
 }
 
 .rainbow-border-user-connect-btn:hover {
-    animation: changeUserConnectGradient 1s linear infinite alternate;
+    animation: changeUserConnectGradient 0.3s linear infinite alternate;
     color: black !important;
 }
 
@@ -705,7 +705,7 @@ select:focus {
 }
 
 .rainbow-border-help-box:hover {
-    animation: changeHelpBoxGradient 1s linear infinite alternate;
+    animation: changeHelpBoxGradient 0.3s linear infinite alternate;
     color: white !important;
 }
 
