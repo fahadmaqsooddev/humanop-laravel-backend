@@ -84,7 +84,14 @@
 
                   $('#feedback_success_message').removeAttr('hidden');
 
-                  animateNumber(1);
+                  // animateNumber(1);
+
+                  if (response.result.data.point > 0) {
+                      animateNumber('+' + response.result.data.point);
+
+                      old_count = $('#coin-count').text();
+                      $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
+                  }
 
                   setTimeout(function () {
                       $('#add_feedback').click();
@@ -110,7 +117,14 @@
 
                   $('#feedback_success').removeAttr('hidden');
 
-                  animateNumber(1);
+                  // animateNumber(1);
+
+                  if (response.result.data.point > 0) {
+                      animateNumber('+' + response.result.data.point);
+
+                      old_count = $('#coin-count').text();
+                      $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
+                  }
 
                   setTimeout(function () {
                       $('#add_feedback_after_thirty_mins').click();
