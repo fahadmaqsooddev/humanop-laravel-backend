@@ -13,7 +13,7 @@
             <div class="card mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
                 <div class="card-body" >
                     <div class="d-flex flex-column gap-3 chat-card">
-                        <a href="{{route('admin_hai_chat_detail', $embedding['name'])}}">
+                        <a href="{{route('admin_embedding_detail', $embedding['name'])}}">
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
                                     class="bi bi-robot"></i> {{ $embedding['name'] }}
                             </h5>

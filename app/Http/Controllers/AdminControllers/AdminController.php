@@ -230,7 +230,7 @@ class AdminController extends Controller
         }
     }
 
-    public function embeddingDetail()
+    public function embeddingDetail($name)
     {
         try {
 
