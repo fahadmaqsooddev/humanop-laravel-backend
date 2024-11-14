@@ -33,6 +33,7 @@ class DashboardController extends Controller
 
                 $data = [
                     'title' => $daily_tip['title'],
+                    'is_read' => $daily_tip['is_read'],
                     'description' => $daily_tip['description'],
                     'trait' => $trait ? $trait->public_name : null
                 ];
