@@ -979,15 +979,27 @@ class Assessment extends Model
 
         $user = Helpers::getUser();
 
-        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at'])->latest()->first();
+        $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
 
         if ($assessment) {
 
             if ($assessment['page'] === 0) {
 
+                if ($assessment['reset_assessment'] == 1)
+                {
+                    $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
+
+                    $assessment_data = Assessment::where('id', $assessment['id'])->first();
+
+                    AssessmentColorCode::createStylesCodeAndColor($assessment_data);
+
+                    AssessmentColorCode::createFeaturesCodeAndColor($assessment_data);
+
+                    return 0;
+                }
+
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-
-
+                
                 $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
                     ->addMinutes($minutes * 60)
                     ->toDateTimeString();
