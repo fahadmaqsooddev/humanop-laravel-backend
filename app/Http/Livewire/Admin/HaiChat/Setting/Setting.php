@@ -34,9 +34,9 @@ class Setting extends Component
     {
         $this->getSetting();
 
-        $this->temperature = $this->chatSetting['temperature'];
-        $this->max_token = $this->chatSetting['max_token'];
-        $this->chunk = $this->chatSetting['chunk'];
+        $this->temperature = $this->chatSetting['temperature'] ?? 0.1;
+        $this->max_token = $this->chatSetting['max_token'] ?? 500;
+        $this->chunk = $this->chatSetting['chunk'] ?? 10;
 
         return view('livewire.admin.hai-chat.setting.setting', ['chatSetting' => $this->chatSetting]);
     }
