@@ -999,7 +999,7 @@ class Assessment extends Model
                 }
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-                
+
                 $userTime = \Carbon\Carbon::parse($assessment['updated_at'])
                     ->addMinutes($minutes * 60)
                     ->toDateTimeString();

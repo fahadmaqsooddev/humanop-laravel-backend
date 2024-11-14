@@ -124,12 +124,12 @@ class DashboardController extends Controller
 
             if (!$daily_tip_updated){
 
-                PointHelper::addPointsOnDailyTipRead();
+                $point = PointHelper::addPointsOnDailyTipRead();
             }
 
             DB::commit();
 
-            return Helpers::successResponse('Daily tip read');
+            return Helpers::successResponse('Daily tip read', ['point' => $point ?? 0]);
 
         }catch (\Exception $exception){
 
