@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -68,7 +69,7 @@ class Assessment extends Model
     public function scopeSelection($query)
     {
 
-        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at','updated_at']);
+        return $query->select(['id', 'user_id', 'sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so', 'de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil', 'g', 's', 'c', 'em', 'ins', 'int', 'mov', 'page', 'type', 'created_at', 'updated_at']);
     }
 
     // queries
@@ -993,8 +994,7 @@ class Assessment extends Model
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
-                if ($difference > 90)
-                {
+                if ($difference > 90) {
 
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
@@ -1006,9 +1006,7 @@ class Assessment extends Model
 
                     return 0;
 
-                }
-                else
-                {
+                } else {
                     return false;
                 }
 
@@ -1288,13 +1286,33 @@ class Assessment extends Model
 
     }
 
-    public static function changeAssessmentTime($assessmentId = null, $assessmentTime = null)
-    {
-        $assessment =  self::whereId($assessmentId)->first();
+//    public static function changeAssessmentTime($assessmentId = null, $assessmentTime = null)
+//    {
+//        $assessment =  self::whereId($assessmentId)->first();
+//
+//        $assessment->update([
+//            'updated_at' => $assessmentTime
+//        ]);
+//
+//        return $assessment;
+//    }
 
-        $assessment->update([
-            'updated_at' => $assessmentTime
-        ]);
+    public static function resetAssessmentStatus($assessmentId = null)
+    {
+
+        $assessment = self::whereId($assessmentId)->first();
+
+        if ($assessment)
+        {
+            if($assessment['reset_assessment'] == Admin::NOT_RESET_ASSESSMENT){
+
+                $assessment->update(['reset_assessment' => Admin::RESET_ASSESSMENT]);
+
+            }else{
+
+                $assessment->update(['reset_assessment' => Admin::NOT_RESET_ASSESSMENT]);
+            }
+        }
 
         return $assessment;
     }

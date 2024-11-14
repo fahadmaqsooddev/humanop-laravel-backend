@@ -227,6 +227,7 @@
                 <th>Name</th>
                 <th>Date & Time</th>
                 <th>Email</th>
+                <th>Reset Assessment</th>
                 <th></th>
             </tr>
             </thead>
@@ -235,18 +236,24 @@
                 <tr class="text-color-blue">
                     <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
                     <td class="text-md font-weight-normal">
-                        <div class="d-flex align-items-center" style="border: 2px solid #f2661c; border-radius: 5px">
-                            <input
-                                type="text"
-                                class="form-control datepicker"
-                                value="{{ \Carbon\Carbon::parse($assessment['updated_at'])->format('m/d/Y h:i A') }}"
-                                data-id="{{ $assessment['id'] }}"
-                                style="border: none; background: transparent; cursor: pointer;color: #1c3e6d;height: 45px; width: 170px"
-                            />
-                            (GMT)
-                        </div>
+                           {{ $assessment['updated_at'] }} (GMT)
                     </td>
                     <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? null}}</td>
+                    <td class="text-md font-weight-normal">
+                        <div class="form-check form-switch mb-0 d-flex justify-content-center">
+                            @php
+                                if($assessment->reset_assessment == 1)
+                                    $assessmentStatus = true;
+                                else
+                                    $assessmentStatus = false;
+                            @endphp
+                            <input class="form-check-input"
+                                   onchange="changeResetAssessmentStatus({{$assessment['id']}}, this , event)"
+                                   name="practitioner"
+                                   type="checkbox"
+                                   @checked($assessmentStatus)>
+                        </div>
+                    </td>
                     <td class="text-md font-weight-normal"><a
                             href="{{ route('admin_profile_overview',['id' => $assessment['id']]) }}" type="submit"
                             class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
@@ -263,7 +270,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
-        function adminLoggedInToUserAccount(id, name) {
+        function changeResetAssessmentStatus(id, checkbox, e) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -275,35 +282,16 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to log in as " + name + "</span>",
+                html: "<span style='color: white;'>Want to Reset Assessment Status</span>",
                 showCancelButton: true,
-                confirmButtonText: 'Log in',
+                confirmButtonText: 'Reset',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('logInAdminAsUser', id)
+                    window.livewire.emit('resetAssessment', id)
                 }
             })
 
         }
-
-        function changeUserMemberShip(e, user_id) {
-
-            window.Livewire.emit('changeUserMemberShip', e.options.selectedIndex, user_id);
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize Flatpickr on the input elements with the class 'datepicker'
-            flatpickr('.datepicker', {
-                dateFormat: 'm/d/Y h:i K',
-                onChange: function (selectedDates, dateStr, instance) {
-                    const assessmentId = instance.element.getAttribute('data-id');
-
-                    // Make an AJAX request to update the date in the database
-                    window.Livewire.emit('changeUserAssessmentStatus', assessmentId, dateStr);
-                }
-            });
-        });
     </script>
 
 @endpush

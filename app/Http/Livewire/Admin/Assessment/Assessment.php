@@ -30,7 +30,7 @@ class Assessment extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserAssessmentStatus'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserAssessmentStatus','resetAssessment'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -110,12 +110,22 @@ class Assessment extends Component
 
     }
 
-    public function changeUserAssessmentStatus($assessmentId, $assessmentDate)
+//    public function changeUserAssessmentStatus($assessmentId, $assessmentDate)
+//    {
+//
+//        \App\Models\Assessment::changeAssessmentTime($assessmentId, $assessmentDate);
+//
+//        session()->flash('success', "Date and time updated successfully");
+//
+//        $this->render();
+//    }
+
+    public function resetAssessment($assessmentId)
     {
 
-        \App\Models\Assessment::changeAssessmentTime($assessmentId, $assessmentDate);
+        $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
 
-        session()->flash('success', "Date and time updated successfully");
+        session()->flash('success', "Reset Assessment updated successfully");
 
         $this->render();
     }

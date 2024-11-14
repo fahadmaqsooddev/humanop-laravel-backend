@@ -30,15 +30,16 @@ final class Admin
 
     const PRACTITIONER_ROLE = 3;
 
-
     const TWO_WAY_AUTH_ACTIVE = 1;
 
     const TWO_WAY_AUTH_DISABLED = 2;
 
-
-
     const INTRO_CHECK_READ = 1;
 
     const INTRO_CHECK_UN_READ = 2;
+
+    const RESET_ASSESSMENT = 1;
+
+    const NOT_RESET_ASSESSMENT = 0;
 
 }

@@ -75,7 +75,7 @@ class QuestionController extends Controller
 
                 if (!$assessment || $assessment['page'] === 0) {
 
-                    if (!$assessment)
+                    if (!$assessment || $assessment['reset_assessment'] == 1)
                     {
                         Assessment::createAssessmentData($user['id'], 0);
 
