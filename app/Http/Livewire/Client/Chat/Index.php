@@ -58,7 +58,11 @@ class Index extends Component
                 $assessments = AssessmentHelper::getAssessments();
                 $assessmentDetails = Assessment::getAssessment();
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-data', ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
+                $app_env = env('APP_ENV');
+
+                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/llm-data' : 'http://44.201.128.253:8000/llm-data';
+
+                $aiReply = $this->sendRequestFromGuzzle('post', $url, ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
 
                 HaiChat::createChat($this->userMessage, $aiReply, $this->adminLoggedInAsClient['admin_id'] ?? null);
 

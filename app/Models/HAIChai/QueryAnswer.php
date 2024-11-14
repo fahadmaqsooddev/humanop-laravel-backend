@@ -83,7 +83,11 @@ class QueryAnswer extends Model
             'question' => $answer['question']['query'] ?? null,
             'answer' => $answer->answer ?? null,
         ];
+        $app_env = env('APP_ENV');
 
-        GuzzleHelpers::sendRequestFromGuzzle('post','http://18.234.162.68:8000/qa_bucket',$body);
+        $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
+
+        GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+
     }
 }
