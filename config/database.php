@@ -428,6 +428,11 @@ return [
             'table' => 'hai_chat_active_embeddings',
             'fillable' => ['chat_bot','request_id'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'HaiChatSetting' => [
+            'table' => 'hai_chat_setting',
+            'fillable' => ['id','temperature','max_token','chunk'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];

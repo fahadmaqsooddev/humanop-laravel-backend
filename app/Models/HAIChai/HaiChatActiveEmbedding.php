@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class HaiChatActiveEmbedding extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -27,21 +28,36 @@ class HaiChatActiveEmbedding extends Model
 
     public static function singleActiveEmbedding($request_id = null)
     {
-        return self::where('request_id',$request_id)->first();
+        return self::where('request_id', $request_id)->first();
     }
 
     public static function allActiveEmbeddings($bot_name = null)
     {
-        return self::where('chat_bot',$bot_name)->orderBy('created_at', 'desc')->with('embedding')->get();
+        return self::where('chat_bot', $bot_name)->orderBy('created_at', 'desc')->with('embedding')->get();
     }
-    public static function allRequestIds($bot_name = null){
-        return self::where('chat_bot',$bot_name)->pluck('request_id')->toArray();
+
+    public static function allRequestIds($bot_name = null)
+    {
+        return self::where('chat_bot', $bot_name)->pluck('request_id')->toArray();
     }
+
     public static function deleteActiveEmbedding($request_id = null)
     {
-        return self::where('request_id',$request_id)->delete();
+        return self::where('request_id', $request_id)->delete();
     }
-    public function embedding(){
-        return $this->belongsTo(HaiChatEmbedding::class,'request_id','request_id');
+
+    public function embedding()
+    {
+
+        return $this->belongsTo(HaiChatEmbedding::class, 'request_id', 'request_id');
+    }
+
+    public static function getChatActiveEmbedding($chatName = null)
+    {
+        $requestIds = self::where('chat_bot', $chatName)->pluck('request_id')->toArray();
+
+        return [
+            'file_name' => $requestIds
+        ];
     }
 }
