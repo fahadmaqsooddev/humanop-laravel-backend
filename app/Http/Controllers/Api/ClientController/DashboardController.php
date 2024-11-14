@@ -7,6 +7,7 @@ use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -119,7 +120,7 @@ class DashboardController extends Controller
 
             DB::beginTransaction();
 
-            $daily_tip_updated = DailyTip::readUserDailyTip();
+            $daily_tip_updated = UserDailyTip::readUserDailyTip();
 
             if (!$daily_tip_updated){
 
