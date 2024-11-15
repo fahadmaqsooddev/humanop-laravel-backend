@@ -27,10 +27,6 @@ class HaiChaiChunk extends Model
         {
             return self::where('chatbot', $chatBot)->get();
         }
-        else
-        {
-            return null;
-        }
 
     }
 
@@ -45,7 +41,7 @@ class HaiChaiChunk extends Model
                 {
                     foreach ($retrieved as $data)
                     {
-                        $chunk = self::create([
+                        self::create([
                             'embedding' => $embedding,
                             'query' => $response['query'],
                             'retrieved_docs' => $data
@@ -61,9 +57,10 @@ class HaiChaiChunk extends Model
             {
                 foreach ($response['retrieved_docs'] as $retrieved)
                 {
+
                     foreach ($retrieved as $data)
                     {
-                        return self::create([
+                        self::create([
                             'chatbot' => $chatBot,
                             'query' => $response['query'],
                             'retrieved_docs' => $data

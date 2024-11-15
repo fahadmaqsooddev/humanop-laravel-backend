@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\EmbeddingSetting;
+use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
+use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
@@ -11,7 +14,7 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status;
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks;
     public $button_status_display = false;
     public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
@@ -74,6 +77,53 @@ class Embedding extends Component
             session()->flash('error', $exception->getMessage());
         }
     }
+
+    public function searchEmbedding()
+    {
+        try {
+
+
+            $embedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
+
+            $chatSetting = HaiChatSetting::getHaiChatSetting();
+
+            $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
+
+            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, '',$this->bot_name);
+
+            $this->query = '';
+
+            $this->emit('closeModel');
+
+        }catch (\Exception $exception)
+        {
+
+            session()->flash('error', $exception->getMessage());
+
+        }
+    }
+
+    public function sendSearchEmbeddingRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
     public function changeEmbeddingSelect($name,$request_id){
         $this->selected_embedding = $name;
         $this->request_id = $request_id;
@@ -109,6 +159,7 @@ class Embedding extends Component
         }
 
     }
+
     public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
         $authorization = Request::header('Authorization');
@@ -133,7 +184,6 @@ class Embedding extends Component
         return $response_body;
     }
 
-
     public function sendEmbeddingRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
 
@@ -154,19 +204,29 @@ class Embedding extends Component
 
         return $response_body;
     }
+
     public function getEmbeddings()
     {
         $request_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
         $this->embeddings = HaiChatEmbedding::allEmbeddingsExcept($request_ids);
     }
+
     public function getActiveEmbeddings()
     {
         $this->active_embeddings = HaiChatActiveEmbedding::allActiveEmbeddings($this->bot_name);
     }
+
+    public function getChunks()
+    {
+        $this->chunks = HaiChaiChunk::getHaiChunk( '',$this->bot_name);
+    }
+
     public function render()
     {
         $this->getEmbeddings();
         $this->getActiveEmbeddings();
-        return view('livewire.admin.hai-chat.setting.embedding');
+        $this->getChunks();
+
+        return view('livewire.admin.hai-chat.setting.embedding',['chunks' => $this->chunks]);
     }
 }
