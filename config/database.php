@@ -433,6 +433,11 @@ return [
             'table' => 'hai_chat_setting',
             'fillable' => ['id','temperature','max_token','chunk'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'HaiChatConversation' => [
+            'table' => 'hai_chat_conversation',
+            'fillable' => ['id','chatbot','message','reply'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Models\HAIChai\HaiChatActiveEmbedding;
+use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -11,7 +12,7 @@ use Livewire\Component;
 class Conversation extends Component
 {
 
-    public $message, $name;
+    public $message, $name, $conversations;
 
     protected $rules = [
         'message' => 'required',
@@ -31,9 +32,12 @@ class Conversation extends Component
 
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
+
+            HaiChatConversation::createConversation($this->name, $this->message);
+
             $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk']]);
 
-            session()->flash('success', $aiReply['response']);
+            HaiChatConversation::updateConversation($this->name, $aiReply['response']);
 
             $this->message = '';
 
@@ -66,9 +70,17 @@ class Conversation extends Component
         return $response_body;
     }
 
+    public function getChatBotConversation()
+    {
+
+        $this->conversations = HaiChatConversation::getConversation($this->name);
+    }
+
 
     public function render()
     {
-        return view('livewire.admin.hai-chat.setting.conversation');
+        $this->getChatBotConversation();
+
+        return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
     }
 }
