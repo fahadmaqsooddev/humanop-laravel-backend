@@ -13,11 +13,19 @@ class SearchEmbedding extends Component
 {
     public $name, $query, $chunks;
 
+    protected $rules = [
+        'query' => 'required',
+    ];
+
+    protected $messages = [
+        'query.required' => 'Query is required',
+    ];
     public function submitForm()
     {
         try {
+            $this->validate();
 
-            $embedding = HaiChatEmbedding::getEmbeddingByName($this->name);
+            $embedding = HaiChatEmbedding::getEmbeddingByName($this->name);;
 
             $setting = EmbeddingSetting::getEmbeddingSetting($this->name);
 

@@ -13,7 +13,7 @@ class Setting extends Component
     {
         $embedding = EmbeddingSetting::getEmbeddingSetting($this->name);
 
-        $this->chunk = $embedding['chunk'];
+        $this->chunk = $embedding['chunk'] ?? null;
     }
 
     public function submitForm()

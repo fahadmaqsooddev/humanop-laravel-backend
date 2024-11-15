@@ -7,6 +7,8 @@
         <div class="col-md-4">
             <!-- Search Box -->
             <div>
+                @include('layouts.message')
+
                 <div class="container-fluid mt-4 mx-0 px-0">
                     <form wire:submit.prevent="submitForm">
                         <div class="textarea-with-icon">
@@ -41,7 +43,7 @@
         <!-- Right Column with Upload Options -->
         <div class="col-md-8">
 
-            @if(!empty($chunks))
+            @if(count($chunks) > 0)
                 @foreach($chunks as $chunk)
                     <div class="chunk-card">
                         <p>{{ $chunk['retrieved_docs'] }}</p>
