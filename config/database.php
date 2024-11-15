@@ -438,6 +438,16 @@ return [
             'table' => 'hai_chat_conversation',
             'fillable' => ['id','chatbot','message','reply'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'EmbeddingSetting' => [
+            'table' => 'embedding_setting',
+            'fillable' => ['id','embedding','chunk'],
+            'hidden' => ['created_at','updated_at'],
+        ],
+        'HaiChaiChunk' => [
+            'table' => 'hai_chat_chunks',
+            'fillable' => ['id','embedding','chatbot','query','retrieved_docs'],
+            'hidden' => ['created_at','updated_at'],
         ]
     ]
 ];
