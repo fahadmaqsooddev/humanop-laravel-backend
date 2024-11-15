@@ -18,6 +18,14 @@
 .top_pannel {
     padding-bottom: 40px;
 }
+
+.chunk-card
+{
+    border: 1px solid #f2661c;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+}
 .btn-orange{
     background-color: rgb(210, 103, 34) !important;
 }

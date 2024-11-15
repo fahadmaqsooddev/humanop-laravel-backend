@@ -6,29 +6,42 @@
                 <div class="d-flex p-2">
                     <div class="btn-group col-md-4 d-flex justify-content-between ">
                         <button class="btn btn-outline-secondary text-dark dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown" style="font-size: small; color: #0f1534; background-color: #8bb1ab" aria-expanded="false">
+                                data-bs-toggle="dropdown"
+                                style="font-size: small; color: #0f1534; background-color: #8bb1ab"
+                                aria-expanded="false">
                             {{$selected_embedding}}
                         </button>
                         <ul class="dropdown-menu" id="chatbotDropdown" style="width: 100%;">
-                            <li><button class="dropdown-item bg-dark text-white" disabled>All Embeddings</button></li>
+                            <li>
+                                <button class="dropdown-item bg-dark text-white" disabled>All Embeddings</button>
+                            </li>
                             @foreach($embeddings as $embedding)
-                            <li><button class="dropdown-item"  wire:click="changeEmbeddingSelect(`{{$embedding['name']}}`,`{{$embedding['request_id']}}`)">{{$embedding['name'] ?? ''}}</button></li>
-                             @endforeach
-                            <li><button class="dropdown-item bg-dark text-white" disabled>Active Embeddings</button></li>
-                            @foreach($active_embeddings as $active)
-                                <li><button class="dropdown-item"  wire:click="changeEmbeddingSelect(`{{$active['embedding']['name']}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button></li>
+                                <li>
+                                    <button class="dropdown-item"
+                                            wire:click="changeEmbeddingSelect(`{{$embedding['name']}}`,`{{$embedding['request_id']}}`)">{{$embedding['name'] ?? ''}}</button>
+                                </li>
                             @endforeach
-                            <!-- Chatbot options will be populated here -->
+                            <li>
+                                <button class="dropdown-item bg-dark text-white" disabled>Active Embeddings</button>
+                            </li>
+                            @foreach($active_embeddings as $active)
+                                <li>
+                                    <button class="dropdown-item"
+                                            wire:click="changeEmbeddingSelect(`{{$active['embedding']['name']}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button>
+                                </li>
+                        @endforeach
+                        <!-- Chatbot options will be populated here -->
                         </ul>
                     </div>
                     @if($button_status_display)
-                    <div style="margin-left: 10px">
-                        <button style="padding:5px 10px 5px 10px; border-radius: 7px;" wire:click="changeEmbeddingStatus"
-                                   class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                            {{$button_status}}
-                        </button>
-                    </div>
-                        @endif
+                        <div style="margin-left: 10px">
+                            <button style="padding:5px 10px 5px 10px; border-radius: 7px;"
+                                    wire:click="changeEmbeddingStatus"
+                                    class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                {{$button_status}}
+                            </button>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="d-flex flex-column flex-md-row gap-3">
@@ -36,68 +49,85 @@
                     <div class="col-md-4">
                         <!-- Search Box -->
                         <div class="container-fluid mt-4 mx-0 px-0">
-                            <div class="textarea-with-icon">
-                                        <textarea class="form-control" rows="3" style="font-size: small; background-color: #8bb1ab"
+                            <form wire:submit.prevent="searchEmbedding">
+                                <div class="textarea-with-icon">
+                                        <textarea class="form-control" rows="3"
+                                                  style="font-size: small; background-color: #8bb1ab"
+                                                  wire:model.defer="query"
                                                   placeholder="Search across all documents"></textarea>
-                            </div>
+                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
+                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                        search
+                                    </button>
+                                </div>
+                            </form>
                         </div>
 
                         <!-- Responsive Tabs -->
-                        <ul class="nav nav-tabs justify-content-between flex-wrap mt-3">
-                            <li class="nav-item">
-                                <a class="nav-link active" style="color: #0f1534" aria-current="page" href="#">All</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" style="color: #0f1534" href="#">Pending</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" style="color: #0f1534" href="#">Deleted</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" style="color: #0f1534" href="#">Failed</a>
-                            </li>
-                        </ul>
+                        {{--                        <ul class="nav nav-tabs justify-content-between flex-wrap mt-3">--}}
+                        {{--                            <li class="nav-item">--}}
+                        {{--                                <a class="nav-link active" style="color: #0f1534" aria-current="page" href="#">All</a>--}}
+                        {{--                            </li>--}}
+                        {{--                            <li class="nav-item">--}}
+                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Pending</a>--}}
+                        {{--                            </li>--}}
+                        {{--                            <li class="nav-item">--}}
+                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Deleted</a>--}}
+                        {{--                            </li>--}}
+                        {{--                            <li class="nav-item">--}}
+                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Failed</a>--}}
+                        {{--                            </li>--}}
+                        {{--                        </ul>--}}
                     </div>
 
                     <!-- Right Column with Upload Options -->
                     <div class="col-md-8">
-                        <div class="d-flex flex-wrap justify-content-around p-5">
-                            <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                <i class="bi bi-graph-up"></i>
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <div class="fw-bold" style="color: #0f1534">Upload files</div>
-                                    <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                        @if(count($chunks) > 0)
+                            @foreach($chunks as $chunk)
+                                <div class="chunk-card">
+                                    <p>{{ $chunk['retrieved_docs'] }}</p>
                                 </div>
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                        data-bs-toggle="modal" data-bs-target="#createEmbedding"   class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                    upload
-                                </button>
-                            </div>
+                            @endforeach
+                        @else
+                            <div class="d-flex flex-wrap justify-content-around p-5">
+                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                    <i class="bi bi-graph-up"></i>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <div class="fw-bold" style="color: #0f1534">Upload files</div>
+                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                    </div>
+                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                            data-bs-toggle="modal" data-bs-target="#createEmbedding"
+                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                        upload
+                                    </button>
+                                </div>
 
-                            <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                <i class="bi bi-graph-up"></i>
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <div class="fw-bold" style="color: #0f1534">From Text</div>
-                                    <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                    <i class="bi bi-graph-up"></i>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <div class="fw-bold" style="color: #0f1534">From Text</div>
+                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                    </div>
+                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                        add
+                                    </button>
                                 </div>
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                        class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                    add
-                                </button>
-                            </div>
 
-                            <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                <i class="bi bi-graph-up"></i>
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <div class="fw-bold" style="color: #0f1534">From questions and answers</div>
-                                    <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                    <i class="bi bi-graph-up"></i>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <div class="fw-bold" style="color: #0f1534">From questions and answers</div>
+                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
+                                    </div>
+                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                        add
+                                    </button>
                                 </div>
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                        class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                    add
-                                </button>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -129,7 +159,8 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="embedding" id="embedding_file"
+                                        <input style="background-color: #0f1534;" wire:model.defer="embedding"
+                                               id="embedding_file"
                                                class="form-control text-white" type="file"
                                                accept="file/*">
                                         <span wire:loading.flex wire:target="embedding">

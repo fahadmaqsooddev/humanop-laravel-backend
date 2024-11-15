@@ -27,12 +27,9 @@ class Embedding extends Component
         'embedding.mimes' => 'The Embedding must be a file of type: txt, pdf.', // Added message for mime type validation
     ];
 
-
-
     public function deleteEmbedding($id)
     {
         $embedding = HaiChatEmbedding::singleEmbedding($id);
-
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
 
@@ -46,7 +43,6 @@ class Embedding extends Component
         }
 
     }
-
 
     public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
@@ -79,8 +75,6 @@ class Embedding extends Component
     {
         $this->embeddings = HaiChatEmbedding::allEmbeddings();
     }
-
-
 
 
     public function createEmbedding(){

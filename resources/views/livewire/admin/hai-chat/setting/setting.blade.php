@@ -19,11 +19,10 @@
                             <label for="temperature" style="font-size: small; background-color: #8bb1ab"
                                    class="form-label fw-bold">Temperature
                                 (Randomness)</label>
-                            <input type="number" class="form-control "
+                            <input type="text" class="form-control "
                                    style="font-size: small; background-color: #8bb1ab; color: black !important;"
                                    name="temperature"
-                                    min="0" wire:model="temperature"
-                                   max="0.1" step="0.9">
+                                    wire:model="temperature">
                             <small class="form-text text-muted">
                                 Amount of randomness injected into the response. Ranges from
                                 0

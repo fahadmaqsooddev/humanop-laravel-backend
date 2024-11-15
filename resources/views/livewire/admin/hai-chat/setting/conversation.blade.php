@@ -21,7 +21,7 @@
         </div>
 
 
-    <!-- Chatbot Conversation Section -->
+        <!-- Chatbot Conversation Section -->
         <div class="col-md-8 col-12 d-flex flex-column container-fluid"
              style="height: 85vh;">
             @include('layouts.message')
@@ -31,34 +31,40 @@
                  style="overflow-y: auto;">
                 <!-- Message Container -->
                 <div id="chatMessages" class="d-flex flex-column gap-3">
-                    <!-- Initial Assistant Message -->
-                    <div class="d-flex flex-row gap-3 align-items-start">
-                        <div class="bg-primary text-white rounded p-2"
-                             style="max-width: 70%; font-size:small;">How can I help you?
-                        </div>
-                    </div>
+                @if(!empty($conversations))
+                    @foreach($conversations as $conversation)
                     <!-- Initial User Message -->
-                    <div class="d-flex flex-row gap-3 justify-content-end">
-                        <div class="bg-secondary text-white rounded p-2"
-                             style="max-width: 70%; font-size:small;">I need assistance with my
-                            account.
+                        <div class="d-flex flex-row gap-3 justify-content-end">
+                            @if($conversation['message'])
+                                <div class="bg-secondary text-white rounded p-2"
+                                     style="max-width: 70%; font-size:small;">{{ $conversation['message'] }}
+                                </div>
+                            @endif
                         </div>
-                    </div>
+                        <!-- Initial Assistant Message -->
+                        <div class="d-flex flex-row gap-3 align-items-start">
+                            @if($conversation['reply'])
+                                <div class="bg-primary text-white rounded p-2"
+                                     style="max-width: 70%; font-size:small;">{{ $conversation['reply'] }}
+                                </div>
+                            @endif
+                        </div>
+                        @endforeach
+                    @endif
                 </div>
-
-                <!-- Input Field and Send Button at the bottom -->
-                <form wire:submit.prevent="submitForm">
-                    <div class="d-flex flex-row gap-3 mt-3" style="width: 100%;">
-                        <input type="text" style="flex-grow: 1; background-color: #8bb1ab"
-                               class="form-control" id="userInput" name="message" wire:model="message"
-                               placeholder="Type your message...">
-                        <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
-                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                            send
-                        </button>
-                    </div>
-                </form>
             </div>
+            <!-- Input Field and Send Button at the bottom -->
+            <form wire:submit.prevent="submitForm">
+                <div class="d-flex flex-row gap-3 mt-3" style="width: 100%;">
+                    <input type="text" style="flex-grow: 1; background-color: #8bb1ab"
+                           class="form-control" id="userInput" name="message" wire:model="message"
+                           placeholder="Type your message...">
+                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
+                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                        send
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
