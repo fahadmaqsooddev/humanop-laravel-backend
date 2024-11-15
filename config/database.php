@@ -221,7 +221,7 @@ return [
         ],
         'DailyTip' => [
             'table' => 'daily_tips',
-            'fillable' => ['title', 'description','code','user_id','is_read', 'text'],
+            'fillable' => ['title', 'description','code','user_id','is_read', 'text','subscription_type','point','interval_of_life'],
             'hidden' => ['created_at','updated_at']
         ],
         'TipRecord' => [
