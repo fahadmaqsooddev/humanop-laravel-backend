@@ -127,6 +127,7 @@ class UserController extends Controller
 
     public function profileOverview($id = null)
     {
+
         try {
 
             if (empty($id))
@@ -134,10 +135,11 @@ class UserController extends Controller
                 $userId = Helpers::getWebUser()['id'];
 
                 $assessment = Assessment::getLatestAssessment($userId);
+               $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
             }else
             {
                 $assessment = Assessment::singleAssessmentFromId($id);
-
+                $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
             }
 
 //            $id = last(request()->segments());
@@ -158,7 +160,7 @@ class UserController extends Controller
             $actionPlan = ActionPlan::userActionPlan();
             $profileInfo = InformationIcon::getProfileOverviewInfo();
 
-            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age','profileInfo'));
+            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age','profileInfo','created_at'));
 
         } catch (\Exception $exception) {
 

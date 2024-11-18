@@ -416,6 +416,7 @@
                                                 class="fa-regular fa-circle-question"
                                                 style="color: white; font-size: 25px"></i></span>
                                     </h1>
+                                    <p class="text-white">{{$created_at ?? ''}}</p>
                                     <div class="video-container show-controls" id="container_video">
                                         <div
                                             class="center-play-pause mx-auto d-flex justify-content-center"
