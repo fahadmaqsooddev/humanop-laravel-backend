@@ -378,7 +378,6 @@ class UserController extends Controller
             $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
-
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
@@ -406,6 +405,7 @@ class UserController extends Controller
                 'perception' => $perception,
                 'top_communication' => $topCommunication,
                 'energy_pool' => $energyPool,
+                'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
             ];
 
             return Helpers::successResponse('Profile overview data', $data);

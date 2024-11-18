@@ -28,6 +28,7 @@ class UserDailyTip extends Model
     public static function removeUserTip($user_id){
        return self::where('user_id',$user_id)->delete();
     }
+
     public static function createUserDailyTip($user_id = null,$daily_tip_id = null){
        return  self::create(['user_id' => $user_id,'daily_tip_id' =>$daily_tip_id]);
     }
@@ -44,5 +45,10 @@ class UserDailyTip extends Model
 
         return $daily_tip_read;
     }
-
+    public static function userDailytip($daily_tip = null){
+        $user = Helpers::getWebUser() ?? Helpers::getUser();
+       return UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id',$daily_tip)
+            ->latest()
+            ->first();
+    }
 }

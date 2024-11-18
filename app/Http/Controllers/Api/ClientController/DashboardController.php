@@ -27,19 +27,18 @@ class DashboardController extends Controller
     {
         try {
             $daily_tip = DailyTip::getTodayTip();
-
+            $is_read = UserDailyTip::userDailytip($daily_tip['id']);
             if ($daily_tip) {
-
+                
                 $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
 
                 $data = [
                     'title' => $daily_tip['title'],
-                    'is_read' => $daily_tip['is_read'],
+                    'is_read' => $is_read['is_read'],
                     'description' => $daily_tip['description'],
                     'trait' => $trait ? $trait->public_name : null
                 ];
             } else {
-
                 $data = [];
             }
 
@@ -123,7 +122,6 @@ class DashboardController extends Controller
             $daily_tip_updated = UserDailyTip::readUserDailyTip();
 
             if (!$daily_tip_updated){
-
                 $point = PointHelper::addPointsOnDailyTipRead();
             }
 
