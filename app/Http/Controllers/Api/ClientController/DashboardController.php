@@ -27,8 +27,10 @@ class DashboardController extends Controller
     {
         try {
             $daily_tip = DailyTip::getTodayTip();
-            $is_read = UserDailyTip::userDailytip($daily_tip['id']);
+
             if ($daily_tip) {
+
+                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
 
                 $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
 
