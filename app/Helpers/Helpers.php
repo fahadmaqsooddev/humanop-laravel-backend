@@ -370,18 +370,37 @@ class Helpers
 
         $eveningStart = Carbon::createFromTimeString('05:00 PM');
 
-        if ($currentTime->between($morningStart, $morningEnd)) {
+        if (count($stylesAndDrivers) > 2)
+        {
+            if ($currentTime->between($morningStart, $morningEnd)) {
 
-            $optionalTrait = $stylesAndDrivers[0][1];
+                $optionalTrait = $stylesAndDrivers[0][1];
 
-        } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+            } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
-            $optionalTrait = $stylesAndDrivers[1][1];
+                $optionalTrait = $stylesAndDrivers[1][1];
 
-        } else {
+            } else {
 
-            $optionalTrait = $stylesAndDrivers[2][1];
+                $optionalTrait = $stylesAndDrivers[2][1];
 
+            }
+        }
+        else
+        {
+            if ($currentTime->between($morningStart, $morningEnd)) {
+
+                $optionalTrait = $stylesAndDrivers[0][1];
+
+            } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+
+                $optionalTrait = $stylesAndDrivers[1][1];
+
+            } else {
+
+                $optionalTrait = $stylesAndDrivers[1][1];
+
+            }
         }
 
         return $optionalTrait;
