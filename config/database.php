@@ -396,7 +396,7 @@ return [
         ],
         'UserDailyTip' => [
             'table' => 'user_daily_tips',
-            'fillable' => ['user_id','daily_tip_id','is_read'],
+            'fillable' => ['user_id','daily_tip_id','is_read','assessment_id'],
             'hidden' => ['updated_at'],
         ],
         'Version' => [

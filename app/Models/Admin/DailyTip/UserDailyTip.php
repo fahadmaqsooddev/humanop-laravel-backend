@@ -29,8 +29,13 @@ class UserDailyTip extends Model
        return self::where('user_id',$user_id)->delete();
     }
 
-    public static function createUserDailyTip($user_id = null,$daily_tip_id = null){
-       return  self::create(['user_id' => $user_id,'daily_tip_id' =>$daily_tip_id]);
+    public static function createUserDailyTip($user_id = null,$daily_tip_id = null, $assessment_id = null)
+    {
+       return  self::create([
+           'user_id' => $user_id,
+           'daily_tip_id' => $daily_tip_id,
+           'assessment_id' => $assessment_id
+           ]);
     }
 
     public static function readUserDailyTip(){

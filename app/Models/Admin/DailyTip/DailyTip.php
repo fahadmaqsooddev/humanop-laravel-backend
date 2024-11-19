@@ -68,32 +68,35 @@ class DailyTip extends Model
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
+        $assessment = Assessment::getLatestAssessment($user['id']);
 
         $userDailyTip = UserDailyTip::getLatestTip();
 
-        if ($userDailyTip) {
+        if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
+
             if (!empty($user['timezone'])) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-
 
                 $userTime = \Carbon\Carbon::parse($userDailyTip->created_at)
                     ->addMinutes($minutes)
                     ->toDateTimeString();
 
-
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
                 $dayCheck = $difference < 1;
+
             } else {
                 $dayCheck = $userDailyTip->created_at >= now()->subDay();
             }
 
             if ($dayCheck) {
+
                 return $userDailyTip->dailyTip;
             }
+
+
         }
 
-        $assessment = Assessment::getLatestAssessment($user['id']);
         if ($assessment) {
             $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
             $alchemy = Assessment::getAlchemy($assessment);
@@ -105,7 +108,7 @@ class DailyTip extends Model
                 $codeCommunication =$communication[0];
             }
 
-        
+
             $selectedCodeList = [
                 $codeColor['code'] ?? '',
                 $codeAlchemy ?? '',
@@ -126,7 +129,7 @@ class DailyTip extends Model
                     if($alreadyExist){
                         self::getTodayTip();
                     }
-                    $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id']);
+                    $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
                     $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
                     return $todayTip;
                 }
