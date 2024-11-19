@@ -364,9 +364,21 @@ class AdminController extends Controller
     {
         try {
 
+            if (empty($id))
+            {
+                $userId = Helpers::getWebUser()['id'];
+
+                $assessment = Assessment::singleAssessmentFromId($id);
+                $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+            }else
+            {
+                $assessment = Assessment::singleAssessmentFromId($id);
+                $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+            }
+
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;
-            $assessment = Assessment::singleAssessmentFromId($id);
+//            $assessment = Assessment::singleAssessmentFromId($id);
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
@@ -381,11 +393,11 @@ class AdminController extends Controller
 
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
             {
-                return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+                return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
             else
             {
-                return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id'));
+                return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
 
         }catch (\Exception $exception){

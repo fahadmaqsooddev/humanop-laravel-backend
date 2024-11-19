@@ -340,6 +340,7 @@
                             <div class="card px-0 left-nav-blue-light-color" style="text-align: center">
                                 <div class="card-body p-3 ">
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
+                                    <p class="text-white">Date of Results: {{$created_at ?? ''}}</p>
                                     <div class="video-container show-controls" id="container_video">
                                         <div class="wrapper mx-auto w-75 ">
                                             <div
