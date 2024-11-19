@@ -140,7 +140,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm custom-text-dark">90 Days Intention Plan</span>
+                                <span class="text-sm custom-text-dark">Intention For Using HumanOp</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
@@ -212,7 +212,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm custom-text-dark">2 Way Auth</span>
+                                <span class="text-sm custom-text-dark">2-Factor Authorization</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
