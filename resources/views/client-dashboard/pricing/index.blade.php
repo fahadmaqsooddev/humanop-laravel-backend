@@ -83,7 +83,7 @@
                                     <div class="card-header text-center pt-4 pb-3">
                                         <span class="badge rounded-pill bg-gradient  {{$plan->name == 'Core' ? 'text-color-blue' : 'text-dark'}}">{{$plan->name}}</span>
                                         <h1 class="font-weight-bold mt-2 {{$plan->name == 'Core' ? 'text-color-blue' : 'text-white'}}">
-                                            <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}</small>
+                                            <small>{{$plan->price == "0.00" ? "Free" : "$" . (int)$plan->price }}/month</small>
                                         </h1>
                                     </div>
                                     @else
