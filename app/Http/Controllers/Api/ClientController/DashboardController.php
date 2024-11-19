@@ -29,7 +29,7 @@ class DashboardController extends Controller
             $daily_tip = DailyTip::getTodayTip();
             $is_read = UserDailyTip::userDailytip($daily_tip['id']);
             if ($daily_tip) {
-                
+
                 $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
 
                 $data = [
@@ -141,6 +141,12 @@ class DashboardController extends Controller
     public function actionPlan(){
 
         try {
+
+            $user = Helpers::getUser();
+
+            $assessment = Assessment::getLatestAssessment($user['id']);
+
+            ActionPlan::checkUserActionPlan($assessment);
 
             $plan = ActionPlan::userActionPlan();
 
