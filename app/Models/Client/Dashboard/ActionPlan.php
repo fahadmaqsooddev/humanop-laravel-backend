@@ -100,11 +100,7 @@ class ActionPlan extends Model
 
             $existingPlan = self::where('user_id', $user['id'])->latest()->first();
 
-            if (empty($existingPlan)) {
-
-                self::storeUserActionPlan($assessment, $user);
-
-            } else {
+            if (!empty($existingPlan) && ($existingPlan['assessment_id'] == $assessment['id'])) {
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
@@ -119,6 +115,10 @@ class ActionPlan extends Model
                     self::storeUserActionPlan($assessment, $user);
 
                 }
+
+            } else {
+
+                self::storeUserActionPlan($assessment, $user);
 
             }
 
@@ -349,6 +349,7 @@ class ActionPlan extends Model
         $plan = self::create([
             'user_id' => $user['id'],
             'plan_text' => $actionPlan,
+            'assessment_id' => $assessment['id'],
         ]);
 
         return $plan;
