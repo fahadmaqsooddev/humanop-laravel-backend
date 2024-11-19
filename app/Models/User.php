@@ -309,55 +309,55 @@ class User extends Authenticatable implements JWTSubject
         switch ($age) {
             case (16 <= $age && $age <= 21):
                 $interval = [
-                    'interval' => 'motivation_life_cycle',
+                    'interval' => 'Motivation Interval',
                     'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4')
                 ];
                 break;
             case (21 <= $age && $age <= 29):
                 $interval = [
-                    'interval' => 'roadworthy_life_cycle',
+                    'interval' => 'Roadworthy Interval',
                     'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')
                 ];
                 break;
             case (30 <= $age && $age <= 33):
                 $interval = [
-                    'interval' => 'power_life_cycle',
+                    'interval' => 'Power Interval',
                     'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')
                 ];
                 break;
             case (34 <= $age && $age <= 42):
                 $interval = [
-                    'interval' => 'mid_life_life_cycle',
+                    'interval' => 'Mid Life Interval',
                     'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')
                 ];
                 break;
             case (43 <= $age && $age <= 52):
                 $interval = [
-                    'interval' => 'awareness_life_cycle',
+                    'interval' => 'Awareness Interval',
                     'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')
                 ];
                 break;
             case (52 <= $age && $age <= 66):
                 $interval = [
-                    'interval' => 'forward_life_cycle',
+                    'interval' => 'Forward Interval',
                     'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')
                 ];
                 break;
             case (66 <= $age && $age <= 70):
                 $interval = [
-                    'interval' => 'liberated_life_cycle',
+                    'interval' => 'Liberated Interval',
                     'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4')
                 ];
                 break;
             case (70 <= $age && $age <= 75):
                 $interval = [
-                    'interval' => 'being_life_cycle',
+                    'interval' => 'Being Interval',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
                 ];
                 break;
             default:
                 $interval = [
-                    'interval' => 'review_life_cycle',
+                    'interval' => 'Review Interval',
                     'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')
                 ];
                 break;
