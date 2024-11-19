@@ -371,7 +371,7 @@
                                     @foreach($category['libraryResources'] as $resource)
 
                                         <div class="col-lg-6 col-sm-12">
-                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}','{{$resource['description']}}','{{$resource['content']}}')" style="cursor: pointer;">
+                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}','{{$resource['description']}}','{{$resource['content']}}','{{$resource['upload_id'] == null ? 0 : $resource['upload_id']}}')" style="cursor: pointer;">
                                                 <div class="card mb-4"
                                                      >
                                                     <div class="card-body p-3">
@@ -525,51 +525,67 @@
             });
         });
 
-        function showModal(img_src, video_src, audio_src, description = null, content = null) {
+        function showModal(img_src, video_src, audio_src, description = null, content = null, upload_id = null) {
 
-            if (img_src){
+            if (upload_id == '0')
+            {
+                console.log('sjcajkbajsbcas');
 
                 $('#life').modal('show');
-
+                $('#resource_text').html(description);
+                $('#resource_content').html(content);
                 $('#container_video').hide();
                 $('#container_audio').hide();
-
-                $('#container_image').show();
-
-                $('#image').attr('src', img_src);
-
-                $('#resource_text').html(description);
-
-                $('#resource_content').html(content);
-
-            }else if (video_src){
-
-                $('#life').modal('show');
-
                 $('#container_image').hide();
-                $('#container_audio').hide();
+            }
+            else
+            {
+                if (img_src){
 
-                $('#container_video').show();
+                    $('#life').modal('show');
 
-                $('#video').attr('src', video_src);
+                    $('#container_video').hide();
+                    $('#container_audio').hide();
 
-                $('#resource_text').html(description);
+                    $('#container_image').show();
 
-                $('#resource_content').html(content);
+                    $('#image').attr('src', img_src);
 
-            }else if (audio_src){
+                    $('#resource_text').html(description);
 
-                $('#life').modal('show');
-                $('#container_image').hide();
-                $('#container_video').hide();
-                $('#container_audio').show();
-                $('#resource_text').html(description);
+                    $('#resource_content').html(content);
 
-                $('#resource_content').html(content);
+                }
+                else if (video_src){
 
-                // Set src on the <audio> element and reload
-                let audioElement = $('#audio').attr('src', audio_src).get(0);
-                audioElement.load();  // Reloads the audio with the new source
+                    $('#life').modal('show');
+
+                    $('#container_image').hide();
+                    $('#container_audio').hide();
+
+                    $('#container_video').show();
+
+                    $('#video').attr('src', video_src);
+
+                    $('#resource_text').html(description);
+
+                    $('#resource_content').html(content);
+
+                }
+                else if (audio_src){
+
+                    $('#life').modal('show');
+                    $('#container_image').hide();
+                    $('#container_video').hide();
+                    $('#container_audio').show();
+                    $('#resource_text').html(description);
+
+                    $('#resource_content').html(content);
+
+                    // Set src on the <audio> element and reload
+                    let audioElement = $('#audio').attr('src', audio_src).get(0);
+                    audioElement.load();  // Reloads the audio with the new source
+                }
             }
 
         }

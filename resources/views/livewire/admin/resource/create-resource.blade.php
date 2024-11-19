@@ -34,7 +34,8 @@
                                 data-target="#createCategory">
                             Add Category
                         </button>
-                        <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm" id="create_resourse_btn"
+                        <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm"
+                                id="create_resourse_btn"
                                 class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
                         </button>
                     </div>
@@ -161,18 +162,21 @@
                                 </p>
 
                             </div>
-                            @if(!empty($resource['photo_url']))
-                                <img style="width: 100%; max-height: 400px;" src="{{ $resource['photo_url']['url'] }}">
-                            @elseif(!empty($resource['video_url']))
-                                <video controls style="width: 100%; max-height: 400px;">
-                                    <source src="{{ $resource['video_url']['path'] }}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            @elseif(!empty($resource['audio_url']))
-                                <audio controls style="width: 100%;">
-                                    <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                                </audio>
+                            @if($resource['upload_id'] != null)
+                                @if(!empty($resource['photo_url']))
+                                    <img style="width: 100%; max-height: 400px;"
+                                         src="{{ $resource['photo_url']['url'] }}">
+                                @elseif(!empty($resource['video_url']))
+                                    <video controls style="width: 100%; max-height: 400px;">
+                                        <source src="{{ $resource['video_url']['path'] }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @elseif(!empty($resource['audio_url']))
+                                    <audio controls style="width: 100%;">
+                                        <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                @endif
                             @endif
 
                             <div class="mt-2 text-white">
@@ -262,7 +266,8 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="resource" id="resourse_file"
+                                        <input style="background-color: #0f1534;" wire:model.defer="resource"
+                                               id="resourse_file"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource">
@@ -283,7 +288,8 @@
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
                                                        class="form-check-input option-checkbox" id="preemium">
-                                                <label class="form-check-label text-white" for="preemium">Preemium</label>
+                                                <label class="form-check-label text-white"
+                                                       for="preemium">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -387,13 +393,15 @@
                                             <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
                                                    style="height: 200px;"></video>
                                         </div>
-                                    @else
+                                    @elseif(!empty($editResourceData['audio_url']))
                                         <div class="form-group mt-4">
                                             <audio controls style="width: 100%;">
-                                                <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
+                                                <source src="{{ $editResourceData['audio_url']['path'] }}"
+                                                        type="audio/mpeg">
                                                 Your browser does not support the audio element.
                                             </audio>
                                         </div>
+                                    @else
                                     @endif
                                     <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
@@ -544,6 +552,9 @@
             "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
         }
     }
+
+
+
     </script>
 
     <script type="module">
@@ -558,7 +569,7 @@
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
-        let editorInstance,updateEditorInstance;
+        let editorInstance, updateEditorInstance;
         const editorElement = document.getElementById('editor');
         const updateEditorElement = document.getElementById('resourse_editor');
 
@@ -587,7 +598,7 @@
 
         }
 
-        $('#create_resourse_btn').on('click',function(){
+        $('#create_resourse_btn').on('click', function () {
             if (editorInstance) {
                 editorInstance.setData('');
             }

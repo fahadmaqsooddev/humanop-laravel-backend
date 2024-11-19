@@ -20,7 +20,7 @@ class CreateResource extends Component
 
     protected $rules = [
         'heading' => 'required',
-        'resource' => 'required|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', // Max file size 200MB
+        'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|max:1000',
@@ -29,7 +29,7 @@ class CreateResource extends Component
 
     protected $messages = [
         'heading.required' => 'Heading is required',
-        'resource.required' => 'Resource is required',
+//        'resource.required' => 'Resource is required',
         'resource.mimes' => 'Resource must be a valid image or video file (jpeg, png, jpg, gif, mp4, mov, avi, mkv).',
         'permission.required' => 'At least one permission is required',
         'description.max' => 'Description maximum length is 1000 characters'
@@ -43,16 +43,24 @@ class CreateResource extends Component
 
             $this->validate();
 
-            if (in_array($this->resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+            if (!empty($this->resource))
+            {
+                if (in_array($this->resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
 
-                $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
+                    $upload_id = Upload::uploadFile($this->resource, 200, 200, 'base64Image', 'png', true);
 
-            } elseif (in_array($this->resource->extension(), ['mp3', 'wav', 'mpeg'])) {
+                } elseif (in_array($this->resource->extension(), ['mp3', 'wav', 'mpeg'])) {
 
-                $upload_id = Upload::uploadFile($this->resource, '', '', 'audio');
-            } else {
+                    $upload_id = Upload::uploadFile($this->resource, '', '', 'audio');
+                } else {
 
-                $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
+                    $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
+                }
+
+            }else
+            {
+                $upload_id = $this->editResourceData['upload_id'] ?? null;
+
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
