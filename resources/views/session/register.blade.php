@@ -21,7 +21,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-7 mx-auto">
                     <div class="card z-index-0 " style="background-color: #f3deba !important;">
                         <div class="card-header text-center pt-4">
-                            <h5 style="color: #0f1535">Register with</h5>
+                            <h5 style="color: #0f1535">Click To Register with</h5>
                         </div>
                         <div class="css-mgpqwz d-flex justify-content-center">
                             <div>
@@ -54,7 +54,7 @@
                             </div>
                         @endif
 
-                        <p class="text-center" style="color: #0f1535"><b>or</b></p>
+                        <p class="text-center" style="color: #0f1535"><b>Register with your email</b></p>
                         <div class="card-body">
                             @if(request()->segment(1) === 'register')
                                 <form action="{{route('store_user')}}" method="post">

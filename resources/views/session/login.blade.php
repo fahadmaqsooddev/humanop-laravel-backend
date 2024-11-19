@@ -60,7 +60,7 @@
                             </div>
                         @endif
                         <div class="card-header text-center pt-4">
-                            <h5 class="" style="color: #0f1535">Login With</h5>
+                            <h5 class="" style="color: #0f1535">Click To Login With:</h5>
                         </div>
                         <div class="css-mgpqwz d-flex justify-content-center">
                             <div>
@@ -85,7 +85,7 @@
                                 @endif
                             </div>
                         </div>
-                        <p class="text-center" style="color: #0f1535"><b>or</b></p>
+                        <p class="text-center" style="color: #0f1535"><b>Login with your email:</b></p>
                         <div class="card-body">
                             @if(request()->segment(1) === null || request()->segment(1) === 'login')
                                 <form role="form" class="text-start" action="{{url('/session')}}" method="POST">
