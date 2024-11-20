@@ -3,7 +3,7 @@
 @section('content')
     <main class="main-content mt-0">
         <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-             style="background-image: url('assets/img/login.webp');">
+             >
             {{--             <span class="mask bg-gradient-dark opacity-6"></span>--}}
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
@@ -61,8 +61,8 @@
                         <div class="card-body">
                             <form role="form" action="/reset-password" method="POST">
                                 @csrf
-                                <input type="hidden" name="token" value="{{ $token }}">
-                                <input type="hidden" name="email" value="{{$email}}">
+{{--                                <input type="hidden" name="token" value="{{ $token }}">--}}
+                                <input type="hidden" name="email" value="{{ \Illuminate\Support\Facades\Session::get('resetPasswordEmail') }}">
                                 {{--                                <div>--}}
                                 {{--                                    <label for="email">Email</label>--}}
                                 {{--                                    <div class="">--}}
