@@ -309,7 +309,7 @@
                                             <h6>{{$tip['title']}}</h6>
                                             @if(strlen($tip['description']) > 290)
                                                 <?php
-                                                  $hide_button = true;
+                                                $hide_button = true;
                                                 ?>
                                                 <span id="daily-tip-text">
             {!! substr($tip['description'], 0, 305) !!}
@@ -327,38 +327,38 @@
                                             </p>
                                         @endif
                                         @if($tip && $assessment)
-                                            <div>
-
-                                                <div
-                                                    class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
-                                                    id="read_all_tip">
-                                                    <button
-                                                        class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
-{{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
-data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
-                                                        onclick="onDailyTipAllRead()">
-                                                        Complete Daily Tip
-                                                    </button>
+                                            @if($isReadDailyTip == 0)
+                                                <div>
+                                                    <div
+                                                        class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
+                                                        id="read_all_tip">
+                                                        <button
+                                                            class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                            {{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
+                                                            data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
+                                                            onclick="onDailyTipAllRead()">
+                                                            Complete Daily Tip
+                                                        </button>
+                                                    </div>
                                                 </div>
-
-                                            </div>
+                                            @endif
                                         @endif
                                     </div>
 
                                     @if($tip && $assessment)
-                                        <div>
-
-                                            <div
-                                                class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
-                                                <button style="background-color: #f2661c;"
-                                                        class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
-                                                        data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
-                                                        onclick="onDailyTipAllRead()">
-                                                    Complete Daily Tip
-                                                </button>
+                                        @if($isReadDailyTip == 0)
+                                            <div>
+                                                <div
+                                                    class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
+                                                    <button style="background-color: #f2661c;"
+                                                            class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                            data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
+                                                            onclick="onDailyTipAllRead()">
+                                                        Complete Daily Tip
+                                                    </button>
+                                                </div>
                                             </div>
-
-                                        </div>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -596,17 +596,19 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                         style="color: rgb(160, 174, 192)"><strong>HELP
                                             I'M
                                             HAVING A CHALLENGE </strong><span class="iconInfo" data-bs-toggle="modal"
-                                                                              data-bs-target="#helpChallangeModel" ><i
+                                                                              data-bs-target="#helpChallangeModel"><i
                                                 class="fa-regular fa-circle-question fa-lg"
                                                 style="color: white;"></i></span></h5>
                                 </div>
                                 @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                                <div class="card-body p-3 d-flex justify-content-center align-items-center" >
-                                    <div >
-                                        <button  class="rainbow-border-user-nav-btn btn-lg " id="open-chat-btn" style="">Get Help!</button>
+                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                        <div>
+                                            <button class="rainbow-border-user-nav-btn btn-lg " id="open-chat-btn"
+                                                    style="">Get Help!
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                    @endif
+                                @endif
                             </div>
                         </div>
 
@@ -632,46 +634,46 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                     {{--                                    data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                     <div>
                                         @if($actionPlan)
-{{--                                            @php--}}
-{{--                                                $html = $actionPlan['plan_text'] ?? null;--}}
+                                            {{--                                            @php--}}
+                                            {{--                                                $html = $actionPlan['plan_text'] ?? null;--}}
 
-{{--                                                if ($html) {--}}
-{{--                                                    // Create a new DOMDocument instance--}}
-{{--                                                    $dom = new DOMDocument();--}}
+                                            {{--                                                if ($html) {--}}
+                                            {{--                                                    // Create a new DOMDocument instance--}}
+                                            {{--                                                    $dom = new DOMDocument();--}}
 
-{{--                                                    // Suppress warnings due to invalid HTML and load the HTML--}}
-{{--                                                    libxml_use_internal_errors(true);--}}
-{{--                                                    $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));--}}
-{{--                                                    libxml_clear_errors();--}}
+                                            {{--                                                    // Suppress warnings due to invalid HTML and load the HTML--}}
+                                            {{--                                                    libxml_use_internal_errors(true);--}}
+                                            {{--                                                    $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));--}}
+                                            {{--                                                    libxml_clear_errors();--}}
 
-{{--                                                    // Initialize variables to hold the first two tags--}}
-{{--                                                    $firstTag = null;--}}
-{{--                                                    $secondTag = null;--}}
-{{--                                                    $tagsFound = 0;--}}
+                                            {{--                                                    // Initialize variables to hold the first two tags--}}
+                                            {{--                                                    $firstTag = null;--}}
+                                            {{--                                                    $secondTag = null;--}}
+                                            {{--                                                    $tagsFound = 0;--}}
 
-{{--                                                    // Iterate through all child nodes of the body to find the first two tags--}}
-{{--                                                    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {--}}
-{{--                                                        if ($node->nodeType === XML_ELEMENT_NODE) { // Check if it is an element node (tag)--}}
-{{--                                                            if (!$firstTag) {--}}
-{{--                                                                $firstTag = $dom->saveHTML($node);--}}
-{{--                                                                $tagsFound++;--}}
-{{--                                                            } elseif (!$secondTag) {--}}
-{{--                                                                $secondTag = $dom->saveHTML($node);--}}
-{{--                                                                $tagsFound++;--}}
-{{--                                                            }--}}
+                                            {{--                                                    // Iterate through all child nodes of the body to find the first two tags--}}
+                                            {{--                                                    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {--}}
+                                            {{--                                                        if ($node->nodeType === XML_ELEMENT_NODE) { // Check if it is an element node (tag)--}}
+                                            {{--                                                            if (!$firstTag) {--}}
+                                            {{--                                                                $firstTag = $dom->saveHTML($node);--}}
+                                            {{--                                                                $tagsFound++;--}}
+                                            {{--                                                            } elseif (!$secondTag) {--}}
+                                            {{--                                                                $secondTag = $dom->saveHTML($node);--}}
+                                            {{--                                                                $tagsFound++;--}}
+                                            {{--                                                            }--}}
 
-{{--                                                            // Stop after capturing two tags--}}
-{{--                                                            if ($tagsFound === 2) {--}}
-{{--                                                                break;--}}
-{{--                                                            }--}}
-{{--                                                        }--}}
-{{--                                                    }--}}
-{{--                                                }--}}
-{{--                                            @endphp--}}
+                                            {{--                                                            // Stop after capturing two tags--}}
+                                            {{--                                                            if ($tagsFound === 2) {--}}
+                                            {{--                                                                break;--}}
+                                            {{--                                                            }--}}
+                                            {{--                                                        }--}}
+                                            {{--                                                    }--}}
+                                            {{--                                                }--}}
+                                            {{--                                            @endphp--}}
 
-                                        {!! $actionPlan['plan_text'] !!}
-{{--                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"--}}
-{{--                                                  style="color: #f2661c; cursor: pointer">view more...</span>--}}
+                                            {!! $actionPlan['plan_text'] !!}
+                                            {{--                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"--}}
+                                            {{--                                                  style="color: #f2661c; cursor: pointer">view more...</span>--}}
                                         @else
                                             <p>Click here to:
                                                 <a href="{{ url('client/intro-assessment') }}" target="_self"
@@ -729,11 +731,11 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
 
                     <!-- <div class="row "> -->
                     <div id="chat-component-main-container">
-                    <div id="chat-component-container">
-                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                        @livewire('client.chat.index')
-                    @endif
-                    </div>
+                        <div id="chat-component-container">
+                            @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                                @livewire('client.chat.index')
+                            @endif
+                        </div>
                     </div>
                 </div>
             </section>
@@ -995,17 +997,24 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                             <br>
                             <div class="card-body pt-0 text-white">
                                 <p>
-                                    You’re about to begin a life-changing journey. The HumanOp Assessment is designed to unveil your true nature not based on opinions, but guided by the unchanging physical laws of nature and cutting-edge science.
+                                    You’re about to begin a life-changing journey. The HumanOp Assessment is designed to
+                                    unveil your true nature not based on opinions, but guided by the unchanging physical
+                                    laws of nature and cutting-edge science.
                                 </p>
                                 <p class="text-white">
-                                    Ready to discover what makes you truly unique and learn the actionable steps to optimize your life? Click the link to get started!
+                                    Ready to discover what makes you truly unique and learn the actionable steps to
+                                    optimize your life? Click the link to get started!
                                 </p>
                                 <div class="d-flex justify-content-between">
-                                    <button  data-bs-dismiss="modal" aria-label="Close" class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                    <button data-bs-dismiss="modal" aria-label="Close"
+                                            class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn"
+                                            style="background-color: #f2661c; color: white; font-size: 14px">
                                         Start Tutorial
                                     </button>
                                     <button data-bs-dismiss="modal"
-                                            aria-label="Close" class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
+                                            aria-label="Close"
+                                            class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn"
+                                            style="background-color: #f2661c; color: white; font-size: 14px">
                                         Skip Tutorial
                                     </button>
                                 </div>
@@ -1018,32 +1027,33 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                 </div>
             </div>
         </div>
-{{--        having challenge modal--}}
+        {{--        having challenge modal--}}
         @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-        <div class="modal fade" id="having-challenge-modal" tabindex="-1"
-             role="dialog" style="background-color: rgb(0 0 0 / 88%)"
-             aria-labelledby="having-challenge-modal" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-body" style=" border-radius: 9px">
-                        <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">Having Challenge Let Me Help You!</label>
-                            <button type="button" class="close modal-close-btn" id="close-challenge-modal" data-bs-dismiss="modal"
-                                    aria-label="Close" >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <div class="modal fade" id="having-challenge-modal" tabindex="-1"
+                 role="dialog" style="background-color: rgb(0 0 0 / 88%)"
+                 aria-labelledby="having-challenge-modal" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body" style=" border-radius: 9px">
+                            <div class="card-body pt-0">
+                                <label class="form-label fs-4 text-white">Having Challenge Let Me Help You!</label>
+                                <button type="button" class="close modal-close-btn" id="close-challenge-modal"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
 
 
-                            <div id="having-challenge-chat"  >
+                                <div id="having-challenge-chat">
 
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-         @endif
+        @endif
         {{--daily tip already completed--}}
         <div class="modal fade" id="daily-tip-completed" tabindex="-1"
              role="dialog"
@@ -1424,26 +1434,26 @@ data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                     // Show modal and move component
                     $('#open-chat-btn').on('click', function () {
                         $chatContainer.appendTo($chatModalContainer); // Move to modal
-                        $('.chat-heading').css('color','white');
-                        $('.chat-heading').css('margin-top','10px');
-                        $('.chat-question-mark').css('display','none');
+                        $('.chat-heading').css('color', 'white');
+                        $('.chat-heading').css('margin-top', '10px');
+                        $('.chat-question-mark').css('display', 'none');
                         $('#having-challenge-modal').modal('show'); // Show the modal
                     });
 
                     // Log and move component back when modal is hidden
                     $('#close-challenge-modal').on('click', function () {
                         $chatContainer.appendTo($('#chat-component-main-container')); // Move back to original location
-                        $('.chat-heading').css('color','black');
-                        $('.chat-heading').css('margin-top','0px');
-                        $('.chat-question-mark').css('display','inline-block');
+                        $('.chat-heading').css('color', 'black');
+                        $('.chat-heading').css('margin-top', '0px');
+                        $('.chat-question-mark').css('display', 'inline-block');
                     });
-                       $('#having-challenge-modal').on('hidden.bs.modal', function () {
-                           $chatContainer.appendTo($('#chat-component-main-container'));
-                           $('.chat-heading').css('color','black');
-                           $('.chat-heading').css('margin-top','0px');
-                           $('.chat-question-mark').css('display','inline-block');
-                       });
+                    $('#having-challenge-modal').on('hidden.bs.modal', function () {
+                        $chatContainer.appendTo($('#chat-component-main-container'));
+                        $('.chat-heading').css('color', 'black');
+                        $('.chat-heading').css('margin-top', '0px');
+                        $('.chat-question-mark').css('display', 'inline-block');
                     });
+                });
 
 
             </script>
