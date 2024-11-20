@@ -10,9 +10,9 @@
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
         <!-- Example Card -->
         @foreach($embeddings as $embedding)
-            <div class="card mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
-                <div class="card-body" >
-                    <div class="d-flex flex-column gap-3 chat-card">
+            <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
+                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">
+                    <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                         <a href="{{route('admin_embedding_detail', $embedding['name'])}}">
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
                                     class="bi bi-robot"></i> {{ $embedding['name'] }}
@@ -20,7 +20,7 @@
 {{--                            <p class="card-text text-white">{{ $chat['description'] }}</p>--}}
                         </a>
                         <div class="d-flex justify-content-between">
-                            <p class="text-white" style="padding-right: 8px"><i class="bi bi-clock text-white"></i> less
+                            <p style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less
                                 than a minute</p>
                             <div class="d-flex gap-2">
                                 <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
@@ -36,6 +36,7 @@
             </div>
         @endforeach
     </div>
+
     {{-- Create Embedding Models--}}
     <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"
          aria-labelledby="createResource" aria-hidden="true">
