@@ -26,8 +26,17 @@ class EmailTemplateSeeder extends Seeder
     <a href="{$link}" target="_blank" style="color: #f2661c; font-weight: bold; font-size: 20px"> Verify Email</a>
     <p>If you did not create an account, please email support@humanop.com asap to make sure we address the error.</p>';
 
+        $reset_password = '
+        <h3>Reset Password</h3>
+    <p>Hi, {$userName}</p>
+    <p>We received a request to reset your password for your HumanOp account. If you did not request this change, you can safely ignore this email.</p>
+    <p>Please click the link below to reset your password:</p>
+    <a href="{$link}" target="_blank" style="color: #f2661c; font-weight: bold; font-size: 20px"> Reset Password</a>
+    <p>If you did not create an account, please email support@humanop.com asap to make sure we address the error.</p>';
+
         $email_template = [
             ['name' => 'email-verification', 'format' => $email_verification],
+            ['name' => 'reset-password', 'format' => $reset_password],
         ];
 
         DB::table('email_templates')->insert($email_template);
