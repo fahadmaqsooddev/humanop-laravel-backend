@@ -118,11 +118,9 @@
                                             </div>
                                         </div>
                                         <div class="col-10">
-                                            <p class="text-white text-sm">Free Assessment Credit Every Season (90 Days)/p>
+                                            <p class="text-white text-sm">Free Assessment Credit Every Season (90 Days)</p>
                                         </div>
                                     </div>
-
-
 
                                     <div class="row pb-1">
                                         <div class="col-2">
