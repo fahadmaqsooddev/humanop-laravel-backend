@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 
 class ChangePasswordController extends Controller
 {
@@ -33,6 +34,8 @@ class ChangePasswordController extends Controller
 
         $user->password = $request['password'];
 
+        $user->reset_password = 1;
+
         $user->save();
 
 //        $status = Password::reset(
@@ -48,7 +51,10 @@ class ChangePasswordController extends Controller
 //            }
 //        );
 
+
+
         Auth::logoutOtherDevices($user->password);
+//        Auth::guard('api')->logoutOtherDevices($user->password);
 
         Session::flash('resetPasswordEmail');
 

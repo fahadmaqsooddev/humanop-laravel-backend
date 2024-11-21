@@ -843,5 +843,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function resetPassword($userId = null)
+    {
+
+        return self::whereId($userId)->update(['reset_password' => 0]);
+
+    }
+
 
 }

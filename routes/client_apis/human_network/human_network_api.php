@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,12 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('follow-unfollow', 'HumanNetworkController@followUnfollow');
-Route::get('followers', 'HumanNetworkController@followers');
-Route::get('following', 'HumanNetworkController@following');
-Route::post('connect-unconnect', 'HumanNetworkController@connectUnconnect');
-Route::get('users', 'HumanNetworkController@users');
-Route::get('connection-requests', 'HumanNetworkController@connectionRequests');
-Route::get('connections', 'HumanNetworkController@connections');
-Route::get('style-feature-codes', 'HumanNetworkController@styleFeatureCodes');
-Route::get('alchemy-codes', 'HumanNetworkController@alchemyCodes');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::post('follow-unfollow', 'HumanNetworkController@followUnfollow');
+    Route::get('followers', 'HumanNetworkController@followers');
+    Route::get('following', 'HumanNetworkController@following');
+    Route::post('connect-unconnect', 'HumanNetworkController@connectUnconnect');
+    Route::get('users', 'HumanNetworkController@users');
+    Route::get('connection-requests', 'HumanNetworkController@connectionRequests');
+    Route::get('connections', 'HumanNetworkController@connections');
+    Route::get('style-feature-codes', 'HumanNetworkController@styleFeatureCodes');
+    Route::get('alchemy-codes', 'HumanNetworkController@alchemyCodes');
+
+});
