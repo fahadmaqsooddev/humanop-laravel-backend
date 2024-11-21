@@ -51,14 +51,14 @@
 
             @media (max-width: 500px)  {
                 #ep_slider {
-                    width: 250px;
+                    width: 300px;
                     margin: 0 auto;
                 }
                 #interval_of_life{
                     width: 100% !important;
                 }
                 #pv_slider {
-                    width: 250px;
+                    width: 300px;
                     margin: 0 auto;
                 }
             }
