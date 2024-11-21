@@ -48,7 +48,7 @@ class ChangePasswordController extends Controller
 //            }
 //        );
 
-        Auth::logout();
+        Auth::logoutOtherDevices($user->password);
 
         Session::flash('resetPasswordEmail');
 
