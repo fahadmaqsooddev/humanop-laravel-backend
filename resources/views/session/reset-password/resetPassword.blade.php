@@ -76,7 +76,7 @@
                                     <div>
                                         <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
                                         <input type="password" class="form-control" placeholder="Password"
-                                               aria-label="Password" aria-describedby="password-addon"
+                                               aria-label="Password" aria-describedby="password-addon" maxlength="30"
                                                name="password"
                                                id="password"
                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
@@ -98,7 +98,7 @@
                                             Password</label>
                                         <input type="password" class="form-control"
                                                placeholder="Confirm Password"
-                                               aria-label="Password" aria-describedby="password-addon"
+                                               aria-label="Password" aria-describedby="password-addon" maxlength="30"
                                                name="password_confirmation"
                                                id="confirmPassword"
                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
@@ -128,3 +128,55 @@
     </main>
 
 @endsection
+<script>
+    // Make sure the DOM is fully loaded before running the script
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('password-eye');
+
+        // Add click event listener to the eye icon
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default behavior (especially for anchors)
+
+                // Toggle the password visibility and the eye icon
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash'); // Change to the eye-slash icon when password is visible
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
+                }
+            });
+        }
+
+
+        // confirm password eye toggler
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const confirmIcon = document.getElementById('confirm-password-eye');
+
+        // Add click event listener to the eye icon
+        if (toggleConfirmPassword && confirmPasswordInput) {
+            toggleConfirmPassword.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default behavior (especially for anchors)
+
+                // Toggle the password visibility and the eye icon
+                if (confirmPasswordInput.type === 'password') {
+                    confirmPasswordInput.type = 'text';
+                    confirmIcon.classList.remove('fa-eye');
+                    confirmIcon.classList.add('fa-eye-slash'); // Change to the eye-slash icon when password is visible
+                } else {
+                    confirmPasswordInput.type = 'password';
+                    confirmIcon.classList.remove('fa-eye-slash');
+                    confirmIcon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
+                }
+            });
+        }
+    });
+
+
+</script>

@@ -135,7 +135,7 @@
                                                     <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
                                                     <input type="password" class="form-control" placeholder="Password"
                                                            aria-label="Password" aria-describedby="password-addon"
-                                                           name="password"
+                                                           name="password" maxlength="30"
                                                            id="password"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                     <!-- Eye icon for toggling password visibility -->
@@ -159,7 +159,7 @@
                                                            placeholder="Confirm Password"
                                                            aria-label="Password" aria-describedby="password-addon"
                                                            name="password_confirmation"
-                                                           id="confirmPassword"
+                                                           id="confirmPassword" maxlength="30"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                     <div id="validateConfirmPassword"></div>
                                                     @error('password_confirmation')
