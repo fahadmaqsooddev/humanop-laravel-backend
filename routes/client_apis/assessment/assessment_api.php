@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('all-assessments','AssessmentController@allAssessments');
-Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
-Route::get('grid', 'AssessmentController@grid');
-Route::get('assessment-status', 'AssessmentController@assessmentStatus');
-Route::get('questions', 'AssessmentController@questions');
-Route::post('submit-assessment', 'AssessmentController@submitAnswers');
-Route::get('user-report', 'AssessmentController@userReport');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::get('all-assessments', 'AssessmentController@allAssessments');
+    Route::get('assessment-answers', 'AssessmentController@assessmentAnswers');
+    Route::get('grid', 'AssessmentController@grid');
+    Route::get('assessment-status', 'AssessmentController@assessmentStatus');
+    Route::get('questions', 'AssessmentController@questions');
+    Route::post('submit-assessment', 'AssessmentController@submitAnswers');
+    Route::get('user-report', 'AssessmentController@userReport');
+
+});

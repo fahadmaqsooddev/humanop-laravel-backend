@@ -28,7 +28,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('/google/login/signup', 'UserController@googleLoginSignup');
     Route::get('profile-overview-result', 'UserController@profileOverviewResult');
     Route::get('summary-report', 'UserController@summaryReport');
-    Route::get('intention-option', 'UserController@intentionOption');
     Route::get('timezone', 'UserController@getTimezone');
     Route::get('version', 'UserController@getLatestVersion');
 
