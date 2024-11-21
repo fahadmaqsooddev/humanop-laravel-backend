@@ -116,8 +116,11 @@ class AuthController extends Controller
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
 
-            if (empty($request['google_id']) || empty($request['apple_id']))
+            if (empty($request['google_id']) && empty($request['apple_id']))
             {
+
+                dd($request['google_id'], $request['apple_id']);
+
                 $baseUrl = url('/check-email', $user['id']);
 
                 $userData = [
