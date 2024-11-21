@@ -21,9 +21,51 @@
                 width: 1000px;
                 margin: 0 auto;
             }
-        .card{
-            background-color: #1C365E !important;
-        }
+            @media (min-width: 992px) and (max-width: 1200px) {
+                #ep_slider {
+                    width: 700px;
+                    margin: 0 auto;
+                }
+                #pv_slider {
+                    width: 700px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 50% !important;
+                }
+            }
+
+            @media (min-width: 500px) and (max-width: 992px) {
+                #ep_slider {
+                    width: 400px;
+                    margin: 0 auto;
+                }
+                #pv_slider {
+                    width: 400px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 100% !important;
+                }
+            }
+
+            @media (max-width: 500px)  {
+                #ep_slider {
+                    width: 250px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 100% !important;
+                }
+                #pv_slider {
+                    width: 250px;
+                    margin: 0 auto;
+                }
+            }
+
+            .card{
+             background-color: #1C365E !important;
+           }
     </style>
 @endpush
 <div wire:ignore.self class="modal fade" id="dailyTipModel" tabindex="-1"
@@ -55,7 +97,7 @@
                         <div class="row mt-4">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="w-25 mb-5">
+                                    <div class="w-25 mb-5" id="interval_of_life">
                                         <select class="form-control bg-transparent text-white text-center" wire:model="interval_of_life" style="border-color: white;padding: 0px !important"  >
                                             <option value=""  style="color: black">Select Interval Of Life</option>
                                             @foreach($interval_of_life_array as $key => $interval)
