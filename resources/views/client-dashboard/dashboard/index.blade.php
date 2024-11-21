@@ -422,85 +422,157 @@
 
                                         @if(16 <= $age && $age <= 20)
 
-                                            <p class="text-sm fs-12px text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192);">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(21 <= $age && $age <= 29)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}','roadworthy_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}','roadworthy_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(30 <= $age && $age <= 33)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}','power_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}','power_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(34 <= $age && $age <= 42)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}','mid_life_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}','mid_life_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(43 <= $age && $age <= 52)
 
-                                            <p class="text-sm fs-12px text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}','awareness_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}','awareness_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(52 <= $age && $age <= 66)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}','forward_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}','forward_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
 
                                         @elseif(66 <= $age && $age <= 70)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}','liberated_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}','liberated_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @elseif(70 <= $age && $age <= 75)
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}','being_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}','being_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @else
 
-                                            <p class="text-sm fs-12px  text-color-blue text-bold"
-                                               onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
-                                               style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                Interval of Life: (<span class="text-bold text-sm"
-                                                                         style="color: #f2661c">{{$user_age['interval']}}</span>)
-                                            </p>
+                                            @if(!empty($assessment))
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
+                                                   style="color: rgb(160, 174, 192); cursor: pointer;">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @else
+                                                <p class="text-sm fs-12px  text-color-blue text-bold"
+                                                   style="color: rgb(160, 174, 192)">
+                                                    Interval of Life: (<span class="text-bold text-sm"
+                                                                             style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                </p>
+                                            @endif
 
                                         @endif
 
