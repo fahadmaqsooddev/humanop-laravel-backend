@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
 
         return [
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'last_name' => $required . '|string|max:255',
             'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|min:6',
             'phone' => 'nullable|max:25',

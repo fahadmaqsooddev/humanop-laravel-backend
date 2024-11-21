@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
@@ -20,27 +24,41 @@ class ChangePasswordController extends Controller
     {
 
         $request->validate([
-            'token' => 'required',
+//            'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => $password
-                ]);
+        $user = User::where('email', $request['email'])->first();
 
-                $user->save();
+        $user->password = $request['password'];
 
-                event(new PasswordReset($user));
-            }
-        );
+        $user->save();
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect('/login')->with('success', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+//        $status = Password::reset(
+//            $request->only('email', 'password', 'password_confirmation'),
+//            function ($user, $password) {
+//                $user->forceFill([
+//                    'password' => $password
+//                ]);
+//
+//                $user->save();
+//
+////                event(new PasswordReset($user));
+//            }
+//        );
+
+        Auth::logoutOtherDevices($user->password);
+
+        Session::flash('resetPasswordEmail');
+
+        session()->flash('success', "Your password has been reset");
+
+        return redirect()->route('login');
+
+//        return $status === Password::PASSWORD_RESET
+//            ? redirect('/login')->with('success', __($status))
+//            : back()->withErrors(['email' => [__($status)]]);
     }
 
     public function create()
@@ -50,35 +68,73 @@ class ChangePasswordController extends Controller
 
     public function sendEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        try {
+            $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+            $checkUserEmail = User::where('email', $request['email'])->first();
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['success' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+            if (!empty($checkUserEmail)) {
+
+                $baseUrl = url('/reset-password');
+
+                $data = [
+                    '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
+                    '{$link}' =>  $baseUrl,
+                ];
+
+                $email_template = EmailTemplate::getTemplate($data, 'reset-password');
+
+                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'],'emails.Email_Template', 'Reset Password');
+
+                Session::put('resetPasswordEmail', $checkUserEmail['email']);
+
+                session()->flash('success', "We have emailed your password reset link!");
+
+                return redirect()->route('forgot_password');
+
+            } else {
+
+                session()->flash('error', "Email doesn't exists");
+                return redirect()->route('forgot_password');
+
+            }
+
+//            $status = Password::sendResetLink(
+//                $request->only('email')
+//            );
+//
+//            return $status === Password::RESET_LINK_SENT
+//                ? back()->with(['success' => __($status)])
+//                : back()->withErrors(['email' => __($status)]);
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+
+        }
+
     }
 
-    public function resetPass(Request $request, $token)
+    public
+    function resetPass(Request $request)
     {
+
         // Retrieve the email parameter from the query string
         $email = $request->query('email');
 
         // Return the view with the token and email
         return view('session/reset-password/resetPassword', [
-            'token' => $token,
+//            'token' => $token,
             'email' => $email,
         ]);
     }
 
-    public function checkEmail($id = null)
+    public
+    function checkEmail($id = null)
     {
         $user = User::getSingleUser($id);
 
-        if ($user)
-        {
+        if ($user) {
 
             User::emailVerified($user['id']);
 
@@ -89,18 +145,17 @@ class ChangePasswordController extends Controller
 //            ActionPlan::storeUserActionPlan();
 
             return redirect()->route('client_dashboard');
-        } else
-        {
+        } else {
             return redirect()->to('/register');
         }
     }
 
-    public function loginUserToDashboard($id = null)
+    public
+    function loginUserToDashboard($id = null)
     {
         $user = User::getSingleUser($id);
 
-        if ($user)
-        {
+        if ($user) {
 
             Auth::login($user);
 
@@ -109,22 +164,18 @@ class ChangePasswordController extends Controller
             ActionPlan::storeUserActionPlan();
 
             return redirect()->route('client_dashboard');
-        } else
-        {
+        } else {
             return redirect()->to('/register');
         }
     }
 
 
-
-
-
-    public function checkEmailFromApp($id = null)
+    public
+    function checkEmailFromApp($id = null)
     {
         $user = User::getSingleUser($id);
 
-        if ($user)
-        {
+        if ($user) {
 
             User::emailVerified($user['id']);
 
@@ -138,8 +189,7 @@ class ChangePasswordController extends Controller
 
             return redirect()->route('email_verified');
 
-        } else
-        {
+        } else {
             return redirect()->to('/register');
         }
     }

@@ -113,7 +113,7 @@
                                                 <label for="password"
                                                        style="color: #0f1535; font-size: 15px">Password</label>
                                                 <input type="password" class="form-control" placeholder="Password"
-                                                       aria-label="Password" name="password" id="password"
+                                                       aria-label="Password" name="password" id="password" maxlength="30"
                                                        @if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}"
                                                        @endif
                                                        style="background-color: #f3deba; color: black; border-radius: 15px;">
