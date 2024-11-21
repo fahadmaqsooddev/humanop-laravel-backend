@@ -21,6 +21,7 @@ class generateCodeDetail extends Command
      *
      * @var string
      */
+
     protected $description = 'This command will import all code detail data from excel file';
 
     /**
@@ -31,7 +32,7 @@ class generateCodeDetail extends Command
     public function handle()
     {
         DB::table('code_details')->truncate();
-        
+
         $csvFile = fopen(base_path("public/code_details.csv"), "r");
 
         $firstline = true;

@@ -26,8 +26,8 @@ class DailyTip extends Component
         $this->tips = DailyTipModel::allTips()->paginate($this->perPage);
     }
 
-    public function editTip($id,$code,$title,$description){
-        $this->emit('updateEditTipValues', $id, $code, $title, $description);
+    public function editTip($id,$code,$title,$description,$interval,$subscription,$point){
+        $this->emit('updateEditTipValues', $id, $code, $title, $description,$interval,$subscription,$point);
     }
     public function updateSession($type){
         session()->flash('success', 'Daily Tip '.$type.' successfully.');

@@ -1,5 +1,7 @@
 @push('css')
+        <link rel="stylesheet" href="{{asset('js/rangerover/src/jquery.rangerover.css')}}">
         <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+
     <style>
             .ck-editor__editable_inline {
     background-color: #0f1534; /* Example: Change this to your desired background color */
@@ -11,11 +13,17 @@
         border-radius: 0 !important;
         width: 100% !important;
     }
-
+            #ep_slider {
+                width: 1000px;
+                margin: 0 auto;
+            }
+            #pv_slider {
+                width: 1000px;
+                margin: 0 auto;
+            }
         .card{
             background-color: #1C365E !important;
         }
-
     </style>
 @endpush
 <div wire:ignore.self class="modal fade" id="dailyTipModel" tabindex="-1"
@@ -49,9 +57,9 @@
                                 <div class="card">
                                     <div class="w-25 mb-5">
                                         <select class="form-control bg-transparent text-white text-center" wire:model="interval_of_life" style="border-color: white;padding: 0px !important"  >
-                                            <option value=""  style="color: black">Interval Of Life</option>
+                                            <option value=""  style="color: black">Select Interval Of Life</option>
                                             @foreach($interval_of_life_array as $key => $interval)
-                                            <option value="{{$key}}" style="color: black">{{$interval}}</option>
+                                            <option value="{{$interval}}" style="color: black">{{$interval}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -96,7 +104,7 @@
                                 <div class="card">
                                     <div class="table-responsive ">
                                         <table class="table table-flush" style="border-collapse: separate">
-                                            <thead class="thead-light">
+                                            <thead class="thead-light" >
                                             <tr>
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
                                                     <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
@@ -266,32 +274,40 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="table-responsive">
-                                        <table class="table table-flush" style="border-collapse: separate">
-                                            <thead class="thead-light">
-                                            <tr>
-                                                @foreach(['+', '-', 'PV', 'EP'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
-                                                        wire:click="selectCode('{{ $select_code }}')">
-                                                        {{ strtoupper($select_code) }}
-                                                    </th>
-                                                @endforeach
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            <h5 class="text-white">PV</h5>
                         </div>
-                        <div class="row mt-4">
+                        <div id="pv_slider" wire:ignore ></div>
+                        <div class="d-flex justify-content-center mt-5">
+                            <h5 class="text-white">EP</h5>
+                        </div>
+                        <div id="ep_slider" wire:ignore ></div>
+{{--                        <div class="row mt-4">--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div class="table-responsive">--}}
+{{--                                        <table class="table table-flush" style="border-collapse: separate">--}}
+{{--                                            <thead class="thead-light">--}}
+{{--                                            <tr>--}}
+{{--                                                @foreach(['+', '-', 'PV', 'EP'] as $select_code)--}}
+{{--                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"--}}
+{{--                                                        wire:click="selectCode('{{ $select_code }}')">--}}
+{{--                                                        {{ strtoupper($select_code) }}--}}
+{{--                                                    </th>--}}
+{{--                                                @endforeach--}}
+{{--                                            </tr>--}}
+{{--                                            </thead>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                        <div class="row mt-5">
                             <div class="col-12">
                                 <label class="form-label text-white">Title</label>
                                 <div class="input-group">
                                     <input id="firstName" wire:model="title" name="title"
-                                           class="form-control table-header-text" style="background-color: #0f1534 !important;" type="text">
+                                           class="form-control table-header-text text-white" style="background-color: #0f1534 !important;" type="text">
                                     <input id="code" wire:model="code" name="code"
                                            class="form-control table-header-text" type="hidden">
                                 </div>
@@ -309,7 +325,6 @@
                                 <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
                                         style="background-color: #f2661c">Update Tip
                                 </button>
-
                                 @else
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
                                             style="background-color: #f2661c">Add Tip
@@ -325,6 +340,7 @@
     </div>
 </div>
 @push('javascript')
+    <script type="text/javascript" src="{{asset('js/rangerover/src/jquery.rangerover.js')}}"></script>
     <script type="importmap">
     {
         "imports": {
@@ -380,12 +396,148 @@
 
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeModal', () => {
-                // Close the modal
                 $('#dailyTipModel').modal('hide');
             });
+
         });
+
     </script>
 
+    <script type="text/javascript">
+        $(document).ready(function (){
+            let pv_data = {
+                start: 0,
+            };
+
+            let ep_data = {
+                start: 1,
+            };
+            var ep_slider = $("#ep_slider").rangeRover({
+                range: false,
+                mode: 'categorized',
+                autocalculate:true,
+                data: [
+                    {
+                        start: 1,
+                        end: 25,
+                        color: '#e0e0ff',
+                    },
+                    {
+                        start: 25,
+                        end: 30,
+                        color: '#b4f2de',
+                    },
+                    {
+                        start: 30,
+                        end: 35,
+                        color: '#c0e9ff',
+                    },
+                    {
+                        start: 35,
+                        end: 101,
+                        color:'#fa99e7',
+                    },
+                ],
+                onChange : function(val) {
+                  @this.set('ep', val.start.value);
+                  @this.set('pv', null);
+                    resetPv();
+                  @this.set('code',null)
+                }
+            });
+
+           var pv_slider = $("#pv_slider").rangeRover({
+                range: false,
+                mode: 'categorized',
+                autocalculate:true,
+                data: [
+                    {
+                        start: -30,
+                        end: -8,
+                        color: '#e0e0ff',
+                    },
+                    {
+                        start: -8,
+                        end: -4,
+                        color: '#b4f2de',
+                    },
+                    {
+                        start: -4,
+                        end: 0,
+                        color: '#c0e9ff',
+                    },
+                    {
+                        start: 0,
+                        end: 1,
+                        color: '#d6d6d6',
+                    },
+                    {
+                        start: 1,
+                        end: 3,
+                        color: '#c0e9ff',
+                    },
+                    {
+                        start: 3,
+                        end: 7,
+                        color: '#fdd3bc',
+                    },
+                    {
+                        start: 7,
+                        end: 12,
+                        color: '#ffcfd5',
+                    },
+                    {
+                        start: 12,
+                        end: 41,
+                        color: '#fa99e7',
+                    }],
+                onChange : function(val) {
+                @this.set('pv', val.start.value);
+                    resetEp();
+                @this.set('ep', null);
+                @this.set('code',null)
+                }
+            });
+
+            function resetPv(){
+                pv_slider.select(pv_data,'pv');
+            }
+
+            function resetEp(){
+                ep_slider.select(ep_data,'ep');
+            }
+
+            $('.createForm').on('click',function(){
+                setTimeout(function(){
+                    resetPv();
+                    resetEp();
+                },1000);
+            });
+            window.livewire.on('codeSelected', () => {
+                resetPv();
+                resetEp();
+            });
+
+            Livewire.on('sliderUpdated', (code,point) => {
+                    let data = {
+                        start: point,
+                    };
+                    if (code == 'ep') {
+                        ep_slider.select(data, 'ep');
+                        resetPv();
+                    }else if (code == 'pv') {
+                        pv_slider.select(data, 'pv');
+                        resetEp();
+                    }else {
+                        resetEp();
+                        resetPv();
+                    }
+
+            });
+
+        });
+
+    </script>
 
 
 @endpush

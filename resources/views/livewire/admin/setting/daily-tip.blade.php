@@ -7,6 +7,8 @@
             <tr class="table-text-color">
                 <th>Code</th>
                 <th>Title</th>
+                <th>Subscription</th>
+                <th>Interval of Life</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -15,9 +17,11 @@
                 <tr class="table-text-color">
                     <td class="text-md font-weight-normal">{{$tip['code']}} </td>
                     <td class="text-md font-weight-normal">{{$tip['title']}} </td>
+                    <td class="text-md font-weight-normal">{{$tip['subscription_type'] ?? 'Freemium'}} </td>
+                    <td class="text-md font-weight-normal">{{$tip['interval_of_life'] ?? 'Interval of Life'}} </td>
                     <td>
                         <button class="btn btn-sm text-white" data-bs-toggle="modal"
-                                wire:click="editTip({{ $tip['id'] }}, `{{ $tip['code'] }}`, `{{ $tip['title'] }}`, `{{ $tip['description'] }}`)"
+                                wire:click="editTip({{ $tip['id'] }}, `{{ $tip['code'] }}`, `{{ $tip['title'] }}`, `{{ $tip['description'] }}`,`{{$tip['interval_of_life']}}`,`{{$tip['subscription_type']}}`,`{{$tip['point']}}`)"
                                 data-bs-target="#dailyTipModel"  style="background-color: #f2661c;" >
                             update
                         </button>
