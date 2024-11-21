@@ -59,6 +59,9 @@ class Connection extends Model
             if (!$connection){
 
                 self::create($data);
+
+                toastr()->success("connection request was sent");
+
             }
 
         }else if ($data['type'] === 'un-connect'){
