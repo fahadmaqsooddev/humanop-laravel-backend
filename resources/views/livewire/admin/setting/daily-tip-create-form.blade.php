@@ -57,9 +57,9 @@
                                 <div class="card">
                                     <div class="w-25 mb-5">
                                         <select class="form-control bg-transparent text-white text-center" wire:model="interval_of_life" style="border-color: white;padding: 0px !important"  >
-                                            <option value=""  style="color: black">Interval Of Life</option>
+                                            <option value=""  style="color: black">Select Interval Of Life</option>
                                             @foreach($interval_of_life_array as $key => $interval)
-                                            <option value="{{$key}}" style="color: black">{{$interval}}</option>
+                                            <option value="{{$interval}}" style="color: black">{{$interval}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -307,7 +307,7 @@
                                 <label class="form-label text-white">Title</label>
                                 <div class="input-group">
                                     <input id="firstName" wire:model="title" name="title"
-                                           class="form-control table-header-text" style="background-color: #0f1534 !important;" type="text">
+                                           class="form-control table-header-text text-white" style="background-color: #0f1534 !important;" type="text">
                                     <input id="code" wire:model="code" name="code"
                                            class="form-control table-header-text" type="hidden">
                                 </div>
@@ -398,6 +398,7 @@
             Livewire.on('closeModal', () => {
                 $('#dailyTipModel').modal('hide');
             });
+
         });
 
     </script>
@@ -491,7 +492,7 @@
                         color: '#fa99e7',
                     }],
                 onChange : function(val) {
-                @this.set('pv', val);
+                @this.set('pv', val.start.value);
                     resetEp();
                 @this.set('ep', null);
                 @this.set('code',null)
@@ -515,6 +516,23 @@
             window.livewire.on('codeSelected', () => {
                 resetPv();
                 resetEp();
+            });
+
+            Livewire.on('sliderUpdated', (code,point) => {
+                    let data = {
+                        start: point,
+                    };
+                    if (code == 'ep') {
+                        ep_slider.select(data, 'ep');
+                        resetPv();
+                    }else if (code == 'pv') {
+                        pv_slider.select(data, 'pv');
+                        resetEp();
+                    }else {
+                        resetEp();
+                        resetPv();
+                    }
+
             });
 
         });

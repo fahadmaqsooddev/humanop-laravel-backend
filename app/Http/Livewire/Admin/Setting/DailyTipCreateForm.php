@@ -20,9 +20,11 @@ class DailyTipCreateForm extends Component
         'description' => 'required',
         'subscription_type' => 'required',
         'point' => 'nullable',
-        'interval_of_life' => 'nullable'
+        'interval_of_life' => 'required'
     ];
-
+    public function resetPointArray(){
+        $this->point_array = ['SA' => 0, 'MA' => 0, 'JO' => 0, 'LU' => 0, 'VEN' => 0, 'MER' => 0, 'SO' => 0,'DE' => 0, 'DOM' => 0, 'FE' => 0, 'GRE' => 0, 'LUN' => 0, 'NAI' => 0, 'NE' => 0, 'POW' => 0, 'SP' => 0, 'TRA' => 0, 'VAN' => 0, 'WIL' => 0,'G' => 502, 'S' => 52, 'C' => 7,'GS' => 403,'SG' => 322,'SC' => 43,'CS' => 34,'EM' => 3, 'INS' => 3, 'INT' => 3, 'MOV' => 3];
+    }
     protected $messages = [
         'code.required' => 'Code is required',
         'title.required' => 'Title is required',
@@ -32,7 +34,6 @@ class DailyTipCreateForm extends Component
 
     public function selectCode($selectedCode){
             $this->code = $selectedCode;
-            $this->point = $this->point_array[$this->code];
             $this->emit('codeSelected');
     }
 
@@ -41,13 +42,23 @@ class DailyTipCreateForm extends Component
         $this->description = $data;
        }
 
-      public function updateEditTipValues($id,$code,$title,$description){
+      public function updateEditTipValues($id,$code,$title,$description,$interval,$subscription,$point){
               $this->emptyDailyTipValues();
               $this->tip_id = $id;
               $this->code = $code;
               $this->title = $title;
               $this->description = $description;
+              $this->interval_of_life = $interval;
+              $this->subscription_type = $subscription;
+              $this->point = $point;
+
+             if ($code != 'pv' && $code != 'ep') {
+              $this->point_array[$code] = $point;
+               }else{
+                 $this->resetPointArray();
+              }
               $this->emit('contentUpdated', $this->description);
+              $this->emit('sliderUpdated', $code,$point);
     }
 
     public function emptyDailyTipValues(){
@@ -65,8 +76,12 @@ class DailyTipCreateForm extends Component
              }else if (isset($this->pv)){
                  $this->code = 'pv';
                  $this->point = $this->pv;
+             }else{
+                 $this->point = $this->point_array[$this->code];
              }
+
             $validatedData = $this->validate();
+
             if($this->tip_id){
                 DailyTip::updateIntentionPlan($validatedData,$this->tip_id);
                 $this->emit('closeModal');
