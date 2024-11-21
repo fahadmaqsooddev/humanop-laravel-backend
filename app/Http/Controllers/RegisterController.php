@@ -288,18 +288,26 @@ class RegisterController extends Controller
 
             $user = User::getSingleUser(Session::get('userId'));
 
-            $baseUrl = url('/check-email', $user['id']);
+            if ($user['email_verified_at'] == null)
+            {
+                $baseUrl = url('/check-email', $user['id']);
 
-            $data = [
-                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
-                '{$link}' =>  $baseUrl,
-            ];
+                $data = [
+                    '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                    '{$link}' =>  $baseUrl,
+                ];
 
-            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+                $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-            Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
+                Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
 
-            return redirect('/email-verify')->with(['success' => 'Resend email sent successfully!']);
+                return redirect('/email-verify')->with(['success' => 'Resend email sent successfully!']);
+            }
+            else
+            {
+                return redirect()->route('client_dashboard')->with(['success' => 'You are already verified']);
+
+            }
 
         } catch (\Exception $exception) {
 

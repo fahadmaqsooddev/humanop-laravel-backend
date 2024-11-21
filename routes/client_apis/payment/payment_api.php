@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('payment_checkout', 'PaymentController@paymentCheckout');
-Route::post('redeem_coupon', 'PaymentController@redeemCoupon');
-Route::get('payment-history', 'PaymentController@paymentHistory');
-Route::get('billing', 'PaymentController@billing');
-Route::get('checkout-subscription', 'PaymentController@checkoutSubscription');
-Route::post('process-subscription', 'PaymentController@processSubscription');
-Route::get('plans', 'PaymentController@plans');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::post('payment_checkout', 'PaymentController@paymentCheckout');
+    Route::post('redeem_coupon', 'PaymentController@redeemCoupon');
+    Route::get('payment-history', 'PaymentController@paymentHistory');
+    Route::get('billing', 'PaymentController@billing');
+    Route::get('checkout-subscription', 'PaymentController@checkoutSubscription');
+    Route::post('process-subscription', 'PaymentController@processSubscription');
+    Route::get('plans', 'PaymentController@plans');
+
+});

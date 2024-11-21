@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('chats', 'MessageController@chats');
-Route::post('send-message', 'MessageController@sendMessage');
-Route::get('messages', 'MessageController@messages');
-Route::delete('delete-chat', 'MessageController@deleteChat');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::get('chats', 'MessageController@chats');
+    Route::post('send-message', 'MessageController@sendMessage');
+    Route::get('messages', 'MessageController@messages');
+    Route::delete('delete-chat', 'MessageController@deleteChat');
+
+});

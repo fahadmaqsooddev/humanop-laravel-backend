@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('story-users', 'StoryController@storyUsers');
-Route::post('create-story', 'StoryController@createStory');
-Route::delete('delete-story', 'StoryController@deleteStory');
-Route::get('user-stories','StoryController@userStories');
-Route::post('story-viewed', 'StoryController@storyViewed');
-Route::get('story-views', 'StoryController@storyViews');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::get('story-users', 'StoryController@storyUsers');
+    Route::post('create-story', 'StoryController@createStory');
+    Route::delete('delete-story', 'StoryController@deleteStory');
+    Route::get('user-stories', 'StoryController@userStories');
+    Route::post('story-viewed', 'StoryController@storyViewed');
+    Route::get('story-views', 'StoryController@storyViews');
+
+});

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/resource-urls', 'LibraryResourceController@resourceUrls');
+Route::group(['middleware' => ['checkUser']], function () {
+
+    Route::get('/resource-urls', 'LibraryResourceController@resourceUrls');
+
+});
