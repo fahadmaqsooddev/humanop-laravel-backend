@@ -2092,7 +2092,11 @@
             }
 
             video.pause();
-
+           var playPauseBtnIcon = container.querySelector(".play-pause i");
+            var playPauseBtnCenterIcon = container.querySelector(".play-pause-center i");
+            playPauseBtnIcon.classList.replace("fa-pause", "fa-play");
+            playPauseBtnCenterIcon.classList.replace("fa-pause", "fa-play");
+            
             source.setAttribute('src', src);
             source.setAttribute('type', 'video/mp4');
             source.setAttribute('id', 'video-source');
@@ -2140,7 +2144,7 @@
             progressBar = container.querySelector(".progress-bar"),
             volumeBtn = container.querySelector(".volume i"),
             volumeSlider = container.querySelector(".left input");
-        currentVidTime = container.querySelector(".current-time"),
+             currentVidTime = container.querySelector(".current-time"),
             videoDuration = container.querySelector(".video-duration"),
             skipBackward = container.querySelector(".skip-backward i"),
             skipForward = container.querySelector(".skip-forward i"),
