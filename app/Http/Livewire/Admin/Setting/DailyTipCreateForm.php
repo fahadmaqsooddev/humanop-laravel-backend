@@ -34,6 +34,8 @@ class DailyTipCreateForm extends Component
 
     public function selectCode($selectedCode){
             $this->code = $selectedCode;
+            $this->ep = null;
+            $this->pv = null;
             $this->emit('codeSelected');
     }
 
@@ -77,7 +79,9 @@ class DailyTipCreateForm extends Component
                  $this->code = 'pv';
                  $this->point = $this->pv;
              }else{
-                 $this->point = $this->point_array[$this->code];
+                 if($this->code){
+                     $this->point = $this->point_array[$this->code];
+                 }
              }
 
             $validatedData = $this->validate();
