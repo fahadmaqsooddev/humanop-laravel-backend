@@ -2092,8 +2092,7 @@
             }
 
             video.pause();
-            mainVideo = container.querySelector("video"),
-             mainVideo.pause();
+
             source.setAttribute('src', src);
             source.setAttribute('type', 'video/mp4');
             source.setAttribute('id', 'video-source');
