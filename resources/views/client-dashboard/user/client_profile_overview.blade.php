@@ -2092,8 +2092,8 @@
             }
 
             video.pause();
-           var playPauseBtnIcon = container.querySelector(".play-pause i");
-            var playPauseBtnCenterIcon = container.querySelector(".play-pause-center i");
+           var playPauseBtnIcon = videoContainer.querySelector(".play-pause i");
+            var playPauseBtnCenterIcon = videoContainer.querySelector(".play-pause-center i");
             playPauseBtnIcon.classList.replace("fa-pause", "fa-play");
             playPauseBtnCenterIcon.classList.replace("fa-pause", "fa-play");
             
