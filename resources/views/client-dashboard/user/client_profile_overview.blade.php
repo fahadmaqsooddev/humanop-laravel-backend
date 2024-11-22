@@ -2086,9 +2086,8 @@
             var videoContainer = document.getElementById('container_video');
             var video_source = document.getElementById('video-source')
             var source = document.createElement('source');
-
+            $('.progress-bar').css('width','0%');
             if (video_source !== null) {
-
                 video_source.remove();
             }
 
