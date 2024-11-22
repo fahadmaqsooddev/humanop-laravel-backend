@@ -29,6 +29,8 @@ class ChangePasswordController extends Controller
 //            'token' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
+        ],[
+            'email.required' => 'Your reset link has been expired'
         ]);
 
         $user = User::where('email', $request['email'])->first();
