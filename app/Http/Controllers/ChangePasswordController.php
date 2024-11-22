@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -114,6 +115,8 @@ class ChangePasswordController extends Controller
 //                : back()->withErrors(['email' => __($status)]);
 
         } catch (\Exception $exception) {
+
+            Log::info(['forgot pass log' => $exception->getMessage()]);
 
             return redirect()->back()->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
 
