@@ -988,10 +988,13 @@
                                         </div>
                                     </div>
                                     @foreach($topTwoFeatures as $index => $feature)
+                                        @php
+                                            $feature_name = str_replace(' ', '-', $feature[1]);
+                                        @endphp
                                         <div class="row d-flex">
-                                            <div id="feature_{{$feature[1]}}" class="col-12 mt-3"
+                                            <div id="feature_{{ $feature_name }}" class="col-12 mt-3"
                                                  style="display: none;">
-                                                <div id="feature_{{$feature[1]}}_text" class="card p-2"
+                                                <div id="feature_{{ $feature_name }}_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
@@ -1733,12 +1736,15 @@
                                                 </div>
                                                 <div class="row d-flex mt-5">
                                                     @foreach($topTwoFeatures as $index => $feature)
+                                                        @php
+                                                            $feature_name = str_replace(' ', '-', $feature[1]);
+                                                        @endphp
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
-                                                            <div id="feature_{{$feature[1]}}_heading"
+                                                            <div id="feature_{{ $feature_name }}_heading"
                                                                  class="card core_stats_dynamic_card_motivation"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3">
-                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$feature[1]}}')"
+                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{ $feature_name }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
                                                                         {{$index + 1}}
@@ -2086,13 +2092,13 @@
             var videoContainer = document.getElementById('container_video');
             var video_source = document.getElementById('video-source')
             var source = document.createElement('source');
-            $('.progress-bar').css('width','0%');
+            $('.progress-bar').css('width', '0%');
             if (video_source !== null) {
                 video_source.remove();
             }
 
             video.pause();
-           var playPauseBtnIcon = videoContainer.querySelector(".play-pause i");
+            var playPauseBtnIcon = videoContainer.querySelector(".play-pause i");
             var playPauseBtnCenterIcon = videoContainer.querySelector(".play-pause-center i");
             playPauseBtnIcon.classList.replace("fa-pause", "fa-play");
             playPauseBtnCenterIcon.classList.replace("fa-pause", "fa-play");
@@ -2144,7 +2150,7 @@
             progressBar = container.querySelector(".progress-bar"),
             volumeBtn = container.querySelector(".volume i"),
             volumeSlider = container.querySelector(".left input");
-             currentVidTime = container.querySelector(".current-time"),
+        currentVidTime = container.querySelector(".current-time"),
             videoDuration = container.querySelector(".video-duration"),
             skipBackward = container.querySelector(".skip-backward i"),
             skipForward = container.querySelector(".skip-forward i"),
