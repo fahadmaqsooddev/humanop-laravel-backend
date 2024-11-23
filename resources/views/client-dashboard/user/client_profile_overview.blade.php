@@ -1865,7 +1865,7 @@
                                                             <div id="your_perception_heading" class="card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 " style="text-align: center">
-                                                                    <h5 onclick="showFeatureVideo('{{$perception_life['video_url']}}', 1, 'your_perception')"
+                                                                    <h5 onclick="showFeatureVideo('{{asset('assets/video/Perception of Life Intro.mp4')}}', 1, 'your_perception')"
                                                                         style="cursor: pointer;color: #f2661c;"
                                                                         class="fs-10px">
                                                                         Intro To Perception of Life
@@ -2096,7 +2096,7 @@
             var playPauseBtnCenterIcon = videoContainer.querySelector(".play-pause-center i");
             playPauseBtnIcon.classList.replace("fa-pause", "fa-play");
             playPauseBtnCenterIcon.classList.replace("fa-pause", "fa-play");
-            
+
             source.setAttribute('src', src);
             source.setAttribute('type', 'video/mp4');
             source.setAttribute('id', 'video-source');
