@@ -187,7 +187,7 @@ class ActionPlan extends Model
         $authenticDriverCount = 0;
 
         foreach ($firstRowDriver as $driver) {
-            if (isset($assessmentDetails['gridColor'][$driver]) && in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow'])) {
+            if (isset($assessmentDetails['gridColor'][$driver]) && in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow']) && !in_array($assessmentDetails['gridColor'][$driver], ['red'])) {
                 $authenticDriverCount++;
             }
         }
@@ -200,155 +200,284 @@ class ActionPlan extends Model
             }
         }
 
-        $actionPlan = null;
+        $actionPlan = [];
 
-        if ($assessmentDetails['firstRow']['van'] == 0) {
 
-            $actionPlan = config('actionPlan.priority_1');
+        if ($assessmentDetails['firstRow']['van'] == 0)
+        {
 
-        } elseif ($assessmentDetails['firstRow']['sa'] == 0) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_1'),
+                'priority' => 'priority 1'
+            ];
 
-            $actionPlan = config('actionPlan.priority_2.regal');
+        }
+        elseif ($assessmentDetails['firstRow']['sa'] == 0)
+        {
 
-        } elseif ($assessmentDetails['firstRow']['ma'] == 0) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.regal'),
+                'priority' => 'priority 2 regal'
+            ];
 
-            $actionPlan = config('actionPlan.priority_2.energetic');
+        }
+        elseif ($assessmentDetails['firstRow']['ma'] == 0)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.energetic'),
+                'priority' => 'priority 2 energetic'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['jo'] == 0) {
+        }
+        elseif ($assessmentDetails['firstRow']['jo'] == 0)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.absorptive'),
+                'priority' => 'priority 2 absorptive'
+            ];
 
-            $actionPlan = config('actionPlan.priority_2.absorptive');
+        }
+        elseif ($assessmentDetails['firstRow']['ven'] == 0)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.sympathetic'),
+                'priority' => 'priority 2 sympathetic'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['ven'] == 0) {
+        }
+        elseif ($assessmentDetails['firstRow']['mer'] == 0)
+        {
 
-            $actionPlan = config('actionPlan.priority_2.sympathetic');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.perceptive'),
+                'priority' => 'priority 2 perceptive'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['mer'] == 0) {
+        }
+        elseif ($assessmentDetails['firstRow']['so'] == 0)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_2.effervescent'),
+                'priority' => 'priority 2 effervescent'
+            ];
 
-            $actionPlan = config('actionPlan.priority_2.perceptive');
-
-        } elseif ($assessmentDetails['firstRow']['so'] == 0) {
-
-            $actionPlan = config('actionPlan.priority_2.effervescent');
-
-        } elseif (
+        }
+        elseif (
             ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
             (!in_array('jo', $bridge) || !in_array('mer', $bridge)) &&
             ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30 && $assessmentDetails['thirdRow']['so'] < 30)
-        ) {
+        )
+        {
 
-            $actionPlan = config('actionPlan.priority_3');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_3'),
+                'priority' => 'priority 3'
+            ];
 
-        } elseif ($authenticTraitCount < 3) {
+        }
+        elseif ($authenticTraitCount < 3)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_4'),
+                'priority' => 'priority 4'
+            ];
 
-            $actionPlan = config('actionPlan.priority_4');
-
-        } elseif (
+        }
+        elseif
+        (
 
             ($assessmentDetails['firstRow']['ma'] < 5 && $assessmentDetails['firstRow']['lu'] < 5) &&
             (!in_array('ma', $bridge) || !in_array('lu', $bridge)) &&
             ($assessmentDetails['thirdRow']['ma'] < 30 && $assessmentDetails['thirdRow']['lu'] < 30)
-        ) {
+        )
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_5'),
+                'priority' => 'priority 5'
+            ];
 
-            $actionPlan = config('actionPlan.priority_5');
-
-        } elseif (
+        }
+        elseif (
 
             ($assessmentDetails['firstRow']['sa'] < 5 && $assessmentDetails['firstRow']['ven'] < 5) &&
             (!in_array('sa', $bridge) || !in_array('ven', $bridge)) &&
             ($assessmentDetails['thirdRow']['sa'] < 30 && $assessmentDetails['thirdRow']['ven'] < 30)
-        ) {
+        )
+        {
 
-            $actionPlan = config('actionPlan.priority_6');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_6'),
+                'priority' => 'priority 6'
+            ];
 
-        } elseif ($authenticDriverCount > 3) {
+        }
+        elseif ($authenticDriverCount > 3)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_7'),
+                'priority' => 'priority 7'
+            ];
 
-            $actionPlan = config('actionPlan.priority_7');
+        }
+        elseif ($authenticDriverCount == 3)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_8'),
+                'priority' => 'priority 8'
+            ];
 
-        } elseif ($authenticDriverCount == 3) {
+        }
+        elseif ($authenticDriverCount == 2)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_9'),
+                'priority' => 'priority 9'
+            ];
 
-            $actionPlan = config('actionPlan.priority_8');
+        }
+        elseif ($authenticDriverCount == 1)
+        {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_10'),
+                'priority' => 'priority 10'
+            ];
 
-        } elseif ($authenticDriverCount == 2) {
+        }
+        elseif ($pilotDriverCount == 2) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_11'),
+                'priority' => 'priority 11'
+            ];
 
-            $actionPlan = config('actionPlan.priority_9');
+        }
+        elseif ($pilotDriverCount == 1) {
 
-        } elseif ($authenticDriverCount == 1) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_12'),
+                'priority' => 'priority 12'
+            ];
 
-            $actionPlan = config('actionPlan.priority_10');
+        }
+        elseif ($countFirstRowDriver > 21) {
 
-        } elseif ($pilotDriverCount == 2) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_13'),
+                'priority' => 'priority 13'
+            ];
 
-            $actionPlan = config('actionPlan.priority_11');
+        }
+        elseif ($countFirstRowDriver < 16) {
 
-        } elseif ($pilotDriverCount == 1) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_14'),
+                'priority' => 'priority 14'
+            ];
 
-            $actionPlan = config('actionPlan.priority_12');
+        }
+        elseif (in_array($assessmentDetails['alchemy'], [700, 610, 601, 520, 511, 502, 430])) {
 
-        } elseif ($countFirstRowDriver > 21) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_15'),
+                'priority' => 'priority 15'
+            ];
 
-            $actionPlan = config('actionPlan.priority_13');
+        }
+        elseif (in_array($assessmentDetails['alchemy'], [223, 133, 043, 214, 124, 115, 034, 007])) {
 
-        } elseif ($countFirstRowDriver < 16) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_16'),
+                'priority' => 'priority 16'
+            ];
 
-            $actionPlan = config('actionPlan.priority_14');
+        }
+        elseif ($countGreaterThan12 >= 2) {
 
-        } elseif (in_array($assessmentDetails['alchemy'], [700, 610, 601, 520, 511, 502, 430])) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_17'),
+                'priority' => 'priority 17'
+            ];
 
-            $actionPlan = config('actionPlan.priority_15');
-
-        } elseif (in_array($assessmentDetails['alchemy'], [223, 133, 043, 214, 124, 115, 034, 007])) {
-
-            $actionPlan = config('actionPlan.priority_16');
-
-        } elseif ($countGreaterThan12 >= 2) {
-
-            $actionPlan = config('actionPlan.priority_17');
-
-        } elseif (count(array_filter($values, function ($value) {
+        }
+        elseif (count(array_filter($values, function ($value) {
                 return $value > 12;
-            })) > 0) {
+            })) == 1) {
 
-            $actionPlan = config('actionPlan.priority_18');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_18'),
+                'priority' => 'priority 18'
+            ];
 
-        } elseif ($countLessThan7 >= 2) {
+        }
+        elseif ($countLessThan7 == 2) {
 
             $actionPlan = config('actionPlan.priority_19');
 
-        } elseif (count(array_filter($values, function ($value) {
+        }
+        elseif (count(array_filter($values, function ($value) {
                 return $value < 7;
-            })) > 0) {
+            })) == 1) {
 
-            $actionPlan = config('actionPlan.priority_20');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_20'),
+                'priority' => 'priority 20'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['pv'] == 0) {
+        }
+        elseif ($assessmentDetails['firstRow']['pv'] == 0) {
 
-            $actionPlan = config('actionPlan.priority_21');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_21'),
+                'priority' => 'priority 21'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['pv'] < 0) {
+        }
+        elseif ($assessmentDetails['firstRow']['pv'] < 0) {
 
-            $actionPlan = config('actionPlan.priority_22');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_22'),
+                'priority' => 'priority 22'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['pv'] > 12) {
+        }
+        elseif ($assessmentDetails['firstRow']['pv'] > 12) {
 
-            $actionPlan = config('actionPlan.priority_23');
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_23'),
+                'priority' => 'priority 23'
+            ];
 
-        } elseif ($assessmentDetails['firstRow']['ep'] < 25) {
+        }
+        elseif ($assessmentDetails['firstRow']['ep'] < 25) {
 
-            $actionPlan = config('actionPlan.priority_24');
 
-        } elseif ($assessmentDetails['firstRow']['ep'] > 35) {
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_24'),
+                'priority' => 'priority 24'
+            ];
 
-            $actionPlan = config('actionPlan.priority_25');
+        }
+        elseif ($assessmentDetails['firstRow']['ep'] > 35) {
+
+
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_25'),
+                'priority' => 'priority 25'
+            ];
 
         } else {
 
-            $actionPlan = config('actionPlan.priority_26');
+
+            $actionPlan = [
+                'plan_text' => config('actionPlan.priority_26'),
+                'priority' => 'priority 26'
+            ];
 
         }
 
         $plan = self::create([
             'user_id' => $user['id'],
-            'plan_text' => $actionPlan,
+            'plan_text' => $actionPlan['plan_text'],
+            'priority' => $actionPlan['priority'],
             'assessment_id' => $assessment['id'],
         ]);
 
@@ -362,7 +491,7 @@ class ActionPlan extends Model
 
         $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
 
-        return self::where('user_id', $user_id)->select(['id', 'plan_text', 'text'])->first();
+        return self::where('user_id', $user_id)->select(['id','priority', 'plan_text', 'text'])->latest()->first();
     }
 
     public static function getUserActionPlan($user_id = null)
