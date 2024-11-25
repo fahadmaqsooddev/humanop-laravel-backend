@@ -140,7 +140,7 @@ class RegisterController extends Controller
         } catch (\Exception $exception) {
 
             DB::rollBack();
-            return redirect()->back()->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
 
         }
     }
