@@ -73,8 +73,7 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-            dd($dataArray);
-            
+
             $user = User::createUser($dataArray);
 
             if ($request->referralCode) {
@@ -84,6 +83,8 @@ class RegisterController extends Controller
                 }
             }
 
+            dd($request['ninety_day_intention']);
+            
             if (!empty($request['ninety_day_intention'])) {
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
