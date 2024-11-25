@@ -2,6 +2,7 @@
 
 @section('content')
     @push('css')
+        <link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet" />
         <style>
             .setting-options:hover {
                 background-color: white !important;
@@ -202,13 +203,13 @@
                         <div class="col-sm-auto col-4">
                             <div class="avatar avatar-xl position-relative">
                                 @if(\App\Helpers\Helpers::getWebUser()->gender === \App\Enums\Admin\Admin::IS_MALE)
-                                    <img src="{{ URL::asset('media/files/original_default/profile_pic.png') }}"
+                                    <img src="{{ Auth::user()['photo_url']['url'] }}"
                                          alt="bruce"
-                                         class="w-100 border-radius-lg shadow-sm">
+                                         class="w-100 border-radius-lg shadow-sm user_profile_image">
                                 @else
-                                    <img src="{{ URL::asset('media/files/original_default/female_profile_pic.png') }}"
+                                    <img src="{{ Auth::user()['photo_url']['url'] }}"
                                          alt="bruce"
-                                         class="w-100 border-radius-lg shadow-sm">
+                                         class="w-100 border-radius-lg shadow-sm user_profile_image">
                                 @endif
                             </div>
                         </div>
@@ -278,6 +279,7 @@
 @endsection
 
 @push('js')
+    <script src="{{ URL::asset('assets/js/cropper.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
     <script>
         if (document.getElementById('choices-gender')) {
