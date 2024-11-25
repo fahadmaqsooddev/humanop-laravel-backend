@@ -124,9 +124,7 @@ class RegisterController extends Controller
                 session()->flash('success', 'Your account has been created.');
 
                 Session::forget('google_user');
-
-                dd(Session::get('google_user'));
-
+                
                 DB::commit();
 
                 return redirect()->route('client_dashboard');
