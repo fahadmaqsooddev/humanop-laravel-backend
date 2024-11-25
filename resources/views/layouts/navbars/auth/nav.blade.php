@@ -14,7 +14,7 @@
                     <div class="avatar avatar-xl avatar-icon  ">
                         <img
                             src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                            height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">
+                            height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  user_profile_image">
                     </div>
                 </div>
                 <div class="d-flex">

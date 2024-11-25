@@ -859,4 +859,13 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public static function profileUpload($userId = null, $uploadId = null)
+    {
+
+        self::whereId($userId)->update(['image_id' => $uploadId]);
+
+        return self::whereId($userId)->first();
+
+    }
+
 }

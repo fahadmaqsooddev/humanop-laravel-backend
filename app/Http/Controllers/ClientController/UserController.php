@@ -12,6 +12,7 @@ use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\Information\InformationIcon;
+use App\Models\Upload\Upload;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -55,6 +56,35 @@ class UserController extends Controller
 
             $user = Auth::user();
             return view('client-dashboard.user.client_user_info', compact('user'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function userProfileImage(Request $request)
+    {
+        try {
+
+            if ($request['image']){
+
+                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image','png', true);
+
+                $user = Helpers::getWebUser();
+
+                $updateUser = User::profileUpload($user['id'], $upload_id);
+
+                return response()->json([
+                    'url' => $updateUser['photo_url']
+                ]);
+            }
+            else {
+                return response()->json([
+                    'error' => 'No image provided.'
+                ], 400);
+            }
 
         } catch (\Exception $exception) {
 
