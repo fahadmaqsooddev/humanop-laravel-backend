@@ -685,7 +685,7 @@ class User extends Authenticatable implements JWTSubject
 
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
 
-        $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId) : self::query();
+        $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId)->orderBy('created_at', 'desc') : self::query()->orderBy('created_at', 'desc');
 
         // Search by name
         if (!empty($search_name)) {
