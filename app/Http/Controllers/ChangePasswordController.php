@@ -140,7 +140,8 @@ class ChangePasswordController extends Controller
         ]);
     }
 
-    public function checkEmail($id = null)
+    public
+    function checkEmail($id = null)
     {
         $user = User::getSingleUser($id);
 
@@ -148,12 +149,14 @@ class ChangePasswordController extends Controller
 
             User::emailVerified($user['id']);
 
-            session()->flash('success', 'Your account has been verified');
+            Auth::login($user);
 
-            return redirect()->route('login');
+//            DailyTip::updateUserDailyTip();
 
+//            ActionPlan::storeUserActionPlan();
+
+            return redirect()->route('client_dashboard');
         } else {
-
             return redirect()->to('/register');
         }
     }

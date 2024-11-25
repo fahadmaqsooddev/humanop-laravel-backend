@@ -123,6 +123,10 @@ class RegisterController extends Controller
 
                 Auth::login($user);
 
+//                DailyTip::updateUserDailyTip();
+
+//                ActionPlan::checkUserActionPlan();
+
                 session()->flash('success', 'Your account has been created.');
 
                 Session::forget('google_user');
@@ -210,22 +214,13 @@ class RegisterController extends Controller
     {
         try {
 
-            $user = Session::get('userId');
-
-            $verifiedUser = User::whereId($user)->first();
-
             $auth = Helpers::getWebUser();
 
             if ($auth)
             {
                 return redirect()->route('client_dashboard');
 
-            }
-            elseif (!empty($verifiedUser['email_verified_at']))
-            {
-                return redirect()->route('login');
-            }
-            else
+            }else
             {
                 return view('session/email-verify');
             }
