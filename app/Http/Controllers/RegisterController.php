@@ -73,7 +73,6 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-
             $user = User::createUser($dataArray);
 
             if ($request->referralCode) {
@@ -122,14 +121,11 @@ class RegisterController extends Controller
 
                 User::emailVerified($user['id']);
 
-
-                dd($user);
-                
                 Auth::login($user);
 
                 session()->flash('success', 'Your account has been created.');
 
-                Session::forget('google_user');
+//                Session::forget('google_user');
 
                 DB::commit();
 
