@@ -1,5 +1,6 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 @push('css')
+    <link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet" />
     <style>
         .setting-options:hover{
             background-color: white !important;
@@ -253,7 +254,7 @@
                             <div class="avatar avatar-xl position-relative">
                                 <img
                                     src="{{ Auth::user()['photo_url']['url'] }}"
-                                    alt="bruce" height="80" class="w-100 border-radius-lg shadow-sm" id="profile_image">
+                                    alt="bruce" height="80" class="w-100 border-radius-lg shadow-sm user_profile_image" id="profile_image">
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
@@ -436,6 +437,7 @@
 @push('js')
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/cropper.min.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>

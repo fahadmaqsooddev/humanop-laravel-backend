@@ -91,7 +91,6 @@ class SessionController extends Controller
                    if(Auth::attempt($attributes))
                    {
 
-
                        if (isset($request['remember']) && !empty($request['remember']))
                        {
                            setcookie("email", $attributes['email'], 30*time()+3600);
@@ -104,17 +103,16 @@ class SessionController extends Controller
 
                        $user = Helpers::getWebUser();
 
-                       Session::forget('google_user'); // forget the session of the google data
+                       if (!empty(Session::get('google_user')))
+                       {
+                           Session::forget('google_user');
+                       }
 
                        if ($user->is_admin == Admin::IS_CUSTOMER){
 
                            Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-//                        DailyTip::updateUserDailyTip();
-
                            User::updateUserIsFeedback();
-
-//                        ActionPlan::storeUserActionPlan();
 
                        }
 
