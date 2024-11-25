@@ -416,7 +416,7 @@ return [
         ],
         'ChatPrompt' => [
             'table' => 'hai_chat_prompts',
-            'fillable' => ['name','prompt','restriction'],
+            'fillable' => ['name','prompt','restriction','keyword_restriction'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatEmbedding' => [
