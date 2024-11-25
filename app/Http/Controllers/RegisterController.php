@@ -83,8 +83,6 @@ class RegisterController extends Controller
                 }
             }
 
-            dd($request['ninety_day_intention']);
-            
             if (!empty($request['ninety_day_intention'])) {
                 IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
             }
@@ -124,6 +122,9 @@ class RegisterController extends Controller
 
                 User::emailVerified($user['id']);
 
+
+                dd($user);
+                
                 Auth::login($user);
 
                 session()->flash('success', 'Your account has been created.');
