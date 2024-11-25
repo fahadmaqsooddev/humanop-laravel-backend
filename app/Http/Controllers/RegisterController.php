@@ -73,74 +73,83 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-            $user = User::createUser($dataArray);
+            $checkUser = User::checkEmail($dataArray['email']);
 
-            if ($request->referralCode) {
-                $referredBy = User::where('referral_code', $request->referralCode)->first();
-                if ($referredBy) {
-                    $user->update(['referred_by' => $referredBy->id]);
+            if (empty($checkUser))
+            {
+                $user = User::createUser($dataArray);
+
+                if ($request->referralCode) {
+                    $referredBy = User::where('referral_code', $request->referralCode)->first();
+                    if ($referredBy) {
+                        $user->update(['referred_by' => $referredBy->id]);
+                    }
+                }
+
+                if (!empty($request['ninety_day_intention'])) {
+                    IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
+                }
+
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                if (isset($request['remember']) && !empty($request['remember'])) {
+                    setcookie("email", $request['email'], 30 * time() + 3600);
+                    setcookie("password", $request['password'], 30 * time() + 3600);
+                }
+                else {
+                    setcookie("email", "");
+                    setcookie("password", "");
+                }
+
+                if (empty($request['google_id']))
+                {
+                    $baseUrl = url('/check-email', $user['id']);
+
+                    $data = [
+                        '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
+                        '{$link}' =>  $baseUrl,
+                    ];
+
+                    $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+
+                    Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
+
+                    Session::put('userId', $user['id']);
+
+                    DB::commit();
+
+                    return redirect()->route('email_verify');
+                }
+                else
+                {
+
+                    User::emailVerified($user['id']);
+
+                    Auth::login($user);
+
+                    session()->flash('success', 'Your account has been created.');
+
+                    Session::forget('google_user');
+
+                    DB::commit();
+
+                    return redirect()->route('client_dashboard');
+
                 }
             }
-
-            if (!empty($request['ninety_day_intention'])) {
-                IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
-            }
-
-            Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-            if (isset($request['remember']) && !empty($request['remember'])) {
-                setcookie("email", $request['email'], 30 * time() + 3600);
-                setcookie("password", $request['password'], 30 * time() + 3600);
-            } else {
-                setcookie("email", "");
-                setcookie("password", "");
-            }
-
-            if (empty($request['google_id']))
+            else
             {
-                $baseUrl = url('/check-email', $user['id']);
+                session()->flash('error', 'Your email already exists');
 
-                $data = [
-                    '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
-                    '{$link}' =>  $baseUrl,
-                ];
-
-                $email_template = EmailTemplate::getTemplate($data, 'email-verification');
-
-                Email::sendEmailVerification(['content' => $email_template],$user['email'],'emails.Email_Template', 'Email Verification');
-
-                Session::put('userId', $user['id']);
-
-                Session::forget('google_user');
-
-                DB::commit();
-
-                return redirect()->route('email_verify');
-            }else
-            {
-
-                User::emailVerified($user['id']);
-
-                Auth::login($user);
-
-//                DailyTip::updateUserDailyTip();
-
-//                ActionPlan::checkUserActionPlan();
-
-                session()->flash('success', 'Your account has been created.');
-
-                Session::forget('google_user');
-
-                DB::commit();
-
-                return redirect()->route('client_dashboard');
+                return redirect()->route('create');
 
             }
+
 
         } catch (\Exception $exception) {
 
             DB::rollBack();
-            return redirect()->back()->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
 
         }
     }
