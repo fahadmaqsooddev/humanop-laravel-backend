@@ -111,6 +111,8 @@ class RegisterController extends Controller
 
                 Session::put('userId', $user['id']);
 
+                dd(Session::get('google_user'));
+                
                 Session::forget('google_user');
 
                 DB::commit();
@@ -125,7 +127,7 @@ class RegisterController extends Controller
 
                 session()->flash('success', 'Your account has been created.');
 
-//                Session::forget('google_user');
+                Session::forget('google_user');
 
                 DB::commit();
 
