@@ -26,9 +26,9 @@ class HaiChatActiveEmbedding extends Model
         ]);
     }
 
-    public static function singleActiveEmbedding($request_id = null)
+    public static function singleActiveEmbedding($request_id = null, $chat_bot = null)
     {
-        return self::where('request_id', $request_id)->first();
+        return self::where('request_id', $request_id)->where('chat_bot', $chat_bot)->first();
     }
 
     public static function allActiveEmbeddings($bot_name = null)

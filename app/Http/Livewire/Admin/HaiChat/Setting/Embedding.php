@@ -127,7 +127,7 @@ class Embedding extends Component
     public function changeEmbeddingSelect($name,$request_id){
         $this->selected_embedding = $name;
         $this->request_id = $request_id;
-        $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id);
+        $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
         if($activeEmbedding){
             $this->button_status = 'Disconnect';
         }else{
