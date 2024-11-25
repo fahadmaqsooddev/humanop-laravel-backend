@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Setting extends Component
 {
-    public $chatSetting, $temperature, $max_token, $chunk;
+    public $chatSetting, $temperature, $max_token, $chunk, $model_type;
 
     public function getSetting()
     {
@@ -18,7 +18,7 @@ class Setting extends Component
     {
         try {
 
-            HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_token, $this->chunk);
+            HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_token, $this->chunk, $this->model_type);
 
             session()->flash('success', "Chatbot Setting updated Successfully.");
 
@@ -37,6 +37,7 @@ class Setting extends Component
         $this->temperature = $this->chatSetting['temperature'] ?? 0.1;
         $this->max_token = $this->chatSetting['max_token'] ?? 500;
         $this->chunk = $this->chatSetting['chunk'] ?? 10;
+        $this->model_type = $this->chatSetting['model_type'] ?? 1;
 
         return view('livewire.admin.hai-chat.setting.setting', ['chatSetting' => $this->chatSetting]);
     }

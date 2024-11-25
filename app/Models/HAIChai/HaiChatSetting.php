@@ -9,6 +9,10 @@ class HaiChatSetting extends Model
 {
     use HasFactory;
 
+    CONST GPT_4o_MINI = 1;
+    CONST GPT_4o = 2;
+    CONST CLAUDE_Sonnet = 3;
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
@@ -22,12 +26,13 @@ class HaiChatSetting extends Model
         return self::first();
     }
 
-    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null)
+    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null)
     {
         return self::first()->update([
             'temperature' => $temperature,
             'max_token' => $max_token,
-            'chunk' => $chunk
+            'chunk' => $chunk,
+            'model_type' => $model_type,
         ]);
     }
 }
