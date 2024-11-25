@@ -67,9 +67,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-        DB::beginTransaction();
-
-        try {
+//        DB::beginTransaction();
+//
+//        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -131,18 +131,18 @@ class RegisterController extends Controller
 
                 Session::forget('google_user');
 
-                DB::commit();
+//                DB::commit();
 
                 return redirect()->route('client_dashboard');
 
             }
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+//
+//        }
     }
 
     public function registerClientToPractitioner(RegisterFormRequest $request)
