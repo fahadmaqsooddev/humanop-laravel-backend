@@ -111,10 +111,6 @@ class RegisterController extends Controller
 
                 Session::put('userId', $user['id']);
 
-                dd(Session::get('google_user'));
-                
-                Session::forget('google_user');
-
                 DB::commit();
 
                 return redirect()->route('email_verify');
@@ -126,6 +122,8 @@ class RegisterController extends Controller
                 Auth::login($user);
 
                 session()->flash('success', 'Your account has been created.');
+
+                dd(Session::get('google_user'));
 
                 Session::forget('google_user');
 
