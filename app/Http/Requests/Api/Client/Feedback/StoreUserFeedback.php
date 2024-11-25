@@ -31,8 +31,8 @@ class StoreUserFeedback extends FormRequest
     public function messages()
     {
         return [
-            'comment.required' => 'Comment is required',
-            'comment.max' => 'Comment maximum length is 1000 characters',
+            'comment.required' => 'Please Fill out Feedback Section',
+            'comment.max' => 'Feedback must not exceed 1000 character Limit',
         ];
     }
 }

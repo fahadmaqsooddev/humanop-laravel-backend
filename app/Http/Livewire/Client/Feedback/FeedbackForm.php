@@ -9,10 +9,19 @@ use Livewire\Component;
 class FeedbackForm extends Component
 {
     public $comment;
+    protected $rules = [
+        'comment' => 'required|max:1000',
+    ];
+
+    protected $messages = [
+        'comment.required' => 'Please Fill out Feedback Section',
+        'comment.max' => 'Feedback must not exceed 1000 character Limit',
+    ];
 
     public function submitForm()
     {
-        Feedback::create(['comment' => $this->comment, 'user_id' => Helpers::getWebUser()['id']]);
+        $validatedData = $this->validate();
+        Feedback::create(['comment' => $validatedData['comment'], 'user_id' => Helpers::getWebUser()['id']]);
 
         session()->flash('success', 'Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!');
 

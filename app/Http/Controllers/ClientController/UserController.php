@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientController;
 use App\Helpers\Helpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\AssessmentDetail;
 use App\Models\Assessment;
@@ -131,7 +132,7 @@ class UserController extends Controller
         }
     }
 
-    public function userFeedback(Request $request)
+    public function userFeedback(StoreUserFeedback $request)
     {
 
         try {

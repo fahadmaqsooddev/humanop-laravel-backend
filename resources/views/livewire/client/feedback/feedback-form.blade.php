@@ -10,8 +10,10 @@
             <div class="form-group">
                 <textarea class="form-control text-color-dark setting-box-background text-white" cols="10"
                           rows="10" wire:model="comment"
-                          name="comment"></textarea>
+                          name="comment" required></textarea>
+                <div class="float-end text-white text-sm">(Max:1000)</div>
             </div>
+
             <button type="submit" class=" btn-sm  float-end mt-4 mb-3 rainbow-border-user-nav-btn" >send feedback</button>
         </div>
     </form>

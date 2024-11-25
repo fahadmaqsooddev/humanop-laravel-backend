@@ -33,6 +33,41 @@
             font-family: inherit;
             outline: none;
         }
+             /* Alert box container */
+         .custom-alert {
+             background-color: #f8d7da; /* Light red background */
+             color: #721c24; /* Dark red text */
+             border: 1px solid #f5c6cb; /* Matching border color */
+             border-radius: 5px; /* Rounded corners */
+             padding: 15px 20px; /* Space inside the box */
+             margin: 10px 0; /* Space around the alert */
+             font-family: Arial, sans-serif; /* Font styling */
+             font-size: 1rem;
+         }
+
+        /* Alert heading styling */
+        .custom-alert strong {
+            font-weight: bold;
+        }
+
+
+
+        /* Alert box container */
+        .custom-30-minute-alert {
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border: 1px solid #f5c6cb; /* Matching border color */
+            border-radius: 5px; /* Rounded corners */
+            padding: 15px 20px; /* Space inside the box */
+            margin: 10px 0; /* Space around the alert */
+            font-family: Arial, sans-serif; /* Font styling */
+            font-size: 1rem;
+        }
+
+        /* Alert heading styling */
+        .custom-30-minute-alert strong {
+            font-weight: bold;
+        }
     </style>
 
     @if ($parentFolder == 'authentication')
@@ -141,7 +176,11 @@
                                             <span aria-hidden="true">&times;</span>
                                         </a>
                                     </div>
+
                                     <div class="feedback-card">
+                                        <div id="customAlert" class="custom-alert" style="display: none">
+                                            <strong>Error!</strong> <span id="custom_error_message"> </span>
+                                        </div>
                                         <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
                                             Thanks for being a Beta Tester! In the last 3 logins, do you have any
                                             constructive feedback of what’s working well or what could be improved?</h5>
@@ -153,10 +192,10 @@
 
                                             <textarea id="comment-value"  rows="5" class="comment-box"
                                                       placeholder="Add a Comment..." required></textarea>
-                                            <button type="submit" onclick="submitFeedBackForm()" class="btn"
+                                            <a type="submit" onclick="submitFeedBackForm()" class="btn"
                                                     style="inline-size: 100%;background-color: #f2661c;color: white;">
                                                 Submit Feedback
-                                            </button>
+                                            </a>
 
                                         </form>
                                     </div>
@@ -178,6 +217,9 @@
                                         </a>
                                     </div>
                                     <div class="feedback-card">
+                                        <div id="customThirtyMinuteAlert" class="custom-30-minute-alert" style="display: none">
+                                            <strong>Error!</strong> <span id="custom_30_minute_error_message"> </span>
+                                        </div>
                                         <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
                                             Thanks for being a Beta Tester! Wow! You’ve been on the app for over 30
                                             minutes! Would love to hear some constructive feedback as to why you’ve been
