@@ -120,7 +120,7 @@ class ChangePasswordController extends Controller
 
             Log::info(['forgot pass log' => $exception->getMessage()]);
 
-            return redirect()->back()->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+            return redirect()->back()->withInput()->withErrors(['server_error' => $exception->getMessage()]);
 
         }
 
