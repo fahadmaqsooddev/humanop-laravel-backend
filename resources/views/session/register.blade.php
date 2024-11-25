@@ -196,12 +196,12 @@
                                                         Birth</label>
                                                     <select class="form-control" name="gender" id="gender"
                                                             style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                                        <option value="" selected hidden>Gender at Birth
+                                                        <option value="" selected >Gender at Birth
                                                         </option>
-                                                        <option value="0" {{old('gender') == 0 ? 'selected' : ''}}>Male
+                                                        <option value="0">Male
                                                             (XY)
                                                         </option>
-                                                        <option value="1" {{old('gender') == 1 ? 'selected' : ''}}>
+                                                        <option value="1">
                                                             Female (XX)
                                                         </option>
                                                     </select>

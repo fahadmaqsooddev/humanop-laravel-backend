@@ -57,6 +57,18 @@
                             </select>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
+                                   class="form-label fw-bold">LLM Models</label>
+                            <select style="background-color: #0f1535"
+                                    class="form-control text-color-dark setting-box-background"
+                                    wire:model.defer="model_type">
+                                <option value="1">gpt-4o-mini</option>
+                                <option value="2">gpt-4o</option>
+                                <option value="3">Claude 3.5 Sonnet</option>
+                            </select>
+                        </div>
+
                         <!-- Buttons -->
                         <div class="d-flex gap-2">
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"

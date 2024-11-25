@@ -102,77 +102,83 @@ class AuthController extends Controller
 
             $dataArray = $request->only($user->getFillable());
 
-            $user = User::createClient($dataArray);
+            $checkUser = User::checkEmail($dataArray['email']);
 
-            if ($request->has('referred_by_code') && !empty($request['referred_by_code'])) {
-                $referredBy = User::where('referral_code', $request['referred_by_code'])->first();
-                if ($referredBy) {
-                    $user->update(['referred_by' => $referredBy->id]);
+            if (empty($checkUser)) {
+                $user = User::createClient($dataArray);
+
+                if ($request->has('referred_by_code') && !empty($request['referred_by_code'])) {
+                    $referredBy = User::where('referral_code', $request['referred_by_code'])->first();
+                    if ($referredBy) {
+                        $user->update(['referred_by' => $referredBy->id]);
+                    }
                 }
-            }
 
-            if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention'])) {
+                if ($request->has('ninety_day_intention') && !empty($request['ninety_day_intention'])) {
 
-                IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
-            }
+                    IntentionPlan::createIntentionPlan($user['id'], $request['ninety_day_intention']);
+                }
 
-            if (empty($request['google_id']) && empty($request['apple_id']))
-            {
+                if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                $baseUrl = url('/check-email', $user['id']);
+                    $baseUrl = url('/check-email', $user['id']);
 
-                $userData = [
-                    '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-                    '{$link}' => $baseUrl,
-                ];
+                    $userData = [
+                        '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                        '{$link}' => $baseUrl,
+                    ];
 
 
-                $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
+                    $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
 
-                Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
+                    Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                DB::commit();
+                    DB::commit();
 
-                $data = [
-                    'authorization' => [
-                        'userId' => $user['id'],
-                        'status' => true,
-                        'type' => 'bearer',
-                    ]
-                ];
+                    $data = [
+                        'authorization' => [
+                            'userId' => $user['id'],
+                            'status' => true,
+                            'type' => 'bearer',
+                        ]
+                    ];
 
-            }
-            else
-            {
-                User::emailVerified($user['id']);
+                } else {
+                    User::emailVerified($user['id']);
 
-                $token = $this->auth->login($user);
+                    $token = $this->auth->login($user);
 
-                $user = User::userLoggedInData();
+                    $user = User::userLoggedInData();
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
+                    $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
 
 //                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::storeUserActionPlan();
 
-                DB::commit();
+                    DB::commit();
 
-                $data = [
-                    'user' => $user,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ]
-                ];
+                    $data = [
+                        'user' => $user,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
+
+                }
+
+                return Helpers::successResponse('User register successfully', $data);
+            }
+            else
+            {
+                return Helpers::serverErrorResponse('Your email already exists');
 
             }
-
-            return Helpers::successResponse('User register successfully', $data);
 
         } catch (\Exception $exception) {
 

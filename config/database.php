@@ -416,7 +416,7 @@ return [
         ],
         'ChatPrompt' => [
             'table' => 'hai_chat_prompts',
-            'fillable' => ['name','prompt','restriction'],
+            'fillable' => ['name','prompt','restriction','keyword_restriction'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatEmbedding' => [
@@ -431,7 +431,7 @@ return [
         ],
         'HaiChatSetting' => [
             'table' => 'hai_chat_setting',
-            'fillable' => ['id','temperature','max_token','chunk'],
+            'fillable' => ['id','temperature','max_token','chunk','model_type'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatConversation' => [

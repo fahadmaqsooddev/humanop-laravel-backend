@@ -32,10 +32,26 @@ class Conversation extends Component
 
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
-
             HaiChatConversation::createConversation($this->name, $this->message);
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk']]);
+            if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
+
+                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini'];
+
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+
+            }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
+
+                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o'];
+
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+
+            }else{
+
+                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet'];
+
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
+            }
 
             HaiChatConversation::updateConversation($this->name, $aiReply['response']);
 

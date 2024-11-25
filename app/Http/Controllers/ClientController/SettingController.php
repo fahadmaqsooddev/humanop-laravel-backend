@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client\Plan\Plan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class SettingController extends Controller
 {
@@ -40,6 +43,13 @@ class SettingController extends Controller
             User::whereId(Helpers::getWebUser()->id)->delete();
 
             Auth::guard('web')->logout();
+
+            Session::flush();
+
+            Cookie::forget("email");
+            Cookie::forget("password");
+
+            Cache::forget('admin');
 
             return response()->json(['data' => 'Successfully logged out'], 200);
 

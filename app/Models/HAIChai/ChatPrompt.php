@@ -15,20 +15,22 @@ class ChatPrompt extends Model
         $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
         parent::__construct($attributes);
     }
-    public static function createUpdatePrompt($name = null, $prompt = null,$restriction = null)
+    public static function createUpdatePrompt($name = null, $prompt = null,$restriction = null, $keywordRestriction = null)
     {
        $existingPrompt =  self::singlePromptByName($name);
         if($existingPrompt){
             return self::where('id',$existingPrompt['id'])->update([
                 'name' => $name,
                 'prompt' => $prompt ?? null,
-                'restriction' => $restriction ?? null
+                'restriction' => $restriction ?? null,
+                'keyword_restriction' => $keywordRestriction
             ]);
         }else{
             return self::create([
                 'name' => $name,
                 'prompt' => $prompt ?? null,
-                'restriction' => $restriction ?? null
+                'restriction' => $restriction ?? null,
+                'keyword_restriction' => $keywordRestriction
             ]);
         }
     }
