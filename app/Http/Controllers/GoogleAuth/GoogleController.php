@@ -54,6 +54,8 @@ class GoogleController extends Controller
     {
         try {
             $invite_link = Session::get('inviteLink');
+
+            dd($invite_link);
             
             if (!empty($invite_link))
             {
