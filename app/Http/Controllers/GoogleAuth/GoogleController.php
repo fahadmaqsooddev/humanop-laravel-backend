@@ -132,9 +132,11 @@ class GoogleController extends Controller
                 else
                 {
 
-                    dd(redirect()->to('register?link='. $invite_link));
-                    
-                    return redirect()->to('register?link='. $invite_link);
+                    $url = redirect()->to('register?link=' . $invite_link);
+
+                    $urlString = $url->getTargetUrl();
+
+                    return $urlString;
                 }
             }
 
