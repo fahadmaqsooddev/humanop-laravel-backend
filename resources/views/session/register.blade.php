@@ -36,7 +36,7 @@
                                         </button>
                                     </a>
                                 @else
-                                    <a href="{{ url('auth/google'.$invite['link']) }}">
+                                    <a href="{{ url('auth/google?link='.$invite['link']) }}">
                                         <button
                                             class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                             type="button"
