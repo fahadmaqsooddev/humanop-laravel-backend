@@ -36,7 +36,7 @@ class RegisterController extends Controller
 
         $inviteLink = $request->query('link');
 
-        dd($inviteLink);
+//        dd($inviteLink);
         
         if (!empty($inviteLink))
         {
