@@ -108,12 +108,15 @@ class GoogleController extends Controller
                     if (!empty($practitionerSession) && count($parts) >= 2) {
                         $redirectUrl = "/$firstName/$lastName/register";
                     } else {
-                        $redirectUrl = '/register';
+
+                        $url = redirect()->to('register?link=' . $invite_link);
+
+                        $redirectUrl = $url->getTargetUrl();
+
                     }
 
-                    dd(2);
 
-                    return redirect()->to($redirectUrl);
+                    return $redirectUrl;
                 }
 
 //            ActionPlan::storeUserActionPlan();
