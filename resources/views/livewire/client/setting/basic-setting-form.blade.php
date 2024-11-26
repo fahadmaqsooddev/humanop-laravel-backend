@@ -1,18 +1,19 @@
-<style>
-    img {
-        display: block;
-        max-width: 100%;
-    }
 
-    .preview {
-        overflow: hidden;
-        width: 160px;
-        height: 160px;
-        margin: 10px;
-        border: 1px solid red;
-    }
-</style>
 <div class="card mt-4 setting-box-background" id="basic-info">
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preview {
+            overflow: hidden;
+            width: 160px;
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+    </style>
     <div class="card-header">
         <h5 class="text-color-dark setting-form-heading">Basic Info</h5>
     </div>
