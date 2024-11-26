@@ -37,7 +37,7 @@ class RegisterController extends Controller
         $inviteLink = $request->query('link');
 
         dd($inviteLink);
-        
+
         if (!empty($inviteLink))
         {
             $invite = UserInvite::getInviteLink($inviteLink);
