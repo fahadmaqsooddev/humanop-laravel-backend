@@ -145,7 +145,7 @@ class UserController extends Controller
 
             Feedback::storeClientFeedback($dataArray);
 
-            $point = PointHelper::addPointsOnFeedbackSubmission();
+//            $point = PointHelper::addPointsOnFeedbackSubmission();
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!', ['point' => $point ?? 0]);
 

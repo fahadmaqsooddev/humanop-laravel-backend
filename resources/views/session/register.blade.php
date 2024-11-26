@@ -36,7 +36,7 @@
                                         </button>
                                     </a>
                                 @else
-                                    <a href="{{ url('auth/google') }}">
+                                    <a href="{{ url('auth/google?link='.$invite['link']) }}">
                                         <button
                                             class="btn btn-primary bg-light p-2 border border-radius-lg border-gray-800"
                                             type="button"
@@ -48,10 +48,15 @@
                                 @endif
                             </div>
                         </div>
-                        @if($google_user)
+                        @if($google_user || $invite)
                             <div class="text-center mt-0">
-                                <p style="color: #0f1535; font-size: 15px">Email : {{$google_user['email']}}</p>
+                                <p style="color: #0f1535; font-size: 15px">
+                                    Email: {{ $google_user['email'] ?? $invite['email'] ?? '' }}
+                                </p>
                             </div>
+                            @error('email')
+                            <p class="text-danger text-md mt-2 mb-2 text-center">{{ $message }}</p>
+                            @enderror
                         @endif
 
                         <p class="text-center" style="color: #0f1535"><b>Register with your email</b></p>
@@ -101,7 +106,8 @@
                                                 <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                            <div class="mt-3" {{$google_user ? 'hidden' : ""}}>
+                                            @if(!empty($google_user))
+                                            <div class="mt-3" hidden>
                                                 <div class=" ">
                                                     <label for="email"
                                                            style="color: #0f1535; font-size: 15px">Email</label>
@@ -111,11 +117,38 @@
                                                            aria-describedby="email-addon" name="email" id="email"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;"
                                                            value="{{$google_user['email'] ?? old('email')}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
-                                                    @error('email')
-                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                                    @enderror
                                                 </div>
                                             </div>
+                                            @elseif(!empty($invite))
+                                                <div class="mt-3" hidden>
+                                                    <div class=" ">
+                                                        <label for="email"
+                                                               style="color: #0f1535; font-size: 15px">Email</label>
+
+                                                        <input type="email" class="form-control " placeholder="Email"
+                                                               aria-label="Email"
+                                                               aria-describedby="email-addon" name="email" id="email"
+                                                               style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                               value="{{$invite['email'] ?? old('email')}}" {{$invite ? $invite['email'] ? 'readonly' : "" : "" }}>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="mt-3">
+                                                    <div class=" ">
+                                                        <label for="email"
+                                                               style="color: #0f1535; font-size: 15px">Email</label>
+
+                                                        <input type="email" class="form-control " placeholder="Email"
+                                                               aria-label="Email"
+                                                               aria-describedby="email-addon" name="email" id="email"
+                                                               style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                               value="{{old('email')}}" >
+                                                        @error('email')
+                                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            @endif
                                             <div class="mt-3" hidden>
                                                 <div class=" ">
                                                     <label for="email" style="color: #0f1535; font-size: 15px">Google id

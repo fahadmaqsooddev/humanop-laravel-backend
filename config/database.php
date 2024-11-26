@@ -302,7 +302,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment','user_id'],
+            'fillable' => ['comment','user_id','approve'],
             'hidden' => ['updated_at','created_at'],
         ],
         'Connection' => [
@@ -447,6 +447,11 @@ return [
         'HaiChaiChunk' => [
             'table' => 'hai_chat_chunks',
             'fillable' => ['id','embedding','chatbot','query','retrieved_docs'],
+            'hidden' => ['created_at','updated_at'],
+        ],
+        'UserInvite' => [
+            'table' => 'user_invites',
+            'fillable' => ['id','email','link'],
             'hidden' => ['created_at','updated_at'],
         ]
     ]

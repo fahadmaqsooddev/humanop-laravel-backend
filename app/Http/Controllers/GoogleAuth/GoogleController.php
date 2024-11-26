@@ -17,8 +17,11 @@ use App\Helpers\Helpers;
 class GoogleController extends Controller
 {
 
-    public function redirectToGoogle($slug = null, $slug2 = null)
+    public function redirectToGoogle(Request $request, $slug = null, $slug2 = null)
     {
+        $inviteLink = $request->query('link');
+
+        dd($inviteLink);
 
         if (!empty($slug) && !empty($slug2)) {
 

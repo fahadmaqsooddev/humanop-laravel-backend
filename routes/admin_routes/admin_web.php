@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminControllers\IntentionPlanController;
 use App\Http\Controllers\AdminControllers\DailyTipController;
 use App\Http\Controllers\AdminControllers\OptimizationPlanController;
 use App\Http\Controllers\AdminControllers\PaymentController;
+use App\Http\Controllers\AdminControllers\ClientController;
 use App\Http\Controllers\AdminControllers\PodcastController;
 use App\Http\Controllers\AdminControllers\InformationController;
 use App\Http\Controllers\AdminControllers\VersionController;
@@ -121,6 +122,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
+        Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
 
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
 

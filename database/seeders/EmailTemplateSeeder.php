@@ -34,9 +34,20 @@ class EmailTemplateSeeder extends Seeder
     <a href="{$link}" target="_blank" style="color: #f2661c; font-weight: bold; font-size: 20px"> Reset Password</a>
     <p>If you did not create an account, please email support@humanop.com asap to make sure we address the error.</p>';
 
+        $invite_link = '
+        <h3>You are Invited to Join HumanOp!</h3>
+<p>Hello,</p>
+<p>We’re excited to invite you to create your account on HumanOp. Click the link below to complete your registration and start exploring the features we offer:</p>
+<a href="{$link}" target="_blank" style="color: #f2661c; font-weight: bold; font-size: 20px">Complete Your Registration</a>
+<p>If you did not request this invitation, please ignore this email or contact our support team at <a href="mailto:support@humanop.com" style="color: #f2661c">support@humanop.com</a> to report any issues.</p>
+<p>We look forward to having you on board!</p>
+<p>Best regards,</p>
+<p>The HumanOp Team</p>';
+
         $email_template = [
             ['name' => 'email-verification', 'format' => $email_verification],
             ['name' => 'reset-password', 'format' => $reset_password],
+            ['name' => 'invite-link', 'format' => $invite_link],
         ];
 
         DB::table('email_templates')->insert($email_template);

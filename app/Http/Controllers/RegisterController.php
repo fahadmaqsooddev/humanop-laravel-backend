@@ -10,6 +10,7 @@ use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionOption;
 use App\Models\User;
 use App\Helpers\Helpers;
+use App\Models\UserInvite\UserInvite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Client\Register\RegisterFormRequest;
@@ -33,11 +34,31 @@ class RegisterController extends Controller
     public function create(Request $request)
     {
 
-        $referralCode = $request->query('ref');
+        $inviteLink = $request->query('link');
 
-        $google_user = Session::get('google_user', []);
-        $intention_options = IntentionOption::all();
-        return view('session/register', compact('google_user', 'referralCode', 'intention_options'));
+        if (!empty($inviteLink))
+        {
+            $invite = UserInvite::getInviteLink($inviteLink);
+
+            if (!empty($invite))
+            {
+                $referralCode = $request->query('ref');
+
+                $google_user = Session::get('google_user', []);
+                $intention_options = IntentionOption::all();
+                return view('session/register', compact('google_user', 'referralCode', 'intention_options', 'invite'));
+            }
+            else
+            {
+                return redirect()->back()->with('error', 'You are not recognized. Please check the invite link or contact support.');
+
+            }
+
+        }
+        else
+        {
+            return redirect()->back()->with('error', 'Invite link is missing. Please provide a valid link.');
+        }
     }
 
     public function practitionerRegister(Request $request, $slug, $slug2)
