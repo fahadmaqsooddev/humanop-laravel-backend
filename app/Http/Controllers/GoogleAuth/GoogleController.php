@@ -136,6 +136,8 @@ class GoogleController extends Controller
 
                     $urlString = $url->getTargetUrl();
 
+                    dd($urlString);
+                    
                     return $urlString;
                 }
             }
