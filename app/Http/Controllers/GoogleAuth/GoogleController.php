@@ -114,13 +114,14 @@ class GoogleController extends Controller
                     return redirect()->to($redirectUrl);
                 }
 
+//            ActionPlan::storeUserActionPlan();
                 User::updateUserIsFeedback();
 
                 $authenticatedUser = Helpers::getWebUser();
 
                 Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
-//                Session::forget('practitioner');
+//            Session::forget('practitioner');
 
                 if (!empty($practitionerSession))
                 {
@@ -131,16 +132,13 @@ class GoogleController extends Controller
                 }
                 else
                 {
-
-                    $url = redirect()->to('register?link=' . $invite_link);
-
-                    $urlString = $url->getTargetUrl();
-
-                    dd($urlString);
+                    dd(1);
                     
-                    return $urlString;
+                    return redirect()->route('client_dashboard');
                 }
             }
+
+
 
         } catch (\Exception $e) {
 
