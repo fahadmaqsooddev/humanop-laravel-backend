@@ -121,11 +121,9 @@ class PointHelper
         return ['point' => $points,'days' => $days,'sequential_point' => $sequential_points];
     }
 
-    public static function addPointsOnFeedbackSubmission(){
+    public static function addPointsOnFeedbackSubmission($user = null){
 
-        $user = Helpers::getWebUser() ?? Helpers::getUser();
-
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         $data['plan'] = $user['plan_name'];
         $data['type'] = 3; // for feedback submission
         $data['point'] = 1;

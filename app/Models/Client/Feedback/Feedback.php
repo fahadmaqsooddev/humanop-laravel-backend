@@ -35,9 +35,20 @@ class Feedback extends Model
         self::create($data);
     }
 
+    public static function getSingleFeedback($feedbackId = null)
+    {
+        return self::whereId($feedbackId)->where('approve', 0)->whereHas('user')->with('user')->first();
+
+    }
+
     public static function userFeedbacks()
     {
-        return self::whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
+        return self::where('approve', 0)->whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
+    }
+
+    public static function approveUserFeedBack($feedbackId = null)
+    {
+        return self::whereId($feedbackId)->update(['approve' => 1]);
     }
 
 }
