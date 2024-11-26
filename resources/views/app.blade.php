@@ -47,7 +47,52 @@
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
     @livewireStyles
 </head>
+<style>
+    /* General styles */
+    .fl-main-container {
+        position: fixed;
+        transition: all 1s ease-in-out;
+        width: 24em;
+        z-index: 99999;
+    }
 
+    /* Responsive width */
+    @media only screen and (max-width: 480px) {
+        .fl-main-container {
+            left: .5em;
+            right: .5em;
+            width: auto;
+        }
+    }
+
+    /* Top-Center Positioning */
+    .fl-main-container {
+        top: -100%; /* Start hidden above the viewport */
+        left: 50%;
+        transform: translateX(-50%);
+        animation: slideDownFromTop 1s ease forwards; /* Trigger animation */
+    }
+
+    /* Animation Keyframes */
+    @keyframes slideDownFromTop {
+        0% {
+            top: -100%; /* Fully off-screen */
+        }
+        100% {
+            top: .5em; /* Visible position */
+        }
+    }
+
+    /* Animation Keyframes for Sliding Up */
+    @keyframes slideUpToTop {
+        0% {
+            top: .5em; /* Current visible position */
+        }
+        100% {
+            top: -100%; /* Move off-screen */
+        }
+    }
+</style>
 <body class="{{\App\Helpers\Helpers::getWebUser() ? 'body-background'  : 'left-nav-blue-light-color'}}   g-sidenav-show / {{ (\Request::is('pages-rtl') ? 'rtl' : (Request::is('dashboard-virtual-default')||Request::is('dashboard-virtual-info') ? 'virtual-reality' : (Request::is('authentication-error404')||Request::is('authentication-error500') ? 'error-page' : ''))) }} ">
   @auth
     @yield('auth')
@@ -71,6 +116,9 @@
   <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
 
   <script>
+
+
+
       function submitFeedBackForm() {
 
           $.ajax({
@@ -759,6 +807,22 @@
           }
           init();
       })();
+
+
+  </script>
+  <script>
+      setTimeout(() => {
+          const flMainContainer = document.querySelector('.fl-main-container');
+          if (flMainContainer) {
+              // Trigger the slide-up animation
+              flMainContainer.style.animation = 'slideUpToTop 1s ease forwards';
+
+              // After the animation completes, hide the element
+              flMainContainer.addEventListener('animationend', () => {
+                  flMainContainer.style.display = 'none';
+              }, { once: true }); // Ensures the event listener is only triggered once
+          }
+      }, 5000); // 5 seconds delay
   </script>
 {{--  @livewireScripts--}}
   @stack('js')
