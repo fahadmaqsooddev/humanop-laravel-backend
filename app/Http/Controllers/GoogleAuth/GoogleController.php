@@ -55,8 +55,6 @@ class GoogleController extends Controller
         try {
             $invite_link = Session::get('inviteLink');
 
-            dd($invite_link);
-            
             if (!empty($invite_link))
             {
                 $practitionerSession = Session::get('practitioner');
@@ -133,7 +131,7 @@ class GoogleController extends Controller
                 }
                 else
                 {
-                    return redirect()->url('client_dashboard?link='. $invite_link);
+                    return redirect()->to('client_dashboard?link=' . urlencode($invite_link));
                 }
             }
 
