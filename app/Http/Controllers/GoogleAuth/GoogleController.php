@@ -109,14 +109,12 @@ class GoogleController extends Controller
                         $redirectUrl = "/$firstName/$lastName/register";
                     } else {
 
-                        $url = redirect()->to('register?link=' . $invite_link);
 
-                        $redirectUrl = $url->getTargetUrl();
-
+                        $redirectUrl = '/register?link='. $invite_link;
                     }
 
 
-                    return $redirectUrl;
+                    return redirect()->to($redirectUrl);
                 }
 
 //            ActionPlan::storeUserActionPlan();
@@ -137,13 +135,9 @@ class GoogleController extends Controller
                 }
                 else
                 {
+                    dd(1);
 
-                    $url = redirect()->to('register?link=' . $invite_link);
-
-                    $urlString = $url->getTargetUrl();
-
-                    return $urlString;
-//                    return redirect()->route('client_dashboard');
+                    return redirect()->route('client_dashboard');
                 }
             }
 
