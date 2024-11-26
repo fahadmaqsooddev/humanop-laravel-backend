@@ -54,6 +54,12 @@
                             </div>
                         @endif
 
+                        @if($invite)
+                            <div class="text-center mt-0">
+                                <p style="color: #0f1535; font-size: 15px">Email : {{$invite['email']}}</p>
+                            </div>
+                        @endif
+
                         <p class="text-center" style="color: #0f1535"><b>Register with your email</b></p>
                         <div class="card-body">
                             @if(request()->segment(1) === 'register')
@@ -101,7 +107,7 @@
                                                 <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                            <div class="mt-3" {{$google_user ? 'hidden' : ""}}>
+                                            <div class="mt-3" {{$google_user || $invite ? 'hidden' : ""}}>
                                                 <div class=" ">
                                                     <label for="email"
                                                            style="color: #0f1535; font-size: 15px">Email</label>
