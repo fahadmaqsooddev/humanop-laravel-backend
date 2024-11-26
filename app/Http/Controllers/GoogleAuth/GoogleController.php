@@ -111,6 +111,8 @@ class GoogleController extends Controller
                         $redirectUrl = '/register';
                     }
 
+                    dd(2);
+
                     return redirect()->to($redirectUrl);
                 }
 
@@ -133,7 +135,7 @@ class GoogleController extends Controller
                 else
                 {
                     dd(1);
-                    
+
                     return redirect()->route('client_dashboard');
                 }
             }
