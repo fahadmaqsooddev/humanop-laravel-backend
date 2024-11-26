@@ -131,7 +131,7 @@ class GoogleController extends Controller
                 }
                 else
                 {
-                    return redirect()->to('client_dashboard?link=' . urlencode($invite_link));
+                    return redirect()->to('register?link=' . urlencode($invite_link));
                 }
             }
 
