@@ -187,9 +187,9 @@ class AuthController extends Controller
             }
             else
             {
-                return Helpers::serverErrorResponse('Your are not Authorized');
+                return Helpers::validationResponse('Your are not Authorized');
             }
-           
+
 
         } catch (\Exception $exception) {
 
