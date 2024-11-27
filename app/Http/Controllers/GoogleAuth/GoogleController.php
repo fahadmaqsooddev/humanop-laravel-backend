@@ -105,9 +105,11 @@ class GoogleController extends Controller
 
                         $redirectUrl = '/register?link='. $invite_link;
                     }
+
+                    return redirect()->to($redirectUrl);
+
                 }
 
-                return redirect()->to($redirectUrl);
             }
 
             User::updateUserIsFeedback();
