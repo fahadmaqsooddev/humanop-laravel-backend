@@ -30,24 +30,16 @@ class GoogleController extends Controller
             {
                 Session::put('inviteLink', $invite['link']);
 
-                if (!empty($slug) && !empty($slug2)) {
-
-                    Session::put('practitioner', $slug . ' ' . $slug2);
-
-                }
-
-                return Socialite::driver('google')->redirect();
-            }
-            else
-            {
-                return redirect()->back()->with('error', 'You are not recognized. Please check the invite link or contact support.');
-
             }
         }
-        else
-        {
-            return redirect()->back()->with('error', 'Invite link is missing. Please provide a valid link.');
+
+        if (!empty($slug) && !empty($slug2)) {
+
+            Session::put('practitioner', $slug . ' ' . $slug2);
+
         }
+
+        return Socialite::driver('google')->redirect();
 
     }
     public function handleGoogleCallback()
