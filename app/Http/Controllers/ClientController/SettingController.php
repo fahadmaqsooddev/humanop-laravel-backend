@@ -45,11 +45,13 @@ class SettingController extends Controller
             UserInvite::deleteInvite();
 
             User::whereId(Helpers::getWebUser()->id)->delete();
+
             Auth::guard('web')->logout();
 
             Session::flush();
 
             Cookie::forget("email");
+            
             Cookie::forget("password");
 
             Cache::forget('admin');
