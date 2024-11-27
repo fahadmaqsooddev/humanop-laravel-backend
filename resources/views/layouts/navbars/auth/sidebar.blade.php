@@ -841,7 +841,7 @@
                                 <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"
                                    href="{{ route('get_latest_version') }}">
 {{--                                    <span class="humanop-version sidenav-mini-icon">HAI</span>--}}
-                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion()['version']}} </span>
+                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion() ? \App\Models\Admin\VersionControl\Version::getLatestVersion()['version'] : '0.0.0'}} </span>
                                 </a>
                             </li>
                         </ul>
