@@ -50,8 +50,6 @@ class ClientInvite extends Component
 
             $email_template = EmailTemplate::getTemplate($data, 'invite-link');
 
-            dd($this->email);
-            
             Email::sendEmailVerification(['content' => $email_template], $this->email,'emails.Email_Template', 'Invite link for Signup');
 
             session()->flash('success', "{$this->email} send invite link successfully.");

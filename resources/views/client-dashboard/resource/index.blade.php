@@ -320,7 +320,6 @@
         }
     </style>
 
-
     <div class="row container-fluid">
         <div class="col-lg-6 position-relative z-index-2">
             <div class="mb-4">
@@ -416,11 +415,12 @@
             data-bs-target="#life" hidden>
         modal button
     </button>
+
     <div class="modal fade" id="life" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="d-flex align-items-center justify-content-center h-100" style="z-index: 1000">
-            <div class="modal-dialog modal-xl" role="document">
+{{--        <div class="d-flex align-items-center justify-content-center h-100" style="z-index: 1000">--}}
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body" style=" border-radius: 9px; width: 900px;">
+                    <div class="modal-body" style=" border-radius: 9px">
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" id="life-modal-close-btn"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -496,7 +496,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+{{--        </div>--}}
     </div>
 
     <div class="row mt-4" style="display: none;">
