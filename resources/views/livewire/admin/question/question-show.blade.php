@@ -1,5 +1,22 @@
 <div class="table-responsive table-orange-color">
 
+    <div class="card-header table-header-text d-flex justify-content-between">
+        <div class="col-8">
+            <h5 class="mb-0 table-text-color">All Questions</h5>
+        </div>
+        <div class="col-4">
+            <div class="input-group ms-md-4 pe-md-4">
+                <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
+                        wire:model.debounce="gender">
+                    <option value="">Select Gender</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                    <option value="2">Male & Female</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
     <table class="table table-flush" id="datatable-search">
         <thead class="thead-light">
         <tr class="table-text-color">

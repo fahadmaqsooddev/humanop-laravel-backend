@@ -34,9 +34,20 @@ class Question extends Model
 
 
     // query
-    public static function allQuestion()
+    public static function allQuestion($search_gender = null)
     {
-        return self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
+        $question = self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
+
+//        dd($search_gender);
+
+        // Search by gender
+        if (isset($search_gender)) {
+
+
+            $question->where('gender', $search_gender);
+        }
+
+        return $question;
     }
 
 

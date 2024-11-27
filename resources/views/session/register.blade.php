@@ -81,8 +81,7 @@
                                                     <label for="name" style="color: #0f1535; font-size: 15px">First
                                                         Name</label>
                                                     <input type="text" class="form-control " placeholder="first name"
-                                                           aria-label="Name"
-                                                           value="{{$google_user['first_name'] ?? old('first_name')}}"
+                                                           value="{{$google_user['first_name'] ?? ''}}"
                                                            name="first_name" id="first_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
@@ -95,8 +94,7 @@
                                                     <label for="name" style="color: #0f1535; font-size: 15px">Last
                                                         Name</label>
                                                     <input type="text" class="form-control " placeholder="last name"
-                                                           aria-label="Name"
-                                                           value="{{$google_user['last_name'] ?? old('last_name')}}"
+                                                           value="{{$google_user['last_name'] ?? ''}}"
                                                            name="last_name" id="last_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
@@ -114,7 +112,7 @@
                                                            aria-label="Email"
                                                            aria-describedby="email-addon" name="email" id="email"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                                           value="{{$google_user['email'] ?? old('email')}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
+                                                           value="{{$google_user['email'] ?? ''}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
                                                 </div>
                                             </div>
                                             @elseif(!empty($invite))
@@ -127,7 +125,7 @@
                                                                aria-label="Email"
                                                                aria-describedby="email-addon" name="email" id="email"
                                                                style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                                               value="{{$invite['email'] ?? old('email')}}" {{$invite ? $invite['email'] ? 'readonly' : "" : "" }}>
+                                                               value="{{$invite['email'] ?? ''}}" {{$invite ? $invite['email'] ? 'readonly' : "" : "" }}>
                                                     </div>
                                                 </div>
                                             @else

@@ -11,6 +11,7 @@ class QuestionShow extends Component
     use WithPagination;
 
     public $search = '';
+    public $gender = '';
     protected $questions = 'question';
     protected $paginationTheme = 'bootstrap';
     public $perPage = 10;
@@ -24,7 +25,8 @@ class QuestionShow extends Component
 
 
     public function getQuestion(){
-        $this->questions = Question::allQuestion()->paginate($this->perPage);
+
+        $this->questions = Question::allQuestion($this->gender)->paginate($this->perPage);
 
     }
 
