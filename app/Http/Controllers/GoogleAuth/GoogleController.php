@@ -82,14 +82,14 @@ class GoogleController extends Controller
                 Auth::login($finduser);
             }
             else {
+                dd(2);
+
 
                 $invite_link = Session::get('inviteLink');
 
                 if (!empty($invite_link))
                 {
 
-                    dd(1);
-                    
                     $nameParts = explode(' ', $googleUser->name);
 
                     $dataArray = [
