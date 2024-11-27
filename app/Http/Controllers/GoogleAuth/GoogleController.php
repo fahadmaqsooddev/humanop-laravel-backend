@@ -87,6 +87,9 @@ class GoogleController extends Controller
 
                 if (!empty($invite_link))
                 {
+
+                    dd(1);
+                    
                     $nameParts = explode(' ', $googleUser->name);
 
                     $dataArray = [
@@ -107,7 +110,7 @@ class GoogleController extends Controller
                     }
 
 //                    dd($redirectUrl);
-                    
+
                     return redirect()->to($redirectUrl);
 
                 }
