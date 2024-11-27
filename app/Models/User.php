@@ -809,7 +809,9 @@ class User extends Authenticatable implements JWTSubject
                 ->with('userIntensionPlan')->selection()->first();
 
             $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
-
+            if($user){
+                $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+            }
             return $user;
 
         }
