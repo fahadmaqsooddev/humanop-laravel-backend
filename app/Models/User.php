@@ -870,4 +870,17 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function generateToken($email)
+    {
+
+        if ($email)
+        {
+            $token = Str::random(16);
+
+            self::where('email', $email)->update(['reset_password_token' => $token]);
+
+            return self::where('email', $email)->first();
+        }
+    }
+
 }

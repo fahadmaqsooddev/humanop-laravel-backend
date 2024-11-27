@@ -220,9 +220,33 @@ class AuthController extends Controller
 
         try {
 
-            Password::sendResetLink($request->only('email'));
+            $request->validate(['email' => 'required|email']);
 
-            return Helpers::successResponse('Password reset email successfully sent');
+            $checkUserEmail = User::where('email', $request['email'])->first();
+
+            if (!empty($checkUserEmail)) {
+
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $baseUrl = url('/reset-password?link='. $token['reset_password_token']);
+
+                $data = [
+                    '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
+                    '{$link}' =>  $baseUrl,
+                ];
+
+                $email_template = EmailTemplate::getTemplate($data, 'reset-password');
+
+                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'],'emails.Email_Template', 'Reset Password');
+
+                return Helpers::successResponse('We have emailed your password reset link!');
+
+            } else {
+
+                return Helpers::validationResponse('Email does not exists');
+
+            }
+
 
         } catch (\Exception $exception) {
 

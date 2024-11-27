@@ -25,49 +25,36 @@ class ChangePasswordController extends Controller
     public function changePassword(Request $request)
     {
 
-        $request->validate([
-//            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ],[
-            'email.required' => 'Your reset link has been expired'
-        ]);
+        $link = $request['link'];
 
-        $user = User::where('email', $request['email'])->first();
+        if (!empty($link))
+        {
 
-        $user->password = $request['password'];
+            $user = User::where('reset_password_token', $link)->first();
 
-        $user->reset_password = 1;
+            $user->password = $request['password'];
 
-        $user->save();
+            $user->reset_password = 1;
 
-//        $status = Password::reset(
-//            $request->only('email', 'password', 'password_confirmation'),
-//            function ($user, $password) {
-//                $user->forceFill([
-//                    'password' => $password
-//                ]);
-//
-//                $user->save();
-//
-////                event(new PasswordReset($user));
-//            }
-//        );
+            $user->save();
+
+            Auth::logoutOtherDevices($user->password);
+
+            Session::flash('resetPasswordEmail');
+
+            session()->flash('success', "Your password has been reset");
+
+            return redirect()->route('login');
+        }
+        else
+        {
+
+            session()->flash('success', "Reset password link has been expired");
+
+            return redirect()->back();
+        }
 
 
-
-        Auth::logoutOtherDevices($user->password);
-//        Auth::guard('api')->logoutOtherDevices($user->password);
-
-        Session::flash('resetPasswordEmail');
-
-        session()->flash('success', "Your password has been reset");
-
-        return redirect()->route('login');
-
-//        return $status === Password::PASSWORD_RESET
-//            ? redirect('/login')->with('success', __($status))
-//            : back()->withErrors(['email' => [__($status)]]);
     }
 
     public function create()
@@ -84,7 +71,9 @@ class ChangePasswordController extends Controller
 
             if (!empty($checkUserEmail)) {
 
-                $baseUrl = url('/reset-password');
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $baseUrl = url('/reset-password?link='. $token['reset_password_token']);
 
                 $data = [
                     '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
@@ -95,8 +84,6 @@ class ChangePasswordController extends Controller
 
                 Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'],'emails.Email_Template', 'Reset Password');
 
-                Session::put('resetPasswordEmail', $checkUserEmail['email']);
-
                 session()->flash('success', "We have emailed your password reset link!");
 
                 return redirect()->route('forgot_password');
@@ -104,6 +91,7 @@ class ChangePasswordController extends Controller
             } else {
 
                 session()->flash('error', "Email doesn't exists");
+
                 return redirect()->route('forgot_password');
 
             }
@@ -131,12 +119,12 @@ class ChangePasswordController extends Controller
     {
 
         // Retrieve the email parameter from the query string
-        $email = $request->query('email');
+        $link = $request->query('link');
 
         // Return the view with the token and email
         return view('session/reset-password/resetPassword', [
 //            'token' => $token,
-            'email' => $email,
+            'link' => $link,
         ]);
     }
 

@@ -61,17 +61,7 @@
                         <div class="card-body">
                             <form role="form" action="/reset-password" method="POST">
                                 @csrf
-{{--                                <input type="hidden" name="token" value="{{ $token }}">--}}
-                                <input type="hidden" name="email" value="{{ \Illuminate\Support\Facades\Session::get('resetPasswordEmail') }}">
-                                {{--                                <div>--}}
-                                {{--                                    <label for="email">Email</label>--}}
-                                {{--                                    <div class="">--}}
-                                {{--                                        <input id="email" name="email" type="email" class="form-control" style="background-color: #0F1535; color: white; border-radius: 15px;" placeholder="Email" aria-label="Email" aria-describedby="email-addon" value="{{ old('email') }}" required>--}}
-                                {{--                                        @error('email')--}}
-                                {{--                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>--}}
-                                {{--                                        @enderror--}}
-                                {{--                                    </div>--}}
-                                {{--                                </div>--}}
+                                <input type="hidden" name="link" value="{{ $link }}">
                                 <div class="mt-3 position-relative">
                                     <div>
                                         <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
