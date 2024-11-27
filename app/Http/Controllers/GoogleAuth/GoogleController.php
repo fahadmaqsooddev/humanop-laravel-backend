@@ -53,93 +53,96 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $invite_link = Session::get('inviteLink');
 
-            if (!empty($invite_link))
-            {
-                $practitionerSession = Session::get('practitioner');
+            $practitionerSession = Session::get('practitioner');
 
-                $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->user();
 
-                $finduser = null;
+            $finduser = null;
 
-                if (!empty($practitionerSession)) {
+            if (!empty($practitionerSession)) {
 
-                    $parts = explode(' ', $practitionerSession);
+                $parts = explode(' ', $practitionerSession);
 
-                    if (count($parts) >= 2) {
-                        $firstName = $parts[0];
-                        $lastName = $parts[1];
+                if (count($parts) >= 2) {
+                    $firstName = $parts[0];
+                    $lastName = $parts[1];
 
-                        $practitioner = User::where('first_name', $firstName)
-                            ->where('last_name', $lastName)
-                            ->first('id');
+                    $practitioner = User::where('first_name', $firstName)
+                        ->where('last_name', $lastName)
+                        ->first('id');
 
-                        if ($practitioner) {
-                            $finduser = User::where('practitioner_id', $practitioner->id)
-                                ->orWhere('google_id', $googleUser->id)
-                                ->orWhere('email', $googleUser->email)
-                                ->first();
-                        }
+                    if ($practitioner) {
+                        $finduser = User::where('practitioner_id', $practitioner->id)
+                            ->orWhere('google_id', $googleUser->id)
+                            ->orWhere('email', $googleUser->email)
+                            ->first();
                     }
                 }
-                else {
-                    $finduser = User::where('google_id', $googleUser->id)
-                        ->orWhere('email', $googleUser->email)
-                        ->first();
+            }
+            else {
+                $finduser = User::where('google_id', $googleUser->id)
+                    ->orWhere('email', $googleUser->email)
+                    ->first();
+            }
+
+            if ($finduser) {
+                Auth::login($finduser);
+            }
+            else {
+
+                $nameParts = explode(' ', $googleUser->name);
+
+                $dataArray = [
+                    'google_id' => $googleUser->id,
+                    'first_name' => $nameParts[0] ?? "",
+                    'last_name' => $nameParts[1] ?? "",
+                    'email' => $googleUser->email,
+                ];
+
+                Session::put('google_user', $dataArray);
+
+                if (!empty($practitionerSession) && count($parts) >= 2) {
+                    $redirectUrl = "/$firstName/$lastName/register";
+                } else {
+
+
+                    $redirectUrl = '/register?link='. $invite_link;
                 }
 
-                if ($finduser) {
-                    Auth::login($finduser);
-                }
-                else {
 
-                    $nameParts = explode(' ', $googleUser->name);
+                return redirect()->to($redirectUrl);
+            }
 
-                    $dataArray = [
-                        'google_id' => $googleUser->id,
-                        'first_name' => $nameParts[0] ?? "",
-                        'last_name' => $nameParts[1] ?? "",
-                        'email' => $googleUser->email,
-                    ];
+            User::updateUserIsFeedback();
 
-                    Session::put('google_user', $dataArray);
+            $authenticatedUser = Helpers::getWebUser();
 
-                    if (!empty($practitionerSession) && count($parts) >= 2) {
-                        $redirectUrl = "/$firstName/$lastName/register";
-                    } else {
-
-
-                        $redirectUrl = '/register?link='. $invite_link;
-                    }
-
-
-                    return redirect()->to($redirectUrl);
-                }
-
-//            ActionPlan::storeUserActionPlan();
-                User::updateUserIsFeedback();
-
-                $authenticatedUser = Helpers::getWebUser();
-
-                Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
+            Helpers::createCustomerAndSubscriptionOnStripe($authenticatedUser);
 
 //            Session::forget('practitioner');
 
-                if (!empty($practitionerSession))
-                {
-                    $parts = explode(' ', $practitionerSession);
+            if (!empty($practitionerSession))
+            {
+                $parts = explode(' ', $practitionerSession);
 
-                    return redirect()->to('/'. $parts[0] . '/' . $parts[1]. '/dashboard');
+                return redirect()->to('/'. $parts[0] . '/' . $parts[1]. '/dashboard');
 
-                }
-                else
-                {
-                    dd(1);
-
-                    return redirect()->route('client_dashboard');
-                }
             }
+            else
+            {
+                dd(1);
+
+                return redirect()->route('client_dashboard');
+            }
+
+
+//            $invite_link = Session::get('inviteLink');
+//
+//            if (!empty($invite_link))
+//            {
+//
+//            }
 
 
 
