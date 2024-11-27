@@ -83,25 +83,29 @@ class GoogleController extends Controller
             }
             else {
 
-                $nameParts = explode(' ', $googleUser->name);
+                $invite_link = Session::get('inviteLink');
 
-                $dataArray = [
-                    'google_id' => $googleUser->id,
-                    'first_name' => $nameParts[0] ?? "",
-                    'last_name' => $nameParts[1] ?? "",
-                    'email' => $googleUser->email,
-                ];
+                if (!empty($invite_link))
+                {
+                    $nameParts = explode(' ', $googleUser->name);
 
-                Session::put('google_user', $dataArray);
+                    $dataArray = [
+                        'google_id' => $googleUser->id,
+                        'first_name' => $nameParts[0] ?? "",
+                        'last_name' => $nameParts[1] ?? "",
+                        'email' => $googleUser->email,
+                    ];
 
-                if (!empty($practitionerSession) && count($parts) >= 2) {
-                    $redirectUrl = "/$firstName/$lastName/register";
-                } else {
+                    Session::put('google_user', $dataArray);
+
+                    if (!empty($practitionerSession) && count($parts) >= 2) {
+                        $redirectUrl = "/$firstName/$lastName/register";
+                    } else {
 
 
-                    $redirectUrl = '/register?link='. $invite_link;
+                        $redirectUrl = '/register?link='. $invite_link;
+                    }
                 }
-
 
                 return redirect()->to($redirectUrl);
             }
@@ -123,20 +127,9 @@ class GoogleController extends Controller
             }
             else
             {
-                dd(1);
 
                 return redirect()->route('client_dashboard');
             }
-
-
-//            $invite_link = Session::get('inviteLink');
-//
-//            if (!empty($invite_link))
-//            {
-//
-//            }
-
-
 
         } catch (\Exception $e) {
 
