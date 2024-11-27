@@ -21,12 +21,12 @@ class UserInvite extends Model
 
     public static function getSingleInvite($email = null)
     {
-        return self::where('email',$email)->first();
+        return self::where('email', $email)->first();
     }
 
     public static function getInviteLink($link = null)
     {
-        return self::where('link',$link)->first();
+        return self::where('link', $link)->first();
     }
 
     public static function getAllInviteLinks()
@@ -38,8 +38,7 @@ class UserInvite extends Model
     {
         $invite = self::getSingleInvite($email);
 
-        if (empty($invite))
-        {
+        if (empty($invite)) {
             $link = Str::random(16);
 
             return self::create([
@@ -49,15 +48,12 @@ class UserInvite extends Model
         }
     }
 
-    public static function deleteInvite(){
+    public static function deleteInvite()
+    {
 
-        try {
-            $email = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-            self::where('email',$email)->delete();
-            return response()->json(['data' => 'Successfully logged out'], 200);
-        }catch (\Exception $exception){
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
+        $email = Helpers::getWebUser()->email ?? Helpers::getUser()->email;
+
+        return self::where('email', $email)->delete();
 
     }
 }
