@@ -4,19 +4,23 @@
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
-                <th>#</th>
                 <th>Email</th>
                 <th>link</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             @foreach($invites as $index => $invite)
                 <tr class="table-text-color">
-                    <td class="text-md font-weight-normal">{{ $index + 1 }} </td>
                     <td class="text-md font-weight-normal">{{$invite['email']}} </td>
-                    <td class="text-md font-weight-normal">{{$invite['link']}} </td>
+                    <td class="text-md font-weight-normal">{{ url('/register?link=' . $invite['link']) }} </td>
+                    <td>
+                        <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
+                                    onclick="copyToClipboard('{{ url('/register?link=' . $invite['link']) }}','{{$index +1}}')"
+                                    style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
+                        </button>
+                    </td>
                 </tr>
-
             @endforeach
 
             </tbody>
@@ -50,7 +54,7 @@
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Send Invite
+                                                    style="background-color: #f2661c ">Generate Invite
                                             </button>
                                         </div>
                                     </div>
@@ -73,9 +77,29 @@
                 // Close the modal
                 $('#inviteLinkSendModel').modal('hide');
             });
+
         });
+
+
     </script>
 
+   <script>
+       async function copyToClipboard(text,id) {
+           try {
+               // Use the Clipboard API to copy the text
+               await navigator.clipboard.writeText(text);
+               $('#copy_link_'+id).text('Copied!')
+               // Hide the tooltip after 2 seconds
+               setTimeout(() => {
+                   setTimeout(() => {
+                       $('#copy_link_'+id).text('Copy Link')
+                   }, 300);  // Match the fade-out duration
+               }, 2000);
+           } catch (err) {
+               console.error('Failed to copy text: ', err);
+           }
+       }
 
+   </script>
 
 @endpush

@@ -83,7 +83,7 @@ class UserController extends Controller
         try {
 
 
-            User::updateUser(['intro_check' => 1],Helpers::getUser()->id);
+            User::updateUser(['app_intro_check' => 1],Helpers::getUser()->id);
 
 
             return Helpers::successResponse('Intro Completed Successfully');

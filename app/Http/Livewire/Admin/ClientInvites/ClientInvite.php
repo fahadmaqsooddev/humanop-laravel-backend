@@ -39,20 +39,20 @@ class ClientInvite extends Component
 
             UserInvite::sendInvite($this->email);
 
-            $getInvite = UserInvite::getSingleInvite($this->email);
+//            $getInvite = UserInvite::getSingleInvite($this->email);
 
 
-            $baseUrl = url('/register?link='. $getInvite['link']);
+//            $baseUrl = url('/register?link='. $getInvite['link']);
+//
+//            $data = [
+//                '{$link}' =>  $baseUrl,
+//            ];
+//
+//            $email_template = EmailTemplate::getTemplate($data, 'invite-link');
+//
+//            Email::sendEmailVerification(['content' => $email_template], $this->email,'emails.Email_Template', 'Invite link for Signup');
 
-            $data = [
-                '{$link}' =>  $baseUrl,
-            ];
-
-            $email_template = EmailTemplate::getTemplate($data, 'invite-link');
-
-            Email::sendEmailVerification(['content' => $email_template], $this->email,'emails.Email_Template', 'Invite link for Signup');
-
-            session()->flash('success', "{$this->email} send invite link successfully.");
+            session()->flash('success', "{$this->email} invite link generated successfully.");
 
             $this->resetForm();
 
