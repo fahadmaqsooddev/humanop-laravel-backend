@@ -83,7 +83,6 @@
                                                     <input type="text" class="form-control " placeholder="first name"
                                                            aria-label="Name"
                                                            value="{{$google_user['first_name'] ?? old('first_name')}}"
-                                                           aria-describedby="email-addon"
                                                            name="first_name" id="first_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
@@ -98,7 +97,6 @@
                                                     <input type="text" class="form-control " placeholder="last name"
                                                            aria-label="Name"
                                                            value="{{$google_user['last_name'] ?? old('last_name')}}"
-                                                           aria-describedby="email-addon"
                                                            name="last_name" id="last_name"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
