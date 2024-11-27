@@ -82,11 +82,14 @@ class GoogleController extends Controller
                 Auth::login($finduser);
             }
             else {
+                dd(2);
+
 
                 $invite_link = Session::get('inviteLink');
 
                 if (!empty($invite_link))
                 {
+
                     $nameParts = explode(' ', $googleUser->name);
 
                     $dataArray = [
@@ -107,7 +110,7 @@ class GoogleController extends Controller
                     }
 
 //                    dd($redirectUrl);
-                    
+
                     return redirect()->to($redirectUrl);
 
                 }
