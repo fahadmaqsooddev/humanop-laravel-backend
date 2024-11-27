@@ -38,11 +38,8 @@ class Question extends Model
     {
         $question = self::whereNull('question_id')->with(['answers.answerCodes','subQuestions.answers']);
 
-//        dd($search_gender);
-
         // Search by gender
-        if (isset($search_gender)) {
-
+        if ($search_gender === '0' || $search_gender === '1' || $search_gender === '2') {
 
             $question->where('gender', $search_gender);
         }
