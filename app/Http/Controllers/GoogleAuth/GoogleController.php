@@ -82,8 +82,6 @@ class GoogleController extends Controller
                 Auth::login($finduser);
             }
             else {
-                dd(2);
-
 
                 $invite_link = Session::get('inviteLink');
 
@@ -109,9 +107,12 @@ class GoogleController extends Controller
                         $redirectUrl = '/register?link='. $invite_link;
                     }
 
-//                    dd($redirectUrl);
-
                     return redirect()->to($redirectUrl);
+
+                }
+                else{
+
+                    return redirect()->back()->with('error', 'Invite link is missing. Please provide a valid link.');
 
                 }
 
