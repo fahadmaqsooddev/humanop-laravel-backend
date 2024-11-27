@@ -25,6 +25,7 @@ use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\Upload\Upload;
 use App\Models\User;
+use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -206,6 +207,7 @@ class UserController extends Controller
 
         try {
 
+            UserInvite::deleteInvite();
             User::whereId(Helpers::getUser()->id)->delete();
 
             Session::flush();

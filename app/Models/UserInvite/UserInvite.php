@@ -2,6 +2,7 @@
 
 namespace App\Models\UserInvite;
 
+use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -46,5 +47,17 @@ class UserInvite extends Model
                 'link' => $link
             ]);
         }
+    }
+
+    public static function deleteInvite(){
+
+        try {
+            $email = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+            self::where('email',$email)->delete();
+            return response()->json(['data' => 'Successfully logged out'], 200);
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+
     }
 }
