@@ -57,9 +57,9 @@ class CreateResource extends Component
                     $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
                 }
 
-            }else
-            {
-                $upload_id = $this->editResourceData['upload_id'] ?? null;
+            }else{
+
+                $upload_id = null;
 
             }
 
