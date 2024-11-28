@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helpers;
+use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
@@ -22,17 +23,26 @@ use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 
 class ChangePasswordController extends Controller
 {
-    public function changePassword(Request $request)
+
+    protected $user = null;
+
+    public function __construct(User $user)
     {
+        $this->user = $user;
+    }
+
+    public function changePassword(ResetPasswordRequest $request)
+    {
+
+        $dataArray = $request->only($this->user->getFillable());
 
         $link = $request['token'];
 
-        if (!empty($link))
-        {
+        if (!empty($link)) {
 
             $user = User::where('reset_password_token', $link)->first();
 
-            $user->password = $request['password'];
+            $user->password = $dataArray['password'];
 
             $user->reset_password = 1;
 
@@ -45,9 +55,7 @@ class ChangePasswordController extends Controller
             session()->flash('success', "Your password has been reset");
 
             return redirect()->route('login');
-        }
-        else
-        {
+        } else {
 
             session()->flash('success', "Reset password link has been expired");
 
@@ -73,16 +81,16 @@ class ChangePasswordController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $baseUrl = url('/reset-password?token='. $token['reset_password_token']);
+                $baseUrl = url('/reset-password?token=' . $token['reset_password_token']);
 
                 $data = [
-                    '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
-                    '{$link}' =>  $baseUrl,
+                    '{$userName}' => $checkUserEmail['first_name'] . ' ' . $checkUserEmail['last_name'],
+                    '{$link}' => $baseUrl,
                 ];
 
                 $email_template = EmailTemplate::getTemplate($data, 'reset-password');
 
-                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'],'emails.Email_Template', 'Reset Password');
+                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'], 'emails.Email_Template', 'Reset Password');
 
                 session()->flash('success', "We have emailed your password reset link!");
 
@@ -118,12 +126,9 @@ class ChangePasswordController extends Controller
     function resetPass(Request $request)
     {
 
-        // Retrieve the email parameter from the query string
         $token = $request->query('token');
 
-        // Return the view with the token and email
         return view('session/reset-password/resetPassword', [
-//            'token' => $token,
             'token' => $token,
         ]);
     }
