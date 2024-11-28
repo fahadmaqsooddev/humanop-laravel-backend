@@ -228,7 +228,7 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $baseUrl = url('/reset-password?link='. $token['reset_password_token']);
+                $baseUrl = url('/reset-password?token='. $token['reset_password_token']);
 
                 $data = [
                     '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
