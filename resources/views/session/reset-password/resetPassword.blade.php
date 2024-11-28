@@ -61,7 +61,7 @@
                         <div class="card-body">
                             <form role="form" action="/reset-password" method="POST">
                                 @csrf
-                                <input type="hidden" name="link" value="{{ $link }}">
+                                <input type="hidden" name="token" value="{{ $token }}">
                                 <div class="mt-3 position-relative">
                                     <div>
                                         <label for="password" style="color: #0f1535; font-size: 15px">Password</label>
