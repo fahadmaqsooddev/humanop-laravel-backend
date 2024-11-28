@@ -25,7 +25,7 @@ class ChangePasswordController extends Controller
     public function changePassword(Request $request)
     {
 
-        $link = $request['link'];
+        $link = $request['token'];
 
         if (!empty($link))
         {
@@ -73,7 +73,7 @@ class ChangePasswordController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $baseUrl = url('/reset-password?link='. $token['reset_password_token']);
+                $baseUrl = url('/reset-password?token='. $token['reset_password_token']);
 
                 $data = [
                     '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
@@ -119,12 +119,12 @@ class ChangePasswordController extends Controller
     {
 
         // Retrieve the email parameter from the query string
-        $link = $request->query('link');
+        $token = $request->query('token');
 
         // Return the view with the token and email
         return view('session/reset-password/resetPassword', [
 //            'token' => $token,
-            'link' => $link,
+            'token' => $token,
         ]);
     }
 
