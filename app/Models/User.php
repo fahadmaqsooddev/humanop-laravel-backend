@@ -11,6 +11,7 @@ use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionPlan;
+use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -831,6 +832,10 @@ class User extends Authenticatable implements JWTSubject
 
     public static function deleteClientProfile($id)
     {
+
+        $user = self::whereId($id)->first();
+
+        UserInvite::deleteInvite($user['email']);
 
         self::whereId($id)->delete();
     }
