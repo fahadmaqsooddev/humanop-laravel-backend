@@ -14,7 +14,7 @@ class ClientInvite extends Component
 
     protected $rules = [
         'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
-        'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
+        'file' => 'nullable|file|mimes:xlsx,csv,txt|max:10240|required_without:email',
     ];
 
     protected $messages = [
@@ -24,10 +24,9 @@ class ClientInvite extends Component
         'email.unique' => 'The email address is already registered.',
         'file.required_without' => 'A file is required when an email is not provided.',
         'file.file' => 'The uploaded file must be a valid file.',
-        'file.mimes' => 'Only CSV files are allowed.',
+        'file.mimes' => 'Only Excel (.xlsx) or CSV files are allowed.',
         'file.max' => 'The file size should not exceed 10MB.',
     ];
-
 
     public function getInvites()
     {
