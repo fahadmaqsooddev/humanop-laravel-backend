@@ -19,10 +19,17 @@
                             <label for="temperature" style="font-size: small; background-color: #8bb1ab"
                                    class="form-label fw-bold">Temperature
                                 (Randomness)</label>
-                            <input type="text" class="form-control "
-                                   style="font-size: small; background-color: #8bb1ab; color: black !important;"
-                                   name="temperature"
-                                    wire:model="temperature">
+                            <select style="background-color: #0f1535"
+                                    class="form-control text-color-dark setting-box-background"
+                                    wire:model.defer="temperature">
+                                @for($i = 0.1; $i <= 1; $i += 0.1)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+{{--                            <input type="text" class="form-control "--}}
+{{--                                   style="font-size: small; background-color: #8bb1ab; color: black !important;"--}}
+{{--                                   name="temperature"--}}
+{{--                                    wire:model.defer="temperature">--}}
                             <small class="form-text text-muted">
                                 Amount of randomness injected into the response. Ranges from
                                 0
