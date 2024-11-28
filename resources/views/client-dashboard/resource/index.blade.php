@@ -370,7 +370,7 @@
                                     @foreach($category['libraryResources'] as $resource)
 
                                         <div class="col-lg-6 col-sm-12">
-                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}','{{$resource['description']}}','{{$resource['content']}}','{{$resource['upload_id'] == null ? 0 : $resource['upload_id']}}')" style="cursor: pointer;">
+                                            <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}',`{{$resource['description']}}`,'{{$resource['content']}}','{{$resource['upload_id'] == null ? 0 : $resource['upload_id']}}')" style="cursor: pointer;">
                                                 <div class="card mb-4"
                                                      >
                                                     <div class="card-body p-3">
@@ -529,7 +529,6 @@
 
             if (upload_id == '0')
             {
-                console.log('sjcajkbajsbcas');
 
                 $('#life').modal('show');
                 $('#resource_text').html(description);
