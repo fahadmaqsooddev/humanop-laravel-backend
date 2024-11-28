@@ -2,13 +2,10 @@
 
 @section('content')
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-             >
-            {{--             <span class="mask bg-gradient-dark opacity-6"></span>--}}
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
-                        {{--                                    <h1 class="text-white mb-2 mt-5">Welcome!</h1>--}}
                     </div>
                 </div>
             </div>
@@ -76,10 +73,6 @@
                                         <i class="fas fa-eye pt-1 password-eye" id="password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
-                                        <div id="validatePassword"></div>
-                                        @error('password')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="mt-3 position-relative">
@@ -92,11 +85,7 @@
                                                name="password_confirmation"
                                                id="confirmPassword"
                                                style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                        <div id="validateConfirmPassword"></div>
-                                        @error('password_confirmation')
-                                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
-                                    @enderror
-                                    <!-- Eye icon for toggling password visibility -->
+                                        <!-- Eye icon for toggling password visibility -->
                                         <span class="position-absolute" id="toggleConfirmPassword"
                                               style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
                                         <i class="fas fa-eye pt-1 confirm-password-eye" id="confirm-password-eye"
@@ -108,13 +97,16 @@
                                     <button type="submit" class="btn w-100 mt-4 mb-0 text-white"
                                             style="background-color: #f2661c !important;">Recover your password
                                     </button>
-                                    <div class="mt-3" style="color: #0f1535"> Already have an account? <a style="color: #0f1535" href="{{url('login')}}"
-                                                                                   class="font-weight-bolder">Sign in</a></div>
+                                    <div class="mt-3" style="color: #0f1535"> Already have an account? <a
+                                            style="color: #0f1535" href="{{url('login')}}"
+                                            class="font-weight-bolder">Sign in</a></div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </main>
 
 @endsection
@@ -167,6 +159,4 @@
             });
         }
     });
-
-
 </script>
