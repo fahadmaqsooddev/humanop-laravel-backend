@@ -588,6 +588,8 @@
                                                     {{ $style[1] }} [{{ $style[0] }}]
                                                 </p>
                                             @endforeach
+                                        @else
+                                            <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                         @endif
                                     </div>
                                     <p class="text-color-blue traitHeading"> Motivational
@@ -602,6 +604,8 @@
                                                     [{{ $feature[0] }}]
                                                 </p>
                                             @endforeach
+                                        @else
+                                            <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                         @endif
                                     </div>
                                     <p class="text-color-blue traitHeading">Boundaries of
@@ -616,6 +620,8 @@
                                             @endphp
                                             {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
                                         </p>
+                                    @else
+                                        <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                     @endif
                                     <p class="text-color-blue traitHeading"> Communication
                                         Style "Energy Centers":</p>
@@ -630,6 +636,8 @@
                                                     &nbsp;@endif
                                                 </p>
                                             @endforeach
+                                        @else
+                                            <p class="fw-bold fs-12px text-color-blue mb-2" style="margin: unset">N/A</p>
                                         @endif
                                     </div>
                                     <p class="text-color-blue traitHeading"
@@ -646,6 +654,8 @@
                                                 ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
                                             }} [{{ $preception['pv'] ?? '' }}]
                                         </p>
+                                    @else
+                                        <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                     @endif
                                     <p class="text-color-blue traitHeading" style="color: rgb(160, 174, 192)">Energy
                                         Pool:</p>
@@ -655,6 +665,8 @@
                                            onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
                                             {{ $energyPool['code'] }}
                                         </p>
+                                    @else
+                                        <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                     @endif
                                 </div>
                             </div>
