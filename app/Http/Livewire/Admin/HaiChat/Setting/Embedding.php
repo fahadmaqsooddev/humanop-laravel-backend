@@ -138,7 +138,7 @@ class Embedding extends Component
 
     public function changeEmbeddingStatus(){
         if($this->request_id && $this->bot_name){
-            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id);
+            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
             if($activeEmbedding){
                 $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id]);
                  if($aiReply){
