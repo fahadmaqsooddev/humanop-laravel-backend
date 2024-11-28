@@ -34,17 +34,49 @@ class UserInvite extends Model
         return self::orderBy('id', 'desc')->get();
     }
 
-    public static function sendInvite($email = null)
+    public static function sendInvite($email = null, $file = null)
     {
-        $invite = self::getSingleInvite($email);
+        if (!empty($file)) {
 
-        if (empty($invite)) {
-            $link = Str::random(16);
+            if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
 
-            return self::create([
-                'email' => $email,
-                'link' => $link
-            ]);
+                while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+
+                    $csvEmail = $data[0];
+                    
+                    $invite = self::getSingleInvite($csvEmail);
+
+                    if (empty($invite)) {
+
+                        $link = Str::random(16);
+
+                        self::create([
+                            'email' => $csvEmail,
+                            'link' => $link,
+                        ]);
+
+                    }
+
+                }
+
+                fclose($handle);
+            }
+
+        }
+
+        if (!empty($email)) {
+
+            $invite = self::getSingleInvite($email);
+
+            if (empty($invite)) {
+
+                $link = Str::random(16);
+
+                return self::create([
+                    'email' => $email,
+                    'link' => $link,
+                ]);
+            }
         }
     }
 
