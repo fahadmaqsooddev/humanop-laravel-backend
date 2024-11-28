@@ -211,9 +211,9 @@
                                                            placeholder="+1 (123) 456-7890"
                                                            aria-label="Phone"
                                                            name="phone" value="{{old('phone')}}" id="phone"
-                                                           maxlength="14"
                                                            title="Phone number should be in the format +1XXXXXXXXXX or XXXXXXXXXX"
-                                                           style="background-color: #f3deba; color: black; border-radius: 15px;">
+                                                           style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                           maxlength="14">
                                                     @error('phone')
                                                     <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                     @enderror
@@ -344,6 +344,7 @@
 
 <script>
     // Ensure the DOM is fully loaded before running the script
+
     document.addEventListener('DOMContentLoaded', function () {
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
@@ -390,6 +391,34 @@
                 }
             });
         }
+
+            $('#phone').on('input', function () {
+
+                let input = $(this).val();
+                // 1. Remove all characters except numbers and `+`
+                input = input.replace(/[^+\d]/g, '');
+
+                // 2. Ensure the `+` appears only at the start
+                if (input.indexOf('+') > 0) {
+                    input = input.replace(/\+/g, ''); // Remove additional `+` symbols
+                }
+
+                // 3. Limit to 14 characters
+                input = input.slice(0, 14);
+
+                // 4. Set sanitized value back to the input field
+                $(this).val(input);
+            });
+
+            // Optional: Prevent invalid key presses
+            $('#phone').on('keypress', function (e) {
+                const char = String.fromCharCode(e.which);
+
+                // Allow only digits or `+` at the start
+                if (!/[\d+]/.test(char) || (char === '+' && $(this).val().indexOf('+') !== -1)) {
+                    e.preventDefault();
+                }
+            });
     });
 
 
@@ -431,6 +460,29 @@
                     required: "Confirm password is required",
                     mismatch: "Passwords do not match",
                 },
+            },gender: {
+                element: document.getElementById("gender"),
+                errorMessages: {
+                    required: "Gender is required",
+                },
+            },
+            year: {
+                element: document.getElementById("year"),
+                errorMessages: {
+                    required: "Year is required",
+                },
+            },
+            month: {
+                element: document.getElementById("month"),
+                errorMessages: {
+                    required: "Month is required",
+                },
+            },
+            day: {
+                element: document.getElementById("day"),
+                errorMessages: {
+                    required: "Day is required",
+                },
             },
         };
 
@@ -456,8 +508,23 @@
             } else if (field.element.id === "last_name" && value.length > 25) {
                 isValid = false;
                 message = field.errorMessages.minLength;
+            }else  if (field.element.id === "confirmPassword" && (value !== $('#password').val())) {
+                isValid = false;
+                message = field.errorMessages.mismatch;
+            }else if (field.element.id === "gender" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessages.required;
             }
-
+            if (field.element.id === "day" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessages.required;
+            } else if (field.element.id === "month" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessages.required;
+            } else if (field.element.id === "year" && field.element.value === "") {
+                isValid = false;
+                message = field.errorMessages.required;
+            }
             // Manage error display
             let errorElement = field.element.nextElementSibling;
             if (!errorElement || !errorElement.classList.contains("error-message")) {
