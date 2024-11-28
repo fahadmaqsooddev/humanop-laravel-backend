@@ -2,13 +2,10 @@
 
 @section('content')
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg"
-        >
-            {{--             <span class="mask bg-gradient-dark opacity-6"></span>--}}
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg">
             <div class="container">
                 <div class="row d-flex flex-column justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
-                        {{--                                    <h1 class="text-white mb-2 mt-5">Welcome!</h1>--}}
                     </div>
                 </div>
             </div>
@@ -108,6 +105,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </main>
 
 @endsection

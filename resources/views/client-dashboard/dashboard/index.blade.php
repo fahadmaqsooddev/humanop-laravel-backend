@@ -328,7 +328,7 @@
                                         @endif
                                         @if($tip && $assessment)
                                             @if($isReadDailyTip == 0)
-                                                <div>
+                                                <div class="dailyTipButton">
                                                     <div
                                                         class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                         id="read_all_tip">
@@ -347,7 +347,7 @@
 
                                     @if($tip && $assessment)
                                         @if($isReadDailyTip == 0)
-                                            <div>
+                                            <div class="dailyTipButton">
                                                 <div
                                                     class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
                                                     <button style="background-color: #f2661c;"
@@ -1206,6 +1206,8 @@
                         success: function (response) {
 
                             $('#daily-tip-modal-close-button').click();
+
+                            $('.dailyTipButton').addClass('d-none');
 
                             if (response.result.data.point > 0) {
                                 animateNumber('+' + response.result.data.point);
