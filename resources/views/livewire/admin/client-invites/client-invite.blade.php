@@ -55,7 +55,14 @@
                                             @enderror
 
                                             <label class="text-white mt-4">Upload csv file</label>
-                                            <input style="background-color: #0f1534; color: lightgrey !important;" class="form-control text-white" type="file" wire:model="file" name="file" accept=".csv" placeholder="icon name">
+                                            <input
+                                                style="background-color: #0f1534; color: lightgrey !important;"
+                                                class="form-control text-white"
+                                                type="file"
+                                                wire:model="file"
+                                                name="file"
+                                                accept=".csv,.xlsx,.xls"
+                                                placeholder="Choose a file">
                                             @error('file')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
