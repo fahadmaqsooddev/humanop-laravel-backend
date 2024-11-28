@@ -2,32 +2,27 @@
 
 namespace App\Http\Livewire\Admin\ClientInvites;
 
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use App\Models\UserInvite\UserInvite;
+use Illuminate\Support\Str;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ClientInvite extends Component
 {
-    use WithFileUploads;
 
-    public $invites, $email, $file;
+    public $invites, $email;
 
     protected $rules = [
-        'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
-        'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
+        'email' => 'required|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL',
     ];
 
     protected $messages = [
-        'email.required_without' => 'The email is required when a file is not provided.',
+        'email.required' => 'The email is required.',
         'email.email' => 'Please enter a valid email address.',
         'email.max' => 'The email should not exceed 255 characters.',
         'email.unique' => 'The email address is already registered.',
-        'file.required_without' => 'A file is required when an email is not provided.',
-        'file.file' => 'The uploaded file must be a valid file.',
-        'file.mimes' => 'Only CSV files are allowed.',
-        'file.max' => 'The file size should not exceed 10MB.',
     ];
-
 
     public function getInvites()
     {
@@ -42,7 +37,20 @@ class ClientInvite extends Component
 
             $this->validate();
 
-            UserInvite::sendInvite($this->email, $this->file);
+            UserInvite::sendInvite($this->email);
+
+//            $getInvite = UserInvite::getSingleInvite($this->email);
+
+
+//            $baseUrl = url('/register?link='. $getInvite['link']);
+//
+//            $data = [
+//                '{$link}' =>  $baseUrl,
+//            ];
+//
+//            $email_template = EmailTemplate::getTemplate($data, 'invite-link');
+//
+//            Email::sendEmailVerification(['content' => $email_template], $this->email,'emails.Email_Template', 'Invite link for Signup');
 
             session()->flash('success', "{$this->email} invite link generated successfully.");
 

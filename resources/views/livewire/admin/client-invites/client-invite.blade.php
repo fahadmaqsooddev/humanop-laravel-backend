@@ -53,12 +53,6 @@
                                             @error('email')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
-
-                                            <label class="text-white mt-4">Upload csv file</label>
-                                            <input style="background-color: #0f1534; color: lightgrey !important;" class="form-control text-white" type="file" wire:model="file" name="file" accept=".csv" placeholder="icon name">
-                                            @error('file')
-                                            <span class="text-sm text-danger">{{$message}}</span>
-                                            @enderror
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Generate Invite
                                             </button>
