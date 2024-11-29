@@ -1311,9 +1311,23 @@
 
         if (is_admin){
             console.log('yess');
-            document.getElementById('logInBackToAdmin_1').removeAttribute("hidden");
-            document.getElementById('logInBackToAdmin_2').removeAttribute("hidden");
-            document.getElementById('logInBackToAdmin_3').removeAttribute("hidden");
+            const id_arrays = ['logInBackToAdmin_1','logInBackToAdmin_2','logInBackToAdmin_3'];
+
+            id_arrays.forEach(function (value, key){
+
+               if(document.getElementById(value)){
+
+                   console.log('1');
+
+                   document.getElementById(value).removeAttribute("hidden");
+               }
+
+            });
+
+            // document.getElementById('logInBackToAdmin_1').removeAttribute("hidden");
+            // document.getElementById('logInBackToAdmin_2').removeAttribute("hidden");
+            // document.getElementById('logInBackToAdmin_3').removeAttribute("hidden");
+            conosle.log('done');
         }else {
             console.log('no');
             document.getElementById('logInBackToAdmin_1').setAttribute('hidden', true);
