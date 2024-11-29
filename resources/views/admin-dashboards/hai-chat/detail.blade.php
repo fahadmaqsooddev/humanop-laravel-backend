@@ -26,6 +26,7 @@
             }
 
         </style>
+
     @endpush
     <div class="container-fluid my-3 py-3">
         @include('layouts.message')
@@ -247,6 +248,7 @@
 
 @push('js')
     <script src="{{ URL::asset('assets/js/plugins/choices.min.js') }}"></script>
+
     <script>
         if (document.getElementById('choices-gender')) {
             var gender = document.getElementById('choices-gender');

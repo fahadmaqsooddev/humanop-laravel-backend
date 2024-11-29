@@ -247,9 +247,20 @@ class Assessment extends Model
 
     public static function getLatestAssessment($user_id = null)
     {
-
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
+
+    public static function getAllUser()
+    {
+     return self::where('page', 0)
+        ->orderBy('updated_at', 'desc')
+        ->get()
+        ->unique('user_id')
+        ->pluck('user_id');
+
+    }
+
+
 
     public static function getAssessmentIds()
     {

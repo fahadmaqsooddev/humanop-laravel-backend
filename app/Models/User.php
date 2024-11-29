@@ -887,5 +887,8 @@ class User extends Authenticatable implements JWTSubject
             return self::where('email', $email)->first();
         }
     }
+    public static function getUserDetailByIds($ids = []){
+       return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->get();
+    }
 
 }

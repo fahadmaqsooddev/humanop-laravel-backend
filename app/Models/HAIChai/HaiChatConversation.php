@@ -22,11 +22,12 @@ class HaiChatConversation extends Model
         return self::where('chatbot', $chatBot)->get();
     }
 
-    public static function createConversation($chatBot = null, $message = null)
+    public static function createConversation($chatBot = null, $message = null,$reply = null)
     {
         return self::create([
             'chatbot' => $chatBot,
             'message' => $message,
+            'reply' => $reply
         ]);
     }
 
