@@ -72,6 +72,7 @@ class SessionController extends Controller
             $attributes['status'] = 1;
 
             $userEmailVerify = User::where('email', $request['email'])->first();
+
            if($userEmailVerify) {
                if ($userEmailVerify['two_way_auth'] == 1) {
 
@@ -102,6 +103,8 @@ class SessionController extends Controller
                        }
 
                        $user = Helpers::getWebUser();
+
+                       Cache::forget('admin_' . $user->id);
 
                        if (!empty(Session::get('google_user')))
                        {
