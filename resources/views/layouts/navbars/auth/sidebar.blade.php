@@ -75,6 +75,7 @@
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
         @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin == true)
+            {{\Illuminate\Support\Facades\Log::info(['333' => $is_admin, 'id' => auth()->id()])}}
             <div class="d-flex justify-content-center">
                 <a href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
                    style="background-color: #f2661c; color: white;">Back to admin</a>
@@ -572,6 +573,7 @@
 
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
+                        {{\Illuminate\Support\Facades\Log::info(['111' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
                             <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
                                style="background-color: #f2661c; color: white;">Back to admin</a>
@@ -871,6 +873,7 @@
 
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
+                        {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
                             <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
                                style="background-color: #f2661c; color: white;">Back to admin</a>
