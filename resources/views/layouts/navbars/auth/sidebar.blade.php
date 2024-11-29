@@ -572,6 +572,7 @@
                 <li class="nav-item">
 
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
+                    {{\Illuminate\Support\Facades\Log::info(['admin' => \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin']])}}
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['111' => $is_admin, 'id' => auth()->id()])}}
                         <div class="d-flex justify-content-center">
