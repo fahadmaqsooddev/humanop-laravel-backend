@@ -76,9 +76,9 @@
         @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin == true)
             {{\Illuminate\Support\Facades\Log::info(['333' => $is_admin, 'id' => auth()->id()])}}
-            <div class="d-flex justify-content-center" id="logInBackToAdmin_1" hidden>
+            <div class="d-flex justify-content-center">
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
-                   style="background-color: #f2661c; color: white;">Back to admin</a>
+                   style="background-color: #f2661c; color: white;" id="logInBackToAdmin_1" hidden>Back to admin</a>
             </div>
         @endif
         <ul class="navbar-nav">
@@ -575,9 +575,9 @@
                     {{\Illuminate\Support\Facades\Log::info(['admin' => \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())])}}
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['111' => $is_admin, 'id' => auth()->id()])}}
-                        <div class="d-flex justify-content-center" id="logInBackToAdmin_2" hidden>
+                        <div class="d-flex justify-content-center">
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
-                               style="background-color: #f2661c; color: white;">Back to admin</a>
+                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_2" hidden>Back to admin</a>
                         </div>
                     @endif
 
@@ -875,9 +875,9 @@
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
-                        <div class="d-flex justify-content-center" id="logInBackToAdmin_3" hidden>
+                        <div class="d-flex justify-content-center">
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
-                               style="background-color: #f2661c; color: white;">Back to admin</a>
+                               style="background-color: #f2661c; color: white;" id="logInBackToAdmin_3" hidden>Back to admin</a>
                         </div>
                     @endif
 
