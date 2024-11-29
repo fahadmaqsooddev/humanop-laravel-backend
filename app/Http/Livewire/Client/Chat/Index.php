@@ -95,7 +95,7 @@ class Index extends Component
     public function render()
     {
 
-        $this->adminLoggedInAsClient = Cache::get('admin');
+        $this->adminLoggedInAsClient = Cache::get('admin_' . auth()->id());
 
         $chats = HaiChat::getChat($this->chatFilter, 1, $this->adminLoggedInAsClient['admin_id'] ?? null);
 

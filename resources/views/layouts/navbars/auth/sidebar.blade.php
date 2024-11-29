@@ -54,7 +54,7 @@
 
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
-        @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'] ?? false)
+        @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin == true)
             <div class="d-flex justify-content-center">
                 <a href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
@@ -551,7 +551,7 @@
             @elseif((\Illuminate\Support\Facades\Auth::user()->is_admin == 2) && (\Illuminate\Support\Facades\Auth::user()->practitioner_id == null))
                 <li class="nav-item">
 
-                    @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'] ?? false)
+                    @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
                         <div class="d-flex justify-content-center">
                             <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
@@ -850,7 +850,7 @@
             @elseif((\Illuminate\Support\Facades\Auth::user()->is_admin == 2) && (\Illuminate\Support\Facades\Auth::user()->practitioner_id != null))
                 <li class="nav-item">
 
-                    @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin')['is_admin'] ?? false)
+                    @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
                         <div class="d-flex justify-content-center">
                             <a href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"

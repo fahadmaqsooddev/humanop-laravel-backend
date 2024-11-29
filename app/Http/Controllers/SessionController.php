@@ -213,7 +213,7 @@ class SessionController extends Controller
     public function destroy()
     {
 
-        HaiChat::deleteAdminChat(Cache::get('admin'));
+        HaiChat::deleteAdminChat(Cache::get('admin_' . \auth()->id()));
 
         Auth::logout();
 
@@ -230,7 +230,7 @@ class SessionController extends Controller
     public static function destroyPractitioner()
     {
 
-        HaiChat::deleteAdminChat(Cache::get('admin'));
+        HaiChat::deleteAdminChat(Cache::get('admin_' . \auth()->id()));
 
         Auth::logout();
 
@@ -244,7 +244,7 @@ class SessionController extends Controller
     public function loginBackToAdmin()
     {
 
-        $admin = Cache::get('admin');
+        $admin = Cache::get('admin_' . \auth()->id());
 
         HaiChat::deleteAdminChat($admin);
 

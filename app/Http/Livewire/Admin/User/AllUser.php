@@ -8,6 +8,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Enums\Admin\Admin;
@@ -36,7 +37,7 @@ class AllUser extends Component
 
         Auth::login($user);
 
-        Cache::put('admin', ['is_admin' => true, 'admin_id' => $admin_id]);
+        Cache::put('admin_' . $user->id, ['is_admin' => true, 'admin_id' => $admin_id]);
 
         if ($isClientOrPractitioner == 2)
         {

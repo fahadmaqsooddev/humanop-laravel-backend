@@ -88,7 +88,7 @@ class PopUpChat extends Component
     public function render()
     {
 
-        $this->adminLoggedInAsClient = Cache::get('admin');
+        $this->adminLoggedInAsClient = Cache::get('admin_' . auth()->id());
 
         $this->chats = HaiChat::getChat(0, 0, $this->adminLoggedInAsClient['admin_id'] ?? null);
 

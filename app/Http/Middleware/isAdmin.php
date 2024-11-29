@@ -51,7 +51,7 @@ class isAdmin
             }
         }else{
 
-            $admin = Cache::get('admin');
+            $admin = Cache::get('admin_' . \auth()->id());
 
             if (($admin['is_admin'] ?? false) && ($admin['admin_id'] ?? null)) {
 
