@@ -36,17 +36,36 @@
                 </span>
                 </a>
             @else
-                <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
+
+                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
+
+                    <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
                 <span class="humanopLogo">
                 <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
                      style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
-                    <span class="humanopMiniLogo d-none mt-3">
+                        <span class="humanopMiniLogo d-none mt-3">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
                          style="margin-left: 10px; width: 77px"
                          alt="main_logo">
                 </span>
-                </a>
+                    </a>
+
+                @else
+
+                    <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('client_dashboard') }}">
+                <span class="humanopLogo">
+                <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
+                     style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
+                </span>
+                        <span class="humanopMiniLogo d-none mt-3">
+                    <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
+                         style="margin-left: 10px; width: 77px"
+                         alt="main_logo">
+                </span>
+                    </a>
+
+                @endif
             @endif
         </div>
     </div>
