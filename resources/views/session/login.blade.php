@@ -156,6 +156,10 @@
                                                        class="font-weight-bolder" style="color: #0f1535;">Sign up</a>
                                                 @endif
                                             </p>
+                                            <p class="text-sm text-center mt-3 mb-0" > <a style="color:rgb(210, 103, 34);" href="{{route('privacy')}}" >privacy policy</a>
+                                            </p>
+                                            <p class="text-sm text-center mt-3 mb-0" > <a style="color:rgb(210, 103, 34);" href="{{route('term_of_service')}}" >term of service</a>
+                                            </p>
                                         </form>
 
                         </div>

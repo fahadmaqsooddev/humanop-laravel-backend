@@ -160,3 +160,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
 });
+
+
+Route::view('/privacy-policy','session.privacy')->name('privacy');
+Route::view('/term-of-service','session.term-of-service')->name('term_of_service');
