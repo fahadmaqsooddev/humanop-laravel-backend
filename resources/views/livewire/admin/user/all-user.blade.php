@@ -187,6 +187,7 @@
                 confirmButtonText: 'Log in',
             }).then((result) => {
                 if (result.isConfirmed) {
+                    localStorage.setItem('is_admin', true);
                     window.livewire.emit('logInAdminAsUser', id, identify)
                 }
             })
