@@ -76,7 +76,7 @@
         @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
         @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 && $is_admin == true)
             {{\Illuminate\Support\Facades\Log::info(['333' => $is_admin, 'id' => auth()->id()])}}
-            <div class="d-flex justify-content-center" id="logInBackToAdmin" hidden>
+            <div class="d-flex justify-content-center" id="logInBackToAdmin_1" hidden>
                 <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/admin/login-back-to-admin')}}" class="btn btn-sm"
                    style="background-color: #f2661c; color: white;">Back to admin</a>
             </div>
@@ -575,7 +575,7 @@
                     {{\Illuminate\Support\Facades\Log::info(['admin' => \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())])}}
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['111' => $is_admin, 'id' => auth()->id()])}}
-                        <div class="d-flex justify-content-center" id="logInBackToAdmin" hidden>
+                        <div class="d-flex justify-content-center" id="logInBackToAdmin_2" hidden>
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
                                style="background-color: #f2661c; color: white;">Back to admin</a>
                         </div>
@@ -875,7 +875,7 @@
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
-                        <div class="d-flex justify-content-center" id="logInBackToAdmin" hidden>
+                        <div class="d-flex justify-content-center" id="logInBackToAdmin_3" hidden>
                             <a onclick="resetAdminValueFromLocalStorage()" href="{{url('/client/login-back-to-admin')}}" class="btn btn-sm"
                                style="background-color: #f2661c; color: white;">Back to admin</a>
                         </div>
@@ -1307,15 +1307,24 @@
 
         is_admin = localStorage.getItem('is_admin');
 
+        console.log(is_admin);
+
         if (is_admin){
-
-            document.getElementById('logInBackToAdmin').removeAttribute('hidden');
-
+            console.log('yess');
+            document.getElementById('logInBackToAdmin_1').removeAttribute("hidden");
+            document.getElementById('logInBackToAdmin_2').removeAttribute("hidden");
+            document.getElementById('logInBackToAdmin_3').removeAttribute("hidden");
+        }else {
+            console.log('no');
+            document.getElementById('logInBackToAdmin_1').setAttribute('hidden', true);
+            document.getElementById('logInBackToAdmin_2').setAttribute('hidden', true);
+            document.getElementById('logInBackToAdmin_3').setAttribute('hidden', true);
         }
 
         function resetAdminValueFromLocalStorage(){
 
             localStorage.removeItem('is_admin');
+            console.log('isadmin removed');
         }
 
     </script>

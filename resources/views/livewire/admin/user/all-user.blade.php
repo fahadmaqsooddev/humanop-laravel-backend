@@ -188,6 +188,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     localStorage.setItem('is_admin', true);
+                    console.log('isadmin added');
                     window.livewire.emit('logInAdminAsUser', id, identify)
                 }
             })
