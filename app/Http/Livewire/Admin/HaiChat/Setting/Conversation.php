@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
@@ -28,7 +29,9 @@ class Conversation extends Component
 
             $this->validate();
 
-            $setting = HaiChatSetting::getHaiChatSetting();
+            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+
+            $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 

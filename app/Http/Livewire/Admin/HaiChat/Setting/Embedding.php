@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingSetting;
 use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -85,7 +86,9 @@ class Embedding extends Component
 
             $embedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
 
-            $chatSetting = HaiChatSetting::getHaiChatSetting();
+            $chat_bot_id = Chatbot::getChatFromVendorName($this->bot_name)->id ?? null;
+
+            $chatSetting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
             $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
 

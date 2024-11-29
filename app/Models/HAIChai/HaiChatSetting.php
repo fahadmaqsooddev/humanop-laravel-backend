@@ -21,18 +21,34 @@ class HaiChatSetting extends Model
         parent::__construct($attributes);
     }
 
-    public static function getHaiChatSetting()
+    public static function getHaiChatSetting($chat_bot_id = null)
     {
-        return self::first();
+        return self::where('chat_bot_id', $chat_bot_id)->first();
     }
 
-    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null)
+    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null, $chat_bot_id = null)
     {
-        return self::first()->update([
-            'temperature' => $temperature,
-            'max_token' => $max_token,
-            'chunk' => $chunk,
-            'model_type' => $model_type,
-        ]);
+        $setting = self::where('chat_bot_id', $chat_bot_id)->first();
+
+        if ($setting){
+
+            $setting->update([
+                'temperature' => $temperature,
+                'max_token' => $max_token,
+                'chunk' => $chunk,
+                'model_type' => $model_type,
+            ]);
+
+        }else{
+
+            self::create([
+                'temperature' => $temperature,
+                'max_token' => $max_token,
+                'chunk' => $chunk,
+                'model_type' => $model_type,
+                'chat_bot_id' => $chat_bot_id,
+            ]);
+
+        }
     }
 }
