@@ -1307,10 +1307,8 @@
 
         is_admin = localStorage.getItem('is_admin');
 
-        console.log(is_admin);
-
         if (is_admin){
-            console.log('yess');
+
             const id_arrays = ['logInBackToAdmin_1','logInBackToAdmin_2','logInBackToAdmin_3'];
 
             id_arrays.forEach(function (value, key){
@@ -1323,22 +1321,11 @@
                }
 
             });
-
-            // document.getElementById('logInBackToAdmin_1').removeAttribute("hidden");
-            // document.getElementById('logInBackToAdmin_2').removeAttribute("hidden");
-            // document.getElementById('logInBackToAdmin_3').removeAttribute("hidden");
-            conosle.log('done');
-        }else {
-            console.log('no');
-            document.getElementById('logInBackToAdmin_1').setAttribute('hidden', true);
-            document.getElementById('logInBackToAdmin_2').setAttribute('hidden', true);
-            document.getElementById('logInBackToAdmin_3').setAttribute('hidden', true);
         }
 
         function resetAdminValueFromLocalStorage(){
 
             localStorage.removeItem('is_admin');
-            console.log('isadmin removed');
         }
 
     </script>

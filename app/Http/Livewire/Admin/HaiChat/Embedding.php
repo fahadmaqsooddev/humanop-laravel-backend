@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
-use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -11,7 +11,7 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding;
+    public $name,$embedding, $groups, $group_name, $group_id = [];
     use WithFileUploads;
 
     protected $listeners = ['deleteEmbedding'];
@@ -26,6 +26,21 @@ class Embedding extends Component
         'embedding.required' => 'The Embedding field is required.', // Corrected message to use proper text
         'embedding.mimes' => 'The Embedding must be a file of type: txt, pdf.', // Added message for mime type validation
     ];
+
+    public function updatedGroupId($value){
+
+        $values = explode('--', $value);
+
+        if (empty($values[0])){
+
+            HaiChatEmbedding::updateGroupId($values[1], null);
+
+        }else{
+
+            HaiChatEmbedding::updateGroupId($values[1], $values[0]);
+        }
+
+    }
 
     public function deleteEmbedding($id)
     {
@@ -74,6 +89,11 @@ class Embedding extends Component
     public function getEmbeddings()
     {
         $this->embeddings = HaiChatEmbedding::allEmbeddings();
+
+        foreach ($this->embeddings as $embedding){
+
+            $this->group_id[$embedding->id] =  ($embedding->group_id . '--' . $embedding->id);
+        }
     }
 
 
@@ -143,11 +163,24 @@ class Embedding extends Component
         return $response_body;
     }
 
+    public function createGroup(){
+
+        $this->validate(['group_name' => 'required|max:200'],['group_name.required' => 'Group name is required']);
+
+        EmbeddingGroup::createEmbeddingGroup($this->group_name);
+
+        session()->flash('success', "Created Successfully.");
+
+        $this->reset('group_name');
+    }
+
 
 
     public function render()
     {
         $this->getEmbeddings();
+
+        $this->groups = EmbeddingGroup::all();
 
         return view('livewire.admin.hai-chat.embedding');
     }

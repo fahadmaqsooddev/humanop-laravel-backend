@@ -16,6 +16,9 @@ class HaiChatEmbedding extends Model
         parent::__construct($attributes);
     }
 
+
+    // queries
+
     public static function singleEmbedding($id)
     {
         return self::whereId($id)->first();
@@ -46,6 +49,12 @@ class HaiChatEmbedding extends Model
     public static function deleteEmbedding($id)
     {
         return self::whereId($id)->delete();
+    }
+
+    public static function updateGroupId($embedding_id = null, $group_id = null){
+
+        self::whereId($embedding_id)->update(['group_id' => $group_id]);
+
     }
 
 }

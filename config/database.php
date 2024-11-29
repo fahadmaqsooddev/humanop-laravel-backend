@@ -426,7 +426,7 @@ return [
         ],
         'HaiChatActiveEmbedding' => [
             'table' => 'hai_chat_active_embeddings',
-            'fillable' => ['chat_bot','request_id'],
+            'fillable' => ['chat_bot','request_id','group_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatSetting' => [
@@ -453,6 +453,12 @@ return [
             'table' => 'user_invites',
             'fillable' => ['id','email','link'],
             'hidden' => ['created_at','updated_at'],
-        ]
+        ],
+
+        'EmbeddingGroup' => [
+            'table' => 'embedding_groups',
+            'fillable' => ['id','name'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
+        ],
     ]
 ];
