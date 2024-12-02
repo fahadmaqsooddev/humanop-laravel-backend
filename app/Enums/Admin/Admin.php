@@ -42,4 +42,5 @@ final class Admin
 
     const NOT_RESET_ASSESSMENT = 0;
 
+    const Is_Feed_Back_Show = 1;
 }

@@ -268,7 +268,7 @@ class UserController extends Controller
 
 //                    ActionPlan::storeUserActionPlan();
 
-                    User::updateUserIsFeedback();
+
 
                     $data = [
 
@@ -281,7 +281,7 @@ class UserController extends Controller
                             'type' => 'bearer',
                         ]
                     ];
-
+                    User::updateUserIsFeedback();
                     $message = "LoggedIn successfully";
 
                 } else {
@@ -320,7 +320,7 @@ class UserController extends Controller
                             'type' => 'bearer',
                         ]
                     ];
-
+                    User::updateUserIsFeedback();
                     $message = "Signup successfully";
 
                 }

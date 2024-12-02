@@ -55,7 +55,7 @@ class AuthController extends Controller
                 if ($token) {
 
                     $user_data = User::user(Helpers::getUser()->id);
-//                User::updateUserIsFeedback();
+
 
 //                    DailyTip::updateUserDailyTip();
 
@@ -72,7 +72,7 @@ class AuthController extends Controller
                             'type' => 'bearer',
                         ]
                     ];
-
+                    User::updateUserIsFeedback();
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
                 }
@@ -269,7 +269,7 @@ class AuthController extends Controller
 //                DailyTip::updateUserDailyTip();
 
 //                ActionPlan::storeUserActionPlan();
-
+                User::updateUserIsFeedback();
                 $data = [
                     'user' => $user,
                     'authorization' => [
