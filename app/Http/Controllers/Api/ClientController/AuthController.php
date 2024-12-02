@@ -56,23 +56,22 @@ class AuthController extends Controller
 
                     $user_data = User::user(Helpers::getUser()->id);
 
-
-//                    DailyTip::updateUserDailyTip();
-
-//                    ActionPlan::storeUserActionPlan();
-
                     $user = Helpers::getUser();
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
+                    $updateUser = User::updateUserIsFeedback();
+
+                    $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                    $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
                     $data = [
-                        'user' => $user_data,
+                        'user' => $updateUser,
                         'authorization' => [
                             'token' => $token,
                             'type' => 'bearer',
                         ]
                     ];
-                    User::updateUserIsFeedback();
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
                 }
@@ -161,11 +160,10 @@ class AuthController extends Controller
 
                         $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female");
 
-//                DailyTip::updateUserDailyTip();
-
-//                ActionPlan::storeUserActionPlan();
-
                         DB::commit();
+
+                        $user['two_way_auth'] = ($user['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                        $user['app_intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                         $data = [
                             'user' => $user,
@@ -266,12 +264,13 @@ class AuthController extends Controller
 
                 $token = $this->auth->login($user);
 
-//                DailyTip::updateUserDailyTip();
+                $updateUser = User::updateUserIsFeedback();
 
-//                ActionPlan::storeUserActionPlan();
-                User::updateUserIsFeedback();
+                $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
                 $data = [
-                    'user' => $user,
+                    'user' => $updateUser,
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',

@@ -563,7 +563,7 @@ class User extends Authenticatable implements JWTSubject
     public static function updateUserIsFeedback()
     {
 
-        $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->select(['id', 'is_feedback', 'is_admin'])->first();
+        $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
 
         if (!$user->feedback && $user->is_admin === 2) {
 
@@ -577,6 +577,8 @@ class User extends Authenticatable implements JWTSubject
             }
 
         }
+
+        return $user;
 
     }
 

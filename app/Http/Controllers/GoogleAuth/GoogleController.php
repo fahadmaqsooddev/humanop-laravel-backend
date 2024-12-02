@@ -73,8 +73,11 @@ class GoogleController extends Controller
                 }
             }
             else {
-                $finduser = User::where('google_id', $googleUser->id)
-                    ->orWhere('email', $googleUser->email)
+                $finduser = User::where(function ($query) use ($googleUser) {
+                    $query->where('google_id', $googleUser->id)
+                        ->orWhere('email', $googleUser->email);
+                })
+                    ->whereNotNull('email_verified_at')
                     ->first();
             }
 
