@@ -468,6 +468,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['hai_chat'] = 2;
 
+        $data['email_verify_token'] = Str::random(16);
+
         return self::create($data);
 
     }
