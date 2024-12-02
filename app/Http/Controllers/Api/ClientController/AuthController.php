@@ -126,7 +126,7 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $baseUrl = url('/check-email', $user['id']);
+                        $baseUrl = url('/check-email?token=', $user['email_verify_token']);
 
                         $userData = [
                             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],

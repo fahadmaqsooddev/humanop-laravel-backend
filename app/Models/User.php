@@ -381,6 +381,8 @@ class User extends Authenticatable implements JWTSubject
         $data['is_admin'] = Admin::IS_CUSTOMER;
         $data['status'] = 1;
         $data['hai_chat'] = 2;
+        $data['email_verify_token'] = Str::random(16);
+
         $user = self::create($data);
 
         return $user;
@@ -466,6 +468,8 @@ class User extends Authenticatable implements JWTSubject
         $data['status'] = 1;
 
         $data['hai_chat'] = 2;
+
+        $data['email_verify_token'] = Str::random(16);
 
         return self::create($data);
 
@@ -889,6 +893,20 @@ class User extends Authenticatable implements JWTSubject
             return self::where('email', $email)->first();
         }
     }
+
+    public static function generateEmailVerificationToken($email)
+    {
+
+        if ($email)
+        {
+            $token = Str::random(16);
+
+            self::where('email', $email)->update(['email_verify_token' => $token]);
+
+            return self::where('email', $email)->first();
+        }
+    }
+
     public static function getUserDetailByIds($ids = []){
        return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->get();
     }

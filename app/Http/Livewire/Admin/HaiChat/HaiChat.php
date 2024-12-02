@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat;
 
 use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
@@ -30,7 +31,9 @@ class HaiChat extends Component
 
             $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/create-chatbot', ['vendor_n' => $this->name]);
 
-            Chatbot::createChat($aiReply, $this->description);
+            $chatbot = Chatbot::createChat($aiReply, $this->description);
+
+            HaiChatSetting::updateHaiChatSetting(null,null,null,null,$chatbot->id);
 
             session()->flash('success', "{$this->name} created successfully.");
 
@@ -56,7 +59,7 @@ class HaiChat extends Component
         {
 
             Chatbot::deleteChat($id);
-            
+
             session()->flash('success', "{$chat['name']} deleted successfully.");
 
         }
