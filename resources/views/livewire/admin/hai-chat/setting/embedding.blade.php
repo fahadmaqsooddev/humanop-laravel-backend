@@ -27,7 +27,7 @@
                             @foreach($active_embeddings as $active)
                                 <li>
                                     <button class="dropdown-item"
-                                            wire:click="changeEmbeddingSelect(`{{$active['embedding']['name']}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button>
+                                            wire:click="changeEmbeddingSelect(`{{$active['embedding']['name'] ?? null}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button>
                                 </li>
                         @endforeach
                         <!-- Chatbot options will be populated here -->

@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
 {
-    public $prompt,$restriction, $keywordRestriction;
+    public $prompt,$restriction, $keyword = '', $keywords = ['aaaa','vvvvv','aaaaaa','cccccc'];
     public $name;
     protected $rules = [
         'name' => 'required',
@@ -30,7 +31,6 @@ class Prompt extends Component
         if($detail){
             $this->prompt = $detail['prompt'];
             $this->restriction = $detail['restriction'];
-            $this->keywordRestriction = $detail['keyword_restriction'];
         }
     }
     public function update(){
@@ -39,7 +39,7 @@ class Prompt extends Component
             $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction]);
           if($aiReply > 0) {
 
-              $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction, $this->keywordRestriction);
+              $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);
               if ($prompt) {
                   session()->flash('success', "Updated Successfully.");
               }
@@ -71,8 +71,26 @@ class Prompt extends Component
 
         return $response_body;
     }
+
+    public function removeKeyword($id){
+
+        ChatbotKeyword::removeChatbotKeyword($id);
+
+    }
+
+    public function createKeyword(){
+
+        ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name);
+
+        $this->keyword = "";
+
+    }
+
     public function render()
     {
+
+        $this->keywords = ChatbotKeyword::chatbotKeywords($this->name);
+
         return view('livewire.admin.hai-chat.setting.prompt');
     }
 }

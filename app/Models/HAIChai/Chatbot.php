@@ -5,10 +5,11 @@ namespace App\Models\HAIChai;
 use FontLib\Table\Type\name;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Chatbot extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function __construct(array $attributes = array())
     {
