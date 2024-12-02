@@ -37,7 +37,7 @@ class BasicSettingRequest extends FormRequest
 //            'email' => 'required|email|max:255|unique:users,email,' . Auth::user()->id,
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|string',
-            'phone' => 'required|string|max:25',
+            'phone' => 'nullable|max:25',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072',
 //            'timezone' => 'nullable'
         ];

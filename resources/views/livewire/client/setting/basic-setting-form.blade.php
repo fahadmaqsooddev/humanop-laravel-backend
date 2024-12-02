@@ -52,7 +52,7 @@
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Phone Number</label>
                     <div class="input-group">
-                        <input id="phone" wire:model.defer="user.phone"
+                        <input id="phone" wire:model.defer="user.phone" id="phone"
                                maxlength="14" class="form-control text-color-dark setting-box-background" type="tel"
                                placeholder="Enter your phone number">
                     </div>
@@ -200,6 +200,24 @@
 
             });
         })();
+
+        $('#phone').on('input', function () {
+
+            let input = $(this).val();
+            // 1. Remove all characters except numbers and `+`
+            input = input.replace(/[^+\d]/g, '');
+
+            // 2. Ensure the `+` appears only at the start
+            if (input.indexOf('+') > 0) {
+                input = input.replace(/\+/g, ''); // Remove additional `+` symbols
+            }
+
+            // 3. Limit to 14 characters
+            input = input.slice(0, 14);
+
+            // 4. Set sanitized value back to the input field
+            $(this).val(input);
+        });
 
     </script>
 

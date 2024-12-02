@@ -29,7 +29,7 @@ class UpdateUserProfileRequest extends FormRequest
             'date_of_birth' => 'required|date',
 //            'age_range' => 'required|regex:/^\d{1,2}-\d{1,2}$/',
             'gender' => 'required|in:male,female',
-//            'phone' => 'required|max:25',
+            'phone' => 'nullable|max:25',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:3072'
         ];
     }
@@ -48,6 +48,8 @@ class UpdateUserProfileRequest extends FormRequest
             'profile_image.image' => 'Profile Image must be an image',
             'profile_image.mimes' => 'Profile Image mimes must be (jpg,png,jpeg,gif,svg)',
             'profile_image.max' => "Profile Image maximum size is 3Mb's",
+            'phone.max' => 'The phone number should not exceed 25 characters.',
+
         ];
     }
 }
