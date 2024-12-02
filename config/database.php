@@ -460,5 +460,11 @@ return [
             'fillable' => ['id','name'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
+
+        'ChatbotKeyword' => [
+            'table' => 'chatbot_keywords',
+            'fillable' => ['word','chatbot_id'],
+            'hidden' => ['created_at','updated_at'],
+        ]
     ]
 ];
