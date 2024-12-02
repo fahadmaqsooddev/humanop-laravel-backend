@@ -124,7 +124,7 @@ class RegisterController extends Controller
 
                 if (empty($request['google_id']))
                 {
-                    $baseUrl = url('/check-email', $user['id']);
+                    $baseUrl = url('/check-email?token='. $user['email_verify_token']);
 
                     $data = [
                         '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
@@ -139,7 +139,8 @@ class RegisterController extends Controller
 
                     DB::commit();
 
-                    return redirect()->route('email_verify');
+                    return redirect()->to('/email-verify?token=' . $user['email_verify_token']);
+
                 }
                 else
                 {
@@ -240,19 +241,28 @@ class RegisterController extends Controller
         }
     }
 
-    public function emailVerify()
+    public function emailVerify(Request $request)
     {
         try {
+            $token = $request->query('token');
 
-            $auth = Helpers::getWebUser();
-
-            if ($auth)
+            if (!empty($token))
             {
-                return redirect()->route('client_dashboard');
+                $auth = Helpers::getWebUser();
+
+                if ($auth)
+                {
+                    return redirect()->route('client_dashboard');
+
+                }else
+                {
+                    return view('session/email-verify', compact('token'));
+                }
 
             }else
             {
-                return view('session/email-verify');
+                session()->flash('success', 'Email Verification link is missing. Please provide a valid link.');
+
             }
 
         } catch (\Exception $exception) {
@@ -312,15 +322,17 @@ class RegisterController extends Controller
         }
     }
 
-    public function resendEmailVerification()
+    public function resendEmailVerification(Request $request)
     {
         try {
 
-            $user = User::getSingleUser(Session::get('userId'));
+            $token = $request->query('token');
 
-            if ($user['email_verified_at'] == null)
+            $user = User::where('email_verify_token', $token)->first();
+
+            if (!empty($user) && $user['email_verified_at'] == null)
             {
-                $baseUrl = url('/check-email', $user['id']);
+                $baseUrl = url('/check-email', $user['email_verify_token']);
 
                 $data = [
                     '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
