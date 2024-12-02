@@ -56,23 +56,19 @@ class AuthController extends Controller
 
                     $user_data = User::user(Helpers::getUser()->id);
 
-
-//                    DailyTip::updateUserDailyTip();
-
-//                    ActionPlan::storeUserActionPlan();
-
                     $user = Helpers::getUser();
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
+                    $updateUser = User::updateUserIsFeedback();
+
                     $data = [
-                        'user' => $user_data,
+                        'user' => $updateUser,
                         'authorization' => [
                             'token' => $token,
                             'type' => 'bearer',
                         ]
                     ];
-                    User::updateUserIsFeedback();
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
                 }
@@ -266,12 +262,10 @@ class AuthController extends Controller
 
                 $token = $this->auth->login($user);
 
-//                DailyTip::updateUserDailyTip();
+                $updateUser = User::updateUserIsFeedback();
 
-//                ActionPlan::storeUserActionPlan();
-                User::updateUserIsFeedback();
                 $data = [
-                    'user' => $user,
+                    'user' => $updateUser,
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',
