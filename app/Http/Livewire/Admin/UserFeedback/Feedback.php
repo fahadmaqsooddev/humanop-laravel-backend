@@ -8,12 +8,12 @@ use Stripe\Checkout\Session;
 
 class Feedback extends Component
 {
-    public $feedbacks;
+    public $feedbacks,$approved_feedbacks;
 
     public function getFeedback()
     {
         $this->feedbacks = \App\Models\Client\Feedback\Feedback::userFeedbacks();
-
+        $this->approved_feedbacks = \App\Models\Client\Feedback\Feedback::approvedUserFeedBack();
     }
 
     public function approveFeedback($id)

@@ -50,5 +50,9 @@ class Feedback extends Model
     {
         return self::whereId($feedbackId)->update(['approve' => 1]);
     }
+    public static function approvedUserFeedBack()
+    {
+        return self::where('approve', 1)->whereHas('user')->with('user')->orderBy('created_at', 'desc')->get();
+    }
 
 }
