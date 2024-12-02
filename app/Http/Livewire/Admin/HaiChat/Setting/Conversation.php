@@ -35,7 +35,9 @@ class Conversation extends Component
 
             $this->validate();
 
-            $setting = HaiChatSetting::getHaiChatSetting();
+            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+
+            $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
 //            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 //
@@ -47,19 +49,19 @@ class Conversation extends Component
 
             if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
 
-                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini'];
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini'];
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
             }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 
-                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o'];
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o'];
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
             }else{
 
-                $body = ['query' => $this->message, 'temperature' => 0.3, 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet'];
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet'];
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
             }
