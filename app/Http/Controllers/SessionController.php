@@ -127,7 +127,7 @@ class SessionController extends Controller
                        return redirect()->route('admin_dashboard');
                    }
 
-                   return back()->withErrors(['msgError' => 'These credentials do not match our records.']);
+                   return back()->withErrors(['msgError' => 'The email or password you entered is incorrect.']);
 
                }else
                {
@@ -136,7 +136,7 @@ class SessionController extends Controller
 
                }
            }else{
-               return back()->withErrors(['msgError' => 'The email or password you entered is incorrect']);
+               return back()->withErrors(['msgError' => 'This email does not exist in our records.']);
            }
         }catch (ValidationException $validationException){
 
