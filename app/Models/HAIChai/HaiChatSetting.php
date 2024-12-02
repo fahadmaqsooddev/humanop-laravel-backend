@@ -42,10 +42,10 @@ class HaiChatSetting extends Model
         }else{
 
             self::create([
-                'temperature' => $temperature,
-                'max_token' => $max_token,
-                'chunk' => $chunk,
-                'model_type' => $model_type,
+                'temperature' => $temperature ?? 0.5,
+                'max_token' => $max_token ?? 500,
+                'chunk' => $chunk ?? 5,
+                'model_type' => $model_type ?? self::GPT_4o_MINI,
                 'chat_bot_id' => $chat_bot_id,
             ]);
 
