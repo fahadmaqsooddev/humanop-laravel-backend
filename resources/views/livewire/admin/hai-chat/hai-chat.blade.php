@@ -17,8 +17,14 @@
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
                                     class="bi bi-robot"></i> {{ $chat['name'] }}
                             </h5>
-                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
                         </a>
+                        @if(strlen($chat['description']) > 60)
+
+                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 60) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
+
+                        @else
+                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
+                        @endif
                         <div class="d-flex justify-content-between">
                             <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less
                                 than a minute</p>
@@ -93,6 +99,30 @@
         </div>
     </div>
 
+
+{{--    Chatbot Detail Modal--}}
+
+    <div wire:ignore.self class="modal fade" id="chatBotDetailModal" tabindex="-1" aria-labelledby="chatBotDetailModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="modal-title text-white" id="chatBotDetailModalLabel">{{$chatBot->name ?? null}}</h5>
+                        <button type="button" class="close modal-close-btn"
+                                data-dismiss="modal" wire:click="closeChatBotDetailModal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <p class="text-white w-100">
+                        {{$chatBot->description ?? null}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @push('js')
 
@@ -100,9 +130,6 @@
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
     <script>
-        window.Livewire.on('closeModel', function () {
-            $('#createChatModal').modal('hide');
-        });
 
         function deleteChatBot(id) {
 
