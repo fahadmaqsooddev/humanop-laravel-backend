@@ -318,7 +318,7 @@
                                                     me</label>
                                             </div>
                                             <div class="text-center">
-                                                <button type="submit" class="btn w-100 my-4 mb-2"
+                                                <button type="submit" class="btn w-100 my-4 mb-2" id="signupButton"
                                                         style="background-color: #f2661c;color:white">Sign up
                                                 </button>
                                             </div>
@@ -607,9 +607,18 @@
                 e.preventDefault(); // Prevent submission if validation fails
                 scrollToError(); // Smooth scroll to the first error
             }
+            else {
+                // Disable the button if there are no errors
+                disableSignupButton();
+            }
         });
     });
 
-    // function disableBack() { window.history.forward(); }
-    // setTimeout("disableBack()", 0);
+    function disableSignupButton() {
+        const signupButton = document.getElementById('signupButton');
+        signupButton.disabled = true;
+        signupButton.style.backgroundColor = '#d3d3d3'; // Optional: Change color to indicate it's disabled
+        signupButton.style.cursor = 'not-allowed'; // Optional: Change cursor style
+    }
+
 </script>
