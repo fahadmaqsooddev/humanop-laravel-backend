@@ -15,7 +15,9 @@ class Group extends Component
 
     use WithFileUploads;
 
-    public $groups, $name, $group_ids = [], $embedding_name, $embedding;
+    protected $listeners = ['deleteEmbedding'];
+
+    public $groups, $name, $group_ids = [], $embedding_name, $embedding, $embeddings;
 
     protected $rules = [
         'embedding_name' => 'required',
@@ -33,6 +35,8 @@ class Group extends Component
     public function render()
     {
         $this->groups = EmbeddingGroup::allGroups();
+
+        $this->embeddings = HaiChatEmbedding::allEmbeddings();
 
         return view('livewire.admin.hai-chat.group');
     }
@@ -124,5 +128,10 @@ class Group extends Component
         $this->emit('closeCreateGroupModal');
 
         $this->reset('name');
+    }
+
+    public function deleteEmbedding($id){
+
+        $this->emitTo('Embedding', 'deleteEmbedding',$id);
     }
 }

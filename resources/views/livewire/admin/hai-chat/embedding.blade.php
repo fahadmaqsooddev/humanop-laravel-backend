@@ -1,16 +1,4 @@
 <div>
-{{--    <div class="d-flex justify-content-end">--}}
-{{--        <a data-bs-toggle="modal" data-bs-target="#createEmbedding"--}}
-{{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Embedding--}}
-{{--        </a>--}}
-{{--        <div class="px-3">--}}
-{{--            <a data-bs-toggle="modal" data-bs-target="#createGroup"--}}
-{{--               style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Group--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
     <!-- Chatbot Cards Container -->
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
@@ -51,86 +39,6 @@
             </div>
         @endforeach
     </div>
-
-    {{-- Create Embedding Models--}}
-{{--    <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"--}}
-{{--         aria-labelledby="createResource" aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-body" style=" border-radius: 9px">--}}
-{{--                    <form wire:submit.prevent="createEmbedding" enctype="multipart/form-data">--}}
-{{--                        @csrf--}}
-{{--                        <div class="card-body w-100">--}}
-{{--                            <div class="row w-100">--}}
-{{--                                <div class="col-12">--}}
-{{--                                    <label class="form-label fs-4 text-white">Create Embedding</label>--}}
-{{--                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"--}}
-{{--                                            aria-label="Close">--}}
-{{--                                        <span aria-hidden="true">&times;</span>--}}
-{{--                                    </button>--}}
-{{--                                    @include('layouts.message')--}}
-{{--                                    <div class="form-group mt-4">--}}
-{{--                                        <label class="form-label fs-4 text-white">Name</label>--}}
-{{--                                        <input style="background-color: #0f1534;" class="form-control text-white"--}}
-{{--                                               wire:model.defer="name" placeholder="Enter Embedding Name" type="text">--}}
-{{--                                    </div>--}}
-
-{{--                                    <div class="form-group mt-4">--}}
-{{--                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>--}}
-{{--                                        <input style="background-color: #0f1534;" wire:model.defer="embedding" id="embedding_file"--}}
-{{--                                               class="form-control text-white" type="file"--}}
-{{--                                               accept="file/*">--}}
-{{--                                        <span wire:loading.flex wire:target="embedding">--}}
-{{--                                            Uploading ...--}}
-{{--                                        </span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-{{--                            </div>--}}
-
-{{--                        </div>--}}
-{{--                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create--}}
-{{--                        </button>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-
-{{--    <div wire:ignore.self class="modal fade" id="createGroup" tabindex="-1" role="dialog"--}}
-{{--         aria-labelledby="createResource" aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-body" style=" border-radius: 9px">--}}
-{{--                    <form wire:submit.prevent="createGroup" enctype="multipart/form-data">--}}
-{{--                        @csrf--}}
-{{--                        <div class="card-body w-100">--}}
-{{--                            <div class="row w-100">--}}
-{{--                                <div class="col-12">--}}
-{{--                                    <label class="form-label fs-4 text-white">Create Group</label>--}}
-{{--                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"--}}
-{{--                                            aria-label="Close">--}}
-{{--                                        <span aria-hidden="true">&times;</span>--}}
-{{--                                    </button>--}}
-{{--                                    @include('layouts.message')--}}
-{{--                                    <div class="form-group mt-4">--}}
-{{--                                        <label class="form-label fs-4 text-white">Name</label>--}}
-{{--                                        <input style="background-color: #0f1534;" class="form-control text-white"--}}
-{{--                                               wire:model.defer="group_name" placeholder="Enter group name" type="text">--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-
-{{--                            </div>--}}
-
-{{--                        </div>--}}
-{{--                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create--}}
-{{--                        </button>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 </div>
 @push('js')
 
