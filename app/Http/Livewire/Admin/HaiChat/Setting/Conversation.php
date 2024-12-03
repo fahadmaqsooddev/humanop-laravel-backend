@@ -39,10 +39,6 @@ class Conversation extends Component
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
-//            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
-//
-//            $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id ?? null);
-
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
 //            HaiChatConversation::createConversation($this->name, $this->message);
