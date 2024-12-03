@@ -6,6 +6,12 @@
             <i class="fa fa-close" aria-hidden="true"></i>
         </button>
     </div>
+    <div class="m-3 alert alert-success alert-dismissible fade" id="messageShow" role="alert">
+        <span class="alert-text text-white">You have already submitted these questions. Please start with the new set of questions.</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </button>
+    </div>
     @foreach($questions as $index => $question)
         <hr class="" style="border: 1px solid white">
         <div class="mb-4 text-bold">
@@ -61,6 +67,13 @@
         document.addEventListener('livewire:load', function () {
             Livewire.on('scrollToTop', () => {
                 document.getElementById('alert').classList.add('show');
+                window.scrollTo(0, 0);
+            });
+        });
+
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('notificationShow', () => {
+                document.getElementById('messageShow').classList.add('show');
                 window.scrollTo(0, 0);
             });
         });

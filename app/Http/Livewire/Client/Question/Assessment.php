@@ -30,6 +30,7 @@ class Assessment extends Component
     public $totalQuestion = 0;
     public $assessmentId = 0;
     public $assessmentMessage = "";
+    public $page = 0;
 
     public function mount()
     {
@@ -229,50 +230,73 @@ class Assessment extends Component
 
             if ($existingAssessment) {
 
-                $this->offset += 3;
+                if ($this->page < $existingAssessment['page']) {
 
-                $oldResult = $existingAssessment->toArray();
-                $resultArray = [];
 
-                if (!empty($energyValues)) {
-                    $codeArray = array_merge($energyValues, $codeArray);
+                    $differencePage = ($existingAssessment['page'] - $this->page) * 3;
+
+                    $this->offset += $differencePage;
+
+                    $this->page += $this->offset / 3;
+
+                    $this->answers = [];
+
+                    $this->multiple = false;
+
+                    $this->emit('notificationShow');
                 }
 
-                foreach ($codeArray as $key => $value) {
-                    if ($value !== '') {
-                        $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+                else
+                {
+
+                    $this->offset += 3;
+
+                    $this->page += 1;
+
+                    $oldResult = $existingAssessment->toArray();
+
+                    $resultArray = [];
+
+                    if (!empty($energyValues)) {
+                        $codeArray = array_merge($energyValues, $codeArray);
+                    }
+
+                    foreach ($codeArray as $key => $value) {
+                        if ($value !== '') {
+                            $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+                        } else {
+                            $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
+                        }
+                    }
+
+                    if ($totalPages == $this->offset / 3) {
+
+                        $resultArray['page'] = 0;
+                        $existingAssessment->update($resultArray);
+                        $this->assessmentId = $existingAssessment->id;
+
+                        AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+                        AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+                        AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
+
+                        if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
+
+                            ActionPlan::checkUserActionPlan($existingAssessment);
+
+                            $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+                        }else{
+
+                            $this->assessmentMessage = "Congratulations on finishing your assessment!";
+                        }
+
                     } else {
-                        $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
+
+                        $resultArray['page'] = $this->offset / 3;
+
+                        $existingAssessment->update($resultArray);
+                        $this->assessmentId = $existingAssessment->id;
+
                     }
-                }
-
-                if ($totalPages == $this->offset / 3) {
-
-                    $resultArray['page'] = 0;
-                    $existingAssessment->update($resultArray);
-                    $this->assessmentId = $existingAssessment->id;
-
-                    AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
-                    AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-                    AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
-
-                    if (\App\Models\Assessment::where('user_id', Helpers::getWebUser()->id)->count() === 1){
-
-//                        DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getWebUser());
-                        ActionPlan::checkUserActionPlan($existingAssessment);
-
-                        $this->assessmentMessage = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
-                    }else{
-
-                        $this->assessmentMessage = "Congratulations on finishing your assessment!";
-                    }
-
-                } else {
-
-                    $resultArray['page'] = $this->offset / 3;
-                    $existingAssessment->update($resultArray);
-                    $this->assessmentId = $existingAssessment->id;
-
                 }
             }
 
