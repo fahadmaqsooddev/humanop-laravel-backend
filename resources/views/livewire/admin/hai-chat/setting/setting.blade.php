@@ -1,11 +1,11 @@
-<div class="card setting-box-background mt-4" id="setting">
+<div class="card card-bg-white-orange-border mt-4" id="setting">
     <div class="card-header">
-        <div class="card">
+        <div>
             @include('layouts.message')
             <div class="card-body">
                 <div class="d-flex ">
                     <div class="col-md-4">
-                        <div class="card-title fw-bold" style="color: #0f1535">Personalize</div>
+                        <div class="card-title fw-bold text-orange">Personalize</div>
                         <div class="card-text" style="color: #0f1535">Customize your chatbot by giving
                             it a name
                             and avatar
@@ -16,11 +16,11 @@
                     <form wire:submit.prevent="submitForm">
 
                         <div class="mb-3">
-                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
-                                   class="form-label fw-bold">Temperature
+                            <label for="temperature" style="font-size: small;"
+                                   class="form-label fw-bold text-orange">Temperature
                                 (Randomness)</label>
-                            <select style="background-color: #0f1535"
-                                    class="form-control text-color-dark setting-box-background"
+                            <select
+                                    class="form-control input-bg"
                                     wire:model.defer="temperature">
                                 @for($i = 0.1; $i <= 1; $i += 0.1)
                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -40,10 +40,10 @@
 
                         <!-- Max Token Setting -->
                         <div class="mb-3">
-                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
-                                   class="form-label fw-bold">Max Token</label>
-                            <select style="background-color: #0f1535"
-                                    class="form-control text-color-dark setting-box-background"
+                            <label for="temperature" style="font-size: small;"
+                                   class="form-label fw-bold text-orange">Max Token</label>
+                            <select
+                                    class="form-control input-bg"
                                     wire:model.defer="max_token">
                                 @for($i = 500; $i <= 5000; $i += 500)
                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -53,10 +53,9 @@
 
                         <!-- Chunks Setting -->
                         <div class="mb-3">
-                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
-                                   class="form-label fw-bold">Chunk</label>
-                            <select style="background-color: #0f1535"
-                                    class="form-control text-color-dark setting-box-background"
+                            <label for="temperature" style="font-size: small;"
+                                   class="form-label fw-bold text-orange">Chunk</label>
+                            <select class="form-control input-bg"
                                     wire:model.defer="chunk">
                                 @for($i = 1; $i <= 20; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -65,10 +64,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="temperature" style="font-size: small; background-color: #8bb1ab"
-                                   class="form-label fw-bold">LLM Models</label>
-                            <select style="background-color: #0f1535"
-                                    class="form-control text-color-dark setting-box-background"
+                            <label for="temperature" style="font-size: small;"
+                                   class="form-label fw-bold text-orange">LLM Models</label>
+                            <select class="form-control input-bg"
                                     wire:model.defer="model_type">
                                 <option value="1">gpt-4o-mini</option>
                                 <option value="2">gpt-4o</option>

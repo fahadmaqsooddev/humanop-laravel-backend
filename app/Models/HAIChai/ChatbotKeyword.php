@@ -24,7 +24,7 @@ class ChatbotKeyword extends Model
 
         self::create([
             'word' => $word,
-            'chatbot_id' => $chatbot->id,
+            'chatbot_id' => $chatbot->id ?? null,
         ]);
 
     }

@@ -39,7 +39,7 @@
       }
       </style>
     @endpush
-<div class="card setting-box-background mt-4" id="conversation">
+<div class="card card-bg-white-orange-border mt-4" id="conversation">
     <div class="row h-100">
 
 {{--        <!-- Left-side Navigation Tabs -->--}}
@@ -67,9 +67,9 @@
              style="height: 85vh;">
             @include('layouts.message')
 
-            <div class="row" >
+            <div class="row">
                 <div class="col-6">
-                    <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 14px">
+                    <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 14px;">
                         <div>
                             <img src="{{asset('assets\img\icons\assessment_intro_icon.png')}}" class="bg-white" width="50" height="50" style="border-radius: 25px;">
                         </div>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 ">
+                <div class="col-6">
                     <div class="d-flex justify-content-end" style="margin-right: 24px;margin-top: 18px" >
                        <div class="d-flex justify-content-end w-50" wire:ignore >
                            <label for="user_name"></label>
@@ -95,7 +95,7 @@
                     </div>
                 </div>
             </div>
-             <hr>
+             <hr style="color: #f2661c;" class="bold">
             <div class="d-flex flex-column justify-content-between flex-grow-1 p-3" id="chat_container"
                  style="overflow-y: auto;">
                 <!-- Message Container -->
@@ -147,16 +147,16 @@
             <form wire:submit.prevent="submitForm" id="chat_form">
             <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
 
-                <div style="width: 5%">
-                    <img src="{{asset('assets\img\icons\ic_round-plus.png')}}"  width="35" height="35" >
-                </div>
-                <div style="width: 85%">
+{{--                <div style="width: 5%">--}}
+{{--                    <img src="{{asset('assets\img\icons\ic_round-plus.png')}}"  width="35" height="35" >--}}
+{{--                </div>--}}
+                <div style="width: 100%">
 
                     <input type="text" id="userInput" name="message" wire:model="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
                 </div>
-                <div style="width: 5%" class="text-center pt-1">
-                    <img src="{{asset('assets\img\icons\iconoir_microphone-solid.png')}}"   width="25" height="25" >
-                </div>
+{{--                <div style="width: 5%" class="text-center pt-1">--}}
+{{--                    <img src="{{asset('assets\img\icons\iconoir_microphone-solid.png')}}"   width="25" height="25" >--}}
+{{--                </div>--}}
                 <div style="width: 5%" class="pt-1">
                     <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
                      <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >

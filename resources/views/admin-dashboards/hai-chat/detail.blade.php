@@ -12,7 +12,7 @@
             }
 
             input::placeholder {
-                color: #0f1534 !important;
+                color: black !important;
             }
 
             .setting-form-heading {
@@ -20,9 +20,22 @@
                 font-weight: bold;
             }
 
-            .card {
-                background-color: #8bb1ab !important;
-                box-shadow: none !important;
+            .card-bg-white-orange-border{
+                background-color: #FFFFFF !important;
+                border: 2px solid #d26622 !important;
+            }
+
+            .text-orange{
+                color: #f2661c !important;
+            }
+
+            .input-bg{
+                background-image: linear-gradient(#F3DEBA, #F3DEBA), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));
+                color: black !important;
+            }
+
+            .input-bg::placeholder{
+                color: black !important;
             }
 
         </style>

@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class HaiChat extends Component
 {
-    public $chats, $name, $description;
+    public $chats, $name, $description, $chatBot;
     protected $listeners = ['deleteChatbot'];
     protected $rules = [
         'name' => 'required',
@@ -95,6 +95,16 @@ class HaiChat extends Component
     public function getChats()
     {
         $this->chats = Chatbot::allChats();
+    }
+
+    public function showModalChatBotDetail($id){
+
+        $this->chatBot = Chatbot::singleChat($id);
+    }
+
+    public function closeChatBotDetailModal(){
+
+        $this->chatBot = null;
     }
 
     public function render()

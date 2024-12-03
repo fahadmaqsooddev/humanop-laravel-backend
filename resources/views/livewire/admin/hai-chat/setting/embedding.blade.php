@@ -1,13 +1,13 @@
 <div>
-    <div class="card setting-box-background mt-4" id="train">
+    <div class="card card-bg-white-orange-border mt-4" id="train">
         <div class="card-header">
             <div id="train" class="content-page">
                 <!-- Responsive Dropdown Section -->
                 <div class="d-flex p-2">
                     <div class="btn-group col-md-4 d-flex justify-content-between ">
-                        <button class="btn btn-outline-secondary text-dark dropdown-toggle" type="button"
+                        <button class="btn input-bg dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown"
-                                style="font-size: small; color: #0f1534; background-color: #8bb1ab"
+                                style="font-size: small;border: 1px solid #f2661c;"
                                 aria-expanded="false">
                             {{$selected_embedding}}
                         </button>
@@ -51,8 +51,8 @@
                         <div class="container-fluid mt-4 mx-0 px-0">
                             <form wire:submit.prevent="searchEmbedding">
                                 <div class="textarea-with-icon">
-                                        <textarea class="form-control" rows="3"
-                                                  style="font-size: small; background-color: #8bb1ab"
+                                        <textarea class="form-control input-bg" rows="3"
+                                                  style="font-size: small;"
                                                   wire:model.defer="query"
                                                   placeholder="Search across all documents"></textarea>
                                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
@@ -84,8 +84,8 @@
                     <div class="col-md-8">
                         @if(count($chunks) > 0)
                             @foreach($chunks as $chunk)
-                                <div class="chunk-card">
-                                    <p>{{ $chunk['retrieved_docs'] }}</p>
+                                <div class="chunk-card input-bg">
+                                    <p class="custom-text-dark">{{ $chunk['retrieved_docs'] }}</p>
                                 </div>
                             @endforeach
                         @else
@@ -93,7 +93,7 @@
                                 <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
                                     <i class="bi bi-graph-up"></i>
                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold" style="color: #0f1534">Upload files</div>
+                                        <div class="fw-bold text-orange">Upload files</div>
                                         <div class="text-muted fs-7">Files supported: TXT, PDF</div>
                                     </div>
                                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
@@ -106,7 +106,7 @@
                                 <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
                                     <i class="bi bi-graph-up"></i>
                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold" style="color: #0f1534">From Text</div>
+                                        <div class="fw-bold text-orange">From Text</div>
                                         <div class="text-muted fs-7">Files supported: TXT, PDF</div>
                                     </div>
                                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
@@ -118,7 +118,7 @@
                                 <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
                                     <i class="bi bi-graph-up"></i>
                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold" style="color: #0f1534">From questions and answers</div>
+                                        <div class="fw-bold text-orange">From questions and answers</div>
                                         <div class="text-muted fs-7">Files supported: TXT, PDF</div>
                                     </div>
                                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
