@@ -223,11 +223,12 @@ class CreateResource extends Component
     {
 
         $rule = [
-            'category_name' => 'required',
+            'category_name' => 'required|max:100',
         ];
 
         $message = [
             'category_name.required' => 'Category name is required',
+            'category_name.max' => 'Category maximum length is 100 characters'
         ];
 
         $this->validate($rule, $message);

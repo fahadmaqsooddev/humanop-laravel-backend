@@ -478,14 +478,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <br>
+                    @include('layouts.message')
 
                     <label class="text-white">Category Name </label>
                     <input style="background-color: #0f1534;" class="form-control text-white"
                            wire:model.defer="category_name" placeholder="Enter category name" type="text">
-
-                    @error('category_name')
-                    <span class="text-sm text-danger">{{$message}}</span>
-                    @enderror
 
                     @if(session()->has('success'))
                         <span class="text-sm text-success">{{session()->get('success')}}</span>
