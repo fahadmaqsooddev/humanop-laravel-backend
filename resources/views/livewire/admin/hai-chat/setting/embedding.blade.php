@@ -84,8 +84,8 @@
                     <div class="col-md-8">
                         @if(count($chunks) > 0)
                             @foreach($chunks as $chunk)
-                                <div class="chunk-card">
-                                    <p>{{ $chunk['retrieved_docs'] }}</p>
+                                <div class="chunk-card input-bg">
+                                    <p class="custom-text-dark">{{ $chunk['retrieved_docs'] }}</p>
                                 </div>
                             @endforeach
                         @else

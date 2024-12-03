@@ -29,7 +29,7 @@ class SearchEmbedding extends Component
 
             $setting = EmbeddingSetting::getEmbeddingSetting($this->name);
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk']]);
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2]);
 
             HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, $this->name);
 
