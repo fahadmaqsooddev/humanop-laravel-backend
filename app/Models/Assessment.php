@@ -1072,7 +1072,6 @@ class Assessment extends Model
 
                     foreach ($answer_id as $answer) {
 
-
                         $answerCode = AnswerCode::where('answer_id', $answer)->select(['code', 'number'])->first();
 
                         if ($answerCode) {
@@ -1161,10 +1160,6 @@ class Assessment extends Model
                 if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                     $latestAssessment = Assessment::getLatestAssessment($userId);
-
-                    DailyTip::hitDailyTipApiAndUpdateUserTip(Helpers::getUser());
-
-                    ActionPlan::checkUserActionPlan($latestAssessment);
 
                     $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
 

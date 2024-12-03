@@ -159,43 +159,43 @@ class DailyTip extends Model
 
     }
 
-    public static function hitDailyTipApiAndUpdateUserTip($user){
-
-        $assessmentDetails = Assessment::getAssessment();
-
-        $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
-
-        if (!empty($user->practitioner_id)){
-
-            $user = User::user($user->practitioner_id);
-
-            $url = url('/') . '/' . $user->first_name . '/' . $user->last_name . '/intro-assessment';
-
-        }else{
-
-            $url = url('/client/intro-assessment');
-        }
-
-        $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
-
-        $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
-
-        $tip = self::where('user_id', $user->id)->first();
-
-        if ($tip){
-
-            $tip->update(['description' => $daily_tip[0], 'text' => $daily_tip[1], 'is_read' => 0]);
-
-        }else{
-
-            self::create([
-                'user_id' => Helpers::getWebUser()->id ?? Helpers::getUser()->id,
-                'description' => $daily_tip[0],
-                'text' => $daily_tip[1]
-            ]);
-        }
-
-    }
+//    public static function hitDailyTipApiAndUpdateUserTip($user){
+//
+//        $assessmentDetails = Assessment::getAssessment();
+//
+//        $plan = Plan::singlePlan($user->subscription('main')->stripe_price ?? "price_1PuwhBRxOqsngfBOk9G5SYBo");
+//
+//        if (!empty($user->practitioner_id)){
+//
+//            $user = User::user($user->practitioner_id);
+//
+//            $url = url('/') . '/' . $user->first_name . '/' . $user->last_name . '/intro-assessment';
+//
+//        }else{
+//
+//            $url = url('/client/intro-assessment');
+//        }
+//
+//        $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
+//
+//        $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
+//
+//        $tip = self::where('user_id', $user->id)->first();
+//
+//        if ($tip){
+//
+//            $tip->update(['description' => $daily_tip[0], 'text' => $daily_tip[1], 'is_read' => 0]);
+//
+//        }else{
+//
+//            self::create([
+//                'user_id' => Helpers::getWebUser()->id ?? Helpers::getUser()->id,
+//                'description' => $daily_tip[0],
+//                'text' => $daily_tip[1]
+//            ]);
+//        }
+//
+//    }
 
     public static function readUserDailyTip(){
 
