@@ -465,6 +465,12 @@ return [
             'table' => 'chatbot_keywords',
             'fillable' => ['word','chatbot_id'],
             'hidden' => ['created_at','updated_at'],
-        ]
+        ],
+
+        'GroupEmbedding' => [
+            'table' => 'group_embeddings',
+            'fillable' => ['embedding_id','group_id'],
+            'hidden' => ['created_at','updated_at'],
+        ],
     ]
 ];

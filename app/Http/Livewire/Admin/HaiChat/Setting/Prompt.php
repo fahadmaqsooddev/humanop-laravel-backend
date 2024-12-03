@@ -15,7 +15,6 @@ class Prompt extends Component
         'name' => 'required',
         'prompt' => 'required',
         'restriction' => 'required',
-        'keywordRestriction' => 'nullable',
     ];
 
     protected $messages = [
