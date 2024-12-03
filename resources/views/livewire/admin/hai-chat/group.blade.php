@@ -61,6 +61,8 @@
 
         <div class="col-12 mx-auto">
 
+            @include('layouts.message')
+
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade pt-3 show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
