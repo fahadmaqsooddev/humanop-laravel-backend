@@ -203,11 +203,24 @@ class AdminController extends Controller
         }
     }
 
-    public function embeddings()
+    public function embeddings($id)
     {
         try {
 
-            return view('admin-dashboards.hai-chat.embedding');
+            return view('admin-dashboards.hai-chat.embedding', compact('id'));
+
+        } catch (\Exception $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+
+        }
+    }
+
+    public function embeddingGroups()
+    {
+        try {
+
+            return view('admin-dashboards.hai-chat.group');
 
         } catch (\Exception $exception) {
 

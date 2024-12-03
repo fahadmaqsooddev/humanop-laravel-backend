@@ -457,7 +457,7 @@
                                             </li>
                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                   href="{{ route('admin_embedding') }}">
+                                                   href="{{ route('admin_embedding_groups') }}">
                                                     <span class="sidenav-mini-icon"><img
                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>

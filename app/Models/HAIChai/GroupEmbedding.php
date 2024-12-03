@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Models\HaiChai;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class GroupEmbedding extends Model
+{
+    use HasFactory;
+
+    public function __construct(array $attributes = array())
+    {
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
+        parent::__construct($attributes);
+    }
+
+    // Relations
+    public function embedding(){
+
+        return $this->belongsTo(HaiChatEmbedding::class,'embedding_id','id');
+    }
+
+
+    // Queries
+    public static function addOrUpdateGroupIds($group_ids = [], $embedding_id = null){
+
+        self::where('embedding_id', $embedding_id)->delete();
+
+        foreach ($group_ids as $group_id){
+
+            self::create([
+                'embedding_id' => $embedding_id,
+                'group_id' => $group_id
+            ]);
+
+        }
+
+    }
+
+    public static function groupEmbeddings($group_id = null){
+
+        return self::where('group_id', $group_id)
+
+            ->has('embedding')
+
+            ->with('embedding')
+
+            ->get();
+
+    }
+
+    public static function deleteGroupEmbeddings($embedding_id){
+
+        self::where('embedding_id', $embedding_id)->delete();
+    }
+}

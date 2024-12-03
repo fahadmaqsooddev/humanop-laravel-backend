@@ -24,4 +24,9 @@ class EmbeddingGroup extends Model
         self::create(['name' => $name]);
     }
 
+    public static function allGroups(){
+
+        return self::all();
+    }
+
 }
