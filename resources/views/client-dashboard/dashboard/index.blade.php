@@ -692,6 +692,12 @@
                                             </button>
                                         </div>
                                     </div>
+                                @else
+                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                        <div>
+                                            <h1 class="text-center text-white" style="">Coming Soon!</h1>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
