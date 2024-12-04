@@ -187,7 +187,7 @@ class ActionPlan extends Model
         $authenticDriverCount = 0;
 
         foreach ($firstRowDriver as $driver) {
-            if (isset($assessmentDetails['gridColor'][$driver]) && in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow']) && !in_array($assessmentDetails['gridColor'][$driver], ['red'])) {
+            if (isset($assessmentDetails['gridColor'][$driver]) && !in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow']) && in_array($assessmentDetails['gridColor'][$driver], ['red'])) {
                 $authenticDriverCount++;
             }
         }
