@@ -23,6 +23,11 @@ class GroupEmbedding extends Model
         return $this->belongsTo(HaiChatEmbedding::class,'embedding_id','id');
     }
 
+    public function activeEmbeddings(){
+
+        return $this->belongsToMany(HaiChatEmbedding::class,'hai_chat_active_embeddings','request_id','request_id','embedding_id','id');
+    }
+
 
     // Queries
     public static function addOrUpdateGroupIds($group_ids = [], $embedding_id = null){
@@ -55,5 +60,11 @@ class GroupEmbedding extends Model
     public static function deleteGroupEmbeddings($embedding_id){
 
         self::where('embedding_id', $embedding_id)->delete();
+    }
+
+    public static function groupEmbeddingsIds($group_id = null){
+
+        return self::where('group_id', $group_id)->pluck('embedding_id');
+
     }
 }

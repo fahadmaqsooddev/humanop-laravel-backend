@@ -3,7 +3,8 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Models\HAIChai\Chatbot;
-use App\Models\HAIChai\EmbeddingSetting;
+use App\Models\HAIChai\EmbeddingGroup;
+use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
@@ -15,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks;
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks, $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [];
     public $button_status_display = false;
     public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
@@ -224,11 +225,51 @@ class Embedding extends Component
         $this->chunks = HaiChaiChunk::getHaiChunk( '',$this->bot_name);
     }
 
+    public function updatedGroupId($id){
+
+        $this->embedding_id = "";
+
+        $this->button_status_display = false;
+
+        $this->embeddings = GroupEmbedding::groupEmbeddings($id);
+
+        $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($id, $this->bot_name);
+
+        $this->embeddings = HaiChatEmbedding::inActiveEmbeddings($id, $this->bot_name);
+    }
+
+    public function updatedEmbeddingId($request_id){
+
+        if ($request_id){
+
+            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($request_id, $this->bot_name);
+
+            if($activeEmbedding){
+
+                $this->button_status = 'Disconnect';
+
+            }else{
+
+                $this->button_status = 'Connect';
+            }
+
+            $this->button_status_display = true;
+
+            $this->request_id = $request_id;
+
+        }else{
+
+            $this->button_status_display = false;
+        }
+
+    }
+
     public function render()
     {
-        $this->getEmbeddings();
-        $this->getActiveEmbeddings();
+
         $this->getChunks();
+
+        $this->groups = EmbeddingGroup::allGroups();
 
         return view('livewire.admin.hai-chat.setting.embedding',['chunks' => $this->chunks]);
     }
