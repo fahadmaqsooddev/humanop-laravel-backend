@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
@@ -39,13 +40,20 @@ class Prompt extends Component
           if($aiReply > 0) {
 
               $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);
+
               if ($prompt) {
                   session()->flash('success', "Updated Successfully.");
               }
+
           }else{
               session()->flash('error', "Something went wrong.");
           }
-        }catch (\Exception $exception)
+
+        }catch (ValidationException $exception){
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        } catch (\Exception $exception)
         {
             session()->flash('error', $exception->getMessage());
         }

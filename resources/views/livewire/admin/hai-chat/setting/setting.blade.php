@@ -79,6 +79,8 @@
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
                                     class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
                                 save
+                                <span wire:loading wire:target="submitForm" class="swal2-loader" style="font-size: 8px;">
+                                </span>
                             </button>
                         </div>
                     </form>
