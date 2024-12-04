@@ -15,7 +15,6 @@ return [
         </ul>
         <p class='text-white'>Consult HAi for additional suggestions on activities to “open the door” to each Energy Center.</p>
 
-        <h5 style='color: #f2661c'>Activation of Primary Energy Center</h5>
         <p class='text-white'>After opening all four Energy Center “doors,” practice activating your primary Energy Center (aka “front door”) again, as you “fuel” your two Motivational Drivers. For specific ideas on activating your primary Energy Center and for fueling your drivers, consult HAi for personalized guidance.</p>
     ",
 
@@ -28,8 +27,11 @@ return [
 
     <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
     <p class='text-white'>For the next 90 days, focus on optimizing your self-talk.</p>
-    <p class='text-white'><strong>What you will need:</strong> A notebook and pen reserved just for your 90-Day Optimization Plan Notes. Reserve pages within your notebook for your daily morning optimization plan and your daily evening optimization plan.</p>
-
+    <p class='text-white'><strong>What you will need:</strong></p>
+    <ul>
+        <li class='text-white'>A notebook and pen reserved just for your 90-Day Optimization Plan Notes.</li>
+        <li class='text-white'>Reserve pages within your notebook for your daily morning optimization plan and your daily evening optimization plan.</li>
+    </ul>
     <h5 style=\"color: #f2661c;\">Daily Morning Optimization Plan</h5>
     <p class='text-white'>Write down the following questions in your 90-Day Optimization Plan notebook:</p>
     <ul>
@@ -327,13 +329,13 @@ return [
 
 
     'priority_4' => "<p class='text-white'>At this point in time, you're not fully tapping into your potential, which can leave you feeling tired and less motivated. To optimize this over the next 90 days, concentrate on nurturing your two main drivers. Discover and consistently apply new ways to “fuel” the strong states of these two driving forces in you. By doing so, you'll feel more energized and engaged, and this in turn provides you with greater access to your full potential. Ask HAi for suggestions on what healthy “fuel” is for you.</p>
-<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention:</h5>
 <p class='text-white'>To regain energy and motivation by consistently fueling the strong states of your two main drivers.</p>
 
-<h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Your two drivers are the motivating forces that generate energy for you and keep you engaged in life. Over the next 90 days, focus on “feeding or fueling” the strong states of your pilot and co-pilot drivers. Create a repository of \"Go-To\" activities that will keep you in the strong states of both drivers and support you in maintaining optimal performance.</p>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan:</h5>
+<p class='text-white'>Because your two drivers are the motivating forces that generate energy for you and keep you engaged in life. Over the next 90 days, focus on “feeding or fueling” the strong states of your pilot and co-pilot drivers. Create a repository of \"Go-To\" activities that will keep you in the strong states of both drivers and support you in maintaining optimal performance.</p>
 
-<h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
+<h6 style=\"color: #f2661c;\">Daily Optimization Plan:</h6>
 
 <ol>
     <li class='text-white'><strong>Prepare Your Notebook:</strong>
@@ -373,9 +375,10 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <p class='text-white'>To reduce overwhelm by focusing on manageable tasks and practicing self-compassion, allowing you to increase productivity without overextending yourself.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Taking on too much at once can lead to burnout and decreased effectiveness. Over the next 90 days, your strategy is to be kind to yourself by avoiding overcommitment, pacing yourself, and focusing on the most urgent tasks.</p>
+<p class='text-white'>Because taking on too much at once can lead to burnout and decreased effectiveness, it's important to prioritize tasks and seek support when needed. Over the next 90 days, your strategy is to be good to yourself by avoiding overcommitment, pacing yourself, and focusing on the most urgent tasks.</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
+<p class='text-white'>Each day, for the next 90 days, commit yourself to focus on the following practices to enhance productivity and reduce stress:</p>
 
 <ol>
     <li class='text-white'><strong>Prioritize Top Three Tasks:</strong>
@@ -400,14 +403,7 @@ Benefit: Helps maintain steady progress without exhaustion, improving overall pr
     </li>
 </ol>
 
-<p class='text-white'><strong>Reminders:</strong></p>
-<ul>
-    <li class='text-white'>Focus on manageable tasks and avoid taking on too much at once.</li>
-    <li class='text-white'>Seek support when needed and remind yourself to pace your efforts.</li>
-    <li class='text-white'>Check in with yourself regularly, acknowledging progress and being kind about what’s still in progress.</li>
-</ul>
-
-<p class='text-white'>By diligently following this 90-day plan, you’ll enhance productivity and reduce stress. Focusing on manageable steps and practicing self-compassion will help you feel more accomplished, calm, and resilient in your daily life.</p>
+<p class='text-white'>As you engage in this 90-day plan, notice how focusing on manageable tasks and pacing yourself leads to increased productivity and well-being. By prioritizing effectively and seeking support when needed, you'll find it easier to get things done without feeling overwhelmed. Remember, it's important to take care of yourself first to maintain optimal performance in your daily life.</p>
 ",
 
     'priority_6' => "<p class='text-white'>At this point in time, your ability to see life as an expanded vast picture and even see the minute subtleties within the moment is somewhat compromised. This may leave you feeling uncertain or disconnected from your usual sense of direction. It's important to acknowledge that this aspect within you can be optimized by taking proactive steps to regain clarity.</p>
@@ -449,10 +445,10 @@ Benefit: Helps maintain steady progress without exhaustion, improving overall pr
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Focusing on inauthentic drivers drains energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. As you nourish these authentic drivers, the inauthentic ones will naturally fade away. Consult HAi if you need personalized suggestions for healthy “fuel.”</p>
+<p class='text-white'>Because focusing on inauthentic drivers drains energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. As you nourish these authentic drivers, the inauthentic ones will naturally fade away. Consult HAi if you need personalized suggestions for healthy “fuel.”</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
-
+<p class='text-white'>Each day, for the next 90 days, commit yourself to the following steps to realign with your authentic drivers:</p>
 <ol>
     <li class='text-white'><strong>Prepare Your Notebook:</strong>
         <p class='text-white'>Action: Obtain a notebook and pen reserved exclusively for your 90-Day Optimization Plan notes.<br>
@@ -478,12 +474,12 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 
 <p class='text-white'><strong>Reminders:</strong></p>
 <ul>
-    <li class='text-white'>Review videos and resources about your Pilot and Co-Pilot Drivers to remind yourself of each driver’s strong states.</li>
-    <li class='text-white'>If you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
-    <li class='text-white'>Keep adding to your list of activities throughout the 90 days, creating an ongoing repository to support your energy and focus.</li>
+    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
+    <li class='text-white'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
+    <li class='text-white'>Keep adding to your list of activities throughout the 90 days. An ongoing repository takes the guesswork out of what to do when you experience energy depletion or fatigue impacting your performance.</li>
 </ul>
 
-<p class='text-white'>By consistently applying this 90-day plan, observe how your energy levels increase and how the inauthentic drivers begin to fade from your life. Aligning with your true self and nourishing your authentic driving forces will restore your vitality, enhance your personal well-being, and positively impact all areas of your life.</p>
+<p class='text-white'>As you engage in this 90-day plan, observe how your energy levels increase and how the inauthentic drivers begin to fade from your life. By consistently nourishing the strong states of your authentic driving forces, you'll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will not only enhance your personal well-being but also positively impact all areas of your life.</p>
 ",
 
 
@@ -492,7 +488,8 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Focusing on inauthentic drivers drains your energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. As you nourish these authentic drivers, the inauthentic ones will fade away due to lack of attention. Consult HAi if you need personalized suggestions for healthy “fuel.”</p>
+<p class='text-white'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention. If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
+</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
 
@@ -521,9 +518,9 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 
 <p class='text-white'><strong>Reminders:</strong></p>
 <ul>
-    <li class='text-white'>Review videos and resources about your Pilot and Co-Pilot Drivers to remind yourself of each driver’s strong states.</li>
-    <li class='text-white'>If you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
-    <li class='text-white'>Keep adding to your list of activities throughout the 90 days, creating an ongoing repository to support your energy and focus.</li>
+    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
+    <li class='text-white'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
+    <li class='text-white'>Keep adding to your list of activities throughout the 90 days. An ongoing repository takes the guesswork out of what to do when you experience energy depletion or fatigue impacting your performance.</li>
 </ul>
 
 <p class='text-white'>As you engage in this 90-day plan, observe how your energy levels increase. By consistently nourishing the strong states of your authentic driving forces, you'll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will enhance your personal well-being and positively impact all areas of your life, including relationships, career, and personal fulfillment.</p>
@@ -536,7 +533,10 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Focusing on inauthentic drivers drains your energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. As you nourish these authentic drivers, the inauthentic ones will fade away due to lack of attention. If you find yourself running out of ways to “feed” the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy “fuel” for you.</p>
+<p class='text-white'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention.
+<br>
+If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
+</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
 
@@ -565,9 +565,9 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 
 <p class='text-white'><strong>Reminders:</strong></p>
 <ul>
-    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of each driver’s strong states.</li>
-    <li class='text-white'>If you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
-    <li class='text-white'>Keep adding to your list of activities throughout the 90 days, creating an ongoing repository to support your energy and focus.</li>
+    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
+    <li class='text-white'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
+    <li class='text-white'>Keep adding to your list of activities throughout the 90 days. An ongoing repository takes the guesswork out of what to do when you experience energy depletion or fatigue impacting your performance.</li>
 </ul>
 
 <p class='text-white'>As you engage in this 90-day plan, observe how your energy levels increase. By consistently nourishing the strong states of your authentic driving forces, you'll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will enhance your personal well-being and positively impact all areas of your life, including relationships, career, and personal fulfillment.</p>
@@ -580,7 +580,10 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>To realign with your authentic self by nourishing the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>Focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential. Over the next 90 days, shift your attention to your genuine driving forces by “feeding” the strong states of both of your authentic drivers. Identify what constitutes healthy “fuel” for each driver and make these your daily go-to activities. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention. If you find yourself running out of ways to “feed” the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy “fuel” for you.</p>
+<p class='text-white'>Because focusing on inauthentic drivers depletes your energy and hinders your ability to reach your full potential, it's crucial to shift your attention to your genuine driving forces. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll empower your true self. The more you nourish the strong states of your authentic driving forces, the faster the inauthentic drivers will fade away due to lack of attention.
+<br>
+If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
+</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
 
@@ -609,9 +612,9 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 
 <p class='text-white'><strong>Reminders:</strong></p>
 <ul>
-    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of each driver’s strong states.</li>
-    <li class='text-white'>If you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
-    <li class='text-white'>Keep adding to your list of activities throughout the 90 days, creating an ongoing repository to support your energy and focus.</li>
+    <li class='text-white'>Review the videos and resources about your Pilot and Co-Pilot Drivers for reminders of the strong states of each driver.</li>
+    <li class='text-white'>When you run out of ideas on what activities “feed or fuel” the strong states of your drivers, ask HAi for suggestions.</li>
+    <li class='text-white'>Keep adding to your list of activities throughout the 90 days. An ongoing repository takes the guesswork out of what to do when you experience energy depletion or fatigue impacting your performance.</li>
 </ul>
 
 <p class='text-white'>As you engage in this 90-day plan, observe how your energy levels increase. By consistently nourishing the strong states of your authentic driving forces, you'll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will enhance your personal well-being and positively impact all areas of your life, including relationships, career, and personal fulfillment.</p>
@@ -624,7 +627,10 @@ Benefit: Having a dedicated space for notes helps organize your thoughts and tra
 <p class='text-white'>To nourish the strong states of your two true drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>At this time, both of your drivers aren’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of both drivers is likely more prevalent for you. Over the next 90 days, explore and implement more ways to “fuel” the strong states of your two driving forces. If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.</p>
+<p class='text-white'>Because both of your driving forces aren’t currently receiving enough “food or fuel”, your motivation is lacking. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll re-energize yourself and re-activate your motivation.
+<br>
+If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
+</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
 
@@ -668,7 +674,10 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <p class='text-white'>To nourish the strong states of both of your drivers, thereby restoring your energy, vitality, and sense of purpose.</p>
 
 <h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
-<p class='text-white'>At this point in time, your Co-Pilot Driver isn’t getting enough “fuel”. This results in a lack of motivation and the weak state behavior of this driver is likely more prevalent for you. Over the next 90 days, explore and implement more ways to “fuel” the strong states of both of your driving forces, spending a little extra time “feeding or fueling” your Co-Pilot. If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.</p>
+<p class='text-white'>Because your Co-Pilot Driver isn’t currently receiving enough “food or fuel”, your motivation is waning. Over the next 90 days, your optimization strategy is to \"feed\" or \"fuel\" the strong states of both of your authentic drivers. By identifying what constitutes healthy \"fuel\" for each driver and making these your daily go-to activities, you'll re-energize yourself and re-activate your motivation.
+<br>
+If you find yourself running out of ways to \"feed\" the strong states of your two drivers, consult HAi for personalized suggestions on the best healthy \"fuel\" for you.
+</p>
 
 <h6 style=\"color: #f2661c;\">Daily Optimization Plan</h6>
 
@@ -846,8 +855,8 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <ul>
     <li class='text-white'>If you run out of ideas on how to align with people, places, and things that resonate with you, ask HAi for suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources available to deepen your understanding of your preferences and alignment needs.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy, focus, and sense of alignment increase. By consistently choosing people, places, and things that nourish your refined preferences, you’ll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will not only enhance your personal well-being but also improve your relationships, career, and overall fulfillment.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy, focus, and sense of alignment increase. By consistently choosing people, places, and things that nourish your refined preferences, you’ll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will not only enhance your personal well-being but also improve your relationships, career, and overall fulfillment.</p>
 ",
 
 
@@ -882,8 +891,8 @@ Benefit: Having a dedicated space for your notes helps organize your thoughts an
 <ul>
     <li class='text-white'>If you run out of ideas on how to align with people, places, and things that resonate with you, ask HAi for suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources available to deepen your understanding of your preferences and alignment needs.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy, focus, and sense of alignment increase. By consistently choosing people, places, and things that nourish your natural preferences, you’ll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will not only enhance your personal well-being but also improve your relationships, career, and overall fulfillment.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy, focus, and sense of alignment increase. By consistently choosing people, places, and things that nourish your natural preferences, you’ll realign with your true self, restore your vitality, and unlock your full potential. This renewed alignment will not only enhance your personal well-being but also improve your relationships, career, and overall fulfillment.</p>
 ",
 
     'priority_17' => "<p class='text-white'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are overinflated or underinflated, your \"ride\" becomes unsteady. Currently, your first two Energy Centers are overactive, which disrupts your ability to engage with the world in a harmonious way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
@@ -918,8 +927,8 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
 <ul>
     <li class='text-white'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</p>
 ",
 
     'priority_18' => "<p class='text-white'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are overinflated or underinflated, the \"ride\" becomes bumpy. Currently, your primary (first) Energy Center has too much \"air,\" meaning it is being overused, which is impacting your ability to engage with the world in a balanced way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
@@ -954,8 +963,8 @@ Benefit: This approach allows you to redirect excess energy and strengthen under
 <ul>
     <li class='text-white'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</p>
 ",
 
     'priority_19' => "<p class='text-white'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one or more Energy Centers are underinflated or overinflated, the \"ride\" becomes unsteady. Currently, your last two Energy Centers are underinflated, meaning they are being underutilized, which is impacting your ability to engage with the world in a balanced way. This optimization strategy will help you achieve better balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
@@ -990,8 +999,8 @@ Benefit: This approach helps redirect energy to the underactive centers, fosteri
 <ul>
     <li class='text-white'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, and spending extra time activating your last two Energy Centers, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, and spending extra time activating your last two Energy Centers, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</p>
 ",
 
     'priority_20' => "<p class='text-white'>At this time, your focus for the next 90 days is to cultivate a more balanced connection with your Four Energy Centers. Similar to the tires on a car, when one is underinflated or overinflated, the ride can get bumpy. Currently, your last Energy Center is underinflated, meaning it’s not being used enough, which is affecting your ability to connect with the world in a balanced way. This optimization strategy will help you achieve greater internal balance, allowing for more grounded communication and connection. If you need guidance, ask HAi for personalized suggestions on how to effectively open each “door.”</p>
@@ -1026,8 +1035,8 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
 <ul>
     <li class='text-white'>If you run out of ideas or need more examples of how to open each Energy Center \"door,\" ask HAi for additional suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources on your dashboard to deepen your understanding of your Energy Centers and the unique sequence in which they operate.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, and spending extra time activating your last Energy Center, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your energy flow becomes more balanced and how your connections—both with yourself and others—improve. By consistently opening the doors to your Energy Centers in sequence, and spending extra time activating your last Energy Center, you’ll create more harmony within, leading to a deeper sense of well-being and fulfillment. This renewed balance will not only enhance your personal energy but also positively influence your relationships, career, and overall communication effectiveness.</p>
 ",
 
     'priority_21' => "<p class='text-white'>At this time, your focus for the next 90 days is to develop a deeper understanding and acceptance of your Perception of Life. Your perspective is unique in that it doesn’t generate a strong enough electromagnetic charge to either attract or repel people and situations that might influence your enthusiasm for life. As a result, you might sometimes feel dismissed or overlooked, as others aren't naturally drawn to engage with you. This can lead to feelings of loneliness and exclusion. This optimization strategy will help you cultivate greater connection and presence, allowing you to feel more integrated and engaged in your environment. If you need guidance, ask HAi for personalized suggestions on how to approach these practices effectively.</p>
@@ -1073,8 +1082,8 @@ Benefit: This approach helps redirect energy to the underactive center, fosterin
 <ul>
     <li class='text-white'>If you need ideas on how to adapt the listed practices to better suit your nature or situation, ask HAi for additional suggestions.</li>
     <li class='text-white'>Regularly review the videos and resources available on your dashboard to deepen your understanding of your Perception of Life and how to enhance it.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your interactions with others unfold, particularly in your family, social, and professional networks. By consistently practicing these engagement strategies, you’ll experience a more engaged presence, leading to stronger connections and a greater sense of inclusion. This renewed approach will not only improve your personal well-being but also optimize your relationships, enthusiasm for life, and overall sense of fulfillment.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your interactions with others unfold, particularly in your family, social, and professional networks. By consistently practicing these engagement strategies, you’ll experience a more engaged presence, leading to stronger connections and a greater sense of inclusion. This renewed approach will not only improve your personal well-being but also optimize your relationships, enthusiasm for life, and overall sense of fulfillment.</p>
 ",
 
     'priority_22' => "<p class='text-white'>At this time, your focus for the next 90 days is to concentrate on deepening your understanding and acceptance of your unique Perception of Life, which influences how you initially interact with your environment and those around you. You have a natural talent for identifying what isn’t working, bringing necessary issues to light so that solutions can be found. However, this ability may sometimes cause others to perceive you as critical or a killjoy. Despite these perceptions, it’s important to value your skill in identifying problems, as it’s crucial for gaining a complete view. Recognizing what isn’t working is essential for a full perspective. This optimization strategy will help you cultivate more constructive connections, allowing for improved engagement and acceptance of your perspective. If you need guidance, ask HAi for personalized suggestions on how to approach these practices effectively.</p>
@@ -1110,8 +1119,8 @@ Benefit: Educating others about your perspective can reduce misunderstandings an
 <ul>
     <li class='text-white'>If you need more ideas on how to adapt these practices, ask HAi for additional strategies that align with your nature.</li>
     <li class='text-white'>Regularly review the resources available on your dashboard to deepen your understanding of your Perception of Life and its impact on your interactions.</li>
-    <li class='text-white'>As you engage in this 90-day plan, observe how your interactions unfold, particularly in family, social, and professional networks. By consistently implementing these engagement strategies, you’ll experience improved connections, increased receptivity to your perspective, and greater inclusion. This renewed approach will not only enhance your communication skills but also optimize your relationships, enthusiasm for life, and overall sense of fulfillment.</li>
 </ul>
+    <p class='text-white'>As you engage in this 90-day plan, observe how your interactions unfold, particularly in family, social, and professional networks. By consistently implementing these engagement strategies, you’ll experience improved connections, increased receptivity to your perspective, and greater inclusion. This renewed approach will not only enhance your communication skills but also optimize your relationships, enthusiasm for life, and overall sense of fulfillment.</p>
 ",
 
     'priority_23' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
@@ -1155,8 +1164,8 @@ Benefit: Creates space for others to feel heard, making them more open to hearin
 <ul>
     <li class='text-white'>If you want more strategies, ask HAi for additional suggestions that align with your nature.</li>
     <li class='text-white'>Regularly review resources on your dashboard to enhance your understanding of your Perception of Life and its impact on interactions.</li>
-    <li class='text-white'>As you engage with this optimization plan, observe how your interactions shift across different networks—family, social, and professional. Consistent implementation of these strategies will foster increased receptivity and greater inclusion. This approach will enhance your relationships and overall sense of fulfillment.</li>
 </ul>
+    <p class='text-white'>As you engage with this optimization plan, observe how your interactions shift across different networks—family, social, and professional. Consistent implementation of these strategies will foster increased receptivity and greater inclusion. This approach will enhance your relationships and overall sense of fulfillment.</p>
 ",
 
     'priority_24' => "<p class='text-white'>Maintaining energy reserves is crucial for effective life management. However, the chaos of daily life can often deplete or overstimulate one’s energy, compromising performance. Both energy deficiency and excess can lead to judgment from others and cause personal feelings of depression or even anger. At this time, your Energy Pool is compromised, which often indicates an underlying physical issue. This could be a known condition or a silent one, such as a congenital disorder, thyroid problem, or other. Regardless of the cause, there are ways to boost your energy levels to keep pace with life’s demand.</p>
@@ -1202,13 +1211,17 @@ Benefit: Provides a reset for mental and physical energy, enhancing long-term pe
 <p class='text-white'>By consistently applying these energy-focused strategies over the next 90 days, you’ll experience improved vitality, greater resilience, and enhanced overall well-being.</p>
 ",
 
-    'priority_25' => "<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention</h5>
+    'priority_25' => "<p class='text-white'>Optimizing energy output is key to effective life management. However, daily chaos often disrupts this harmony, either draining our energy or causing it to surge. Both extremes can impact performance, invite judgment from others, and lead to personal feelings of depression or anger.</p>
+
+<p class='text-white'>Currently, you possess an abundance of energy, known as \"BIG ENERGY.\" This natural access to significant potential makes you a \"big vehicle,\" meaning you tend to approach daily demands quickly. While this high-performance nature offers advantages, it can also increase mental chatter, expressive behavior, and even frustration. You often take on many responsibilities, which may lead to overlooked details and over-addressing issues, resulting in disappointment.</p>
+
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan Intention:</h5>
 <p class='text-white'>To optimize your energy, enabling you to align with life’s natural flow while maintaining effective performance.</p>
 
-<h5 style=\"color: #f2661c;\">90-Day Optimization Plan</h5>
+<h5 style=\"color: #f2661c;\">90-Day Optimization Plan:</h5>
 <p class='text-white'>For the next 90 days, focus on maintaining equilibrium, applying the following strategies to harness and direct your \"BIG ENERGY.\" Start slowly, focusing on one action item at a time, and reflect on your experiences.</p>
 
-<h6 style=\"color: #f2661c;\">Key Areas of Focus</h6>
+<h5 style=\"color: #f2661c;\">Key Areas of Focus:</h5>
 
 <ol>
     <li class='text-white'><strong>Step Out of the \"Rat Race\":</strong>

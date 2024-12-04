@@ -126,7 +126,6 @@ class ActionPlan extends Model
 
     }
 
-
     public static function storeUserActionPlan($assessment = null, $user = null)
     {
 
@@ -184,11 +183,11 @@ class ActionPlan extends Model
             }
         }
 
-        $authenticDriverCount = 0;
+        $inAuthenticDriverCount = 0;
 
         foreach ($firstRowDriver as $driver) {
-            if (isset($assessmentDetails['gridColor'][$driver]) && !in_array($assessmentDetails['gridColor'][$driver], ['green', 'yellow']) && in_array($assessmentDetails['gridColor'][$driver], ['red'])) {
-                $authenticDriverCount++;
+            if (isset($assessmentDetails['gridColor'][$driver]) && in_array($assessmentDetails['gridColor'][$driver], ['red'])) {
+                $inAuthenticDriverCount++;
             }
         }
 
@@ -263,9 +262,9 @@ class ActionPlan extends Model
 
         }
         elseif (
-            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
-            (!in_array('jo', $bridge) || !in_array('mer', $bridge)) &&
-            ($assessmentDetails['thirdRow']['jo'] < 30 && $assessmentDetails['thirdRow']['mer'] < 30 && $assessmentDetails['thirdRow']['so'] < 30)
+            ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
+            ((!in_array('jo', $bridge) && $assessmentDetails['thirdRow']['jo'] >= 30) || (!in_array('mer', $bridge) && $assessmentDetails['thirdRow']['mer'] >= 30)) &&
+            ($assessmentDetails['secondRow']['jo'] < 30 && $assessmentDetails['secondRow']['mer'] < 30 && $assessmentDetails['secondRow']['so'] < 30)
         )
         {
 
@@ -287,8 +286,8 @@ class ActionPlan extends Model
         (
 
             ($assessmentDetails['firstRow']['ma'] < 5 && $assessmentDetails['firstRow']['lu'] < 5) &&
-            (!in_array('ma', $bridge) || !in_array('lu', $bridge)) &&
-            ($assessmentDetails['thirdRow']['ma'] < 30 && $assessmentDetails['thirdRow']['lu'] < 30)
+            ((!in_array('ma', $bridge) && $assessmentDetails['thirdRow']['ma'] >= 30) || (!in_array('lu', $bridge) && $assessmentDetails['thirdRow']['lu'] >= 30)) &&
+            ($assessmentDetails['secondRow']['ma'] < 30 && $assessmentDetails['secondRow']['lu'] < 30)
         )
         {
             $actionPlan = [
@@ -300,8 +299,8 @@ class ActionPlan extends Model
         elseif (
 
             ($assessmentDetails['firstRow']['sa'] < 5 && $assessmentDetails['firstRow']['ven'] < 5) &&
-            (!in_array('sa', $bridge) || !in_array('ven', $bridge)) &&
-            ($assessmentDetails['thirdRow']['sa'] < 30 && $assessmentDetails['thirdRow']['ven'] < 30)
+            ((!in_array('sa', $bridge) && $assessmentDetails['thirdRow']['sa'] >= 30) || (!in_array('ven', $bridge)  && $assessmentDetails['thirdRow']['ven'] >= 30)) &&
+            ($assessmentDetails['secondRow']['sa'] < 30 && $assessmentDetails['secondRow']['ven'] < 30)
         )
         {
 
@@ -311,7 +310,7 @@ class ActionPlan extends Model
             ];
 
         }
-        elseif ($authenticDriverCount > 3)
+        elseif ($inAuthenticDriverCount > 4)
         {
             $actionPlan = [
                 'plan_text' => config('actionPlan.priority_7'),
@@ -319,7 +318,7 @@ class ActionPlan extends Model
             ];
 
         }
-        elseif ($authenticDriverCount == 3)
+        elseif ($inAuthenticDriverCount == 3)
         {
             $actionPlan = [
                 'plan_text' => config('actionPlan.priority_8'),
@@ -327,7 +326,7 @@ class ActionPlan extends Model
             ];
 
         }
-        elseif ($authenticDriverCount == 2)
+        elseif ($inAuthenticDriverCount == 2)
         {
             $actionPlan = [
                 'plan_text' => config('actionPlan.priority_9'),
@@ -335,7 +334,7 @@ class ActionPlan extends Model
             ];
 
         }
-        elseif ($authenticDriverCount == 1)
+        elseif ($inAuthenticDriverCount == 1)
         {
             $actionPlan = [
                 'plan_text' => config('actionPlan.priority_10'),
@@ -484,7 +483,6 @@ class ActionPlan extends Model
         return $plan;
 
     }
-
 
     public static function userActionPlan()
     {
