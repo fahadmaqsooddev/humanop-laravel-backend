@@ -1,18 +1,19 @@
-<style>
-    img {
-        display: block;
-        max-width: 100%;
-    }
 
-    .preview {
-        overflow: hidden;
-        width: 160px;
-        height: 160px;
-        margin: 10px;
-        border: 1px solid red;
-    }
-</style>
 <div class="card setting-box-background mt-4" id="basic-info">
+    <style>
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .preview {
+            overflow: hidden;
+            width: 160px;
+            height: 160px;
+            margin: 10px;
+            border: 1px solid red;
+        }
+    </style>
     <div class="card-header">
         <h5 class="text-color-dark setting-form-heading">Basic Info</h5>
     </div>
@@ -63,26 +64,6 @@
                         <option value="1">Female</option>
                     </select>
                 </div>
-
-{{--                <div class="col-sm-4 col-6 w-50">--}}
-{{--                    <label class="form-label mt-4 text-color-dark">Age Group</label>--}}
-{{--                    <select style="background-color: #0f1535" class="form-control text-color-dark" wire:model.defer="currentUser.age_range" >--}}
-{{--                        <option value="5-6">5-6</option>--}}
-{{--                        <option value="7-11">7-11</option>--}}
-{{--                        <option value="12-15">12-15</option>--}}
-{{--                        <option value="16-20">16-20</option>--}}
-{{--                        <option value="21-29">21-29</option>--}}
-{{--                        <option value="30-33">30-33</option>--}}
-{{--                        <option value="34-42">34-42</option>--}}
-{{--                        <option value="43-51">43-51</option>--}}
-{{--                        <option value="52-65">52-65</option>--}}
-{{--                        <option value="66-69">66-69</option>--}}
-{{--                        <option value="70-74">70-74</option>--}}
-{{--                        <option value="75-83">75-83</option>--}}
-{{--                        <option value="84-93">84-93</option>--}}
-{{--                        <option value="94-101">94&up</option>--}}
-{{--                    </select>--}}
-{{--                </div>--}}
 
                 <div class="col-sm-4 col-6 w-50">
                     <label for="name" class="text-color-dark mt-4">Date of Birth</label>
@@ -148,7 +129,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <label class="form-label fs-4 text-white">Update User Profile</label>
-                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                    <button type="button" class="close modal-close-btn closeCropperModel" data-bs-dismiss="modal"
                             aria-label="Close" id="close-info-modal-button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -164,8 +145,8 @@
                         </div>
                     </div>
                     <div class="mt-4 float-end">
-                        <button type="button" class="btn btn-secondary" class="close modal-close-btn" data-bs-dismiss="modal"
-                                aria-label="Close" id="close-info-modal-button">Cancel</button>
+                        <button type="button" class="btn btn-secondary closeCropperModel" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-info-modal-button" >Cancel</button>
                         <button type="button" class="btn" style="background-color: #f2661c; color: white" id="crop">Save</button>
                     </div>
                 </div>
@@ -176,6 +157,13 @@
 </div>
 @push('javascript')
     <script>
+
+        $('.closeCropperModel').on('click', function () {
+
+            $('.profileImage').val('');
+
+        });
+
         var image = document.getElementById('profileImageModal');
 
         var bs_modal = $('#profileImageModal');

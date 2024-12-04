@@ -452,7 +452,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <label class="form-label fs-4 text-white">Update User Profile</label>
-                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                    <button type="button" class="close modal-close-btn closeCropperModel" data-bs-dismiss="modal"
                             aria-label="Close" id="close-info-modal-button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -468,8 +468,8 @@
                         </div>
                     </div>
                     <div class="mt-4 float-end">
-                        <button type="button" class="btn btn-secondary" class="close modal-close-btn" data-bs-dismiss="modal"
-                                aria-label="Close" id="close-info-modal-button">Cancel</button>
+                        <button type="button" class="btn btn-secondary closeCropperModel" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-info-modal-button" >Cancel</button>
                         <button type="button" class="btn" style="background-color: #f2661c; color: white" id="crop">Save</button>
                     </div>
                 </div>
@@ -488,6 +488,13 @@
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
     <script>
+
+        $('.closeCropperModel').on('click', function () {
+
+            $('.profileImage').val('');
+
+        });
+
         if (document.getElementById('choices-gender')) {
             var gender = document.getElementById('choices-gender');
             const example = new Choices(gender);
