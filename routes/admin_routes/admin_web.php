@@ -39,7 +39,6 @@ use App\Http\Controllers\Practitioner\PractitionerController;
     Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
     Route::get('/email-verified', [RegisterController::class, 'emailVerified'])->name('email_verified');
     Route::get('/call-back-register', [RegisterController::class, 'callBackRegistration'])->name('call_back_registration');
-//    Route::get('/resend-email-verification', [RegisterController::class, 'resendEmailVerification'])->name('resend_email_verification');
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/session', [SessionController::class, 'store']);
     Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');

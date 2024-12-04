@@ -121,7 +121,7 @@
                                                 <!-- Password toggle icon -->
                                                 <a class="position-absolute" id="togglePassword"
                                                    style="right: 15px; top: 65%; transform: translateY(-50%); cursor: pointer; color: white; z-index: 20;">
-                                                    <i class="fas fa-eye pt-1 password-eye" id="password-eye"
+                                                    <i class="fas fa-eye-slash pt-1 password-eye" id="password-eye"
                                                        style="color: #f2661c !important;"></i>
                                                 </a>
                                             </div>
@@ -188,12 +188,12 @@
                 // Toggle password visibility
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash'); // Switch to eye-slash icon
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye'); // Switch to eye-slash icon
                 } else {
                     passwordInput.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye'); // Switch back to eye icon
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash'); // Switch back to eye icon
                 }
             });
         }

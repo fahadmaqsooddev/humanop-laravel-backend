@@ -170,7 +170,7 @@
                                                     <!-- Eye icon for toggling password visibility -->
                                                     <span class="position-absolute" id="togglePassword"
                                                           style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
-                                        <i class="fas fa-eye pt-1 password-eye" id="password-eye"
+                                        <i class="fas fa-eye-slash pt-1 password-eye" id="password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
                                                     <div id="validatePassword"></div>
@@ -197,7 +197,7 @@
                                                 <!-- Eye icon for toggling password visibility -->
                                                     <span class="position-absolute" id="toggleConfirmPassword"
                                                           style="right: 15px; top: 50px; transform: translateY(-50%); cursor: pointer; color: white; z-index: 10;">
-                                        <i class="fas fa-eye pt-1 confirm-password-eye" id="confirm-password-eye"
+                                        <i class="fas fa-eye-slash pt-1 confirm-password-eye" id="confirm-password-eye"
                                            style="    color: #f2661c !important;"></i>
                                     </span>
                                                 </div>
@@ -358,12 +358,12 @@
                 // Toggle the password visibility and the eye icon
                 if (passwordInput.type === 'password') {
                     passwordInput.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash'); // Change to the eye-slash icon when password is visible
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye'); // Change to the eye-slash icon when password is visible
                 } else {
                     passwordInput.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash'); // Change back to the eye icon when password is hidden
                 }
             });
         }
@@ -382,12 +382,12 @@
                 // Toggle the password visibility and the eye icon
                 if (confirmPasswordInput.type === 'password') {
                     confirmPasswordInput.type = 'text';
-                    confirmIcon.classList.remove('fa-eye');
-                    confirmIcon.classList.add('fa-eye-slash'); // Change to the eye-slash icon when password is visible
+                    confirmIcon.classList.remove('fa-eye-slash');
+                    confirmIcon.classList.add('fa-eye'); // Change to the eye-slash icon when password is visible
                 } else {
                     confirmPasswordInput.type = 'password';
-                    confirmIcon.classList.remove('fa-eye-slash');
-                    confirmIcon.classList.add('fa-eye'); // Change back to the eye icon when password is hidden
+                    confirmIcon.classList.remove('fa-eye');
+                    confirmIcon.classList.add('fa-eye-slash'); // Change back to the eye icon when password is hidden
                 }
             });
         }
