@@ -89,11 +89,21 @@ class ChangePasswordController extends Controller
 
         if ($user) {
 
-            User::emailVerified($user['id']);
+            if (empty($user['email_verified_at']))
+            {
+                User::emailVerified($user['id']);
 
-            Auth::login($user);
+                Auth::login($user);
 
-            return redirect()->route('client_dashboard');
+                return redirect()->route('client_dashboard');
+            }
+            else
+            {
+                session()->flash('success', "You are already verified.");
+
+                return redirect()->to('/login');
+
+            }
 
         } else {
 
