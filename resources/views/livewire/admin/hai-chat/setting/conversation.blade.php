@@ -232,6 +232,15 @@
           setTimeout(function (){
               scrollToBottom();
           }, 500);
+
+          const descriptionContainer = document.querySelector('#chat_container');
+          descriptionContainer.addEventListener('wheel', (event) => {
+              event.preventDefault();
+
+              descriptionContainer.scrollBy({
+                  top: event.deltaY < 0 ? -30 : 30,
+              });
+          });
       });
 
     </script>
