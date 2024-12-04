@@ -114,14 +114,14 @@
                                            {{ $conversation['message'] }}
                                        </div>
                                        <div>
-                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{$conversation['created_at']->format('h:i A')}}</p>
+                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
                                        </div>
                                    </div>
 
                                <div>
                                <img src="{{URL::asset('assets/img/default-user-image.png')}}" width="35" height="35" style="border-radius: 50%">
                                </div>
-                                   @endif
+                           @endif
                         </div>
                         <!-- Initial Assistant Message -->
                         <div class="d-flex flex-row gap-3 align-items-start">
@@ -134,29 +134,34 @@
                                      style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">{{ $conversation['reply'] }}
                                     </div>
                                     <div>
-                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{$conversation['created_at']->format('h:i A')}}</p>
+                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
                                     </div>
                                 </div>
                             @endif
                         </div>
                         @endforeach
                     @endif
+{{--                    This div is for append user message--}}
+                    <div id="user_message_div" wire:ignore.self>
+                    </div>
                 </div>
+
+                <div id="chatLoader" style="display: flex; justify-content:flex-start" wire:ignore.self>
+                    <div id="chatDots" wire:loading wire:target="submitForm">
+                        <span class="chatDot"></span>
+                        <span class="chatDot"></span>
+                        <span class="chatDot"></span>
+                    </div>
+                </div>
+
             </div>
             <hr>
             <form wire:submit.prevent="submitForm" id="chat_form">
             <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
 
-{{--                <div style="width: 5%">--}}
-{{--                    <img src="{{asset('assets\img\icons\ic_round-plus.png')}}"  width="35" height="35" >--}}
-{{--                </div>--}}
                 <div style="width: 100%">
-
-                    <input type="text" id="userInput" name="message" wire:model="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
+                    <input type="text" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
                 </div>
-{{--                <div style="width: 5%" class="text-center pt-1">--}}
-{{--                    <img src="{{asset('assets\img\icons\iconoir_microphone-solid.png')}}"   width="25" height="25" >--}}
-{{--                </div>--}}
                 <div style="width: 5%" class="pt-1">
                     <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
                      <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
@@ -164,18 +169,6 @@
                 </div>
             </div>
             </form>
-            <!-- Input Field and Send Button at the bottom -->
-{{--            <form wire:submit.prevent="submitForm">--}}
-{{--                <div class="d-flex flex-row gap-3 mt-3" style="width: 100%;">--}}
-{{--                    <input type="text" style="flex-grow: 1; background-color: #8bb1ab"--}}
-{{--                           class="form-control" id="userInput" name="message" wire:model="message"--}}
-{{--                           placeholder="Type your message...">--}}
-{{--                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"--}}
-{{--                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">--}}
-{{--                        send--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--            </form>--}}
         </div>
     </div>
 </div>
@@ -189,24 +182,57 @@
       $(".chosen-single").css('padding-top', '5px');
       $(".chosen-single").css('width', '100%');
       $(".chosen-single div > b").css('margin-top', '5px');
-      $('#chat_form').on('submit', function () {
+
+      window.livewire.on('scrollToBottom', function (){
+
           scrollToBottom();
-          let userMsg = $('#userInput').val();
+      });
 
-          $('#userInput').val('');
 
-          $('#chat_container').append(`<div id="chatLoader" style="display: flex; justify-content:flex-start">
-                                                            <div id="chatDots">
-                                                                <span class="chatDot"></span>
-                                                                <span class="chatDot"></span>
-                                                                <span class="chatDot"></span>
-                                                            </div>
-                                                        </div>`);
+      $('#chat_form').on('submit', function () {
+
+          let userMsg = $('#userInput');
+
+          $('#user_message_div').append(`
+                <div class="d-flex flex-row gap-3 justify-content-end">
+                    <div class="rounded" style="max-width: 70%;">
+                        <div>
+                            <p class="text-end" style="color: #000000;margin-bottom: 3px">user name</p>
+                        </div>
+                        <div class="bg-secondary text-white  p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
+                            `+ userMsg.val() +`
+                        </div>
+                        <div>
+                            <p class="text-end" style="color: #58534C;font-size: 14px">just now</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img src="{{URL::asset('assets/img/default-user-image.png')}}" width="35" height="35" style="border-radius: 50%">
+                    </div>
+                </div>
+          `);
+
+          setTimeout(function (){
+              scrollToBottom();
+          }, 50);
+
+          userMsg.val('');
+
+          userMsg.disable();
 
       });
+
       function scrollToBottom() {
           const chatboxContent = $('#chat_container');
           chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
       }
+
+      $(document).ready(function (){
+          setTimeout(function (){
+              scrollToBottom();
+          }, 500);
+      });
+
     </script>
 @endpush
