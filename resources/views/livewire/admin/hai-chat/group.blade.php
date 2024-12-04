@@ -61,7 +61,15 @@
 
         <div class="col-12 mx-auto">
 
-            @include('layouts.message')
+            @if(session('embedding_deleted'))
+                <div class="m-3  alert alert-success alert-dismissible fade show" id="alert" role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('embedding_deleted') }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </button>
+                </div>
+            @endif
 
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade pt-3 show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -108,9 +116,9 @@
                                         <div class="d-flex flex-row">
                                             <div class="col-12">
                                                 <a href="{{route('admin_embedding_detail', $embedding['name'])}}">
-                                                    <h3 style="color: #f2661c" class="text-decoration-none w-100"><i
+                                                    <h5 style="color: #f2661c" class="text-decoration-none w-100"><i
                                                             class="bi bi-robot"></i> {{ $embedding['name'] }}
-                                                    </h3>
+                                                    </h5>
                                                 </a>
                                             </div>
                                         </div>
@@ -170,7 +178,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Embedding</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                            aria-label="Close" id="embedding-close-modal-button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -224,7 +232,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Group</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                            aria-label="Close" id="group-close-modal-button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -261,7 +269,13 @@
 
         window.livewire.on('closeCreateGroupModal', function (){
             setTimeout(function (){
-                $('#createGroup').modal('hide');
+                $('#group-close-modal-button').click();
+            }, 1000);
+        });
+
+        window.livewire.on('closeCreateEmbeddingModal', function (){
+            setTimeout(function (){
+                $('#embedding-close-modal-button').click();
             }, 1000);
         });
 

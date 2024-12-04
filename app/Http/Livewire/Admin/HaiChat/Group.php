@@ -80,6 +80,8 @@ class Group extends Component
 
                     session()->flash('success', "Created Successfully.");
 
+                    $this->emit('closeCreateEmbeddingModal');
+
                     $this->reset('embedding_name','embedding','group_ids');
 
                 }else{
@@ -143,7 +145,7 @@ class Group extends Component
 
             HaiChatEmbedding::deleteEmbedding($id);
 
-            session()->flash('success', "{$embedding['name']} deleted successfully.");
+            session()->flash('embedding_deleted', "{$embedding['name']} deleted successfully.");
 
         }
 
