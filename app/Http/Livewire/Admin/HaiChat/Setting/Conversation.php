@@ -25,10 +25,12 @@ class Conversation extends Component
     protected $messages = [
         'message.required' => 'The Message field is required.',
     ];
+
     public function mount(){
         $user_ids = Assessment::getAllUser();
         $this->user_details = User::getUserDetailByIds($user_ids);
     }
+
     public function submitForm()
     {
         try {
@@ -103,7 +105,12 @@ class Conversation extends Component
 
     public function render()
     {
+
         $this->getChatBotConversation();
+
+        $this->emit('scrollToBottom');
+
         return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
+
     }
 }
