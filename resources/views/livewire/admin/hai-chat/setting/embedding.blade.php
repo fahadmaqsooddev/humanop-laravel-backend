@@ -4,34 +4,31 @@
             <div id="train" class="content-page">
                 <!-- Responsive Dropdown Section -->
                 <div class="d-flex p-2">
-                    <div class="btn-group col-md-4 d-flex justify-content-between ">
-                        <button class="btn input-bg dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown"
-                                style="font-size: small;border: 1px solid #f2661c;"
-                                aria-expanded="false">
-                            {{$selected_embedding}}
-                        </button>
-                        <ul class="dropdown-menu" id="chatbotDropdown" style="width: 100%;">
-                            <li>
-                                <button class="dropdown-item bg-dark text-white" disabled>All Embeddings</button>
-                            </li>
-                            @foreach($embeddings as $embedding)
-                                <li>
-                                    <button class="dropdown-item"
-                                            wire:click="changeEmbeddingSelect(`{{$embedding['name']}}`,`{{$embedding['request_id']}}`)">{{$embedding['name'] ?? ''}}</button>
-                                </li>
+                    <div class="btn-group m-1 col-md-4 d-flex justify-content-between ">
+
+                        <select wire:model="group_id" class="form-control">
+                            <option value="">Select Group</option>
+                            @foreach($groups as $group)
+                                <option value="{{$group->id}}">{{$group->name}}</option>
                             @endforeach
-                            <li>
-                                <button class="dropdown-item bg-dark text-white" disabled>Active Embeddings</button>
-                            </li>
-                            @foreach($active_embeddings as $active)
-                                <li>
-                                    <button class="dropdown-item"
-                                            wire:click="changeEmbeddingSelect(`{{$active['embedding']['name'] ?? null}}`,`{{$active['request_id']}}`)">{{$active['embedding']['name'] ?? ''}}</button>
-                                </li>
-                        @endforeach
-                        <!-- Chatbot options will be populated here -->
-                        </ul>
+                        </select>
+                    </div>
+                    <div class="btn-group m-1 col-md-4 d-flex justify-content-between">
+                        <select class="form-control" wire:model="embedding_id">
+                            <option value="">Select @if($group_id) Embedding @else Group First @endif</option>
+                            @if(count($embeddings) > 0)
+                                <option disabled style="background-color: #0f1534; color: white;">All Embeddings</option>
+                            @endif
+                            @foreach($embeddings as $embedding)
+                                <option value="{{$embedding['request_id'] ?? null}}">{{$embedding['name'] ?? null}}</option>
+                            @endforeach
+                            @if(count($active_embeddings) > 0)
+                                <option disabled style="background-color: #0f1534; color: white;">Active Embeddings</option>
+                            @endif
+                            @foreach($active_embeddings as $active_embedding)
+                                <option value="{{$active_embedding['request_id'] ?? null}}">{{$active_embedding['name'] ?? null}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     @if($button_status_display)
                         <div style="margin-left: 10px">

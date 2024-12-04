@@ -39,7 +39,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
 
 //    client dashboard
     Route::get('/dashboard', [ClientController::class, 'index'])->name('client_dashboard');
-
+    Route::get('/new-dashboard', [ClientController::class, 'newIndex'])->name('new_client_dashboard');
     //90 days plan test route
     Route::get('/ninety-day-plan', [ClientController::class, 'ninetyDayPlan']);
     //end here
