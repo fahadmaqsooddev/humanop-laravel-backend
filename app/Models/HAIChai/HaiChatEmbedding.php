@@ -16,9 +16,19 @@ class HaiChatEmbedding extends Model
         parent::__construct($attributes);
     }
 
+    // Relation
+    public function group(){
+
+        return $this->hasOne(GroupEmbedding::class,'embedding_id', 'id');
+    }
+
+    public function activeEmbedding(){
+
+        return $this->hasOne(HaiChatActiveEmbedding::class,'request_id','request_id');
+    }
+
 
     // queries
-
     public static function singleEmbedding($id)
     {
         return self::whereId($id)->first();
@@ -54,6 +64,42 @@ class HaiChatEmbedding extends Model
     public static function updateGroupId($embedding_id = null, $group_id = null){
 
         self::whereId($embedding_id)->update(['group_id' => $group_id]);
+
+    }
+
+    public static function activeEmbeddings($group_id, $chat_bot){
+
+        return self::whereHas('group', function ($q) use($group_id){
+
+            $q->where('group_id', $group_id);
+
+        })->whereHas('activeEmbedding', function ($query) use($chat_bot){
+
+            $query->where('chat_bot', $chat_bot);
+
+        })->get();
+
+    }
+
+    public static function inActiveEmbeddings($group_id, $chat_bot){
+
+        return self::whereHas('group', function ($q) use($group_id){
+
+            $q->where('group_id', $group_id);
+
+        })
+            ->where(function ($q) use($chat_bot){
+
+                $q->doesntHave('activeEmbedding')
+
+                    ->orWhereHas('activeEmbedding', function ($query) use($chat_bot){
+
+                        $query->where('chat_bot', '!=', $chat_bot);
+
+                    });
+            })
+
+            ->get();
 
     }
 
