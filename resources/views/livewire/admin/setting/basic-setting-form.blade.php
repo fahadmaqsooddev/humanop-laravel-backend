@@ -164,8 +164,9 @@
                         </div>
                     </div>
                     <div class="mt-4 float-end">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn" style="background-color: #f2661c; color: white" id="crop">Crop</button>
+                        <button type="button" class="btn btn-secondary" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-info-modal-button">Cancel</button>
+                        <button type="button" class="btn" style="background-color: #f2661c; color: white" id="crop">Save</button>
                     </div>
                 </div>
             </div>
