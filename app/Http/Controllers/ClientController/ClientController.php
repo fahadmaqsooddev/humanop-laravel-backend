@@ -106,11 +106,11 @@ class ClientController extends Controller
             {
                 $isReadDailyTip = UserDailyTip::userDailytip($tip['id'])['is_read'];
 
-                return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan','isReadDailyTip'));
+                return view('client-dashboard.dashboard.new-index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan','isReadDailyTip'));
 
             }
 
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan'));
+            return view('client-dashboard.dashboard.new-index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan'));
 
         } catch (\Exception $exception) {
 
