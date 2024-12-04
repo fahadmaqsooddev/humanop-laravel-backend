@@ -43,7 +43,7 @@ class EmailVerification extends Component
         }
         else
         {
-            session()->flash('error', "Email doesn't exists");
+            session()->flash('error', "You are already verified.");
 
         }
     }
