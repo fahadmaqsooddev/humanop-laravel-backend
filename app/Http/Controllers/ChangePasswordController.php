@@ -101,7 +101,7 @@ class ChangePasswordController extends Controller
             {
 
                 Auth::logout();
-                
+
                 session()->flash('success', "You are already verified.");
 
                 return redirect()->to('/login');
