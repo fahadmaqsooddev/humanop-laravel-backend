@@ -335,7 +335,7 @@
                             <div class="text-center my-auto ">
                                 <button  class="bg-transparent w-70 py-2 position-relative"  style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">Access your results
                                     <div class="position-absolute" style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
-                                        <img src="{{asset('assets/new-design/icon/dashboard/arrow.svg')}}" alt="notification" width="40" height="40">
+                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}" alt="notification" width="40" height="40">
                                     </div>
                                 </button>
                                 <button class="bg-transparent w-70 mt-4 py-2"  style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">Get free pro version</button>
