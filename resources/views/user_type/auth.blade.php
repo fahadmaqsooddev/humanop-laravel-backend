@@ -103,6 +103,11 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
+        @elseif (\Request::is('client/new-dashboard'))
+{{--            @include('layouts.navbars.guest.new-nav')--}}
+
+            @yield('content')
+            @include('layouts/footers/guest/footer')
         @elseif (\Request::is('practitioner/intro-assessment'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
