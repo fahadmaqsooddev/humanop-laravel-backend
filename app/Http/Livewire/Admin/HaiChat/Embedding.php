@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
-use App\Models\HaiChai\GroupEmbedding;
+use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
