@@ -184,4 +184,9 @@ class Group extends Component
 
         return $response_body;
     }
+
+    public function resetValidationError(){
+
+        $this->resetValidation();
+    }
 }
