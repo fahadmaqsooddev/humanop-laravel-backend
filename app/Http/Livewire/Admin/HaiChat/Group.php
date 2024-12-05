@@ -73,7 +73,7 @@ class Group extends Component
 
                 if($embedding){
 
-                    session()->flash('success', "Created Successfully.");
+                    session()->flash('success', "Embedding created successfully.");
 
                     $this->emit('closeCreateEmbeddingModal');
 
@@ -138,7 +138,7 @@ class Group extends Component
             GroupEmbedding::addOrUpdateGroupIds($this->embedding_ids, $group->id);
         }
 
-        session()->flash('success', "Created Successfully.");
+        session()->flash('success', "Group created successfully.");
 
         $this->emit('closeCreateGroupModal');
 

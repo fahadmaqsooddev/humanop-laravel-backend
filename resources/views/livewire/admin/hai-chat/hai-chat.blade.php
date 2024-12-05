@@ -51,7 +51,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
-                        <h5 class="modal-title text-white" id="createChatModalLabel">Create New Chat</h5>
+                        <h5 class="modal-title text-white" id="createChatModalLabel">Create New ChatBot</h5>
                         <button type="button" class="close modal-close-btn " id="createChatModal"
                                 data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -68,6 +68,7 @@
                                         <input style="background-color: #0f1534;color: lightgrey !important"
                                                class="form-control text-white"
                                                type="text" name="limit"
+                                               placeholder="Enter chotbot name"
                                                wire:model="name">
                                         @error('name')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -82,6 +83,7 @@
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
                                                       rows="5" cols="5"
                                                       name="description"
+                                                      placeholder="Enter chatbot description"
                                                       wire:model="description"></textarea>
                                         @error('information')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -90,7 +92,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                    style="background-color: #f2661c ">create chatbot
+                                    style="background-color: #f2661c ">create a chatbot
                             </button>
                         </div>
                     </form>

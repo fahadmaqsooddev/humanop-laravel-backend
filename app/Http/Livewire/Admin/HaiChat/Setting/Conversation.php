@@ -45,9 +45,7 @@ class Conversation extends Component
 
             if ($this->user_id){
 
-                $assessment_id = Assessment::singleAssessment($this->user_id)->id ?? null;
-
-                $user_grid = Assessment::getAllRowGrid($assessment_id);
+                $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
             }
 
 //            HaiChatConversation::createConversation($this->name, $this->message);

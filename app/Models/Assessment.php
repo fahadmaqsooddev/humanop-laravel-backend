@@ -1334,4 +1334,16 @@ class Assessment extends Model
 
         return $assessment;
     }
+
+    public static function getAssessmentFromUserId($user_id)
+    {
+        return static::with(['assessmentColorCodes' => function ($query) {
+            $query->selection();
+        }])
+            ->where('user_id', ($user_id))
+            ->where('page', 0)
+            ->orderBy('created_at', 'desc')
+            ->selection()
+            ->get();
+    }
 }

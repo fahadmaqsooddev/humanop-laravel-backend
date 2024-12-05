@@ -21,7 +21,7 @@ class Prompt extends Component
     protected $messages = [
         'name.required' => 'Something went during updating prompt.',
         'prompt.required' => 'Prompt Field is required.',
-        'restriction.required' => 'Restriction Field is required.',
+        'restriction.required' => 'LLM Restriction Field is required.',
     ];
 
     public function mount($name)
@@ -87,7 +87,10 @@ class Prompt extends Component
 
     public function createKeyword(){
 
-        ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name);
+        if ($this->keyword){
+
+            ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name);
+        }
 
         $this->keyword = "";
 

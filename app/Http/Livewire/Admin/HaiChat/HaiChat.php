@@ -36,7 +36,7 @@ class HaiChat extends Component
 
             HaiChatSetting::updateHaiChatSetting(null,null,null,null,$chatbot->id);
 
-            session()->flash('success', "{$this->name} created successfully.");
+            session()->flash('success', "Chatbot created successfully.");
 
             $this->resetForm();
 
@@ -64,7 +64,7 @@ class HaiChat extends Component
 
             Chatbot::deleteChat($id);
 
-            session()->flash('success', "{$chat['name']} deleted successfully.");
+            session()->flash('success', "Chatbot deleted successfully.");
 
         }
 
