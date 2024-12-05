@@ -16,15 +16,11 @@
                     <div class="btn-group m-1 col-md-4 d-flex justify-content-between">
                         <select class="form-control" wire:model="embedding_id">
                             <option value="">Select @if($group_id) Embedding @else Group First @endif</option>
-                            @if(count($embeddings) > 0)
                                 <option disabled style="background-color: #0f1534; color: white;">All Embeddings</option>
-                            @endif
                             @foreach($embeddings as $embedding)
                                 <option value="{{$embedding['request_id'] ?? null}}">{{$embedding['name'] ?? null}}</option>
                             @endforeach
-                            @if(count($active_embeddings) > 0)
                                 <option disabled style="background-color: #0f1534; color: white;">Active Embeddings</option>
-                            @endif
                             @foreach($active_embeddings as $active_embedding)
                                 <option value="{{$active_embedding['request_id'] ?? null}}">{{$active_embedding['name'] ?? null}}</option>
                             @endforeach
@@ -46,6 +42,7 @@
                     <div class="col-md-4">
                         <!-- Search Box -->
                         <div class="container-fluid mt-4 mx-0 px-0">
+                            @include('layouts.message')
                             <form wire:submit.prevent="searchEmbedding">
                                 <div class="textarea-with-icon">
                                         <textarea class="form-control input-bg" rows="3"
@@ -59,26 +56,10 @@
                                 </div>
                             </form>
                         </div>
-
-                        <!-- Responsive Tabs -->
-                        {{--                        <ul class="nav nav-tabs justify-content-between flex-wrap mt-3">--}}
-                        {{--                            <li class="nav-item">--}}
-                        {{--                                <a class="nav-link active" style="color: #0f1534" aria-current="page" href="#">All</a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li class="nav-item">--}}
-                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Pending</a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li class="nav-item">--}}
-                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Deleted</a>--}}
-                        {{--                            </li>--}}
-                        {{--                            <li class="nav-item">--}}
-                        {{--                                <a class="nav-link" style="color: #0f1534" href="#">Failed</a>--}}
-                        {{--                            </li>--}}
-                        {{--                        </ul>--}}
                     </div>
 
                     <!-- Right Column with Upload Options -->
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="max-height: 600px; overflow-y: scroll;" id="chunks_div">
                         @if(count($chunks) > 0)
                             @foreach($chunks as $chunk)
                                 <div class="chunk-card input-bg">
@@ -175,3 +156,20 @@
         </div>
     </div>
 </div>
+
+@push('js')
+
+    <script>
+
+        const descriptionContainer = document.querySelector('#chunks_div');
+        descriptionContainer.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            descriptionContainer.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30,
+            });
+        });
+
+    </script>
+
+@endpush

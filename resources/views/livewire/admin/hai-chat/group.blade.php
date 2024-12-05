@@ -23,12 +23,12 @@
 <div>
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createEmbedding"
-           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+           style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="resetValidationError"
            class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Embedding
         </a>
         <div class="px-3">
             <a data-bs-toggle="modal" data-bs-target="#createGroup"
-               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+               style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="resetValidationError"
                class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Group
             </a>
         </div>
@@ -42,14 +42,12 @@
                 <div class="nav-item connectionDev" role="presentation">
                     <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn active" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-
                             aria-selected="true">Groups</button>
                 </div>
 
                 <div class="nav-item connectionDev" role="presentation">
                     <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
-
                             aria-controls="profile-tab-pane" aria-selected="false">Embeddings</button>
                 </div>
             </div>
