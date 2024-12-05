@@ -6,6 +6,7 @@ use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class HaiChat extends Component
@@ -13,7 +14,7 @@ class HaiChat extends Component
     public $chats, $name, $description, $chatBot;
     protected $listeners = ['deleteChatbot'];
     protected $rules = [
-        'name' => 'required',
+        'name' => 'required|max:30',
         'description' => 'required|max:2000',
     ];
 
@@ -41,8 +42,11 @@ class HaiChat extends Component
 
             $this->emit('closeModel');
 
-        }catch (\Exception $exception)
-        {
+        }catch (ValidationException $exception) {
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        }catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
 

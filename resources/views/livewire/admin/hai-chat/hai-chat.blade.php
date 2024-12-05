@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createChatModal"
            style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create chat
+           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Chatbot
         </a>
     </div>
 
@@ -108,14 +108,14 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
-                        <h5 class="modal-title text-white" id="chatBotDetailModalLabel">{{$chatBot->name ?? null}}</h5>
+                        <h4 class="modal-title text-white" id="chatBotDetailModalLabel">{{$chatBot->name ?? null}}</h4>
                         <button type="button" class="close modal-close-btn"
                                 data-dismiss="modal" wire:click="closeChatBotDetailModal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <p class="text-white w-100">
+                    <p class="text-white w-100 p-2 text-justify">
                         {{$chatBot->description ?? null}}
                     </p>
                 </div>
