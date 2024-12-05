@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\User;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class ResetPassword extends Component
@@ -30,10 +31,16 @@ class ResetPassword extends Component
             $token = User::generateToken($checkUserEmail['email']);
 
             $baseUrl = url('/reset-password?token=' . $token['reset_password_token']);
+            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+            $privacyUrl = url('/privacy-policy');
+            $serviceUrl = url('/term-of-service');
 
             $data = [
                 '{$userName}' => $checkUserEmail['first_name'] . ' ' . $checkUserEmail['last_name'],
                 '{$link}' => $baseUrl,
+                '{$logo}' => $logoUrl,
+                '{$service}' => $serviceUrl,
+                '{$privacy}' => $privacyUrl,
             ];
 
             $email_template = EmailTemplate::getTemplate($data, 'reset-password');

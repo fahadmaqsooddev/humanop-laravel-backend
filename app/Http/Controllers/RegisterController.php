@@ -125,10 +125,16 @@ class RegisterController extends Controller
                 if (empty($request['google_id']))
                 {
                     $baseUrl = url('/check-email?token='. $user['email_verify_token']);
+                    $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+                    $privacyUrl = url('/privacy-policy');
+                    $serviceUrl = url('/term-of-service');
 
                     $data = [
                         '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
                         '{$link}' =>  $baseUrl,
+                        '{$logo}' => $logoUrl,
+                        '{$service}' => $serviceUrl,
+                        '{$privacy}' => $privacyUrl,
                     ];
 
                     $email_template = EmailTemplate::getTemplate($data, 'email-verification');
@@ -204,10 +210,16 @@ class RegisterController extends Controller
                 Helpers::createCustomerAndSubscriptionOnStripe($userCreate);
 
                 $baseUrl = PractitionerHelpers::makePractitionerUrl('check-email', ['id' => $userCreate['id']]);
+                $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+                $privacyUrl = url('/privacy-policy');
+                $serviceUrl = url('/term-of-service');
 
                 $data = [
                     '{$userName}' => $userCreate['first_name'] .' ' . $userCreate['last_name'],
                     '{$link}' =>  $baseUrl,
+                    '{$logo}' => $logoUrl,
+                    '{$service}' => $serviceUrl,
+                    '{$privacy}' => $privacyUrl,
                 ];
 
                 $email_template = EmailTemplate::getTemplate($data, 'email-verification');
@@ -333,10 +345,16 @@ class RegisterController extends Controller
             if (!empty($user) && $user['email_verified_at'] == null)
             {
                 $baseUrl = url('/check-email', $user['email_verify_token']);
+                $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+                $privacyUrl = url('/privacy-policy');
+                $serviceUrl = url('/term-of-service');
 
                 $data = [
                     '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
                     '{$link}' =>  $baseUrl,
+                    '{$logo}' => $logoUrl,
+                    '{$service}' => $serviceUrl,
+                    '{$privacy}' => $privacyUrl,
                 ];
 
                 $email_template = EmailTemplate::getTemplate($data, 'email-verification');

@@ -26,10 +26,16 @@ class EmailVerification extends Component
             $updateUser = User::generateEmailVerificationToken($user['email']);
 
             $baseUrl = url('/check-email?token='. $updateUser['email_verify_token']);
+            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+            $privacyUrl = url('/privacy-policy');
+            $serviceUrl = url('/term-of-service');
 
             $data = [
                 '{$userName}' => $updateUser['first_name'] .' ' . $updateUser['last_name'],
                 '{$link}' =>  $baseUrl,
+                '{$logo}' => $logoUrl,
+                '{$service}' => $serviceUrl,
+                '{$privacy}' => $privacyUrl,
             ];
 
             $email_template = EmailTemplate::getTemplate($data, 'email-verification');

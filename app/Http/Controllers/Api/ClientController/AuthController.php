@@ -126,10 +126,16 @@ class AuthController extends Controller
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
                         $baseUrl = url('/check-email?token=', $user['email_verify_token']);
+                        $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+                        $privacyUrl = url('/privacy-policy');
+                        $serviceUrl = url('/term-of-service');
 
                         $userData = [
                             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
                             '{$link}' => $baseUrl,
+                            '{$logo}' => $logoUrl,
+                            '{$service}' => $serviceUrl,
+                            '{$privacy}' => $privacyUrl,
                         ];
 
 
@@ -227,10 +233,16 @@ class AuthController extends Controller
                 $token = User::generateToken($checkUserEmail['email']);
 
                 $baseUrl = url('/reset-password?token='. $token['reset_password_token']);
+                $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+                $privacyUrl = url('/privacy-policy');
+                $serviceUrl = url('/term-of-service');
 
                 $data = [
                     '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
                     '{$link}' =>  $baseUrl,
+                    '{$logo}' => $logoUrl,
+                    '{$service}' => $serviceUrl,
+                    '{$privacy}' => $privacyUrl,
                 ];
 
                 $email_template = EmailTemplate::getTemplate($data, 'reset-password');
@@ -312,10 +324,16 @@ class AuthController extends Controller
             $user = User::getSingleUser($request->input('user_id'));
 
             $baseUrl = url('/check-email', $user['id']);
+            $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
+            $privacyUrl = url('/privacy-policy');
+            $serviceUrl = url('/term-of-service');
 
             $data = [
                 '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
                 '{$link}' =>  $baseUrl,
+                '{$logo}' => $logoUrl,
+                '{$service}' => $serviceUrl,
+                '{$privacy}' => $privacyUrl,
             ];
 
             $email_template = EmailTemplate::getTemplate($data, 'email-verification');
