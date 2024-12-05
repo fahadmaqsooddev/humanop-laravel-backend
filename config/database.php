@@ -436,7 +436,7 @@ return [
         ],
         'HaiChatConversation' => [
             'table' => 'hai_chat_conversation',
-            'fillable' => ['id','chatbot','message','reply'],
+            'fillable' => ['id','chatbot','message','reply','user_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingSetting' => [
