@@ -17,6 +17,7 @@ use App\Http\Requests\Client\Register\RegisterFormRequest;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Stripe\BaseStripeClient;
 use App\Models\IntentionPlan\IntentionPlan;

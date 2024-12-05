@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Client\User;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use App\Models\User;
+use Illuminate\Support\Facades\URL;
 use Livewire\Component;
 
 class EmailVerification extends Component
