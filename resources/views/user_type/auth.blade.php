@@ -33,23 +33,23 @@
             font-family: inherit;
             outline: none;
         }
-             /* Alert box container */
-         .custom-alert {
-             background-color: #f8d7da; /* Light red background */
-             color: #721c24; /* Dark red text */
-             border: 1px solid #f5c6cb; /* Matching border color */
-             border-radius: 5px; /* Rounded corners */
-             padding: 15px 20px; /* Space inside the box */
-             margin: 10px 0; /* Space around the alert */
-             font-family: Arial, sans-serif; /* Font styling */
-             font-size: 1rem;
-         }
+
+        /* Alert box container */
+        .custom-alert {
+            background-color: #f8d7da; /* Light red background */
+            color: #721c24; /* Dark red text */
+            border: 1px solid #f5c6cb; /* Matching border color */
+            border-radius: 5px; /* Rounded corners */
+            padding: 15px 20px; /* Space inside the box */
+            margin: 10px 0; /* Space around the alert */
+            font-family: Arial, sans-serif; /* Font styling */
+            font-size: 1rem;
+        }
 
         /* Alert heading styling */
         .custom-alert strong {
             font-weight: bold;
         }
-
 
 
         /* Alert box container */
@@ -103,11 +103,11 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
-        @elseif (\Request::is('client/new-dashboard'))
-{{--            @include('layouts.navbars.guest.new-nav')--}}
+            {{--        @elseif (\Request::is('client/new-dashboard'))--}}
+            {{--            @include('layouts.navbars.auth.new-sidebar')--}}
 
-            @yield('content')
-            @include('layouts/footers/guest/footer')
+            {{--            @yield('content')--}}
+            {{--            @include('layouts/footers/guest/footer')--}}
         @elseif (\Request::is('practitioner/intro-assessment'))
             @include('layouts.navbars.guest.nav')
             @yield('content')
@@ -136,15 +136,22 @@
             @include('layouts.navbars.guest.nav')
             @yield('content')
             @include('layouts/footers/guest/footer')
+
         @else
-            @include('layouts/navbars/auth/sidebar')
+            @if(\Request::is('client/new-dashboard'))
+                @include('layouts/navbars/auth/new-sidebar')
+            @else
+                @include('layouts/navbars/auth/sidebar')
+            @endif
             <main
                 class="main-content max-height-vh-100 h-100 {{ (Request::is('ecommerce-products-new-product')||$childFolder == 'profile' ? 'position-relative' : (Request::is('pages-rtl') ? 'position-relative  overflow-hidden' : 'position-relative ')) }}">
 
             @if (\Request::is('pages-rtl'))
                 @include('layouts/navbars/auth/nav-rtl')
             @else
-                @include('layouts/navbars/auth/nav')
+                @if(!(\Request::is('client/new-dashboard')))
+                    @include('layouts/navbars/auth/nav')
+                @endif
             @endif
             @if($childFolder == 'profile'||$childFolder == 'account'||Request::is('ecommerce-products-new-product'))
                 @yield('content')
@@ -195,10 +202,10 @@
                                                 <span class="text-success">Thank you for submitting your feedback! We will credit you a point after we verify your feedback as a token of our appreciation!</span>
                                             </div>
 
-                                            <textarea id="comment-value"  rows="5" class="comment-box"
+                                            <textarea id="comment-value" rows="5" class="comment-box"
                                                       placeholder="Add a Comment..." required></textarea>
                                             <a type="submit" onclick="submitFeedBackForm()" class="btn"
-                                                    style="inline-size: 100%;background-color: #f2661c;color: white;">
+                                               style="inline-size: 100%;background-color: #f2661c;color: white;">
                                                 Submit Feedback
                                             </a>
 
@@ -222,7 +229,8 @@
                                         </a>
                                     </div>
                                     <div class="feedback-card">
-                                        <div id="customThirtyMinuteAlert" class="custom-30-minute-alert" style="display: none">
+                                        <div id="customThirtyMinuteAlert" class="custom-30-minute-alert"
+                                             style="display: none">
                                             <strong>Error!</strong> <span id="custom_30_minute_error_message"> </span>
                                         </div>
                                         <h5 style="color: white; padding: 0 0 5px 0; display: flex; text-align: justify">
@@ -305,11 +313,11 @@
 
             // if (local_storage_time === null) {
 
-                console.log('Set');
+            console.log('Set');
 
-                localStorage.setItem('modal_open_time', modal_open_time);
+            localStorage.setItem('modal_open_time', modal_open_time);
 
-                local_storage_time = localStorage.getItem('modal_open_time');
+            local_storage_time = localStorage.getItem('modal_open_time');
             // }
 
             let intervalID = setInterval(function () {
