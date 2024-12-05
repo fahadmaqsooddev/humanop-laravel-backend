@@ -129,7 +129,7 @@
                                            {{ $conversation['message'] }}
                                        </div>
                                        <div>
-                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
+                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                        </div>
                                    </div>
 
@@ -149,7 +149,7 @@
                                      style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">{{ $conversation['reply'] }}
                                     </div>
                                     <div>
-                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
+                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                     </div>
                                 </div>
                             @endif
