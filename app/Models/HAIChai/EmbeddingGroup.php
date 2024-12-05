@@ -21,7 +21,7 @@ class EmbeddingGroup extends Model
     // Queries
     public static function createEmbeddingGroup($name){
 
-        self::create(['name' => $name]);
+        return self::create(['name' => $name]);
     }
 
     public static function allGroups(){

@@ -30,11 +30,11 @@ class GroupEmbedding extends Model
 
 
     // Queries
-    public static function addOrUpdateGroupIds($group_ids = [], $embedding_id = null){
+    public static function addOrUpdateGroupIds($embedding_ids = [], $group_id = null){
 
-        self::where('embedding_id', $embedding_id)->delete();
+        self::where('group_id', $group_id)->delete();
 
-        foreach ($group_ids as $group_id){
+        foreach ($embedding_ids as $embedding_id){
 
             self::create([
                 'embedding_id' => $embedding_id,

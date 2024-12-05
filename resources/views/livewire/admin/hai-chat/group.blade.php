@@ -82,14 +82,14 @@
 
                         @foreach($groups as $group)
                             <div class="mt-3 col-md-3 col-sm-3 col-lg-3" style="padding-right: 5px;">
-                                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">
+                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
                                     <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                                         <div class="d-flex flex-row">
                                             <div class="col-12 text-center">
                                                 <a href="{{route('admin_embedding', $group['id'])}}">
-                                                    <h3 style="color: #f2661c" class="text-decoration-none w-100"><i
+                                                    <h4 style="color: #f2661c" class="text-decoration-none w-100"><i
                                                             class="bi bi-robot"></i> {{ $group['name'] }}
-                                                    </h3>
+                                                    </h4>
                                                 </a>
                                             </div>
                                         </div>
@@ -104,14 +104,14 @@
                 <div class="tab-pane fade pt-3" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                     @empty($embeddings[0])
-                        <p style="color: #0f1535;font-size: 20px; font-weight: bold">No embedding found</p>
+                        <p style="color: #f2661c;font-size: 20px; font-weight: bold">No embedding found</p>
                     @endempty
 
                     <div class="row">
 
                         @foreach($embeddings as $embedding)
                             <div class="mt-3 col-md-6 col-sm-6 col-lg-6" style="padding-right: 5px;">
-                                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">
+                                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
                                     <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                                         <div class="d-flex flex-row">
                                             <div class="col-12">
@@ -197,16 +197,6 @@
                                             Uploading ...
                                         </span>
                                     </div>
-
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Group </label>
-                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple>
-                                            <option value="">Select Group</option>
-                                            @foreach($groups as $group)
-                                                <option value="{{$group->id}}">{{$group->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
                                 </div>
 
                             </div>
@@ -240,6 +230,16 @@
                                         <label class="form-label fs-4 text-white">Name</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="name" placeholder="Enter group name" type="text">
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Group </label>
+                                        <select wire:model.defer="embedding_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
+                                            <option value="">Select Group</option>
+                                            @foreach($embeddings as $embedding)
+                                                <option value="{{$embedding->id}}">{{$embedding->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

@@ -4,16 +4,16 @@
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
 
         @if(count($embeddings) == 0)
-            <p class="custom-text-dark">No embedding is linked with this Group</p>
+            <p style="color: #f2661c;">No embedding is linked with this Group</p>
         @endif
 
         <!-- Example Card -->
         @foreach($embeddings as $embedding)
             <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
-                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">
+                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
                     <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">
                         <div class="d-flex flex-row">
-                            <div class="col-9">
+                            <div class="col-12">
                                 <a href="{{route('admin_embedding_detail', $embedding['embedding']['name'] ?? null)}}">
                                     <h5 style="color: #f2661c" class="text-decoration-none w-100"><i
                                             class="bi bi-robot"></i> {{ $embedding['embedding']['name'] ?? null }}
