@@ -11,23 +11,23 @@
         <!-- Example Card -->
         @foreach($chats as $chat)
             <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
-                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">
+                <div class="card card-body" style="background-color: #F3DEBA !important;border: 2px solid #d26622;">
                     <div class="d-flex flex-column gap-3 chat-card">
                         <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
                                     class="bi bi-robot"></i> {{ $chat['name'] }}
                             </h5>
                         </a>
-                        @if(strlen($chat['description']) > 60)
+                        @if(strlen($chat['description']) > 50)
 
-                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 60) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
+                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
 
                         @else
                             <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
                         @endif
-                        <div class="d-flex justify-content-between">
-                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less
-                                than a minute</p>
+                        <div class="d-flex justify-content-end">
+{{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
+{{--                                than a minute</p>--}}
                             <div class="d-flex gap-2">
                                 <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                                         class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">
