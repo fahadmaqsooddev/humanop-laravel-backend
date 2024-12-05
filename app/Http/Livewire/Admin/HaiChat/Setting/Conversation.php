@@ -107,7 +107,7 @@ class Conversation extends Component
 
     public function getChatBotConversation()
     {
-        $this->conversations = HaiChatConversation::getConversation($this->name);
+        $this->conversations = HaiChatConversation::getConversation($this->name, $this->user_id);
     }
 
 
