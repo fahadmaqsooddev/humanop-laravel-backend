@@ -83,14 +83,22 @@
                     <div class="d-flex justify-content-end" style="margin-right: 24px;margin-top: 18px" >
                        <div class="d-flex justify-content-end w-50" wire:ignore >
                            <label for="user_name"></label>
-                            <select name="user_name" wire:model="user_id" class="form-control chzn-select" id="user_name" style="background-color: #F3DEB4;color: #000000;border-radius:20px">
-                                <option disabled value="">Select User</option>
-                                @if(isset($user_details))
-                                 @foreach($user_details as $user_detail)
-                                    <option value="{{$user_detail['id']}}">{{$user_detail['first_name'] ?? ''}} {{$user_detail['first_name'] ?? ''}}</option>
-                                 @endforeach
-                                @endif
-                            </select>
+{{--                            <select name="user_name" wire:model="user_id" class="form-control chzn-select" id="user_name" style="background-color: #F3DEB4;color: #000000;border-radius:20px">--}}
+{{--                                <option disabled value="">Select User</option>--}}
+{{--                                @if(isset($user_details))--}}
+{{--                                 @foreach($user_details as $user_detail)--}}
+{{--                                    <option value="{{$user_detail['id']}}">{{$user_detail['first_name'] ?? ''}} {{$user_detail['first_name'] ?? ''}}</option>--}}
+{{--                                 @endforeach--}}
+{{--                                @endif--}}
+{{--                            </select>--}}
+                           <select wire:model="user_id" class="form-control" style="background-color: #F3DEB4;color: #000000;">
+                               <option value="">Select User</option>
+                               @if(isset($user_details))
+                                   @foreach($user_details as $user_detail)
+                                       <option value="{{$user_detail['id']}}">{{$user_detail['first_name'] ?? ''}} {{$user_detail['first_name'] ?? ''}}</option>
+                                   @endforeach
+                               @endif
+                           </select>
                        </div>
                     </div>
                 </div>
