@@ -135,6 +135,11 @@ class Conversation extends Component
         $this->conversations = HaiChatConversation::getConversation($this->name, $this->user_id);
     }
 
+    public function updatedUserId(){
+
+        $this->is_restricted_word = false;
+    }
+
 
     public function render()
     {

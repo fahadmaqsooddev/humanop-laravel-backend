@@ -146,7 +146,8 @@
                                 </div>
                                 <div class="rounded " style="max-width: 70%;">
                                    <div class="bg-primary text-white  p-2"
-                                     style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">{{ $conversation['reply'] }}
+                                     style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
+                                       {!! $conversation['reply'] !!}
                                     </div>
                                     <div>
                                         <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
