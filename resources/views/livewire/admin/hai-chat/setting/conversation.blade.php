@@ -91,7 +91,7 @@
 {{--                                 @endforeach--}}
 {{--                                @endif--}}
 {{--                            </select>--}}
-                           <select wire:ignore wire:model.defer="user_id" class="form-control" style="background-color: #F3DEB4;color: #000000;">
+                           <select wire:model="user_id" class="form-control" style="background-color: #F3DEB4;color: #000000;">
                                <option value="">Select User</option>
                                @if(isset($user_details))
                                    @foreach($user_details as $user_detail)
@@ -100,6 +100,13 @@
                                @endif
                            </select>
                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-6">
+                            <span style="color: #f2661c;" wire:loading wire:target="user_id" class="text-sm">switching chat...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,7 +129,7 @@
                                            {{ $conversation['message'] }}
                                        </div>
                                        <div>
-                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
+                                           <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                        </div>
                                    </div>
 
@@ -139,10 +146,11 @@
                                 </div>
                                 <div class="rounded " style="max-width: 70%;">
                                    <div class="bg-primary text-white  p-2"
-                                     style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">{{ $conversation['reply'] }}
+                                     style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
+                                       {!! $conversation['reply'] !!}
                                     </div>
                                     <div>
-                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'])->diffForHumans()}}</p>
+                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                     </div>
                                 </div>
                             @endif
@@ -168,7 +176,7 @@
             <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
 
                 <div style="width: 100%">
-                    <input type="text" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
+                    <input type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
                 </div>
                 <div style="width: 5%" class="pt-1">
                     <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
