@@ -20,8 +20,8 @@ class Prompt extends Component
 
     protected $messages = [
         'name.required' => 'Something went during updating prompt.',
-        'prompt.required' => 'Prompt Field is required.',
-        'restriction.required' => 'LLM Restriction Field is required.',
+        'prompt.required' => 'Prompt is required.',
+        'restriction.required' => 'LLM Restriction is required.',
     ];
 
     public function mount($name)
