@@ -8,7 +8,12 @@
 
                         <select wire:model="group_id" class="form-control">
                             <option value="">Select Group</option>
+                                <option disabled style="background-color: #0f1534; color: white;">All Groups</option>
                             @foreach($groups as $group)
+                                <option value="{{$group->id}}">{{$group->name}}</option>
+                            @endforeach
+                                <option disabled style="background-color: #0f1534; color: white;">Active Groups</option>
+                            @foreach($activeGroups as $group)
                                 <option value="{{$group->id}}">{{$group->name}}</option>
                             @endforeach
                         </select>

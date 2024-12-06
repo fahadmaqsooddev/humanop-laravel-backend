@@ -18,6 +18,12 @@ class EmbeddingGroup extends Model
         parent::__construct($attributes);
     }
 
+    // Relations
+    public function embeddings(){
+
+        return $this->hasMany(GroupEmbedding::class,'group_id','id');
+    }
+
     // Queries
     public static function createEmbeddingGroup($name){
 
@@ -27,6 +33,20 @@ class EmbeddingGroup extends Model
     public static function allGroups(){
 
         return self::all();
+    }
+
+    public static function activeGroups(){
+
+        return self::where(function ($query){
+
+            return $query->has('embeddings.embedding.activeEmbedding');
+
+        })->get();
+    }
+
+    public static function inActiveGroups(){
+
+        return self::doesnthave('embeddings.embedding.activeEmbedding')->get();
     }
 
 }

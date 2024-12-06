@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks, $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [];
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks, $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups;
     public $button_status_display = false;
     public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
@@ -270,7 +270,9 @@ class Embedding extends Component
 
         $this->getChunks();
 
-        $this->groups = EmbeddingGroup::allGroups();
+        $this->groups = EmbeddingGroup::inActiveGroups();
+
+        $this->activeGroups = EmbeddingGroup::activeGroups();
 
         return view('livewire.admin.hai-chat.setting.embedding',['chunks' => $this->chunks]);
     }
