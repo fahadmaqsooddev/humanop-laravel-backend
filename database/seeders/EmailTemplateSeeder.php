@@ -45,7 +45,7 @@ class EmailTemplateSeeder extends Seeder
         <p style="font-size: 12px; line-height: 1.5; margin: 8px 0; color: black;">
             You are receiving this mail because you registered to join the HumanOP platform. This also shows
             that you agree to our <a href="{$service}" style="color: #003a6d; text-decoration: none;">Terms of Service</a> and <a
-                href="{$privacy}" style="color: #003a6d; text-decoration: none;">Privacy Policy</a>. If you no longer want to receive mails from us, please ignore this email.
+                href="{$privacy}" style="color: #003a6d; text-decoration: none;">Privacy Policy</a>
         </p>
     </div>
 </div>
@@ -80,7 +80,7 @@ class EmailTemplateSeeder extends Seeder
         <p style="font-size: 12px; line-height: 1.5; margin: 8px 0; color: black;">
             You are receiving this mail because you registered to join the HumanOP platform. This also shows
             that you agree to our <a href="{$service}" style="color: #003a6d; text-decoration: none;">Terms of Service</a> and <a
-                href="{$privacy}" style="color: #003a6d; text-decoration: none;">Privacy Policy</a>. If you no longer want to receive mails from us.
+                href="{$privacy}" style="color: #003a6d; text-decoration: none;">Privacy Policy</a>
         </p>
     </div>
 </div>
