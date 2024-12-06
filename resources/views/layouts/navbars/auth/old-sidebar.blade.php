@@ -3,31 +3,23 @@
         .sidenav > .ps__rail-y {
             display: none !important;
         }
-        .icon-size{
-            width: 40px !important;
-            height: 40px !important;
-        }
-        .nav-active{
-            border-radius: 40px 0px 0px 40px;background: #F3DEBA;
-        }
     </style>
-
 @endpush
-{{--<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"--}}
-{{--     style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">--}}
-{{--    <a href="javascript:void(0);" class="nav-link text-body p-0">--}}
-{{--        <div class="sidenav-toggler-inner">--}}
-{{--            <button id="nav-toggle" class="btn rounded-0" style="padding-left: 20px;padding-right: 20px">--}}
-{{--                <i class="fa fa-angle-right" id="nav-toggle-icon"></i>--}}
-{{--            </button>--}}
-{{--        </div>--}}
-{{--    </a>--}}
-{{--</div>--}}
-<aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;width: 155px;margin-left: 30px;border-radius: 40px !important;background: #1C365E !important"
-       class="mt-4 mb-4 sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
+<div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"
+     style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
+    <a href="javascript:void(0);" class="nav-link text-body p-0">
+        <div class="sidenav-toggler-inner">
+            <button id="nav-toggle" class="btn rounded-0" style="padding-left: 20px;padding-right: 20px">
+                <i class="fa fa-angle-right" id="nav-toggle-icon"></i>
+            </button>
+        </div>
+    </a>
+</div>
+<aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;"
+       class="sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} left-nav-background"
        id="sidenav-main">
     <div class="d-flex">
-        <div class="sidenav-header mb-3">
+        <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>
             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
@@ -62,9 +54,9 @@
                 @else
 
                     <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('client_dashboard') }}">
-                <span class="humanopLogo text-center mt-5 " >
+                <span class="humanopLogo">
                 <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
-                     style="margin-left: 5px;width: 100%; height: 100%;" alt="main_logo">
+                     style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
                         <span class="humanopMiniLogo d-none mt-3">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
@@ -98,10 +90,10 @@
                                 <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}"
                                    href="{{ route('admin_dashboard') }}">
                                     <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/new-design/icon/dashboard/navbar/home.svg')}}"></span>
+                                                                         src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                      src="{{URL::asset('assets/new-design/icon/dashboard/navbar/home.svg')}}"></span>
-                                    {{--                                    <span class="sidenav-normal"> Dashboard </span>--}}
+                                                                      src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
+                                    <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
                             @if(Auth::user()->hasRole('super admin'))
@@ -242,7 +234,7 @@
                                                                              src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
-                                        <span class="sidenav-normal"> Resources <br>& Trainings </span>
+                                        <span class="sidenav-normal"> Resources & Trainings </span>
                                     </a>
                                 </li>
                             @endcan
@@ -617,287 +609,232 @@
                     {{--                    </a>--}}
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
-                        <ul class="nav">
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/new-dashboard')  ? 'nav-active' : '') }}" style="margin-left: 10px">
-                                <a class="pb-1 "
+                        <ul class="nav ms-4 ps-3">
+                            <li class="nav-item {{ (Request::is('client/dashboard')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/dashboard')  ? 'active' : '') }}"
                                    href="{{ route('client_dashboard') }}">
-                                    <span >
-                                        @if(Request::is('client/new-dashboard'))
-                                        <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/home_active.svg')}}" style="margin-top:5px">
-                                        @else
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/home.svg')}}" style="margin-top:5px">
-                                        @endif
-                                    </span>
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
+                                    <span class="sidenav-normal"> Dashboard </span>
                                 </a>
-                                @if(Request::is('client/new-dashboard'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Dashboard </p>
-                                @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Dashboard </p>
-                                @endif
                             </li>
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/stripe-checkout')  ? 'nav-active' : '') }}"   data-step="1" style="margin-left: 10px">
-                                <a class=" pb-1 "
+                            <li class="nav-item {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"   data-step="1" >
+                                <a class="nav-link {{ (Request::is('client/stripe-checkout')  ? 'active' : '') }}"
                                    href="{{ url('client/intro-assessment') }}">
-                                    <span>
-                                        @if(Request::is('client/stripe-checkout'))
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_graph.svg')}}" style="margin-top:5px">
-                                        @else
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/graph.svg')}}" style="margin-top:5px">
-                                        @endif
-                                    </span>
-                                    {{--                                    <span class="sidenav-normal"> Assessment </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/assessment.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/assessment.png')}}"></span>
+                                    <span class="sidenav-normal"> Assessment </span>
                                 </a>
-                                @if(Request::is('client/stripe-checkout'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Assessment </p>
-                                @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Assessment </p>
-                                @endif
                             </li>
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/all-assessments')  ? 'nav-active' : '') }}" style="margin-left: 10px">
-                                <a class=" pb-1 "
+                            <li class="nav-item {{ (Request::is('client/all-assessments')  ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/all-assessments')  ? 'active' : '') }}"
                                    href="{{ route('all_assessment') }}">
-                                    <span >
-                                          @if(Request::is('client/all-assessments'))
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_notepad.svg')}}" style="margin-top:5px">
-                                        @else
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/notepad.svg')}}" style="margin-top:5px">
-                                        @endif
-                                    </span>
-                                    {{--                                    <span class="sidenav-normal"> Results </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Results.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Results.png')}}"></span>
+                                    <span class="sidenav-normal"> Results </span>
                                 </a>
-                                @if(Request::is('client/all-assessments'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Results </p>
-                                @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Results </p>
-                                @endif
                             </li>
 
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/resource') ? 'nav-active' : '') }}" style="margin-left: 10px">
-                                <a class=" pb-1 "
+                            <li class="nav-item {{ (Request::is('client/resource') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/resource') ? 'active' : '') }}"
                                    href="{{ route('resource') }}">
-
-                                    <span >
-                                            @if(Request::is('client/resource'))
-                                            <img class="icon-size"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_football.svg')}}" style="margin-top:5px">
-                                             @else
-                                            <img class="icon-size"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/football.svg')}}" style="margin-top:5px">
-                                             @endif
-                                    </span>
-                                    {{--                                    <span class="sidenav-normal"> Resources & Trainings </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
+                                    <span class="sidenav-normal"> Resources & Trainings </span>
                                 </a>
-                                @if(Request::is('client/resource'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Resources <br>& Trainings </p>
-                                    @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Resources <br>& Trainings </p>
-                                    @endif
                             </li>
-                            <li class="nav-item mt-2">
-                                <div class="text-center"  {{ ((Request::is('client/human-network') ||  Request::is('client/connections') || Request::is('client/connections') || Request::is('client/messages') || Request::is('client/follow')) ? 'nav-active' : '') }} style="margin-left: 10px">
-                                    <a class=" pb-2 ">
-                                        <span >
-                                               @if(Request::is('client/human-network') ||  Request::is('client/connections') || Request::is('client/connections') || Request::is('client/messages') || Request::is('client/follow'))
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_network.svg')}}" style="margin-top:5px">
-                                            @else
-                                                <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/network.svg')}}" style="margin-top:5px">
-                                            @endif
-                                        </span>
-                                        {{--                                    <span class="sidenav-normal"> HumanOp Network &nbsp;&nbsp; <b--}}
-                                        {{--                                            class="caret"></b></span>--}}
-                                    </a>
-                                    @if(Request::is('client/human-network') ||  Request::is('client/connections') || Request::is('client/connections') || Request::is('client/messages') || Request::is('client/follow'))
-                                    <a class="sidenav-normal d-block" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples" style="color: #1C365E  !important;font-size: 14px"> Network
-                                        <img
-                                            src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" style="margin-left: 10px" width="12" height="12"></a>
-                                    @else
-                                        <a class="sidenav-normal d-block" data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples" style="color: #F4E3C7 !important;font-size: 14px"> Network
-                                            <img
-                                                src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" style="margin-left: 10px" width="12" height="12"></a>
-                                    @endif
-                                </div>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ ($childFolder == 'human-network' ? 'active' : '') }}"
+                                   data-bs-toggle="collapse" aria-expanded="false" href="#vrExamples">
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Human Network.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Human Network.png')}}"><b
+                                            class="caret"></b></span>
+                                    <span class="sidenav-normal"> HumanOp Network &nbsp;&nbsp; <b
+                                            class="caret"></b></span>
+                                </a>
                                 <div class="collapse {{ ($childFolder == 'human-network' ? 'show' : '') }}"
                                      id="vrExamples">
-                                    <ul class="nav nav-sm flex-column" style="margin-left: 15px">
-                                        <li class="nav-item">
-
-                                            <a class="nav-link px-0 mx-0"
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item {{ (Request::is('connections') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('connections') ? 'active' : '') }}"
                                                href="{{ route('connections', ['type' => 'connection']) }}">
-
-                                                <span ><img
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/search.svg')}}" width="25" height="25"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Find <br> Connections</span>
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Find Connects</span>
                                             </a>
-
                                         </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link px-0 mx-0 "
+                                        <li class="nav-item {{ (Request::is('client/messages') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/messages') ? 'active' : '') }}"
                                                href="{{ route('messages') }}">
-                                                <span><img
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/message.svg')}}" width="25" height="25"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Messages </span>
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Messages.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px;margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Messages.png')}}"></span>
+                                                <span class="sidenav-normal"> Messages </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link px-0 mx-0 "
+                                        <li class="nav-item {{ (Request::is('client/connections') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/connections') ? 'active' : '') }}"
                                                href="{{ route('connections', ['type' => 'request']) }}">
-                                                <span >
-                                                    <img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/add_people.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Connection<br> Request </span>
+                                                <span class="sidenav-mini-icon text-xs"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Connection Request.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Connection Request.png')}}"></span>
+                                                <span class="sidenav-normal"> Connection Request </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link  px-0 mx-0 "
+                                        <li class="nav-item {{ (Request::is('client/follow') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/follow') ? 'active' : '') }}"
                                                href="{{ route('follow', ['type' => 'follower']) }}">
-                                                <span><img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/people.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Followers </span>
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Followers.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Followers.png')}}"></span>
+                                                <span class="sidenav-normal"> Followers </span>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link px-0 mx-0 "
+                                        <li class="nav-item {{ (Request::is('client/follow') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/follow') ? 'active' : '') }}"
                                                href="{{ route('follow', ['type' => 'following']) }}">
-                                                <span ><img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/people_tick.svg')}}"></span>
-                                                <span class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 16px;margin-left: 5px"> Following </span>
+                                                <span class="sidenav-mini-icon text-xs"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Following.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Following.png')}}"></span>
+                                                <span class="sidenav-normal"> Following </span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item mt-4">
-                                <div class="text-center  {{ ((Request::is('client/beta-feedback') ||  Request::is('client/tutorials')) ? 'nav-active' : '') }}" style="margin-left: 10px">
-                                    <a class="pb-2  "
-                                    >
-                                    <span >
-                                        @if(Request::is('client/beta-feedback') ||  Request::is('client/tutorials'))
-                                        <img class="icon-size"
-                                                src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_tool.svg')}}" style="margin-top:5px"></span>
-                                        @else
-                                            <img class="icon-size"
-                                                 src="{{URL::asset('assets/new-design/icon/dashboard/navbar/tool.svg')}}" style="margin-top:5px"></span>
-                                        @endif
-                                        {{--                                    <span class="sidenav-normal"> Support &nbsp;&nbsp; <b--}}
-                                        {{--                                            class="caret"></b></span>--}}
-                                    </a>
-                                    @if(Request::is('client/beta-feedback') ||  Request::is('client/tutorials'))
-                                    <a class="sidenav-normal d-block"  data-bs-toggle="collapse" aria-expanded="false" href="#support" style="color: #1C365E !important;font-size: 14px"> Support       <img
-                                            style="margin-left: 10px"    src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" width="12" height="12"> </a>
-                                    @else
-                                        <a class="sidenav-normal d-block"  data-bs-toggle="collapse" aria-expanded="false" href="#support" style="color: #F4E3C7 !important;font-size: 14px"> Support       <img
-                                                style="margin-left: 10px"    src="{{URL::asset('assets/new-design/icon/dashboard/navbar/down_arrow.svg')}}" width="12" height="12"> </a>
-                                    @endif
-                                </div>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ ($childFolder == 'support' ? 'active' : '') }}"
+                                   data-bs-toggle="collapse" aria-expanded="false" href="#support">
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Human Network.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Human Network.png')}}"><b
+                                            class="caret"></b></span>
+                                    <span class="sidenav-normal"> Support &nbsp;&nbsp; <b
+                                            class="caret"></b></span>
+                                </a>
                                 <div class="collapse {{ ($childFolder == 'support' ? 'show' : '') }}"
                                      id="support">
-                                    <ul class="nav nav-sm flex-column" style="margin-left: 15px">
-                                        <li class="nav-item  {{ (Request::is('client/beta-feedback') ? 'active' : '') }}">
-                                            <a class="nav-link px-0 mx-0 {{ (Request::is('client/beta-feedback') ? 'active' : '') }}"
+                                    <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item {{ (Request::is('client/beta-feedback') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/beta-feedback') ? 'active' : '') }}"
                                                href="{{ route('user_beta_feedback') }}">
-                                                <span ><img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/comment.svg')}}"></span>
-                                                <span class="sidenav-normal"  style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Beta <br> Feedback</span>
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Beta Feedback</span>
                                             </a>
                                         </li>
-                                        <li class="nav-item px-0 mx-0 {{ (Request::is('client/tutorials') ? 'active' : '') }}">
-                                            <a class="nav-link px-0 mx-0 {{ (Request::is('client/tutorials') ? 'active' : '') }}"
+                                        <li class="nav-item {{ (Request::is('client/tutorials') ? 'active' : '') }}">
+                                            <a class="nav-link {{ (Request::is('client/tutorials') ? 'active' : '') }}"
                                                href="{{ route('user_tutorial') }}">
-
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
                                                 <span class="sidenav-normal"><img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/tutorial.svg')}}"></span>
-                                                <span class="sidenav-normal" style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Tutorials</span>
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Tutorials</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link start-tour px-0 mx-0"
+                                            <a class="nav-link start-tour"
                                                href="javascript:void(0);">
-
-                                                <span ><img
-                                                        width="25" height="25"
-                                                        src="{{URL::asset('assets/new-design/icon/dashboard/navbar/flag.svg')}}"></span>
-                                                <span class="sidenav-normal" style="font-size:16px;color: #F4E3C7 !important;margin-left: 5px">Tour Guide</span>
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Find and Connect.png')}}"></span>
+                                                <span class="sidenav-normal">Tour Guide</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/pricing') ? 'nav-active' : '') }} " style="margin-left: 10px">
-                                <a class=" pb-1 {{ (Request::is('client/pricing') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('client/pricing') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/pricing') ? 'active' : '') }}"
                                    href="{{ route('client_pricing') }}">
-                                    <span >
-                                     @if(Request::is('client/pricing'))
-                                        <img class="icon-size"
-                                                src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_crown.svg')}}" style="margin-top:5px">
-                                        @else
-                                            <img class="icon-size" src="{{URL::asset('assets/new-design/icon/dashboard/navbar/crown.svg')}}" style="margin-top:5px">
-                                        @endif
-                                    </span>
-                                    {{--                                    <span class="sidenav-normal"> Pricing </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Pricing.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Pricing.png')}}"></span>
+                                    <span class="sidenav-normal"> Pricing </span>
                                 </a>
-                                @if(Request::is('client/pricing'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Pricing </p>
-                                @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Pricing </p>
-                                @endif
                             </li>
-                            <li class="nav-item text-center mt-2 {{ (Request::is('client/setting') ? 'nav-active' : '') }}" style="margin-left: 10px">
-                                <a class=" pb-1 {{ (Request::is('client/setting') ? 'active' : '') }}"
+                            <li class="nav-item {{ (Request::is('client/setting') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/setting') ? 'active' : '') }}"
                                    href="{{ route('setting') }}">
-                                    <span >
-                                                      @if(Request::is('client/setting'))
-                                        <img class="icon-size"
-                                                src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_setting.svg')}} " style="margin-top:5px">
-                                        @else
-                                            <img class="icon-size"
-                                                 src="{{URL::asset('assets/new-design/icon/dashboard/navbar/setting.svg')}}" style="margin-top:5px">
-                                        @endif
-                                    </span>
-                                    {{--                                    <span class="sidenav-normal"> Setting </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/Settings.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/Settings.png')}}"></span>
+                                    <span class="sidenav-normal"> Setting </span>
                                 </a>
-                                @if(Request::is('client/setting'))
-                                <p class="sidenav-normal mb-0" style="color: #1C365E !important;font-size: 14px"> Setting </p>
-                                @else
-                                    <p class="sidenav-normal mb-0" style="color: #F4E3C7 !important;font-size: 14px"> Setting </p>
-                                @endif
                             </li>
 
-                            <li class="nav-item text-center mt-2" style="margin-left: 10px">
-                                <a class=" pb-1"
+                            <li class="nav-item">
+                                <a class="nav-link"
                                    href="{{ url('/logout')}}">
-                                    <span><img class="icon-size"
-                                               src="{{URL::asset('assets/new-design/icon/dashboard/navbar/logout.svg')}}" style="margin-top:5px"></span>
-                                    {{--                                    <span class="sidenav-normal text-bold"> Sign Out </span>--}}
+                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                         src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
+                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                      src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
+                                    <span class="sidenav-normal text-bold"> Sign Out </span>
                                 </a>
-                                <p class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 14px"> Signout </p>
                             </li>
                             {{--                            download on apple--}}
-                            <li class="nav-item mt-5 d-flex justify-content-center">
+                            <li class="nav-item mt-2 d-flex justify-content-center">
                                 <div class="d-flex justify-content-between">
-                                         <span class="humanopMiniLogo" >
-                                  <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
-                                       alt="android icon"
-                                       style="width: 40px; height: 40px;"/>
-                                  </span>
-                                    <span class="humanopMiniLogo " style="margin-left: 5px">
+                                <span class="humanopMiniLogo d-none">
                                     <img src="{{asset('assets/icons/apple_mobile_logo.png')}}"
                                          alt="apple icon"
                                          style="width: 40px; height: 40px; color: white;"/>
                                   </span>
-                                    {{--                                    <span class="humanopLogo ">--}}
-                                    {{--                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"--}}
-                                    {{--                                      alt="apple icon"--}}
-                                    {{--                                      style="width: 100px; height: 40px; color: white;"/>--}}
-                                    {{--                                </span>--}}
-
-                                    {{--                                    <span class="humanopLogo" style="margin-left: 5px">--}}
-                                    {{--                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"--}}
-                                    {{--                                        alt="android icon"--}}
-                                    {{--                                        style="width: 100px;height: 35px;margin-top: 2px;"/>--}}
-                                    {{--                                  </span>--}}
+                                    <span class="humanopLogo ">
+                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"
+                                      alt="apple icon"
+                                      style="width: 100px; height: 40px; color: white;"/>
+                                </span>
+                                    <span class="humanopMiniLogo d-none " style="margin-left: 5px">
+                                  <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
+                                       alt="android icon"
+                                       style="width: 40px; height: 40px;"/>
+                                  </span>
+                                    <span class="humanopLogo" style="margin-left: 5px">
+                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"
+                                        alt="android icon"
+                                        style="width: 100px;height: 35px;margin-top: 2px;"/>
+                                  </span>
                                 </div>
                             </li>
                             {{--                            end download here--}}
@@ -922,13 +859,13 @@
                                     @endif
                                 </div>
                             </li>
-                            {{--                            <li class="nav-item {{ (Request::is('client/version') ? 'active' : '') }}">--}}
-                            {{--                                <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"--}}
-                            {{--                                   href="{{ route('get_latest_version') }}">--}}
-                            {{--                                    <span class="humanop-version sidenav-mini-icon">HAI</span>--}}
-                            {{--                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion() ? \App\Models\Admin\VersionControl\Version::getLatestVersion()['version'] : '0.0.0'}} </span>--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
+                            <li class="nav-item {{ (Request::is('client/version') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"
+                                   href="{{ route('get_latest_version') }}">
+                                    {{--                                    <span class="humanop-version sidenav-mini-icon">HAI</span>--}}
+                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion() ? \App\Models\Admin\VersionControl\Version::getLatestVersion()['version'] : '0.0.0'}} </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -972,7 +909,7 @@
                     {{--                    </a>--}}
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
-                        <ul class="nav  ps-3">
+                        <ul class="nav ms-4 ps-3">
                             <li class="nav-item {{ (Request::is('client/dashboard')  ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('client/dashboard')  ? 'active' : '') }}"
                                    href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}">
@@ -1011,7 +948,7 @@
                                                                          src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
-                                    <span class="sidenav-normal"> Resources <br> & Trainings </span>
+                                    <span class="sidenav-normal"> Resources & Trainings </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
