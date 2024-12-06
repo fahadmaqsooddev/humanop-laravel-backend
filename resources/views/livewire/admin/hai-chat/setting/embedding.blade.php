@@ -6,7 +6,7 @@
                 <div class="d-flex p-2">
                     <div class="btn-group m-1 col-md-4 d-flex justify-content-between ">
 
-                        <select wire:model="group_id" class="form-control">
+                        <select wire:model="group_id" class="form-control" style="background-color: #F3DEBA; color: black;">
                             <option value="">Select Group</option>
                                 <option disabled style="background-color: #0f1534; color: white;">All Groups</option>
                             @foreach($groups as $group)
@@ -19,7 +19,7 @@
                         </select>
                     </div>
                     <div class="btn-group m-1 col-md-4 d-flex justify-content-between">
-                        <select class="form-control" wire:model="embedding_id">
+                        <select class="form-control" style="background-color: #F3DEBA; color: black;" wire:model="embedding_id">
                             <option value="">Select @if($group_id) Embedding @else Group First @endif</option>
                                 <option disabled style="background-color: #0f1534; color: white;">All Embeddings</option>
                             @foreach($embeddings as $embedding)
