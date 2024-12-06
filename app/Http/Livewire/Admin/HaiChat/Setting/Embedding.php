@@ -16,7 +16,7 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks, $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups;
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks = [], $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups;
     public $button_status_display = false;
     public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
@@ -94,7 +94,29 @@ class Embedding extends Component
 
             $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
 
-            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, '',$this->bot_name);
+            $i = 0;
+
+            if ($aiReply['retrieved_docs'] ?? false){
+
+                foreach ($aiReply['retrieved_docs'] as $retrieved)
+                {
+                    foreach ($retrieved as $da)
+                    {
+                        $data = [
+                            'embedding' => $embedding,
+                            'query' => $this->query,
+                            'retrieved_docs' => $da
+                        ];
+
+                        $this->chunks[$i] = $data;
+
+                        $i++;
+                    }
+                }
+
+            }
+
+//            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, '',$this->bot_name);
 
             $this->query = '';
 
@@ -225,10 +247,10 @@ class Embedding extends Component
 //        $this->active_embeddings = HaiChatActiveEmbedding::allActiveEmbeddings($this->bot_name);
 //    }
 
-    public function getChunks()
-    {
-        $this->chunks = HaiChaiChunk::getHaiChunk( '',$this->bot_name);
-    }
+//    public function getChunks()
+//    {
+//        $this->chunks = HaiChaiChunk::getHaiChunk( '',$this->bot_name, $this->query);
+//    }
 
     public function updatedGroupId($id){
 
@@ -272,12 +294,10 @@ class Embedding extends Component
     public function render()
     {
 
-        $this->getChunks();
-
         $this->groups = EmbeddingGroup::inActiveGroups();
 
         $this->activeGroups = EmbeddingGroup::activeGroups();
 
-        return view('livewire.admin.hai-chat.setting.embedding',['chunks' => $this->chunks]);
+        return view('livewire.admin.hai-chat.setting.embedding');
     }
 }

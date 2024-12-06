@@ -31,7 +31,7 @@
     </div>
 
     <div class="card card-bg-white-orange-border mt-4" id="keyword_restriction">
-
+        @include('layouts.message')
         <div class="card-header">
             <h5 class="text-orange setting-form-heading">Keyword Restrictions</h5>
             @foreach($keywords as $keyword)
@@ -47,6 +47,20 @@
                    rows="10" placeholder="Enter chat keyword restrictions"
                    wire:keydown.enter="createKeyword">
             <span class="text-sm" style="padding-top: 1px; color: #67748e;">Type and press ENTER to save keyword</span>
+        </div>
+
+        <div class="card-header">
+            <h5 class="text-orange setting-form-heading">Keyword Restrictions Message</h5>
+        </div>
+        <div class="card-body d-sm pt-0">
+            <input class="form-control input-bg" wire:model="keyword_restriction_message"
+                   rows="10" placeholder="Enter chat keyword restrictions message">
+            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateKeywordRestrictionMessage"
+                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                update
+                <span wire:loading wire:target="update" class="swal2-loader" style="font-size: 8px;">
+                </span>
+            </button>
         </div>
 
     </div>

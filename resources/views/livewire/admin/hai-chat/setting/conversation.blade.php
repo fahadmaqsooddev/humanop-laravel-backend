@@ -137,14 +137,14 @@
                 @if(!empty($conversations))
                     @foreach($conversations as $conversation)
                     <!-- Initial User Message -->
-                        <div class="d-flex flex-row gap-3 justify-content-end">
+                        <div class="d-flex flex-row gap-1 justify-content-end">
                             @if($conversation['message'])
 
                                    <div class="rounded " style="max-width: 70%;">
                                        <div>
-                                        <p class="text-end" style="color: #000000;margin-bottom: 3px">user name</p>
+                                           <p class="text-end text-sm" style="color: #000000;margin-bottom: 3px;">admin</p>
                                        </div>
-                                       <div class="bg-secondary text-white  p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
+                                       <div class="bg-secondary text-white p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
                                            {{ $conversation['message'] }}
                                        </div>
                                        <div>
@@ -153,7 +153,7 @@
                                    </div>
 
                                <div>
-                               <img src="{{URL::asset('assets/img/default-user-image.png')}}" width="35" height="35" style="border-radius: 50%">
+                               <img src="{{URL::asset('assets/img/Human_OP.png')}}" width="50" height="35" style="border-radius: 50%">
                                </div>
                            @endif
                         </div>

@@ -7,6 +7,7 @@ use App\Http\Livewire\Admin\ClientQuery\ClientQuery;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
@@ -83,8 +84,10 @@ class Conversation extends Component
 
                 $conversationsArray = $this->conversations->toArray();
 
+                $haiChatPrompt = ChatPrompt::where('name', $this->name)->first();
+
                 $restrictedResponse = [
-                    'reply' => 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                    'reply' => $haiChatPrompt->keyword_restriction_message ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
                     'message' => $this->message,
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ];
