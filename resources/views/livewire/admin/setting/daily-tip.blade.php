@@ -21,7 +21,7 @@
                     <td class="text-md font-weight-normal">{{$tip['interval_of_life'] ?? 'Interval of Life'}} </td>
                     <td>
                         <button class="btn btn-sm text-white" data-bs-toggle="modal"
-                                wire:click="editTip({{ $tip['id'] }}, `{{ $tip['code'] }}`, `{{ $tip['title'] }}`, `{{ $tip['description'] }}`,`{{$tip['interval_of_life']}}`,`{{$tip['subscription_type']}}`,`{{$tip['point']}}`)"
+                                wire:click="editTip({{ $tip['id'] }}, `{{ $tip['code'] }}`, `{{ $tip['title'] }}`, `{{ $tip['description'] }}`,`{{$tip['interval_of_life']}}`,`{{$tip['subscription_type']}}`,`{{$tip['min_point']}}`,`{{$tip['max_point']}}`)"
                                 data-bs-target="#dailyTipModel"  style="background-color: #f2661c;" >
                             update
                         </button>
