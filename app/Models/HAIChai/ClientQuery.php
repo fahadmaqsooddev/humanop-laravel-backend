@@ -26,6 +26,11 @@ class ClientQuery extends Model
     {
         return $this->belongsTo(HaiChat::class, 'chat_id', 'id');
     }
+    public function conversation(){
+
+        return $this->belongsTo(HaiChatConversation::class,'conversation_id','id');
+    }
+
     public static function singleQuery($id = null)
     {
         return self::whereId($id)->with('users')->first();
@@ -38,7 +43,12 @@ class ClientQuery extends Model
                 $q->select('id', 'first_name', 'last_name', 'email');
             },'haiChatMessage' => function($q) {
                 $q->select('answer');
-            } ])
+            },'conversation' => function($q){
+
+                $q->select(['id','reply']);
+
+            }])
+
             ->orderBy('created_at', 'desc')
             ->get();
     }

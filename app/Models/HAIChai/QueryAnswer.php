@@ -63,9 +63,10 @@ class QueryAnswer extends Model
 
             $q->where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)
 
-                ->where('response', 1);
+                ->where('response', 1)->whereNull('conversation_id');
 
         })
+
             ->with('question')
 
             ->where('approved', 1)
