@@ -161,6 +161,10 @@ class Embedding extends Component
                     }
                 }
             }
+
+            $this->embeddings = HaiChatEmbedding::inActiveEmbeddings($this->group_id, $this->bot_name);
+
+            $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($this->group_id, $this->bot_name);
         }
 
     }
@@ -210,16 +214,16 @@ class Embedding extends Component
         return $response_body;
     }
 
-    public function getEmbeddings()
-    {
-        $request_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
-        $this->embeddings = HaiChatEmbedding::allEmbeddingsExcept($request_ids);
-    }
+//    public function getEmbeddings()
+//    {
+//        $request_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
+//        $this->embeddings = HaiChatEmbedding::allEmbeddingsExcept($request_ids);
+//    }
 
-    public function getActiveEmbeddings()
-    {
-        $this->active_embeddings = HaiChatActiveEmbedding::allActiveEmbeddings($this->bot_name);
-    }
+//    public function getActiveEmbeddings()
+//    {
+//        $this->active_embeddings = HaiChatActiveEmbedding::allActiveEmbeddings($this->bot_name);
+//    }
 
     public function getChunks()
     {
