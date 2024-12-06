@@ -37,6 +37,25 @@
               transform: translateY(0px);
           }
       }
+
+      .like,
+      .dislike {
+          display: inline-block;
+          cursor: pointer;
+          margin: 10px;
+          color: lightgray;
+      }
+
+      .dislike:hover,
+      .like:hover {
+          color: #f2661c;
+          transition: all .2s ease-in-out;
+          transform: scale(1.1);
+      }
+
+      .active {
+          color: #f2661c;
+      }
       </style>
     @endpush
 <div class="card card-bg-white-orange-border mt-4" id="conversation">
@@ -149,8 +168,28 @@
                                      style="max-width: 70%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
                                        {!! $conversation['reply'] !!}
                                     </div>
-                                    <div>
-                                        <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
+                                    <div class="row" style="width: 100%;">
+                                        <div class="col-7">
+                                            <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
+                                        </div>
+                                        <div class="col-5">
+
+                                            <div class="rating d-flex mb-2">
+                                                <!-- Thumbs up -->
+                                                <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversation->is_liked === 1 ? 'active' : ''}}"
+                                                     wire:click="likeReply({{$conversation->id ?? null}})">
+                                                    <i class="fa fa-thumbs-up fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
+                                                </div>
+                                                <!-- Thumbs down -->
+                                                <div wire:loading.class="active" wire:target="dislikeReply"
+                                                    class="dislike grow {{ $conversation->is_liked != null && in_array($conversation->is_liked ?? null, [2,3]) ? 'active' : ''}}"
+                                                    wire:click="dislikeReply({{$conversation->id ?? null}})">
+                                                    <i class="fa fa-thumbs-down" style="font-size: x-large;" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             @endif
@@ -161,7 +200,6 @@
                     <div id="user_message_div" wire:ignore.self>
                     </div>
                 </div>
-
                 <div id="chatLoader" style="display: flex; justify-content:flex-start" wire:ignore.self>
                     <div id="chatDots" wire:loading wire:target="submitForm">
                         <span class="chatDot"></span>
@@ -180,7 +218,7 @@
                 </div>
                 <div style="width: 5%" class="pt-1">
                     <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
-                     <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
+                        <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
                     </button>
                 </div>
             </div>
@@ -202,6 +240,11 @@
       window.livewire.on('scrollToBottom', function (){
 
           scrollToBottom();
+      });
+
+      window.livewire.on('submitQuery', function (){
+
+          $('#submit_btn').click();
       });
 
 

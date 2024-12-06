@@ -322,7 +322,7 @@ return [
         ],
         'ClientQuery' => [
             'table' => 'client_query',
-            'fillable' => ['user_id','query','response','chat_id'],
+            'fillable' => ['user_id','query','response','chat_id','conversation_id'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'QueryAnswer' => [
@@ -436,7 +436,7 @@ return [
         ],
         'HaiChatConversation' => [
             'table' => 'hai_chat_conversation',
-            'fillable' => ['id','chatbot','message','reply','user_id'],
+            'fillable' => ['id','chatbot','message','reply','user_id','is_liked'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingSetting' => [

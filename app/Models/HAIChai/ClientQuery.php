@@ -43,12 +43,13 @@ class ClientQuery extends Model
             ->get();
     }
 
-    public static function createQuery($userId = null, $query = null, $chat_id = null)
+    public static function createQuery($userId = null, $query = null, $chat_id = null, $conversation_id = null)
     {
         return self::create([
             'user_id' => $userId,
             'query' => $query,
-            'chat_id' => $chat_id
+            'chat_id' => $chat_id,
+            'conversation_id' => $conversation_id,
         ]);
     }
 

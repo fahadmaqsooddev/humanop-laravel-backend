@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Http\Livewire\Admin\ClientQuery\ClientQuery;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -18,7 +20,7 @@ use Livewire\Component;
 class Conversation extends Component
 {
 
-    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false;
+    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0;
 
     protected $rules = [
         'message' => 'required',
@@ -56,19 +58,19 @@ class Conversation extends Component
 
                 if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? []];
+                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
                     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
                 }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? []];
+                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
                     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
                 }else{
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? []];
+                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
                     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
                 }
@@ -97,9 +99,11 @@ class Conversation extends Component
 
                     $this->conversations = collect([$restrictedResponse]);
                 }
-
-                $this->message = '';
             }
+
+            $this->disliked = 0;
+
+            $this->message = '';
 
         } catch (\Exception $exception) {
 
@@ -138,6 +142,89 @@ class Conversation extends Component
     public function updatedUserId(){
 
         $this->is_restricted_word = false;
+    }
+
+    public function likeReply($id){
+
+        $conversation = HaiChatConversation::singleConversation($id);
+
+        if ($conversation){
+
+            $body = [
+                'question' => $conversation->message ?? null,
+                'answer' => $conversation->reply ?? null,
+            ];
+
+            $app_env = env('APP_ENV');
+
+            $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
+
+            GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+
+        }
+
+    }
+
+    public function dislikeReply($id){
+
+        $last_convo = HaiChatConversation::where('chatbot', $this->name)
+
+            ->where('user_id', $this->user_id)
+
+            ->latest()->skip(1)->take(1)->get();
+
+        $convo = HaiChatConversation::whereId($id)->first();
+
+        $is_liked = $last_convo[0]->is_liked ?? null;
+
+        if ($is_liked === 1){
+
+            $convo->update(['is_liked' => 0]);
+
+            $this->message = $convo->message;
+
+            $this->emit('submitQuery');
+
+            $this->disliked = 1;
+
+        }elseif ($is_liked === 0){
+
+            // update Client Query
+
+            \App\Models\HAIChai\ClientQuery::createQuery($this->user_id, $convo->message, null, $convo->id);
+
+            session()->flash('admin_conversation', 'Query submitted to Admin');
+
+            $convo->update(['is_liked' => 2]);
+
+        }elseif ($is_liked === 2){ // when last message query send to Lisa. Then 2nd dislike functionality repeats
+
+            if ($is_liked === 2 && $convo->is_liked === 2){
+
+                // do nothing
+            }else{
+
+                $convo->update(['is_liked' => 0]);
+
+                $this->message = $convo->message;
+
+                $this->emit('submitQuery');
+
+                $this->disliked = 1;
+
+            }
+
+        }else{
+
+            $convo->update(['is_liked' => 0]);
+
+            $this->message = $convo->message;
+
+            $this->emit('submitQuery');
+
+            $this->disliked = 1;
+        }
+
     }
 
 
