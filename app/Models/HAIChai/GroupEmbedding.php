@@ -45,6 +45,21 @@ class GroupEmbedding extends Model
 
     }
 
+    public static function addOrUpdateEmbeddingIds($group_ids = [], $embedding_id = null){
+
+        self::where('embedding_id', $embedding_id)->delete();
+
+        foreach ($group_ids as $group_id){
+
+            self::create([
+                'embedding_id' => $embedding_id,
+                'group_id' => $group_id
+            ]);
+
+        }
+
+    }
+
     public static function groupEmbeddings($group_id = null){
 
         return self::where('group_id', $group_id)
@@ -66,5 +81,10 @@ class GroupEmbedding extends Model
 
         return self::where('group_id', $group_id)->pluck('embedding_id');
 
+    }
+
+    public static function embeddingGroups($embedding_id = null){
+
+        return self::where('embedding_id', $embedding_id)->pluck('group_id');
     }
 }

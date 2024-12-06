@@ -10,7 +10,6 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Nette\Schema\ValidationException;
 
 class Group extends Component
 {
@@ -19,7 +18,7 @@ class Group extends Component
 
     protected $listeners = ['deleteEmbedding'];
 
-    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings;
+    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id, $group_ids;
 
     protected $rules = [
         'embedding_name' => 'required|max:50',
@@ -188,5 +187,23 @@ class Group extends Component
     public function resetValidationError(){
 
         $this->resetValidation();
+    }
+
+    public function setEmbeddingId($embedding_id){
+
+        $this->group_ids = GroupEmbedding::embeddingGroups($embedding_id);
+
+        $this->embedding_id = $embedding_id;
+    }
+
+    public function addEmbeddingToGroups(){
+
+        $this->validate(['group_ids' => 'required']);
+
+        GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $this->embedding_id);
+
+        session()->flash('success', 'Embedding are added into groups');
+
+        $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
     }
 }

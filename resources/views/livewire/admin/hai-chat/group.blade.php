@@ -120,12 +120,27 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-end">
-                                            <div class="d-flex gap-2">
-                                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" onclick="deleteEmbedding({{ $embedding['id'] }})"
-                                                        class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">
-                                                    <i class="fa-solid fa-trash"></i></button>
+                                        <div class="row">
+
+                                            <div class="d-flex">
+
+                                                <div class="col-11">
+                                                    <button wire:click="setEmbeddingId({{$embedding->id}})" data-bs-toggle="modal" data-bs-target="#addEmbeddingToGroups"
+                                                        class="btn-sm rainbow-border-user-nav-btn">
+                                                        Add to groups
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-1">
+                                                    <div class="gap-2">
+                                                        <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" onclick="deleteEmbedding({{ $embedding['id'] }})"
+                                                                class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">
+                                                            <i class="fa-solid fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +191,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Embedding</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="embedding-close-modal-button">
+                                            aria-label="Close" id="embedding-close-modal-button" wire:click="resetValidationError">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -220,7 +235,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Group</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="group-close-modal-button">
+                                            aria-label="Close" id="group-close-modal-button" wire:click="resetValidationError">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -231,9 +246,9 @@
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Group </label>
+                                        <label class="form-label fs-4 text-white">Embeddings </label>
                                         <select wire:model.defer="embedding_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
-                                            <option value="">Select Group</option>
+                                            <option value="">Select Embeddings</option>
                                             @foreach($embeddings as $embedding)
                                                 <option value="{{$embedding->id}}">{{$embedding->name}}</option>
                                             @endforeach
@@ -246,6 +261,45 @@
                         </div>
                         <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
                             Create
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="addEmbeddingToGroups" tabindex="-1" role="dialog"
+         aria-labelledby="addEmbeddingToGroups" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <form wire:submit.prevent="addEmbeddingToGroups">
+                        <div class="card-body w-100">
+                            <div class="row w-100">
+                                <div class="col-12">
+                                    <label class="form-label fs-4 text-white">Add embedding to groups</label>
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close" id="group-close-modal-button" wire:click="resetValidationError">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @include('layouts.message')
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Groups</label>
+                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
+                                            <option value="">Select Group</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{$group->id}}">{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                            Add
                         </button>
                     </form>
                 </div>
