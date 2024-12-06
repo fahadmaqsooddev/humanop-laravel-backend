@@ -48,11 +48,15 @@ class ChatbotKeyword extends Model
 
         $keywords = self::where('chatbot_id', $chatbot->id)->get()->pluck('word')->toArray();
 
-        $pattern = '/\b(' . implode('|', $keywords) . ')\b/i';
+        if (count($keywords) > 0){
 
-        if (preg_match($pattern, $query)) {
+            $pattern = '/\b(' . implode('|', $keywords) . ')\b/i';
 
-            return true;
+            if (preg_match($pattern, $query)) {
+
+                return true;
+            }
+
         }
 
         return false;
