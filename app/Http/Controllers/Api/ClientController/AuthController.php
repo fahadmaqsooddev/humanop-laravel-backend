@@ -9,6 +9,8 @@ use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
+use App\Http\Requests\RegisterFirstStepRequest;
+use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
@@ -32,7 +34,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin','appVersion','resendEmailVerification']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep','checkEmailVerification','registerLastStep']);
 
         $this->auth = Auth::guard('api');
     }
@@ -50,8 +52,7 @@ class AuthController extends Controller
 
             $checkUser = User::where('email', $credentials['email'])->whereNotNull('email_verified_at')->exists();
 
-            if ($checkUser == true)
-            {
+            if ($checkUser == true) {
                 $token = $this->auth->attempt($credentials);
                 if ($token) {
 
@@ -75,13 +76,11 @@ class AuthController extends Controller
                     ];
                     return Helpers::successResponse('User loggedIn successfully', $data);
 
-                }
-                else {
+                } else {
 
                     return Helpers::unauthResponse('Wrong Password');
                 }
-            }else
-            {
+            } else {
                 return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
 
             }
@@ -105,8 +104,7 @@ class AuthController extends Controller
 
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
-            if (!empty($authorizedUser))
-            {
+            if (!empty($authorizedUser)) {
                 $checkUser = User::checkEmail($dataArray['email']);
 
                 if (empty($checkUser)) {
@@ -183,15 +181,11 @@ class AuthController extends Controller
                     }
 
                     return Helpers::successResponse('User register successfully', $data);
-                }
-                else
-                {
+                } else {
                     return Helpers::serverErrorResponse('Your email already exists');
 
                 }
-            }
-            else
-            {
+            } else {
                 return Helpers::validationResponse('Your are not Authorized');
             }
 
@@ -204,6 +198,111 @@ class AuthController extends Controller
         }
 
     }
+
+
+    public function registerFirstStep(RegisterFirstStepRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $dataArray = $request->only(['full_name', 'email']);
+
+            $parts = explode(' ', $dataArray['full_name']);
+
+            $dataArray['first_name'] = $parts[0] ?? '';
+
+            $dataArray['last_name'] = $parts[1] ?? '';
+
+            $checkUser = User::checkEmail($dataArray['email']);
+
+            if (empty($checkUser)) {
+
+                $user = User::createFirstStep($dataArray);
+
+//                $createUser = User::userLoggedInData($user['id']);
+
+//                $createUser->setAppends([]);
+
+                $emailData = $this->prepareEmailData($user);
+
+                $this->sendEmailVerification($emailData, $user['email']);
+
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                DB::commit();
+
+                return Helpers::successResponse('User registered successfully', [
+                    'authorization' => [
+                        'user' => $user,
+                        'step' => 1,
+                        'status' => true,
+                        'type' => 'bearer',
+                    ],
+                ]);
+
+            } else {
+                $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
+
+                if (empty($checkEmailVerified)) {
+
+                    $emailData = $this->prepareEmailData($checkUser);
+
+                    $this->sendEmailVerification($emailData, $checkUser['email']);
+
+                    $checkUser->setAppends([]);
+
+                    return Helpers::successResponse('Your email is not verified. Verification email sent.', [
+                        'authorization' => [
+                            'user' => $checkUser,
+                            'step' => 1,
+                            'status' => true,
+                            'type' => 'bearer',
+                        ],
+                    ]);
+
+                }
+                else
+                {
+                    return Helpers::serverErrorResponse('Your email already exists.');
+
+                }
+
+            }
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    /**
+     * Prepare email data.
+     */
+    private function prepareEmailData($user)
+    {
+        return [
+            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+            '{$link}' => url('/check-email?token=' . $user['email_verify_token']),
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    /**
+     * Send email verification.
+     */
+    private function sendEmailVerification($emailData, $recipientEmail)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, 'email-verification');
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            'Email Verification'
+        );
+    }
+
 
     public function logoutClient()
     {
@@ -233,14 +332,14 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $baseUrl = url('/reset-password?token='. $token['reset_password_token']);
+                $baseUrl = url('/reset-password?token=' . $token['reset_password_token']);
                 $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                 $privacyUrl = url('/privacy-policy');
                 $serviceUrl = url('/term-of-service');
 
                 $data = [
-                    '{$userName}' => $checkUserEmail['first_name'] .' ' . $checkUserEmail['last_name'],
-                    '{$link}' =>  $baseUrl,
+                    '{$userName}' => $checkUserEmail['first_name'] . ' ' . $checkUserEmail['last_name'],
+                    '{$link}' => $baseUrl,
                     '{$logo}' => $logoUrl,
                     '{$service}' => $serviceUrl,
                     '{$privacy}' => $privacyUrl,
@@ -248,7 +347,7 @@ class AuthController extends Controller
 
                 $email_template = EmailTemplate::getTemplate($data, 'reset-password');
 
-                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'],'emails.Email_Template', 'Reset Password');
+                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'], 'emails.Email_Template', 'Reset Password');
 
                 return Helpers::successResponse('We have emailed your password reset link!');
 
@@ -330,8 +429,8 @@ class AuthController extends Controller
             $serviceUrl = url('/term-of-service');
 
             $data = [
-                '{$userName}' => $user['first_name'] .' ' . $user['last_name'],
-                '{$link}' =>  $baseUrl,
+                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$link}' => $baseUrl,
                 '{$logo}' => $logoUrl,
                 '{$service}' => $serviceUrl,
                 '{$privacy}' => $privacyUrl,
@@ -339,7 +438,7 @@ class AuthController extends Controller
 
             $email_template = EmailTemplate::getTemplate($data, 'email-verification');
 
-            Email::sendEmailVerification(['content' => $email_template], $user['email'],'emails.Email_Template', 'Email Verification');
+            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
 
             return Helpers::successResponse('Resend email sent successfully!');
@@ -350,4 +449,63 @@ class AuthController extends Controller
         }
 
     }
+
+    public function checkEmailVerification(Request $request)
+    {
+        try {
+
+            $user = User::getSingleUser($request['user_id']);
+
+            $user = User::checkEmailVerified($user['email']);
+
+            if (!empty($user))
+            {
+                return Helpers::successResponse('Your Email is verified');
+            }
+            else{
+                return Helpers::serverErrorResponse('Your Email is not verified');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function registerLastStep(RegisterLastStepRequest $request)
+    {
+        try {
+
+            $getUser = User::getSingleUser($request['user_id']);
+
+            if ($getUser) {
+
+                $dataArray = $request->only((new User())->getFillable());
+
+                $dataArray['step'] = 3;
+
+                tap($getUser->update($dataArray));
+
+                $token = $this->auth->login($getUser);
+
+                $data = [
+                    'user' => $getUser,
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ],
+                ];
+
+                return Helpers::successResponse('User logged in successfully', $data);
+            }
+
+            // If user not found
+            return Helpers::errorResponse('User not found');
+        } catch (\Exception $exception) {
+            // Handle exceptions
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 }

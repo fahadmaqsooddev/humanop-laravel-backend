@@ -475,6 +475,23 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function createFirstStep($data = null)
+    {
+        $data['step'] = 2;
+
+        $data['is_admin'] = Admin::IS_CUSTOMER;
+
+        $data['status'] = 1;
+
+        $data['hai_chat'] = 2;
+
+        $data['email_verify_token'] = Str::random(16);
+
+        $user = self::create($data);
+
+        return $user;
+    }
+
     public static function updateUserProfile($request = null)
     {
 
@@ -850,7 +867,12 @@ class User extends Authenticatable implements JWTSubject
 
     public static function emailVerified($userId = null)
     {
-        return self::whereId($userId)->update(['email_verified_at' => Carbon::now()]);
+        return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 2]);
+    }
+
+    public static function checkEmailVerified($userEmail = null)
+    {
+        return self::where('email', $userEmail)->whereNotNull('email_verified_at')->first();
     }
 
     public static function checkEmail($userEmail = null)
@@ -911,6 +933,13 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getUserDetailByIds($ids = []){
        return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->get();
+    }
+
+    public static function updateUserLastStep($data = null, $userId = null)
+    {
+        $user = self::whereId($userId)->update($data);
+
+        return $user;
     }
 
 }
