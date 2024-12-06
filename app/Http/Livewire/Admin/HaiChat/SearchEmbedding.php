@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class SearchEmbedding extends Component
 {
-    public $name, $query, $chunks;
+    public $name, $query, $chunks = [];
 
     protected $rules = [
         'query' => 'required',
@@ -31,7 +31,29 @@ class SearchEmbedding extends Component
 
             $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2]);
 
-            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, $this->name);
+            $i = 0;
+
+            if ($aiReply['retrieved_docs'] ?? false){
+
+                foreach ($aiReply['retrieved_docs'] as $retrieved)
+                {
+                    foreach ($retrieved as $da)
+                    {
+                        $data = [
+                            'embedding' => $embedding,
+                            'query' => $this->query,
+                            'retrieved_docs' => $da
+                        ];
+
+                        $this->chunks[$i] = $data;
+
+                        $i++;
+                    }
+                }
+
+            }
+
+//            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, $this->name);
 
             $this->query = '';
 
@@ -66,16 +88,14 @@ class SearchEmbedding extends Component
         return $response_body;
     }
 
-    public function getChunks()
-    {
-        $this->chunks = HaiChaiChunk::getHaiChunk($this->name);
-    }
+//    public function getChunks()
+//    {
+//        $this->chunks = HaiChaiChunk::getHaiChunk($this->name);
+//    }
 
     public function render()
     {
 
-        $this->getChunks();
-
-        return view('livewire.admin.hai-chat.search-embedding', ['chunks' => $this->chunks]);
+        return view('livewire.admin.hai-chat.search-embedding');
     }
 }
