@@ -205,6 +205,7 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
+
             $dataArray = $request->only(['full_name', 'email']);
 
             $parts = explode(' ', $dataArray['full_name']);
@@ -216,21 +217,24 @@ class AuthController extends Controller
             $checkUser = User::checkEmail($dataArray['email']);
 
             if (empty($checkUser)) {
+
                 $user = User::createFirstStep($dataArray);
 
-                $createUser = User::getSingleUser($user['id']);
+//                $createUser = User::userLoggedInData($user['id']);
 
-                $emailData = $this->prepareEmailData($createUser);
+//                $createUser->setAppends([]);
 
-                $this->sendEmailVerification($emailData, $createUser['email']);
+                $emailData = $this->prepareEmailData($user);
 
-                Helpers::createCustomerAndSubscriptionOnStripe($createUser);
+                $this->sendEmailVerification($emailData, $user['email']);
+
+                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                 DB::commit();
 
                 return Helpers::successResponse('User registered successfully', [
                     'authorization' => [
-                        'userId' => $createUser['id'],
+                        'user' => $user,
                         'step' => 1,
                         'status' => true,
                         'type' => 'bearer',
@@ -246,9 +250,11 @@ class AuthController extends Controller
 
                     $this->sendEmailVerification($emailData, $checkUser['email']);
 
+                    $checkUser->setAppends([]);
+
                     return Helpers::successResponse('Your email is not verified. Verification email sent.', [
                         'authorization' => [
-                            'userId' => $checkUser['id'],
+                            'user' => $checkUser,
                             'step' => 1,
                             'status' => true,
                             'type' => 'bearer',
@@ -470,21 +476,21 @@ class AuthController extends Controller
     public function registerLastStep(RegisterLastStepRequest $request)
     {
         try {
+
             $getUser = User::getSingleUser($request['user_id']);
 
             if ($getUser) {
+
                 $dataArray = $request->only((new User())->getFillable());
 
                 $dataArray['step'] = 3;
 
-                $getUser->fill($dataArray);
+                tap($getUser->update($dataArray));
 
-                $getUser->save();
-
-                $token = \JWTAuth::fromUser($getUser);
+                $token = $this->auth->login($getUser);
 
                 $data = [
-                    'userId' => $getUser['id'],
+                    'user' => $getUser,
                     'authorization' => [
                         'token' => $token,
                         'type' => 'bearer',
