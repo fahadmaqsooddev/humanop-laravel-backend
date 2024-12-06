@@ -172,23 +172,25 @@
                                         <div class="col-7">
                                             <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                         </div>
+                                        @if(isset($conversation->id))
                                         <div class="col-5">
 
                                             <div class="rating d-flex mb-2">
                                                 <!-- Thumbs up -->
-                                                <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversation->is_liked === 1 ? 'active' : ''}}"
-                                                     wire:click="likeReply({{$conversation->id ?? null}})">
+                                                <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversation['is_liked'] === 1 ? 'active' : ''}}"
+                                                     wire:click="likeReply({{$conversation['id'] ?? null}})">
                                                     <i class="fa fa-thumbs-up fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
                                                 </div>
                                                 <!-- Thumbs down -->
                                                 <div wire:loading.class="active" wire:target="dislikeReply"
-                                                    class="dislike grow {{ $conversation->is_liked != null && in_array($conversation->is_liked ?? null, [2,3]) ? 'active' : ''}}"
+                                                    class="dislike grow {{ $conversation['is_liked'] != null && in_array($conversation['is_liked'] ?? null, [2,3]) ? 'active' : ''}}"
                                                     wire:click="dislikeReply({{$conversation->id ?? null}})">
                                                     <i class="fa fa-thumbs-down" style="font-size: x-large;" aria-hidden="true"></i>
                                                 </div>
                                             </div>
 
                                         </div>
+                                        @endif
 
                                     </div>
                                 </div>
