@@ -213,8 +213,12 @@
             </div>
             <hr>
             <form wire:submit.prevent="submitForm" id="chat_form">
+                <div class="text-center">
+                    @if(session('admin_conversation'))
+                        <span class="text-success">{{session('admin_conversation')}}</span>
+                    @endif
+                </div>
             <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
-
                 <div style="width: 100%">
                     <input type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
                 </div>
