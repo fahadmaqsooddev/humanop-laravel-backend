@@ -25,3 +25,5 @@ Route::get('intention-option', 'UserController@intentionOption');
 
 
 Route::post('register-first-step', 'AuthController@registerFirstStep');
+Route::post('check-email-verification', 'AuthController@checkEmailVerification');
+Route::post('register-last-step', 'AuthController@registerLastStep');

@@ -10,6 +10,7 @@ use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
+use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
@@ -33,7 +34,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep','checkEmailVerification','registerLastStep']);
 
         $this->auth = Auth::guard('api');
     }
@@ -228,8 +229,8 @@ class AuthController extends Controller
                 DB::commit();
 
                 return Helpers::successResponse('User registered successfully', [
-//                    'user' => $createUser,
                     'authorization' => [
+                        'userId' => $createUser['id'],
                         'step' => 1,
                         'status' => true,
                         'type' => 'bearer',
@@ -246,8 +247,8 @@ class AuthController extends Controller
                     $this->sendEmailVerification($emailData, $checkUser['email']);
 
                     return Helpers::successResponse('Your email is not verified. Verification email sent.', [
-//                        'user' => $checkUser,
                         'authorization' => [
+                            'userId' => $checkUser['id'],
                             'step' => 1,
                             'status' => true,
                             'type' => 'bearer',
@@ -442,4 +443,63 @@ class AuthController extends Controller
         }
 
     }
+
+    public function checkEmailVerification(Request $request)
+    {
+        try {
+
+            $user = User::getSingleUser($request['user_id']);
+
+            $user = User::checkEmailVerified($user['email']);
+
+            if (!empty($user))
+            {
+                return Helpers::successResponse('Your Email is verified');
+            }
+            else{
+                return Helpers::serverErrorResponse('Your Email is not verified');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function registerLastStep(RegisterLastStepRequest $request)
+    {
+        try {
+            $getUser = User::getSingleUser($request['user_id']);
+
+            if ($getUser) {
+                $dataArray = $request->only((new User())->getFillable());
+
+                $dataArray['step'] = 3;
+
+                $getUser->fill($dataArray);
+
+                $getUser->save();
+
+                $token = \JWTAuth::fromUser($getUser);
+
+                $data = [
+                    'userId' => $getUser['id'],
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ],
+                ];
+
+                return Helpers::successResponse('User logged in successfully', $data);
+            }
+
+            // If user not found
+            return Helpers::errorResponse('User not found');
+        } catch (\Exception $exception) {
+            // Handle exceptions
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 }
