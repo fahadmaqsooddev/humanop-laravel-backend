@@ -46,11 +46,11 @@ class BasicSettingForm extends Component
 
             $keysToKeep = ['first_name', 'last_name','date_of_birth', 'gender', 'phone','timezone'];
 
-            if ($this->profile_image){
-                $upload_id = Upload::uploadFile($this->profile_image, 200, 200, 'base64Image','png', true);
-                $this->user['image_id'] = $upload_id;
-                array_push($keysToKeep, 'image_id');
-            }
+//            if ($this->profile_image){
+//                $upload_id = Upload::uploadFile($this->profile_image, 200, 200, 'base64Image','png', true);
+//                $this->user['image_id'] = $upload_id;
+//                array_push($keysToKeep, 'image_id');
+//            }
 
             $data = array_intersect_key($this->user, array_flip($keysToKeep));
 

@@ -135,7 +135,7 @@
 
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Profile Image</label>
-                    <input type="file" wire:model="profile_image"
+                    <input type="file" wire:model="profile_image" accept=".png, .jpg, .jpeg"
                            class="form-control text-color-dark setting-box-background profileImage">
                 </div>
             </div>

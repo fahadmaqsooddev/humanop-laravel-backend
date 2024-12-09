@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion']);
+        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion','getTimezone']);
 
         $this->user = $user;
     }

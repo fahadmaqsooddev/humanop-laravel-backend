@@ -11,20 +11,38 @@ class IntentionPlanForm extends Component
 {
     public $userId, $selectedIntention = [];
 
+    protected $rules = [
+        'selectedIntention' => 'required|array|min:1',
+    ];
+
+    protected $messages = [
+        'selectedIntention.required' => 'Please select at least one intention.',
+        'selectedIntention.min' => 'You must select at least one intention.',
+    ];
+
     public function mount()
     {
         $user = Helpers::getWebUser();
+
         $this->selectedIntention = IntentionPlan::getIntentionPlan($user['id'])->pluck('intention_option_id')->toArray();
+
         $this->userId = $user['id'];
     }
 
     public function submitForm()
     {
         try {
+
+            $this->validate();
+
             IntentionPlan::updateIntentionPlan($this->userId, $this->selectedIntention);
-            session()->flash('success', '90 Days Intention Plan updated successfully.');
+
+            session()->flash('success', 'updated successfully.');
+
         } catch (\Exception $exception) {
+
             session()->flash('error', $exception->getMessage());
+
         }
     }
 
