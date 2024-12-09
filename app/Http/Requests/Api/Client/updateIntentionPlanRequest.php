@@ -24,7 +24,15 @@ class updateIntentionPlanRequest extends FormRequest
     public function rules()
     {
         return [
-            'ninety_day_intention' => 'nullable',
+            'ninety_day_intention' => 'required|array|min:1',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'ninety_day_intention.required' => 'Please select at least one intention.',
+            'ninety_day_intention.min' => 'You must select at least one intention.',
         ];
     }
 }
