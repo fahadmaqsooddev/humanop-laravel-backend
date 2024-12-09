@@ -260,7 +260,6 @@
 
           scrollToBottom();
       });
-      });
 
       window.livewire.on('submitQuery', function (){
 
