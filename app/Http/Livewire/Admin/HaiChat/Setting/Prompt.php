@@ -59,6 +59,8 @@ class Prompt extends Component
         {
             session()->flash('error', $exception->getMessage());
         }
+
+        $this->emit('hideAlerts');
     }
     public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {

@@ -75,7 +75,7 @@
                 </span>
             @endforeach
 
-            <input class="form-control input-bg" wire:model="keyword"
+            <input class="form-control input-bg pt-1" wire:model="keyword"
                    rows="10" placeholder="Enter chat keyword restrictions"
                    wire:keydown.enter="createKeyword">
             <span class="text-sm" style="padding-top: 1px; color: #67748e;">Type and press ENTER to save keyword</span>
