@@ -103,18 +103,18 @@
                                                 @enderror
                                             </div>
                                             @if(!empty($google_user))
-                                            <div class="mt-3" hidden>
-                                                <div class=" ">
-                                                    <label for="email"
-                                                           style="color: #0f1535; font-size: 15px">Email</label>
+                                                <div class="mt-3" hidden>
+                                                    <div class=" ">
+                                                        <label for="email"
+                                                               style="color: #0f1535; font-size: 15px">Email</label>
 
-                                                    <input type="email" class="form-control " placeholder="Email"
-                                                           aria-label="Email"
-                                                           aria-describedby="email-addon" name="email" id="email"
-                                                           style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                                           value="{{$google_user['email'] ?? ''}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
+                                                        <input type="email" class="form-control " placeholder="Email"
+                                                               aria-label="Email"
+                                                               aria-describedby="email-addon" name="email" id="email"
+                                                               style="background-color: #f3deba; color: black; border-radius: 15px;"
+                                                               value="{{$google_user['email'] ?? ''}}" {{$google_user ? $google_user['email'] ? 'readonly' : "" : "" }}>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             @elseif(!empty($invite))
                                                 <div class="mt-3" hidden>
                                                     <div class=" ">
@@ -138,7 +138,7 @@
                                                                aria-label="Email"
                                                                aria-describedby="email-addon" name="email" id="email"
                                                                style="background-color: #f3deba; color: black; border-radius: 15px;"
-                                                               value="{{old('email')}}" >
+                                                               value="{{old('email')}}">
                                                         @error('email')
                                                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                         @enderror
@@ -225,7 +225,7 @@
                                                         Birth</label>
                                                     <select class="form-control" name="gender" id="gender"
                                                             style="background-color: #f3deba; color: black; border-radius: 15px;">
-                                                        <option value="" selected >Gender at Birth
+                                                        <option value="" selected>Gender at Birth
                                                         </option>
                                                         <option value="0">Male
                                                             (XY)
@@ -392,33 +392,33 @@
             });
         }
 
-            $('#phone').on('input', function () {
+        $('#phone').on('input', function () {
 
-                let input = $(this).val();
-                // 1. Remove all characters except numbers and `+`
-                input = input.replace(/[^+\d]/g, '');
+            let input = $(this).val();
+            // 1. Remove all characters except numbers and `+`
+            input = input.replace(/[^+\d]/g, '');
 
-                // 2. Ensure the `+` appears only at the start
-                if (input.indexOf('+') > 0) {
-                    input = input.replace(/\+/g, ''); // Remove additional `+` symbols
-                }
+            // 2. Ensure the `+` appears only at the start
+            if (input.indexOf('+') > 0) {
+                input = input.replace(/\+/g, ''); // Remove additional `+` symbols
+            }
 
-                // 3. Limit to 14 characters
-                input = input.slice(0, 14);
+            // 3. Limit to 14 characters
+            input = input.slice(0, 14);
 
-                // 4. Set sanitized value back to the input field
-                $(this).val(input);
-            });
+            // 4. Set sanitized value back to the input field
+            $(this).val(input);
+        });
 
-            // Optional: Prevent invalid key presses
-            $('#phone').on('keypress', function (e) {
-                const char = String.fromCharCode(e.which);
+        // Optional: Prevent invalid key presses
+        $('#phone').on('keypress', function (e) {
+            const char = String.fromCharCode(e.which);
 
-                // Allow only digits or `+` at the start
-                if (!/[\d+]/.test(char) || (char === '+' && $(this).val().indexOf('+') !== -1)) {
-                    e.preventDefault();
-                }
-            });
+            // Allow only digits or `+` at the start
+            if (!/[\d+]/.test(char) || (char === '+' && $(this).val().indexOf('+') !== -1)) {
+                e.preventDefault();
+            }
+        });
     });
 
 
@@ -460,7 +460,7 @@
                     required: "Confirm password is required",
                     mismatch: "Passwords do not match",
                 },
-            },gender: {
+            }, gender: {
                 element: document.getElementById("gender"),
                 errorMessages: {
                     required: "Gender is required",
@@ -508,10 +508,10 @@
             } else if (field.element.id === "last_name" && value.length > 25) {
                 isValid = false;
                 message = field.errorMessages.minLength;
-            }else  if (field.element.id === "confirmPassword" && (value !== $('#password').val())) {
+            } else if (field.element.id === "confirmPassword" && (value !== $('#password').val())) {
                 isValid = false;
                 message = field.errorMessages.mismatch;
-            }else if (field.element.id === "gender" && field.element.value === "") {
+            } else if (field.element.id === "gender" && field.element.value === "") {
                 isValid = false;
                 message = field.errorMessages.required;
             }
@@ -606,8 +606,7 @@
             if (!formIsValid) {
                 e.preventDefault(); // Prevent submission if validation fails
                 scrollToError(); // Smooth scroll to the first error
-            }
-            else {
+            } else {
                 // Disable the button if there are no errors
                 disableSignupButton();
             }
