@@ -1,9 +1,10 @@
 <!-- Navbar -->
+@if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
 <nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
      style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
      id="navbarBlur" data-scroll="true">
 
-    {{--    <div class="navbar-background-color d-flex align-items-end justify-content-end"--}}
+        <div class="navbar-background-color d-flex align-items-end justify-content-end"
     <div class="d-flex "
          style="width: 100%; border-radius: 0px !important;"  data-step="4" >
 
@@ -112,14 +113,15 @@
             </div>
         </div>
 
-        <div class="betaTagDiv">
-            <p class="betaTag">Beta</p>
-        </div>
+{{--        <div class="betaTagDiv">--}}
+{{--            <p class="betaTag">Beta</p>--}}
+{{--        </div>--}}
 
-        {{--        <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">--}}
+                <img src="{{ asset('assets/img/beta2.png') }}" class="float-end" height="100" alt="profile_image">
 
     </div>
 </nav>
+@endif
 <!-- End Navbar -->
 {{--QR Code Modal--}}
 <div class="modal fade" id="qrCodeModal" tabindex="-1" role="dialog"
