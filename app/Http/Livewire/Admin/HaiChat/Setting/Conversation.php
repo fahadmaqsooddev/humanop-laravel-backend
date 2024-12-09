@@ -24,11 +24,12 @@ class Conversation extends Component
     public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0;
 
     protected $rules = [
-        'message' => 'required',
+        'message' => 'required|max:190',
     ];
 
     protected $messages = [
         'message.required' => 'The Message field is required.',
+        'message.max' => 'Query does not contain more than 190 characters',
     ];
 
     public function mount(){

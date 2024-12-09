@@ -2,10 +2,8 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
-use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
-use App\Models\HAIChai\HaiChatSetting;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -102,16 +100,33 @@ class Prompt extends Component
 
     public function updateKeywordRestrictionMessage(){
 
-        $this->validate(
-            ['keyword_restriction_message' => 'required|max:180'],
-            [
-                'keyword_restriction_message.required' => 'Keyword restriction message is required.',
-                'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.'
-            ]);
+        try {
 
-        ChatPrompt::createUpdatePrompt($this->name,$this->prompt, $this->restriction, $this->keyword_restriction_message);
+            $this->validate(
+                ['keyword_restriction_message' => 'required|max:180'],
+                [
+                    'keyword_restriction_message.required' => 'Keyword restriction message is required.',
+                    'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.'
+                ]);
 
-        session()->flash('success', 'Keyword restriction message updated');
+            ChatPrompt::createUpdatePrompt($this->name,$this->prompt, $this->restriction, $this->keyword_restriction_message);
+
+            session()->flash('keyword_restriction_success', 'Keyword restriction message updated');
+
+            $this->emit('hideAlerts');
+
+        }catch (ValidationException $exception){
+
+            session()->flash('keyword_restriction_errors', $exception->validator->errors()->getMessages());
+
+            $this->emit('hideAlerts');
+        }
+        catch (\Exception $exception){
+
+            session()->flash('keyword_restriction_error', $exception->getMessage());
+
+            $this->emit('hideAlerts');
+        }
 
     }
 
