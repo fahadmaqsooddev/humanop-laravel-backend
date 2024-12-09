@@ -57,7 +57,7 @@
                                    class="form-label fw-bold text-orange">Chunk</label>
                             <select class="form-control input-bg"
                                     wire:model.defer="chunk">
-                                @for($i = 1; $i <= 20; $i++)
+                                @for($i = 1; $i <= 5; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>

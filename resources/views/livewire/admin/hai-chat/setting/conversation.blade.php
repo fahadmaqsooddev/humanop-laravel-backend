@@ -286,7 +286,7 @@
                     </div>
 
                     <div>
-                        <img src="{{URL::asset('assets/img/default-user-image.png')}}" width="35" height="35" style="border-radius: 50%">
+                        <img src="{{URL::asset('assets/img/Human_OP.png')}}" width="50" height="35" style="border-radius: 50%">
                     </div>
                 </div>
           `);
