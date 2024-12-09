@@ -222,7 +222,7 @@ class AuthController extends Controller
 
 //                $createUser = User::userLoggedInData($user['id']);
 
-//                $createUser->setAppends([]);
+                $user->setAppends([]);
 
                 $emailData = $this->prepareEmailData($user);
 
