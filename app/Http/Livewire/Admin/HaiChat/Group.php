@@ -8,6 +8,7 @@ use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,7 +19,7 @@ class Group extends Component
 
     protected $listeners = ['deleteEmbedding'];
 
-    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id, $group_ids;
+    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id, $group_ids, $fileInputId;
 
     protected $rules = [
         'embedding_name' => 'required|max:50',
@@ -76,7 +77,11 @@ class Group extends Component
 
                     $this->emit('closeCreateEmbeddingModal');
 
-                    $this->reset('embedding_name','embedding');
+                    $this->reset('embedding_name');
+
+                    $this->fileInputId++; // this is just for remove placeholder for file input field
+
+                    $this->embedding = null;
 
                 }else{
 
@@ -91,6 +96,8 @@ class Group extends Component
 
             session()->flash('error', $exception->getMessage());
         }
+
+        $this->emit('closeAlert');
     }
 
     public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
@@ -119,29 +126,42 @@ class Group extends Component
 
     public function createGroup(){
 
-        $this->validate([
+        try {
 
-            'name' => 'required|max:20',
-            'embedding_ids' => 'required|array',
-            'embedding_ids.*' => 'required|exists:hai_chat_embeddings,id',
+            $this->validate([
+
+                'name' => 'required|max:20',
+                'embedding_ids' => 'required|array',
+                'embedding_ids.*' => 'required|exists:hai_chat_embeddings,id',
 
             ], [
-                'name.required' => 'Group name is required'
-            ]
-        );
+                    'name.required' => 'Group name is required'
+                ]
+            );
 
-        $group = EmbeddingGroup::createEmbeddingGroup($this->name);
+            $group = EmbeddingGroup::createEmbeddingGroup($this->name);
 
-        if (count($this->embedding_ids) > 0){
+            if (count($this->embedding_ids) > 0){
 
-            GroupEmbedding::addOrUpdateGroupIds($this->embedding_ids, $group->id);
+                GroupEmbedding::addOrUpdateGroupIds($this->embedding_ids, $group->id);
+            }
+
+            session()->flash('success', "Group created successfully.");
+
+            $this->emit('closeCreateGroupModal');
+
+            $this->reset('name','embedding_ids');
+
+        }catch (ValidationException $exception){
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('success', $exception->getMessage());
         }
 
-        session()->flash('success', "Group created successfully.");
-
-        $this->emit('closeCreateGroupModal');
-
-        $this->reset('name','embedding_ids');
+        $this->emit('closeAlert');
     }
 
     public function deleteEmbedding($id)
@@ -158,6 +178,8 @@ class Group extends Component
             HaiChatEmbedding::deleteEmbedding($id);
 
             session()->flash('embedding_deleted', "{$embedding['name']} deleted successfully.");
+
+            $this->emit('closeAlert');
 
         }
 
@@ -203,6 +225,8 @@ class Group extends Component
         GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $this->embedding_id);
 
         session()->flash('success', 'Embedding are added into groups');
+
+        $this->emit('closeAlert');
 
         $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
     }

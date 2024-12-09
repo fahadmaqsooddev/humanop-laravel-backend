@@ -203,7 +203,7 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="embedding" id="embedding_file"
+                                        <input style="background-color: #0f1534;" wire:model="embedding" id="embedding_file{{$fileInputId}}"
                                                class="form-control text-white" type="file"
                                                accept="file/*">
                                         <span wire:loading.flex wire:target="embedding">
@@ -331,6 +331,12 @@
             }, 1000);
         });
 
+        window.livewire.on('closeAlert', function (){
+            setTimeout(function (){
+                $('.alert').alert('close');
+            }, 1500);
+        });
+
         // $(document).ready(function () {
         //
         //     $('#select2').select2({
@@ -362,6 +368,7 @@
                 }
             })
         }
+
     </script>
 
 @endpush

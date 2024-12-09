@@ -153,7 +153,7 @@
 
                                         <div class="rounded " style="max-width: 70%;">
                                             <div>
-                                                <p class="text-end text-sm" style="color: #000000;margin-bottom: 3px;">admin</p>
+                                                <p class="text-end text-sm" style="color: #000000;margin-bottom: 3px;">Admin</p>
                                             </div>
                                             <div class="bg-secondary text-white p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
                                                 {{ $conversation['message'] }}
@@ -260,6 +260,7 @@
 
           scrollToBottom();
       });
+      });
 
       window.livewire.on('submitQuery', function (){
 
@@ -275,7 +276,7 @@
                 <div class="d-flex flex-row gap-3 justify-content-end">
                     <div class="rounded" style="max-width: 70%;">
                         <div>
-                            <p class="text-end" style="color: #000000;margin-bottom: 3px">user name</p>
+                            <p class="text-end" style="color: #000000;margin-bottom: 3px">Admin</p>
                         </div>
                         <div class="bg-secondary text-white  p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
                             `+ userMsg.val() +`
