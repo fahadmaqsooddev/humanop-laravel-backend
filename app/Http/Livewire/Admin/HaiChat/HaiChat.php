@@ -42,13 +42,19 @@ class HaiChat extends Component
 
             $this->emit('closeModel');
 
+            $this->emit('closeAlert');
+
         }catch (ValidationException $exception) {
 
             session()->flash('errors', $exception->validator->errors()->getMessages());
 
+            $this->emit('closeAlert');
+
         }catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
+
+            $this->emit('closeAlert');
 
         }
     }
@@ -65,6 +71,8 @@ class HaiChat extends Component
             Chatbot::deleteChat($id);
 
             session()->flash('success', "Chatbot deleted successfully.");
+
+            $this->emit('closeAlert');
 
         }
 

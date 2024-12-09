@@ -126,7 +126,7 @@
     </div>
 
 </div>
-@push('js')
+@push('javascript')
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
@@ -154,6 +154,12 @@
                 }
             })
         }
+
+        window.livewire.on('closeAlert', function (){
+            setTimeout(function (){
+                $('.alert').alert('close');
+            }, 1500);
+        })
     </script>
 
 @endpush
