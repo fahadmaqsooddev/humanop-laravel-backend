@@ -1185,7 +1185,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4" style="text-align: justify">{{$dailyTipInfo['information']}}</p>
+                            <div class="text-white mt-4" style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1204,8 +1204,8 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4"
-                               style="text-align: justify">{{$actionPlanInfo['information']}}</p>
+                            <div class="text-white mt-4"
+                               style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1224,7 +1224,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4" style="text-align: justify">{{$coreStatsInfo['information']}}</p>
+                            <div class="text-white mt-4" style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1243,8 +1243,8 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4"
-                               style="text-align: justify">{{$libraryResourceInfo['information']}}</p>
+                            <div class="text-white mt-4"
+                               style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1263,7 +1263,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4" style="text-align: justify">{{$helpInfo['information']}}</p>
+                            <div class="text-white mt-4" style="text-align: justify">{!! $helpInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>

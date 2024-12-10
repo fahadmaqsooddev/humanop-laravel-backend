@@ -1,4 +1,74 @@
 <div>
+    @push('css')
+        <link rel="stylesheet" href="{{asset('js/rangerover/src/jquery.rangerover.css')}}">
+        <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+
+        <style>
+            .ck-editor__editable_inline {
+                background-color: #0f1534; /* Example: Change this to your desired background color */
+            }
+            .ck-editor__editable{
+                background-color: #0f1534 !important;
+            }
+            .ck-editor{
+                border-radius: 0 !important;
+                width: 100% !important;
+            }
+            #ep_slider {
+                width: 1000px;
+                margin: 0 auto;
+            }
+            #pv_slider {
+                width: 1000px;
+                margin: 0 auto;
+            }
+            @media (min-width: 992px) and (max-width: 1200px) {
+                #ep_slider {
+                    width: 700px;
+                    margin: 0 auto;
+                }
+                #pv_slider {
+                    width: 700px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 50% !important;
+                }
+            }
+
+            @media (min-width: 500px) and (max-width: 992px) {
+                #ep_slider {
+                    width: 400px;
+                    margin: 0 auto;
+                }
+                #pv_slider {
+                    width: 400px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 100% !important;
+                }
+            }
+
+            @media (max-width: 500px)  {
+                #ep_slider {
+                    width: 300px;
+                    margin: 0 auto;
+                }
+                #interval_of_life{
+                    width: 100% !important;
+                }
+                #pv_slider {
+                    width: 300px;
+                    margin: 0 auto;
+                }
+            }
+
+            .card{
+                background-color: #1C365E !important;
+            }
+        </style>
+    @endpush
     <div class="table-responsive table-orange-color">
         @include('layouts.message')
         <table class="table table-flush" id="datatable-search">
@@ -15,7 +85,7 @@
                     <td class="text-md font-weight-normal">{{$info['name'] }} </td>
                     <td class="text-md font-weight-normal">
                         @if($info['information'] && strlen($info['information']) > 40)
-                            {{substr($info['information'], 0, 40)}}
+                            {!! substr($info['information'], 0, 40) !!}
                             &nbsp;&nbsp;<a data-bs-toggle="modal"
                                            data-bs-target="#viewQueryModal{{$info['id']}}"
                                            style="color: #f2661c; cursor: pointer;"
@@ -23,11 +93,12 @@
                                 view more...
                             </a>
                         @else
-                            {{$info['information'] ?? null}}
+                            {!! $info['information'] ?? null !!}
                         @endif </td>
                     <td>
                         <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#informationIconModel" wire:click="updateEditModal({{$info['id']}},`{{$info['name']}}`,`{{$info['information']}}`)">
+                                data-bs-target="#informationIconModel"
+                                wire:click="updateEditModal({{$info['id']}},`{{$info['name']}}`,`{{$info['information']}}`)">
                             update
                         </button>
                     </td>
@@ -52,9 +123,10 @@
                                                     </button>
 
                                                     <label class="form-label fs-6 "
-                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>{{$info['name'] }}:</strong></label>
+                                                           style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>{{$info['name'] }}
+                                                            :</strong></label>
                                                     <span class="mt-3"
-                                                          style="color: white;font-size: 20px;font-weight: 800;display: flex;">{{ $info['information'] ?? null}}</span>
+                                                          style="color: white;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +162,8 @@
                                     <div class="col-12">
                                         <label class="form-label text-white">Name</label>
                                         <div class="form-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important" class="form-control text-white"
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   class="form-control text-white"
                                                    type="text" name="limit"
                                                    wire:model="name" placeholder="icon name" disabled>
                                             @error('name')
@@ -102,10 +175,9 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <label class="form-label text-white">Information</label>
-                                        <div class="form-group">
+                                        <div class="form-group" wire:ignore>
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
-                                                      rows="5" cols="5"
-                                                      name="information"
+                                                      rows="5" cols="5" name="information" id="editor"
                                                       wire:model="information"></textarea>
                                             @error('information')
                                             <span class="text-sm text-danger">{{$message}}</span>
@@ -126,6 +198,64 @@
 
 </div>
 
+@push('javascript')
+    <script type="text/javascript" src="{{asset('js/rangerover/src/jquery.rangerover.js')}}"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
+            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
+        }
+    }
+</script>
+
+    <script type="module">
+        import {
+            ClassicEditor,
+            Essentials,
+            Paragraph,
+            Bold,
+            Italic,
+            Font,
+            List
+        } from 'ckeditor5';
+
+        // Function to initialize CKEditor for a specific textarea by ID
+        let editorInstance;
+        const editorElement = document.getElementById('editor');
+        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
+            ClassicEditor
+                .create(editorElement, {
+                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List ],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                    ]
+                })
+                .then(editor => {
+                    editor.model.document.on('change:data', () => {
+                    @this.set('information', editor.getData());
+                    })
+                    Livewire.on('contentUpdated', content => {
+                        editor.setData(content); // Set new content into CKEditor
+                    });
+                    editorInstance = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+        $('.createForm').on('click', function() {
+            if (editorInstance) {
+                editorInstance.setData('');
+            }
+        });
+
+    </script>
+
+@endpush
 @push('js')
 
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
@@ -133,36 +263,13 @@
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
     <script>
+
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeUpdateModal', () => {
                 $('#informationIconModel').modal('hide');
             });
         });
 
-        function confirmBoxForPermanentDelete(coupon_id){
-
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn bg-gradient-danger m-2',
-                    cancelButton:  'btn bg-gradient-primary m-2',
-                },
-                buttonsStyling: false,
-                background : '#3442b4',
-            })
-            swalWithBootstrapButtons.fire({
-                title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete coupon!</span>",
-                showCancelButton: true,
-                confirmButtonText: 'Delete',
-            }).then((result) => {
-                if(result.isConfirmed){
-                    window.livewire.emit('deleteCoupon', [coupon_id])
-                }
-            })
-        }
-
-    </script>
-    <script>
         window.Livewire.on('closeInfoModal', function (e) {
             $('#close-info-modal-button').click();
         })

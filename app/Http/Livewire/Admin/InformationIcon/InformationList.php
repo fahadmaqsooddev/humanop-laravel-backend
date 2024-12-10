@@ -8,7 +8,7 @@ use Livewire\Component;
 class InformationList extends Component
 {
 
-    public $name, $information,$info_id;
+    public $name, $information, $info_id;
 
     protected $rules = [
         'name' => 'required',
@@ -20,10 +20,13 @@ class InformationList extends Component
         'information.required' => 'Information is required',
     ];
 
-    public function updateEditModal($id,$title,$description){
-          $this->name = $title;
-          $this->information = $description;
-          $this->info_id = $id;
+    public function updateEditModal($id, $title, $description)
+    {
+        $this->name = $title;
+        $this->information = $description;
+        $this->info_id = $id;
+        $this->emit('contentUpdated', $this->information);
+
     }
 
     public function submitForm()
@@ -39,8 +42,7 @@ class InformationList extends Component
 
             $this->resetForm();
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
 
@@ -54,20 +56,19 @@ class InformationList extends Component
 
             $this->validate();
 
-            InformationIcon::editInfo($this->info_id,$this->name, $this->information);
+            InformationIcon::editInfo($this->info_id, $this->name, $this->information);
 
             session()->flash('success', "{$this->name} information Updated successfully.");
             $this->emit('closeUpdateModal');
+
             $this->resetForm();
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
 
         }
     }
-
 
 
     public function resetForm()
@@ -88,8 +89,7 @@ class InformationList extends Component
 
             $this->resetForm();
 
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
 
