@@ -73,7 +73,7 @@ class Group extends Component
 
                 if($embedding){
 
-                    session()->flash('success', "Embedding created successfully.");
+                    session()->flash('embedding_success', "Embedding created successfully.");
 
                     $this->emit('closeCreateEmbeddingModal');
 
@@ -85,16 +85,16 @@ class Group extends Component
 
                 }else{
 
-                    session()->flash('error', "Something went wrong.");
+                    session()->flash('embedding_error', "Something went wrong.");
                 }
             }
         }catch (\Illuminate\Validation\ValidationException $exception){
 
-            session()->flash('errors', $exception->validator->errors()->getMessages());
+            session()->flash('embedding_errors', $exception->validator->errors()->getMessages());
 
         } catch (\Exception $exception) {
 
-            session()->flash('error', $exception->getMessage());
+            session()->flash('embedding_error', $exception->getMessage());
         }
 
         $this->emit('closeAlert');

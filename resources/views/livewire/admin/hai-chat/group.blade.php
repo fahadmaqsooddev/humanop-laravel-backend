@@ -40,13 +40,13 @@
 
             <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
                 <div class="nav-item connectionDev" role="presentation">
-                    <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn active" id="home-tab" data-bs-toggle="tab"
+                    <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{(session('embedding_deleted') ? '' : 'active')}}" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             aria-selected="true">Groups</button>
                 </div>
 
                 <div class="nav-item connectionDev" role="presentation">
-                    <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1" id="profile-tab" data-bs-toggle="tab"
+                    <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{(session('embedding_deleted') ? 'active' : '')}}" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
                             aria-controls="profile-tab-pane" aria-selected="false">Embeddings</button>
                 </div>
@@ -70,7 +70,7 @@
             @endif
 
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade pt-3 show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <div class="tab-pane fade pt-3 {{ (session('embedding_deleted') ? '' : 'show active') }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                     @empty($groups[0])
                         <p class="text-white">No group found</p>
@@ -99,7 +99,7 @@
                     </div>
 
                 </div>
-                <div class="tab-pane fade pt-3" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="tab-pane fade pt-3 {{(session('embedding_deleted') ? 'show active' : '')}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                     @empty($embeddings[0])
                         <p style="color: #f2661c;font-size: 20px; font-weight: bold">No embedding found</p>
@@ -156,29 +156,6 @@
 
     </div>
 
-
-    <!-- Chatbot Cards Container -->
-{{--    <div id="chatbotCardsContainer" class="mt-3 row p-3">--}}
-{{--        <!-- Example Card -->--}}
-{{--        @foreach($groups as $group)--}}
-{{--            <div class="mt-3 col-md-3 col-sm-3 col-lg-3" style="padding-right: 5px;">--}}
-{{--                <div class="card card-body" style="background-color: #FFFFFF !important;border: 2px solid #d26622;">--}}
-{{--                    <div class="d-flex flex-column gap-3 chat-card" style="width: 100%">--}}
-{{--                        <div class="d-flex flex-row">--}}
-{{--                            <div class="col-12 text-center">--}}
-{{--                                <a href="{{route('admin_embedding', $group['id'])}}">--}}
-{{--                                    <h3 style="color: #f2661c" class="text-decoration-none w-100"><i--}}
-{{--                                            class="bi bi-robot"></i> {{ $group['name'] }}--}}
-{{--                                    </h3>--}}
-{{--                                </a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        @endforeach--}}
-{{--    </div>--}}
-
     {{-- Create Embedding Models--}}
     <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"
          aria-labelledby="createResource" aria-hidden="true">
@@ -194,7 +171,40 @@
                                             aria-label="Close" id="embedding-close-modal-button" wire:click="resetValidationError">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    @include('layouts.message')
+{{--                                    Alert messages--}}
+
+                                    @if(session('embedding_errors'))
+                                        <div class="m-3 alert alert-warning alert-dismissible fade show" id="alert" role="alert">
+                                            <ul class="alert-text text-white mb-0">
+                                                @foreach(session('embedding_errors') as $err)
+                                                    <li>{{ $err[0] }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if(session('embedding_success'))
+                                        <div class="m-3  alert alert-success alert-dismissible fade show" id="alert" role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('embedding_success') }}</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if(session('embedding_error'))
+                                        <div class="m-3  alert alert-warning alert-dismissible fade show" id="alert" role="alert">
+                        <span class="alert-text text-white">
+                            {{session('embedding_error')}}</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+
+{{--                                    End Alert error--}}
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Name</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
