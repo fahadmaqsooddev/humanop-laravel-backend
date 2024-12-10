@@ -192,6 +192,8 @@
         }
     }
 
+
+
     @media screen and (min-width: 992px) and (max-width: 1200px) {
 
         .core_stats_heading {
@@ -296,6 +298,7 @@
     <!-- main features section -->
         <div class="container-fluid px-0 ">
             <section class=""> {{-- py-3 --}}
+
                 <div class="row mt-4">
                     <div class="col-lg-8 col-md-12 col-sm-12 mb-2">
                         <div class="card "
@@ -739,6 +742,7 @@
 
 
                                         </div>
+                                        <div style="overflow-y:scroll;max-height: 400px">
                                         <p class="text-color-blue traitHeading mb-2"> Top 3 Traits:</p>
                                         <div class="d-flex flex-column" style="margin-top: -10px">
                                             @if($topThreeStyles)
@@ -830,6 +834,7 @@
                                         @else
                                             <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                         @endif
+                                        </div>
                                     </div>
                                     <div class="image-container float-end">
                                         <img src="{{asset('assets/new-design/icon/dashboard/setting.svg')}}" width="270"
@@ -1592,7 +1597,8 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/intro.min.js"></script>
             <script>
-
+                var menu_src = '{{asset('assets/new-design/icon/dashboard/menu-icon.svg')}}';
+                var back_arrow_src = '{{asset('assets/new-design/icon/dashboard/back-arrow.svg')}}'
                 // Set up the button click event to start the tour
                 $('.start-tour').on('click', function () {
                     introJs().setOptions({
@@ -1738,6 +1744,8 @@
                         $('.chat-question-mark').css('display', 'inline-block');
                     });
                 });
+
+
 
             </script>
     @endpush
