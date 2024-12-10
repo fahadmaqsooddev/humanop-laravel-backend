@@ -54,9 +54,9 @@ class AuthController extends Controller
 
             if ($checkUser == true) {
 
-                $remember_me = $request->has('remember') ? true : false;
+//                $remember_me = $request->has('remember') ? true : false;
 
-                $token = $this->auth->attempt($credentials, $remember_me);
+                $token = $this->auth->attempt($credentials);
 
                 if ($token) {
 
