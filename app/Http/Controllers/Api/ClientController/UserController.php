@@ -342,13 +342,14 @@ class UserController extends Controller
     public function updateintentionPlan(updateIntentionPlanRequest $request)
     {
         try {
+
             $user = Helpers::getUser();
+
             IntentionPlan::where('user_id', $user['id'])->delete();
 
             IntentionPlan::updateIntentionPlan($user['id'], $request->ninety_day_intention);
 
-
-            return Helpers::successResponse('90 Days Intention Plan updated successfully.', $request->ninety_day_intention);
+            return Helpers::successResponse('updated successfully.', $request->ninety_day_intention);
 
         } catch (\Exception $exception) {
 
