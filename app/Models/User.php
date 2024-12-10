@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -592,16 +593,14 @@ class User extends Authenticatable implements JWTSubject
 
             if ($user->is_feedback === 3 || $user->is_feedback === 2) {
 
-                $user->decrement('is_feedback', 1);
+                tap($user->decrement('is_feedback', 1));
 
             } else if ($user->is_feedback === 1) {
 
-                $user->update(['is_feedback' => 3]);
+                tap($user->update(['is_feedback' => 3]));
             }
 
         }
-
-//        dd($user);
         
         return $user;
 
