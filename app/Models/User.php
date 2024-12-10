@@ -588,6 +588,8 @@ class User extends Authenticatable implements JWTSubject
 
         $user = self::whereId(Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
 
+        dd($user);
+
         if (!$user->feedback && $user->is_admin === 2) {
 
             if ($user->is_feedback === 3 || $user->is_feedback === 2) {
