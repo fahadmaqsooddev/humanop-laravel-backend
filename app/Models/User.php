@@ -601,7 +601,7 @@ class User extends Authenticatable implements JWTSubject
 
         }
 
-        dd($user);
+//        dd($user);
         
         return $user;
 
