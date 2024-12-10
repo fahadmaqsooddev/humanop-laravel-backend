@@ -932,7 +932,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function getUserDetailByIds($ids = []){
-       return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->get();
+       return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->orderBy('first_name')->get();
     }
 
     public static function updateUserLastStep($data = null, $userId = null)

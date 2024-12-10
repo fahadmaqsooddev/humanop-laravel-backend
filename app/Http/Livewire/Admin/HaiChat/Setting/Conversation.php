@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
-use App\Http\Livewire\Admin\ClientQuery\ClientQuery;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -22,6 +21,8 @@ class Conversation extends Component
 {
 
     public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0;
+
+    protected $listeners = ['updateUserId'];
 
     protected $rules = [
         'message' => 'required|max:2000',
@@ -143,7 +144,17 @@ class Conversation extends Component
         $this->conversations = HaiChatConversation::getConversation($this->name, $this->user_id);
     }
 
-    public function updatedUserId(){
+    public function updateUserId($id){
+
+        if ($id > 0){
+
+            $this->user_id = $this->user_details[$id-1]->id ?? null;
+
+        }else{
+
+            $this->user_id = null;
+        }
+
 
         $this->is_restricted_word = false;
     }
