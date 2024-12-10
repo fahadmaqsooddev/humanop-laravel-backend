@@ -220,14 +220,25 @@ class Group extends Component
 
     public function addEmbeddingToGroups(){
 
-        $this->validate(['group_ids' => 'required']);
+        try {
 
-        GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $this->embedding_id);
+            $this->validate(['group_ids' => 'required']);
 
-        session()->flash('success', 'Embedding are added into groups');
+            GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $this->embedding_id);
 
-        $this->emit('closeAlert');
+            session()->flash('embedding_group_success', 'Embedding are added into groups');
 
-        $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
+            $this->emit('closeAlert');
+
+            $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
+
+        }catch (ValidationException $validationException){
+
+            session()->flash('embedding_group_errors', $validationException->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('embedding_group_error', $exception->getMessage());
+        }
     }
 }
