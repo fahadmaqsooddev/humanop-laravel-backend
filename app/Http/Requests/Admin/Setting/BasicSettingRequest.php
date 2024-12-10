@@ -56,7 +56,7 @@ class BasicSettingRequest extends FormRequest
 //            'age_range.required' => 'The age range is required.',
 //            'age_range.regex' => 'Please enter a valid age range.',
             'gender.required' => 'The gender is required.',
-            'phone.required' => 'The phone number is required.',
+//            'phone.required' => 'The phone number is required.',
             'phone.max' => 'The phone number should not exceed 25 characters.',
         ];
     }

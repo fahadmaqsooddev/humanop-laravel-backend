@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -93,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check','app_intro_check']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check']);
     }
 
     // appends
@@ -451,9 +452,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
-
-    public static function checkHaiStatus($id = null){
+    public static function checkHaiStatus($id = null)
+    {
         $user = self::whereId($id)->select(['hai_chat'])->first();
         return ($user['hai_chat'] === Admin::HAI_CHAT_SHOW ? true : false);
     }
@@ -475,8 +475,9 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function createFirstStep($data = null)
+    public static function createFirstStep($data = null, $googleId = null, $appleId = null)
     {
+
         $data['step'] = 2;
 
         $data['is_admin'] = Admin::IS_CUSTOMER;
@@ -488,6 +489,12 @@ class User extends Authenticatable implements JWTSubject
         $data['email_verify_token'] = Str::random(16);
 
         $user = self::create($data);
+
+        if (!empty($googleId) || !empty($appleId)) {
+
+            User::emailVerified($user['id']);
+
+        }
 
         return $user;
     }
@@ -586,15 +593,15 @@ class User extends Authenticatable implements JWTSubject
 
             if ($user->is_feedback === 3 || $user->is_feedback === 2) {
 
-                $user->decrement('is_feedback', 1);
+                tap($user->decrement('is_feedback', 1));
 
             } else if ($user->is_feedback === 1) {
 
-                $user->update(['is_feedback' => 3]);
+                tap($user->update(['is_feedback' => 3]));
             }
 
         }
-
+        
         return $user;
 
     }
@@ -834,7 +841,7 @@ class User extends Authenticatable implements JWTSubject
                 ->with('userIntensionPlan')->selection()->first();
 
             $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
-            if($user){
+            if ($user) {
                 $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
                 $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
             }
@@ -867,7 +874,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function emailVerified($userId = null)
     {
-        return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 2]);
+        return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 3]);
     }
 
     public static function checkEmailVerified($userEmail = null)
@@ -908,8 +915,7 @@ class User extends Authenticatable implements JWTSubject
     public static function generateToken($email)
     {
 
-        if ($email)
-        {
+        if ($email) {
             $token = Str::random(16);
 
             self::where('email', $email)->update(['reset_password_token' => $token]);
@@ -921,8 +927,7 @@ class User extends Authenticatable implements JWTSubject
     public static function generateEmailVerificationToken($email)
     {
 
-        if ($email)
-        {
+        if ($email) {
             $token = Str::random(16);
 
             self::where('email', $email)->update(['email_verify_token' => $token]);
@@ -932,6 +937,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function getUserDetailByIds($ids = []){
+        
        return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->orderBy('first_name')->get();
     }
 

@@ -11,10 +11,21 @@
         .nav-active{
             border-radius: 40px 0px 0px 40px;background: #F3DEBA;
         }
+        .sticky_header {
+            display: none; /* Hidden by default */
+        }
+
+        @media screen and (max-width: 1200px) {
+            .sticky_header {
+                display: block; /* Visible on smaller screens */
+            }
+        }
     </style>
 
 @endpush
+
 @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
+
 <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"
      style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
     <a href="javascript:void(0);" class="nav-link text-body p-0">
@@ -25,6 +36,22 @@
         </div>
     </a>
 </div>
+@endif
+
+
+@if(\App\Helpers\Helpers::getWebUser()['is_admin'] != 1)
+    <div class="position-sticky w-100 sticky_header"  style="top: 28;z-index: 9999999;">
+        <div class="d-flex justify-content-between px-5">
+            <div style="border-radius: 50%;background: #F4E3C7;box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer" id="nav-show-btn" onclick="showNavbar()">
+                <img src="{{asset('assets/new-design/icon/dashboard/menu-icon.svg')}}" id="menu_back_arrow" alt="notification"
+                     width="50" height="50">
+            </div>
+            <div style="border-radius: 50%;background: #F4E3C7;box-shadow:0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;cursor: pointer" data-toggle="modal" data-target="#humanOpWalletModal">
+                <img src="{{asset('assets/new-design/icon/dashboard/orange_crown.svg')}}" alt="notification"
+                     width="50" height="50">
+            </div>
+        </div>
+    </div>
 @endif
 <aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? 'width: 155px;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
        class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
@@ -1402,6 +1429,25 @@
             localStorage.removeItem('is_admin');
         }
 
+        function showNavbar() {
+            $('body').removeClass('g-sidenav-hidden').addClass('g-sidenav-pinned');
+            $('#nav-show-btn').attr('onclick', 'hideNavbar()'); // Set onclick to hideNavbar
+            $('#menu_back_arrow').attr('src',back_arrow_src);
+        }
+
+        function hideNavbar() {
+            $('body').addClass('g-sidenav-hidden').removeClass('g-sidenav-pinned');
+            $('#nav-show-btn').attr('onclick', 'showNavbar()'); // Set onclick to showNavbar
+            $('#menu_back_arrow').attr('src',menu_src);
+        }
+
+        $(window).on('resize', function () {
+            if ($(window).width() > 1200) {
+                $('body').removeClass('g-sidenav-hidden').addClass('g-sidenav-pinned');
+            }else{
+                $('body').addClass('g-sidenav-hidden').removeClass('g-sidenav-pinned');
+            }
+        });
     </script>
 
 @endpush

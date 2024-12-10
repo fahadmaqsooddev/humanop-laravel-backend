@@ -61,9 +61,6 @@
 
                     <div class="col-12">
                         <div class="input-group ms-md-4 pe-md-4 searchInput">
-{{--                     <span style="background-color: #0f1534;color: white;" class="input-group-text">--}}
-{{--                         <i class="fas fa-search" aria-hidden="true"></i>--}}
-{{--                     </span>--}}
                             <input type="text" wire:model.debounce="search_connection_name"
                                    class="beige-background-color search-bar" style="border: 1px solid #f2661c !important;
                            padding: 5px; width: 100%; border-radius: 5px;"

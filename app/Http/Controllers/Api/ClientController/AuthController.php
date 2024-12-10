@@ -218,15 +218,18 @@ class AuthController extends Controller
 
             if (empty($checkUser)) {
 
-                $user = User::createFirstStep($dataArray);
+                $user = User::createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-//                $createUser = User::userLoggedInData($user['id']);
+                $user->setAppends([]);
 
-//                $createUser->setAppends([]);
+                if (empty($request['google_id']) && empty($request['apple_id']))
+                {
 
-                $emailData = $this->prepareEmailData($user);
+                    $emailData = $this->prepareEmailData($user);
 
-                $this->sendEmailVerification($emailData, $user['email']);
+                    $this->sendEmailVerification($emailData, $user['email']);
+
+                }
 
                 Helpers::createCustomerAndSubscriptionOnStripe($user);
 
@@ -235,7 +238,6 @@ class AuthController extends Controller
                 return Helpers::successResponse('User registered successfully', [
                     'authorization' => [
                         'user' => $user,
-                        'step' => 1,
                         'status' => true,
                         'type' => 'bearer',
                     ],

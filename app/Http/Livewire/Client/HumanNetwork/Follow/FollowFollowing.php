@@ -20,8 +20,9 @@ class FollowFollowing extends Component
         return view('livewire.client.human-network.follow.follow-following');
     }
 
-    public function followUser($user_id){
+    public function followUser($user_id)
+    {
 
-        \App\Models\Client\Follow\Follow::addFollow($user_id);
+        Follow::addFollow($user_id);
     }
 }
