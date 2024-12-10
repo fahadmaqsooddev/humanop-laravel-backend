@@ -394,7 +394,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4" style="text-align: justify">{{$tutorial['information']}}</p>
+                            <div class="text-white mt-4" style="text-align: justify">{!! $tutorial['information'] !!}</div>
                         </div>
                     </div>
                 </div>
