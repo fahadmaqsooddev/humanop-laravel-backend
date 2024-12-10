@@ -292,7 +292,40 @@
                                             aria-label="Close" id="group-close-modal-button" wire:click="resetValidationError">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    @include('layouts.message')
+                                    {{--                                    Alert messages--}}
+
+                                    @if(session('embedding_group_errors'))
+                                        <div class="m-3 alert alert-warning alert-dismissible fade show" id="alert" role="alert">
+                                            <ul class="alert-text text-white mb-0">
+                                                @foreach(session('embedding_group_errors') as $err)
+                                                    <li>{{ $err[0] }}</li>
+                                                @endforeach
+                                            </ul>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if(session('embedding_group_success'))
+                                        <div class="m-3  alert alert-success alert-dismissible fade show" id="alert" role="alert">
+                        <span class="alert-text text-white">
+                            {{ session('embedding_group_success') }}</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if(session('embedding_group_error'))
+                                        <div class="m-3  alert alert-warning alert-dismissible fade show" id="alert" role="alert">
+                        <span class="alert-text text-white">
+                            {{session('embedding_group_error')}}</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+
+                                    {{--                                    End Alert error--}}
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Groups</label>
