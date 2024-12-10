@@ -89,7 +89,9 @@ class SessionController extends Controller
                if ($userEmailVerify['email_verified_at'] != null)
                {
 
-                   if(Auth::attempt($attributes))
+                   $remember_me = $request->has('remember') ? true : false;
+
+                   if(Auth::attempt($attributes, $remember_me))
                    {
 
                        if (isset($request['remember']) && !empty($request['remember']))
