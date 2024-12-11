@@ -33,7 +33,7 @@ class HaiChatSetting extends Model
         return $setting;
     }
 
-    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null, $chat_bot_id = null)
+    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null, $chat_bot_id = null, $plan_id = null)
     {
         $setting = self::where('chat_bot_id', $chat_bot_id)->first();
 
@@ -44,6 +44,7 @@ class HaiChatSetting extends Model
                 'max_token' => $max_token,
                 'chunk' => $chunk,
                 'model_type' => $model_type,
+                'plan_id' => $plan_id,
             ]);
 
         }else{
@@ -54,6 +55,7 @@ class HaiChatSetting extends Model
                 'chunk' => $chunk ?? 5,
                 'model_type' => $model_type ?? self::GPT_4o_MINI,
                 'chat_bot_id' => $chat_bot_id,
+                'plan_id' => $plan_id,
             ]);
 
         }

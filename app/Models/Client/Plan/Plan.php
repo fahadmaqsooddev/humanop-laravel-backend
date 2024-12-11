@@ -83,4 +83,9 @@ class Plan extends Model
         return self::where('name', $plan_name)->first();
     }
 
+    public static function planNames(){
+
+        return self::select(['id','name'])->get();
+    }
+
 }
