@@ -180,15 +180,15 @@
                                         </div>
                                         <div class="rounded " style="max-width: 70%;">
                                             <div class="bg-primary text-white  p-2"
-                                                 style="max-width: 90%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
+                                                 style="max-width: 100%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
                                                 {!! $conversation['reply'] !!}
                                             </div>
                                             <div class="row" style="width: 100%;">
-                                                <div class="col-9">
+                                                <div class="col-10">
                                                     <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                                 </div>
                                                 @if(isset($conversation->id))
-                                                    <div class="col-3">
+                                                    <div class="col-2">
 
                                                         <div class="rating d-flex mb-2">
                                                             <!-- Thumbs up -->

@@ -158,7 +158,7 @@
         window.livewire.on('closeAlert', function (){
             setTimeout(function (){
                 $('.alert').alert('close');
-            }, 1500);
+            }, 5000);
         })
     </script>
 

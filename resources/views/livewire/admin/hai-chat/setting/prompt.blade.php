@@ -68,7 +68,7 @@
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-2">Keyword Restrictions</h5>
             @foreach($keywords as $keyword)
-                <span class="badge badge-info">
+                <span class="badge" style="background-color: #F3DEBA; color: black; border: 1px solid #f2661c;">
                     {{$keyword->word}}
                     <span class="p-1"></span>
                     <span wire:click="removeKeyword({{$keyword->id}})" class="custom-text-dark cursor-pointer">x</span>
