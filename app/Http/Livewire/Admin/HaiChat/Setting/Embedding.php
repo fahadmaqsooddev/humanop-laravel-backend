@@ -4,8 +4,6 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
-use App\Models\HAIChai\GroupEmbedding;
-use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
@@ -16,9 +14,9 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks = [], $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups;
-    public $button_status_display = false;
-    public $selected_embedding = "SELECT AN EMBEDDING";
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks = [], $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups, $embedding_search, $showDropdownMenu = false;
+//    public $button_status_display = false;
+//    public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
 
     public function mount($bot_name)
@@ -151,19 +149,22 @@ class Embedding extends Component
         return $response_body;
     }
 
-    public function changeEmbeddingSelect($name,$request_id){
-        $this->selected_embedding = $name;
-        $this->request_id = $request_id;
-        $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
-        if($activeEmbedding){
-            $this->button_status = 'Disconnect';
-        }else{
-            $this->button_status = 'Connect';
-        }
-        $this->button_status_display = true;
-    }
+//    public function changeEmbeddingSelect($name,$request_id){
+//        $this->selected_embedding = $name;
+//        $this->request_id = $request_id;
+//        $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
+//        if($activeEmbedding){
+//            $this->button_status = 'Disconnect';
+//        }else{
+//            $this->button_status = 'Connect';
+//        }
+//        $this->button_status_display = true;
+//    }
 
-    public function changeEmbeddingStatus(){
+    public function changeEmbeddingStatus($request_id){
+
+        $this->request_id = $request_id;
+
         if($this->request_id && $this->bot_name){
             $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
             if($activeEmbedding){
@@ -184,10 +185,10 @@ class Embedding extends Component
                 }
             }
 
-            $this->embeddings = HaiChatEmbedding::inActiveEmbeddings($this->group_id, $this->bot_name);
-
-            $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($this->group_id, $this->bot_name);
+            $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->bot_name, $this->embedding_search);
         }
+
+        $this->showDropdownMenu = true;
 
     }
 
@@ -256,44 +257,58 @@ class Embedding extends Component
 
         $this->embedding_id = "";
 
-        $this->button_status_display = false;
+//        $this->button_status_display = false;
 
-        $this->embeddings = GroupEmbedding::groupEmbeddings($id);
+//        $this->embeddings = GroupEmbedding::groupEmbeddings($id);
 
-        $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($id, $this->bot_name);
+//        $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($id, $this->bot_name);
 
-        $this->embeddings = HaiChatEmbedding::inActiveEmbeddings($id, $this->bot_name);
+        $this->embeddings = HaiChatEmbedding::embeddings($id, $this->bot_name, $this->embedding_search);
+
+        $this->showDropdownMenu = false;
+
+//        dd($this->embeddings);
+
+//        $this->embeddings = array_merge($this->active_embeddings->toArray());
     }
 
-    public function updatedEmbeddingId($request_id){
+//    public function updatedEmbeddingId($request_id){
+//
+//        if ($request_id){
+//
+//            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($request_id, $this->bot_name);
+//
+//            if($activeEmbedding){
+//
+//                $this->button_status = 'Disconnect';
+//
+//            }else{
+//
+//                $this->button_status = 'Connect';
+//            }
+//
+//            $this->button_status_display = true;
+//
+//            $this->request_id = $request_id;
+//
+//        }else{
+//
+//            $this->button_status_display = false;
+//        }
+//
+//    }
 
-        if ($request_id){
+    public function updatedEmbeddingSearch($value){
 
-            $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($request_id, $this->bot_name);
+        $this->embedding_search = $value;
 
-            if($activeEmbedding){
+        $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->bot_name, $this->embedding_search);
 
-                $this->button_status = 'Disconnect';
-
-            }else{
-
-                $this->button_status = 'Connect';
-            }
-
-            $this->button_status_display = true;
-
-            $this->request_id = $request_id;
-
-        }else{
-
-            $this->button_status_display = false;
-        }
-
+        $this->showDropdownMenu = true;
     }
 
     public function render()
     {
-
         $this->groups = EmbeddingGroup::inActiveGroups();
 
         $this->activeGroups = EmbeddingGroup::activeGroups();

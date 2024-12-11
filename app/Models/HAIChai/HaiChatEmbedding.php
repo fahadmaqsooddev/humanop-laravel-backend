@@ -16,6 +16,9 @@ class HaiChatEmbedding extends Model
         parent::__construct($attributes);
     }
 
+
+    protected $appends = ['is_active_embedding'];
+
     // Relation
     public function group(){
 
@@ -24,7 +27,13 @@ class HaiChatEmbedding extends Model
 
     public function activeEmbedding(){
 
-        return $this->hasOne(HaiChatActiveEmbedding::class,'request_id','request_id');
+        return $this->hasOne(HaiChatActiveEmbedding::class,'request_id','request_id')->where('chat_bot', request()->input('chat_bot'));
+    }
+
+    // Appends
+    public function getIsActiveEmbeddingAttribute(){
+
+        return $this->activeEmbedding()->exists();
     }
 
 
@@ -67,40 +76,42 @@ class HaiChatEmbedding extends Model
 
     }
 
-    public static function activeEmbeddings($group_id, $chat_bot){
+    public static function embeddings($group_id, $chat_bot, $searchText){
+
+        request()->merge(['chat_bot' => $chat_bot]);
 
         return self::whereHas('group', function ($q) use($group_id){
 
             $q->where('group_id', $group_id);
 
-        })->whereHas('activeEmbedding', function ($query) use($chat_bot){
+        })->when($searchText, function ($query, $name){
 
-            $query->where('chat_bot', $chat_bot);
+            $query->where('name', 'LIKE', "%$name%");
 
         })->get();
 
     }
 
-    public static function inActiveEmbeddings($group_id, $chat_bot){
-
-        return self::whereHas('group', function ($q) use($group_id){
-
-            $q->where('group_id', $group_id);
-
-        })
-            ->where(function ($q) use($chat_bot){
-
-                $q->doesntHave('activeEmbedding')
-
-                    ->orWhereHas('activeEmbedding', function ($query) use($chat_bot){
-
-                        $query->where('chat_bot', '!=', $chat_bot);
-
-                    });
-            })
-
-            ->get();
-
-    }
+//    public static function inActiveEmbeddings($group_id, $chat_bot){
+//
+//        return self::whereHas('group', function ($q) use($group_id){
+//
+//            $q->where('group_id', $group_id);
+//
+//        })
+//            ->where(function ($q) use($chat_bot){
+//
+//                $q->doesntHave('activeEmbedding')
+//
+//                    ->orWhereHas('activeEmbedding', function ($query) use($chat_bot){
+//
+//                        $query->where('chat_bot', '!=', $chat_bot);
+//
+//                    });
+//            })
+//
+//            ->get();
+//
+//    }
 
 }

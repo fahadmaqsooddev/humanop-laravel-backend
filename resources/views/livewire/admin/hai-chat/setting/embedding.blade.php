@@ -1,118 +1,130 @@
+@push('css')
+    <style>
+
+        input::placeholder{
+            color: lightgrey;
+        }
+
+        input:focus{
+            border-color: #ff6347 !important;
+        }
+
+    </style>
+@endpush
 <div>
     <div class="card card-bg-white-orange-border mt-4" id="train">
         <div class="card-header">
             <div id="train" class="content-page">
-                <!-- Responsive Dropdown Section -->
-                <div class="d-flex p-2">
-                    <div class="btn-group m-1 col-md-4 d-flex justify-content-between ">
 
-                        <select wire:model="group_id" class="form-control" style="background-color: #F3DEBA; color: black;">
-                            <option value="">Select Group</option>
+                <div class="row">
+                    <div class="col-6">
+
+                        <div class="btn-group d-flex justify-content-between ">
+
+                            <select wire:model="group_id" class="form-control" style="background-color: #F3DEBA; color: black;">
+                                <option value="" class="text-center">Select Group</option>
                                 <option disabled style="background-color: #0f1534; color: white;">All Groups</option>
-                            @foreach($groups as $group)
-                                <option value="{{$group->id}}">{{$group->name}}</option>
-                            @endforeach
+                                @foreach($groups as $group)
+                                    <option value="{{$group->id}}">{{$group->name}}</option>
+                                @endforeach
                                 <option disabled style="background-color: #0f1534; color: white;">Active Groups</option>
-                            @foreach($activeGroups as $group)
-                                <option value="{{$group->id}}">{{$group->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="btn-group m-1 col-md-4 d-flex justify-content-between">
-                        <select class="form-control" style="background-color: #F3DEBA; color: black;" wire:model="embedding_id">
-                            <option value="">Select @if($group_id) Embedding @else Group First @endif</option>
-                                <option disabled style="background-color: #0f1534; color: white;">All Embeddings</option>
-                            @foreach($embeddings as $embedding)
-                                <option value="{{$embedding['request_id'] ?? null}}">{{$embedding['name'] ?? null}}</option>
-                            @endforeach
-                                <option disabled style="background-color: #0f1534; color: white;">Active Embeddings</option>
-                            @foreach($active_embeddings as $active_embedding)
-                                <option value="{{$active_embedding['request_id'] ?? null}}">{{$active_embedding['name'] ?? null}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    @if($button_status_display)
-                        <div style="margin-left: 10px">
-                            <button style="padding:5px 10px 5px 10px; border-radius: 7px;"
-                                    wire:click="changeEmbeddingStatus"
-                                    class="btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                {{$button_status}}
-                            </button>
+                                @foreach($activeGroups as $group)
+                                    <option value="{{$group->id}}">{{$group->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
-                    @endif
+
+                    </div>
+                    <div class="col-6">
+
+                        <div class="btn-group d-flex justify-content-between">
+
+                            <div class="dropdown w-100">
+                                <button class="dropdown-toggle form-control {{$showDropdownMenu ? 'show' : ''}}" style="background-color: #F3DEBA; color: black;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select @if($group_id) Embedding @else Group First @endif
+                                </button>
+                                {{--                            @if($showEmbeddingDropdown)--}}
+                                <div class="dropdown-menu w-100 {{$showDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton1">
+
+                                    <div style="padding: 10px;">
+
+                                        <div style="padding-bottom: 5px;">
+                                            <input type="text" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                        </div>
+
+                                        @if(count($embeddings) > 0)
+
+                                            <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;">
+
+                                                <ul style="list-style: none; padding-top: 5px; padding-left: inherit;">
+                                                    @foreach($embeddings as $key => $embedding)
+                                                        <li>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="checkbox{{$key}}" wire:click="changeEmbeddingStatus('{{$embedding['request_id']}}')" {{($embedding['is_active_embedding'] ? 'checked' : '')}}>
+                                                                <label class="form-check-label" for="checkbox{{$key}}">
+                                                                    {{$embedding->name}}
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+
+                                            </div>
+                                        @else
+                                            <div class="text-center">
+                                                <span>No embedding</span>
+                                            </div>
+                                        @endif
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="d-flex flex-column flex-md-row gap-3">
-                    <!-- Left Column -->
-                    <div class="col-md-4">
-                        <!-- Search Box -->
-                        <div class="container-fluid mt-4 mx-0 px-0">
-                            @include('layouts.message')
-                            <form wire:submit.prevent="searchEmbedding">
-                                <div class="textarea-with-icon">
+                <div class="row">
+                    <div class="col-12">
+                        <div>
+                            <!-- Search Box -->
+                            <div class="container-fluid mt-4 mx-0 px-0">
+                                @include('layouts.message')
+                                <form wire:submit.prevent="searchEmbedding">
+                                    <div class="textarea-with-icon">
                                         <textarea class="form-control input-bg" rows="3"
                                                   style="font-size: small;"
                                                   wire:model.defer="query"
                                                   placeholder="Search across all documents"></textarea>
-                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
-                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                        search
-                                    </button>
-                                </div>
-                            </form>
+                                        <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
+                                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                            search
+                                            <span wire:loading wire:target="searchEmbedding" class="swal2-loader" style="font-size: 8px;">
+                                            </span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Right Column with Upload Options -->
-                    <div class="col-md-8" style="max-height: 600px; overflow-y: scroll;" id="chunks_div">
-                        @if(count($chunks) > 0)
-                            @foreach($chunks as $chunk)
-                                <div class="chunk-card input-bg">
-                                    <p class="custom-text-dark">{{ $chunk['retrieved_docs'] }}</p>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="d-flex flex-wrap justify-content-around p-5">
-                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                    <i class="bi bi-graph-up"></i>
-                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold text-orange">Upload files</div>
-                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                    </div>
-                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                            data-bs-toggle="modal" data-bs-target="#createEmbedding"
-                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                        upload
-                                    </button>
-                                </div>
-
-                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                    <i class="bi bi-graph-up"></i>
-                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold text-orange">From Text</div>
-                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                    </div>
-                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                        add
-                                    </button>
-                                </div>
-
-                                <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
-                                    <i class="bi bi-graph-up"></i>
-                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <div class="fw-bold text-orange">From questions and answers</div>
-                                        <div class="text-muted fs-7">Files supported: TXT, PDF</div>
-                                    </div>
-                                    <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                                        add
-                                    </button>
-                                </div>
+                    <div class="col-12">
+                        <div class="pt-2">
+                            <div style="max-height: 200px; overflow-y: scroll;" id="chunks_div">
+                                @if(count($chunks) > 0)
+                                    @foreach($chunks as $chunk)
+                                        <div class="chunk-card input-bg">
+                                            <p class="custom-text-dark">{{ $chunk['retrieved_docs'] }}</p>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
+
+            </div>
+
             </div>
         </div>
     </div>
@@ -160,7 +172,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @push('js')
 
