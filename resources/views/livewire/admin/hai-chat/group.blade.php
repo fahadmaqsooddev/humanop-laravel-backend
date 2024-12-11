@@ -220,6 +220,16 @@
                                             Uploading ...
                                         </span>
                                     </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Groups</label>
+                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
+                                            <option value="">Select Group</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{$group->id}}">{{$group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                             </div>

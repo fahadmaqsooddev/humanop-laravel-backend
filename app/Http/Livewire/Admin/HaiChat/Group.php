@@ -24,12 +24,15 @@ class Group extends Component
     protected $rules = [
         'embedding_name' => 'required|max:50',
         'embedding' => 'required|file|mimes:txt,pdf', // Corrected 'memes' to 'mimes'
+        'group_ids' => 'array',
+        'group_ids.*' => 'required|exists:embedding_groups,id',
     ];
 
     protected $messages = [
         'embedding_name.required' => 'The Name field is required.', // Corrected message to use proper text
         'embedding.required' => 'The Embedding field is required.', // Corrected message to use proper text
         'embedding.mimes' => 'The Embedding must be a file of type: txt, pdf.', // Added message for mime type validation
+        'group_ids.required' => 'Group id are required',
     ];
 
     public function render()
@@ -69,15 +72,18 @@ class Group extends Component
                 'multipart' => $multipart
             ]);
             if(!empty($aiReply['request_id'])){
+
                 $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
 
                 if($embedding){
+
+                    GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
 
                     session()->flash('embedding_success', "Embedding created successfully.");
 
                     $this->emit('closeCreateEmbeddingModal');
 
-                    $this->reset('embedding_name');
+                    $this->reset('embedding_name','group_ids');
 
                     $this->fileInputId++; // this is just for remove placeholder for file input field
 
