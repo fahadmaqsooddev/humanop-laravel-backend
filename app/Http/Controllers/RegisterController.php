@@ -154,7 +154,9 @@ class RegisterController extends Controller
 
                     User::emailVerified($user['id']);
 
-                    Auth::login($user);
+                    $remember_me = $request->has('remember') ? true : false;
+
+                    Auth::login($user, $remember_me);
 
                     session()->flash('success', 'Your account has been created.');
 

@@ -53,7 +53,20 @@ class AuthController extends Controller
             $checkUser = User::where('email', $credentials['email'])->whereNotNull('email_verified_at')->exists();
 
             if ($checkUser == true) {
-                $token = $this->auth->attempt($credentials);
+
+                $remember_me = $request['remember'] == 'true' ? true : false;
+
+                if ($remember_me == true)
+                {
+                    $token = $this->auth->attempt($credentials, $remember_me);
+
+                }
+                else
+                {
+                    $token = $this->auth->attempt($credentials);
+
+                }
+
                 if ($token) {
 
                     $user_data = User::user(Helpers::getUser()->id);
