@@ -4,6 +4,7 @@ namespace App\Models\HAIChai;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ChatbotKeyword extends Model
 {
@@ -18,13 +19,14 @@ class ChatbotKeyword extends Model
     }
 
     // Queries
-    public static function createChatbotKeyword($word, $chatbot_name){
+    public static function createChatbotKeyword($word, $chatbot_name, $message){
 
         $chatbot = Chatbot::getChatFromVendorName($chatbot_name);
 
         self::create([
             'word' => $word,
             'chatbot_id' => $chatbot->id ?? null,
+            'message' => $message,
         ]);
 
     }
@@ -46,18 +48,28 @@ class ChatbotKeyword extends Model
 
         $chatbot = Chatbot::getChatFromVendorName($name);
 
-        $keywords = self::where('chatbot_id', $chatbot->id)->get()->pluck('word')->toArray();
+        $keywords = self::where('chatbot_id', $chatbot->id)->get();
 
-        if (count($keywords) > 0){
+        foreach ($keywords as $keyword){
 
-            $pattern = '/\b(' . implode('|', $keywords) . ')\b/i';
+            if (stripos($query, $keyword['word']) !== false){
 
-            if (preg_match($pattern, $query)) {
+                return $keyword['message'];
 
-                return true;
             }
 
         }
+
+//        if (count($keywords) > 0){
+//
+//            $pattern = '/\b(' . implode('|', $keywords) . ')\b/i';
+//
+//            if (preg_match($pattern, $query)) {
+//
+//                return true;
+//            }
+//
+//        }
 
         return false;
     }

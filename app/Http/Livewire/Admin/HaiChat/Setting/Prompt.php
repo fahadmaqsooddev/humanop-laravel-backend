@@ -32,7 +32,6 @@ class Prompt extends Component
         if($detail){
             $this->prompt = $detail['prompt'];
             $this->restriction = $detail['restriction'];
-            $this->keyword_restriction_message = $detail['keyword_restriction_message'];
         }
     }
     public function update(){
@@ -91,12 +90,41 @@ class Prompt extends Component
 
     public function createKeyword(){
 
-        if ($this->keyword){
+        try {
 
-            ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name);
+            $this->validate(
+                [
+                    'keyword_restriction_message' => 'required|max:180',
+                    'keyword' => 'required|max:180',
+                ],
+                [
+                    'keyword_restriction_message.required' => 'Keyword restriction message is required.',
+                    'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.',
+                    'keyword.required' => 'Keyword is required.',
+                    'keyword.max' => 'Keyword character limit is 180.'
+                ]);
+
+            if ($this->keyword){
+
+                ChatbotKeyword::createChatbotKeyword($this->keyword,$this->name, $this->keyword_restriction_message);
+            }
+
+            $this->keyword_restriction_message = "";
+
+            $this->keyword = "";
+
+        }catch (ValidationException $exception){
+
+            session()->flash('keyword_restriction_errors', $exception->validator->errors()->getMessages());
+
+            $this->emit('hideAlerts');
         }
+        catch (\Exception $exception){
 
-        $this->keyword = "";
+            session()->flash('keyword_restriction_error', $exception->getMessage());
+
+            $this->emit('hideAlerts');
+        }
 
     }
 

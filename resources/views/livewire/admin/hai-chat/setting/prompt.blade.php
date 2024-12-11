@@ -3,7 +3,7 @@
     <div class="card card-bg-white-orange-border mt-4" id="prompt">
         @include('layouts.message')
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading">Base Prompt</h5>
+            <h5 class="text-orange setting-form-heading py-2">Base Prompt</h5>
             <textarea class="form-control input-bg" id="chatDescription" wire:model="prompt"
                       rows="6" placeholder="Enter chat prompt">
                             </textarea>
@@ -13,7 +13,7 @@
 {{--                        --}}
 {{--        </div>--}}
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading">LLM Restrictions</h5>
+            <h5 class="text-orange setting-form-heading py-2">LLM Restrictions</h5>
             <textarea class="form-control input-bg" id="chatDescription" wire:model="restriction"
                       rows="6" placeholder="Enter chat restrictions"></textarea>
         </div>
@@ -66,7 +66,7 @@
         @endif
 {{--        End Error Alerts--}}
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading">Keyword Restrictions</h5>
+            <h5 class="text-orange setting-form-heading py-2">Keyword Restrictions</h5>
             @foreach($keywords as $keyword)
                 <span class="badge badge-info">
                     {{$keyword->word}}
@@ -75,7 +75,7 @@
                 </span>
             @endforeach
 
-            <div class="pt-1">
+            <div class="pt-2">
                 <input class="form-control input-bg" wire:model="keyword"
                        rows="10" placeholder="Enter chat keyword restrictions"
                        wire:keydown.enter="createKeyword">
@@ -86,16 +86,17 @@
 {{--        </div>--}}
 
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading">Keyword Restrictions Message</h5>
+
+            <h5 class="text-orange setting-form-heading py-2">Keyword Restrictions Message</h5>
 
             <input class="form-control input-bg" wire:model="keyword_restriction_message"
                    rows="10" placeholder="Enter chat keyword restrictions message">
-            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateKeywordRestrictionMessage"
-                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
-                update
-                <span wire:loading wire:target="update" class="swal2-loader" style="font-size: 8px;">
-                </span>
-            </button>
+{{--            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateKeywordRestrictionMessage"--}}
+{{--                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">--}}
+{{--                update--}}
+{{--                <span wire:loading wire:target="update" class="swal2-loader" style="font-size: 8px;">--}}
+{{--                </span>--}}
+{{--            </button>--}}
         </div>
 {{--        <div class="card-body d-sm pt-0">--}}
 {{--        </div>--}}
@@ -113,7 +114,7 @@
 
                 $('.alert').alert('close');
 
-            }, 1500);
+            }, 5000);
 
         })
 

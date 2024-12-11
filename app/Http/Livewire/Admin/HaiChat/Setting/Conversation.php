@@ -86,10 +86,8 @@ class Conversation extends Component
 
                 $conversationsArray = $this->conversations->toArray();
 
-                $haiChatPrompt = ChatPrompt::where('name', $this->name)->first();
-
                 $restrictedResponse = [
-                    'reply' => $haiChatPrompt->keyword_restriction_message ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                    'reply' => $this->is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
                     'message' => $this->message,
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ];
