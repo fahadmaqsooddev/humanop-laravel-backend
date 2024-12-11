@@ -495,7 +495,7 @@ class ActionPlan extends Model
     public static function getUserActionPlan($user_id = null)
     {
 
-        return self::where('user_id', $user_id)->select(['id', 'plan_text', 'text'])->first();
+        return self::where('user_id', $user_id)->select(['id','priority', 'plan_text', 'text'])->latest()->first();
     }
 
 
