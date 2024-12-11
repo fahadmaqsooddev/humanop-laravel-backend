@@ -18,10 +18,21 @@ class EmbeddingGroup extends Model
         parent::__construct($attributes);
     }
 
+    protected $appends = ['is_active_group'];
+
     // Relations
     public function embeddings(){
 
         return $this->hasMany(GroupEmbedding::class,'group_id','id');
+    }
+
+
+    public function getIsActiveGroupAttribute(){
+
+//        return $this->embeddings()->has('embedding.activeEmbedding')->exists();
+        return $this->embeddings()->with('embedding.activeEmbedding')->exists();
+
+//        return $this->has('embeddings.embedding.activeEmbedding')->exists();
     }
 
     // Queries
@@ -44,9 +55,11 @@ class EmbeddingGroup extends Model
         })->get();
     }
 
-    public static function inActiveGroups(){
+    public static function groups($chat_bot_name = null, $searchName = null){
 
-        return self::doesnthave('embeddings.embedding.activeEmbedding')->get();
+        request()->merge(['chat_bot' => $chat_bot_name]);
+
+        return self::where('name', 'LIKE', "%$searchName%")->get();
     }
 
 }

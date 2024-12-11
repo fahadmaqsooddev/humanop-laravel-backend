@@ -14,7 +14,9 @@ use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks = [], $groups, $group_id, $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups, $embedding_search, $showDropdownMenu = false;
+    public $name,$embedding,$bot_name,$request_id,$button_status, $query, $chunks = [], $groups, $group_id,
+        $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups, $embedding_search,
+        $showDropdownMenu = false, $group_search, $showGroupDropdownMenu = false, $groupButtonText = 'Select Group';
 //    public $button_status_display = false;
 //    public $selected_embedding = "SELECT AN EMBEDDING";
     use WithFileUploads;
@@ -253,9 +255,13 @@ class Embedding extends Component
 //        $this->chunks = HaiChaiChunk::getHaiChunk( '',$this->bot_name, $this->query);
 //    }
 
-    public function updatedGroupId($id){
+    public function updateGroupId($id, $name){
 
         $this->embedding_id = "";
+
+        $this->group_id = $id;
+
+        $this->groupButtonText = $name;
 
 //        $this->button_status_display = false;
 
@@ -264,6 +270,8 @@ class Embedding extends Component
 //        $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($id, $this->bot_name);
 
         $this->embeddings = HaiChatEmbedding::embeddings($id, $this->bot_name, $this->embedding_search);
+
+        $this->emit('makeEmbeddingDownDownScrollable');
 
         $this->showDropdownMenu = false;
 
@@ -304,14 +312,25 @@ class Embedding extends Component
 
         $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->bot_name, $this->embedding_search);
 
+        $this->emit('makeEmbeddingDownDownScrollable');
+
         $this->showDropdownMenu = true;
+    }
+
+    public function updatedGroupSearch($value){
+
+        $this->group_search = $value;
+
+        $this->showGroupDropdownMenu = true;
+
+        $this->emit('makeGroupDownDownScrollable');
     }
 
     public function render()
     {
-        $this->groups = EmbeddingGroup::inActiveGroups();
+        $this->groups = EmbeddingGroup::groups($this->bot_name, $this->group_search);
 
-        $this->activeGroups = EmbeddingGroup::activeGroups();
+//        $this->activeGroups = EmbeddingGroup::activeGroups();
 
         return view('livewire.admin.hai-chat.setting.embedding');
     }

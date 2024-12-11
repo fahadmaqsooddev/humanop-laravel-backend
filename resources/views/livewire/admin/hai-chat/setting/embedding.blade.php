@@ -21,17 +21,59 @@
 
                         <div class="btn-group d-flex justify-content-between ">
 
-                            <select wire:model="group_id" class="form-control" style="background-color: #F3DEBA; color: black;">
-                                <option value="" class="text-center">Select Group</option>
-                                <option disabled style="background-color: #0f1534; color: white;">All Groups</option>
-                                @foreach($groups as $group)
-                                    <option value="{{$group->id}}">{{$group->name}}</option>
-                                @endforeach
-                                <option disabled style="background-color: #0f1534; color: white;">Active Groups</option>
-                                @foreach($activeGroups as $group)
-                                    <option value="{{$group->id}}">{{$group->name}}</option>
-                                @endforeach
-                            </select>
+                            <div class="dropdown w-100">
+                                <button class="dropdown-toggle form-control {{$showGroupDropdownMenu ? 'show' : ''}}" style="background-color: #F3DEBA; color: black;" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{$groupButtonText}}
+                                </button>
+                                {{--                            @if($showEmbeddingDropdown)--}}
+                                <div class="dropdown-menu w-100 {{$showGroupDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton2">
+
+                                    <div style="padding: 10px;">
+
+                                        <div style="padding-bottom: 5px;">
+                                            <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                        </div>
+
+                                        @if(count($groups) > 0)
+
+                                            <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;" id="group_dropdown_scroll">
+
+                                                <ul style="list-style: none; padding-top: 5px; padding-left: inherit;">
+                                                    @foreach($groups as $key => $group)
+                                                        <li>
+                                                            <div class="form-check" wire:click="updateGroupId('{{$group['id']}}', '{{$group['name']}}')">
+                                                                <input class="form-check-input" type="checkbox" id="checkboxGroup{{$key}}" {{($group['is_active_group'] ? 'checked' : '')}}>
+                                                                <label class="form-check-label" for="checkboxGroup{{$key}}">
+                                                                    {{$group->name}}
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+
+                                            </div>
+                                        @else
+                                            <div class="text-center">
+                                                <span>No group</span>
+                                            </div>
+                                        @endif
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+{{--                            <select wire:model="group_id" class="form-control" style="background-color: #F3DEBA; color: black;">--}}
+{{--                                <option value="" class="text-center">Select Group</option>--}}
+{{--                                <option disabled style="background-color: #0f1534; color: white;">All Groups</option>--}}
+{{--                                @foreach($groups as $group)--}}
+{{--                                    <option value="{{$group->id}}">{{$group->name}}</option>--}}
+{{--                                @endforeach--}}
+{{--                                <option disabled style="background-color: #0f1534; color: white;">Active Groups</option>--}}
+{{--                                @foreach($activeGroups as $group)--}}
+{{--                                    <option value="{{$group->id}}">{{$group->name}}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
                         </div>
 
                     </div>
@@ -54,7 +96,7 @@
 
                                         @if(count($embeddings) > 0)
 
-                                            <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;">
+                                            <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;" id="embedding_dropdown_scroll">
 
                                                 <ul style="list-style: none; padding-top: 5px; padding-left: inherit;">
                                                     @foreach($embeddings as $key => $embedding)
@@ -186,6 +228,46 @@
             });
         });
 
+        const groupDropDownScrollDiv = document.querySelector('#group_dropdown_scroll');
+        groupDropDownScrollDiv.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            groupDropDownScrollDiv.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30,
+            });
+        });
+
     </script>
 
 @endpush
+
+@push('javascript')
+
+    <script>
+
+        window.livewire.on('makeGroupDownDownScrollable', function (){
+            const groupDropDownScrollDiv = document.querySelector('#group_dropdown_scroll');
+            groupDropDownScrollDiv.addEventListener('wheel', (event) => {
+                event.preventDefault();
+
+                groupDropDownScrollDiv.scrollBy({
+                    top: event.deltaY < 0 ? -30 : 30,
+                });
+            });
+        });
+
+        window.livewire.on('makeEmbeddingDownDownScrollable', function (){
+            const embDropDownScrollDiv = document.querySelector('#embedding_dropdown_scroll');
+            embDropDownScrollDiv.addEventListener('wheel', (event) => {
+                event.preventDefault();
+
+                embDropDownScrollDiv.scrollBy({
+                    top: event.deltaY < 0 ? -30 : 30,
+                });
+            });
+        });
+
+    </script>
+
+@endpush
+
