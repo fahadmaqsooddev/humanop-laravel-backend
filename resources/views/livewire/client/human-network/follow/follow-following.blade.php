@@ -55,6 +55,7 @@
 
     </style>
     <div class="container pt-3">
+
         <div class="row">
             <div class="col-12 col-md-6 nav-tab  ">
                 <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">

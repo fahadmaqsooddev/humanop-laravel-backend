@@ -29,91 +29,277 @@
             justify-content: center;
         }
     }
+
+    .connection-btn{
+        color: #FFFFFF !important;
+        background-color: #F95520 !important;
+        cursor: pointer !important;
+        border-radius: 10px !important;
+        border: 0px !important;
+    }
+    .linear_blue{
+        background: linear-gradient(to bottom, #2594B7 2%, #B4CFCB 98%);
+    }
+    .linear_green{
+        background: linear-gradient(to bottom, #84D0AC 2%, #DAEFE4 98%);
+    }
+    .linear_light_orange{
+        background: linear-gradient(to bottom, #F8BA82 2%, #F1DAC4 98%);
+    }
+    .linear_orange{
+        background: linear-gradient(to bottom, #ED7537 2%, #F4B493 98%);
+    }
+
+    #search-bar::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+        color: #F95520 !important;
+    }
+    #search-bar::-moz-placeholder { /* Firefox 19+ */
+        color: #F95520 !important;
+    }
+    #search-bar:-ms-input-placeholder { /* IE 10+ */
+        color: #F95520 !important;
+    }
+    #search-bar::-ms-input-placeholder { /* Microsoft Edge */
+        color: #F95520 !important;
+    }
+    #search-bar::placeholder { /* Standard */
+        color: #F95520 !important;
+    }
 </style>
 @endpush
 <div>
 
     <div class="container  pt-3">
+        <div class="row position-relative mb-4 mt-2 mx-1" style="height: 120px;background: #8BB1AB;border-radius: 40px !important;">
+            <div class="col-6 my-auto " style="padding-left: 30px">
+                <div class="d-flex ">
+                    <div>
+                        <img
+                            src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                            height="80" width="80" alt="profile_image"
+                            class="shadow-sm  user_profile_image" style="border-radius: 50%">
+                    </div>
+                    <div style="margin-top: 12px">
+                        <p class="mb-0 "
+                           style="font-weight: bold;color: #F4ECE0;font-size: 18px;margin-left:10px">
+                            Welcome Back {{Auth::user()['first_name']}} !</p>
+                        <p style="color: #F4ECE0;font-size: 18px;margin-left:10px"> UI/UX
+                            Designer</p>
+                    </div>
+                </div>
 
-        <div class="row">
+            </div>
 
-            <div class="col-12 col-md-6 nav-tab  ">
+            <div class="col-6 my-auto">
+                <div class="d-flex justify-content-around px-4" >
+                    <button class="bg-transparent text-center py-2"
+                            style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%"
+                            data-bs-toggle="modal"
+                            data-bs-target="#qrCodeModal"
+                    >
+                        Get free pro version
+                    </button>
+                @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
+                    <a href="{{route('assessments')}}" class="bg-transparent  position-relative text-center py-2 px-4"
+                       style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
+                        Access your results
+                        <div class="position-absolute"
+                             style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                            <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                 alt="notification" width="40" height="40">
+                        </div>
+                    </a>
+
+
+
+                    {{--                                    <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                    {{--                                       class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                    {{--                                    </a>--}}
+
+                @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
+
+                    @php
+                        $userId = \App\Helpers\Helpers::getWebUser()['id'];
+
+                        $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
+
+                    @endphp
+                    @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
+                        {{--                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"--}}
+                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                        {{--                                        </a>--}}
+
+
+                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}" class="bg-transparent  position-relative text-center py-2 "
+                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                            Access your results
+                            <div class="position-absolute"
+                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                     alt="notification" width="40" height="40">
+                            </div>
+                        </a>
+                    @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                        {{--                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"--}}
+                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                        {{--                                        </a>--}}
+
+                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}" class="bg-transparent text-center position-relative py-2"
+                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                            Access your results
+                            <div class="position-absolute"
+                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                     alt="notification" width="40" height="40">
+                            </div>
+                        </a>
+                    @else
+                        {{--                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"--}}
+                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                        {{--                                        </a>--}}
+
+                        <a href="{{route('user_profile_overview', $assessment['id'])}}" class="bg-transparent  text-center position-relative py-2 "
+                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                            Access your results
+                            <div class="position-absolute"
+                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                     alt="notification" width="40" height="40">
+                            </div>
+                        </a>
+
+                    @endif
+
+                @else
+                    <a  class="bg-transparent text-center position-relative py-2 "
+                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"  style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                        Access your results
+                        <div class="position-absolute"
+                             style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                            <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                 alt="notification" width="40" height="40">
+                        </div>
+                    </a>
+                    {{--                                    <button--}}
+                    {{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
+                    {{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
+                    {{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
+                    {{--                                    </button>--}}
+
+                @endif
+
+
+
+
+
+
+                {{--                                --}}
+                {{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
+                {{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
+                {{--                                    Access your results--}}
+                {{--                                    <div class="position-absolute"--}}
+                {{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
+                {{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
+                {{--                                             alt="notification" width="40" height="40">--}}
+                {{--                                    </div>--}}
+                {{--                                </button>--}}
+
+                </div>
+            </div>
+            <div class="position-absolute"
+                 style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #8BB1AB">
+                <img src="{{asset('assets/new-design/icon/dashboard/bell.svg')}}" alt="notification"
+                     width="30" height="40">
+            </div>
+            <div class="position-absolute"
+                 style="left: 40%">
+                <img src="{{asset('assets/new-design/icon/dashboard/header_badge.svg')}}" alt="notification" style="width: 10%"
+                    height="120" >
+            </div>
+        </div>
+        <div class="row" style="margin-left: 1.5rem !important;margin-right:0.1rem !important; ">
+            <div class="col-12 col-md-8 my-auto" style="background:#F6BA81;border-radius: 25px;height: auto" >
+                        <div class="d-flex justify-content-around" style="height: 50px">
+                            <div class="w-80 px-3 my-auto py-1" style="background: #F4ECE0;border-radius: 20px">
+                                <img src="{{asset('assets/new-design/icon/dashboard/search.svg')}}" height="15" width="15">
+                                   <input type="text" wire:model.debounce="search_connection_name"
+                                   class="search-bar bg-transparent" id="search-bar" style="border: 0px !important;"
+                                   placeholder="Search user to connect">
+                            </div>
+                           <div class="my-auto" style="color: #F95520">
+                                  Filter
+                            </div>
+                            <div class="clickBtn  my-auto" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <img src="{{asset('assets/new-design/icon/dashboard/filter_setting.svg')}}" alt="notification"
+                                 height="15" width="15" >
+                            </div>
+                        </div>
+                <div class="collapse mx-2" id="collapseExample" wire:ignore.self>
+                    <div class="w-100 mb-2">
+
+                        <div class="row mx-1 justify-content-between">
+
+                            <div class="col-lg-6 col-12 d-flex " style="width: 49%;background-color: #F4ECE0;border-radius: 20px;border: 0px">
+                                <span class="my-auto">
+                                           <img src="{{asset('assets/new-design/icon/dashboard/search.svg')}}" height="15" width="15">
+                                </span>
+                                <select class="form-control" style="background-color: #F4ECE0;border-radius: 20px;border: 0px" wire:model="style_code">
+                                    <option value="">Search by style and feature</option>
+                                    @foreach($style_feature_color_codes as $code)
+                                        <option value="{{$code->code}}">{{$code->public_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-lg-6 col-12 d-flex " style="width: 49%;background-color: #F4ECE0;border-radius: 20px;border: 0px">
+                                 <span class="my-auto">
+                                           <img src="{{asset('assets/new-design/icon/dashboard/search.svg')}}" height="15" width="15">
+                                </span>
+                                <select wire:model="alchemy_code" class="form-control" style="background-color: #F4ECE0;border-radius: 20px;border: 0px">
+                                    <option value="">Search by alchemy code</option>
+                                    @foreach($alchemy_color_codes as $code)
+                                        <option value="{{$code->code}}">{{$code->public_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 nav-tab">
                 <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
                     <div class="nav-item connectionDev" role="presentation">
-                        <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
+                        <button class="py-2 px-3 connectionBtn  bg-transparent   me-2 mt-2 mt-md-0 rounded-1 updateBtn {{request()->input('type', 'connection') === "connection" ? "active" : ""}}" id="home-tab" data-bs-toggle="tab"
                                 data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-
-                                aria-selected="true">Connections</button>
+                                aria-selected="true" style="border: 1px solid #F95520;color: #F95520;border-radius: 25px !important;;">Connections</button>
                     </div>
 
                     <div class="nav-item connectionDev" role="presentation">
-                        <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
+                        <button class="py-2  bg-transparent connectionBtn n mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}" id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
 
-                                aria-controls="profile-tab-pane" aria-selected="false">Connection Request</button>
+                                aria-controls="profile-tab-pane" aria-selected="false" style="border: 1px solid #F95520;color: #F95520;border-radius: 25px !important;">Connection Requests</button>
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-
-                <div class="row mt-1">
-
-                    <div class="col-12">
-                        <div class="input-group ms-md-4 pe-md-4 searchInput">
-                            <input type="text" wire:model.debounce="search_connection_name"
-                                   class="beige-background-color search-bar" style="border: 1px solid #f2661c !important;
-                           padding: 5px; width: 100%; border-radius: 5px;"
-                                   placeholder="Search user to connect">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-10">
-                        <button class="rainbow-border-user-nav-btn float-end mt-4 mb-4 clickBtn"
-                                data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                                style="padding: 5px 14px 5px 14px; border-radius: 7px;">
-                            Advance Filters
-                        </button>
-                    </div>
-
                 </div>
 
             </div>
 
         </div>
-        <div class="row pt-1">
-            <div class="collapse" id="collapseExample" wire:ignore.self>
-                <div class="float-end w-100">
-
-                    <div class="row">
-
-                        <div class="col-2"></div>
-
-                        <div class="col-lg-5 col-12">
-                            <select class="form-control" style="background-color: #f3deba;width: 90%;margin-top: 5px" wire:model="style_code">
-                                <option value="">Search by style and feature</option>
-                                @foreach($style_feature_color_codes as $code)
-                                    <option value="{{$code->code}}">{{$code->public_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-lg-5 col-12">
-                            <select wire:model="alchemy_code" class="form-control" style="background-color: #f3deba;width: 90%;margin-top: 5px">
-                                <option value="">Search by alchemy code</option>
-                                @foreach($alchemy_color_codes as $code)
-                                    <option value="{{$code->code}}">{{$code->public_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                    </div>
-
-                </div>
+        <div class="row mt-3">
+            <div class="col-1 pt-1">
+                <span style="color: #F95520"> <strong>Suggestions</strong></span>
+            </div>
+            <div class="col-11" style="padding-left: 20px">
+                <hr style="color: #F95520" class="mt-3">
             </div>
         </div>
+
 
         <div class="row ">
 
@@ -129,37 +315,52 @@
                     <div class="row  pt-2 ">
 
                         @foreach($users as $user)
-                            <div class="col-6 col-md-6 col-lg-4 col-xxl-3 d-flex justify-content-center py-3">
+                            @php
+                                // Define your CSS classes
+                                $classes = ['linear_blue', 'linear_orange', 'linear_green', 'linear_light_orange'];
+                                // Select a random class
+                                $randomClass = $classes[array_rand($classes)];
+                            @endphp
+                            <div class="col-6 col-md-6 col-lg-3 col-xxl-3 d-flex justify-content-center py-3">
 
-                                <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
+                                <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 20px 20px 8px 8px;background-color: #FFFFFF !important">
+                                    <div class="position-absolute w-100 {{$randomClass}}" style="height: 80px;border-radius: 20px">
+                                    </div>
 
                                     <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
-                                        <div class="card-img flex-grow-5">
+                                        <div class="card-img flex-grow-5 position-absolute z-index-2" style="top:30px;">
                                             <img src="{{$user['photo_url']['url']}}" alt="profile pic"
-                                                 style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
+                                                 style="width: 70px; height: 70px; border-radius: 100%;  cursor: pointer; justify-content: center;">
+                                            <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
+                                                {{$user->first_name . ' ' . $user->last_name}}
+                                            </h6>
+                                            <p style="color: #1E1D1D"><small>Designer</small></p>
+                                            <div class="d-flex justify-content-center">
+                                                <img src="{{asset('assets/new-design/icon/connection/like.svg')}}" height="20" width="20" />
+                                                <img src="{{asset('assets/new-design/icon/connection/comment.svg')}}" height="20" width="20" class="mx-3"/>
+                                                <img src="{{asset('assets/new-design/icon/connection/share.svg')}}" height="20" width="20" />
+                                            </div>
                                         </div>
-                                        <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white;font-weight: 700;">
-                                            {{$user->first_name . ' ' . $user->last_name}}
-                                        </h5>
-                                        <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
+
+                                        <div class="profileCard mb-4" style="color: rgb(74, 74, 74);padding:5px 0px;">
 
                                             <div class="p-1">
                                                 @if($user['connection_status'] === 0)
-                                                    <a class="rainbow-border-user-connect-btn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'connect')" style=' font-size: x-small; font-weight: 900;'>Connect</a>
+                                                    <a class="connection-btn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'connect')" style=' font-size: x-small; font-weight: 900;'>Connect</a>
                                                 @elseif($user['connection_status'] === 1)
-                                                    <a class="rainbow-border-user-connect-btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Connected</a>
+                                                    <a class="connection-btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Connected</a>
                                                 @elseif($user['connection_status'] === 2)
-                                                    <a class="rainbow-border-user-connect-btn btn-secondary btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
+                                                    <a class=" connection-btn  btn-sm" wire:click="connectUnConnectUser({{$user->id}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
                                                 @elseif($user['connection_status'] === 3)
-                                                    <a class="rainbow-border-user-connect-btn btn-success btn-sm" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
+                                                    <a class="connection-btn  btn-sm" wire:click="connectUnConnectUser({{$user->id}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
                                                 @endif
                                             </div>
 
                                             <div class="p-1">
                                                 @if($user['is_follow'])
-                                                    <a class="rainbow-border-user-nav-btn btn-secondary btn-sm" wire:click="followUser({{$user->id}},'connect')" style="font-size: x-small; font-weight: 900;">Following</a>
+                                                    <a class="connection-btn btn-sm" wire:click="followUser({{$user->id}},'connect')" style="font-size: x-small; font-weight: 900;">Following</a>
                                                 @else
-                                                    <a class="rainbow-border-user-nav-btn updateBtn btn-sm" wire:click="followUser({{$user->id}},'un-connect')" style='font-size: x-small; font-weight: 900;'>Follow</a>
+                                                    <a class="connection-btn updateBtn btn-sm" wire:click="followUser({{$user->id}},'un-connect')" style='font-size: x-small; font-weight: 900;'>Follow</a>
                                                 @endif
                                             </div>
 
@@ -170,7 +371,7 @@
                         @endforeach
 
                             @if($users->hasMorePages())
-                                <button class="rainbow-border-user-nav-btn"  wire:click.prevent="loadMore"
+                                <button class="connection-btn my-4"  wire:click.prevent="loadMore"
                                         style=" width: 60%; margin: auto; font-weight: 600;">
                                     Load more
                                 </button>

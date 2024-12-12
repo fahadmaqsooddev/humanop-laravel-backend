@@ -9,7 +9,7 @@
 
         }
         .nav-active{
-            border-radius: 40px 0px 0px 40px;background: #F3DEBA;
+            border-radius: 40px 0px 0px 40px;background: #F4ECE0;
         }
         .sticky_header {
             display: none; /* Hidden by default */
