@@ -220,7 +220,8 @@
                     height="120" >
             </div>
         </div>
-        <div class="row" style="margin-left: 1.5rem !important;margin-right:0.1rem !important; ">
+        @if(request()->input('type') != 'request')
+        <div class="row suggestion_user_container" style="margin-left: 1.5rem !important;margin-right:0.1rem !important; ">
             <div class="col-12 col-md-8 my-auto" style="background:#F6BA81;border-radius: 25px;height: auto" >
                         <div class="d-flex justify-content-around" style="height: 50px">
                             <div class="w-80 px-3 my-auto py-1" style="background: #F4ECE0;border-radius: 20px">
@@ -290,7 +291,7 @@
             </div>
 
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 suggestion_user_container" >
             <div class="col-1 pt-1">
                 <span style="color: #F95520"> <strong>Suggestions</strong></span>
             </div>
@@ -298,7 +299,18 @@
                 <hr style="color: #F95520" class="mt-3">
             </div>
         </div>
-
+            <div class="row mt-3 request_user_container" style="display: none">
+                <div class="col-12 pt-1">
+                    <h4 style="color: #F95520"> <strong>Connection Requests:</strong></h4>
+                </div>
+            </div>
+        @else
+            <div class="row mt-3 request_user_container">
+                <div class="col-12 pt-1">
+                    <h4 style="color: #F95520"> <strong>Connection Requests:</strong></h4>
+                </div>
+            </div>
+        @endif
 
         <div class="row ">
 
@@ -388,33 +400,61 @@
                         <div class="row">
 
                             @foreach($connection_requests as $connection_request)
-
-                                <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">
-
-                                    <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">
-                                        <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">
-                                            <div class="card-img flex-grow-5">
-                                                <img src="{{$connection_request['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""
-                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
-                                            </div>
-                                            <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">
-                                                {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}
-                                            </h5>
-                                            <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">
-
-                                                <div class="p-1">
-                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
-                                                </div>
-
-                                                <div class="p-1">
-                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: x-small; font-weight: 900;">Cancel</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                    <div class="col-lg-8 col-sm-12 col-md-8 pt-3">
+                                           <div class="w-100 d-flex bg-transparent " style="height: 80px;border-radius: 20px;border:1px solid #F95520">
+                                                 <div class="d-flex my-auto justify-content-start w-80">
+                                                     <div class="my-auto mx-3">
+                                                         <img src="{{$connection_request['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""
+                                                              style="width: 60px; height: 60px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">
+                                                     </div>
+                                                     <div>
+                                                         <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
+                                                             {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}
+                                                         </h6>
+                                                     </div>
+                                                 </div>
+                                                 <div class="d-flex my-auto w-20 mx-auto">
+                                                   <div class="mx-2">
+                                                       <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="cursor: pointer">
+                                                           <img src="{{asset('assets/new-design/icon/connection/accept.svg')}}" height="30" width="30">
+                                                       </a>
+                                                   </div>
+                                                   <div>
+                                                       <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="cursor: pointer">
+                                                           <img src="{{asset('assets/new-design/icon/connection/cancel.svg')}}" height="30" width="30">
+                                                       </a>
+                                                   </div>
+                                               </div>
+                                           </div>
                                     </div>
 
-                                </div>
+
+{{--                                <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">--}}
+
+{{--                                    <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">--}}
+{{--                                        <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">--}}
+{{--                                            <div class="card-img flex-grow-5">--}}
+{{--                                                <img src="{{$connection_request['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""--}}
+{{--                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">--}}
+{{--                                            </div>--}}
+{{--                                            <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">--}}
+{{--                                                {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}--}}
+{{--                                            </h5>--}}
+{{--                                            <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">--}}
+
+{{--                                                <div class="p-1">--}}
+{{--                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>--}}
+{{--                                                </div>--}}
+
+{{--                                                <div class="p-1">--}}
+{{--                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: x-small; font-weight: 900;">Cancel</a>--}}
+{{--                                                </div>--}}
+
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+
+{{--                                </div>--}}
 
                             @endforeach
 
@@ -430,3 +470,11 @@
     </div>
 
 </div>
+@push('js')
+    <script>
+        $('#profile-tab').on('click',function(){
+            $('.suggestion_user_container').css('display','none');
+            $('.request_user_container').css('display','flex');
+        })
+    </script>
+@endpush
