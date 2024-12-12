@@ -24,7 +24,7 @@ class Chatbot extends Model
     // Appends
     public function getChatBotColorAttribute(){
 
-        if($this->setting->plan()->first()->name ?? false){
+        if($this->setting?->plan()?->first()?->name ?? false){
 
             if ($this->setting->plan()->first()->name === 'Freemium'){
 
