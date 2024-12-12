@@ -13,8 +13,16 @@
                     <p class="mb-0 "
                        style="font-weight: bold;color: #F4ECE0;font-size: 18px;margin-left:10px">
                         Welcome Back {{Auth::user()['first_name']}} !</p>
-                    <p style="color: #F4ECE0;font-size: 18px;margin-left:10px"> UI/UX
-                        Designer</p>
+                    @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                        <p class="mb-0 font-weight-bold text-sm"
+                           style="color: white;margin-left:10px">
+                            Optimal Trait To Be In Right Now:
+                        </p>
+                        <h6 style="color: white;font-size: 18px;margin-left:10px; cursor:pointer;"
+                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
+                            <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
+                        </h6>
+                    @endif
                 </div>
             </div>
 
