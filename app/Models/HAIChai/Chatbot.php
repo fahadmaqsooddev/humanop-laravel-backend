@@ -19,6 +19,38 @@ class Chatbot extends Model
         parent::__construct($attributes);
     }
 
+    protected $appends = ['chat_bot_color'];
+
+    // Appends
+    public function getChatBotColorAttribute(){
+
+        if($this->setting->plan()->first()->name ?? false){
+
+            if ($this->setting->plan()->first()->name === 'Freemium'){
+
+                return '#FCB178';
+
+            }elseif($this->setting->plan()->first()->name === 'Core'){
+
+                return '#2594b7';
+
+            }elseif ($this->setting->plan()->first()->name === 'Premium') {
+
+                return '#8BB1AB';
+            }
+        }
+
+        return '#FCB178';
+    }
+
+    // Relations
+    public function setting(){
+
+        return $this->hasOne(HaiChatSetting::class,'chat_bot_id','id');
+    }
+
+
+    // Queries
     public static function createChat($name = null, $description = null)
     {
         return self::create([
@@ -29,7 +61,7 @@ class Chatbot extends Model
 
     public static function allChats()
     {
-        return self::orderBy('created_at', 'desc')->get(['id', 'name', 'description']);
+        return self::orderBy('created_at', 'desc')->with('setting.plan')->get(['id', 'name', 'description']);
     }
 
     public static function singleChat($id = null)
