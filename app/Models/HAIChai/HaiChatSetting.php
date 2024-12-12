@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,13 @@ class HaiChatSetting extends Model
         parent::__construct($attributes);
     }
 
+    // Relations
+    public function plan(){
+
+        return $this->belongsTo(Plan::class,'plan_id','id');
+    }
+
+    // Queries
     public static function getHaiChatSetting($chat_bot_id = null)
     {
         $setting = self::where('chat_bot_id', $chat_bot_id)->first();
@@ -37,6 +45,8 @@ class HaiChatSetting extends Model
     {
         $setting = self::where('chat_bot_id', $chat_bot_id)->first();
 
+        $defaultPlanId = Plan::where('name', 'Freemium')->first()->id ?? null;
+
         if ($setting){
 
             $setting->update([
@@ -44,7 +54,7 @@ class HaiChatSetting extends Model
                 'max_token' => $max_token,
                 'chunk' => $chunk,
                 'model_type' => $model_type,
-                'plan_id' => $plan_id,
+                'plan_id' => $plan_id ?? $defaultPlanId,
             ]);
 
         }else{
@@ -55,7 +65,7 @@ class HaiChatSetting extends Model
                 'chunk' => $chunk ?? 5,
                 'model_type' => $model_type ?? self::GPT_4o_MINI,
                 'chat_bot_id' => $chat_bot_id,
-                'plan_id' => $plan_id,
+                'plan_id' => $plan_id ?? $defaultPlanId,
             ]);
 
         }

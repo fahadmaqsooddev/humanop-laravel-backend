@@ -77,9 +77,7 @@
                         <div class="mb-3">
                             <label for="temperature" style="font-size: small;"
                                    class="form-label fw-bold text-orange">Plan</label>
-                            <select class="form-control input-bg"
-                                    wire:model.defer="plan_id">
-                                    <option value="">Select plan</option>
+                            <select class="form-control input-bg" wire:model.defer="plan_id">
                                 @foreach($plans as $plan)
                                     <option value="{{$plan->id}}">{{$plan->name}}</option>
                                 @endforeach
