@@ -38,9 +38,7 @@
             color: white;
         }
 
-        body {
-            background-color: #F3DEBA !important;
-        }
+
 
         @media (min-width: 360px) and (max-width: 991px) {
 
@@ -87,10 +85,9 @@
             <div class="col-6 my-auto">
                 <div class="d-flex justify-content-around px-4" >
                     <button class="bg-transparent text-center py-2"
-                            style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%"
+                            style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%;cursor:pointer"
                             data-bs-toggle="modal"
-                            data-bs-target="#qrCodeModal"
-                    >
+                            data-bs-target="#qrCodeModal">
                         Get free pro version
                     </button>
                     @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)

@@ -15,9 +15,6 @@
             color: white;
         }
 
-        body{
-            background-color: #F3DEBA !important;
-        }
 
     </style>
 
