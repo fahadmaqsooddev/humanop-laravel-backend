@@ -42,7 +42,7 @@
                                                     @foreach($groups as $key => $group)
                                                         <li>
                                                             <div class="form-check" wire:click="updateGroupId('{{$group['id']}}', '{{$group['name']}}')">
-                                                                <input class="form-check-input" type="checkbox" id="checkboxGroup{{$key}}" {{($group['is_active_group'] ? 'checked' : '')}}>
+                                                                <input class="form-check-input" type="checkbox" id="checkboxGroup{{$key}}" {{($group['is_active_group'] ? 'checked' : '')}} onclick="return false;">
                                                                 <label class="form-check-label" for="checkboxGroup{{$key}}">
                                                                     {{$group->name}}
                                                                 </label>
