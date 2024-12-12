@@ -159,7 +159,7 @@ class CodeDetail extends Model
             $codeDetail = [$result->public_name, $result->text, $result->video_url];
         }
 
-        return $codeDetail;
+        return $codeDetail ?? null;
     }
 
     public static function getSinglePublicName($codeKey = null)
