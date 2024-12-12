@@ -84,6 +84,8 @@ class Embedding extends Component
     {
         try {
 
+            $this->reset('showDropdownMenu','showGroupDropdownMenu');
+
             $this->validate(['query' => 'required'],['query.required' => 'Query is required']);
 
             $embedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);

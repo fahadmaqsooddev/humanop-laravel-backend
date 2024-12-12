@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
-use App\Helpers\Helpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
@@ -14,17 +13,20 @@ use Livewire\WithFileUploads;
 
 class Group extends Component
 {
-
     use WithFileUploads;
 
     protected $listeners = ['deleteEmbedding'];
 
-    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id, $group_ids, $fileInputId;
+    public $groups, $name, $embedding_ids = [], $embedding_name, $embedding, $embeddings, $embedding_id,
+
+        $group_ids = [], $fileInputId, $showGroupDropdownMenu = false, $group_search, $dropDownGroups = [],
+
+        $is_group = true, $showEmbDropdownMenu = false, $dropDownEmbeddings = [], $embedding_search;
 
     protected $rules = [
         'embedding_name' => 'required|max:50',
         'embedding' => 'required|file|mimes:txt,pdf', // Corrected 'memes' to 'mimes'
-        'group_ids' => 'array',
+        'group_ids' => 'required|array',
         'group_ids.*' => 'required|exists:embedding_groups,id',
     ];
 
@@ -38,6 +40,10 @@ class Group extends Component
     public function render()
     {
         $this->groups = EmbeddingGroup::allGroups();
+
+        $this->dropDownGroups = EmbeddingGroup::groupsForDropDown($this->group_search);
+
+        $this->dropDownEmbeddings = HaiChatEmbedding::allEmbeddingsForDropDown($this->embedding_search);
 
         $this->embeddings = HaiChatEmbedding::allEmbeddings();
 
@@ -103,6 +109,8 @@ class Group extends Component
             session()->flash('embedding_error', $exception->getMessage());
         }
 
+        $this->showGroupDropdownMenu = false;
+
         $this->emit('closeAlert');
     }
 
@@ -167,6 +175,8 @@ class Group extends Component
             session()->flash('success', $exception->getMessage());
         }
 
+        $this->showEmbDropdownMenu = false;
+
         $this->emit('closeAlert');
     }
 
@@ -212,11 +222,6 @@ class Group extends Component
         return $response_body;
     }
 
-    public function resetValidationError(){
-
-        $this->resetValidation();
-    }
-
     public function setEmbeddingId($embedding_id){
 
         $this->group_ids = GroupEmbedding::embeddingGroups($embedding_id);
@@ -238,6 +243,10 @@ class Group extends Component
 
             $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
 
+            $this->emit('closeAddGroupToEmbeddingModal');
+
+            $this->showGroupDropdownMenu = false;
+
         }catch (ValidationException $validationException){
 
             session()->flash('embedding_group_errors', $validationException->validator->errors()->getMessages());
@@ -246,5 +255,56 @@ class Group extends Component
 
             session()->flash('embedding_group_error', $exception->getMessage());
         }
+    }
+
+    public function addGroupIds(int $id){
+
+        if(in_array($id,$this->group_ids)){
+
+            $this->group_ids = array_diff($this->group_ids,[$id]);
+
+        }else{
+
+            array_push($this->group_ids,$id);
+        }
+
+        $this->showGroupDropdownMenu = true;
+
+    }
+
+    public function updatedGroupSearch($value){
+
+        $this->group_search = $value;
+
+        $this->showGroupDropdownMenu = true;
+
+    }
+
+    public function changeIsGroup($value){
+
+        $this->is_group = $value;
+    }
+
+    public function addEmbeddingIds(int $id){
+
+        if(in_array($id,$this->embedding_ids)){
+
+            $this->embedding_ids = array_diff($this->embedding_ids,[$id]);
+
+        }else{
+
+            array_push($this->embedding_ids,$id);
+        }
+
+        $this->showEmbDropdownMenu = true;
+
+    }
+
+    public function updatedEmbeddingSearch($value){
+
+        $this->embedding_search = $value;
+
+        $this->showEmbDropdownMenu = true;
+
     }
 }

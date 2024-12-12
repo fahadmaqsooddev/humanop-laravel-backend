@@ -59,7 +59,20 @@ class EmbeddingGroup extends Model
 
         request()->merge(['chat_bot' => $chat_bot_name]);
 
-        return self::where('name', 'LIKE', "%$searchName%")->get();
+        return self::when($searchName,function ($query)use ($searchName){
+
+            $query->where('name', 'LIKE', "%$searchName%");
+
+        })->get();
+    }
+
+    public static function groupsForDropDown($searchName = null){
+
+        return self::when($searchName, function ($query)use ($searchName){
+
+            $query->where('name', 'LIKE', "%$searchName%");
+
+        })->get();
     }
 
 }

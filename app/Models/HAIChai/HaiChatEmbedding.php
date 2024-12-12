@@ -114,4 +114,17 @@ class HaiChatEmbedding extends Model
 //
 //    }
 
+    public static function allEmbeddingsForDropDown($searchName = null)
+    {
+        return self::when($searchName, function ($query, $name){
+
+            $query->where('name', 'LIKE', "%$name%");
+
+        })
+
+            ->orderBy('created_at', 'desc')
+
+            ->get();
+    }
+
 }

@@ -85,6 +85,6 @@ class GroupEmbedding extends Model
 
     public static function embeddingGroups($embedding_id = null){
 
-        return self::where('embedding_id', $embedding_id)->pluck('group_id');
+        return self::where('embedding_id', $embedding_id)->pluck('group_id')->toArray();
     }
 }

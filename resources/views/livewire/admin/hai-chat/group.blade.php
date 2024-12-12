@@ -23,12 +23,12 @@
 <div>
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createEmbedding"
-           style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="resetValidationError"
+           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
            class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Embedding
         </a>
         <div class="px-3">
             <a data-bs-toggle="modal" data-bs-target="#createGroup"
-               style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="resetValidationError"
+               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
                class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Group
             </a>
         </div>
@@ -42,12 +42,14 @@
                 <div class="nav-item connectionDev" role="presentation">
                     <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{(session('embedding_deleted') ? '' : 'active')}}" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                            wire:click="changeIsGroup(true)"
                             aria-selected="true">Groups</button>
                 </div>
 
                 <div class="nav-item connectionDev" role="presentation">
                     <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{(session('embedding_deleted') ? 'active' : '')}}" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
+                            wire:click="changeIsGroup(false)"
                             aria-controls="profile-tab-pane" aria-selected="false">Embeddings</button>
                 </div>
             </div>
@@ -70,7 +72,7 @@
             @endif
 
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade pt-3 {{ (session('embedding_deleted') ? '' : 'show active') }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <div class="tab-pane fade pt-3 {{ (!$is_group || session('embedding_deleted') ? '' : 'show active') }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                     @empty($groups[0])
                         <p class="text-white">No group found</p>
@@ -99,7 +101,7 @@
                     </div>
 
                 </div>
-                <div class="tab-pane fade pt-3 {{(session('embedding_deleted') ? 'show active' : '')}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <div class="tab-pane fade pt-3 {{(!$is_group || session('embedding_deleted') ? 'show active' : '')}}" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
 
                     @empty($embeddings[0])
                         <p style="color: #f2661c;font-size: 20px; font-weight: bold">No embedding found</p>
@@ -168,7 +170,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Embedding</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="embedding-close-modal-button" wire:click="resetValidationError">
+                                            aria-label="Close" id="embedding-close-modal-button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
 {{--                                    Alert messages--}}
@@ -223,12 +225,46 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Groups</label>
-                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
-                                            <option value="">Select Group</option>
-                                            @foreach($groups as $group)
-                                                <option value="{{$group->id}}">{{$group->name}}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="dropdown w-100">
+                                            <button class="dropdown-toggle form-control {{$showGroupDropdownMenu ? 'show' : ''}}" style="background-color: #0f1534; color: white;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Group
+                                            </button>
+                                            <div class="dropdown-menu w-100 {{$showGroupDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton1">
+
+                                                <div style="padding: 10px;">
+
+                                                    <div style="padding-bottom: 5px;">
+                                                        <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                    </div>
+
+                                                    @if(count($dropDownGroups) > 0)
+
+                                                        <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;" id="group_dropdown_scroll">
+
+                                                            <ul style="list-style: none; padding-top: 5px; padding-left: inherit;cursor: default;">
+                                                                @foreach($dropDownGroups as $key => $group)
+                                                                    <li>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
+                                                                                {{$group->name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center">
+                                                            <span>No groups</span>
+                                                        </div>
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -255,7 +291,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Group</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="group-close-modal-button" wire:click="resetValidationError">
+                                            aria-label="Close" id="group-close-modal-button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -267,12 +303,54 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Embeddings </label>
-                                        <select wire:model.defer="embedding_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
-                                            <option value="">Select Embeddings</option>
-                                            @foreach($embeddings as $embedding)
-                                                <option value="{{$embedding->id}}">{{$embedding->name}}</option>
-                                            @endforeach
-                                        </select>
+{{--                                        <select wire:model.defer="embedding_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">--}}
+{{--                                            <option value="">Select Embeddings</option>--}}
+{{--                                            @foreach($embeddings as $embedding)--}}
+{{--                                                <option value="{{$embedding->id}}">{{$embedding->name}}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+
+                                        <div class="dropdown w-100">
+                                            <button class="dropdown-toggle form-control {{$showEmbDropdownMenu ? 'show' : ''}}" style="background-color: #0f1534; color: white;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Embedding
+                                            </button>
+                                            <div class="dropdown-menu w-100 {{$showEmbDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton1">
+
+                                                <div style="padding: 10px;">
+
+                                                    <div style="padding-bottom: 5px;">
+                                                        <input type="text" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                    </div>
+
+                                                    @if(count($dropDownEmbeddings) > 0)
+
+                                                        <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;" id="group_dropdown_scroll">
+
+                                                            <ul style="list-style: none; padding-top: 5px; padding-left: inherit;cursor: default;">
+                                                                @foreach($dropDownEmbeddings as $key => $embedding)
+                                                                    <li>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" wire:click.prevent="addEmbeddingIds('{{$embedding['id']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($embedding->id, $embedding_ids) ? 'checked' : ''}}>
+                                                                            <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
+                                                                                {{$embedding->name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center">
+                                                            <span>No embeddings</span>
+                                                        </div>
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -299,7 +377,7 @@
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Add embedding to groups</label>
                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="group-close-modal-button" wire:click="resetValidationError">
+                                            aria-label="Close" id="embedding-group-close-modal-button">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     {{--                                    Alert messages--}}
@@ -339,12 +417,54 @@
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Groups</label>
-                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">
-                                            <option value="">Select Group</option>
-                                            @foreach($groups as $group)
-                                                <option value="{{$group->id}}">{{$group->name}}</option>
-                                            @endforeach
-                                        </select>
+{{--                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">--}}
+{{--                                            <option value="">Select Group</option>--}}
+{{--                                            @foreach($groups as $group)--}}
+{{--                                                <option value="{{$group->id}}">{{$group->name}}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+
+                                        <div class="dropdown w-100">
+                                            <button class="dropdown-toggle form-control {{$showGroupDropdownMenu ? 'show' : ''}}" style="background-color: #0f1534; color: white;" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Group
+                                            </button>
+                                            <div class="dropdown-menu w-100 {{$showGroupDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton3">
+
+                                                <div style="padding: 10px;">
+
+                                                    <div style="padding-bottom: 5px;">
+                                                        <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                    </div>
+
+                                                    @if(count($dropDownGroups) > 0)
+
+                                                        <div style="max-height: 100px; overflow-y: scroll;padding-top: 5px;" id="group_dropdown_scroll">
+
+                                                            <ul style="list-style: none; padding-top: 5px; padding-left: inherit;cursor: default;">
+                                                                @foreach($dropDownGroups as $key => $group)
+                                                                    <li>
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
+                                                                                {{$group->name}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center">
+                                                            <span>No groups</span>
+                                                        </div>
+                                                    @endif
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -388,6 +508,12 @@
             setTimeout(function (){
                 $('.alert').alert('close');
             }, 5000);
+        });
+
+        window.livewire.on('closeAddGroupToEmbeddingModal', function (){
+            setTimeout(function (){
+                $('#embedding-group-close-modal-button').click();
+            }, 1000);
         });
 
         // $(document).ready(function () {
