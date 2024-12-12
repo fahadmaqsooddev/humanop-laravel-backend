@@ -68,8 +68,7 @@
 </style>
 @endpush
 <div>
-
-    <div class="container  pt-3">
+    <div class="container-fluid pt-3">
         <div class="row position-relative mb-4 mt-2 mx-1" style="height: 120px;background: #8BB1AB;border-radius: 40px !important;">
             <div class="col-6 my-auto " style="padding-left: 30px">
                 <div class="d-flex ">
