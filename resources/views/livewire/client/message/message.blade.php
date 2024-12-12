@@ -15,10 +15,10 @@
                         Welcome Back {{Auth::user()['first_name']}} !</p>
                     @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
                         <p class="mb-0 font-weight-bold text-sm"
-                           style="color: #D26622;margin-left:10px">
+                           style="color: white;margin-left:10px">
                             Optimal Trait To Be In Right Now:
                         </p>
-                        <h6 style="color: #D26622;font-size: 18px;margin-left:10px; cursor:pointer;"
+                        <h6 style="color: white;font-size: 18px;margin-left:10px; cursor:pointer;"
                             onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
                             <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
                         </h6>
