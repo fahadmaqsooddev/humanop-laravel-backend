@@ -288,3 +288,10 @@ body {
 #search-bar::placeholder { /* Standard */
     color: #F95520 !important;
 }
+
+
+.mainScrollbar::-webkit-scrollbar
+{
+    scrollbar-width: thin;
+    scrollbar-color: red;
+}

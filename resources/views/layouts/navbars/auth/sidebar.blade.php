@@ -53,10 +53,10 @@
         </div>
     </div>
 @endif
-<aside id="#remove-scrollbar-nav" style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? 'width: 155px;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
+<aside id="" style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
        class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
        id="sidenav-main">
-    <div class="d-flex">
+    <div class="d-flex ">
         <div class="sidenav-header mb-3">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                aria-hidden="true" id="iconSidenav"></i>

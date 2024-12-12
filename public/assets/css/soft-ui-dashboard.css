@@ -26012,6 +26012,21 @@ pre[class*="language-"] {
   }
 }
 
+
+@media (min-width: 1200px) {
+
+    .mainParentDiv {
+        padding-left: 0px !important;
+    }
+}
+
+@media (min-width: 495px) and (max-width: 991px) {
+    .accessResults {
+        margin-left: 30px !important;
+    }
+}
+
+
 @media (max-width: 1199.98px) {
   .dropdown-lg-responsive {
     min-width: 19rem;

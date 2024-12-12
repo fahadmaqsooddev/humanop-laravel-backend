@@ -193,7 +193,6 @@
     }
 
 
-
     @media screen and (min-width: 992px) and (max-width: 1200px) {
 
         .core_stats_heading {
@@ -220,43 +219,43 @@
 
 </style>
 @section('content')
-    <div class="parent px-lg-5" style="padding-left: 0px !important;">
-{{--        <div class="container-fluid px-0 d-lg-none">--}}
-{{--            <div class="page-header min-height-100 border-radius-xl">--}}
-{{--            </div>--}}
-{{--            <div class="card card-body blur shadow-blur  mt-n6 ">--}}
-{{--                <div class="d-flex justify-content-between flex-wrap">--}}
+    <div class="parent px-lg-5 mainParentDiv">
+        {{--        <div class="container-fluid px-0 d-lg-none">--}}
+        {{--            <div class="page-header min-height-100 border-radius-xl">--}}
+        {{--            </div>--}}
+        {{--            <div class="card card-body blur shadow-blur  mt-n6 ">--}}
+        {{--                <div class="d-flex justify-content-between flex-wrap">--}}
 
-{{--                    <div class="d-flex">--}}
-{{--                        <div class="col-auto" style="margin-top: 25px">--}}
-{{--                            <div class="avatar avatar-xl avatar-icon  ">--}}
-{{--                                <img--}}
-{{--                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"--}}
-{{--                                    height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <div class="h-100 my-4">--}}
-{{--                                <a href="javascript:void(0)">--}}
-{{--                                    <h5 class="mb-1 text-white">--}}
-{{--                                        {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}--}}
-{{--                                    </h5>--}}
-{{--                                    @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))--}}
-{{--                                        <p class="mb-0 font-weight-bold text-sm text-white">--}}
-{{--                                            Optimal Trait To Be In Right Now:--}}
-{{--                                        </p>--}}
-{{--                                        <h6 class="text-white"--}}
-{{--                                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">--}}
-{{--                                            <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>--}}
-{{--                                        </h6>--}}
-{{--                                    @endif--}}
-{{--                                </a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        {{--                    <div class="d-flex">--}}
+        {{--                        <div class="col-auto" style="margin-top: 25px">--}}
+        {{--                            <div class="avatar avatar-xl avatar-icon  ">--}}
+        {{--                                <img--}}
+        {{--                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"--}}
+        {{--                                    height="80" alt="profile_image" class="w-100 border-radius-lg shadow-sm  ">--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+        {{--                        <div class="d-flex">--}}
+        {{--                            <div class="h-100 my-4">--}}
+        {{--                                <a href="javascript:void(0)">--}}
+        {{--                                    <h5 class="mb-1 text-white">--}}
+        {{--                                        {{Auth::user()['first_name']}} {{Auth::user()['last_name']}}--}}
+        {{--                                    </h5>--}}
+        {{--                                    @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))--}}
+        {{--                                        <p class="mb-0 font-weight-bold text-sm text-white">--}}
+        {{--                                            Optimal Trait To Be In Right Now:--}}
+        {{--                                        </p>--}}
+        {{--                                        <h6 class="text-white"--}}
+        {{--                                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">--}}
+        {{--                                            <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>--}}
+        {{--                                        </h6>--}}
+        {{--                                    @endif--}}
+        {{--                                </a>--}}
+        {{--                            </div>--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
 
         @if($admin_answer && !empty($admin_answer['question']))
             <div class="container-fluid p-2 mt-2 ">
@@ -317,7 +316,8 @@
                                                style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
                                                 Welcome Back {{Auth::user()['first_name']}} !</p>
                                             @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
-                                                <p class="mb-0 font-weight-bold text-sm" style="color: #D26622;margin-left:10px">
+                                                <p class="mb-0 font-weight-bold text-sm"
+                                                   style="color: #D26622;margin-left:10px">
                                                     Optimal Trait To Be In Right Now:
                                                 </p>
                                                 <h6 style="color: #D26622;font-size: 18px;margin-left:10px; cursor:pointer;"
@@ -362,12 +362,13 @@
 
                     <div class="col-lg-4 col-md-12 col-sm-12 mb-2 ">
                         <div class="card "
-                             style="height: 180px;background: #FCB178 !important;border-radius: 40px !important;">
+                             style="height: 180px !important;background: #FCB178 !important;border-radius: 40px !important;">
                             <div class="text-center my-auto ">
                                 @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
-                                    <a href="{{route('assessments')}}" class="bg-transparent w-70 py-2 position-relative"
-                                            style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                    <a href="{{route('assessments')}}"
+                                       class="bg-transparent w-70 py-2 position-relative accessResults mx-2"
+                                       style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                         Access your results
                                         <div class="position-absolute"
                                              style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -378,9 +379,9 @@
 
 
 
-{{--                                    <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--                                       class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-{{--                                    </a>--}}
+                                    {{--                                    <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                                    {{--                                       class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                                    {{--                                    </a>--}}
 
                                 @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
 
@@ -391,13 +392,14 @@
 
                                     @endphp
                                     @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
-{{--                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"--}}
-{{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-{{--                                        </a>--}}
+                                        {{--                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"--}}
+                                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                                        {{--                                        </a>--}}
 
 
-                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}" class="bg-transparent w-70 py-2 position-relative"
+                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
+                                           class="bg-transparent w-70 py-2 position-relative accessResults mx-2"
                                            style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
@@ -407,12 +409,13 @@
                                             </div>
                                         </a>
                                     @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-{{--                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"--}}
-{{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-{{--                                        </a>--}}
+                                        {{--                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"--}}
+                                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                                        {{--                                        </a>--}}
 
-                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}" class="bg-transparent w-70 py-2 position-relative"
+                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
+                                           class="bg-transparent w-70 py-2 position-relative accessResults mx-2"
                                            style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
@@ -422,12 +425,13 @@
                                             </div>
                                         </a>
                                     @else
-{{--                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"--}}
-{{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-{{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-{{--                                        </a>--}}
+                                        {{--                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"--}}
+                                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+                                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
+                                        {{--                                        </a>--}}
 
-                                        <a href="{{route('user_profile_overview', $assessment['id'])}}" class="bg-transparent w-70 py-2 position-relative"
+                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"
+                                           class="bg-transparent w-70 py-2 position-relative accessResults mx-2"
                                            style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
@@ -440,8 +444,9 @@
                                     @endif
 
                                 @else
-                                    <a  class="bg-transparent py-2 position-relative"
-                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"  style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                    <a class="bg-transparent py-2 position-relative"
+                                       data-toggle="tooltip" data-placement="top" title="Take the assessment first"
+                                       style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                         Access your results
                                         <div class="position-absolute"
                                              style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -449,11 +454,11 @@
                                                  alt="notification" width="40" height="40">
                                         </div>
                                     </a>
-{{--                                    <button--}}
-{{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
-{{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
-{{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
-{{--                                    </button>--}}
+                                    {{--                                    <button--}}
+                                    {{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
+                                    {{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
+                                    {{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
+                                    {{--                                    </button>--}}
 
                                 @endif
 
@@ -462,17 +467,17 @@
 
 
 
-{{--                                --}}
-{{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
-{{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
-{{--                                    Access your results--}}
-{{--                                    <div class="position-absolute"--}}
-{{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
-{{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
-{{--                                             alt="notification" width="40" height="40">--}}
-{{--                                    </div>--}}
-{{--                                </button>--}}
-                                <button class="bg-transparent mt-4 py-2"
+                                {{--                                --}}
+                                {{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
+                                {{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
+                                {{--                                    Access your results--}}
+                                {{--                                    <div class="position-absolute"--}}
+                                {{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
+                                {{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
+                                {{--                                             alt="notification" width="40" height="40">--}}
+                                {{--                                    </div>--}}
+                                {{--                                </button>--}}
+                                <button class="bg-transparent mt-4 py-2 mx-2"
                                         style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 30px"
                                         data-bs-toggle="modal"
                                         data-bs-target="#qrCodeModal"
@@ -486,9 +491,10 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-xl-8 col-lg-12 mt-2 col-sm-12 col-md-12 mainCardFlex">
+                    {{--                    <div class="col-xl-8 col-lg-12 mt-2 col-sm-12 col-md-12 mainCardFlex">--}}
+                    <div class="col-md-8 col-sm-12">
                         <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
                                 <div class="card daily-tip-card"
                                      style="height: 530px;position: relative;background: #8BB1AB !important;border-radius: 40px !important;">
                                     <div class="card-body" data-step="2" style="cursor: pointer;">
@@ -497,7 +503,7 @@
                                             <h5 class="mb-0 text-center w-auto" data-bs-toggle="modal"
                                                 data-bs-target="#dailyTipModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
-                                                <strong>Daily Tip</strong>
+                                                <strong>DAILY TIP</strong>
                                                 {{--                                            <span--}}
                                                 {{--                                                class="iconInfo" data-bs-toggle="modal"--}}
                                                 {{--                                                data-bs-target="#dailyTipModel"><i--}}
@@ -537,9 +543,11 @@
                                                             class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                             id="read_all_tip">
                                                             <button
-                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button" style="color: #1C365E !important;"
+                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                                style="color: #1C365E !important;"
                                                                 {{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
-                                                                data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#daily-tip-completed"
                                                                 onclick="onDailyTipAllRead()">
                                                                 Complete Daily Tip
                                                             </button>
@@ -554,10 +562,11 @@
                                                 <div class="dailyTipButton">
                                                     <div
                                                         class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
-                                                        <button style="background-color: #f2661c;color: #1C365E !important;"
-                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
-                                                                data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
-                                                                onclick="onDailyTipAllRead()">
+                                                        <button
+                                                            style="background-color: #f2661c;color: #1C365E !important;"
+                                                            class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                            data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
+                                                            onclick="onDailyTipAllRead()">
                                                             Complete Daily Tip
                                                         </button>
                                                     </div>
@@ -571,7 +580,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
                                 <div class="card core-state-card"
                                      style="height: 530px;position: relative;background-color: #FCB178 !important;border-radius: 40px !important;"
                                      data-step="3">
@@ -750,97 +759,102 @@
 
                                         </div>
                                         <div style="overflow-y:scroll;max-height: 400px">
-                                        <p class="text-color-blue traitHeading mb-2"> Top 3 Traits:</p>
-                                        <div class="d-flex flex-column" style="margin-top: -10px">
-                                            @if($topThreeStyles)
-                                                @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
-                                                    <p class="fw-bold fs-12px text-color-blue"
-                                                       style=" cursor: pointer;margin: unset"
-                                                       onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
-                                                        {{ $style[1] }} [{{ $style[0] }}]
-                                                    </p>
-                                                @endforeach
+                                            <p class="text-color-blue traitHeading mb-2"> Top 3 Traits:</p>
+                                            <div class="d-flex flex-column" style="margin-top: -10px">
+                                                @if($topThreeStyles)
+                                                    @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
+                                                        <p class="fw-bold fs-12px text-color-blue"
+                                                           style=" cursor: pointer;margin: unset"
+                                                           onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
+                                                            {{ $style[1] }} [{{ $style[0] }}]
+                                                        </p>
+                                                    @endforeach
+                                                @else
+                                                    <p class="fw-bold fs-12px text-color-blue" style="margin: unset">
+                                                        N/A</p>
+                                                @endif
+                                            </div>
+                                            <p class="text-color-blue traitHeading mb-2"> Motivational
+                                                Drivers:</p>
+                                            <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
+                                                @if($topTwoFeatures)
+                                                    @foreach($topTwoFeatures as $index => $feature)
+                                                        <p class="fw-bold fs-12px "
+                                                           style=" cursor: pointer;margin: unset"
+                                                           onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
+                                                            {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
+                                                            [{{ $feature[0] }}]
+                                                        </p>
+                                                    @endforeach
+                                                @else
+                                                    <p class="fw-bold fs-12px text-color-blue" style="margin: unset">
+                                                        N/A</p>
+                                                @endif
+                                            </div>
+                                            <p class="text-color-blue traitHeading mb-2">Boundaries of
+                                                Tolerance "Alchemy":</p>
+                                            @if($boundary)
+                                                <p class="fw-bold fs-12px text-color-blue"
+                                                   style="margin-top: -10px; cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
+                                                    @php
+                                                        $codeParts = explode('-', $boundary['code_number']);
+                                                        $code = implode('', $codeParts);
+                                                    @endphp
+                                                    {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
+                                                </p>
                                             @else
                                                 <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                             @endif
-                                        </div>
-                                        <p class="text-color-blue traitHeading mb-2"> Motivational
-                                            Drivers:</p>
-                                        <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
-                                            @if($topTwoFeatures)
-                                                @foreach($topTwoFeatures as $index => $feature)
-                                                    <p class="fw-bold fs-12px "
-                                                       style=" cursor: pointer;margin: unset"
-                                                       onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
-                                                        {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
-                                                        [{{ $feature[0] }}]
-                                                    </p>
-                                                @endforeach
+                                            <p class="text-color-blue traitHeading mb-2"> Communication
+                                                Style "Energy Centers":</p>
+                                            <div class="d-flex text-color-blue flex-wrap" style="margin-top: -15px">
+                                                @if($topCommunication)
+                                                    @foreach($topCommunication as $communication)
+                                                        <p class="fw-bold fs-12px"
+                                                           style=" cursor: pointer;"
+                                                           onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
+                                                            {{--                                                    {{dd($communication)}}--}}
+                                                            <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
+                                                            &nbsp;@endif
+                                                        </p>
+                                                    @endforeach
+                                                @else
+                                                    <p class="fw-bold fs-12px text-color-blue mb-2"
+                                                       style="margin: unset">
+                                                        N/A</p>
+                                                @endif
+                                            </div>
+                                            <p class="text-color-blue traitHeading mb-2"
+                                               style="color: rgb(160, 174, 192); margin-top: -13px">
+                                                Perception of
+                                                Life:</p>
+                                            @if($preception)
+                                                <p class="fw-bold fs-12px text-color-blue"
+                                                   style=" margin-top: -10px;cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
+                                                    {{
+                                                        ($preception['polarity_code'] == 40 ? "Negatively Charged" :
+                                                        ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
+                                                        ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
+                                                    }} [{{ $preception['pv'] ?? '' }}]
+                                                </p>
                                             @else
                                                 <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                             @endif
-                                        </div>
-                                        <p class="text-color-blue traitHeading mb-2">Boundaries of
-                                            Tolerance "Alchemy":</p>
-                                        @if($boundary)
-                                            <p class="fw-bold fs-12px text-color-blue"
-                                               style="margin-top: -10px; cursor: pointer;"
-                                               onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
-                                                @php
-                                                    $codeParts = explode('-', $boundary['code_number']);
-                                                    $code = implode('', $codeParts);
-                                                @endphp
-                                                {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
-                                            </p>
-                                        @else
-                                            <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                        @endif
-                                        <p class="text-color-blue traitHeading mb-2"> Communication
-                                            Style "Energy Centers":</p>
-                                        <div class="d-flex text-color-blue flex-wrap" style="margin-top: -15px">
-                                            @if($topCommunication)
-                                                @foreach($topCommunication as $communication)
-                                                    <p class="fw-bold fs-12px"
-                                                       style=" cursor: pointer;"
-                                                       onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
-                                                        {{--                                                    {{dd($communication)}}--}}
-                                                        <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
-                                                        &nbsp;@endif
-                                                    </p>
-                                                @endforeach
+                                            <p class="text-color-blue traitHeading mb-2"
+                                               style="color: rgb(160, 174, 192)">
+                                                Energy
+                                                Pool:</p>
+                                            @if($energyPool)
+                                                <p class="fw-bold  fs-12px text-color-blue "
+                                                   style="margin-top: -10px;cursor: pointer;"
+                                                   onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
+                                                    {{ $energyPool['code'] }}
+                                                </p>
                                             @else
-                                                <p class="fw-bold fs-12px text-color-blue mb-2" style="margin: unset">
-                                                    N/A</p>
+                                                <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
                                             @endif
-                                        </div>
-                                        <p class="text-color-blue traitHeading mb-2"
-                                           style="color: rgb(160, 174, 192); margin-top: -13px">
-                                            Perception of
-                                            Life:</p>
-                                        @if($preception)
-                                            <p class="fw-bold fs-12px text-color-blue"
-                                               style=" margin-top: -10px;cursor: pointer;"
-                                               onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
-                                                {{
-                                                    ($preception['polarity_code'] == 40 ? "Negatively Charged" :
-                                                    ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
-                                                    ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
-                                                }} [{{ $preception['pv'] ?? '' }}]
-                                            </p>
-                                        @else
-                                            <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                        @endif
-                                        <p class="text-color-blue traitHeading mb-2" style="color: rgb(160, 174, 192)">Energy
-                                            Pool:</p>
-                                        @if($energyPool)
-                                            <p class="fw-bold  fs-12px text-color-blue "
-                                               style="margin-top: -10px;cursor: pointer;"
-                                               onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
-                                                {{ $energyPool['code'] }}
-                                            </p>
-                                        @else
-                                            <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                        @endif
                                         </div>
                                     </div>
                                     <div class="image-container float-end">
@@ -851,7 +865,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
                                 <div class="card optimization-strategy-card p-3"
                                      style="height: 530px!important;position:relative;background-color: #F6BA81 !important;border-radius:40px !important"
                                      data-step="5">
@@ -859,60 +873,15 @@
                                     >
                                         <h5 class="mb-0 w-auto" data-bs-toggle="modal" data-bs-target="#actionPlanModel"
                                             style="border: 2px solid #1C365E;border-radius: 32px;padding: 10px 30px;color:#1C365E;cursor:pointer">
-                                            <strong>Optimization Strategy </strong>
-                                            {{--                                        <span class="iconInfo"--}}
-                                            {{--                                                                                     data-bs-toggle="modal"--}}
-                                            {{--                                                                                     data-bs-target="#actionPlanModel"><i--}}
-                                            {{--                                                class="fa-regular fa-circle-question fa-lg"--}}
-                                            {{--                                                style="color: #F4E3C7 !important"></i></span>--}}
+                                            <strong>OPTIMIZATION STRATEGY</strong>
                                         </h5>
                                     </div>
                                     <div class="card-body p-3 text-white "
                                          style="cursor: pointer; overflow: auto">
-                                        {{--                                    data-bs-toggle="modal" data-bs-target="#actionPlanModal">--}}
                                         <div>
                                             @if($actionPlan)
 
-                                                {{--                                            @php--}}
-                                                {{--                                                $html = $actionPlan['plan_text'] ?? null;--}}
-
-                                                {{--                                                if ($html) {--}}
-                                                {{--                                                    // Create a new DOMDocument instance--}}
-                                                {{--                                                    $dom = new DOMDocument();--}}
-
-                                                {{--                                                    // Suppress warnings due to invalid HTML and load the HTML--}}
-                                                {{--                                                    libxml_use_internal_errors(true);--}}
-                                                {{--                                                    $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));--}}
-                                                {{--                                                    libxml_clear_errors();--}}
-
-                                                {{--                                                    // Initialize variables to hold the first two tags--}}
-                                                {{--                                                    $firstTag = null;--}}
-                                                {{--                                                    $secondTag = null;--}}
-                                                {{--                                                    $tagsFound = 0;--}}
-
-                                                {{--                                                    // Iterate through all child nodes of the body to find the first two tags--}}
-                                                {{--                                                    foreach ($dom->getElementsByTagName('body')->item(0)->childNodes as $node) {--}}
-                                                {{--                                                        if ($node->nodeType === XML_ELEMENT_NODE) { // Check if it is an element node (tag)--}}
-                                                {{--                                                            if (!$firstTag) {--}}
-                                                {{--                                                                $firstTag = $dom->saveHTML($node);--}}
-                                                {{--                                                                $tagsFound++;--}}
-                                                {{--                                                            } elseif (!$secondTag) {--}}
-                                                {{--                                                                $secondTag = $dom->saveHTML($node);--}}
-                                                {{--                                                                $tagsFound++;--}}
-                                                {{--                                                            }--}}
-
-                                                {{--                                                            // Stop after capturing two tags--}}
-                                                {{--                                                            if ($tagsFound === 2) {--}}
-                                                {{--                                                                break;--}}
-                                                {{--                                                            }--}}
-                                                {{--                                                        }--}}
-                                                {{--                                                    }--}}
-                                                {{--                                                }--}}
-                                                {{--                                            @endphp--}}
-
                                                 {!! $actionPlan['plan_text'] !!}
-                                                {{--                                            <span data-bs-toggle="modal" data-bs-target="#nintyDaysActionPlan"--}}
-                                                {{--                                                  style="color: #f2661c; cursor: pointer">view more...</span>--}}
                                             @else
                                                 <p>Click here to:
                                                     <a href="{{ url('client/intro-assessment') }}" target="_self"
@@ -928,7 +897,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 mb-4">
+                            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
                                 <div class="card library-card p-3"
                                      style="height: 530px!important;position:relative;background-color: #1C365E !important;border-radius: 40px !important"
                                      data-step="6">
@@ -949,13 +918,16 @@
                                                 here to access Resources & Trainings for:</strong></p>
                                     </a>
                                     <ul>
-                                        <li style="font-size: 14px">Deeper understanding of the science behind the patented
+                                        <li style="font-size: 14px">Deeper understanding of the science behind the
+                                            patented
                                             technology
                                         </li>
-                                        <li style="font-size: 14px"> How to use the results of this technology to optimize
+                                        <li style="font-size: 14px"> How to use the results of this technology to
+                                            optimize
                                             your life and work
                                         </li>
-                                        <li style="font-size: 14px"> Deeper dives into understanding each element of your
+                                        <li style="font-size: 14px"> Deeper dives into understanding each element of
+                                            your
                                             authentic self
                                         </li>
                                         <li style="font-size: 14px"> How to strategies to help resolve challenges you’re
@@ -971,10 +943,12 @@
 
                             </div>
                         </div>
-                        <div class="row">
+                        <div>
                             <div class="col-lg-12 col-md-12 col-sm-12 mb-4"
                                  style="cursor: pointer;">
-                                <div class="card p-3" style="position:relative;height: 250px;background: #D26622;border-radius: 40px !important" data-step="8" >
+                                <div class="card p-3"
+                                     style="position:relative;height: 250px;background: #D26622;border-radius: 40px !important"
+                                     data-step="8">
                                     <div class="d-flex justify-content-center"
                                     >
                                         <h5 class="mb-0 text-center w-auto" data-bs-toggle="modal"
@@ -1002,64 +976,73 @@
                                         </div>
                                     @endif
                                     <div class="image-container ">
-                                        <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}" width="200"
+                                        <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
+                                             width="200"
                                              alt="Geometric cureved shape">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="row">
+                            <div class="mt-2 col-12 mainCardFlex">
 
-                    <div class="mt-2 col-lg-4 col-sm-12 col-md-12 mainCardFlex">
+{{--                                <div class="col-lg-12 col-md-6 col-sm-12 mb-4">--}}
 
-                        <div class="col-lg-12 col-md-6 col-sm-12 mb-4">
-
-                            <div class="card podcast-card"
-                                 style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
-                                 data-step="7">
-                                <div class="card-body p-3">
-                                    <div class="d-flex mb-3 justify-content-center">
-                                        <h5 class="mb-0 w-auto"
-                                            style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
-                                            <strong>Integration Podcast</strong></h5>
-                                    </div>
-                                    <div class="card mb-4"
-                                    >
-                                        <div class="card-body p-0">
-                                            @if($podcast && !empty($podcast->embedded_url))
-                                                <div class="row">
-                                                    <div class="podcast-card">
-                                                        <div class="numbers">
-                                                            <iframe class="col-lg-12 col-md-12"
-                                                                    id="pod_cast_container"
-                                                                    style="height: 1225px; width: 100%;"
-                                                                    src="{{$podcast->embedded_url}}"
-                                                                    frameborder="0"></iframe>
-                                                            <h5 class="font-weight-bolder mb-0">
+                                    <div class="card podcast-card"
+                                         style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
+                                         data-step="7">
+                                        <div class="card-body p-3">
+                                            <div class="d-flex mb-3 justify-content-center">
+                                                <h5 class="mb-0 w-auto"
+                                                    style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
+                                                    <strong>INTEGRATION PODCAST</strong></h5>
+                                            </div>
+                                            <div class="card mb-4"
+                                            >
+                                                <div class="card-body p-0">
+                                                    @if($podcast && !empty($podcast->embedded_url))
+                                                        <div class="row">
+                                                            <div class="podcast-card">
+                                                                <div class="numbers">
+                                                                    <iframe class="col-lg-12 col-md-12"
+                                                                            id="pod_cast_container"
+                                                                            style="height: 1225px; width: 100%;"
+                                                                            src="{{$podcast->embedded_url}}"
+                                                                            frameborder="0"></iframe>
+                                                                    <h5 class="font-weight-bolder mb-0">
                                                                 <span
                                                                     class="text-success text-sm font-weight-bolder"></span>
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4 text-end">
 
-                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <p class="text-center text-white">No podcast is uploaded yet</p>
+                                                    @endif
                                                 </div>
-                                            @else
-                                                <p class="text-center text-white">No podcast is uploaded yet</p>
-                                            @endif
+                                            </div>
+
                                         </div>
                                     </div>
 
-                                </div>
+{{--                                </div>--}}
+
                             </div>
-
                         </div>
-
                     </div>
+                {{--                        <div class="row">--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
 
 
-                    <!-- <div class="row "> -->
+
+
+                <!-- <div class="row "> -->
                     <div id="chat-component-main-container">
                         <div id="chat-component-container">
                             @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
@@ -1192,7 +1175,8 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4" style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
+                            <div class="text-white mt-4"
+                                 style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1212,7 +1196,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4"
-                               style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1231,7 +1215,8 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4" style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
+                            <div class="text-white mt-4"
+                                 style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1251,7 +1236,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4"
-                               style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1270,7 +1255,8 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4" style="text-align: justify">{!! $helpInfo['information'] !!}</div>
+                            <div class="text-white mt-4"
+                                 style="text-align: justify">{!! $helpInfo['information'] !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1751,7 +1737,6 @@
                         $('.chat-question-mark').css('display', 'inline-block');
                     });
                 });
-
 
 
             </script>
