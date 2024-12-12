@@ -374,15 +374,15 @@ class Helpers
         {
             if ($currentTime->between($morningStart, $morningEnd)) {
 
-                $optionalTrait = $stylesAndDrivers[0][1];
+                $optionalTrait = $stylesAndDrivers[0][1] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
-                $optionalTrait = $stylesAndDrivers[1][1];
+                $optionalTrait = $stylesAndDrivers[1][1] ?? null;
 
             } else {
 
-                $optionalTrait = $stylesAndDrivers[2][1];
+                $optionalTrait = $stylesAndDrivers[2][1] ?? null;
 
             }
         }
@@ -390,15 +390,15 @@ class Helpers
         {
             if ($currentTime->between($morningStart, $morningEnd)) {
 
-                $optionalTrait = $stylesAndDrivers[0][1];
+                $optionalTrait = $stylesAndDrivers[0][1] ?? null;
 
             } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
-                $optionalTrait = $stylesAndDrivers[1][1];
+                $optionalTrait = $stylesAndDrivers[1][1] ?? null;
 
             } else {
 
-                $optionalTrait = $stylesAndDrivers[1][1];
+                $optionalTrait = $stylesAndDrivers[1][1] ?? null;
 
             }
         }
