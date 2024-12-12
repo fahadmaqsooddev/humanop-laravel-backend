@@ -316,8 +316,15 @@
                                             <p class="mb-0 mt-4"
                                                style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
                                                 Welcome Back {{Auth::user()['first_name']}} !</p>
-                                            <p style="color: #D26622;font-size: 18px;margin-left:10px"> UI/UX
-                                                Designer</p>
+                                            @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                                                <p class="mb-0 font-weight-bold text-sm" style="color: #D26622;margin-left:10px">
+                                                    Optimal Trait To Be In Right Now:
+                                                </p>
+                                                <h6 style="color: #D26622;font-size: 18px;margin-left:10px; cursor:pointer;"
+                                                    onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
+                                                    <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
+                                                </h6>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -360,7 +367,7 @@
                                 @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
 
                                     <a href="{{route('assessments')}}" class="bg-transparent w-70 py-2 position-relative"
-                                            style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                            style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                         Access your results
                                         <div class="position-absolute"
                                              style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -391,7 +398,7 @@
 
 
                                         <a href="{{route('practitioner_profile_overview', $assessment['id'])}}" class="bg-transparent w-70 py-2 position-relative"
-                                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                           style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
                                                  style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -406,7 +413,7 @@
 {{--                                        </a>--}}
 
                                         <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}" class="bg-transparent w-70 py-2 position-relative"
-                                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                           style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
                                                  style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -421,7 +428,7 @@
 {{--                                        </a>--}}
 
                                         <a href="{{route('user_profile_overview', $assessment['id'])}}" class="bg-transparent w-70 py-2 position-relative"
-                                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                           style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                             Access your results
                                             <div class="position-absolute"
                                                  style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -434,7 +441,7 @@
 
                                 @else
                                     <a  class="bg-transparent py-2 position-relative"
-                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"  style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
+                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"  style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 33px">
                                         Access your results
                                         <div class="position-absolute"
                                              style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">
@@ -466,7 +473,7 @@
 {{--                                    </div>--}}
 {{--                                </button>--}}
                                 <button class="bg-transparent mt-4 py-2"
-                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 30px"
+                                        style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 30px"
                                         data-bs-toggle="modal"
                                         data-bs-target="#qrCodeModal"
                                 >
@@ -530,7 +537,7 @@
                                                             class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
                                                             id="read_all_tip">
                                                             <button
-                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button" style="color: #1C365E !important;"
                                                                 {{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
                                                                 data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                                 onclick="onDailyTipAllRead()">
@@ -547,7 +554,7 @@
                                                 <div class="dailyTipButton">
                                                     <div
                                                         class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
-                                                        <button style="background-color: #f2661c;"
+                                                        <button style="background-color: #f2661c;color: #1C365E !important;"
                                                                 class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
                                                                 data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                                 onclick="onDailyTipAllRead()">
@@ -851,7 +858,7 @@
                                     <div class="d-flex justify-content-center"
                                     >
                                         <h5 class="mb-0 w-auto" data-bs-toggle="modal" data-bs-target="#actionPlanModel"
-                                            style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7;cursor:pointer">
+                                            style="border: 2px solid #1C365E;border-radius: 32px;padding: 10px 30px;color:#1C365E;cursor:pointer">
                                             <strong>Optimization Strategy </strong>
                                             {{--                                        <span class="iconInfo"--}}
                                             {{--                                                                                     data-bs-toggle="modal"--}}
@@ -1096,7 +1103,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group mt-2">
-                                        <button style="background-color: #f2661c;"
+                                        <button style="background-color: #f2661c;color: #1C365E !important;"
                                                 class="btn btn-sm text-white daily-tip-read-button"
                                                 onclick="onDailyTipAllRead()">
                                             Complete Daily Tip
