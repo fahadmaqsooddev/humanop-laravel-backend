@@ -21758,6 +21758,15 @@ hr.horizontal.gray-light {
   }
 }
 
+aside .ps__rail-x {
+    display: none !important;
+}
+
+
+aside:hover {
+     overflow: hidden !important;
+}
+
 @media all and (min-width: 768px) and (-ms-high-contrast: none),
 (min-width: 768px) and (-ms-high-contrast: active) {
   .navbar-vertical.navbar-expand-md>[class*="container"] {
