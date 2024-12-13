@@ -505,11 +505,6 @@
                                                 data-bs-target="#dailyTipModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>DAILY TIP</strong>
-                                                {{--                                            <span--}}
-                                                {{--                                                class="iconInfo" data-bs-toggle="modal"--}}
-                                                {{--                                                data-bs-target="#dailyTipModel"><i--}}
-                                                {{--                                                    class="fa-regular fa-circle-question fa-lg"--}}
-                                                {{--                                                    style="color: #F4E3C7;"></i></span>--}}
                                             </h5>
                                         </div>
                                         <div class="description-container text-justify" style="height: 335px;">
@@ -517,19 +512,19 @@
                                             {{$hide_button = false}}
 
                                             @if($tip && !empty($tip['description']))
-                                                <h6>{{$tip['title']}}</h6>
+                                                <h6 class="traitHeading ">{{$tip['title']}}</h6>
                                                 @if(strlen($tip['description']) > 290)
                                                     <?php
                                                     $hide_button = true;
                                                     ?>
                                                     <span id="daily-tip-text">
-            {!! substr($tip['description'], 0, 305) !!}
+            <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! substr($tip['description'], 0, 305) !!}</p>
             <a href="javascript:void(0)"
                onclick="showDailyTipCompleteText(`{{$tip['description']}}`)"
                style="color: #f2661c;">read more...</a>
         </span>
                                                 @else
-                                                    {!! $tip['description'] !!}
+                                                    <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
                                                 @endif
                                             @else
                                                 <p>Click here to:
