@@ -708,7 +708,7 @@
 
                                     <span >
                                             @if(Request::is('client/resource'))
-                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/resource.png')}}" style="margin-top:5px">
+                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active-resource.png')}}" style="margin-top:5px">
                                         @else
                                             <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/resource.png')}}" style="margin-top:5px">
                                         @endif
