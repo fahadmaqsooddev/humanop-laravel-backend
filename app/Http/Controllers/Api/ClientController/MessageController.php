@@ -20,11 +20,13 @@ class MessageController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function chats(){
+    public function chats(Request $request){
 
         try {
 
-            $all_chats = MessageThread::chats();
+            $name = $request->query('name');
+
+            $all_chats = MessageThread::chats($name);
 
             return Helpers::successResponse('User chats', $all_chats);
 
