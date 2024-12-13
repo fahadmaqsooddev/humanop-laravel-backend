@@ -12,7 +12,7 @@
         }
     </style>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-left: 0px !important;">
 
         <div class="row mt-4">
 

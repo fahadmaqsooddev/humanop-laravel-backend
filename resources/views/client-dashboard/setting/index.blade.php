@@ -36,7 +36,7 @@
 
 @section('content')
 
-    <div class="container-fluid my-3 py-3">
+    <div class="container-fluid my-3 py-3" style="padding-left: 0px !important;">
         <div class="row mb-5">
             <div class="col-lg-3 ">
                 <div class="card position-sticky top-1 background-none">

@@ -328,7 +328,7 @@
 </style>
 @section('content')
 
-    <div class="row container-fluid">
+    <div class="row container-fluid" style="padding-left: 0px !important;">
         <div class="col-lg-6 position-relative z-index-2">
             <div class="mb-4">
                 <div class="card-Thanks for being body p-3">
