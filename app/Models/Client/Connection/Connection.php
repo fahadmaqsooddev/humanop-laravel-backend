@@ -151,9 +151,26 @@ class Connection extends Model
 
     public static function userPaginatedConnections($request = null){
 
+        $name = $request->query('name');
+
         $user_id = Helpers::getUser()->id;
 
-        $connections = self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
+        $connections = self::whereHas('friend', function ($q) use ($name){
+
+            $q->where(function ($query) use ($name){
+
+                $query->where('first_name', 'LIKE', "%$name%")
+
+                    ->orWhere('last_name', 'LIKE', "%$name%")
+
+                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
+
+            });
+        })
+            
+            ->with('friend:id,first_name,last_name')
+
+            ->where('user_id', $user_id)
 
             ->where('status', 1);
 
