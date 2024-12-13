@@ -38,7 +38,7 @@ class UpdateUserProfileRequest extends FormRequest
     {
         return [
             'first_name.required' => 'First name is required',
-            'last_name.required' => 'First name is required',
+            'last_name.required' => 'Last name is required',
 //            'age_range.required' => 'Age is required',
 //            'age_range.regex' => 'Invalid age format. Age range must be - separated',
             'date_of_birth.required' => 'Date of birth is required',

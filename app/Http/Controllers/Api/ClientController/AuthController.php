@@ -219,7 +219,7 @@ class AuthController extends Controller
 
         try {
 
-            $dataArray = $request->only(['full_name', 'email']);
+            $dataArray = $request->only(['full_name', 'email', 'password']);
 
             $parts = explode(' ', $dataArray['full_name']);
 
@@ -230,6 +230,7 @@ class AuthController extends Controller
             $checkUser = User::checkEmail($dataArray['email']);
 
             if (empty($checkUser)) {
+
 
                 $user = User::createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
@@ -501,6 +502,9 @@ class AuthController extends Controller
                 $dataArray['step'] = 3;
 
                 tap($getUser->update($dataArray));
+
+                $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                 $token = $this->auth->login($getUser);
 

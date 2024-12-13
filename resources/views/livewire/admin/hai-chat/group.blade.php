@@ -13,6 +13,10 @@
         .new-orange-button:hover{
             color: white;
         }
+
+        .dropdown-search::placeholder{
+            color: lightslategray !important;
+        }
     </style>
 @endpush
 <div>
@@ -231,7 +235,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownGroups) > 0)
@@ -316,7 +320,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search embedding" class="dropdown-search" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownEmbeddings) > 0)
@@ -372,13 +376,13 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Add embedding to groups</label>
+                                    <label class="form-label fs-4 text-white">Add embedding into groups</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="embedding-group-close-modal-button"
                                             style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    {{--                                    Alert messages--}}
+{{--                                    Alert messages--}}
 
                                     @if(session('embedding_group_errors'))
                                         <div class="m-3 alert alert-warning alert-dismissible fade show" id="alert" role="alert">
@@ -431,7 +435,7 @@
                                                 <div style="padding: 10px;">
 
                                                     <div style="padding-bottom: 5px;">
-                                                        <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                                        <input type="text" placeholder="search group" class="dropdown-search" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
                                                     </div>
 
                                                     @if(count($dropDownGroups) > 0)
