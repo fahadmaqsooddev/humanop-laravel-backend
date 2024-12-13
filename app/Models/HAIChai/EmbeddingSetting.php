@@ -30,7 +30,7 @@ class EmbeddingSetting extends Model
         ]);
     }
 
-    public static function checkAndUpdateEmbedding($name = null, $chunk = null)
+    public static function checkAndUpdateEmbedding($name = null, $chunk = 1)
     {
         $embedding = self::getEmbeddingSetting($name);
 
@@ -38,11 +38,11 @@ class EmbeddingSetting extends Model
         {
             self::deleteEmbedding($name);
 
-            self::createEmbedding($name, $chunk);
+            self::createEmbedding($name, $chunk ?? 1);
 
         }else
         {
-            self::createEmbedding($name, $chunk);
+            self::createEmbedding($name, $chunk ?? 1);
 
         }
     }

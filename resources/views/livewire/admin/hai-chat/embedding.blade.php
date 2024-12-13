@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createEmbedding"
            style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Embedding
+           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Embedding
         </a>
     </div>
 
@@ -37,7 +37,7 @@
 {{--                                        class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">--}}
 {{--                                    <i class="fa-solid fa-copy"></i></button>--}}
                                 <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" onclick="deleteEmbedding({{ $embedding['embedding']['id'] ?? null }})"
-                                        class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">
+                                        class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
                                     <i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
@@ -58,8 +58,9 @@
                             <div class="row w-100">
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Embedding</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="embedding-close-modal-button">
+                                    <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
+                                            aria-label="Close" id="embedding-close-modal-button"
+                                            style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     {{--                                    Alert messages--}}
@@ -126,7 +127,7 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
+                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">Create
                         </button>
                     </form>
                 </div>

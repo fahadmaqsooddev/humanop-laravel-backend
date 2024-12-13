@@ -22,14 +22,16 @@
 {{--    @endpush--}}
 <div>
     <div class="d-flex justify-content-end">
-        <a data-bs-toggle="modal" data-bs-target="#createEmbedding"
-           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Embedding
-        </a>
-        <div class="px-3">
+        <div class="px-1">
+            <a data-bs-toggle="modal" data-bs-target="#createEmbedding"
+               {{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Embedding
+            </a>
+        </div>
+        <div class="px-1">
             <a data-bs-toggle="modal" data-bs-target="#createGroup"
-               style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-               class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Group
+{{--               style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Group
             </a>
         </div>
     </div>
@@ -40,14 +42,14 @@
 
             <div class="nav nav-tabs border-0 " id="myTab" role="tablist" style="max-width: fit-content;">
                 <div class="nav-item connectionDev" role="presentation">
-                    <button class="connectionBtn rainbow-border-user-nav-btn  me-2   mt-2 mt-md-0 rounded-1 updateBtn {{(session('embedding_deleted') ? '' : 'active')}}" id="home-tab" data-bs-toggle="tab"
+                    <button class="connectionBtn new-orange-button me-2 mt-2 mt-md-0 updateBtn {{(session('embedding_deleted') ? '' : 'active')}}" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             wire:click="changeIsGroup(true)"
                             aria-selected="true">Groups</button>
                 </div>
 
                 <div class="nav-item connectionDev" role="presentation">
-                    <button class="connectionBtn rainbow-border-user-nav-btn mt-2 mt-md-0 updateBtn rounded-1 {{(session('embedding_deleted') ? 'active' : '')}}" id="profile-tab" data-bs-toggle="tab"
+                    <button class="connectionBtn new-orange-button mt-2 mt-md-0 updateBtn {{(session('embedding_deleted') ? 'active' : '')}}" id="profile-tab" data-bs-toggle="tab"
                             data-bs-target="#profile-tab-pane" type="button" role="tab"
                             wire:click="changeIsGroup(false)"
                             aria-controls="profile-tab-pane" aria-selected="false">Embeddings</button>
@@ -126,17 +128,17 @@
 
                                             <div class="d-flex">
 
-                                                <div class="col-11">
-                                                    <button wire:click="setEmbeddingId({{$embedding->id}})" data-bs-toggle="modal" data-bs-target="#addEmbeddingToGroups"
-                                                        class="btn-sm rainbow-border-user-nav-btn">
+                                                <div class="col-11 mt-3">
+                                                    <a wire:click="setEmbeddingId({{$embedding->id}})" data-bs-toggle="modal" data-bs-target="#addEmbeddingToGroups"
+                                                        class="btn-sm new-orange-button">
                                                         Add to groups
-                                                    </button>
+                                                    </a>
                                                 </div>
 
                                                 <div class="col-1">
                                                     <div class="gap-2">
                                                         <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" onclick="deleteEmbedding({{ $embedding['id'] }})"
-                                                                class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">
+                                                                class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
                                                             <i class="fa-solid fa-trash"></i></button>
                                                     </div>
                                                 </div>
@@ -169,8 +171,8 @@
                             <div class="row w-100">
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Embedding</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="embedding-close-modal-button">
+                                    <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
+                                            aria-label="Close" id="embedding-close-modal-button" style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
 {{--                                    Alert messages--}}
@@ -271,7 +273,7 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
+                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">Create
                         </button>
                     </form>
                 </div>
@@ -290,8 +292,8 @@
                             <div class="row w-100">
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Create Group</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="group-close-modal-button">
+                                    <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
+                                            aria-label="Close" id="group-close-modal-button" style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     @include('layouts.message')
@@ -357,7 +359,7 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">
                             Create
                         </button>
                     </form>
@@ -376,8 +378,9 @@
                             <div class="row w-100">
                                 <div class="col-12">
                                     <label class="form-label fs-4 text-white">Add embedding to groups</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close" id="embedding-group-close-modal-button">
+                                    <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
+                                            aria-label="Close" id="embedding-group-close-modal-button"
+                                            style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     {{--                                    Alert messages--}}
@@ -471,7 +474,7 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">
+                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">
                             Add
                         </button>
                     </form>

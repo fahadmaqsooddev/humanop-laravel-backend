@@ -15,8 +15,8 @@
             <textarea class="form-control" rows="3"
                       style="font-size: small; background-color: #f3deba; color: #0f1534" wire:model.defer="query"
                       placeholder="Search across all documents"></textarea>
-                            <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
-                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                            <button type="submit"
+                                    class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                                 search
                             </button>
                         </div>
@@ -59,7 +59,7 @@
                         </div>
                         <input type="file" id="fileInput" style="display: none;"/>
                         <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                             upload
                         </button>
                     </div>
@@ -71,7 +71,7 @@
                             <div class="fs-7 main-heading">Files supported: TXT, PDF</div>
                         </div>
                         <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                             add
                         </button>
                     </div>
@@ -83,7 +83,7 @@
                             <div class="fs-7 main-heading">Files supported: TXT, PDF</div>
                         </div>
                         <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                             add
                         </button>
                     </div>
@@ -111,7 +111,7 @@
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
                             </div>
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                                 scrape
                             </button>
 
@@ -140,7 +140,7 @@
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
                             </div>
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                                 scrape
                             </button>
                         </div>
