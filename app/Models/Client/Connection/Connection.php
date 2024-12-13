@@ -167,7 +167,7 @@ class Connection extends Model
 
             });
         })
-            
+
             ->with('friend:id,first_name,last_name')
 
             ->where('user_id', $user_id)

@@ -78,9 +78,8 @@
 @endpush
 <div>
     <div class="container-fluid pt-3">
-        <div class="row position-relative mb-4 mt-2 mx-1"
-             style="background: #8BB1AB;border-radius: 40px !important;">
-            <div class="row my-4">
+        <div class="row position-relative mb-4 mt-2 mx-1" style="background: #8BB1AB;border-radius: 40px !important;">
+            <div style="z-index: 11" class="row my-4">
                 <div class="col-md-6 my-auto col-lg-6 col-sm-12" style="padding-left: 30px">
                     <div class="d-flex ">
                         <div>
@@ -105,19 +104,14 @@
                             @endif
                         </div>
                     </div>
-
                 </div>
                 <div class="col-md-6 col-lg-6 my-auto col-sm-12">
                     <div class="d-flex justify-content-around px-4">
                         <button class="bg-transparent text-center py-2"
                                 style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%"
-                                data-bs-toggle="modal"
-                                data-bs-target="#qrCodeModal"
-                        >
-                            Get free pro version
+                                data-bs-toggle="modal" data-bs-target="#qrCodeModal">Get free pro version
                         </button>
                         @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
-
                             <a href="{{route('assessments')}}"
                                class="bg-transparent  position-relative text-center py-2 px-4"
                                style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
@@ -128,28 +122,12 @@
                                          alt="notification" width="40" height="40">
                                 </div>
                             </a>
-
-
-
-                            {{--                                    <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                            {{--                                       class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                            {{--                                    </a>--}}
-
                         @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
-
                             @php
                                 $userId = \App\Helpers\Helpers::getWebUser()['id'];
-
                                 $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
-
                             @endphp
                             @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
-                                {{--                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"--}}
-                                {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                                {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                                {{--                                        </a>--}}
-
-
                                 <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
                                    class="bg-transparent  position-relative text-center py-2 "
                                    style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
@@ -161,11 +139,6 @@
                                     </div>
                                 </a>
                             @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                                {{--                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"--}}
-                                {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                                {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                                {{--                                        </a>--}}
-
                                 <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
                                    class="bg-transparent text-center position-relative py-2"
                                    style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
@@ -177,11 +150,6 @@
                                     </div>
                                 </a>
                             @else
-                                {{--                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"--}}
-                                {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                                {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                                {{--                                        </a>--}}
-
                                 <a href="{{route('user_profile_overview', $assessment['id'])}}"
                                    class="bg-transparent  text-center position-relative py-2 "
                                    style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
@@ -192,9 +160,7 @@
                                              alt="notification" width="40" height="40">
                                     </div>
                                 </a>
-
                             @endif
-
                         @else
                             <a class="bg-transparent text-center position-relative py-2 "
                                data-toggle="tooltip" data-placement="top" title="Take the assessment first"
@@ -206,29 +172,7 @@
                                          alt="notification" width="40" height="40">
                                 </div>
                             </a>
-                            {{--                                    <button--}}
-                            {{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
-                            {{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
-                            {{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
-                            {{--                                    </button>--}}
-
                         @endif
-
-
-
-
-
-
-                        {{--                                --}}
-                        {{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
-                        {{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
-                        {{--                                    Access your results--}}
-                        {{--                                    <div class="position-absolute"--}}
-                        {{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
-                        {{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
-                        {{--                                             alt="notification" width="40" height="40">--}}
-                        {{--                                    </div>--}}
-                        {{--                                </button>--}}
 
                     </div>
                 </div>
@@ -288,7 +232,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-lg-6 col-12 d-flex "
                                      style="width: 49%;background-color: #F4ECE0;border-radius: 20px;border: 0px">
                                  <span class="my-auto">
@@ -303,9 +246,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -321,7 +262,6 @@
                                 Connections
                             </button>
                         </div>
-
                         <div class="nav-item connectionDev" role="presentation">
                             <button
                                 class="py-2  bg-transparent connectionBtn n mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}"
@@ -334,9 +274,7 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             <div class="row mt-3 suggestion_user_container">
                 <div class="col-1 pt-1">
@@ -360,20 +298,15 @@
         @endif
 
         <div class="row ">
-
             <div class="col-12 mx-auto">
-
                 <div class="tab-content" id="myTabContent">
                     <div
                         class="tab-pane fade pt-3 {{request()->input('type', 'connection') === "connection" ? "show active" : ""}}"
                         id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
                         @empty($users[0])
                             <p class="text-white">No user found</p>
                         @endempty
-
                         <div class="row  pt-2 ">
-
                             @foreach($users as $user)
                                 @php
                                     // Define your CSS classes
@@ -382,13 +315,11 @@
                                     $randomClass = $classes[array_rand($classes)];
                                 @endphp
                                 <div class="col-6 col-md-6 col-lg-3 col-xxl-3 d-flex justify-content-center py-3">
-
                                     <div class="text-center shadow-sm connection-card"
                                          style="width: 17rem; height: 17rem; padding:0; border-radius: 20px 20px 8px 8px;background-color: #FFFFFF !important">
                                         <div class="position-absolute w-100 {{$randomClass}}"
                                              style="height: 80px;border-radius: 20px">
                                         </div>
-
                                         <div class="card-body d-flex flex-column justify-content-end"
                                              style="height: 40%; padding: 0;">
                                             <div class="card-img flex-grow-5 position-absolute z-index-2"
@@ -399,8 +330,7 @@
                                                     style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
                                                     {{$user->first_name . ' ' . $user->last_name}}
                                                 </h6>
-                                                <p style="color: #1E1D1D"><small>Designer</small></p>
-                                                <div class="d-flex justify-content-center">
+                                                <div class="d-flex justify-content-center mt-3">
                                                     <img src="{{asset('assets/new-design/icon/connection/like.svg')}}"
                                                          height="20" width="20"/>
                                                     <img
@@ -410,68 +340,58 @@
                                                          height="20" width="20"/>
                                                 </div>
                                             </div>
-
                                             <div class="profileCard mb-2"
                                                  style="color: rgb(74, 74, 74);padding:5px 0px;">
-{{--                                                <div class="row">--}}
-                                                    <div class="p-1 mt-2">
-                                                        @if($user['connection_status'] === 0)
-                                                            <a class="connection-btn btn-sm"
-                                                               wire:click="connectUnConnectUser({{$user->id}},'connect')"
-                                                               style=' font-size: x-small; font-weight: 900;'>Connect</a>
-                                                        @elseif($user['connection_status'] === 1)
-                                                            <a class="connection-btn updateBtn btn-sm"
-                                                               wire:click="connectUnConnectUser({{$user->id}},'un-connect')"
-                                                               style="font-size: x-small; font-weight: 900;">Connected</a>
-                                                        @elseif($user['connection_status'] === 2)
-                                                            <a class=" connection-btn  btn-sm"
-                                                               wire:click="connectUnConnectUser({{$user->id}},'un-connect')"
-                                                               style="font-size: x-small; font-weight: 900;">Pending</a>
-                                                        @elseif($user['connection_status'] === 3)
-                                                            <a class="connection-btn  btn-sm"
-                                                               wire:click="connectUnConnectUser({{$user->id}},'accept')"
-                                                               style="font-size: x-small; font-weight: 900;">Accept</a>
-                                                        @endif
-                                                    </div>
-                                                    <div class="p-1 mt-2">
-                                                        @if($user['is_follow'])
-                                                            <a class="connection-btn btn-sm"
-                                                               wire:click="followUser({{$user->id}},'connect')"
-                                                               style="font-size: x-small; font-weight: 900;">Following</a>
-                                                        @else
-                                                            <a class="connection-btn updateBtn btn-sm"
-                                                               wire:click="followUser({{$user->id}},'un-connect')"
-                                                               style='font-size: x-small; font-weight: 900;'>Follow</a>
-                                                        @endif
-                                                    </div>
-{{--                                                </div>--}}
-
+                                                <div class="p-1 mt-2">
+                                                    @if($user['connection_status'] === 0)
+                                                        <a class="connection-btn btn-sm"
+                                                           wire:click="connectUnConnectUser({{$user->id}},'connect')"
+                                                           style=' font-size: x-small; font-weight: 900;'>Connect</a>
+                                                    @elseif($user['connection_status'] === 1)
+                                                        <a class="connection-btn updateBtn btn-sm"
+                                                           wire:click="connectUnConnectUser({{$user->id}},'un-connect')"
+                                                           style="font-size: x-small; font-weight: 900;">Connected</a>
+                                                    @elseif($user['connection_status'] === 2)
+                                                        <a class=" connection-btn  btn-sm"
+                                                           wire:click="connectUnConnectUser({{$user->id}},'un-connect')"
+                                                           style="font-size: x-small; font-weight: 900;">Pending</a>
+                                                    @elseif($user['connection_status'] === 3)
+                                                        <a class="connection-btn  btn-sm"
+                                                           wire:click="connectUnConnectUser({{$user->id}},'accept')"
+                                                           style="font-size: x-small; font-weight: 900;">Accept</a>
+                                                    @endif
+                                                </div>
+                                                <div class="p-1 mt-2">
+                                                    @if($user['is_follow'])
+                                                        <a class="connection-btn btn-sm"
+                                                           wire:click="followUser({{$user->id}},'connect')"
+                                                           style="font-size: x-small; font-weight: 900;">Following</a>
+                                                    @else
+                                                        <a class="connection-btn updateBtn btn-sm"
+                                                           wire:click="followUser({{$user->id}},'un-connect')"
+                                                           style='font-size: x-small; font-weight: 900;'>Follow</a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
-
                             @if($users->hasMorePages())
                                 <button class="connection-btn my-4" wire:click.prevent="loadMore"
                                         style=" width: 60%; margin: auto; font-weight: 600;">
                                     Load more
                                 </button>
                             @endif
-
                         </div>
-
                     </div>
                     <div
                         class="tab-pane fade pt-3 {{request()->input('type', 'connection') === "request" ? "active show" : ""}}"
                         id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-
                         @empty($connection_requests[0])
                             <p style="color: #0f1535;font-size: 20px; font-weight: bold">No connection request</p>
                         @endempty
-
                         <div class="row">
-
                             @foreach($connection_requests as $connection_request)
                                 <div class="col-lg-8 col-sm-12 col-md-8 pt-3">
                                     <div class="w-100 d-flex bg-transparent "
@@ -508,48 +428,13 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                {{--                                <div class="col-3 col-sm-1 col-md-4 col-lg-4 col-xl-3 pt-3">--}}
-
-                                {{--                                    <div class="text-center shadow-sm connection-card" style="width: 17rem; height: 17rem; padding:0; border-radius: 8px;">--}}
-                                {{--                                        <div class="card-body d-flex flex-column justify-content-end" style="height: 40%; padding: 0;">--}}
-                                {{--                                            <div class="card-img flex-grow-5">--}}
-                                {{--                                                <img src="{{$connection_request['user']['photo_url']['thumbnail_url'] ?? null}}" alt=""--}}
-                                {{--                                                     style="width: 100px; height: 100px; border-radius: 100%; margin:-14px 10%; cursor: pointer; justify-content: center;">--}}
-                                {{--                                            </div>--}}
-                                {{--                                            <h5 class="card-title" style="padding-top:10%; padding-bottom: 10%; cursor:pointer; color: white; font-weight: 700;">--}}
-                                {{--                                                {{$connection_request->user ? $connection_request->user->first_name . ' ' . $connection_request->user->last_name : ""}}--}}
-                                {{--                                            </h5>--}}
-                                {{--                                            <div class="profileCard" style="color: rgb(74, 74, 74);padding:5px 0px; border-top: 1px solid black;">--}}
-
-                                {{--                                                <div class="p-1">--}}
-                                {{--                                                    <a class="btn btn-success" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>--}}
-                                {{--                                                </div>--}}
-
-                                {{--                                                <div class="p-1">--}}
-                                {{--                                                    <a class="btn btn-secondary" wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'un-connect')" style="font-size: x-small; font-weight: 900;">Cancel</a>--}}
-                                {{--                                                </div>--}}
-
-                                {{--                                            </div>--}}
-                                {{--                                        </div>--}}
-                                {{--                                    </div>--}}
-
-                                {{--                                </div>--}}
-
                             @endforeach
-
                         </div>
-
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 @push('js')
     <script>

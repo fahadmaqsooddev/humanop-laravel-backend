@@ -64,7 +64,7 @@
     <div class="container-fluid pt-3">
         <div class="row position-relative mb-4 mt-2 mx-1"
              style="background: #8BB1AB;border-radius: 40px !important;">
-            <div class="row my-4">
+            <div class="row my-4" style="z-index: 11;">
                 <div class="col-md-6 my-auto col-lg-6 col-sm-12" style="padding-left: 30px">
                     <div class="d-flex ">
                         <div>
