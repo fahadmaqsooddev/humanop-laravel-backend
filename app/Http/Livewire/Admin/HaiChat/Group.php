@@ -21,7 +21,9 @@ class Group extends Component
 
         $group_ids = [], $fileInputId, $showGroupDropdownMenu = false, $group_search, $dropDownGroups = [],
 
-        $is_group = true, $showEmbDropdownMenu = false, $dropDownEmbeddings = [], $embedding_search;
+        $is_group = true, $showEmbDropdownMenu = false, $dropDownEmbeddings = [], $embedding_search,
+
+        $selectedGroups = [], $selectedEmbeddings = [];
 
     protected $rules = [
         'embedding_name' => 'required|max:50',
@@ -243,6 +245,8 @@ class Group extends Component
 
             $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
 
+            $this->selectedGroups = GroupEmbedding::embeddingGroupNames($this->embedding_id);
+
             $this->emit('closeAddGroupToEmbeddingModal');
 
             $this->showGroupDropdownMenu = false;
@@ -257,15 +261,19 @@ class Group extends Component
         }
     }
 
-    public function addGroupIds(int $id){
+    public function addGroupIds(int $id, $name = null){
 
         if(in_array($id,$this->group_ids)){
 
             $this->group_ids = array_diff($this->group_ids,[$id]);
 
+            $this->selectedGroups = array_diff($this->selectedGroups, [$name]);
+
         }else{
 
             array_push($this->group_ids,$id);
+
+            array_push($this->selectedGroups, $name);
         }
 
         $this->showGroupDropdownMenu = true;
@@ -283,17 +291,25 @@ class Group extends Component
     public function changeIsGroup($value){
 
         $this->is_group = $value;
+
+        $this->selectedGroups = [];
+
+        $this->group_ids = [];
     }
 
-    public function addEmbeddingIds(int $id){
+    public function addEmbeddingIds(int $id, $name = null){
 
         if(in_array($id,$this->embedding_ids)){
 
             $this->embedding_ids = array_diff($this->embedding_ids,[$id]);
 
+            $this->selectedEmbeddings = array_diff($this->selectedEmbeddings, [$name]);
+
         }else{
 
             array_push($this->embedding_ids,$id);
+
+            array_push($this->selectedEmbeddings, $name);
         }
 
         $this->showEmbDropdownMenu = true;
