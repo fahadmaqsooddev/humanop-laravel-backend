@@ -503,6 +503,9 @@ class AuthController extends Controller
 
                 tap($getUser->update($dataArray));
 
+                $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
                 $token = $this->auth->login($getUser);
 
                 $data = [

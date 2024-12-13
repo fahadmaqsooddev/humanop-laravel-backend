@@ -708,9 +708,9 @@
 
                                     <span >
                                             @if(Request::is('client/resource'))
-                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/active_football.svg')}}" style="margin-top:5px">
+                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/resource.png')}}" style="margin-top:5px">
                                         @else
-                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/football.svg')}}" style="margin-top:5px">
+                                            <img class="icon-size mx-auto"   src="{{URL::asset('assets/new-design/icon/dashboard/navbar/resource.png')}}" style="margin-top:5px">
                                         @endif
                                     </span>
                                     {{--                                    <span class="sidenav-normal"> Resources & Trainings </span>--}}
