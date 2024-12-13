@@ -169,8 +169,9 @@
     }
 
     .traitHeading {
-        font-size: 17px;
+        font-size: 18px;
         font-weight: bold;
+        color: #F95520 !important;
     }
 
     @media screen and (min-width: 550px) and (max-width: 766px) {
@@ -536,25 +537,23 @@
                                                        style="color: orange;">Take the Assessment</a>
                                                 </p>
                                             @endif
-                                            @if($tip && $assessment)
-                                                @if($isReadDailyTip == 0)
-                                                    <div class="dailyTipButton">
-                                                        <div
-                                                            class="{{$hide_button ? "d-none" : "d-none"}} justify-content-center mt-2"
-                                                            id="read_all_tip">
-                                                            <button
-                                                                class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
-                                                                style="color: #1C365E !important;"
-                                                                {{--                                                        {{$tip['is_read'] ?? null ? "disabled" : ""}}--}}
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#daily-tip-completed"
-                                                                onclick="onDailyTipAllRead()">
-                                                                Complete Daily Tip
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            @endif
+                                            {{--                                            @if($tip && $assessment)--}}
+                                            {{--                                                @if($isReadDailyTip == 0)--}}
+                                            {{--                                                    <div class="dailyTipButton">--}}
+                                            {{--                                                        <div--}}
+                                            {{--                                                            class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"--}}
+                                            {{--                                                            id="read_all_tip">--}}
+                                            {{--                                                            <button--}}
+                                            {{--                                                                class="connection-btn btn-sm"--}}
+                                            {{--                                                                data-bs-toggle="modal"--}}
+                                            {{--                                                                data-bs-target="#daily-tip-completed"--}}
+                                            {{--                                                                onclick="onDailyTipAllRead()">--}}
+                                            {{--                                                                Complete Daily Tip--}}
+                                            {{--                                                            </button>--}}
+                                            {{--                                                        </div>--}}
+                                            {{--                                                    </div>--}}
+                                            {{--                                                @endif--}}
+                                            {{--                                            @endif--}}
                                         </div>
 
                                         @if($tip && $assessment)
@@ -563,8 +562,8 @@
                                                     <div
                                                         class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
                                                         <button
-                                                            style="background-color: #f2661c;color: #1C365E !important;"
-                                                            class="rainbow-border-user-nav-btn btn-sm daily-tip-read-button"
+                                                            style="background-color: #f2661c;color: white !important;"
+                                                            class="connection-btn btn-sm"
                                                             data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
                                                             onclick="onDailyTipAllRead()">
                                                             Complete Daily Tip
@@ -591,12 +590,6 @@
                                                     data-bs-target="#coreStatsModel"
                                                     style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color: #F4ECE0 !important;cursor:pointer ">
                                                     <strong> CORE STATS </strong>
-                                                    {{--                                                <span style="color: #F4ECE0 !important;"--}}
-                                                    {{--                                                                                   class="iconInfo"--}}
-                                                    {{--                                                                                   data-bs-toggle="modal"--}}
-                                                    {{--                                                                                   data-bs-target="#coreStatsModel"><i--}}
-                                                    {{--                                                        class="fa-regular fa-circle-question fa-lg"--}}
-                                                    {{--                                                        style="color: #F4ECE0;"></i></span>--}}
                                                 </h5>
                                             </div>
 
@@ -606,31 +599,31 @@
                                                     <p class="text-sm fs-12px text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}','motivation_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192);">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
                                             @elseif(21 <= $age && $age <= 29)
 
                                                 @if(!empty($assessment))
-                                                    <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
+                                                    <p class="text-md text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}','roadworthy_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -640,14 +633,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}','power_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -657,14 +650,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}','mid_life_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -674,14 +667,14 @@
                                                     <p class="text-sm fs-12px text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}','awareness_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -691,14 +684,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}','forward_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -709,14 +702,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}','liberated_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -726,14 +719,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}','being_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -743,14 +736,14 @@
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        onclick="goToProfileOverviewPage('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}','review_life_cycle')"
                                                        style="color: rgb(160, 174, 192); cursor: pointer;">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @else
                                                     <p class="text-sm fs-12px  text-color-blue text-bold mb-0"
                                                        style="color: rgb(160, 174, 192)">
-                                                        Interval of Life: (<span class="text-bold text-sm"
-                                                                                 style="color: #f2661c">{{$user_age['interval']}}</span>)
+                                                        Interval of Life: (<span class="text-bold"
+                                                                                 style="color: #f2661c; font-size: 15px">{{$user_age['interval']}}</span>)
                                                     </p>
                                                 @endif
 
@@ -758,103 +751,127 @@
 
 
                                         </div>
-                                        <div style="overflow-y:scroll;max-height: 400px">
-                                            <p class="text-color-blue traitHeading mb-2"> Top 3 Traits:</p>
-                                            <div class="d-flex flex-column" style="margin-top: -10px">
-                                                @if($topThreeStyles)
-                                                    @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
+                                        <div class="scrollbar" id="style-2" style="overflow-y:auto;max-height: 400px">
+                                            <div class="force-overflow">
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2"> Top 3 Traits:</p>
+                                                    <div class="d-flex flex-column" style="margin-top: -10px">
+                                                        @if($topThreeStyles)
+                                                            @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
+                                                                <p class="fw-bold text-color-blue"
+                                                                   style=" cursor: pointer;margin: unset; font-size: 15px !important;"
+                                                                   onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
+                                                                    {{ $style[1] }} [{{ $style[0] }}]
+                                                                </p>
+                                                            @endforeach
+                                                        @else
+                                                            <p class="fw-bold fs-12px text-color-blue"
+                                                               style="margin: unset">
+                                                                N/A</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2"> Motivational
+                                                        Drivers:</p>
+                                                    <div class="d-flex flex-column text-color-blue"
+                                                         style="margin-top: -10px">
+                                                        @if($topTwoFeatures)
+                                                            @foreach($topTwoFeatures as $index => $feature)
+                                                                <p class="fw-bold"
+                                                                   style=" cursor: pointer;margin: unset ; font-size: 15px"
+                                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
+                                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
+                                                                    [{{ $feature[0] }}]
+                                                                </p>
+                                                            @endforeach
+                                                        @else
+                                                            <p class="fw-bold fs-12px text-color-blue"
+                                                               style="margin: unset">
+                                                                N/A</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2">Boundaries of
+                                                        Tolerance "Alchemy":</p>
+                                                    @if($boundary)
+                                                        <p class="fw-bold text-color-blue"
+                                                           style="margin-top: -10px; cursor: pointer;font-size: 15px"
+                                                           onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
+                                                            @php
+                                                                $codeParts = explode('-', $boundary['code_number']);
+                                                                $code = implode('', $codeParts);
+                                                            @endphp
+                                                            {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
+                                                        </p>
+                                                    @else
                                                         <p class="fw-bold fs-12px text-color-blue"
-                                                           style=" cursor: pointer;margin: unset"
-                                                           onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
-                                                            {{ $style[1] }} [{{ $style[0] }}]
+                                                           style="margin: unset">
+                                                            N/A</p>
+                                                    @endif
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2"> Communication
+                                                        Style "Energy Centers":</p>
+                                                    <div class="d-flex text-color-blue flex-wrap"
+                                                         style="margin-top: -15px">
+                                                        @if($topCommunication)
+                                                            @foreach($topCommunication as $communication)
+                                                                <p class="fw-bold"
+                                                                   style=" cursor: pointer;font-size: 15px"
+                                                                   onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
+                                                                    {{--                                                    {{dd($communication)}}--}}
+                                                                    <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
+                                                                    &nbsp;@endif
+                                                                </p>
+                                                            @endforeach
+                                                        @else
+                                                            <p class="fw-bold fs-12px text-color-blue mb-2"
+                                                               style="margin: unset">
+                                                                N/A</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2"
+                                                       style="color: rgb(160, 174, 192); margin-top: -13px">
+                                                        Perception of
+                                                        Life:</p>
+                                                    @if($preception)
+                                                        <p class="fw-bold text-color-blue"
+                                                           style=" margin-top: -10px;cursor: pointer;font-size: 15px"
+                                                           onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
+                                                            {{
+                                                                ($preception['polarity_code'] == 40 ? "Negatively Charged" :
+                                                                ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
+                                                                ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
+                                                            }} [{{ $preception['pv'] ?? '' }}]
                                                         </p>
-                                                    @endforeach
-                                                @else
-                                                    <p class="fw-bold fs-12px text-color-blue" style="margin: unset">
-                                                        N/A</p>
-                                                @endif
-                                            </div>
-                                            <p class="text-color-blue traitHeading mb-2"> Motivational
-                                                Drivers:</p>
-                                            <div class="d-flex flex-column text-color-blue" style="margin-top: -10px">
-                                                @if($topTwoFeatures)
-                                                    @foreach($topTwoFeatures as $index => $feature)
-                                                        <p class="fw-bold fs-12px "
-                                                           style=" cursor: pointer;margin: unset"
-                                                           onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
-                                                            {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
-                                                            [{{ $feature[0] }}]
+                                                    @else
+                                                        <p class="fw-bold fs-12px text-color-blue"
+                                                           style="margin: unset">
+                                                            N/A</p>
+                                                    @endif
+                                                </div>
+                                                <div class="mt-2">
+                                                    <p class="traitHeading mb-2"
+                                                       style="color: rgb(160, 174, 192)">
+                                                        Energy
+                                                        Pool:</p>
+                                                    @if($energyPool)
+                                                        <p class="fw-bold text-color-blue "
+                                                           style="margin-top: -10px;cursor: pointer;font-size: 15px"
+                                                           onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
+                                                            {{ $energyPool['code'] }}
                                                         </p>
-                                                    @endforeach
-                                                @else
-                                                    <p class="fw-bold fs-12px text-color-blue" style="margin: unset">
-                                                        N/A</p>
-                                                @endif
+                                                    @else
+                                                        <p class="fw-bold fs-12px text-color-blue"
+                                                           style="margin: unset">
+                                                            N/A</p>
+                                                    @endif
+                                                </div>
                                             </div>
-                                            <p class="text-color-blue traitHeading mb-2">Boundaries of
-                                                Tolerance "Alchemy":</p>
-                                            @if($boundary)
-                                                <p class="fw-bold fs-12px text-color-blue"
-                                                   style="margin-top: -10px; cursor: pointer;"
-                                                   onclick="goToProfileOverviewPage('{{$boundary['video_url']}}','boundary_dynamic_div')">
-                                                    @php
-                                                        $codeParts = explode('-', $boundary['code_number']);
-                                                        $code = implode('', $codeParts);
-                                                    @endphp
-                                                    {{ $boundary['public_name'] ?? '' }} [{{ $code ?? '' }}]
-                                                </p>
-                                            @else
-                                                <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                            @endif
-                                            <p class="text-color-blue traitHeading mb-2"> Communication
-                                                Style "Energy Centers":</p>
-                                            <div class="d-flex text-color-blue flex-wrap" style="margin-top: -15px">
-                                                @if($topCommunication)
-                                                    @foreach($topCommunication as $communication)
-                                                        <p class="fw-bold fs-12px"
-                                                           style=" cursor: pointer;"
-                                                           onclick="goToProfileOverviewPage('{{$communication['video_url']}}','communication_{{$index}}')">
-                                                            {{--                                                    {{dd($communication)}}--}}
-                                                            <span>{{ $communication['public_name'] . ' [' .($assessment[$communication['code_key']] ?? null) . ']' }} @if(!$loop->last) &rarr;</span>
-                                                            &nbsp;@endif
-                                                        </p>
-                                                    @endforeach
-                                                @else
-                                                    <p class="fw-bold fs-12px text-color-blue mb-2"
-                                                       style="margin: unset">
-                                                        N/A</p>
-                                                @endif
-                                            </div>
-                                            <p class="text-color-blue traitHeading mb-2"
-                                               style="color: rgb(160, 174, 192); margin-top: -13px">
-                                                Perception of
-                                                Life:</p>
-                                            @if($preception)
-                                                <p class="fw-bold fs-12px text-color-blue"
-                                                   style=" margin-top: -10px;cursor: pointer;"
-                                                   onclick="goToProfileOverviewPage('{{$preception['video_url']}}','perception_dynamic_dev')">
-                                                    {{
-                                                        ($preception['polarity_code'] == 40 ? "Negatively Charged" :
-                                                        ($preception['polarity_code'] == 41 ? "Neutrally Charged" :
-                                                        ($preception['polarity_code'] == 42 ? "Positively Charged" : '')))
-                                                    }} [{{ $preception['pv'] ?? '' }}]
-                                                </p>
-                                            @else
-                                                <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                            @endif
-                                            <p class="text-color-blue traitHeading mb-2"
-                                               style="color: rgb(160, 174, 192)">
-                                                Energy
-                                                Pool:</p>
-                                            @if($energyPool)
-                                                <p class="fw-bold  fs-12px text-color-blue "
-                                                   style="margin-top: -10px;cursor: pointer;"
-                                                   onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
-                                                    {{ $energyPool['code'] }}
-                                                </p>
-                                            @else
-                                                <p class="fw-bold fs-12px text-color-blue" style="margin: unset">N/A</p>
-                                            @endif
                                         </div>
                                     </div>
                                     <div class="image-container float-end">
@@ -876,9 +893,9 @@
                                             <strong>OPTIMIZATION STRATEGY</strong>
                                         </h5>
                                     </div>
-                                    <div class="card-body p-3 text-white "
-                                         style="cursor: pointer; overflow: auto">
-                                        <div>
+                                    <div class="card-body p-3 text-white scrollbar" id="style-2"
+                                         style="cursor: pointer">
+                                        <div class="force-overflow">
                                             @if($actionPlan)
 
                                                 {!! $actionPlan['plan_text'] !!}
@@ -960,21 +977,22 @@
                                         </h5>
 
                                     </div>
-                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                            <div>
-                                                <button class="rainbow-border-user-nav-btn btn-lg " id="open-chat-btn"
-                                                        style="">Get Help!
-                                                </button>
-                                            </div>
+                                    {{--                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)--}}
+                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                        <div>
+                                            <button class="connection-btn btn-lg" id="open-chat-btn"
+                                                    style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
+                                                Get Help!
+                                            </button>
                                         </div>
-                                    @else
-                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                            <div>
-                                                <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
-                                            </div>
+                                    </div>
+                                    {{--                                    @else--}}
+                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                        <div>
+                                            <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
                                         </div>
-                                    @endif
+                                    </div>
+                                    {{--                                    @endif--}}
                                     <div class="image-container ">
                                         <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
                                              width="200"
@@ -988,49 +1006,49 @@
                         <div class="row">
                             <div class="mt-2 col-12 mainCardFlex">
 
-{{--                                <div class="col-lg-12 col-md-6 col-sm-12 mb-4">--}}
+                                {{--                                <div class="col-lg-12 col-md-6 col-sm-12 mb-4">--}}
 
-                                    <div class="card podcast-card"
-                                         style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
-                                         data-step="7">
-                                        <div class="card-body p-3">
-                                            <div class="d-flex mb-3 justify-content-center">
-                                                <h5 class="mb-0 w-auto"
-                                                    style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
-                                                    <strong>INTEGRATION PODCAST</strong></h5>
-                                            </div>
-                                            <div class="card mb-4"
-                                            >
-                                                <div class="card-body p-0">
-                                                    @if($podcast && !empty($podcast->embedded_url))
-                                                        <div class="row">
-                                                            <div class="podcast-card">
-                                                                <div class="numbers">
-                                                                    <iframe class="col-lg-12 col-md-12"
-                                                                            id="pod_cast_container"
-                                                                            style="height: 1225px; width: 100%;"
-                                                                            src="{{$podcast->embedded_url}}"
-                                                                            frameborder="0"></iframe>
-                                                                    <h5 class="font-weight-bolder mb-0">
+                                <div class="card podcast-card"
+                                     style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
+                                     data-step="7">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex mb-3 justify-content-center">
+                                            <h5 class="mb-0 w-auto"
+                                                style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
+                                                <strong>INTEGRATION PODCAST</strong></h5>
+                                        </div>
+                                        <div class="card mb-4"
+                                        >
+                                            <div class="card-body p-0">
+                                                @if($podcast && !empty($podcast->embedded_url))
+                                                    <div class="row">
+                                                        <div class="podcast-card">
+                                                            <div class="numbers">
+                                                                <iframe class="col-lg-12 col-md-12"
+                                                                        id="pod_cast_container"
+                                                                        style="height: 1225px; width: 100%;"
+                                                                        src="{{$podcast->embedded_url}}"
+                                                                        frameborder="0"></iframe>
+                                                                <h5 class="font-weight-bolder mb-0">
                                                                 <span
                                                                     class="text-success text-sm font-weight-bolder"></span>
-                                                                    </h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4 text-end">
-
+                                                                </h5>
                                                             </div>
                                                         </div>
-                                                    @else
-                                                        <p class="text-center text-white">No podcast is uploaded yet</p>
-                                                    @endif
-                                                </div>
+                                                        <div class="col-4 text-end">
+
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <p class="text-center text-white">No podcast is uploaded yet</p>
+                                                @endif
                                             </div>
-
                                         </div>
-                                    </div>
 
-{{--                                </div>--}}
+                                    </div>
+                                </div>
+
+                                {{--                                </div>--}}
 
                             </div>
                         </div>
