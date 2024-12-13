@@ -35,7 +35,15 @@
     @livewireStyles
 </head>
 @php
-    $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 ? '16.5rem' : '13.5rem';
+if (App\Helpers\Helpers::getWebUser())
+    {
+            $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 ? '16.5rem' : '13.5rem';
+    }
+    else
+        {
+            $marginLeft = '13rem';
+        }
+
 @endphp
 <style>
     @media (min-width: 1200px) {
