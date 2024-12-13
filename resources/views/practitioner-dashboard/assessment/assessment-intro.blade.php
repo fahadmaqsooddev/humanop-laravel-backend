@@ -93,8 +93,8 @@
                             @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                                 <div class="d-flex justify-content-between">
                                     <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}"
-                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                       class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                       class="connection-btn w-25 text-center">Proceed
                                     </a>
                                     <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')}}"
                                        style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
@@ -106,8 +106,8 @@
                             @else
                                 <div class="d-flex justify-content-between">
                                     <a href="{{ url('practitioner/play') }}"
-                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                       class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                       class="connection-btn w-25 text-center text-white">Proceed
                                     </a>
                                     <a href="{{ route('admin_dashboard') }}"
                                        class=" text-center"

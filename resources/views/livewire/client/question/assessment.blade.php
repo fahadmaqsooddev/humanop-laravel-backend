@@ -48,7 +48,7 @@
         </div>
     @endforeach
 
-    <button type="submit" class="rainbow-border-user-nav-btn mt-4">
+    <button type="submit" class="connection-btn mt-4" style="font-size: 16px!important;padding: 10px 26px !important;">
         Submit
         <i class="fas fa-arrow-right ms-1"></i>
     </button>

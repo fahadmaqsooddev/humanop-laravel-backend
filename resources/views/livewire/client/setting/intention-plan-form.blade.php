@@ -18,7 +18,7 @@
                         </label>
                     </div>
                 @endforeach
-                <button type="submit" class="btn-sm float-end mt-4 mb-3 rainbow-border-user-nav-btn">Update Intention</button>
+                <button type="submit" class="btn-sm float-end mt-4 mb-3 connection-btn" style="font-size: 16px !important;">Update Intention</button>
             </div>
         </div>
     </form>

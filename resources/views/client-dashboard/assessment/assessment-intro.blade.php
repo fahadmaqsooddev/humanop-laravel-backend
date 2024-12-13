@@ -94,8 +94,8 @@
                                 <div class="d-flex justify-content-between">
                                     @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
                                         <a href="javascript:void(0);"
-                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                           class="rainbow-border-assessment-intro-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
+                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                           class="connection-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
                                         </a>
                                     @else
                                     <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}"
@@ -114,13 +114,13 @@
                                 <div class="d-flex justify-content-between">
                                     @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
                                         <a href="javascript:void(0);"
-                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                           class="rainbow-border-assessment-intro-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
+                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                           class="connection-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
                                         </a>
                                         @else
                                     <a href="{{url('client/play')}}"
-                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                       class="rainbow-border-assessment-intro-btn w-25 text-center text-white">Proceed
+                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                       class="connection-btn w-25 text-center text-white">Proceed
                                     </a>
                                     @endif
                                     <a href="{{url('login')}}"

@@ -1,9 +1,9 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 <style>
 
-    body {
-        background-color: #2E9CA8 !important;
-    }
+    /*body {*/
+    /*    background-color: #2E9CA8 !important;*/
+    /*}*/
 
     /* Import Google font - Poppins */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -335,7 +335,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
-                                <h3 class="font-weight-bolder mb-0">Tutorials</h3>
+                                <h3 class="font-weight-bolder mb-0" style="color: #1c3e6d">Tutorials</h3>
                             </div>
                         </div>
                     </div>
@@ -347,7 +347,7 @@
                         <a data-toggle="collapse" data-bs-toggle="modal"
                            data-bs-target="#tutorial-{{$tutorial['id']}}" style="cursor: pointer;">
                             <div class="card mb-4">
-                                <div class="card-body p-3">
+                                <div class="card-body p-3" style="background-color: #f2661c !important;border-radius: 12px !important;">
                                     <div class="row">
                                         <div class="col-8 m-auto">
                                             <div class="numbers">

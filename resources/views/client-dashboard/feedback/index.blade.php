@@ -1,9 +1,9 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 <style>
 
-    body {
-        background-color: #2E9CA8 !important;
-    }
+    /*body {*/
+    /*    background-color: #2E9CA8 !important;*/
+    /*}*/
 
     /* Import Google font - Poppins */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -331,11 +331,11 @@
     <div class="row container-fluid">
         <div class="col-lg-6 position-relative z-index-2">
             <div class="mb-4">
-                <div class="card-body p-3">
+                <div class="card-Thanks for being body p-3">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
-                                <h3 class="font-weight-bolder mb-0">Feedback</h3>
+                                <h3 style="color: #1c3e6d" class="font-weight-bolder mb-0">Feedback</h3>
                             </div>
                         </div>
                     </div>

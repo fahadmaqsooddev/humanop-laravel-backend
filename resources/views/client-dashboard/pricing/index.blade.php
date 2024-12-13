@@ -64,7 +64,7 @@
     </div>
 
     <div class="">
-        <div class="container">
+        <div class="container-fluid" style="padding-left: 0px !important;">
             <div class="tab-content tab-space">
                 <div class="tab-pane active" id="monthly">
                     <div class="row d-flex justify-content-center">
@@ -74,7 +74,7 @@
                         <div class="col-lg-4 mb-lg-0 mb-4">
                             @if($plan->name != 'Freemium')
                                 <div class="text-center">
-                                <button class="rainbow-border-user-nav-btn btn-icon d-lg-block   response-width "  >
+                                <button class=" btn-icon d-lg-block response-width connection-btn" style="font-size: 18px !important; padding: 6px !important;">
                                     Coming Soon !
                                 </button>
                                 </div>
@@ -223,7 +223,7 @@
 
 {{--                                    @if($user->plan_name == "Freemium")--}}
                                         <div class="text-center">
-                                            <a class="rainbow-border-user-nav-btn btn-icon d-lg-block mt-3 mb-0">
+                                            <a class="connection-btn btn-icon d-lg-block mt-3 mb-0" style="font-size: 18px !important;padding: 6px!important;">
                                                 Current Membership
                                                 <i class="fas fa-arrow-right ms-1"></i>
                                             </a>

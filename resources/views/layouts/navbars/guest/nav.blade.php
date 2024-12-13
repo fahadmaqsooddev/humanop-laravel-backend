@@ -28,15 +28,15 @@
         @endif
 
         @if(Auth::check() && (Route::is('test_play') && (Auth::user()->is_admin == 2) && Auth::user()->practitioner_id == null))
-            <a href="{{url('login')}}" class="rainbow-border-user-nav-btn mt-4">
+            <a href="{{url('login')}}" class="connection-btn mt-4" style="font-size: 16px !important;padding: 8px 16px !important;">
                 Save and Exit
             </a>
         @elseif(Auth::check() && Auth::user()->is_admin == 2 && Auth::user()->practitioner_id != null)
-            <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}" class="rainbow-border-user-nav-btn mt-4">
+            <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}" class="connection-btn mt-4" style="font-size: 16px !important;padding: 8px 16px !important;">
                 Save and Exit
             </a>
         @elseif(Auth::check() && (Route::is('admin_test_play') && (Auth::user()->is_admin == 4)))
-            <a href="{{ url('practitioner/dashboard') }}" class="rainbow-border-user-nav-btn mt-4">
+            <a href="{{ url('practitioner/dashboard') }}" class="connection-btn mt-4" style="font-size: 16px !important;padding: 8px 16px !important;">
                 Save and Exit
             </a>
         @else

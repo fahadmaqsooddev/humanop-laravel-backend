@@ -325,7 +325,7 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0 justify-content-end">
                         <div>
-                            <a href="{{route('client_pricing')}}" class="rainbow-border-user-nav-btn mb-0 ms-2 "
+                            <a href="{{route('client_pricing')}}" class="connection-btn mb-0 ms-2 " style="font-size: 16px !important;padding: 8px 20px !important;"
 
                                type="button" name="button">Upgrade/Downgrade My Subscription
                             </a>
@@ -434,7 +434,7 @@
                     </div>
                     <div class="card-body d-sm-flex pt-0 justify-content-end">
                         <div>
-                            <button onclick="confirmBoxForDeleteAccount()" class="rainbow-border-user-nav-btn mb-0 ms-2"
+                            <button onclick="confirmBoxForDeleteAccount()" class="connection-btn mb-0 ms-2" style="font-size: 16px !important;padding: 8px 20px !important;"
                                     type="button" name="button">Delete Account
                             </button>
                         </div>

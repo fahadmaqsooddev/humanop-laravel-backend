@@ -139,7 +139,7 @@
                            class="form-control text-color-dark setting-box-background profileImage">
                 </div>
             </div>
-            <button type="submit" class=" btn-sm  float-end mt-4 mb-3 rainbow-border-user-nav-btn">Update Info</button>
+            <button type="submit" class=" btn-sm  float-end mt-4 mb-3 connection-btn" style="font-size: 16px !important;">Update Info</button>
         </div>
 
     </form>

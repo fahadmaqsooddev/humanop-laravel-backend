@@ -13,7 +13,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class=" btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn">
+            <button type="submit" class=" btn-sm float-end mt-2 mb-0 connection-btn" style="font-size: 16px !important;">
                 set timezone
             </button>
         </div>

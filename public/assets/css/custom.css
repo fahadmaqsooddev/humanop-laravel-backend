@@ -561,7 +561,8 @@ select:focus {
 }
 
 .setting-box-background{
-    background: #8BB1AB !important;
+    background: #f4e3c7 !important;
+    border: 2px solid #f2661c !important;
 }
 
 .custom-text-dark{

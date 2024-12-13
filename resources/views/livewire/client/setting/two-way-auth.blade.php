@@ -18,7 +18,7 @@
                     <input  id="phone" wire:model.defer="phone" onfocus="focused(this)"
                             maxlength="14" class="form-control text-color-dark setting-box-background" type="tel" placeholder="Enter your phone number">
                 </div>
-                <button class=" btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn" wire:click="updateNumber()" >
+                <button class=" btn-sm float-end mt-2 mb-0 connection-btn" style="font-size: 16px !important;" wire:click="updateNumber()" >
                     Add Phone
                 </button>
             </div>
