@@ -54,7 +54,7 @@ class MessageController extends Controller
 
                 Message::createMessage($dataArray);
 
-                return Helpers::successResponse('Message sent');
+                return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
             }else{
 
