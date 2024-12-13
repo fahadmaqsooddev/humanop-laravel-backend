@@ -77,7 +77,7 @@
     </style>
 @endpush
 <div>
-    <div class="container-fluid pt-3">
+    <div class="container-fluid pt-3" style="padding-left: 0px !important;">
         <div class="row position-relative mb-4 mt-2 mx-1" style="background: #8BB1AB;border-radius: 40px !important;">
             <div style="z-index: 11" class="row my-4">
                 <div class="col-md-6 my-auto col-lg-6 col-sm-12" style="padding-left: 30px">
@@ -192,7 +192,7 @@
         @if(request()->input('type') != 'request')
             <div class="row suggestion_user_container"
                  style="margin-left: 1.5rem !important;margin-right:0.1rem !important; ">
-                <div class="col-12 col-md-7 my-auto" style="background:#F6BA81;border-radius: 25px;height: auto">
+                <div class="col-12 col-md-7 my-auto" style="background:#F4E3C7;border-radius: 25px;height: auto">
                     <div class="d-flex justify-content-around" style="height: 50px">
                         <div class="w-80 px-3 my-auto py-1"
                              style="background: #F4ECE0;border-radius: 20px; display: flex;align-items: center">

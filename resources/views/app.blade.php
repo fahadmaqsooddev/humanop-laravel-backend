@@ -34,7 +34,29 @@
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
     @livewireStyles
 </head>
+@php
+    $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 ? '16.5rem' : '13.5rem';
+@endphp
 <style>
+    @media (min-width: 1200px) {
+        .sidenav:hover{
+            max-width: 15.625rem;
+        }
+
+        .sidenav .sidenav-toggler {
+            padding: 1.5rem;
+        }
+
+        .sidenav.fixed-start+.main-content {
+            margin-left: {{ $marginLeft }};
+        }
+
+        .sidenav.fixed-end+.main-content {
+            margin-right: 16.5rem;
+        }
+    }
+
+
     /* General styles */
     .fl-main-container {
         position: fixed;
