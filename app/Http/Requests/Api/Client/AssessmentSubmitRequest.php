@@ -26,7 +26,7 @@ class AssessmentSubmitRequest extends FormRequest
         return [
             'answer_ids' => 'required|array',
             'answer_ids.0' => 'required',
-            'answer_ids.1' => 'required',
+            'answer_ids.1' => 'nullable',
             'answer_ids.2' => 'nullable'
         ];
     }
