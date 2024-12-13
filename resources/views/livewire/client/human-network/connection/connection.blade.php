@@ -383,7 +383,7 @@
                             @endforeach
                             @if($users->hasMorePages())
                                 <button class="connection-btn my-4" wire:click.prevent="loadMore"
-                                        style=" width: 60%; margin: auto; font-weight: 600;">
+                                        style=" width: 60%; margin: auto; font-weight: 600;font-size: 18px !important;">
                                     Load more
                                 </button>
                             @endif
