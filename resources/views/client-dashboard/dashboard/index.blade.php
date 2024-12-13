@@ -972,7 +972,7 @@
                                         </h5>
 
                                     </div>
-                                    {{--                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)--}}
+                                                                        @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
                                     <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                         <div>
                                             <button class="connection-btn btn-lg" id="open-chat-btn"
@@ -981,13 +981,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    {{--                                    @else--}}
+                                                                        @else
                                     <div class="card-body p-3 d-flex justify-content-center align-items-center">
                                         <div>
                                             <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
                                         </div>
                                     </div>
-                                    {{--                                    @endif--}}
+                                                                        @endif
                                     <div class="image-container ">
                                         <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
                                              width="200"
