@@ -4,10 +4,6 @@
 
     <style>
 
-        body{
-            background-color: #2E9CA8 !important;
-        }
-
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
@@ -327,7 +323,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="d-flex flex-column h-100">
-                                <h3 class="font-weight-bolder mb-0">Library of Resources & Trainings</h3>
+                                <h3 style="color: #1c3e6d" class="font-weight-bolder mb-0">Library of Resources & Trainings</h3>
                             </div>
                         </div>
                     </div>
@@ -339,14 +335,13 @@
                 @foreach($categories as $category)
                     <div class="col-lg-12 col-sm-12">
                         <a data-toggle="collapse" data-target="#collapse-{{$category->name}}" aria-expanded="false" aria-controls="collapse-{{$category->name}}" style="cursor: pointer;">
-                            <div class="card mb-4"
-                                 >
+                            <div class="card mb-4" style="background-color: #fcb178;border-radius: 14px;">
                                 <div class="card-body p-3">
                                     <div class="row">
                                         <div class="col-8 m-auto">
                                             <div class="numbers">
                                                 <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                                   style="color: white;">{{$category['name'] ?? null}}</p>
+                                                   style="color: #1c3e6d;">{{$category['name'] ?? null}}</p>
                                             </div>
                                         </div>
                                         <div class="col-4 text-end">
@@ -371,14 +366,13 @@
 
                                         <div class="col-lg-6 col-sm-12">
                                             <a onclick="showModal('{{$resource['photo_url']['url'] ?? null}}','{{$resource['video_url']['path'] ?? null}}','{{$resource['audio_url']['path'] ?? null}}',`{{$resource['description']}}`,'{{$resource['content']}}','{{$resource['upload_id'] == null ? 0 : $resource['upload_id']}}')" style="cursor: pointer;">
-                                                <div class="card mb-4"
-                                                     >
+                                                <div class="card mb-4" style="background-color: #fcb178;border-radius: 14px;">
                                                     <div class="card-body p-3">
                                                         <div class="row">
                                                             <div class="col-8 m-auto">
                                                                 <div class="numbers">
                                                                     <p class="text-sm mb-0 text-capitalize font-weight-bold"
-                                                                       style="color: white;">{{$resource['heading'] ?? null}}</p>
+                                                                       style="color: #1c3e6d;">{{$resource['heading'] ?? null}}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-4 text-end">
