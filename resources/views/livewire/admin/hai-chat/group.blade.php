@@ -1,25 +1,20 @@
-{{--@section('content')--}}
-{{--    @push('css')--}}
-{{--        <style>--}}
+@push('css')
+    <style>
+        .new-orange-button{
+            background-color: #F95520 !important;
+            padding: 10px 20px 10px 20px;
+            border-radius: 8px;
+            color: white;
+            border-color: transparent;
+            cursor: pointer;
+            font-weight: 800;
+        }
 
-{{--            .select2{--}}
-{{--                width: 625px !important;--}}
-{{--            }--}}
-
-{{--            .select2-selection{--}}
-{{--                width: 625px !important;--}}
-{{--                border: 1px solid #f2661c !important;--}}
-{{--                background-color: #0f1534 !important;--}}
-{{--                color: white !important;--}}
-{{--                border-radius: 10px;--}}
-{{--            }--}}
-
-{{--            .select2-selection__choice{--}}
-{{--                color: black;--}}
-{{--            }--}}
-
-{{--        </style>--}}
-{{--    @endpush--}}
+        .new-orange-button:hover{
+            color: white;
+        }
+    </style>
+@endpush
 <div>
     <div class="d-flex justify-content-end">
         <div class="px-1">
@@ -554,5 +549,3 @@
     </script>
 
 @endpush
-
-{{--@endsection--}}
