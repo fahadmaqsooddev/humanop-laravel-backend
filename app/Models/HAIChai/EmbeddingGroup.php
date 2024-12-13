@@ -75,4 +75,10 @@ class EmbeddingGroup extends Model
         })->get();
     }
 
+    public static function groupNames($group_ids = null){
+
+        return self::whereIn('id', $group_ids)->get()->pluck('name')->toArray();
+
+    }
+
 }

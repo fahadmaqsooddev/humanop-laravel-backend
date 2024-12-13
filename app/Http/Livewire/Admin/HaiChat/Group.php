@@ -228,6 +228,8 @@ class Group extends Component
 
         $this->group_ids = GroupEmbedding::embeddingGroups($embedding_id);
 
+        $this->selectedGroups = EmbeddingGroup::groupNames($this->group_ids);
+
         $this->embedding_id = $embedding_id;
     }
 
@@ -244,8 +246,6 @@ class Group extends Component
             $this->emit('closeAlert');
 
             $this->group_ids = GroupEmbedding::embeddingGroups($this->embedding_id);
-
-            $this->selectedGroups = GroupEmbedding::embeddingGroupNames($this->embedding_id);
 
             $this->emit('closeAddGroupToEmbeddingModal');
 
