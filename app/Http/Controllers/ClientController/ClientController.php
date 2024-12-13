@@ -26,6 +26,7 @@ class ClientController extends Controller
     public function index()
     {
         try {
+
             $user_age = User::getUserAge(Helpers::getWebUser()->date_of_birth);
             $age = Carbon::parse(Helpers::getWebUser()->date_of_birth)->age;
             $podcast = Podcast::getPodcast();
@@ -33,8 +34,8 @@ class ClientController extends Controller
             $userPlanName = $user['plan_name'];
             $tip = DailyTip::getTodayTip();
             $plan = ActionPlan::userActionPlan();
-            $admin_answer = QueryAnswer::userQueryAnswer();
             $assessment = Assessment::getLatestAssessment($user['id']);
+            $admin_answer = QueryAnswer::userQueryAnswer();
             $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $boundary = $assessment != null ? Assessment::getAlchemyPublicName($assessment) : [];
