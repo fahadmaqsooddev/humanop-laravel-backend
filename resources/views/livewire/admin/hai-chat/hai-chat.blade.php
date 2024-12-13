@@ -1,3 +1,22 @@
+@push('css')
+
+    <style>
+        .new-orange-button{
+            background-color: #F95520 !important;
+            padding: 10px 20px 10px 20px;
+            border-radius: 8px;
+            color: white;
+            border-color: transparent;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .new-orange-button:hover{
+            color: white;
+        }
+    </style>
+
+@endpush
 <div>
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createChatModal"
@@ -51,7 +70,7 @@
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
                         <h5 class="modal-title text-white" id="createChatModalLabel">Create New ChatBot</h5>
-                        <button type="button" class="close modal-close-btn " id="createChatModal"
+                        <button type="button" class="close modal-close-btn new-orange-button" id="createChatModal"
                                 data-bs-dismiss="modal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -90,8 +109,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
-                                    style="background-color: #f2661c ">create a chatbot
+                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 text-white new-orange-button">
+                                create a chatbot
                             </button>
                         </div>
                     </form>
@@ -110,7 +129,7 @@
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
                         <h4 class="modal-title text-white" id="chatBotDetailModalLabel">{{$chatBot->name ?? null}}</h4>
-                        <button type="button" class="close modal-close-btn"
+                        <button type="button" class="close modal-close-btn new-orange-button"
                                 data-dismiss="modal" wire:click="closeChatBotDetailModal"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
