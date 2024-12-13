@@ -2,7 +2,7 @@
     <style>
 
         input::placeholder{
-            color: lightgrey;
+            color: lightslategray !important;
         }
 
         .new-orange-button{
@@ -50,7 +50,7 @@
                                     <div style="padding: 10px;">
 
                                         <div style="padding-bottom: 5px;">
-                                            <input type="text" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                            <input type="text" placeholder="search group" wire:model="group_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
                                         </div>
 
                                         @if(count($groups) > 0)
@@ -110,7 +110,7 @@
                                     <div style="padding: 10px;">
 
                                         <div style="padding-bottom: 5px;">
-                                            <input type="text" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
+                                            <input type="text" placeholder="search embedding" wire:model="embedding_search" style="border-radius: 1px; border: 1px solid #f2661c; width: 100%;">
                                         </div>
 
                                         @if(count($embeddings) > 0)
