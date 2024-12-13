@@ -308,16 +308,20 @@
                         @endempty
                         <div class="row  pt-2 ">
                             @foreach($users as $user)
+
                                 @php
                                     // Define your CSS classes
-                                    $classes = ['linear_blue', 'linear_orange', 'linear_green', 'linear_light_orange'];
-                                    // Select a random class
-                                    $randomClass = $classes[array_rand($classes)];
+                                    $cardBackground =  'linear_light_orange';
+                                    if($user['plan_name'] == 'Core'){
+                                         $cardBackground =  'linear_blue';
+                                    } else if($user['plan_name'] == 'Premium'){
+                                         $cardBackground = 'linear_green';
+                                    }
                                 @endphp
                                 <div class="col-6 col-md-6 col-lg-3 col-xxl-3 d-flex justify-content-center py-3">
                                     <div class="text-center shadow-sm connection-card"
                                          style="width: 17rem; height: 17rem; padding:0; border-radius: 20px 20px 8px 8px;background-color: #FFFFFF !important">
-                                        <div class="position-absolute w-100 {{$randomClass}}"
+                                        <div class="position-absolute w-100 {{$cardBackground}}"
                                              style="height: 80px;border-radius: 20px">
                                         </div>
                                         <div class="card-body d-flex flex-column justify-content-end"
