@@ -24,9 +24,9 @@
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">
             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="update"
-                    class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                    class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                 update
-                <span wire:loading wire:target="update" class="swal2-loader" style="font-size: 8px;">
+                <span wire:loading wire:target="update" style="font-size: 8px;" class="swal2-loader">
                 </span>
             </button>
         </div>

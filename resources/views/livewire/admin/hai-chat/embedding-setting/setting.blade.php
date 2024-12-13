@@ -18,7 +18,7 @@
                 </select>
                 <div class="d-flex float-end">
                     <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
-                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">
+                            class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                         save
                     </button>
                 </div>

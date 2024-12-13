@@ -1,8 +1,8 @@
 <div>
     <div class="d-flex justify-content-end">
         <a data-bs-toggle="modal" data-bs-target="#createChatModal"
-           style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">Create Chatbot
+{{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Chatbot
         </a>
     </div>
 
@@ -29,11 +29,10 @@
 {{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
 {{--                                than a minute</p>--}}
                             <div class="d-flex gap-2">
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"
-                                        class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">
+                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive">
                                     <i class="fa-solid fa-copy"></i></button>
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" onclick="deleteChatBot({{ $chat['id'] }})"
-                                        class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn">
+                                <button  onclick="deleteChatBot({{ $chat['id'] }})"
+                                        class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
                                     <i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
