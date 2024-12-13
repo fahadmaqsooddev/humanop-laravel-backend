@@ -1,3 +1,24 @@
+@push('css')
+
+    <style>
+
+        .new-orange-button{
+            background-color: #F95520 !important;
+            padding: 10px 20px 10px 20px;
+            border-radius: 8px;
+            color: white;
+            border-color: transparent;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .new-orange-button:hover{
+            color: white;
+        }
+
+    </style>
+
+@endpush
 <div class="card card-bg-white-orange-border mt-4" id="setting">
     <div class="card-header">
         <div>

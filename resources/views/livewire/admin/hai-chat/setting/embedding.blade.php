@@ -5,8 +5,27 @@
             color: lightgrey;
         }
 
-        input:focus{
-            border-color: #ff6347 !important;
+        .new-orange-button{
+            background-color: #F95520 !important;
+            padding: 10px 20px 10px 20px;
+            border-radius: 8px;
+            color: white;
+            border-color: transparent;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .new-orange-button:hover{
+            color: white;
+        }
+
+        .multi-select-button{
+            width: 100%;
+            padding: 5px;
+            border-radius: 8px;
+            border: 1px solid #f2661c;
+            background-color: #F3DEBA;
+            color: black;
         }
 
     </style>
@@ -22,7 +41,7 @@
                         <div class="btn-group d-flex justify-content-between ">
 
                             <div class="dropdown w-100">
-                                <button class="dropdown-toggle form-control {{$showGroupDropdownMenu ? 'show' : ''}}" style="background-color: #F3DEBA; color: black;" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="dropdown-toggle multi-select-button {{$showGroupDropdownMenu ? 'show' : ''}}" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{$groupButtonText}}
                                 </button>
                                 {{--                            @if($showEmbeddingDropdown)--}}
@@ -82,7 +101,7 @@
                         <div class="btn-group d-flex justify-content-between">
 
                             <div class="dropdown w-100">
-                                <button class="dropdown-toggle form-control {{$showDropdownMenu ? 'show' : ''}}" style="background-color: #F3DEBA; color: black;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="dropdown-toggle multi-select-button {{$showDropdownMenu ? 'show' : ''}}" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select @if($group_id) Embedding @else Group First @endif
                                 </button>
                                 {{--                            @if($showEmbeddingDropdown)--}}
