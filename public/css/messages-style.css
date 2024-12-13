@@ -208,10 +208,10 @@ body {
     color: #afafaf;
 }
 
-.nav-item:active
-{
-    background-color: #F95520;
-}
+/*.nav-item:active*/
+/*{*/
+/*    background-color: #F95520;*/
+/*}*/
 
 .nav-tabs .nav-link
 {
