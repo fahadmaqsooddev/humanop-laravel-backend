@@ -36,8 +36,9 @@ class Assessment extends Component
     {
         // Initialize your component state here
         $this->totalQuestion = Question::totalAssessmentQuestion();
-        $this->currentPage = AssessmentModal::getLastPage();
+        $this->currentPage = AssessmentModal::getLastPage()['page'];
         $this->offset = $this->currentPage * 3;
+        $this->page = AssessmentModal::getLastPage()['web_page'];
     }
 
     public function updateOrder($orderedIds)
@@ -236,11 +237,13 @@ class Assessment extends Component
 
                     $this->offset += $differencePage;
 
-                    $this->page += $this->offset / 3;
+                    $this->page += $differencePage / 3;
 
                     $this->answers = [];
 
                     $this->multiple = false;
+
+                    $existingAssessment->update(['web_page' => $this->page]);
 
                     $this->emit('notificationShow');
                 }
@@ -270,6 +273,7 @@ class Assessment extends Component
                     if ($totalPages == $this->offset / 3) {
 
                         $resultArray['page'] = 0;
+                        $resultArray['web_page'] = 0;
                         $existingAssessment->update($resultArray);
                         $this->assessmentId = $existingAssessment->id;
 
@@ -290,6 +294,7 @@ class Assessment extends Component
                     } else {
 
                         $resultArray['page'] = $this->offset / 3;
+                        $resultArray['web_page'] = $this->page;
 
                         $existingAssessment->update($resultArray);
                         $this->assessmentId = $existingAssessment->id;

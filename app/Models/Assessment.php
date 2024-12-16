@@ -91,10 +91,10 @@ class Assessment extends Model
 
     public static function getLastPage()
     {
-        $page = self::where('user_id', Auth::user()->id)->select(['page'])->latest()->first();
+        $page = self::where('user_id', Auth::user()->id)->select(['page', 'web_page'])->latest()->first();
 
         if ($page) {
-            return $page->page;
+            return $page;
         } else {
             return 0;
         }
@@ -252,14 +252,13 @@ class Assessment extends Model
 
     public static function getAllUser()
     {
-     return self::where('page', 0)
-        ->orderBy('updated_at', 'desc')
-        ->get()
-        ->unique('user_id')
-        ->pluck('user_id');
+        return self::where('page', 0)
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->unique('user_id')
+            ->pluck('user_id');
 
     }
-
 
 
     public static function getAssessmentIds()
@@ -996,8 +995,7 @@ class Assessment extends Model
 
             if ($assessment['page'] === 0) {
 
-                if ($assessment['reset_assessment'] == 1)
-                {
+                if ($assessment['reset_assessment'] == 1) {
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
                     $assessment_data = Assessment::where('id', $assessment['id'])->first();
@@ -1128,59 +1126,75 @@ class Assessment extends Model
 
         if ($existingAssessment) {
 
-            $oldResult = $existingAssessment->toArray();
+            if ($existingAssessment['app_page'] < $existingAssessment['page']) {
 
-            $resultArray = [];
+                $differencePage = ($existingAssessment['page'] - $existingAssessment['app_page']) * 3;
 
-            if (!empty($multipleAnswersArray)) {
-                $codeArray = array_merge($multipleAnswersArray, $codeArray);
-            }
+                $page = $differencePage / 3;
 
-            foreach ($codeArray as $key => $value) {
-                if ($value !== '') {
-                    $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
-                } else {
-                    $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
-                }
-            }
+                $existingAssessment->update(['app_page' => $page]);
 
-
-            $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
-                        ->where('active', 1)
-                        ->count() / 3) ?? 0;
-
-            $current_page = $existingAssessment->page + 1;
-
-            if ($totalPages == $current_page) {
-
-                $resultArray['page'] = 0;
-
-                $existingAssessment->update($resultArray);
-
-                if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
-
-                    $latestAssessment = Assessment::getLatestAssessment($userId);
-
-                    $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
-
-                } else {
-
-                    $message = "Congratulations on finishing your assessment!";
-                }
+                return 'You have already submitted these questions. Please start with the new set of questions.';
 
             } else {
 
-                $resultArray['page'] = $current_page;
+                $oldResult = $existingAssessment->toArray();
 
-                $existingAssessment->update($resultArray);
+                $resultArray = [];
+
+                if (!empty($multipleAnswersArray)) {
+                    $codeArray = array_merge($multipleAnswersArray, $codeArray);
+                }
+
+                foreach ($codeArray as $key => $value) {
+                    if ($value !== '') {
+                        $resultArray[$key] = (isset($oldResult[$key]) ? $oldResult[$key] : 0) + $value;
+                    } else {
+                        $resultArray[$key] = isset($oldResult[$key]) ? $oldResult[$key] : 0;
+                    }
+                }
+
+
+                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
+                            ->where('active', 1)
+                            ->count() / 3) ?? 0;
+
+                $current_page = $existingAssessment->page + 1;
+
+                if ($totalPages == $current_page) {
+
+                    $resultArray['page'] = 0;
+                    $resultArray['app_page'] = 0;
+
+                    $existingAssessment->update($resultArray);
+
+                    if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
+
+                        $latestAssessment = Assessment::getLatestAssessment($userId);
+
+                        $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
+
+                    } else {
+
+                        $message = "Congratulations on finishing your assessment!";
+                    }
+
+                } else {
+
+                    $resultArray['page'] = $current_page;
+                    $resultArray['app_page'] = $current_page;
+
+                    $existingAssessment->update($resultArray);
+
+                }
+
+                AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
+
+                AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
+
+                AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
             }
-
-            AssessmentColorCode::deleteAssessemntColorCodeData($existingAssessment);
-
-            AssessmentColorCode::createStylesCodeAndColor($existingAssessment);
-
-            AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
         }
 
@@ -1320,13 +1334,12 @@ class Assessment extends Model
 
         $assessment = self::whereId($assessmentId)->first();
 
-        if ($assessment)
-        {
-            if($assessment['reset_assessment'] == Admin::NOT_RESET_ASSESSMENT){
+        if ($assessment) {
+            if ($assessment['reset_assessment'] == Admin::NOT_RESET_ASSESSMENT) {
 
                 $assessment->update(['reset_assessment' => Admin::RESET_ASSESSMENT]);
 
-            }else{
+            } else {
 
                 $assessment->update(['reset_assessment' => Admin::NOT_RESET_ASSESSMENT]);
             }
