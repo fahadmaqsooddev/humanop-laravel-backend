@@ -22701,7 +22701,7 @@ hr.horizontal.gray-light {
 }
 
 .moving-tab {
-  z-index: 1 !important;
+  z-index: -1 !important;
 }
 
 .moving-tab .nav-link {

@@ -725,13 +725,13 @@ class User extends Authenticatable implements JWTSubject
         return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
     }
 
-    public static function deletedClients()
+    public static function deletedClients($page, $per_page)
     {
 
         return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
             ->where('is_permanently_deleted', 0)
             ->onlyTrashed()
-            ->get();
+            ->paginate($per_page)->setPath(route('deleted_clients'));
 
     }
 
