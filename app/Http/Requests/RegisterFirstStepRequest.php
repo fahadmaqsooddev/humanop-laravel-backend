@@ -27,7 +27,7 @@ class RegisterFirstStepRequest extends FormRequest
 
         return [
             'full_name' => 'required|string|max:255',
-            'email' => 'required',
+            'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|min:6',
 
         ];
