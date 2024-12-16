@@ -230,8 +230,9 @@ class Assessment extends Component
 
             if ($existingAssessment) {
 
-                if ($this->page < $existingAssessment['page']) {
+                Log::info($this->page, $existingAssessment['page']);
 
+                if ($this->page < $existingAssessment['page']) {
 
                     $differencePage = ($existingAssessment['page'] - $this->page) * 3;
 
