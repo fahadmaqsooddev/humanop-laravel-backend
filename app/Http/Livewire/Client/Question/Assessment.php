@@ -43,7 +43,6 @@ class Assessment extends Component
     public function updateOrder($orderedIds)
     {
 
-
         $answer = Answer::where('id', $orderedIds[0]['value'])->first();
 
         $questionId = $answer->question_id;
@@ -229,7 +228,8 @@ class Assessment extends Component
             $this->updateQuestion();
 
             if ($existingAssessment) {
-                
+
+                Log::info($this->page, $existingAssessment['page']);
                 if ($this->page < $existingAssessment['page']) {
 
                     $differencePage = ($existingAssessment['page'] - $this->page) * 3;
