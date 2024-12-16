@@ -4,7 +4,7 @@
         <h5 class="mb-0 text-color-blue">Deleted Client's</h5>
     </div>
     <div class="table-responsive table-orange-color">
-        <table class="table table-flush" id="datatable-search">
+        <table class="table table-flush">
             <thead class="thead-light">
             <tr class="text-color-blue">
                 <th>#</th>
@@ -42,19 +42,21 @@
             </tbody>
         </table>
 
+        {{ $users->links('pagination.table-pagination') }}
+
     </div>
 
 </div>
 
-<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+{{--<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>--}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../../assets/js/plugins/sweetalert.min.js"></script>
 
 <script>
-    const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
-        searchable: true,
-        fixedHeight: true
-    });
+    // const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
+    //     searchable: true,
+    //     fixedHeight: true
+    // });
 
     function confirmBoxForPermanentDelete(user_id){
 
