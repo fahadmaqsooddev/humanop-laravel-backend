@@ -219,6 +219,8 @@ class AuthController extends Controller
 
         try {
 
+            $user = new User();
+
             $dataArray = $request->only(['full_name', 'email', 'password']);
 
             $parts = explode(' ', $dataArray['full_name']);
@@ -227,12 +229,11 @@ class AuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
-            $checkUser = User::checkEmail($dataArray['email']);
+            $checkUser = $user->checkEmail($dataArray['email']);
 
             if (empty($checkUser)) {
 
-
-                $user = User::createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
+                $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
                 $user->setAppends([]);
 
@@ -258,6 +259,7 @@ class AuthController extends Controller
                 ]);
 
             } else {
+
                 $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
                 if (empty($checkEmailVerified)) {
