@@ -26,7 +26,7 @@ class RegisterFirstStepRequest extends FormRequest
         $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
 
         return [
-            'full_name' => 'required|string|max:255',
+//            'full_name' => 'required|string|max:255',
             'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|min:6',
 
@@ -36,7 +36,7 @@ class RegisterFirstStepRequest extends FormRequest
     public function messages()
     {
         return [
-            'full_name.required' => 'Full name is required',
+//            'full_name.required' => 'Full name is required',
             'email.required' => 'Email is required',
             'email.email' => 'Email must be an valid email',
             'email.unique' => 'Email is already been taken',
