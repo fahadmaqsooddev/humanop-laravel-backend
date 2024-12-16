@@ -221,8 +221,8 @@ class AuthController extends Controller
 
             $user = new User();
 
-            $dataArray = $request->only(['full_name', 'email', 'password']);
-
+            $dataArray = $request->only($user->getFillable());
+            
             $parts = explode(' ', $dataArray['full_name']);
 
             $dataArray['first_name'] = $parts[0] ?? '';

@@ -38,8 +38,8 @@ class RegisterFirstStepRequest extends FormRequest
         return [
             'full_name.required' => 'Full name is required',
             'email.required' => 'Email is required',
-//            'email.email' => 'Email must be an valid email',
-//            'email.unique' => 'Email is already been taken',
+            'email.email' => 'Email must be an valid email',
+            'email.unique' => 'Email is already been taken',
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
         ];
