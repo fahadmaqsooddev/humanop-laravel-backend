@@ -230,8 +230,6 @@ class Assessment extends Component
 
             if ($existingAssessment) {
 
-                Log::info($this->page, $existingAssessment['page']);
-
                 if ($this->page < $existingAssessment['page']) {
 
                     $differencePage = ($existingAssessment['page'] - $this->page) * 3;
@@ -246,7 +244,6 @@ class Assessment extends Component
 
                     $this->emit('notificationShow');
                 }
-
                 else
                 {
 
