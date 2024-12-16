@@ -1126,13 +1126,10 @@ class Assessment extends Model
 
         if ($existingAssessment) {
 
+
             if ($existingAssessment['app_page'] < $existingAssessment['page']) {
 
-                $differencePage = ($existingAssessment['page'] - $existingAssessment['app_page']) * 3;
-
-                $page = $differencePage / 3;
-
-                $existingAssessment->update(['app_page' => $page]);
+                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
 
                 return 'You have already submitted these questions. Please start with the new set of questions.';
 
