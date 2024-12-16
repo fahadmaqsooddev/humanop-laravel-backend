@@ -244,7 +244,6 @@ class Assessment extends Component
 
                     $this->emit('notificationShow');
                 }
-
                 else
                 {
 
