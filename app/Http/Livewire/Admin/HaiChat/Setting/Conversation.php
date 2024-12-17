@@ -6,7 +6,6 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
-use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
@@ -34,8 +33,9 @@ class Conversation extends Component
     ];
 
     public function mount(){
-        $user_ids = Assessment::getAllUser();
-        $this->user_details = User::getUserDetailByIds($user_ids);
+
+        $this->user_details = User::getUserDetailByIds();
+
     }
 
     public function submitForm()
