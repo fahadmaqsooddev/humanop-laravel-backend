@@ -503,6 +503,8 @@ class AuthController extends Controller
 
                 $dataArray['step'] = 3;
 
+                $dataArray['gender'] = $request->input('gender') === 'male' ? 0 : 1;
+
                 tap($getUser->update($dataArray));
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
