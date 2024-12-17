@@ -29,10 +29,7 @@ class EmbeddingGroup extends Model
 
     public function getIsActiveGroupAttribute(){
 
-//        return $this->embeddings()->has('embedding.activeEmbedding')->exists();
-        return $this->embeddings()->with('embedding.activeEmbedding')->exists();
-
-//        return $this->has('embeddings.embedding.activeEmbedding')->exists();
+        return $this->embeddings()->has('embedding.activeEmbedding')->exists();
     }
 
     // Queries

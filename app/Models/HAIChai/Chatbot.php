@@ -40,7 +40,7 @@ class Chatbot extends Model
             }
         }
 
-        return '#FCB178';
+        return '#F3DEBA';
     }
 
     // Relations

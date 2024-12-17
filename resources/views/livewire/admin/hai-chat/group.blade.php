@@ -17,6 +17,15 @@
         .dropdown-search::placeholder{
             color: lightslategray !important;
         }
+
+        .multi-select-button{
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #f2661c;
+            background-color: #F3DEBA;
+            color: black;
+        }
     </style>
 @endpush
 <div>
@@ -227,7 +236,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Groups</label>
                                         <div class="dropdown w-100">
-                                            <button class="dropdown-toggle form-control {{($showGroupDropdownMenu ? 'show' : '')}}"
+                                            <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white;{{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
@@ -256,7 +265,7 @@
                                                                 @foreach($dropDownGroups as $key => $group)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}','{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addGroupIds('{{$group['id']}}','{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$group->name}}
                                                                             </label>
@@ -323,7 +332,7 @@
 
                                         <div class="dropdown w-100">
 
-                                            <button class="dropdown-toggle form-control {{$showEmbDropdownMenu ? 'show' : ''}}"
+                                            <button class="dropdown-toggle multi-select-button  {{$showEmbDropdownMenu ? 'show' : ''}}"
                                                     style="background-color: #0f1534; color: white; {{(count($selectedEmbeddings) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedEmbeddings) > 0)
@@ -333,7 +342,7 @@
                                                         </span>
                                                     @endforeach
                                                 @else
-                                                    Select Group
+                                                    Select Embedding
                                                 @endif
                                             </button>
 
@@ -357,7 +366,7 @@
                                                                 @foreach($dropDownEmbeddings as $key => $embedding)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addEmbeddingIds('{{$embedding['id']}}','{{$embedding['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($embedding->id, $embedding_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addEmbeddingIds('{{$embedding['id']}}','{{$embedding['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($embedding->id, $embedding_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$embedding->name}}
                                                                             </label>
@@ -453,7 +462,7 @@
 {{--                                        </select>--}}
 
                                         <div class="dropdown w-100">
-                                            <button class="dropdown-toggle form-control {{($showGroupDropdownMenu ? 'show' : '')}}"
+                                            <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white; {{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
@@ -482,7 +491,7 @@
                                                                 @foreach($dropDownGroups as $key => $group)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}', '{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addGroupIds('{{$group['id']}}', '{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$group->name}}
                                                                             </label>
