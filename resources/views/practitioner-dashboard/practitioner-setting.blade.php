@@ -230,8 +230,8 @@
                         <div class="col-sm-4 col-6">
                             <label class="form-label mt-4 text-white">I'm</label>
                             <select class="form-control" name="choices-gender" id="choices-gender">
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male">Male [XY]</option>
+                                <option value="Female">Female [XX]</option>
                             </select>
                         </div>
                         <div class="col-sm-8">

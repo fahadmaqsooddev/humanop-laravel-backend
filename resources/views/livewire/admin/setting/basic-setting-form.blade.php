@@ -60,8 +60,8 @@
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-color-dark">I'm</label>
                     <select style="background-color: #0f1535" class="form-control text-color-dark setting-box-background" wire:model.defer="currentUser.gender" >
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
+                        <option value="0">Male [XY]</option>
+                        <option value="1">Female [XX]</option>
                     </select>
                 </div>
 
