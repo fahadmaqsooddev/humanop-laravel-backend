@@ -31,15 +31,16 @@ class Assessment extends Component
     public $assessmentId = 0;
     public $assessmentMessage = "";
     public $page = 0;
-
+    public $btnText = 'Submit';
     public function mount()
     {
-        // Initialize your component state here
         $this->totalQuestion = Question::totalAssessmentQuestion();
         $this->currentPage = AssessmentModal::getLastPage()['page'];
         $this->offset = $this->currentPage * 3;
         $this->page = AssessmentModal::getLastPage()['web_page'];
+
     }
+
 
     public function updateOrder($orderedIds)
     {
@@ -365,6 +366,11 @@ class Assessment extends Component
     {
         if (!$this->multiple) {
             $this->updateQuestion();
+        }
+        $totalPage = ceil($this->totalQuestion / $this->limit);
+
+        if (($totalPage - 1) == $this->offset / 3) {
+            $this->btnText = 'Finish!';
         }
         return view('livewire.client.question.assessment', ['questions' => $this->questions]);
     }
