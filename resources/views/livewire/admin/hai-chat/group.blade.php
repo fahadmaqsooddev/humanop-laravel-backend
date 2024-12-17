@@ -366,7 +366,7 @@
                                                                 @foreach($dropDownEmbeddings as $key => $embedding)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addEmbeddingIds('{{$embedding['id']}}','{{$embedding['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($embedding->id, $embedding_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addEmbeddingIds('{{$embedding['id']}}','{{$embedding['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($embedding->id, $embedding_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$embedding->name}}
                                                                             </label>
