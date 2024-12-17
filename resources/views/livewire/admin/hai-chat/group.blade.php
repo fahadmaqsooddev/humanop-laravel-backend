@@ -17,6 +17,15 @@
         .dropdown-search::placeholder{
             color: lightslategray !important;
         }
+
+        .multi-select-button{
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #f2661c;
+            background-color: #F3DEBA;
+            color: black;
+        }
     </style>
 @endpush
 <div>
@@ -227,7 +236,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Groups</label>
                                         <div class="dropdown w-100">
-                                            <button class="dropdown-toggle form-control {{($showGroupDropdownMenu ? 'show' : '')}}"
+                                            <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white;{{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
@@ -323,7 +332,7 @@
 
                                         <div class="dropdown w-100">
 
-                                            <button class="dropdown-toggle form-control {{$showEmbDropdownMenu ? 'show' : ''}}"
+                                            <button class="dropdown-toggle multi-select-button  {{$showEmbDropdownMenu ? 'show' : ''}}"
                                                     style="background-color: #0f1534; color: white; {{(count($selectedEmbeddings) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedEmbeddings) > 0)
@@ -333,7 +342,7 @@
                                                         </span>
                                                     @endforeach
                                                 @else
-                                                    Select Group
+                                                    Select Embedding
                                                 @endif
                                             </button>
 
@@ -453,7 +462,7 @@
 {{--                                        </select>--}}
 
                                         <div class="dropdown w-100">
-                                            <button class="dropdown-toggle form-control {{($showGroupDropdownMenu ? 'show' : '')}}"
+                                            <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white; {{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
                                                     id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 @if(count($selectedGroups) > 0)
