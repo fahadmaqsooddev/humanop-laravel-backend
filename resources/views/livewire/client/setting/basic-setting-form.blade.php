@@ -1,17 +1,17 @@
-{{--<style>--}}
-{{--    img {--}}
-{{--        display: block;--}}
-{{--        max-width: 100%;--}}
-{{--    }--}}
+{{-- <style> --}}
+{{--    img { --}}
+{{--        display: block; --}}
+{{--        max-width: 100%; --}}
+{{--    } --}}
 
-{{--    .preview {--}}
-{{--        overflow: hidden;--}}
-{{--        width: 160px;--}}
-{{--        height: 160px;--}}
-{{--        margin: 10px;--}}
-{{--        border: 1px solid red;--}}
-{{--    }--}}
-{{--</style>--}}
+{{--    .preview { --}}
+{{--        overflow: hidden; --}}
+{{--        width: 160px; --}}
+{{--        height: 160px; --}}
+{{--        margin: 10px; --}}
+{{--        border: 1px solid red; --}}
+{{--    } --}}
+{{-- </style> --}}
 <div class="card mt-4 setting-box-background" id="basic-info">
 
     <div class="card-header">
@@ -25,17 +25,16 @@
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label text-color-dark">First Name</label>
                     <div class="input-group">
-                        <input id="firstName"
-                               wire:model.defer="user.first_name" placeholder="First name"
-                               class="form-control text-color-dark setting-box-background" type="text">
+                        <input id="firstName" wire:model.defer="user.first_name" placeholder="First name"
+                            class="form-control text-color-dark setting-box-background" type="text">
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label  mt-4 mt-md-0 text-color-dark">Last Name</label>
                     <div class="input-group">
                         <input id="lastName" wire:model.defer="user.last_name"
-                               class="form-control text-color-dark setting-box-background" type="text"
-                               placeholder="Last name">
+                            class="form-control text-color-dark setting-box-background" type="text"
+                            placeholder="Last name">
                     </div>
                 </div>
             </div>
@@ -45,16 +44,16 @@
                     <label class="form-label mt-4 text-color-dark">Email</label>
                     <div class="input-group">
                         <input id="email" wire:model.defer="user.email"
-                               class="form-control text-color-dark setting-box-background" type="email"
-                               placeholder="Enter your email" readonly>
+                            class="form-control text-color-dark setting-box-background" type="email"
+                            placeholder="Enter your email" readonly>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Phone Number</label>
                     <div class="input-group">
-                        <input id="phone" wire:model.defer="user.phone" id="phone"
-                               maxlength="14" class="form-control text-color-dark setting-box-background" type="tel"
-                               placeholder="Enter your phone number">
+                        <input id="phone" wire:model.defer="user.phone" id="phone" maxlength="14"
+                            class="form-control text-color-dark setting-box-background" type="tel"
+                            placeholder="Enter your phone number">
                     </div>
                 </div>
             </div>
@@ -63,7 +62,7 @@
                 <div class="col-sm-4 col-6 w-50">
                     <label class="form-label mt-4 text-color-dark">I'm</label>
                     <select class="form-control text-color-dark setting-box-background" id="client-gender"
-                            wire:model.defer="user.gender">
+                        wire:model.defer="user.gender">
                         <option>Select Gender</option>
                         <option value="0">Male [XY]</option>
                         <option value="1">Female [XX]</option>
@@ -78,56 +77,55 @@
                     <div class="d-flex w-100">
 
                         <?php
-                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                            'August', 'September', 'October', 'November', 'December'];
-
-                        $current_year = (int)(\Carbon\Carbon::now()->year - 7);
+                        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        
+                        $current_year = (int) (\Carbon\Carbon::now()->year - 7);
                         ?>
 
                         <select class="justify-content-center text-color-dark form-control m-1 setting-box-background"
-                                wire:model="month"
-                                style=" border-radius: 12px;">
+                            wire:model="month" style=" border-radius: 12px;">
                             <option value="">Month</option>
-                            @foreach($months as $key => $month)
-                                <option
-                                    value="{{$key + 1}}" {{isset($date_of_birth[1]) && $date_of_birth[1] == ($key+1) ? 'selected' : '' }} >{{$month}}</option>
+                            @foreach ($months as $key => $month)
+                                <option value="{{ $key + 1 }}"
+                                    {{ isset($date_of_birth[1]) && $date_of_birth[1] == $key + 1 ? 'selected' : '' }}>
+                                    {{ $month }}</option>
                             @endforeach
                         </select>
 
                         <select class="justify-content-center text-color-dark form-control m-1 setting-box-background"
-                                wire:model="day"
-                                style="background-color: #0F1535; border-radius: 12px;">
+                            wire:model="day" style="background-color: #0F1535; border-radius: 12px;">
                             <option value="">Day</option>
-                            @for($i = 1; $i <= 31; $i++)
-                                <option
-                                    value="{{$i}}" {{isset($date_of_birth[2]) && $date_of_birth[2] == $i ? 'selected' : '' }}>{{$i}}</option>
+                            @for ($i = 1; $i <= 31; $i++)
+                                <option value="{{ $i }}"
+                                    {{ isset($date_of_birth[2]) && $date_of_birth[2] == $i ? 'selected' : '' }}>
+                                    {{ $i }}</option>
                             @endfor
                         </select>
 
                         <select class="justify-content-center text-color-dark form-control m-1 setting-box-background"
-                                wire:model="year"
-                                style=" border-radius: 12px;">
+                            wire:model="year" style=" border-radius: 12px;">
                             <option value="">Year</option>
-                            @for($i = $current_year; $i >= 1900; $i--)
-                                <option
-                                    value="{{$i}}" {{isset($date_of_birth[0]) && $date_of_birth[0] == $i ? 'selected' : '' }}>{{$i}}</option>
+                            @for ($i = $current_year; $i >= 1900; $i--)
+                                <option value="{{ $i }}"
+                                    {{ isset($date_of_birth[0]) && $date_of_birth[0] == $i ? 'selected' : '' }}>
+                                    {{ $i }}</option>
                             @endfor
                         </select>
 
                     </div>
 
                     @error('date_of_birth')
-                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                        <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                     @enderror
                 </div>
-
+                {{-- {{dd($user['timezone'])}} --}}
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Timezone</label>
                     <div class="form-group">
                         <select class="form-control setting-box-background text-color-dark" name="timezone"
-                                wire:model="user.timezone">
-                            @foreach($timezones as $timezone)
-                                <option value="{{$timezone}}">{{$timezone}}</option>
+                            wire:model="user.timezone">
+                            @foreach ($timezones as $timezone)
+                                <option value="{{ $timezone }}">{{ $timezone }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -136,10 +134,11 @@
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Profile Image</label>
                     <input type="file" wire:model="profile_image" accept=".png, .jpg, .jpeg"
-                           class="form-control text-color-dark setting-box-background profileImage">
+                        class="form-control text-color-dark setting-box-background profileImage">
                 </div>
             </div>
-            <button type="submit" class=" btn-sm  float-end mt-4 mb-3 connection-btn" style="font-size: 16px !important;">Update Info</button>
+            <button type="submit" class=" btn-sm  float-end mt-4 mb-3 connection-btn"
+                style="font-size: 16px !important;">Update Info</button>
         </div>
 
     </form>
@@ -156,17 +155,17 @@
         });
 
 
-        (function () {
+        (function() {
             var previous, is_abandon_assessment;
 
-            $("#client-gender").on('focus', function () {
+            $("#client-gender").on('focus', function() {
 
                 // Store the current value on focus and on change
                 previous = this.value;
 
                 is_abandon_assessment = $('#is_abandon_assessment').val();
 
-            }).change(function () {
+            }).change(function() {
                 // Do something with the previous value after the change
 
                 if (is_abandon_assessment !== "false") {
@@ -201,7 +200,7 @@
             });
         })();
 
-        $('#phone').on('input', function () {
+        $('#phone').on('input', function() {
 
             let input = $(this).val();
             // 1. Remove all characters except numbers and `+`
@@ -218,7 +217,26 @@
             // 4. Set sanitized value back to the input field
             $(this).val(input);
         });
-
     </script>
 
+    <script>
+        $(document).ready(function() {
+
+            const userTimezone = @json($user['timezone']);
+
+            const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            const timezoneToUse = userTimezone ? userTimezone : localTimezone;
+
+            const timezoneSelect = document.querySelector('select[name="timezone"]');
+            const options = timezoneSelect.querySelectorAll('option');
+
+            options.forEach(option => {
+                const timezoneName = option.value.split(' - ')[1];
+                if (timezoneName === timezoneToUse) {
+                    option.selected = true;
+                }
+            });
+        })
+    </script>
 @endpush
