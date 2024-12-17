@@ -31,6 +31,11 @@ class DailyTip extends Model
         return $this->hasOne(TipRecord::class,'tip_id','id')->whereNot('user_id', Helpers::getUser()->id);
     }
 
+    public function userTip(){
+
+        return $this->hasOne(UserDailyTip::class,'daily_tip_id','id')->where('user_id', Helpers::getWebUser()->id);
+    }
+
     public static function getTip()
     {
         return self::get();
@@ -224,6 +229,6 @@ class DailyTip extends Model
     }
 
     public static function findTip($id = null){
-        return self::where('id',$id)->first();
+        return self::where('id',$id)->with('userTip')->first();
     }
 }

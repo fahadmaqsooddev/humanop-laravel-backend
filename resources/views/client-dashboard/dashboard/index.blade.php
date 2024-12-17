@@ -520,7 +520,7 @@
                                                     <span id="daily-tip-text">
             <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! substr($tip['description'], 0, 305) !!}</p>
             <a href="javascript:void(0)"
-               onclick="showDailyTipCompleteText(`{{$tip['description']}}`)"
+               onclick="showDailyTipCompleteText(`{{$tip['description']}}`, `{{$tip['userTip']['is_read'] ?? 1}}`)"
                style="color: #f2661c;">read more...</a>
         </span>
                                                 @else
@@ -552,10 +552,10 @@
                                         </div>
 
                                         @if($tip && $assessment)
-                                            @if($isReadDailyTip == 0)
+                                            @if(($tip['userTip']['is_read'] ?? 1) == 0)
                                                 <div class="dailyTipButton">
                                                     <div
-                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2">
+                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2" id="read_all_tip">
                                                         <button
                                                             style="background-color: #f2661c;color: white !important;"
                                                             class="connection-btn btn-sm"
@@ -1582,13 +1582,13 @@
                     window.location.href = "{{url('/client/user-profile-overview') . "?video_url="}}" + src + "&contentName=" + content_name;
                 }
 
-                function showDailyTipCompleteText(html_text) {
+                function showDailyTipCompleteText(html_text, is_readed) {
 
                     $('.description-container').css('overflow-y', 'scroll');
 
                     $('#daily-tip-text').html(html_text);
 
-                    if ($('#read_all_tip').hasClass('d-none')) {
+                    if ($('#read_all_tip').hasClass('d-none') && is_readed == 0) {
 
                         $('#read_all_tip').removeClass('d-none');
 
