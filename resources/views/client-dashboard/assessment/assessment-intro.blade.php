@@ -66,11 +66,9 @@
                     <div class="row w-100 introAssessmentMargin">
                         <div class="col-lg-7 col-md-7 col-12 mt-2">
                             <a class="navbar-brand d-flex flex-column font-weight-bolder ms-lg-0 ms-3 text-white"
-                               href="{{ Auth::check() ? (request()->segment(1) === 'client' ? url('client/dashboard') : \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')) : url('login') }}">
-                                <img
-                                    src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/new_logo.png') }}"
-                                    alt=""
-                                    style="width: auto; height: 100px">
+                                href="{{ Auth::check() ? (request()->segment(1) === 'client' ? url('client/dashboard') : \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')) : url('login') }}">
+                                <img src="{{ Route::is('client_intro_assessment') ? asset('assets/img/new_logo.png') : asset('assets/img/new_logo.png') }}"
+                                    alt="" style="width: auto; height: 100px">
                             </a>
                             <h3 class="text-bold text-white mt-3 pl-14">Welcome to the HumanOp Assessment</h3>
                             <h4 class="text-white text-bold pl-14">"Creating Optimal Relationships in Business, Home &
@@ -90,42 +88,43 @@
                             <p class="text-white pl-14" style="display: flex; text-align: justify">The questions are
                                 simple and do not require extensive thought. It
                                 should take you no longer than 15-minutes to complete.</p>
-                            @if(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                            @if (\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
                                 <div class="d-flex justify-content-between">
-                                    @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
+                                    @if (\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
                                         <a href="javascript:void(0);"
-                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
-                                           class="connection-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
+                                            style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                            class="connection-btn w-25 text-center text-white" data-bs-toggle="modal"
+                                            data-bs-target="#timeZoneModel">Set Time Zone
                                         </a>
                                     @else
-                                    <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play')}}"
-                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
-                                       class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
-                                    </a>
+                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('play') }}"
+                                            style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px"
+                                            class="rainbow-border-assessment-intro-btn w-25 text-center">Proceed
+                                        </a>
                                     @endif
-                                    <a href="{{\App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard')}}"
-                                       style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
-                                       class="text-center">
+                                    <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('dashboard') }}"
+                                        style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"
+                                        class="text-center">
                                         <i class="fa-solid fa-arrow-left " style="color:#ED7537;"></i> <span
                                             style="color:#ED7537;">Back</span>
                                     </a>
                                 </div>
                             @else
                                 <div class="d-flex justify-content-between">
-                                    @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
+                                    @if (\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
                                         <a href="javascript:void(0);"
-                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
-                                           class="connection-btn w-25 text-center text-white" data-bs-toggle="modal" data-bs-target="#timeZoneModel">Set Time Zone
+                                            style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                            class="connection-btn w-25 text-center text-white" data-bs-toggle="modal"
+                                            data-bs-target="#timeZoneModel">Set Time Zone
                                         </a>
-                                        @else
-                                    <a href="{{url('client/play')}}"
-                                       style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
-                                       class="connection-btn w-25 text-center text-white">Proceed
-                                    </a>
+                                    @else
+                                        <a href="{{ url('client/play') }}"
+                                            style="padding: 10px 16px 10px 16px; border-radius: 7px;margin-left: 14px; font-size: 16px !important;"
+                                            class="connection-btn w-25 text-center text-white">Proceed
+                                        </a>
                                     @endif
-                                    <a href="{{url('login')}}"
-                                       class=" text-center"
-                                       style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"><i
+                                    <a href="{{ url('login') }}" class=" text-center"
+                                        style="padding: 10px 0px 10px 16px; border-radius: 7px;margin-left: 14px;color:white;font-weight: bold"><i
                                             class="fa-solid fa-arrow-left" style="color:#ED7537;"></i> <span
                                             style="color:#ED7537;">Back</span>
                                     </a>
@@ -134,7 +133,7 @@
                         </div>
                         <div class="col-lg-5 col-md-5 col-12 introAssessmentLogo pl-14">
                             <img style="width:90%;height: 90%"
-                                 src="{{asset('assets/img/icons/assessment_intro_icon.png')}}">
+                                src="{{ asset('assets/img/icons/assessment_intro_icon.png') }}">
                         </div>
                     </div>
                 </div>
@@ -144,45 +143,50 @@
 
 
     </div>
-     @if(\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
-         <div class="modal fade" id="timeZoneModel" tabindex="-1"
-              role="dialog"
-              aria-labelledby="couponModel" aria-hidden="true">
-             <div class="modal-dialog modal-lg" role="document">
-                 <div class="modal-content">
-                     <div class="modal-body" style=" border-radius: 9px">
-                         <div class="card-body pt-0">
-                             <label class="form-label fs-4 text-white">Time Zone</label>
+    @if (\App\Helpers\Helpers::getWebUser()['timezone'] == null || '')
+        <div class="modal fade" id="timeZoneModel" tabindex="-1" role="dialog" aria-labelledby="couponModel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">Time Zone</label>
 
-                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                     aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                             </button>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
-                             <form method="post" action="{{route('client_set_timezone')}}" class="mb-4">
-                                 @csrf
-                                 <div class="card-body pt-0">
-                                     <label class="form-label" style="color: #f2661c; font-size: 18px">Timezone</label>
-                                     <div class="form-group">
-                                         <select class="form-control text-color-dark" style="background-color: #1c365e; color: white" name="timezone">
-                                             @foreach($timezones as $timezone)
+                            <form method="post" action="{{ route('client_set_timezone') }}" class="mb-4">
+                                @csrf
+                                <div class="card-body pt-0">
+                                    <label class="form-label" style="color: #f2661c; font-size: 18px">Timezone</label>
+                                    <div class="form-group">
+                                        {{-- @php
+                                      date_default_timezone_set('Asia/Karachi');
+                                      echo date_default_timezone_get();
+                                    @endphp --}}
+
+                                        <select class="form-control text-color-dark" style="background-color: #1c365e; color: white" name="timezone">
+                                             @foreach ($timezones as $timezone)
                                                  <option value="{{$timezone}}">{{$timezone}}</option>
                                              @endforeach
                                          </select>
-                                     </div>
-                                     <button type="submit" class="btn-sm float-end mt-2 mb-0" style="background-color: #f2661c; color: white; font-size: 14px">
-                                         set timezone
-                                     </button>
-                                 </div>
-                             </form>
+                                        
+                                    </div>
+                                    <button type="submit" class="btn-sm float-end mt-2 mb-0"
+                                        style="background-color: #f2661c; color: white; font-size: 14px">
+                                        set timezone
+                                    </button>
+                                </div>
+                            </form>
 
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
-    <button class="btn btn-primary d-none"  data-bs-toggle="modal" data-bs-target="#timeZoneModel" id="open-time-zone-modal">
+    <button class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#timeZoneModel" id="open-time-zone-modal">
     </button>
 
 @endsection
@@ -191,6 +195,16 @@
     <script>
         $(document).ready(function() {
             $('#open-time-zone-modal').trigger('click');
+            const usertimeZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timezoneSelect=document.querySelector('select[name="timezone"]');
+    const options=timezoneSelect.querySelectorAll('option');
+    
+    options.forEach(option => {
+        const timezoneName = option.value.split(' - ')[1];
+        if(timezoneName==usertimeZone){
+            option.selected=true;
+        }
+    });
         });
     </script>
 @endpush
