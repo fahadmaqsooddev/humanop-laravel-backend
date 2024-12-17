@@ -65,8 +65,8 @@
                     <select class="form-control text-color-dark setting-box-background" id="client-gender"
                             wire:model.defer="user.gender">
                         <option>Select Gender</option>
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
+                        <option value="0">Male [XY]</option>
+                        <option value="1">Female [XX]</option>
                     </select>
                 </div>
 
