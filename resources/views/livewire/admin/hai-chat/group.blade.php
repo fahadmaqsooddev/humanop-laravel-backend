@@ -265,7 +265,7 @@
                                                                 @foreach($dropDownGroups as $key => $group)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}','{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addGroupIds('{{$group['id']}}','{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$group->name}}
                                                                             </label>
@@ -491,7 +491,7 @@
                                                                 @foreach($dropDownGroups as $key => $group)
                                                                     <li>
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input" wire:click.prevent="addGroupIds('{{$group['id']}}', '{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
+                                                                            <input class="form-check-input" wire:click="addGroupIds('{{$group['id']}}', '{{$group['name']}}')" type="checkbox" id="checkbox{{$key}}" {{in_array($group->id, $group_ids) ? 'checked' : ''}}>
                                                                             <label class="form-check-label" for="checkbox{{$key}}" style="cursor: default;">
                                                                                 {{$group->name}}
                                                                             </label>
