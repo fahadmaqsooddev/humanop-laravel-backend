@@ -245,7 +245,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="heading" placeholder="heading" type="text">
+                                               wire:model.defer="heading" placeholder="heading" type="text" maxlength="150">
                                     </div>
 
                                     <div class="form-group mt-4">
@@ -482,7 +482,7 @@
 
                     <label class="text-white">Category Name </label>
                     <input style="background-color: #0f1534;" class="form-control text-white"
-                           wire:model.defer="category_name" placeholder="Enter category name" type="text">
+                           wire:model.defer="category_name" placeholder="Enter category name" type="text" maxlength="25">
 
                     @if(session()->has('success'))
                         <span class="text-sm text-success">{{session()->get('success')}}</span>

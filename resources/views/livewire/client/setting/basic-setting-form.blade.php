@@ -223,14 +223,10 @@
         $(document).ready(function() {
 
             const userTimezone = @json($user['timezone']);
-
             const localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
             const timezoneToUse = userTimezone ? userTimezone : localTimezone;
-
             const timezoneSelect = document.querySelector('select[name="timezone"]');
             const options = timezoneSelect.querySelectorAll('option');
-
             options.forEach(option => {
                 const timezoneName = option.value.split(' - ')[1];
                 if (timezoneName === timezoneToUse) {
