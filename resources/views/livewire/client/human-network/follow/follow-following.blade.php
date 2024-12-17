@@ -240,8 +240,8 @@
 {{--                           padding: 5px; width: 100%; border-radius: 5px;"--}}
 {{--                               placeholder="Search">--}}
                         <input type="text" wire:model.debounce="follower_search"
-                               class="search-bar bg-transparent" id="search-bar" style="border: 0px !important;"
-                               placeholder="Search Following Users">
+                               class="search-bar bg-transparent" id="search-bar" style="border: 0px !important; outline:none;"
+                               placeholder="Search Following Users" maxlength="25">
                     </div>
                     <div class="my-auto" style="color: #F95520">
                         Filter
@@ -472,3 +472,10 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function(){
+        sanitizeInput('#search-bar');
+    })
+ 
+</script>

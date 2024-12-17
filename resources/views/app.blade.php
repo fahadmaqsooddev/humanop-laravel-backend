@@ -132,6 +132,20 @@ if (App\Helpers\Helpers::getWebUser())
   <script src="{{ URL::asset('assets/js/plugins/threejs.js') }}"></script>
   <script src="{{ URL::asset('assets/js/plugins/orbit-controls.js') }}"></script>
 
+
+  <script>
+    
+    function sanitizeInput(selector){
+        $(selector).on('input',function(){
+            var val=$(this).val();
+            let rejex=/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/'"]/g;
+            if(rejex.test(val)){
+                $(this).val(val.replace(rejex,''));
+            }
+        })
+    }
+  </script>
+
   <script>
 
 
