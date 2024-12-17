@@ -28,15 +28,15 @@ class Chatbot extends Model
 
             if ($this->setting->plan()->first()->name === 'Freemium'){
 
-                return '#FCB178';
+                return '#F3DEBA';
 
             }elseif($this->setting->plan()->first()->name === 'Core'){
 
-                return '#2594b7';
+                return '#8BB1AB';
 
             }elseif ($this->setting->plan()->first()->name === 'Premium') {
 
-                return '#8BB1AB';
+                return '#1A7D9E';
             }
         }
 
