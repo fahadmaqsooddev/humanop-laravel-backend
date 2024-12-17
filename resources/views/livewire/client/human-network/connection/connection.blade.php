@@ -72,6 +72,7 @@
 
         .search-bar:focus {
             border: none !important;
+            outline: none !important;
         }
 
     </style>
@@ -198,8 +199,9 @@
                              style="background: #F4ECE0;border-radius: 20px; display: flex;align-items: center">
                             <img src="{{asset('assets/new-design/icon/dashboard/search.svg')}}" height="15" width="15">
                             <input type="text" wire:model.debounce="search_connection_name"
-                                   class="search-bar bg-transparent" id="search-bar"
+                                   class="search-bar bg-transparent " id="search-bar"
                                    style="border: 0px !important; width: auto;"
+                                   maxlength="25"
                                    placeholder="Search user to connect">
                         </div>
                         <div class="my-auto" style="color: #F95520">
@@ -446,5 +448,10 @@
             $('.suggestion_user_container').css('display', 'none');
             $('.request_user_container').css('display', 'flex');
         })
+
+        $(document).ready(function(){
+        sanitizeInput('#search-bar');
+    })
+
     </script>
 @endpush

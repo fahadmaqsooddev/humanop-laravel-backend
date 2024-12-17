@@ -182,9 +182,9 @@
                 <button type="submit" class="btn btn-danger mb-0" style="box-shadow: none">
                     <i class="fa-solid fa-magnifying-glass" style="font-size: 16px; color: #F95520"></i>
                 </button>
-                <input wire:model="filter_text" style="color: #F95520" type="text" id="serch-input"
+                <input wire:model="filter_text" style="color: #F95520" type="text" id="search-bar"
                        class="form-control searchUser"
-                       placeholder="Search">
+                       placeholder="Search" maxlength="25">
             </form>
             <div class="tab-content">
                 <div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -382,6 +382,13 @@
 
     </div>
     <script>
+
+
+        $(document).ready(function(){
+        sanitizeInput('#search-bar');
+    })
+
+     
         function scrollToSection(name, id) {
 
             var element = document.getElementById(id);
