@@ -960,9 +960,23 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public static function getUserDetailByIds($ids = []){
+    public static function getUserDetailByIds(){
 
-       return self::whereIn('id',$ids)->select(['id','first_name','last_name'])->orderBy('first_name')->get();
+       $users = self::whereHas('assessments', function ($query){
+
+           $query->where('page', 0)
+
+               ->orderBy('updated_at', 'desc');
+
+       })->select(['id','first_name','last_name'])->orderBy('first_name')->get();
+
+       foreach ($users as $user){
+
+           $user->setAppends([]);
+       }
+
+       return $users;
+
     }
 
     public static function updateUserLastStep($data = null, $userId = null)
