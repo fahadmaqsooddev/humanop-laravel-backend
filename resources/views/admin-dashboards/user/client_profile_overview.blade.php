@@ -323,24 +323,34 @@
         }
 
         .left-nav-blue-light-color {
-            background: #2C4C7E !important;
+            background:  #f8d7da!important;
         }
 
         .orange-border {
             border: 1px solid #f2661c;
         }
+        .heading{
+            color: orangered;
+        }
+        .custom-color{
+            color: #0f1535;
+            font-weight: bold;
+        }
     </style>
 
     <div class="row">
+        
         <div class="col-lg-12 position-relative z-index-2">
+           
             <div class="container-fluid px-0 px-md-5 ">
                 <section>
                     <div class="row mt-lg-4 mt-2 ">
                         <div class="col-12">
-                            <div class="card px-0 left-nav-blue-light-color" style="text-align: center">
+                            <div class="card px-0 left-nav-blue-light-color orange-border" style="text-align: center">
+                                {{-- hello --}}
                                 <div class="card-body p-3 ">
-                                    <h1 class="text-white">Your HumanOp Profile Overview</h1>
-                                    <p class="text-white">Date of Results: {{$created_at ?? ''}}</p>
+                                    <h1 class="" style="color: #f2661c" >Your HumanOp Profile Overview</h1>
+                                    <p class="custom-color">Date of Results: {{$created_at ?? ''}}</p>
                                     <div class="video-container show-controls" id="container_video">
                                         <div class="wrapper mx-auto w-75 ">
                                             <div
@@ -1306,26 +1316,26 @@
                                         class="nav nav-pills">
                                         @if(App\Helpers\Helpers::getWebUser()->is_admin != 2 && App\Helpers\Helpers::getWebUser()->is_admin != '2')
                                             <li><a href="{{route('admin_user_grid',['id' => $id])}}" target="_blank"
-                                                   class="flex-sm-fill text-lg-center nav-link text-white text-bold">Grid</a>
+                                                   class="flex-sm-fill text-lg-center nav-link  text-bold">Grid</a>
                                             </li>
                                         @endif
-                                        <li><a href="#summaryReport"
-                                               class="flex-sm-fill text-lg-center nav-link text-white text-bold {{request()->has('video_url') ? '' : "active"}}"
+                                        <li class=""><a href="#summaryReport" style=""
+                                               class="flex-sm-fill  text-lg-center nav-link  text-bold {{request()->has('video_url') ? '' : "active"}}"
                                                data-toggle="tab">Summary Report</a>
                                         </li>
                                         <li><a href="#coreStats"
-                                               class="flex-sm-fill text-lg-center nav-link text-white {{request()->has('video_url') ? 'active' : ""}}"
+                                               class="flex-sm-fill text-lg-center nav-link text-bold {{request()->has('video_url') ? 'active' : ""}}"
                                                data-toggle="tab">Full Results</a>
                                         </li>
-                                        <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-white"
+                                        <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-bold"
                                                data-toggle="tab">90 Days Optimization Plan</a>
                                         </li>
                                     </ul>
                                     <div class="container tab-content clearfix">
                                         <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
                                              id="summaryReport">
-                                            <div class="slider-padding p-3 mt-5">
-                                                <p>The HumanOp Summary Report serves to identify those aspects about you
+                                            <div class="slider-padding p-3 mt-5 ">
+                                                <p class="custom-color">The HumanOp Summary Report serves to identify those aspects about you
                                                     that define and direct your best performance qualities. Since your
                                                     physical being is respectively the assigned vehicle transporting you
                                                     through life, it's often helpful to know what kind of vehicle you
@@ -1333,11 +1343,11 @@
                                                     This simple request answered can facilitate success in all aspects
                                                     of life, including one's performance in conducting business, and
                                                     creating healthy relationships at work and in life.</p>
-                                                <p>The HumanOp Assessment is a patented instrument grounded in physical
+                                                <p class="custom-color">The HumanOp Assessment is a patented instrument grounded in physical
                                                     laws and objective scientific understanding. It collects and
                                                     quantifies information in a user-friendly format, providing easily
                                                     comprehensible results.</p>
-                                                <p>Your personal HumanOp Summary Report provides you with your own
+                                                <p class="custom-color">Your personal HumanOp Summary Report provides you with your own
                                                     operating manual. These operating guidelines support you in making
                                                     conscious choices that keep you energized and optimized. When you
                                                     use your natural talents versus learned talents you gain energy.
@@ -1345,7 +1355,7 @@
                                                     and enjoy life in the process.</p>
                                                 <h4 class="primaryColor">The HumanOp Summary Report proves valuable in
                                                     various contexts:</h4>
-                                                <ul>
+                                                <ul class="custom-color">
                                                     <li>Employer and agency recruitment</li>
                                                     <li>Relationship management</li>
                                                     <li>Psychotherapy</li>
@@ -1375,7 +1385,7 @@
                                                     </h4>
                                                 </div>
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
-                                                <p class="mt-4">You're about to experience your Human Op ULT assessment
+                                                <p class="mt-4 custom-color">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
                                                     from this objective natural perspective. I want to spend just a few
