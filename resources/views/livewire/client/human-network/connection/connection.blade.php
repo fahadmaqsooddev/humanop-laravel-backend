@@ -216,7 +216,6 @@
                     </div>
                     <div class="collapse mx-2" id="collapseExample" wire:ignore.self>
                         <div class="w-100 mb-2">
-
                             <div class="row mx-1 justify-content-between">
 
                                 <div class="col-lg-6 col-12 d-flex "
@@ -247,6 +246,9 @@
                                             <option value="{{$code->code}}">{{$code->public_name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="col-12 d-flex justify-content-end mt-2">
+                                    <p style="color: #F95520; cursor: pointer" wire:click="filterClear">Clear</p>
                                 </div>
                             </div>
                         </div>
