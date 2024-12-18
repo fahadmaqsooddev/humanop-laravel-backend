@@ -502,7 +502,7 @@ class User extends Authenticatable implements JWTSubject
     public static function createFirstStep($data = null, $googleId = null, $appleId = null)
     {
 
-        $data['step'] = 2;
+        $data['step'] = 1;
 
         $data['is_admin'] = Admin::IS_CUSTOMER;
 
@@ -898,12 +898,17 @@ class User extends Authenticatable implements JWTSubject
 
     public static function emailVerified($userId = null)
     {
-        return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 3]);
+        return self::whereId($userId)->update(['email_verified_at' => Carbon::now(), 'step' => 2]);
     }
 
     public static function checkEmailVerified($userEmail = null)
     {
         return self::where('email', $userEmail)->whereNotNull('email_verified_at')->first();
+    }
+
+    public static function checkLastStep($userEmail = null)
+    {
+        return self::where('email', $userEmail)->where('step', 2 )->first();
     }
 
     public static function checkEmail($userEmail = null)

@@ -36,7 +36,7 @@
                         <div class="card-body">
                             <h5 class="mb-2" style="color: #f2661c">Email Verified Successfully!</h5>
                             <p class="d-flex text-justify text-bold" style="color: #0f1534">Your email has been
-                                successfully verified. You can now log in to your account and explore the app. Thank you
+                                successfully verified. Thank you
                                 for verifying your email, and we look forward to having you onboard! If you have any
                                 issues, feel free to reach out to our support team.</p>
                         </div>

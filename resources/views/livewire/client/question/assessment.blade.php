@@ -49,7 +49,7 @@
     @endforeach
 
     <button type="submit" class="connection-btn mt-4" style="font-size: 16px!important;padding: 10px 26px !important;">
-        Submit
+        {{$btnText}}
         <i class="fas fa-arrow-right ms-1"></i>
     </button>
 </form>

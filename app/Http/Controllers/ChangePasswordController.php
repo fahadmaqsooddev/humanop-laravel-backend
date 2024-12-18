@@ -80,8 +80,7 @@ class ChangePasswordController extends Controller
         ]);
     }
 
-    public
-    function checkEmail(Request $request)
+    public function checkEmail(Request $request)
     {
         $token = $request->query('token');
 
@@ -116,8 +115,38 @@ class ChangePasswordController extends Controller
         }
     }
 
-    public
-    function loginUserToDashboard($id = null)
+    public function checkEmailVerification(Request $request)
+    {
+        $token = $request->query('token');
+
+        $user = User::where('email_verify_token', $token)->first();
+
+        if ($user) {
+
+            if (empty($user['email_verified_at']))
+            {
+                User::emailVerified($user['id']);
+
+                return redirect()->route('email_verified');
+            }
+            else
+            {
+
+                session()->flash('success', "You are already verified.");
+
+                return redirect()->to('/login');
+
+            }
+
+        } else {
+
+            session()->flash('success', "Email Verification link has been expired");
+
+            return redirect()->to('/login');
+        }
+    }
+
+    public function loginUserToDashboard($id = null)
     {
         $user = User::getSingleUser($id);
 
