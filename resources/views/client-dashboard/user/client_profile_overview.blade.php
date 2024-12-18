@@ -15,6 +15,27 @@
         }
 
 
+        .hidden{
+            display: none;
+        }
+
+        .read-more-content {
+            margin-top: 20px;
+        }
+
+
+
+        .modal-dialog-scrollable {
+            max-height: 80vh;
+            /* Ensure modal fits within viewport */
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            /* Enable scrolling inside modal */
+        }
+
+
         .center-play-pause {
             /* padding-bottom: 150px; */
             /* position: absolute; */
@@ -38,8 +59,8 @@
             overflow: hidden;
             max-width: 100%;
             border-radius: 5px;
-        / background: #000;
-        / aspect-ratio: 16 / 9;
+            / background: #000;
+            / aspect-ratio: 16 / 9;
             position: relative;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
@@ -195,17 +216,14 @@
             font-family: "Open sans";
         }
 
-        /
-        .playback-content {
-        /
+        / .playback-content {
+            /
             /*    display: flex;*/
             /*    position: relative;*/
-        /
+            /
         }
 
-        /
-
-        .playback-content .speed-options {
+        / .playback-content .speed-options {
             position: absolute;
             list-style: none;
             left: -40px;
@@ -220,16 +238,14 @@
             transition: opacity 0.13s ease;
         }
 
-        /
-        .playback-content .speed-options.show {
-        /
+        / .playback-content .speed-options.show {
+            /
             /*    opacity: 1;*/
             /*    pointer-events: auto;*/
-        /
+            /
         }
 
-        /
-        .video-container video {
+        / .video-container video {
             width: 120%;
         }
 
@@ -334,7 +350,7 @@
 
         .card {
             background: #1C365E;
-        !important;
+            !important;
         }
 
         .instruction_text {
@@ -352,89 +368,86 @@
                 height: auto !important;
             }
 
-            #profile_overview_nav {
+            #profile_overview_nav {}
 
-            }
-
-            #profile_overview_nav > li {
+            #profile_overview_nav>li {
                 font-size: 10px;
             }
 
-            #profile_overview_nav > li > a {
+            #profile_overview_nav>li>a {
                 padding: 5px;
             }
 
-            #summaryReport > .slider-padding {
+            #summaryReport>.slider-padding {
                 padding: 0 0 0 0 !important;
             }
 
-            #summaryReport > .slider-padding > .summary_report_points_heading {
+            #summaryReport>.slider-padding>.summary_report_points_heading {
                 font-size: 20px !important;
                 font-weight: bold;
             }
 
-            #coreStats > .slider-padding {
+            #coreStats>.slider-padding {
                 padding: 0 0 0 0 !important;
             }
 
-            #coreStats > .slider-padding > .core_stats_heading {
+            #coreStats>.slider-padding>.core_stats_heading {
                 font-size: 20px !important;
             }
 
-            #coreStats > .slider-padding > div > .instruction_text {
+            #coreStats>.slider-padding>div>.instruction_text {
                 font-size: 15px !important;
             }
 
-            #coreStats > .slider-padding > .row {
+            #coreStats>.slider-padding>.row {
                 margin: -15px -15px 5px -15px !important;
             }
 
-            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card {
+            #coreStats>.slider-padding>.row>div>.core_stats_dynamic_card {
                 margin: -1px 17px 0 21px !important;
             }
 
-            #coreStats > .slider-padding > .row > div > .core_stats_dynamic_card_motivation {
+            #coreStats>.slider-padding>.row>div>.core_stats_dynamic_card_motivation {
                 margin: -1px 17px 7px 21px !important;
             }
 
         }
+
         .left-nav-blue-light-color {
-            background:  #f8d7da!important;
+            background: #f8d7da !important;
         }
-        
+
         .orange-border {
             border: 1px solid #f2661c;
             border-radius: 12px;
         }
-        .custom-color{
+
+        .custom-color {
             color: #0f1535;
             font-weight: bold;
         }
     </style>
 
-    <div class="row">
+    <div class="row checkit">
         <div class="col-lg-12 position-relative z-index-2">
             <div class="container-fluid px-0 px-md-5">
                 <section>
                     <div class="row mt-lg-4 mt-2">
-                       
+
                         <div class="col-12">
                             <div class="card-ko px-0 left-nav-blue-light-color orange-border" style="text-align: center">
                                 <div class="card-body p-3">
-                                    <h1 class="" style="color: #f2661c">Your HumanOp Profile Overview<span class="iconInfo"
-                                                                                              style="margin-left: 10px"
-                                                                                              data-bs-toggle="modal"
-                                                                                              data-bs-target="#profileOverviewModel"><i
-                                                class="fa-regular fa-circle-question"
+                                    <h1 class="" style="color: #f2661c">Your HumanOp Profile Overview<span
+                                            class="iconInfo" style="margin-left: 10px" data-bs-toggle="modal"
+                                            data-bs-target="#profileOverviewModel"><i class="fa-regular fa-circle-question"
                                                 style="color:#f2661c; font-size: 25px"></i></span>
                                     </h1>
-                                    <p class="custom-color">Date of Results: {{$created_at ?? ''}}</p>
+                                    <p class="custom-color">Date of Results: {{ $created_at ?? '' }}</p>
                                     <div class="video-container show-controls" id="container_video">
-                                        <div
-                                            class="center-play-pause mx-auto d-flex justify-content-center"
+                                        <div class="center-play-pause mx-auto d-flex justify-content-center"
                                             style="width: 10%; position: absolute; top:40%; left:45%;">
-                                            <button class="btn play-pause-center fs-1"
-                                                    style="color: rgb(210, 102, 34);"><i class="fas fa-play"></i>
+                                            <button class="btn play-pause-center fs-1" style="color: rgb(210, 102, 34);"><i
+                                                    class="fas fa-play"></i>
                                             </button>
                                         </div>
                                         <div class="wrapper mx-auto w-75">
@@ -447,30 +460,29 @@
                                             <ul class="video-controls">
                                                 <li class="options left">
                                                     <button class="volume"><i class="fa-solid fa-volume-high"
-                                                                              style="color: rgb(242, 102, 28)"></i>
+                                                            style="color: rgb(242, 102, 28)"></i>
                                                     </button>
                                                     <input type="range" min="0" max="1" step="any">
                                                     <div class="video-timer">
                                                         <span class="current-time" style="color: #f2661c;">00:00</span>
                                                         <span class="separator" style="color: #f2661c;"> / </span>
-                                                        <span class="video-duration"
-                                                              style="color: #f2661c;">00:00</span>
+                                                        <span class="video-duration" style="color: #f2661c;">00:00</span>
                                                     </div>
                                                 </li>
                                                 <li class="options center">
                                                     <button class="skip-backward"><i class="fas fa-backward"
-                                                                                     style="color: #f2661c;"></i>
+                                                            style="color: #f2661c;"></i>
                                                     </button>
                                                     <button class="play-pause"><i class="fas fa-play"
-                                                                                  style="color: #f2661c;"></i>
+                                                            style="color: #f2661c;"></i>
                                                     </button>
                                                     <button class="skip-forward"><i class="fas fa-forward"
-                                                                                    style="color: #f2661c;"></i>
+                                                            style="color: #f2661c;"></i>
                                                     </button>
                                                 </li>
                                                 <li class="options right">
                                                     <button class="fullscreen"><i class="fa-solid fa-expand"
-                                                                                  style="color: #f2661c;"></i></button>
+                                                            style="color: #f2661c;"></i></button>
                                                 </li>
                                             </ul>
                                         </div>
@@ -478,12 +490,10 @@
                                     </div>
 
                                     <div class="row d-flex">
-                                        <div id="intro_to_cycle_to_life" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="intro_to_cycle_to_life_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="intro_to_cycle_to_life" class="col-12 mt-3" style="display: none;">
+                                            <div id="intro_to_cycle_to_life_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192); text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192); text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life Introduction: </span>
                                                     This video is an introduction to the Cycle of Life. The
                                                     Cycle of Life simply explains our relationship with time
@@ -516,12 +526,10 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="roadworthy_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="roadworthy_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="roadworthy_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="roadworthy_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life - Roadworthy (21-29): </span>
                                                     Your current interval of life between 21 and 29
                                                     is what we call “The Road Worthy Interval”. Now,
@@ -540,8 +548,7 @@
                                                     adulthood doesn't actually take hold until much
                                                     later in life.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     So if you're not officially an adult, what do
                                                     you rely upon to help you navigate this current
                                                     interval in the years moving forward? Well, the
@@ -588,8 +595,7 @@
                                                     thrive in all aspects of your life.
                                                 </p>
 
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     The overall nature of this current age interval
                                                     you're experiencing is that it's a time for
                                                     experimentation with life. So give yourself
@@ -618,13 +624,11 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="power_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="power_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);"><span
-                                                        style="color: #f2661c;text-align: justify">Cycle of Life - The Power Interval (30-33):</span>
+                                        <div id="power_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="power_life_cycle_text" class="card p-2" style="height: auto;">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);"><span
+                                                        style="color: #f2661c;text-align: justify">Cycle of Life - The Power
+                                                        Interval (30-33):</span>
                                                     Your current interval of life between 30 and 33
                                                     is “The Power Interval”. This is a time of life
                                                     when you have the most physical energy in all of
@@ -662,13 +666,12 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="mid_life_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="mid_life_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="mid_life_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="mid_life_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Mid-Life Transformation (34-42):</span>
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                        style="color: #f2661c;">Cycle of Life - Mid-Life Transformation
+                                                        (34-42):</span>
                                                     Your current interval of life starts at 34 and
                                                     ends at 43, and it is the most transformational
                                                     aspect of anyone's life. It's called the
@@ -686,7 +689,7 @@
                                                     it all away.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify">
+                                                    style="color: rgb(160, 174, 192);text-align: justify">
                                                     So many transformative life events occur during
                                                     the interval, and it's not about categorizing
                                                     them as bad or good. They are simply
@@ -749,12 +752,10 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="awareness_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="awareness_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="awareness_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="awareness_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life - Awareness (43-52):</span>
                                                     Your current interval begins at age 43 and it
                                                     ends at 52. This interval is called “The
@@ -808,13 +809,12 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="forward_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="forward_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="forward_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="forward_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward (52-66):</span>
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward
+                                                        (52-66):</span>
                                                     Your current interval begins at age 52 and it
                                                     ends at 66. This interval is called “The Pay It
                                                     Forward Interval”. All that you've collected
@@ -845,12 +845,10 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="liberated_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="liberated_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="liberated_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="liberated_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life - Liberated (66-70): </span>
                                                     Your current interval begins at age 66 and ends
                                                     at 70, and even for some, it can go on up to 75.
@@ -877,12 +875,10 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="being_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="being_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="being_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="being_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life - Being (70-75):</span>
                                                     Your current interval begins at age 70 and ends
                                                     at 75. And we call this interval “The Interval
@@ -916,12 +912,10 @@
                                         </div>
                                     </div>
                                     <div class="row d-flex">
-                                        <div id="review_life_cycle" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="review_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="review_life_cycle" class="col-12 mt-3" style="display: none;">
+                                            <div id="review_life_cycle_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Cycle of Life - Life Review (75-84):</span>
                                                     Your current interval begins at age 75 and ends
                                                     at 84. It is in this interval where a “Natural
@@ -942,10 +936,9 @@
                                     </div>
                                     <div class="row d-flex">
                                         <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
-                                            <div id="intro_to_trait_text" class="card p-2"
-                                                 style="height: auto;">
+                                            <div id="intro_to_trait_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Traits Introduction:</span>
                                                     This video is an introduction to traits. Traits are the
                                                     natural physical traits that make you unique. The color
@@ -963,55 +956,54 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach($allStyles as $index => $style)
+                                    @foreach ($allStyles as $index => $style)
                                         <div class="row d-flex">
-                                            <div id="style_{{$style[1]}}" class="col-12 mt-3"
-                                                 style="display: none;">
-                                                <div id="style_{{$style[1]}}_text" class="card p-2"
-                                                     style="height: auto;">
+                                            <div id="style_{{ $style[1] }}" class="col-12 mt-3"
+                                                style="display: none;">
+                                                <div id="style_{{ $style[1] }}_text" class="card p-2"
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
+                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                            style="color: #f2661c;">{{ $style[1] }} :
+                                                        </span>{{ $style[2] }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
                                     <div class="row d-flex">
-                                        <div id="your_motivation" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="your_motivation_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="your_motivation" class="col-12 mt-3" style="display: none;">
+                                            <div id="your_motivation_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Motivation Introduction:</span>
                                                     <span style="color: white;">This video is an
-                                                    introduction to Motivation (or what's driving you to do
-                                                    what you do). There are 12 motivators or drivers in
-                                                    everyone's “vehicle of self”, but only two are
-                                                    authentically in the “front seat” navigating us through
-                                                    life. Each one of us has a pilot and a co-pilot, and
-                                                    identifying what your two drivers are will help you to
-                                                    understand why you do things a certain way and what fuel
-                                                    you specifically need every day in order to thrive. The
+                                                        introduction to Motivation (or what's driving you to do
+                                                        what you do). There are 12 motivators or drivers in
+                                                        everyone's “vehicle of self”, but only two are
+                                                        authentically in the “front seat” navigating us through
+                                                        life. Each one of us has a pilot and a co-pilot, and
+                                                        identifying what your two drivers are will help you to
+                                                        understand why you do things a certain way and what fuel
+                                                        you specifically need every day in order to thrive. The
                                                         following videos will explore your two drivers.</span>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach($topTwoFeatures as $index => $feature)
+                                    @foreach ($topTwoFeatures as $index => $feature)
                                         @php
                                             $feature_name = str_replace(' ', '-', $feature[1]);
                                         @endphp
                                         <div class="row d-flex">
                                             <div id="feature_{{ $feature_name }}" class="col-12 mt-3"
-                                                 style="display: none;">
+                                                style="display: none;">
                                                 <div id="feature_{{ $feature_name }}_text" class="card p-2"
-                                                     style="height: auto;">
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
-                                                                    <span
-                                                                        style="color: #f2661c;">{{$feature[1] }} : </span>{{$feature[2]}}
+                                                        style="color: rgb(160, 174, 192);text-align: justify">
+                                                        <span style="color: #f2661c;">{{ $feature[1] }} :
+                                                        </span>{{ $feature[2] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1019,10 +1011,9 @@
                                     @endforeach
                                     <div class="row d-flex">
                                         <div id="your_boundary" class="col-12 mt-3" style="display: none;">
-                                            <div id="your_boundary_text" class="card p-2"
-                                                 style="height: auto;">
+                                            <div id="your_boundary_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Intro To Boundaries:</span>
                                                     This video is an introduction to boundaries. Boundaries
                                                     refer to what your personal preferences reveal about
@@ -1048,8 +1039,7 @@
                                                     around specific dynamics related to the people, places
                                                     and things in your life.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     Now our personal preferences that determine our
                                                     boundaries of tolerance are not learned. They are an
                                                     innate part of our molecular makeup. It's one of the
@@ -1069,8 +1059,7 @@
                                                     attain a Gold Alchemy. Everyone's Alchemy is perfect for
                                                     them.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     The people, places and things in our life range from a
                                                     Gold to a Copper Alchemy, and your unique Alchemy is
                                                     determined by the combined quantity of each ore that you
@@ -1079,8 +1068,7 @@
                                                     adaptable you are. The more Copper in you, the more low
                                                     maintenance and organic you are.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     So let's take a look at how the Gold Alchemy represents
                                                     itself through some images. Gold aligns with quality.
                                                     Where they live, where and how they travel, and the
@@ -1100,8 +1088,7 @@
                                                     desire to align with the best of the best. It really is
                                                     the gold standard that sets things apart for them.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     The Silver a represents itself as practical. So in
                                                     taking a look at the living and workspaces you see here,
                                                     everything is neat and practical, there's a functional
@@ -1112,8 +1099,7 @@
                                                     of people,places and things. The world is essentially at
                                                     their disposal. They can flex whenever they need to.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     Now the Copper Alchemy aligns with utility. In other
                                                     words, getting the most use out of everything. Copper’s
                                                     simply have a more relaxed way of living and being. When
@@ -1133,8 +1119,7 @@
                                                     life. They tend not to judge others and they encourage
                                                     others to just relax.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     It's really important to recognize that as humans we
                                                     have different boundaries of tolerance. And, the number
                                                     one reason why relationships are challenged is when
@@ -1152,8 +1137,7 @@
                                                     day to ensure that you're maintaining alignment with
                                                     your Alchemy.
                                                 </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                <p class="text-sm mt-3 fs-12px" style="color: rgb(160, 174, 192);">
                                                     Now your next step is to watch the following video that
                                                     describes the nature of your unique Alchemy. And as you
                                                     begin to understand your Alchemy, we invite you to
@@ -1169,28 +1153,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($boundary)
+                                    @if ($boundary)
                                         <div class="row d-flex">
-                                            <div id="boundary_dynamic_div" class="col-12 mt-3"
-                                                 style="display: none;">
+                                            <div id="boundary_dynamic_div" class="col-12 mt-3" style="display: none;">
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
-                                                     style="height: auto;">
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
-                                                         <span
-                                                             style="color: #f2661c;">{{$boundary['public_name'] . ' Alchemy' }} : </span>{{$boundary['text']}}
+                                                        style="color: rgb(160, 174, 192);text-align: justify">
+                                                        <span
+                                                            style="color: #f2661c;">{{ $boundary['public_name'] . ' Alchemy' }}
+                                                            : </span>{{ $boundary['text'] }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
                                     <div class="row d-flex">
-                                        <div id="your_communication" class="col-12 mt-3"
-                                             style="display: none;">
-                                            <div id="your_communication_text" class="card p-2"
-                                                 style="height: auto;">
+                                        <div id="your_communication" class="col-12 mt-3" style="display: none;">
+                                            <div id="your_communication_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Intro To Communication Style:</span>
                                                     This video is an introduction to Communication Style.
                                                     Energy Centers define your Communication Style. In other
@@ -1228,7 +1210,7 @@
                                                     result, and optimal communication can occur for them.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify">
+                                                    style="color: rgb(160, 174, 192);text-align: justify">
                                                     Now the four following videos describe the nature of
                                                     each of the four Energy Center. They are presented to
                                                     you in your uniquely ordered sequence (or
@@ -1248,15 +1230,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach($topCommunication as $index => $communication)
+                                    @foreach ($topCommunication as $index => $communication)
                                         <div class="row d-flex">
-                                            <div id="communication_{{$index}}" class="col-12 mt-3"
-                                                 style="display: none;">
-                                                <div id="communication_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;">
+                                            <div id="communication_{{ $index }}" class="col-12 mt-3"
+                                                style="display: none;">
+                                                <div id="communication_{{ $index }}_text" class="card p-2"
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
-                                                        <span style="color: #f2661c;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
+                                                        style="color: rgb(160, 174, 192);text-align: justify">
+                                                        <span style="color: #f2661c;">{{ $communication['public_name'] }}
+                                                            : </span>{{ $communication['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1264,10 +1247,9 @@
                                     @endforeach
                                     <div class="row d-flex">
                                         <div id="energy_pool" class="col-12 mt-3" style="display: none;">
-                                            <div id="energy_pool_text" class="card p-2"
-                                                 style="height: auto;">
+                                            <div id="energy_pool_text" class="card p-2" style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
                                                         style="color: #f2661c;">Intro To Energy Pool:</span>
                                                     This video is an introduction to Energy Pool. Your
                                                     Energy Pool represents how much physical energy you have
@@ -1297,29 +1279,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($energyPool)
+                                    @if ($energyPool)
                                         <div class="row d-flex">
-                                            <div id="energy_pool_dynamic_dev" class="col-12 mt-3"
-                                                 style="display: none;">
+                                            <div id="energy_pool_dynamic_dev" class="col-12 mt-3" style="display: none;">
                                                 <div id="energy_pool_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;">
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$energyPool['code']}}:</span>
-                                                        {{$energyPool['text']}}
+                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                            style="color: #f2661c;">{{ $energyPool['code'] }}:</span>
+                                                        {{ $energyPool['text'] }}
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
-                                    @if($perception_life)
+                                    @if ($perception_life)
                                         <div class="row d-flex">
-                                            <div id="your_perception" class="col-12 mt-3"
-                                                 style="display: none;">
-                                                <div id="your_perception_text" class="card p-2"
-                                                     style="height: auto;">
+                                            <div id="your_perception" class="col-12 mt-3" style="display: none;">
+                                                <div id="your_perception_text" class="card p-2" style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
                                                             style="color: #f2661c;">Intro To Perception of Life:</span>
                                                         This video is an introduction to Perception. Your
                                                         Perception of Life defines your electromagnetic
@@ -1374,21 +1353,24 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if($perception)
+                                    @if ($perception)
                                         <div class="row d-flex">
-                                            <div id="perception_dynamic_dev" class="col-12 mt-3"
-                                                 style="display: none;">
+                                            <div id="perception_dynamic_dev" class="col-12 mt-3" style="display: none;">
                                                 <div id="perception_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;">
+                                                    style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
+                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
                                                             style="color: #f2661c;">
-                                                            {{($perception['id'] == 40 ? "Negatively Charged" :
-                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
-                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
-                                                                        }} [{{ $perception['pv'] ?? '' }}]
+                                                            {{ $perception['id'] == 40
+                                                                ? 'Negatively Charged'
+                                                                : ($perception['id'] == 41
+                                                                    ? 'Neutrally Charged'
+                                                                    : ($perception['id'] == 42
+                                                                        ? 'Positively Charged'
+                                                                        : '')) }}
+                                                            [{{ $perception['pv'] ?? '' }}]
                                                         </span>
-                                                        {{$perception['text']}}
+                                                        {{ $perception['text'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1398,22 +1380,23 @@
                                     <ul style="justify-content: space-evenly; background-color: transparent; padding-top: 20px;"
                                         class="nav nav-pills text-sm" id="profile_overview_nav">
                                         <li><a href="#summaryReport"
-                                               class="flex-sm-fill text-lg-center nav-link  text-bold {{request()->has('video_url') ? '' : "active"}}"
-                                               data-toggle="tab">Summary Report</a>
+                                                class="flex-sm-fill text-lg-center nav-link  text-bold {{ request()->has('video_url') ? '' : 'active' }}"
+                                                data-toggle="tab">Summary Report</a>
                                         </li>
                                         <li><a href="#coreStats"
-                                               class="flex-sm-fill text-lg-center nav-link text-bold  {{request()->has('video_url') ? 'active' : ""}}"
-                                               data-toggle="tab">Full Results</a>
+                                                class="flex-sm-fill text-lg-center nav-link text-bold  {{ request()->has('video_url') ? 'active' : '' }}"
+                                                data-toggle="tab">Full Results</a>
                                         </li>
-                                        <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-bold" 
-                                               data-toggle="tab">90 Days Optimization Plan</a>
+                                        <li><a href="#dayPlan" class="flex-sm-fill text-lg-center nav-link text-bold"
+                                                data-toggle="tab">90 Days Optimization Plan</a>
                                         </li>
                                     </ul>
                                     <div class="container tab-content clearfix">
-                                        <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
-                                             id="summaryReport">
+                                        <div class="tab-pane {{ request()->has('video_url') ? '' : 'active' }}"
+                                            id="summaryReport">
                                             <div class="slider-padding p-3 mt-5">
-                                                <p class="custom-color">The HumanOp Summary Report serves to identify those aspects about you
+                                                <p class="custom-color">The HumanOp Summary Report serves to identify those
+                                                    aspects about you
                                                     that define and direct your best performance qualities. Since your
                                                     physical being is respectively the assigned vehicle transporting you
                                                     through life, it's often helpful to know what kind of vehicle you
@@ -1421,11 +1404,13 @@
                                                     This simple request answered can facilitate success in all aspects
                                                     of life, including one's performance in conducting business, and
                                                     creating healthy relationships at work and in life.</p>
-                                                <p class="custom-color">The HumanOp Assessment is a patented instrument grounded in physical
+                                                <p class="custom-color">The HumanOp Assessment is a patented instrument
+                                                    grounded in physical
                                                     laws and objective scientific understanding. It collects and
                                                     quantifies information in a user-friendly format, providing easily
                                                     comprehensible results.</p>
-                                                <p class="custom-color">Your personal HumanOp Summary Report provides you with your own
+                                                <p class="custom-color">Your personal HumanOp Summary Report provides you
+                                                    with your own
                                                     operating manual. These operating guidelines support you in making
                                                     conscious choices that keep you energized and optimized. When you
                                                     use your natural talents versus learned talents you gain energy.
@@ -1443,19 +1428,19 @@
                                                     <li>Roommate selection</li>
                                                     <li>Self-understanding and interpersonal relationships</li>
                                                 </ul>
-                                                @if(\App\Helpers\Helpers::getWebUser()['plan_name'] != 'Freemium')
-                                                    @if($assessment)
-                                                        <a href="{{url('client/download-user-report/'. $assessment->id)}}"
-                                                           target="_blank"
-                                                           class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
-                                                           style="background-color: #f2661c">Download Summary Report</a>
+                                                @if (\App\Helpers\Helpers::getWebUser()['plan_name'] != 'Freemium')
+                                                    @if ($assessment)
+                                                        <a href="{{ url('client/download-user-report/' . $assessment->id) }}"
+                                                            target="_blank"
+                                                            class=" btn updateBtn btn-sm float-start text-white mt-4 mb-0"
+                                                            style="background-color: #f2661c">Download Summary Report</a>
                                                     @endif
                                                 @else
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="tab-pane {{request()->has('video_url') ? 'active' : ""}}"
-                                             id="coreStats">
+                                        <div class="tab-pane {{ request()->has('video_url') ? 'active' : '' }}"
+                                            id="coreStats">
                                             <div class="slider-padding p-3 mt-5">
 
                                                 <div class="text-center">
@@ -1469,7 +1454,8 @@
 
                                                 <h4 class="primaryColor core_stats_heading">Main Results
                                                     Introduction</h4>
-                                                <p class="mt-4 custom-color">You're about to experience your Human Op ULT assessment
+                                                <p class="mt-4 custom-color">You're about to experience your Human Op ULT
+                                                    assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
                                                     from this objective natural perspective. I want to spend just a few
@@ -1494,18 +1480,173 @@
                                                     operate on the road of life and our technology quantifies this
                                                     understanding.
                                                     <br>
-                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                       data-bs-target="#resultIntroductionModal"
-                                                       style="color: #f2661c;">read
-                                                        more...
-                                                    </a>
+                                                <div class="read-more-content hidden">
+                                                    <label class="form-label fs-4" style="color: #f2661c;">Main Results
+                                                        Introduction:</label>
+                                                    <p class="custom-color mt-4" style="text-align: justify">You're about to
+                                                        experience your
+                                                        Human Op ULT assessment results. Most people find
+                                                        this experience to be extremely insightful, validating and even
+                                                        empowering to learn
+                                                        about themselves from this objective natural perspective. I want to
+                                                        spend just a few
+                                                        minutes with you and share a little bit about what makes our
+                                                        technology so unique.
+                                                        It's the objectivity of the HumanOp ULT assessment that sets us
+                                                        apart from the
+                                                        thousands of other human assessments. Now you may have experienced
+                                                        other human
+                                                        assessments over the years, and we're certainly not here to dismiss
+                                                        any one of them.
+                                                        Our assessment is just different from those others. The others fall
+                                                        under the
+                                                        umbrella of psychometric assessments. They're asking your opinion
+                                                        about yourself,
+                                                        and, of course, what you believe to be true about yourself is
+                                                        important. It
+                                                        certainly matters. And as we know, if we solely rely on our
+                                                        subjective opinions
+                                                        about ourselves, we can also recognize that sometimes our opinions
+                                                        of ourselves can
+                                                        be skewed. Our assessment technology elicits the objectivity that
+                                                        exists in human
+                                                        nature because we address the physics that exists in all of nature.
+                                                        After all,
+                                                        physical law governs this physical world in which we live. It is a
+                                                        constant. It's
+                                                        never changing. It governs all living things, plants, trees,
+                                                        animals…and human
+                                                        beings. So those questions that we ask you about what you look like,
+                                                        objectively,
+                                                        the answers actually mean something in terms of how you naturally
+                                                        operate on the
+                                                        road of life and our technology quantifies this understanding. </p>
+                                                    <p class="custom-color" style="text-align: justify">Let's take a look at
+                                                        a very elementary
+                                                        illustration of what this looks like in
+                                                        nature. As humans, we can look at most things in nature, and most of
+                                                        the time we
+                                                        know the potential of what we're looking at. Just by looking at it.
+                                                        Take these two
+                                                        dogs, for example. If you knew nothing about these two animals, and
+                                                        there's no
+                                                        judgment about either dog, you can notice certain things about each
+                                                        one. You can
+                                                        notice that the one on the left is likely going to take a more
+                                                        direct approach to
+                                                        life. Now it doesn't mean he's going to be mean, just more direct.
+                                                        You can see this
+                                                        because you can see his powerhouse build. When you look at the dog
+                                                        on the right, you
+                                                        notice it's probably going to take a more distracted approach to
+                                                        life. More happy
+                                                        jolly go lucky. And again, you're not judging it, you're just seeing
+                                                        its potential
+                                                        just by observing the nature of its physicality. </p>
+                                                    <p class="custom-color" style="text-align: justify">Let's take the same
+                                                        concept into
+                                                        nature a little bit deeper and look at the cactus in
+                                                        the willow. And, of course, they don't both grow in the same
+                                                        environment. But if
+                                                        they did and we wanted to picnic, the willow would obviously be the
+                                                        better choice
+                                                        for our picnic needs. When we look at that cactus, we know certain
+                                                        things about it
+                                                        just by looking at it. We know that it thrives in a hot dry climate,
+                                                        that it doesn't
+                                                        need a lot of water, and that we probably don't want to hug it. The
+                                                        willow on the
+                                                        other hand thrives in a cooler wet climate…needs more water, and I
+                                                        could go on and
+                                                        on, but you're getting the point here. As humans we can look at
+                                                        plants and trees and
+                                                        animals, and most of the time we know what we are looking at. In
+                                                        other words, we
+                                                        know the potential that stands before us just by looking at it.
+                                                        Human nature is no
+                                                        different. Our physicality reveals our true nature. Some people by
+                                                        nature are more
+                                                        direct, kind like that pitbull, and it actually shows up in their
+                                                        physical traits.
+                                                        They do actually have more of a powerhouse build kind of like the
+                                                        pit bull looks.
+                                                        Some people are more like that willow tree. They provide shade and
+                                                        in the human
+                                                        equation that shade equates to they're actually more naturally
+                                                        nurturing. And again,
+                                                        we can see it in their physicality. </p>
+                                                    <p class="custom-color" style="text-align: justify">So humans can see
+                                                        natural potential
+                                                        when they look into nature, but when they look at
+                                                        themselves, or another person, they often don't know what they are
+                                                        looking at. They
+                                                        don't see the unique potential of what stands before them. They may
+                                                        know “who”
+                                                        stands before them, but they don't know the objective nature of the
+                                                        individual. The
+                                                        “what”, if you will. So unfortunately, they often end up subscribing
+                                                        to ways of
+                                                        being for themselves that are not natural for them, based on
+                                                        societal recommendation
+                                                        and cultural norms…upbringing. All of those things are not wrong,
+                                                        but sometimes all
+                                                        of those factors in our life are just not in alignment with our true
+                                                        nature, and
+                                                        they add to those opinions that we have about ourselves that aren't
+                                                        quite accurate.
+                                                        Humans also impose their own expectations on others. Simply because
+                                                        something works
+                                                        really great for them, and they just assume it will work really
+                                                        great for another.
+                                                        The reality is, every person is as unique as our thumb print. And as
+                                                        we know, there
+                                                        are no two thumb prints exactly alike. And our physical bodies are
+                                                        essentially the
+                                                        vehicles that are transporting us through this life. By nature, we
+                                                        are not designed
+                                                        to be doing the same things in the same way. Let's take a look at
+                                                        the Hummer and the
+                                                        Lamborghini, side by side. We know one of them is designed to
+                                                        off-road, and one of
+                                                        them isn't. It's really a great example of when we operate against
+                                                        our true nature
+                                                        or the nature of our design. We essentially burn out. You know, it's
+                                                        a really
+                                                        important reminder, as humans we can learn how to do most anything.
+                                                        But when we
+                                                        apply things to our life and they're not in alignment with how we
+                                                        naturally show up,
+                                                        it will take energy from us. Your assessment results will help you
+                                                        understand what
+                                                        you naturally need on a daily basis in order to reach your highest
+                                                        performance
+                                                        potential to ensure that you get the most out of life. Now, the
+                                                        methodology behind
+                                                        our technology is called The Knowledge of Y.O.U. There are six key
+                                                        components. When
+                                                        you receive your assessment results, we will walk you through each
+                                                        component one by
+                                                        one. We’ll give you an overview of the component, and then we'll
+                                                        share with you how
+                                                        you show up through that component. So here are the six components:
+                                                        Traits,
+                                                        Motivations, Boundaries, Communication style, and then there's a
+                                                        dual component at
+                                                        the bottom Energy and Perception. </p>
+                                                    <p class="custom-color" style="text-align: justify">Now there's one last
+                                                        very important
+                                                </div>
+                                                <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                    data-bs-target="#resultIntroductionModal"
+                                                    onclick="toggleReadMore(this)" style="color: #f2661c;">Read
+                                                    more...</a>
                                                 </p>
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_cycle_to_life_heading" class="card"
-                                                             style="height: auto;">
+                                                            style="height: auto;">
                                                             <div class="card-body p-3" style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to The Cycle of Life.mp4')}}', 1, 'intro_to_cycle_to_life')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to The Cycle of Life.mp4') }}', 1, 'intro_to_cycle_to_life')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Cycle of Life Introduction
@@ -1514,15 +1655,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if(!empty($age))
-                                                    @if(16 <= $age && $age <= 20)
+                                                @if (!empty($age))
+                                                    @if (16 <= $age && $age <= 20)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="motivation_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Motivation 16-20.mp4')}}', 1, 'motivation_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Motivation (16-20)
@@ -1533,11 +1674,11 @@
                                                         </div>
                                                         <div class="row d-flex">
                                                             <div id="motivation_life_cycle" class="col-12 mt-3"
-                                                                 style="display: none;">
+                                                                style="display: none;">
                                                                 <div id="motivation_life_cycle_text" class="card p-2"
-                                                                     style="height: auto;">
+                                                                    style="height: auto;">
                                                                     <p class="text-sm mt-3 fs-12px"
-                                                                       style="color: rgb(160, 174, 192);">
+                                                                        style="color: rgb(160, 174, 192);">
                                                                         Your current interval of life between 16 and 20
                                                                         is the time of life when you're essentially test
                                                                         driving the many different motivating forces
@@ -1574,9 +1715,9 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="roadworthy_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 ">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')}}', 1, 'roadworthy_life_cycle')"
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4') }}', 1, 'roadworthy_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Roadworthy (21-29)
@@ -1589,10 +1730,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="power_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')}}', 1, 'power_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4') }}', 1, 'power_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - The Power Interval (30-33)
@@ -1605,10 +1746,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="mid_life_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')}}', 1, 'mid_life_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4') }}', 1, 'mid_life_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Mid-Life Transformation
@@ -1622,10 +1763,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="awareness_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}', 1, 'awareness_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4') }}', 1, 'awareness_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Awareness (43-52)
@@ -1638,10 +1779,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}', 1, 'forward_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4') }}', 1, 'forward_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Pay It Forward (52-66)
@@ -1654,10 +1795,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="liberated_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}', 1, 'liberated_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Liberated 66-70.mp4') }}', 1, 'liberated_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Liberated (66-70)
@@ -1670,10 +1811,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="being_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}', 1, 'being_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/The Cycle of Life - Being 70-75.mp4') }}', 1, 'being_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Being (70-75)
@@ -1686,10 +1827,10 @@
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="review_life_cycle_heading" class="card"
-                                                                     style="height: auto">
+                                                                    style="height: auto">
                                                                     <div class="card-body p-3 "
-                                                                         style="text-align: center">
-                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
+                                                                        style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4') }}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
                                                                             Cycle of Life - Life Review (75-84)
@@ -1703,9 +1844,9 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_trait_heading" class="card"
-                                                             style="height: auto;">
+                                                            style="height: auto;">
                                                             <div class="card-body p-3" style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Traits.mp4')}}', 1, 'intro_to_trait')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Traits.mp4') }}', 1, 'intro_to_trait')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Traits Introduction
@@ -1715,17 +1856,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="row d-flex mt-5">
-                                                    @foreach($allStyles as $index => $style)
+                                                    @foreach ($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="style_{{$style[1].'_heading'}}"
-                                                                 class="card core_stats_dynamic_card"
-                                                                 style="height: auto">
+                                                            <div id="style_{{ $style[1] . '_heading' }}"
+                                                                class="card core_stats_dynamic_card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$style[1]}}')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $style[3] }}', 1, '{{ 'style_' . $style[1] }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{$index + 1}}
-                                                                        . {{$style[1] . ' [' . "$style[0]" . ']'}}
+                                                                        {{ $index + 1 }}
+                                                                        . {{ $style[1] . ' [' . "$style[0]" . ']' }}
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1735,9 +1875,9 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_motivation_heading" class="card"
-                                                             style="height: auto;">
+                                                            style="height: auto;">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Motivation (Drivers).mp4')}}', 1, 'your_motivation')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}', 1, 'your_motivation')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Motivation Introduction
@@ -1747,27 +1887,28 @@
                                                     </div>
                                                 </div>
                                                 <div class="row d-flex mt-5">
-                                                    @foreach($topTwoFeatures as $index => $feature)
+                                                    @foreach ($topTwoFeatures as $index => $feature)
                                                         @php
                                                             $feature_name = str_replace(' ', '-', $feature[1]);
                                                         @endphp
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
                                                             <div id="feature_{{ $feature_name }}_heading"
-                                                                 class="card core_stats_dynamic_card_motivation"
-                                                                 style="height: auto">
+                                                                class="card core_stats_dynamic_card_motivation"
+                                                                style="height: auto">
                                                                 <div class="card-body p-3">
-                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{ $feature_name }}')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $feature[3] }}', 1, 'feature_{{ $feature_name }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{$index + 1}}
-                                                                        . {{$feature[1] . ' [' . "$feature[0]" . ']'}}
+                                                                        {{ $index + 1 }}
+                                                                        . {{ $feature[1] . ' [' . "$feature[0]" . ']' }}
                                                                     </h5>
-                                                                    <div id="{{$feature[1]}}"
-                                                                         class="collapse description-container"
-                                                                         aria-labelledby="headingOne"
-                                                                         data-parent="#accordion">
+                                                                    <div id="{{ $feature[1] }}"
+                                                                        class="collapse description-container"
+                                                                        aria-labelledby="headingOne"
+                                                                        data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px"
-                                                                           style="color: rgb(160, 174, 192);">{{$feature[2]}}</p>
+                                                                            style="color: rgb(160, 174, 192);">
+                                                                            {{ $feature[2] }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1777,12 +1918,11 @@
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_boundary_heading" class="card"
-                                                             style="height: auto">
+                                                            style="height: auto">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 data-toggle="collapse"
-                                                                    data-target="#your_boundaries" aria-expanded="true"
-                                                                    aria-controls="your_boundaries"
-                                                                    onclick="showFeatureVideo('{{asset('assets/video/Intro to Alchemy.mp4')}}', 1, 'your_boundary')"
+                                                                <h5 data-toggle="collapse" data-target="#your_boundaries"
+                                                                    aria-expanded="true" aria-controls="your_boundaries"
+                                                                    onclick="showFeatureVideo('{{ asset('assets/video/Intro to Alchemy.mp4') }}', 1, 'your_boundary')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Intro To Boundaries
@@ -1791,30 +1931,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if($boundary)
-
+                                                @if ($boundary)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="boundary_dynamic_div_heading" class="card"
-                                                                 style="height: auto">
+                                                                style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$boundary['video_url']}}', 1, 'boundary_dynamic_div')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $boundary['video_url'] }}', 1, 'boundary_dynamic_div')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{$boundary['public_name'] . ' Alchemy'. " [" . $boundary['code_number'] . "]"}}
+                                                                        {{ $boundary['public_name'] . ' Alchemy' . ' [' . $boundary['code_number'] . ']' }}
                                                                     </h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 @endif
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="your_communication_heading" class="card"
-                                                             style="height: auto">
+                                                            style="height: auto">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Communication Style.mp4')}}', 1, 'your_communication')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Communication Style.mp4') }}', 1, 'your_communication')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Intro To Communication Style
@@ -1825,32 +1963,30 @@
                                                 </div>
                                                 <div class="row d-flex mt-5">
 
-                                                    @foreach($topCommunication as $index => $communication)
-
+                                                    @foreach ($topCommunication as $index => $communication)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="communication_{{$index}}_heading"
-                                                                 class="card core_stats_dynamic_card"
-                                                                 style="height: auto">
+                                                            <div id="communication_{{ $index }}_heading"
+                                                                class="card core_stats_dynamic_card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$communication['video_url']}}', 1, 'communication_{{$index}}')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $communication['video_url'] }}', 1, 'communication_{{ $index }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        #{{($index + 1) . ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']'}}
+                                                                        #{{ $index + 1 . ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']' }}
 
                                                                     </h5>
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     @endforeach
 
                                                 </div>
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
-                                                        <div id="energy_pool_heading" class="card" style="height: auto">
+                                                        <div id="energy_pool_heading" class="card"
+                                                            style="height: auto">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/Intro to Energy Pool.mp4')}}', 1, 'energy_pool')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Energy Pool.mp4') }}', 1, 'energy_pool')"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Intro To Energy Pool
@@ -1859,17 +1995,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @if($energyPool)
+                                                @if ($energyPool)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="energy_pool_dynamic_dev_heading" class="card"
-                                                                 style="height: auto">
+                                                                style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$energyPool['video_url']}}', 1, 'energy_pool_dynamic_dev')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $energyPool['video_url'] }}', 1, 'energy_pool_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{$energyPool['code']}}
+                                                                        {{ $energyPool['code'] }}
 
                                                                     </h5>
                                                                 </div>
@@ -1877,13 +2013,13 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                                @if($perception_life)
+                                                @if ($perception_life)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="your_perception_heading" class="card"
-                                                                 style="height: auto">
+                                                                style="height: auto">
                                                                 <div class="card-body p-3 " style="text-align: center">
-                                                                    <h5 onclick="showFeatureVideo('{{asset('assets/video/Perception of Life Intro.mp4')}}', 1, 'your_perception')"
+                                                                    <h5 onclick="showFeatureVideo('{{ asset('assets/video/Perception of Life Intro.mp4') }}', 1, 'your_perception')"
                                                                         style="cursor: pointer;color: #f2661c;"
                                                                         class="fs-10px">
                                                                         Intro To Perception of Life
@@ -1892,24 +2028,27 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 @endif
-                                                @if($perception)
+                                                @if ($perception)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
                                                             <div id="perception_dynamic_dev_heading" class="card"
-                                                                 style="height: auto">
+                                                                style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$perception['video_url']}}', 1, 'perception_dynamic_dev')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $perception['video_url'] }}', 1, 'perception_dynamic_dev')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
+                                                                        {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}} --}}
 
-                                                                        {{($perception['id'] == 40 ? "Negatively Charged" :
-                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
-                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
-                                                                        }} [{{ $perception['pv'] ?? '' }}]
+                                                                        {{ $perception['id'] == 40
+                                                                            ? 'Negatively Charged'
+                                                                            : ($perception['id'] == 41
+                                                                                ? 'Neutrally Charged'
+                                                                                : ($perception['id'] == 42
+                                                                                    ? 'Positively Charged'
+                                                                                    : '')) }}
+                                                                        [{{ $perception['pv'] ?? '' }}]
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1943,29 +2082,27 @@
         </div>
     </div>
     <!-- Daily Tip Info Model -->
-    <div class="modal fade" id="profileOverviewModel" tabindex="-1"
-         role="dialog"
-         aria-labelledby="dailyTipModel" aria-hidden="true">
+    <div class="modal fade" id="profileOverviewModel" tabindex="-1" role="dialog" aria-labelledby="dailyTipModel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">{{$profileInfo['name']}}</label>
-                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                aria-label="Close" id="close-info-modal-button">
+                        <label class="form-label fs-4 text-white">{{ $profileInfo['name'] }}</label>
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"
+                            id="close-info-modal-button">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <p class="text-white mt-4" style="text-align: justify">{{$profileInfo['information']}}</p>
+                        <p class="text-white mt-4" style="text-align: justify">{{ $profileInfo['information'] }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{--Main Result Introduction modal--}}
-    <div class="modal fade" id="resultIntroductionModal" tabindex="-1" role="dialog"
-         aria-labelledby="resultIntroductionModal"
-         aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+    {{-- Main Result Introduction modal --}}
+    {{-- <div class="modal fade" id="resultIntroductionModal" tabindex="-1" role="dialog"
+        aria-labelledby="resultIntroductionModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body">
@@ -1974,7 +2111,7 @@
                                 <label class="form-label fs-4" style="color: #f2661c;">Main Results
                                     Introduction:</label>
                                 <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                        aria-label="Close">
+                                    aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <p class="text-white mt-4" style="text-align: justify">You're about to experience your
@@ -2077,24 +2214,40 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
+
+
 
     <div class="row" style="margin-top: 200px">
         <div class="col-12">
             <div id="globe" class="position-absolute end-0 top-2 mt-sm-3 me-lg-7" style="z-index: -1">
-                <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
+                <canvas width="700" height="600"
+                    class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
             </div>
         </div>
     </div>
 @endsection
 
 @push('js')
-
     <script>
+        function toggleReadMore(button) {
+            const content = document.querySelector('.read-more-content');
+            const ele = document.getElementById('coreStats');
+            content.classList.toggle('hidden');
+            if (content.classList.contains('hidden')) {
+                button.textContent = 'Read more...';
+                ele.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            } else {
+             
+                button.textContent = 'Less more...';
+                ele.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+            }
+        }
+        var video_url =
+            "{{ request()->input('video_url', asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')) }}";
 
-        var video_url = "{{request()->input('video_url', asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')) }}";
-
-        var content_id = "{{request()->input('contentName', null) }}"
+        var content_id = "{{ request()->input('contentName', null) }}"
 
         showFeatureVideo(video_url, 0, content_id);
 
@@ -2149,12 +2302,10 @@
             // }
 
         }
-
     </script>
 
-    {{--    video player script--}}
+    {{--    video player script --}}
     <script>
-
         const container = document.querySelector("#container_video"),
             // blurvid = document.querySelector("video"),
             mainVideo = container.querySelector("video"),
@@ -2225,7 +2376,10 @@
 
         mainVideo.addEventListener("timeupdate", e => {
 
-            let {currentTime, duration} = e.target;
+            let {
+                currentTime,
+                duration
+            } = e.target;
 
             let percent = (currentTime / duration) * 100;
             progressBar.style.width = `${percent}%`;
@@ -2293,10 +2447,11 @@
             mainVideo.paused ? mainVideo.play() : mainVideo.pause()
         });
 
-        videoTimeline.addEventListener("mousedown", () => videoTimeline.addEventListener("mousemove", draggableProgressBar));
+        videoTimeline.addEventListener("mousedown", () => videoTimeline.addEventListener("mousemove",
+            draggableProgressBar));
         document.addEventListener("mouseup", () => videoTimeline.removeEventListener("mousemove", draggableProgressBar));
 
-        mainVideo.addEventListener('click', function () {
+        mainVideo.addEventListener('click', function() {
             if (mainVideo.paused == false) {
                 mainVideo.pause();
                 mainVideo.firstChild.nodeValue = 'Play';
@@ -2307,18 +2462,15 @@
         });
 
         // Add event listener for pause
-        mainVideo.style.opacity = '0.5';  // Dim the video by changing opacity
+        mainVideo.style.opacity = '0.5'; // Dim the video by changing opacity
 
         mainVideo.addEventListener('pause', () => {
-            mainVideo.style.opacity = '0.5';  // Dim the video by changing opacity
+            mainVideo.style.opacity = '0.5'; // Dim the video by changing opacity
         });
 
         // Add event listener for play
         mainVideo.addEventListener('play', () => {
-            mainVideo.style.opacity = '1';  // Reset the opacity when playing
+            mainVideo.style.opacity = '1'; // Reset the opacity when playing
         });
-
     </script>
-
 @endpush
-
