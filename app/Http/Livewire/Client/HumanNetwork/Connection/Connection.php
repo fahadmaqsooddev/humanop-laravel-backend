@@ -29,6 +29,12 @@ class Connection extends Component
 
     }
 
+    public function filterClear()
+    {
+        $this->style_code = '';
+        $this->alchemy_code = '';
+    }
+
     public function render()
     {
 
