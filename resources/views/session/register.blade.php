@@ -508,6 +508,9 @@
             } else if (field.element.id === "last_name" && value.length > 25) {
                 isValid = false;
                 message = field.errorMessages.minLength;
+            } else if (field.element.id === "password" && value.length < 6) {
+                isValid = false;
+                message = field.errorMessages.minLength;
             } else if (field.element.id === "confirmPassword" && (value !== $('#password').val())) {
                 isValid = false;
                 message = field.errorMessages.mismatch;
