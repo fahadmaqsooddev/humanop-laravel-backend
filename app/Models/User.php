@@ -908,7 +908,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkLastStep($userEmail = null)
     {
-        return self::where('email', $userEmail)->where('step', 2 )->first();
+        return self::where('email', $userEmail)->first();
     }
 
     public static function checkEmail($userEmail = null)
