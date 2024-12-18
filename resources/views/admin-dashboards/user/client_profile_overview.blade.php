@@ -1723,8 +1723,8 @@
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{$index + 1}}
-                                                                        . {{$style[1] . ' [' . "$style[0]" . ']'}}
+                                                                       
+                                                                       {{$style[1] . ' [' . "$style[0]" . ']'}}
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1754,8 +1754,8 @@
                                                                     <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{$index + 1}}
-                                                                        . {{$feature[1] . ' [' . "$feature[0]" . ']'}}
+                                                                        {{-- {{$index + 1}} --}}
+                                                                        {{$feature[1] . ' [' . "$feature[0]" . ']'}}
                                                                     </h5>
                                                                     <div id="{{$feature[1]}}"
                                                                          class="collapse description-container"

@@ -1864,8 +1864,8 @@
                                                                     <h5 onclick="showFeatureVideo('{{ $style[3] }}', 1, '{{ 'style_' . $style[1] }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{ $index + 1 }}
-                                                                        . {{ $style[1] . ' [' . "$style[0]" . ']' }}
+                                                                       
+                                                                         {{ $style[1] . ' [' . "$style[0]" . ']' }}
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1899,8 +1899,8 @@
                                                                     <h5 onclick="showFeatureVideo('{{ $feature[3] }}', 1, 'feature_{{ $feature_name }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                        {{ $index + 1 }}
-                                                                        . {{ $feature[1] . ' [' . "$feature[0]" . ']' }}
+                                                                       
+                                                                         {{ $feature[1] . ' [' . "$feature[0]" . ']' }}
                                                                     </h5>
                                                                     <div id="{{ $feature[1] }}"
                                                                         class="collapse description-container"
@@ -1972,7 +1972,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        #{{ $index + 1 . ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']' }}
+                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']' }}
 
                                                                     </h5>
                                                                 </div>
