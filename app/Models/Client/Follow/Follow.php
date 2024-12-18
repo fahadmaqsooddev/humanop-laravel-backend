@@ -38,14 +38,25 @@ class Follow extends Model
 
         $follow = self::where('follow_id', $follow_id)->where('user_id', $data['user_id'])->first();
 
-        if ($follow){
+        $followUser = User::getSingleUser($follow_id);
+
+        if ($follow) {
 
             $follow->delete();
 
-        }else{
+            $message = "You unfollowed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
+
+            toastr()->success($message);
+
+        } else {
 
             self::create($data);
+
+            $message = "You followed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
+
+            toastr()->success($message);
         }
+
 
     }
 
