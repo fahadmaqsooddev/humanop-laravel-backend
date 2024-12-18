@@ -43,6 +43,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
     Route::post('/session', [SessionController::class, 'store']);
     Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
     Route::get('/check-email', [ChangePasswordController::class, 'checkEmail'])->name('check_email');
+    Route::get('/check-email-verification', [ChangePasswordController::class, 'checkEmailVerification'])->name('check_email');
     Route::get('/login-to-dashboard/{id}', [ChangePasswordController::class, 'loginUserToDashboard'])->name('login_to_dashboard');
 
     Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');

@@ -273,7 +273,6 @@ class AuthController extends Controller
                     return Helpers::successResponse('Your email is not verified. Verification email sent.', [
                         'authorization' => [
                             'user' => $checkUser,
-                            'step' => 1,
                             'status' => true,
                             'type' => 'bearer',
                         ],
@@ -282,7 +281,27 @@ class AuthController extends Controller
                 }
                 else
                 {
-                    return Helpers::serverErrorResponse('Your email already exists.');
+                    $checkLastStep = User::checkLastStep($checkUser['email']);
+
+                    if ($checkLastStep && $checkLastStep['step'] == 3)
+                    {
+                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
+
+                    }
+                    else
+                    {
+                        $checkLastStep->setAppends([]);
+
+                        return Helpers::successResponse('kindly complete your last step', [
+
+                            'authorization' => [
+                                'user' => $checkLastStep,
+                                'status' => true,
+                                'type' => 'bearer',
+                            ],
+                        ]);
+                    }
+
 
                 }
 
@@ -300,7 +319,7 @@ class AuthController extends Controller
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-            '{$link}' => url('/check-email?token=' . $user['email_verify_token']),
+            '{$link}' => url('/check-email-verification?token=' . $user['email_verify_token']),
             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
             '{$service}' => url('/term-of-service'),
             '{$privacy}' => url('/privacy-policy'),
@@ -476,11 +495,14 @@ class AuthController extends Controller
 
             $user = User::checkEmailVerified($user['email']);
 
+            $user->setAppends([]);
+
             if (!empty($user))
             {
-                return Helpers::successResponse('Your Email is verified');
+                return Helpers::successResponse('Your Email is verified', $user);
             }
             else{
+
                 return Helpers::serverErrorResponse('Your Email is not verified');
 
             }
