@@ -14,6 +14,13 @@
             justify-content: center;
         }
 
+        .hidden {
+            display: none;
+        }
+
+        .read-more-content {
+            margin-top: 20px;
+        }
 
         .center-play-pause {
             /* padding-bottom: 150px; */
@@ -1410,8 +1417,93 @@
                                                     operate on the road of life and our technology quantifies this
                                                     understanding.
                                                     <br>
+                                                    <div class="read-more-content hidden">
+                                                        <label class="form-label fs-4" style="color: #f2661c;">Main Results
+                                                            Introduction:</label>
+                                                            <p class="custom-color mt-4" style="text-align: justify">You're about to experience your
+                                                                Human Op ULT assessment results. Most people find
+                                                                this experience to be extremely insightful, validating and even empowering to learn
+                                                                about themselves from this objective natural perspective. I want to spend just a few
+                                                                minutes with you and share a little bit about what makes our technology so unique.
+                                                                It's the objectivity of the HumanOp ULT assessment that sets us apart from the
+                                                                thousands of other human assessments. Now you may have experienced other human
+                                                                assessments over the years, and we're certainly not here to dismiss any one of them.
+                                                                Our assessment is just different from those others. The others fall under the
+                                                                umbrella of psychometric assessments. They're asking your opinion about yourself,
+                                                                and, of course, what you believe to be true about yourself is important. It
+                                                                certainly matters. And as we know, if we solely rely on our subjective opinions
+                                                                about ourselves, we can also recognize that sometimes our opinions of ourselves can
+                                                                be skewed. Our assessment technology elicits the objectivity that exists in human
+                                                                nature because we address the physics that exists in all of nature. After all,
+                                                                physical law governs this physical world in which we live. It is a constant. It's
+                                                                never changing. It governs all living things, plants, trees, animals…and human
+                                                                beings. So those questions that we ask you about what you look like, objectively,
+                                                                the answers actually mean something in terms of how you naturally operate on the
+                                                                road of life and our technology quantifies this understanding. </p>
+                                                            <p class="custom-color" style="text-align: justify">Let's take a look at a very elementary
+                                                                illustration of what this looks like in
+                                                                nature. As humans, we can look at most things in nature, and most of the time we
+                                                                know the potential of what we're looking at. Just by looking at it. Take these two
+                                                                dogs, for example. If you knew nothing about these two animals, and there's no
+                                                                judgment about either dog, you can notice certain things about each one. You can
+                                                                notice that the one on the left is likely going to take a more direct approach to
+                                                                life. Now it doesn't mean he's going to be mean, just more direct. You can see this
+                                                                because you can see his powerhouse build. When you look at the dog on the right, you
+                                                                notice it's probably going to take a more distracted approach to life. More happy
+                                                                jolly go lucky. And again, you're not judging it, you're just seeing its potential
+                                                                just by observing the nature of its physicality. </p>
+                                                            <p class="custom-color" style="text-align: justify">Let's take the same concept into
+                                                                nature a little bit deeper and look at the cactus in
+                                                                the willow. And, of course, they don't both grow in the same environment. But if
+                                                                they did and we wanted to picnic, the willow would obviously be the better choice
+                                                                for our picnic needs. When we look at that cactus, we know certain things about it
+                                                                just by looking at it. We know that it thrives in a hot dry climate, that it doesn't
+                                                                need a lot of water, and that we probably don't want to hug it. The willow on the
+                                                                other hand thrives in a cooler wet climate…needs more water, and I could go on and
+                                                                on, but you're getting the point here. As humans we can look at plants and trees and
+                                                                animals, and most of the time we know what we are looking at. In other words, we
+                                                                know the potential that stands before us just by looking at it. Human nature is no
+                                                                different. Our physicality reveals our true nature. Some people by nature are more
+                                                                direct, kind like that pitbull, and it actually shows up in their physical traits.
+                                                                They do actually have more of a powerhouse build kind of like the pit bull looks.
+                                                                Some people are more like that willow tree. They provide shade and in the human
+                                                                equation that shade equates to they're actually more naturally nurturing. And again,
+                                                                we can see it in their physicality. </p>
+                                                            <p class="custom-color" style="text-align: justify">So humans can see natural potential
+                                                                when they look into nature, but when they look at
+                                                                themselves, or another person, they often don't know what they are looking at. They
+                                                                don't see the unique potential of what stands before them. They may know “who”
+                                                                stands before them, but they don't know the objective nature of the individual. The
+                                                                “what”, if you will. So unfortunately, they often end up subscribing to ways of
+                                                                being for themselves that are not natural for them, based on societal recommendation
+                                                                and cultural norms…upbringing. All of those things are not wrong, but sometimes all
+                                                                of those factors in our life are just not in alignment with our true nature, and
+                                                                they add to those opinions that we have about ourselves that aren't quite accurate.
+                                                                Humans also impose their own expectations on others. Simply because something works
+                                                                really great for them, and they just assume it will work really great for another.
+                                                                The reality is, every person is as unique as our thumb print. And as we know, there
+                                                                are no two thumb prints exactly alike. And our physical bodies are essentially the
+                                                                vehicles that are transporting us through this life. By nature, we are not designed
+                                                                to be doing the same things in the same way. Let's take a look at the Hummer and the
+                                                                Lamborghini, side by side. We know one of them is designed to off-road, and one of
+                                                                them isn't. It's really a great example of when we operate against our true nature
+                                                                or the nature of our design. We essentially burn out. You know, it's a really
+                                                                important reminder, as humans we can learn how to do most anything. But when we
+                                                                apply things to our life and they're not in alignment with how we naturally show up,
+                                                                it will take energy from us. Your assessment results will help you understand what
+                                                                you naturally need on a daily basis in order to reach your highest performance
+                                                                potential to ensure that you get the most out of life. Now, the methodology behind
+                                                                our technology is called The Knowledge of Y.O.U. There are six key components. When
+                                                                you receive your assessment results, we will walk you through each component one by
+                                                                one. We’ll give you an overview of the component, and then we'll share with you how
+                                                                you show up through that component. So here are the six components: Traits,
+                                                                Motivations, Boundaries, Communication style, and then there's a dual component at
+                                                                the bottom Energy and Perception. </p>
+                                                            <p class="custom-color" style="text-align: justify">Now there's one last very important
+                                                    </div>
                                                     <a href="javascript:void(0)" data-bs-toggle="modal"
                                                        data-bs-target="#resultIntroductionModal"
+                                                       onclick="toggleReadmore(this)"
                                                        style="color: #f2661c;">read
                                                         more...
                                                     </a>
@@ -1846,7 +1938,7 @@
         </div>
     </div>
     {{--Main Result Introduction modal--}}
-    <div class="modal fade" id="resultIntroductionModal" tabindex="-1" role="dialog"
+    {{-- <div class="modal fade" id="resultIntroductionModal" tabindex="-1" role="dialog"
          aria-labelledby="resultIntroductionModal"
          aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -1961,7 +2053,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="row" style="margin-top: 200px">
         <div class="col-12">
@@ -1975,6 +2067,21 @@
 @push('js')
 
     <script>
+
+        function toggleReadmore(button){
+            const content=document.querySelector('.read-more-content');
+            content.classList.toggle('hidden');
+            const ele=document.getElementById('coreStats');
+            if(content.classList.contains('hidden')){
+                button.textContent = 'Read more...';
+                ele.scrollIntoView({ behavior: 'smooth', block: 'start'})
+            }else{
+                button.textContent='Less more...';
+                ele.scrollIntoView({ behavior: 'smooth', block: 'start'})
+            }
+
+
+        }
 
         var video_url = "{{request()->input('video_url', asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')) }}";
 

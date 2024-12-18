@@ -333,51 +333,74 @@ class User extends Authenticatable implements JWTSubject
         $age = Carbon::parse($date_of_birth)->age;
 
         switch ($age) {
-            case (16 <= $age && $age <= 21):
+            case (7 <= $age && $age <= 11):
                 $interval = [
-                    'interval' => 'Motivation Interval',
+                    'interval' => 'Connecting & Communicating',
+                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4')
+                ];
+                break;
+            case (12 <= $age && $age <= 15):
+                $interval = [
+                    'interval' => 'Alchemical Revelation',
+                    'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4')
+                ];
+                break;
+            case (16 <= $age && $age <= 20):
+                $interval = [
+                    'interval' => 'Motivation',
                     'video_url' => asset('assets/video/Cycle of Life - Motivation 16-20.mp4')
                 ];
                 break;
             case (21 <= $age && $age <= 29):
                 $interval = [
-                    'interval' => 'Roadworthy Interval',
+                    'interval' => 'Roadworthy ',
                     'video_url' => asset('assets/video/Cycle of Life - Roadworthy 21-29.mp4')
                 ];
                 break;
             case (30 <= $age && $age <= 33):
                 $interval = [
-                    'interval' => 'Power Interval',
+                    'interval' => 'Power',
                     'video_url' => asset('assets/video/The Cycle of Life - Power Interval 30-33.mp4')
                 ];
                 break;
             case (34 <= $age && $age <= 42):
                 $interval = [
-                    'interval' => 'Mid Life Interval',
+                    'interval' => 'MidLife Transformation',
                     'video_url' => asset('assets/video/The Cycle of Life - Mid-Life Transformation 34-43.mp4')
                 ];
                 break;
-            case (43 <= $age && $age <= 52):
+            case (43 <= $age && $age <= 51):
                 $interval = [
-                    'interval' => 'Awareness Interval',
+                    'interval' => 'Awareness',
                     'video_url' => asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')
                 ];
                 break;
-            case (52 <= $age && $age <= 66):
+            case (52 <= $age && $age <= 65):
                 $interval = [
-                    'interval' => 'Forward Interval',
+                    'interval' => 'Payit Forward',
                     'video_url' => asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')
                 ];
                 break;
-            case (66 <= $age && $age <= 70):
+            case (66 <= $age && $age <= 69):
                 $interval = [
-                    'interval' => 'Liberated Interval',
+                    'interval' => 'Liberated',
                     'video_url' => asset('assets/video/Cycle of Life - Liberated 66-70.mp4')
                 ];
                 break;
-            case (70 <= $age && $age <= 75):
+            case (70 <= $age && $age <= 74):
                 $interval = [
-                    'interval' => 'Being Interval',
+                    'interval' => 'Being',
+                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
+                ];
+            case (75 <= $age && $age <= 83):
+                $interval = [
+                    'interval' => 'Life Review',
+                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
+                ];
+                break;
+            case ( $age >= 84):
+                $interval = [
+                    'interval' => 'Surrender',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
                 ];
                 break;
