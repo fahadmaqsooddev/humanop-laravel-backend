@@ -346,9 +346,9 @@
     </style>
 
     <div class="row">
-        
+
         <div class="col-lg-12 position-relative z-index-2">
-           
+
             <div class="container-fluid px-0 px-md-5 ">
                 <section>
                     <div class="row mt-lg-4 mt-2 ">
@@ -683,7 +683,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Awareness (43-52):</span>
+                                                        style="color: #f2661c;">Cycle of Life - Awareness (43-51):</span>
                                                     Your current interval begins at age 43 and it
                                                     ends at 52. This interval is called “The
                                                     Interval of Awareness”, and it marks the
@@ -742,7 +742,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward (52-66):</span>
+                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward (52-65):</span>
                                                     Your current interval begins at age 52 and it
                                                     ends at 66. This interval is called “The Pay It
                                                     Forward Interval”. All that you've collected
@@ -779,7 +779,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Liberated (66-70): </span>
+                                                        style="color: #f2661c;">Cycle of Life - Liberated (66-69): </span>
                                                     Your current interval begins at age 66 and ends
                                                     at 70, and even for some, it can go on up to 75.
                                                     It's the interval where you experience
@@ -811,7 +811,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Being (70-75):</span>
+                                                        style="color: #f2661c;">Cycle of Life - Being (70-74):</span>
                                                     Your current interval begins at age 70 and ends
                                                     at 75. And we call this interval “The Interval
                                                     of Being”. So much has been archived in the
@@ -850,7 +850,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Life Review (75-84):</span>
+                                                        style="color: #f2661c;">Cycle of Life - Life Review (75-83):</span>
                                                     Your current interval begins at age 75 and ends
                                                     at 84. It is in this interval where a “Natural
                                                     Life Review” takes place. It's a time when
@@ -1623,7 +1623,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif(43 <= $age && $age <= 52)
+                                                    @elseif(43 <= $age && $age <= 51)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="awareness_life_cycle_heading" class="card"
@@ -1632,13 +1632,13 @@
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Awareness Interval 43-52.mp4')}}', 1, 'awareness_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Awareness (43-52):
+                                                                            Cycle of Life - Awareness (43-51):
                                                                         </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif(52 <= $age && $age <= 66)
+                                                    @elseif(52 <= $age && $age <= 65)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="forward_life_cycle_heading" class="card"
@@ -1647,13 +1647,13 @@
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Pay It Forward 52-66.mp4')}}', 1, 'forward_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Pay It Forward (52-66):
+                                                                            Cycle of Life - Pay It Forward (52-65):
                                                                         </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif(66 <= $age && $age <= 70)
+                                                    @elseif(66 <= $age && $age <= 69)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="liberated_life_cycle_heading" class="card"
@@ -1662,13 +1662,13 @@
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/Cycle of Life - Liberated 66-70.mp4')}}', 1, 'liberated_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Liberated (66-70):
+                                                                            Cycle of Life - Liberated (66-69):
                                                                         </h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif(70 <= $age && $age <= 75)
+                                                    @elseif(70 <= $age && $age <= 74)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="being_life_cycle_heading" class="card"
@@ -1677,7 +1677,22 @@
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Being 70-75.mp4')}}', 1, 'being_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Being (70-75):
+                                                                            Cycle of Life - Being (70-74):
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @elseif(75 <= $age && $age <= 83)
+                                                        <div class="row d-flex mt-5">
+                                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                                <div id="review_life_cycle_heading" class="card"
+                                                                     style="height: auto">
+                                                                    <div class="card-body p-3 ">
+                                                                        <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
+                                                                            style="cursor: pointer;"
+                                                                            class="text-white fs-10px">
+                                                                            Cycle of Life - Life Review (75-83):
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1692,7 +1707,7 @@
                                                                         <h5 onclick="showFeatureVideo('{{asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')}}', 1, 'review_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Life Review (75-84):
+                                                                            Cycle of Life - Surrender (84+):
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1723,7 +1738,7 @@
                                                                     <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
-                                                                       
+
                                                                        {{$style[1] . ' [' . "$style[0]" . ']'}}
                                                                     </h5>
                                                                 </div>

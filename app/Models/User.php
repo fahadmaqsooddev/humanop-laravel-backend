@@ -392,21 +392,16 @@ class User extends Authenticatable implements JWTSubject
                     'interval' => 'Being',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
                 ];
+                break;
             case (75 <= $age && $age <= 83):
                 $interval = [
                     'interval' => 'Life Review',
                     'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
                 ];
                 break;
-            case ( $age >= 84):
-                $interval = [
-                    'interval' => 'Surrender',
-                    'video_url' => asset('assets/video/The Cycle of Life - Being 70-75.mp4')
-                ];
-                break;
             default:
                 $interval = [
-                    'interval' => 'Review Interval',
+                    'interval' => 'Surrender',
                     'video_url' => asset('assets/video/The Cycle of Life - Life Review Interval Ages 75-84.mp4')
                 ];
                 break;
