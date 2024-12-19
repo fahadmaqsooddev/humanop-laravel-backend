@@ -1,11 +1,17 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css" rel="stylesheet">
+
 @endpush
 <style>
     .description-container::-webkit-scrollbar {
         width: 10px;
         /* Width of the scrollbar */
+    }
+
+    .custom-helper-layer {
+        width: 108px !important;
+        margin-left: 25px !important;
     }
 
     .description-container::-webkit-scrollbar-track {
@@ -304,7 +310,7 @@
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
                             <div class="row position-relative" style="height: 220px">
-                                <div class="col-7 my-auto " style="margin-left: 30px">
+                                <div class="col-7 my-auto " style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -1673,8 +1679,17 @@
                             }
                         ]
                     }).onbeforechange(function (targetElement) {
-                        // Custom scroll behavior for deeply nested elements
                         targetElement.scrollIntoView();
+                        const currentStep = this._currentStep;
+                        if (currentStep === 0) {
+                            setTimeout(function () {
+                                $('.introjs-helperLayer').addClass('custom-helper-layer');
+                            }, 100);
+                        } else {
+                            setTimeout(function(){
+                                $('.introjs-helperLayer').removeClass('custom-helper-layer');
+                            },100);
+                        }
                     }).start();
                 });
                 window.onload = function () {
