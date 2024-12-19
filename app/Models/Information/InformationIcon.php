@@ -60,7 +60,7 @@ class InformationIcon extends Model
 
     public static function getLibraryResourceInfo()
     {
-        return self::where('name', 'Library of Resources')->first(['name', 'information']);
+        return self::where('name', 'Library of Resources & Trainings')->first(['name', 'information']);
     }
 
     public static function getHelpInfo()
