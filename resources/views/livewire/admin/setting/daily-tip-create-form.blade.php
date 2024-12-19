@@ -66,9 +66,18 @@
             .card{
              background-color: #1C365E !important;
            }
+
+            .ck.ck-balloon-panel {
+                z-index: 1050 !important;
+            }
+
+            .ck > p > a{
+                color: blue !important;
+            }
+
     </style>
 @endpush
-<div wire:ignore.self class="modal fade" id="dailyTipModel" tabindex="-1"
+<div wire:ignore.self class="modal fade" id="dailyTipModel" data-bs-focus="false"
      role="dialog"
      aria-labelledby="dailyTipModel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -433,7 +442,9 @@
             Bold,
             Italic,
             Font,
-            List
+            List,
+            Link,
+            AutoLink
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
@@ -442,11 +453,11 @@
             if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
                 ClassicEditor
                     .create(editorElement, {
-                        plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List ],
+                        plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List, Link, AutoLink ],
                         toolbar: [
                             'undo', 'redo', '|', 'bold', 'italic', '|',
                             'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                            'bulletedList', 'numberedList'  // Add list options to toolbar
+                            'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
                         ]
                     })
                     .then(editor => {

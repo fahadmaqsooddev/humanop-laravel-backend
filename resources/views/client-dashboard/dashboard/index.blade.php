@@ -1,11 +1,17 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css" rel="stylesheet">
+
 @endpush
 <style>
     .description-container::-webkit-scrollbar {
         width: 10px;
         /* Width of the scrollbar */
+    }
+
+    .custom-helper-layer {
+        width: 108px !important;
+        margin-left: 25px !important;
     }
 
     .description-container::-webkit-scrollbar-track {
@@ -242,6 +248,10 @@ padding-bottom: 10px !important;
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
+    .html-formated-text-span > p > a{
+        color: blue !important;
+    }
+
     
 
    
@@ -337,7 +347,7 @@ padding-bottom: 10px !important;
                                 <div class="row mydiv1">
 
                                 
-                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px">
+                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -559,7 +569,8 @@ padding-bottom: 10px !important;
                style="color: #f2661c;">read more...</a>
         </span>
                                                 @else
-                                                    <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
+                                                    <p style="font-size: 15px;"
+                                                       class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
                                                 @endif
                                             @else
                                                 <p>Click here to:
@@ -590,7 +601,8 @@ padding-bottom: 10px !important;
                                             @if(($tip['userTip']['is_read'] ?? 1) == 0)
                                                 <div class="dailyTipButton">
                                                     <div
-                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2" id="read_all_tip">
+                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"
+                                                        id="read_all_tip">
                                                         <button
                                                             style="background-color: #f2661c;color: white !important;"
                                                             class="connection-btn btn-sm"
@@ -925,7 +937,7 @@ padding-bottom: 10px !important;
                                     </div>
                                     <div class="card-body p-3 text-white scrollbar" id="style-2"
                                          style="cursor: pointer">
-                                        <div class="force-overflow">
+                                        <div class="force-overflow html-formated-text-span">
                                             @if($actionPlan)
 
                                                 {!! $actionPlan['plan_text'] !!}
@@ -1007,22 +1019,22 @@ padding-bottom: 10px !important;
                                         </h5>
 
                                     </div>
-                                                                        @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <button class="connection-btn btn-lg" id="open-chat-btn"
-                                                    style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
-                                                Get Help!
-                                            </button>
+                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <button class="connection-btn btn-lg" id="open-chat-btn"
+                                                        style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
+                                                    Get Help!
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @else
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                    @else
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @endif
+                                    @endif
                                     <div class="image-container ">
                                         <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
                                              width="200"
@@ -1047,6 +1059,7 @@ padding-bottom: 10px !important;
                                                 data-bs-target="#integrationPodsactModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>INTEGRATION PODCAST</strong></h5>
+{{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
                                         </div>
                                         <div class="card mb-4"
                                         >
@@ -1061,8 +1074,8 @@ padding-bottom: 10px !important;
                                                                         src="{{$podcast->embedded_url}}"
                                                                         frameborder="0"></iframe>
                                                                 <h5 class="font-weight-bolder mb-0">
-                                                                <span
-                                                                    class="text-success text-sm font-weight-bolder"></span>
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1200,7 +1213,7 @@ padding-bottom: 10px !important;
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <p>{!! $plan['plan_text'] ?? null !!}</p>
+                                        <p class="html-formated-text-span">{!! $plan['plan_text'] ?? null !!}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1224,7 +1237,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1239,12 +1252,12 @@ padding-bottom: 10px !important;
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1264,7 +1277,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1284,7 +1297,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1304,7 +1317,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $helpInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1728,8 +1741,17 @@ padding-bottom: 10px !important;
                             }
                         ]
                     }).onbeforechange(function (targetElement) {
-                        // Custom scroll behavior for deeply nested elements
                         targetElement.scrollIntoView();
+                        const currentStep = this._currentStep;
+                        if (currentStep === 0) {
+                            setTimeout(function () {
+                                $('.introjs-helperLayer').addClass('custom-helper-layer');
+                            }, 100);
+                        } else {
+                            setTimeout(function(){
+                                $('.introjs-helperLayer').removeClass('custom-helper-layer');
+                            },100);
+                        }
                     }).start();
                 });
                 window.onload = function () {

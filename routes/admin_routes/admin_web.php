@@ -34,7 +34,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 */
 
 //Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [RegisterController::class, 'create']);
+    Route::get('/register', [RegisterController::class, 'create'])->name('create');
     Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
     Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
     Route::get('/email-verified', [RegisterController::class, 'emailVerified'])->name('email_verified');

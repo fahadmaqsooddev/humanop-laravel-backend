@@ -89,9 +89,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-        DB::beginTransaction();
-
-        try {
+//        DB::beginTransaction();
+//
+//        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -170,19 +170,23 @@ class RegisterController extends Controller
             }
             else
             {
+                $invite = UserInvite::getInviteLinkUsingEmail($checkUser['email']);
+
                 session()->flash('error', 'Your email already exists');
 
-                return redirect()->route('create');
+                return redirect()->to('register?link=' . $invite['link']);
 
             }
 
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+//            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+//
+//
+//        }
     }
 
     public function registerClientToPractitioner(RegisterFormRequest $request)
