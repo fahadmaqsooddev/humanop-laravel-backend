@@ -1,11 +1,17 @@
 @extends('user_type.auth', ['parentFolder' => 'client-dashboard', 'childFolder' => 'none'])
 @push('css')
     <link href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css" rel="stylesheet">
+
 @endpush
 <style>
     .description-container::-webkit-scrollbar {
         width: 10px;
         /* Width of the scrollbar */
+    }
+
+    .custom-helper-layer {
+        width: 108px !important;
+        margin-left: 25px !important;
     }
 
     .description-container::-webkit-scrollbar-track {
@@ -242,6 +248,10 @@ padding-bottom: 10px !important;
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
+    .html-formated-text-span > p > a{
+        color: blue !important;
+    }
+
     
 
    
@@ -337,7 +347,7 @@ padding-bottom: 10px !important;
                                 <div class="row mydiv1">
 
                                 
-                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px">
+                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -927,7 +937,7 @@ padding-bottom: 10px !important;
                                     </div>
                                     <div class="card-body p-3 text-white scrollbar" id="style-2"
                                          style="cursor: pointer">
-                                        <div class="force-overflow">
+                                        <div class="force-overflow html-formated-text-span">
                                             @if($actionPlan)
 
                                                 {!! $actionPlan['plan_text'] !!}
@@ -1203,7 +1213,7 @@ padding-bottom: 10px !important;
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <p>{!! $plan['plan_text'] ?? null !!}</p>
+                                        <p class="html-formated-text-span">{!! $plan['plan_text'] ?? null !!}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1227,7 +1237,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1242,12 +1252,12 @@ padding-bottom: 10px !important;
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1267,7 +1277,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1287,7 +1297,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1307,7 +1317,7 @@ padding-bottom: 10px !important;
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $helpInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1731,8 +1741,17 @@ padding-bottom: 10px !important;
                             }
                         ]
                     }).onbeforechange(function (targetElement) {
-                        // Custom scroll behavior for deeply nested elements
                         targetElement.scrollIntoView();
+                        const currentStep = this._currentStep;
+                        if (currentStep === 0) {
+                            setTimeout(function () {
+                                $('.introjs-helperLayer').addClass('custom-helper-layer');
+                            }, 100);
+                        } else {
+                            setTimeout(function(){
+                                $('.introjs-helperLayer').removeClass('custom-helper-layer');
+                            },100);
+                        }
                     }).start();
                 });
                 window.onload = function () {
