@@ -507,7 +507,7 @@
                                                 <strong>DAILY TIP</strong>
                                             </h5>
                                         </div>
-                                        <div class="description-container text-justify" style="height: 335px;">
+                                        <div class="description-container " style="height: 335px;text-align:left;">
 
                                             {{$hide_button = false}}
 

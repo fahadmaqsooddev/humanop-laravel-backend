@@ -482,7 +482,7 @@
 
                     <label class="text-white">Category Name </label>
                     <input style="background-color: #0f1534;" class="form-control text-white"
-                           wire:model.defer="category_name" placeholder="Enter category name" type="text" maxlength="25">
+                           wire:model.defer="category_name" placeholder="Enter category name" type="text" maxlength="191">
 
                     @if(session()->has('success'))
                         <span class="text-sm text-success">{{session()->get('success')}}</span>
