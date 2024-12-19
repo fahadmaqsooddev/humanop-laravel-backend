@@ -55,8 +55,9 @@
                                     @if(request()->segment(1) == 'client')
                                         <td class="text-sm text-color-blue font-weight-normal"><a
                                                 href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}"
-                                                type="submit" style="background-color: #f2661c; color: white"
-                                                class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
+                                                type="submit" style="background-color: #f2661c; color: white;font-weight:900;
+                                                font-size:16px;"
+                                                class=" btn-sm float-end mt-2 mb-0">View </a>
                                         </td>
                                     @else
                                         <td class="text-sm text-color-blue font-weight-normal"><a
@@ -85,9 +86,10 @@
                                 : {{\Carbon\Carbon::parse($assessment['created_at'])->format('m/d/Y h:i A')}} (GMT)</h4>
                             <p style="color: black !important;">Status : Complete</p>
                             <a href="{{ route('user_profile_overview',['id' => $assessment['id'] ]) }}"
-                               class="rainbow-border-user-nav-btn text-center btn-sm w-100 mx-auto mt-2 mb-0"
-                               style="background-color: white !important; color: black !important;">
-                                View
+                                class=" text-center btn-sm w-100 mx-auto mt-2 mb-0"
+                                 style="background-color: #f2661c !important; color: white !important;display:inline-block;font-size:16px;font-weight:900;"
+                              >
+                                View it
                             </a>
 
                         </div>

@@ -414,7 +414,7 @@
         }
 
         .left-nav-blue-light-color {
-            background: #f8d7da !important;
+            background: #f4e3c7 !important;
         }
 
         .orange-border {
