@@ -4,7 +4,7 @@
             @include('layouts.message')
 
             <div class="form-switch mb-0 d-flex justify-content-between" style="padding-left: 0px">
-                <h5 class="text-color-dark setting-form-heading">2-Factor Authorization</h5>
+                <h5 class="text-color-dark setting-form-heading authorization">2-Factor Authorization</h5>
                 <input class="form-check-input"
                        wire:change="updateStatus()"
                        name="status"

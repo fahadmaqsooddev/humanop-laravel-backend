@@ -59,7 +59,10 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-4 col-6 w-50">
+                <div class="row agesolve">
+
+                
+                <div class="col-sm-12 col-md-6  gender">
                     <label class="form-label mt-4 text-color-dark">I'm</label>
                     <select class="form-control text-color-dark setting-box-background" id="client-gender"
                         wire:model.defer="user.gender">
@@ -71,7 +74,7 @@
 
                 <input type="text" wire:model="is_abandon_assessment" id="is_abandon_assessment" hidden>
 
-                <div class="col-sm-4 col-6 w-50">
+                <div class="col-sm-12 col-md-6 ">
                     <label for="name" class="form-label text-color-dark mt-4">Date of Birth</label>
 
                     <div class="d-flex w-100">
@@ -118,6 +121,7 @@
                         <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
                 {{-- {{dd($user['timezone'])}} --}}
                 <div class="col-md-6 col-sm-12">
                     <label class="form-label mt-4 text-color-dark">Timezone</label>

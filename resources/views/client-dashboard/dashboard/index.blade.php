@@ -180,6 +180,31 @@
         color: #F95520 !important;
     }
 
+    @media screen and (min-width: 0px) and (max-width: 500px) {
+       .user_profile_image{
+        margin-top: 2rem;
+       }
+
+.mydiv1{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center; 
+   
+}
+.profilediv{
+width: 100% !important;
+}
+.feelingdiv{
+    margin-left: 50px;
+width: 100% !important;
+padding-bottom: 10px !important;
+
+}
+.feelingdiv p{
+    margin-top: 0px !important;
+}
+}
+
     @media screen and (min-width: 550px) and (max-width: 766px) {
 
         .core-state-card {
@@ -223,6 +248,9 @@
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
+    
+
+   
 
 </style>
 @section('content')
@@ -309,8 +337,13 @@
                     <div class="col-lg-8 col-md-12 col-sm-12 mb-2">
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
-                            <div class="row position-relative" style="height: 220px">
-                                <div class="col-7 my-auto " style="margin-left: 30px" data-step="4">
+                            <div class="row position-relative" style="height: auto">
+                             
+                                    
+                                <div class="row mydiv1">
+
+                                
+                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -335,7 +368,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 my-auto">
+                                <div class="col-4 my-auto mydiv feelingdiv">
                                     <p class="mb-0"
                                        style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are
                                         you</p>
@@ -357,6 +390,8 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                            
                                 <div class="position-absolute"
                                      style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #F4E3C7">
                                     <img src="{{asset('assets/new-design/icon/dashboard/bell.svg')}}" alt="notification"
@@ -530,7 +565,8 @@
                style="color: #f2661c;">read more...</a>
         </span>
                                                 @else
-                                                    <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
+                                                    <p style="font-size: 15px;"
+                                                       class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
                                                 @endif
                                             @else
                                                 <p>Click here to:
@@ -561,7 +597,8 @@
                                             @if(($tip['userTip']['is_read'] ?? 1) == 0)
                                                 <div class="dailyTipButton">
                                                     <div
-                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2" id="read_all_tip">
+                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"
+                                                        id="read_all_tip">
                                                         <button
                                                             style="background-color: #f2661c;color: white !important;"
                                                             class="connection-btn btn-sm"
@@ -978,22 +1015,22 @@
                                         </h5>
 
                                     </div>
-                                                                        @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <button class="connection-btn btn-lg" id="open-chat-btn"
-                                                    style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
-                                                Get Help!
-                                            </button>
+                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <button class="connection-btn btn-lg" id="open-chat-btn"
+                                                        style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
+                                                    Get Help!
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @else
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                    @else
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @endif
+                                    @endif
                                     <div class="image-container ">
                                         <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
                                              width="200"
@@ -1013,10 +1050,12 @@
                                      style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
                                      data-step="7">
                                     <div class="card-body p-3">
-                                        <div class="d-flex mb-3 justify-content-center">
-                                            <h5 class="mb-0 w-auto"
+                                        <div class="d-flex mb-3 justify-content-center" style="cursor: pointer">
+                                            <h5 class="mb-0 w-auto" data-bs-toggle="modal"
+                                                data-bs-target="#integrationPodsactModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>INTEGRATION PODCAST</strong></h5>
+{{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
                                         </div>
                                         <div class="card mb-4"
                                         >
@@ -1031,8 +1070,8 @@
                                                                         src="{{$podcast->embedded_url}}"
                                                                         frameborder="0"></iframe>
                                                                 <h5 class="font-weight-bolder mb-0">
-                                                                <span
-                                                                    class="text-success text-sm font-weight-bolder"></span>
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
                                                                 </h5>
                                                             </div>
                                                         </div>
@@ -1281,7 +1320,26 @@
                 </div>
             </div>
         </div>
-
+        <!-- Integration Podcast Info Model -->
+        <div class="modal fade" id="integrationPodsactModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="integrationPodsactModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$podcastInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="text-white mt-4"
+                                 style="text-align: justify">{!! $podcastInfo['information'] !!}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{--    intro pop up --}}
 
         <div class="modal fade" id="introModel" tabindex="-1"
