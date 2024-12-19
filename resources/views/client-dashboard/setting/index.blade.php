@@ -31,6 +31,27 @@
             margin: 10px;
             border: 1px solid red;
         }
+
+        
+        @media only screen and (max-width: 400px) {
+  .authorization{
+
+    margin-top: 1rem !important;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+
+.agesolve{
+ 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+#client-gender {
+        width: 100%;
+    }
+}
     </style>
 @endpush
 
@@ -225,7 +246,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm custom-text-dark">2-Factor Authorization</span>
+                                <span class="text-sm custom-text-dark ">2-Factor Authorization</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">

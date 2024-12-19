@@ -174,6 +174,31 @@
         color: #F95520 !important;
     }
 
+    @media screen and (min-width: 0px) and (max-width: 500px) {
+       .user_profile_image{
+        margin-top: 2rem;
+       }
+
+.mydiv1{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center; 
+   
+}
+.profilediv{
+width: 100% !important;
+}
+.feelingdiv{
+    margin-left: 50px;
+width: 100% !important;
+padding-bottom: 10px !important;
+
+}
+.feelingdiv p{
+    margin-top: 0px !important;
+}
+}
+
     @media screen and (min-width: 550px) and (max-width: 766px) {
 
         .core-state-card {
@@ -217,6 +242,9 @@
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
+    
+
+   
 
 </style>
 @section('content')
@@ -303,8 +331,13 @@
                     <div class="col-lg-8 col-md-12 col-sm-12 mb-2">
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
-                            <div class="row position-relative" style="height: 220px">
-                                <div class="col-7 my-auto " style="margin-left: 30px">
+                            <div class="row position-relative" style="height: auto">
+                             
+                                    
+                                <div class="row mydiv1">
+
+                                
+                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -329,7 +362,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 my-auto">
+                                <div class="col-4 my-auto mydiv feelingdiv">
                                     <p class="mb-0"
                                        style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are
                                         you</p>
@@ -351,6 +384,8 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                            
                                 <div class="position-absolute"
                                      style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #F4E3C7">
                                     <img src="{{asset('assets/new-design/icon/dashboard/bell.svg')}}" alt="notification"

@@ -1,7 +1,10 @@
 
 <div>
-    <div class="row position-relative mb-2 mt-4 mx-3" style="height: 120px;background: #8BB1AB;border-radius: 40px !important;">
-        <div class="col-6 my-auto " style="padding-left: 30px">
+    <div class="row position-relative mb-2 mt-4 mx-3" style="height: auto; padding:10px;background: #8BB1AB;border-radius: 40px !important;">
+        <div class="row sepratediv">
+
+        
+        <div class="col-6 my-auto  myprofile" style="padding-left: 30px">
             <div class="d-flex ">
                 <div>
                     <img
@@ -28,17 +31,17 @@
 
         </div>
 
-        <div class="col-6 my-auto">
+        <div class="col-6 my-auto myaccount">
             <div class="d-flex justify-content-around px-4" >
                 <button class="bg-transparent text-center py-2"
-                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%"
+                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: auto"
                         data-bs-toggle="modal"
                         data-bs-target="#qrCodeModal"
                 >
                     Get free pro version
                 </button>
                 @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
-
+                   
                     <a href="{{route('assessments')}}" class="bg-transparent  position-relative text-center py-2 px-4"
                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
                         Access your results
@@ -48,6 +51,7 @@
                                  alt="notification" width="40" height="40">
                         </div>
                     </a>
+                
 
 
 
@@ -148,6 +152,7 @@
 
             </div>
         </div>
+    </div>
         <div class="position-absolute"
              style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #8BB1AB">
             <img src="{{asset('assets/new-design/icon/dashboard/bell.svg')}}" alt="notification"
