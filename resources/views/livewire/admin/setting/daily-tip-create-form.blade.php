@@ -78,13 +78,13 @@
                 <div class="card-body pt-0">
                     <label class="form-label fs-4 text-white"><span>Daily Tip</span>
                         <span style="margin-left: 10px">
-                            <input type="radio" name="subscription_type" value="Freemium" wire:model="subscription_type"> Freemium
+                            <input type="radio" name="subscription_type" value="Freemium" wire:model="subscription_type" wire:change="changeSubscriptionType"> Freemium
                         </span>
                         <span style="margin-left: 10px">
-                              <input type="radio" name="subscription_type" value="Core" wire:model="subscription_type"> Core
+                              <input type="radio" name="subscription_type" value="Core" wire:model="subscription_type" wire:change="changeSubscriptionType"> Core
                         </span>
                         <span style="margin-left: 10px">
-                              <input type="radio" name="subscription_type" value="Premium" wire:model="subscription_type"> Premium
+                              <input type="radio" name="subscription_type" value="Premium" wire:model="subscription_type" wire:change="changeSubscriptionType"> Premium
                         </span>
                     </label>
 
@@ -106,12 +106,14 @@
                                             @endforeach
                                         </select>
                                     </div>
+
                                     <div class="table-responsive">
                                         <table class="table table-flush" style="border-collapse: separate">
                                             <thead class="thead-light">
                                             <tr>
                                                 @foreach(['SA', 'MA', 'JO', 'LU', 'VEN', 'MER', 'SO'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
+
+                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -171,7 +173,7 @@
                                             <thead class="thead-light" >
                                             <tr>
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
+                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -213,7 +215,7 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 @foreach(['G', 'S', 'C','GS','SG','SC','CS'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
+                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
 
@@ -310,7 +312,7 @@
                                             <thead class="thead-light">
                                             <tr>
                                                 @foreach(['EM', 'INS', 'INT', 'MOV'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ $code == $select_code ? 'bg-success' : '' }}"
+                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
                                                         wire:click="selectCode('{{ $select_code }}')">
                                                         {{ strtoupper($select_code) }}
                                                     </th>
@@ -513,9 +515,6 @@
                 ],
                 onChange : function(val) {
                   @this.set('ep', val.start.value);
-                  @this.set('pv', null);
-                    resetPv();
-                  @this.set('code',null)
                 }
             });
 
@@ -566,9 +565,7 @@
                     }],
                 onChange : function(val) {
                 @this.set('pv', val.start.value);
-                    resetEp();
-                @this.set('ep', null);
-                @this.set('code',null)
+
                 }
             });
 
@@ -586,8 +583,10 @@
                     resetEp();
                 },1000);
             });
-            window.livewire.on('codeSelected', () => {
+            window.livewire.on('emptyPv', () => {
                 resetPv();
+            });
+            window.livewire.on('emptyEp', () => {
                 resetEp();
             });
 
@@ -597,10 +596,8 @@
                     };
                     if (code == 'ep') {
                         ep_slider.select(data, 'ep');
-                        resetPv();
                     }else if (code == 'pv') {
                         pv_slider.select(data, 'pv');
-                        resetEp();
                     }else {
                         resetEp();
                         resetPv();
