@@ -2,8 +2,10 @@
 
 namespace App\Models\Information;
 
+use App\Enums\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Enum;
 
 class InformationIcon extends Model
 {
@@ -45,41 +47,41 @@ class InformationIcon extends Model
 
     public static function getCoreStatsInfo()
     {
-        return self::where('name', 'Core Stats')->first(['name', 'information']);
+        return self::where('id', Admin::CORE_STATS_INFO)->first(['name', 'information']);
     }
 
     public static function getActionPlanInfo()
     {
-        return self::where('name', '90-Day Optimization Plan')->first(['name', 'information']);
+        return self::where('id', Admin::ACTION_PLAN_INFO)->first(['name', 'information']);
     }
 
     public static function getDailyTipInfo()
     {
-        return self::where('name', 'Daily Tips')->first(['name', 'information']);
+        return self::where('id', Admin::DAILY_TIP_INFO)->first(['name', 'information']);
     }
 
     public static function getPodcastInfo()
     {
-        return self::where('name', 'Integration Podcast')->first(['name', 'information']);
+        return self::where('id', Admin::INTEGRATION_PODCAST_INFO)->first(['name', 'information']);
     }
 
     public static function getLibraryResourceInfo()
     {
-        return self::where('name', 'Library of Resources & Trainings')->first(['name', 'information']);
+        return self::where('id', Admin::RESOURCE_INFO)->first(['name', 'information']);
     }
 
     public static function getHelpInfo()
     {
-        return self::where('name', "HELP! I’M HAVING A CHALLENGE…")->first(['name', 'information']);
+        return self::where('id', Admin::CHALLENGE_BUTTON_INFO)->first(['name', 'information']);
     }
 
     public static function getProfileOverviewInfo()
     {
-        return self::where('name', "Your HumanOp Profile Overview")->first(['name', 'information']);
+        return self::where('id', Admin::PROFILE_OVERVIEW_INFO)->first(['name', 'information']);
     }
 
     public static function getHaiChatInfo()
     {
-        return self::where('name', "HAi Chat")->first(['name', 'information']);
+        return self::where('id', Admin::HAI_CHAT_INFO)->first(['name', 'information']);
     }
 }

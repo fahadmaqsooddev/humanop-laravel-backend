@@ -43,4 +43,20 @@ final class Admin
     const NOT_RESET_ASSESSMENT = 0;
 
     const Is_Feed_Back_Show = 1;
+
+    const DAILY_TIP_INFO = 4;
+
+    const CORE_STATS_INFO = 5;
+
+    const ACTION_PLAN_INFO = 6;
+
+    const RESOURCE_INFO = 7;
+
+    const CHALLENGE_BUTTON_INFO = 8;
+
+    const HAI_CHAT_INFO = 9;
+
+    const PROFILE_OVERVIEW_INFO = 10;
+
+    const INTEGRATION_PODCAST_INFO = 11;
 }

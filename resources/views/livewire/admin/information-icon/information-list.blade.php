@@ -177,7 +177,7 @@
                                             <input style="background-color: #0f1534;color: lightgrey !important"
                                                    class="form-control text-white"
                                                    type="text" name="limit"
-                                                   wire:model="name" placeholder="icon name" disabled>
+                                                   wire:model="name" placeholder="icon name" >
                                             @error('name')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
