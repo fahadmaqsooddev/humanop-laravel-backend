@@ -89,9 +89,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-//        DB::beginTransaction();
-//
-//        try {
+        DB::beginTransaction();
+
+        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -172,21 +172,21 @@ class RegisterController extends Controller
             {
                 $invite = UserInvite::getInviteLinkUsingEmail($checkUser['email']);
 
-                session()->flash('error', 'Your email already exists');
+                session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
 
                 return redirect()->to('register?link=' . $invite['link']);
 
             }
 
 
-//        } catch (\Exception $exception) {
-//
-//            DB::rollBack();
-//
-//            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
-//
-//
-//        }
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+
+
+        }
     }
 
     public function registerClientToPractitioner(RegisterFormRequest $request)
