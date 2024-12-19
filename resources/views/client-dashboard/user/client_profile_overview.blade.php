@@ -1656,7 +1656,7 @@
                                                     </div>
                                                 </div>
                                                 @if (!empty($age))
-                                                    @if (16 <= $age && $age <= 20)
+                                                    @if (7 <= $age && $age <= 11)
                                                         <div class="row d-flex mt-5">
                                                             <div class="col-lg-6 col-sm-12 col-md-6">
                                                                 <div id="motivation_life_cycle_heading" class="card"
@@ -1666,7 +1666,7 @@
                                                                         <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Motivation (16-20)
+                                                                            Cycle of Life - Connecting & Communicating (16-20)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1679,6 +1679,116 @@
                                                                     style="height: auto;">
                                                                     <p class="text-sm mt-3 fs-12px"
                                                                         style="color: rgb(160, 174, 192);">
+                                                                        Your current interval of life between 16 and 20
+                                                                        is the time of life when you're essentially test
+                                                                        driving the many different motivating forces
+                                                                        (also known as drivers) that every human being
+                                                                        has access to. These drivers are like passengers
+                                                                        in your “vehicle of self.” Those “voices in your
+                                                                        head” that align you with certain things, direct
+                                                                        you towards certain activities, nudge you to do
+                                                                        certain things a certain way, and reveal what
+                                                                        your natural talents are. And because this
+                                                                        interval is all about test driving these
+                                                                        drivers, the many different drivers can have a
+                                                                        tendency to compete for the driver's seat during
+                                                                        this time of your life, and because of this,
+                                                                        these “voices in your head” can often be a bit
+                                                                        louder. This can make one feel less focused or
+                                                                        even overwhelmed at times. Paying attention to
+                                                                        feeding or fueling, your two most prominent
+                                                                        drivers is the key to reducing any extra volume
+                                                                        you may be experiencing in your head and
+                                                                        ensuring greater clarity and energy as you focus
+                                                                        on what needs to be fed and honored to reach
+                                                                        your goals. You will learn the details around
+                                                                        your two most prominent drivers in a following
+                                                                        video and applying the understanding you gain
+                                                                        about your two drivers can set you on a healthy
+                                                                        path of performance and allow you to rise to
+                                                                        your full potential naturally.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @elseif(12 <= $age && $age <= 15)
+                                                        <div class="row d-flex mt-5">
+                                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                                <div id="motivation_life_cycle_heading" class="card"
+                                                                     style="height: auto">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
+                                                                            style="cursor: pointer;"
+                                                                            class="text-white fs-10px">
+                                                                            Cycle of Life - Alchemical Revelation (16-20)
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row d-flex">
+                                                            <div id="motivation_life_cycle" class="col-12 mt-3"
+                                                                 style="display: none;">
+                                                                <div id="motivation_life_cycle_text" class="card p-2"
+                                                                     style="height: auto;">
+                                                                    <p class="text-sm mt-3 fs-12px"
+                                                                       style="color: rgb(160, 174, 192);">
+                                                                        Your current interval of life between 16 and 20
+                                                                        is the time of life when you're essentially test
+                                                                        driving the many different motivating forces
+                                                                        (also known as drivers) that every human being
+                                                                        has access to. These drivers are like passengers
+                                                                        in your “vehicle of self.” Those “voices in your
+                                                                        head” that align you with certain things, direct
+                                                                        you towards certain activities, nudge you to do
+                                                                        certain things a certain way, and reveal what
+                                                                        your natural talents are. And because this
+                                                                        interval is all about test driving these
+                                                                        drivers, the many different drivers can have a
+                                                                        tendency to compete for the driver's seat during
+                                                                        this time of your life, and because of this,
+                                                                        these “voices in your head” can often be a bit
+                                                                        louder. This can make one feel less focused or
+                                                                        even overwhelmed at times. Paying attention to
+                                                                        feeding or fueling, your two most prominent
+                                                                        drivers is the key to reducing any extra volume
+                                                                        you may be experiencing in your head and
+                                                                        ensuring greater clarity and energy as you focus
+                                                                        on what needs to be fed and honored to reach
+                                                                        your goals. You will learn the details around
+                                                                        your two most prominent drivers in a following
+                                                                        video and applying the understanding you gain
+                                                                        about your two drivers can set you on a healthy
+                                                                        path of performance and allow you to rise to
+                                                                        your full potential naturally.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @elseif(16 <= $age && $age <= 20)
+                                                        <div class="row d-flex mt-5">
+                                                            <div class="col-lg-6 col-sm-12 col-md-6">
+                                                                <div id="motivation_life_cycle_heading" class="card"
+                                                                     style="height: auto">
+                                                                    <div class="card-body p-3 "
+                                                                         style="text-align: center">
+                                                                        <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
+                                                                            style="cursor: pointer;"
+                                                                            class="text-white fs-10px">
+                                                                            Cycle of Life - Motivation (16-20)
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row d-flex">
+                                                            <div id="motivation_life_cycle" class="col-12 mt-3"
+                                                                 style="display: none;">
+                                                                <div id="motivation_life_cycle_text" class="card p-2"
+                                                                     style="height: auto;">
+                                                                    <p class="text-sm mt-3 fs-12px"
+                                                                       style="color: rgb(160, 174, 192);">
                                                                         Your current interval of life between 16 and 20
                                                                         is the time of life when you're essentially test
                                                                         driving the many different motivating forces
