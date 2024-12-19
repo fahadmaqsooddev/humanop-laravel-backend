@@ -129,6 +129,9 @@
 
         window.livewire.on('hideAlerts', function (){
 
+            var prompt = document.getElementById("prompt");
+            prompt.scrollIntoView();
+
             setTimeout(function (){
 
                 $('.alert').alert('close');

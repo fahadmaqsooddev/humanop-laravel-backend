@@ -50,7 +50,7 @@ class InformationIcon extends Model
 
     public static function getActionPlanInfo()
     {
-        return self::where('name', '90 Day Strategy')->first(['name', 'information']);
+        return self::where('name', '90-Day Optimization Plan')->first(['name', 'information']);
     }
 
     public static function getDailyTipInfo()
@@ -58,9 +58,14 @@ class InformationIcon extends Model
         return self::where('name', 'Daily Tips')->first(['name', 'information']);
     }
 
+    public static function getPodcastInfo()
+    {
+        return self::where('name', 'Integration Podcast')->first(['name', 'information']);
+    }
+
     public static function getLibraryResourceInfo()
     {
-        return self::where('name', 'Library of Resources')->first(['name', 'information']);
+        return self::where('name', 'Library of Resources & Trainings')->first(['name', 'information']);
     }
 
     public static function getHelpInfo()

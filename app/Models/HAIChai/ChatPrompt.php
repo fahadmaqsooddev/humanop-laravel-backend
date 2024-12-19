@@ -22,15 +22,13 @@ class ChatPrompt extends Model
             return self::where('id',$existingPrompt['id'])->update([
                 'name' => $name,
                 'prompt' => $prompt ?? null,
-                'restriction' => $restriction ?? null,
-                'keyword_restriction_message' => $keyword_restriction_message,
+                'restriction' => $restriction ?? null
             ]);
         }else{
             return self::create([
                 'name' => $name,
                 'prompt' => $prompt ?? null,
-                'restriction' => $restriction ?? null,
-                'keyword_restriction_message' => $keyword_restriction_message,
+                'restriction' => $restriction ?? null
             ]);
         }
     }
