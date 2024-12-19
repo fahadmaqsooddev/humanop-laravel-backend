@@ -43,12 +43,54 @@ class DailyTip extends Model
     public static function allTips(){
         return self::whereNotNull('code')->orderBy('created_at', 'desc');
     }
+
     public static function createTip($data = null)
     {
+        if($data['subscription_type'] == 'Freemium'){
+            foreach ($data['code'] as $key => $code){
+                $data['code'] = $key;
+                $data['min_point'] = $code['min'];
+                $data['max_point'] = $code['max'];
+            }
+        }else{
+            $codes = [];
+            $min_points = [];
+            $max_points = [];
+            foreach ($data['code'] as $key => $code) {
+                $codes[] = $key; // Add the key to the codes array
+                $min_points[] = $code['min']; // Add min to the min_points array
+                $max_points[] = $code['max']; // Add max to the max_points array
+            }
+            $data['code'] = implode(',', $codes);
+            $data['min_point'] = implode(',', $min_points);
+            $data['max_point'] = implode(',', $max_points);
+        }
+
+
         return self::create($data);
     }
+
     public static function updateIntentionPlan($data = null, $id = null)
     {
+        if($data['subscription_type'] == 'Freemium'){
+            foreach ($data['code'] as $key => $code){
+                $data['code'] = $key;
+                $data['min_point'] = $code['min'];
+                $data['max_point'] = $code['max'];
+            }
+        }else{
+            $codes = [];
+            $min_points = [];
+            $max_points = [];
+            foreach ($data['code'] as $key => $code) {
+                $codes[] = $key; // Add the key to the codes array
+                $min_points[] = $code['min']; // Add min to the min_points array
+                $max_points[] = $code['max']; // Add max to the max_points array
+            }
+            $data['code'] = implode(',', $codes);
+            $data['min_point'] = implode(',', $min_points);
+            $data['max_point'] = implode(',', $max_points);
+        }
 
         $daily_tip = self::find($id);
 
