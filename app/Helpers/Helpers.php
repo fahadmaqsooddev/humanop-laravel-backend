@@ -161,25 +161,52 @@ class Helpers
     public static function timeZone()
     {
 
+        // $zones_array = array();
+
+        // $timestamp = time();
+
+        // foreach (timezone_identifiers_list() as $key => $zone) {
+
+        //     date_default_timezone_set($zone);
+
+        //     $zones_array[$key]['zone'] = $zone;
+
+        //     $zones_array[$key]['offset'] = (int)((int)date('O', $timestamp)) / 100;
+
+        //     $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
+
+        //     $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' - ' . $zones_array[$key]['zone'];
+
+        // }
+
+        // return $zones_array;
+
+        $preferred_zones = array(
+            'America/Los_Angeles',  
+            'America/Denver',       
+            'America/Chicago',      
+            'America/New_York'      
+        );
+        
         $zones_array = array();
-
         $timestamp = time();
-
-        foreach (timezone_identifiers_list() as $key => $zone) {
-
+        
+        
+        foreach ($preferred_zones as $zone) {
             date_default_timezone_set($zone);
-
-            $zones_array[$key]['zone'] = $zone;
-
-            $zones_array[$key]['offset'] = (int)((int)date('O', $timestamp)) / 100;
-
-            $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
-
-            $zones_array[$key] = $zones_array[$key]['diff_from_GMT'] . ' - ' . $zones_array[$key]['zone'];
-
+            $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
         }
-
+        
+        
+        foreach (timezone_identifiers_list() as $key => $zone) {
+            if (!in_array($zone, $preferred_zones)) { 
+                date_default_timezone_set($zone);
+                $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
+            }
+        }
+        
         return $zones_array;
+        
 
     }
 
