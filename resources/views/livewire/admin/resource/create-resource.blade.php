@@ -17,6 +17,18 @@
             background-color: #1C365E !important;
         }
 
+        .ck.ck-balloon-panel {
+            z-index: 1050 !important;
+        }
+
+        .ck > p > a{
+            color: blue !important;
+        }
+
+        #html-formated-text-span > p > a{
+            color: blue !important;
+        }
+
     </style>
 @endpush
 <div class="row container-fluid">
@@ -158,7 +170,7 @@
                             <div class="mt-2">
 
                                 <p class="text-white text-sm">
-                                    {{$resource['description']}}
+                                    {{$resource['description'] ?? null}}
                                 </p>
 
                             </div>
@@ -181,9 +193,9 @@
 
                             <div class="mt-2 text-white">
 
-                                <p class="text-white text-sm">
-                                    {!! $resource['content'] !!}
-                                </p>
+                                <span class="text-white text-sm" id="html-formated-text-span">
+                                    {!! $resource['content'] ?? null !!}
+                                </span>
 
                             </div>
 
@@ -208,6 +220,7 @@
     @endforeach
     {{-- Create Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="createResource" tabindex="-1" role="dialog"
+         data-bs-focus="false"
          aria-labelledby="createResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -322,6 +335,7 @@
 
     {{-- Edit Library Resources Models--}}
     <div wire:ignore.self class="modal fade" id="editResource" tabindex="-1" role="dialog"
+         data-bs-focus="false"
          aria-labelledby="editResource" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -562,7 +576,9 @@
             Bold,
             Italic,
             Font,
-            List
+            List,
+            Link,
+            AutoLink
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
@@ -573,11 +589,11 @@
         if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
             ClassicEditor
                 .create(editorElement, {
-                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List],
+                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
                     toolbar: [
                         'undo', 'redo', '|', 'bold', 'italic', '|',
                         'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                        'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
                     ]
                 })
                 .then(editor => {
@@ -604,11 +620,11 @@
         if (updateEditorElement && !updateEditorElement.classList.contains('ck-editor')) { // Check if not already initialized
             ClassicEditor
                 .create(updateEditorElement, {
-                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List],
+                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
                     toolbar: [
                         'undo', 'redo', '|', 'bold', 'italic', '|',
                         'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList'  // Add list options to toolbar
+                        'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
                     ]
                 })
                 .then(editor => {

@@ -217,6 +217,10 @@
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
+    .html-formated-text-span > p > a{
+        color: blue !important;
+    }
+
 
 </style>
 @section('content')
@@ -890,7 +894,7 @@
                                     </div>
                                     <div class="card-body p-3 text-white scrollbar" id="style-2"
                                          style="cursor: pointer">
-                                        <div class="force-overflow">
+                                        <div class="force-overflow html-formated-text-span">
                                             @if($actionPlan)
 
                                                 {!! $actionPlan['plan_text'] !!}
@@ -1164,7 +1168,7 @@
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <p>{!! $plan['plan_text'] ?? null !!}</p>
+                                        <p class="html-formated-text-span">{!! $plan['plan_text'] ?? null !!}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1188,7 +1192,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $dailyTipInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1203,12 +1207,12 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$actionPlanInfo['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1228,7 +1232,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $coreStatsInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1248,7 +1252,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $libraryResourceInfo['information'] !!}</div>
                         </div>
                     </div>
@@ -1268,7 +1272,7 @@
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <div class="text-white mt-4"
+                            <div class="text-white mt-4 html-formated-text-span"
                                  style="text-align: justify">{!! $helpInfo['information'] !!}</div>
                         </div>
                     </div>

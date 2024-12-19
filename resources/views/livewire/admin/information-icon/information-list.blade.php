@@ -67,6 +67,18 @@
             .card{
                 background-color: #1C365E !important;
             }
+
+            .ck.ck-balloon-panel {
+                z-index: 1050 !important;
+            }
+
+            .ck > p > a{
+                color: blue !important;
+            }
+
+            #html-formated-text-span > p > a{
+                color: blue !important;
+            }
         </style>
     @endpush
     <div class="table-responsive table-orange-color">
@@ -125,7 +137,7 @@
                                                     <label class="form-label fs-6 "
                                                            style="font-size: 24px !important;font-weight: 800 !important;color: #f2661c;"><strong>{{$info['name'] }}
                                                             :</strong></label>
-                                                    <span class="mt-3"
+                                                    <span class="mt-3" id="html-formated-text-span"
                                                           style="color: white;font-size: 20px;font-weight: 800">{!! $info['information'] ?? null !!}</span>
                                                 </div>
                                             </div>
@@ -143,8 +155,8 @@
     </div>
 
 
-    <div wire:ignore.self class="modal fade" id="informationIconModel" tabindex="-1"
-         role="dialog"
+    <div wire:ignore.self class="modal fade" id="informationIconModel"
+         role="dialog" data-bs-focus="false"
          aria-labelledby="informationIconModel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -217,7 +229,9 @@
             Bold,
             Italic,
             Font,
-            List
+            List,
+            Link,
+            AutoLink
         } from 'ckeditor5';
 
         // Function to initialize CKEditor for a specific textarea by ID
@@ -226,12 +240,15 @@
         if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
             ClassicEditor
                 .create(editorElement, {
-                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List ],
+                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List, Link, AutoLink ],
                     toolbar: [
                         'undo', 'redo', '|', 'bold', 'italic', '|',
                         'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList'  // Add list options to toolbar
-                    ]
+                        'bulletedList', 'numberedList', 'link' // Add list options to toolbar
+                    ],
+                    link : {
+
+                    }
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
