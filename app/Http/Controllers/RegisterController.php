@@ -170,9 +170,11 @@ class RegisterController extends Controller
             }
             else
             {
+                $invite = UserInvite::getInviteLinkUsingEmail($checkUser['email']);
+
                 session()->flash('error', 'Your email already exists');
 
-                return redirect()->route('create');
+                return redirect()->to('register?link=' . $invite['link']);
 
             }
 
@@ -181,9 +183,8 @@ class RegisterController extends Controller
 //
 //            DB::rollBack();
 //
-////            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+//            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
 //
-//            return redirect()->back()->with('error', 'Something went wrong. Please contact technical support');
 //
 //        }
     }
