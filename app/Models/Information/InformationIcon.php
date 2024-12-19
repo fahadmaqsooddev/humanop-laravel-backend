@@ -50,7 +50,7 @@ class InformationIcon extends Model
 
     public static function getActionPlanInfo()
     {
-        return self::where('name', '90 Day Strategy')->first(['name', 'information']);
+        return self::where('name', '90-Day Optimization Plan')->first(['name', 'information']);
     }
 
     public static function getDailyTipInfo()
