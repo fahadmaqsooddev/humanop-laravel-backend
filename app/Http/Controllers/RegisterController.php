@@ -89,9 +89,9 @@ class RegisterController extends Controller
 
     public function store(RegisterFormRequest $request)
     {
-        DB::beginTransaction();
-
-        try {
+//        DB::beginTransaction();
+//
+//        try {
 
             $dataArray = $request->only($this->user->getFillable());
 
@@ -177,15 +177,15 @@ class RegisterController extends Controller
             }
 
 
-        } catch (\Exception $exception) {
-
-            DB::rollBack();
-
-//            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
-
-            return redirect()->back()->with('error', 'Something went wrong. Please contact technical support');
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            DB::rollBack();
+//
+////            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+//
+//            return redirect()->back()->with('error', 'Something went wrong. Please contact technical support');
+//
+//        }
     }
 
     public function registerClientToPractitioner(RegisterFormRequest $request)
