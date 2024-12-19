@@ -314,6 +314,10 @@
                 font-size: 40px;
             }
         }
+
+        .html-formated-text-span > p > a{
+            color: blue !important;
+        }
     </style>
 
     <div class="row container-fluid" style="padding-left: 0px !important;">
@@ -484,7 +488,7 @@
                         </div>
 
                         <div class="w-100 mt-4">
-                            <p class="text-white text-sm" id="resource_content"></p>
+                            <p class="text-white text-sm html-formated-text-span" id="resource_content"></p>
                         </div>
 
                     </div>
