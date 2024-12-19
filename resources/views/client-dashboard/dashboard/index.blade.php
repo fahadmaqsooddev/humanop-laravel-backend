@@ -343,7 +343,7 @@ padding-bottom: 10px !important;
                                 <div class="row mydiv1">
 
                                 
-                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px">
+                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
