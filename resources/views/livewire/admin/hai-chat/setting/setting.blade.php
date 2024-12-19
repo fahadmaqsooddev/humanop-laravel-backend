@@ -66,6 +66,7 @@
                             <select
                                     class="form-control input-bg"
                                     wire:model.defer="max_token">
+                                    <option value="250">250</option>
                                 @for($i = 500; $i <= 5000; $i += 500)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
