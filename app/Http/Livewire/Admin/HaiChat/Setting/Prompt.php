@@ -14,15 +14,16 @@ class Prompt extends Component
     public $name;
     protected $rules = [
         'name' => 'required',
-        'prompt' => 'required|max:2000',
-        'restriction' => 'required|max:2000',
+        'prompt' => 'required|max:5000',
+        'restriction' => 'required|max:5000',
     ];
 
     protected $messages = [
         'name.required' => 'Something went during updating prompt.',
         'prompt.required' => 'Prompt is required.',
         'restriction.required' => 'LLM Restriction is required.',
-        'restriction.max' => 'LLM Restriction maximum characters are 2000.',
+        'restriction.max' => 'LLM Restriction characters limit are 5000.',
+        'prompt.max' => 'Prompt characters limit are 5000.',
     ];
 
     public function mount($name)
