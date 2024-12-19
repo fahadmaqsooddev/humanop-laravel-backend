@@ -559,7 +559,8 @@ padding-bottom: 10px !important;
                style="color: #f2661c;">read more...</a>
         </span>
                                                 @else
-                                                    <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
+                                                    <p style="font-size: 15px;"
+                                                       class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
                                                 @endif
                                             @else
                                                 <p>Click here to:
@@ -590,7 +591,8 @@ padding-bottom: 10px !important;
                                             @if(($tip['userTip']['is_read'] ?? 1) == 0)
                                                 <div class="dailyTipButton">
                                                     <div
-                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2" id="read_all_tip">
+                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"
+                                                        id="read_all_tip">
                                                         <button
                                                             style="background-color: #f2661c;color: white !important;"
                                                             class="connection-btn btn-sm"
@@ -1007,22 +1009,22 @@ padding-bottom: 10px !important;
                                         </h5>
 
                                     </div>
-                                                                        @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <button class="connection-btn btn-lg" id="open-chat-btn"
-                                                    style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
-                                                Get Help!
-                                            </button>
+                                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW)
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <button class="connection-btn btn-lg" id="open-chat-btn"
+                                                        style="font-size: medium; background-color: #FCB178 !important;color: #1C365E !important;">
+                                                    Get Help!
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @else
-                                    <div class="card-body p-3 d-flex justify-content-center align-items-center">
-                                        <div>
-                                            <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                    @else
+                                        <div class="card-body p-3 d-flex justify-content-center align-items-center">
+                                            <div>
+                                                <h1 class="text-center" style="color:#F4E3C7">Coming Soon!</h1>
+                                            </div>
                                         </div>
-                                    </div>
-                                                                        @endif
+                                    @endif
                                     <div class="image-container ">
                                         <img src="{{asset('assets/new-design/icon/dashboard/reverse_vector.svg')}}"
                                              width="200"
@@ -1047,6 +1049,7 @@ padding-bottom: 10px !important;
                                                 data-bs-target="#integrationPodsactModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>INTEGRATION PODCAST</strong></h5>
+{{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
                                         </div>
                                         <div class="card mb-4"
                                         >
@@ -1061,8 +1064,8 @@ padding-bottom: 10px !important;
                                                                         src="{{$podcast->embedded_url}}"
                                                                         frameborder="0"></iframe>
                                                                 <h5 class="font-weight-bolder mb-0">
-                                                                <span
-                                                                    class="text-success text-sm font-weight-bolder"></span>
+                                                            <span
+                                                                class="text-success text-sm font-weight-bolder"></span>
                                                                 </h5>
                                                             </div>
                                                         </div>
