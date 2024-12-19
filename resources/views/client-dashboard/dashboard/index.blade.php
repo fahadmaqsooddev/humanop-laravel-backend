@@ -1007,8 +1007,9 @@
                                      style="height: 1360px!important;border-radius: 40px !important;background-color: #2594B7 !important"
                                      data-step="7">
                                     <div class="card-body p-3">
-                                        <div class="d-flex mb-3 justify-content-center">
-                                            <h5 class="mb-0 w-auto"
+                                        <div class="d-flex mb-3 justify-content-center" style="cursor: pointer">
+                                            <h5 class="mb-0 w-auto" data-bs-toggle="modal"
+                                                data-bs-target="#integrationPodsactModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>INTEGRATION PODCAST</strong></h5>
                                         </div>
@@ -1275,7 +1276,26 @@
                 </div>
             </div>
         </div>
-
+        <!-- Integration Podcast Info Model -->
+        <div class="modal fade" id="integrationPodsactModel" tabindex="-1"
+             role="dialog"
+             aria-labelledby="integrationPodsactModel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">{{$podcastInfo['name']}}</label>
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-info-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="text-white mt-4"
+                                 style="text-align: justify">{!! $podcastInfo['information'] !!}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{--    intro pop up --}}
 
         <div class="modal fade" id="introModel" tabindex="-1"
