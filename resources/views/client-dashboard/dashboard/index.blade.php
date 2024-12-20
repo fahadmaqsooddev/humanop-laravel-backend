@@ -550,6 +550,9 @@ padding-bottom: 10px !important;
                                                 data-bs-target="#dailyTipModel"
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
                                                 <strong>DAILY TIP</strong>
+                                                <i
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: white;"></i>
                                             </h5>
                                         </div>
                                         <div class="description-container " style="height: 335px;text-align:left;">
@@ -632,6 +635,9 @@ padding-bottom: 10px !important;
                                                     data-bs-target="#coreStatsModel"
                                                     style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color: #F4ECE0 !important;cursor:pointer ">
                                                     <strong> CORE STATS </strong>
+                                                    <i
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: white;"></i>
                                                 </h5>
                                             </div>
 
@@ -930,9 +936,12 @@ padding-bottom: 10px !important;
                                      data-step="5">
                                     <div class="d-flex justify-content-center"
                                     >
-                                        <h5 class="mb-0 w-auto" data-bs-toggle="modal" data-bs-target="#actionPlanModel"
-                                            style="border: 2px solid #1C365E;border-radius: 32px;padding: 10px 30px;color:#1C365E;cursor:pointer">
+                                        <h5 class="mb-0" data-bs-toggle="modal" data-bs-target="#actionPlanModel"
+                                            style="border: 2px solid #1C365E;border-radius: 32px;padding: 10px 30px;color:#1C365E;cursor:pointer;display:flex;justify-content:center;align-items:center;">
                                             <strong>OPTIMIZATION STRATEGY</strong>
+                                            <i
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: #1C365E;"></i>
                                         </h5>
                                     </div>
                                     <div class="card-body p-3 text-white scrollbar" id="style-2"
@@ -965,6 +974,9 @@ padding-bottom: 10px !important;
                                             data-bs-target="#libraryResourceModel"
                                             style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 10px;color:#F4E3C7;cursor:pointer ">
                                             <strong>RESOURCES & TRAININGS </strong>
+                                            <i
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: white;"></i>
                                             {{--                                        <span class="iconInfo" data-bs-toggle="modal"--}}
                                             {{--                                                                                                                       data-bs-target="#libraryResourceModel"><i--}}
                                             {{--                                                class="fa-regular fa-circle-question fa-lg"--}}
@@ -1016,6 +1028,9 @@ padding-bottom: 10px !important;
                                             <strong>HELP
                                                 I'M
                                                 HAVING A CHALLENGE</strong>
+                                                <i
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: white;"></i>
                                         </h5>
 
                                     </div>
@@ -1057,8 +1072,12 @@ padding-bottom: 10px !important;
                                         <div class="d-flex mb-3 justify-content-center" style="cursor: pointer">
                                             <h5 class="mb-0 w-auto" data-bs-toggle="modal"
                                                 data-bs-target="#integrationPodsactModel"
-                                                style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
-                                                <strong>INTEGRATION PODCAST</strong></h5>
+                                                style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7;display:flex;justify-content:center;align-items:center;">
+                                                <strong>INTEGRATION PODCAST</strong>
+                                                <i
+                                                class="fa-regular fa-circle-question fa-lg"
+                                                style="color: white;"></i>
+                                            </h5>
 {{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
                                         </div>
                                         <div class="card mb-4"
