@@ -123,23 +123,22 @@ class DailyTip extends Model
 
             if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
 
-                if (!empty($user['timezone'])) {
-
-                    $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-
-                    $userTime = \Carbon\Carbon::parse($userDailyTip->created_at)
-                        ->addMinutes($minutes)
-                        ->toDateTimeString();
-
-                    $difference = \Carbon\Carbon::now()->diffInDays($userTime);
-                    $dayCheck = $difference < 1;
-
-                } else {
+//                if (!empty($user['timezone'])) {
+//
+//                    $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+//
+//                    $userTime = \Carbon\Carbon::parse($userDailyTip->created_at)
+//                        ->addMinutes($minutes)
+//                        ->toDateTimeString();
+//
+//                    $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+//                    $dayCheck = $difference < 1;
+//
+//                } else {
                     $dayCheck = $userDailyTip->created_at >= now()->subDay();
-                }
+//                }
 
                 if ($dayCheck) {
-
                     return $userDailyTip->dailyTip;
                 }
 

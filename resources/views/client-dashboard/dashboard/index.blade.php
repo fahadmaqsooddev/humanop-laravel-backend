@@ -187,29 +187,32 @@
     }
 
     @media screen and (min-width: 0px) and (max-width: 500px) {
-       .user_profile_image{
-        margin-top: 2rem;
-       }
+        .user_profile_image {
+            margin-top: 2rem;
+        }
 
-.mydiv1{
-    display: flex;
-    flex-direction: column !important;
-    align-items: center;
+        .mydiv1 {
+            display: flex;
+            flex-direction: column !important;
+            align-items: center;
 
-}
-.profilediv{
-width: 100% !important;
-}
-.feelingdiv{
-    margin-left: 50px;
-width: 100% !important;
-padding-bottom: 10px !important;
+        }
 
-}
-.feelingdiv p{
-    margin-top: 0px !important;
-}
-}
+        .profilediv {
+            width: 100% !important;
+        }
+
+        .feelingdiv {
+            margin-left: 50px;
+            width: 100% !important;
+            padding-bottom: 10px !important;
+
+        }
+
+        .feelingdiv p {
+            margin-top: 0px !important;
+        }
+    }
 
     @media screen and (min-width: 550px) and (max-width: 766px) {
 
@@ -254,12 +257,9 @@ padding-bottom: 10px !important;
         pointer-events: none; /* Ensures it doesn't interfere with other elements */
     }
 
-    .html-formated-text-span > p > a{
+    .html-formated-text-span > p > a {
         color: blue !important;
     }
-
-
-
 
 
 </style>
@@ -341,7 +341,7 @@ padding-bottom: 10px !important;
 
     <!-- main features section -->
         <div class="container-fluid px-0 ">
-            <div data-step="10" class="mx-auto" ></div>
+            <div data-step="10" class="mx-auto"></div>
             <section class=""> {{-- py-3 --}}
 
                 <div class="row mt-4">
@@ -355,58 +355,60 @@ padding-bottom: 10px !important;
                                 <div class="row mydiv1">
 
 
-                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
-                                    <div class="d-flex ">
-                                        <div>
-                                            <img
-                                                src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                                                height="100" width="100" alt="profile_image"
-                                                class="shadow-sm  user_profile_image" style="border-radius: 50%">
-                                        </div>
-                                        <div>
+                                    <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
+                                        <div class="d-flex ">
+                                            <div>
+                                                <img
+                                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                                                    height="100" width="100" alt="profile_image"
+                                                    class="shadow-sm  user_profile_image" style="border-radius: 50%">
+                                            </div>
+                                            <div>
 
-                                            <p class="mb-0 mt-4"
-                                               style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
-                                                Welcome Back {{Auth::user()['first_name']}} !</p>
-                                            @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
-                                                <p class="mb-0 font-weight-bold text-sm"
-                                                   style="color: #D26622;margin-left:10px">
-                                                    Optimal Trait To Be In Right Now:
-                                                </p>
-                                                <h6 style="color: #D26622;font-size: 18px;margin-left:10px; cursor:pointer;"
-                                                    onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
-                                                    <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
-                                                </h6>
-                                            @endif
+                                                <p class="mb-0 mt-4"
+                                                   style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
+                                                    Welcome Back {{Auth::user()['first_name']}} !</p>
+                                                @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                                                    <p class="mb-0 font-weight-bold text-sm"
+                                                       style="color: #D26622;margin-left:10px">
+                                                        Optimal Trait To Be In Right Now:
+                                                    </p>
+                                                    <h6 style="color: #D26622;font-size: 18px;margin-left:10px; cursor:pointer;"
+                                                        onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
+                                                        <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
+                                                    </h6>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-4 my-auto mydiv feelingdiv">
+
+                                        <p class="mb-0"
+                                           style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How
+                                            are
+                                            you</p>
+                                        <p class="mb-0"
+                                           style="color: #8BB1AB;font-size: 24px;line-height: 20px;font-weight: 600">
+                                            feeling
+                                            today?</p>
+                                        <div class="mt-2">
+                                            <button class="bg-transparent"
+                                                    style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
+                                                Happy
+                                            </button>
+                                            <button class="bg-transparent"
+                                                    style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px;">
+                                                Sad
+                                            </button>
+                                            <button class="bg-transparent"
+                                                    style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
+                                                Excited
+                                            </button>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="col-4 my-auto mydiv feelingdiv">
-
-                                    <p class="mb-0"
-                                       style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are
-                                        you</p>
-                                    <p class="mb-0"
-                                       style="color: #8BB1AB;font-size: 24px;line-height: 20px;font-weight: 600">feeling
-                                        today?</p>
-                                    <div class="mt-2">
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
-                                            Happy
-                                        </button>
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px;">
-                                            Sad
-                                        </button>
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
-                                            Excited
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
 
                                 <div class="position-absolute"
                                      style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #F4E3C7">
@@ -516,7 +518,7 @@ padding-bottom: 10px !important;
                                 <button class="bg-transparent mt-4 py-2 mx-2"
                                         style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 30px"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#qrCodeModal" >
+                                        data-bs-target="#qrCodeModal">
                                     Get free pro version
                                 </button>
                             </div>
@@ -524,93 +526,12 @@ padding-bottom: 10px !important;
                     </div>
 
                 </div>
+
                 <div class="row">
                     <div class="col-md-8 col-sm-12">
                         <div class="row">
-                            <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
-                                <div class="card daily-tip-card"
-                                     style="height: 530px;position: relative;background: #8BB1AB !important;border-radius: 40px !important;">
-                                    <div class="card-body" data-step="2" style="cursor: pointer;">
-                                        <div class="d-flex justify-content-center mb-3"
-                                        >
-                                            <h5 class="mb-0 text-center w-auto" data-bs-toggle="modal"
-                                                data-bs-target="#dailyTipModel"
-                                                style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7 ">
-                                                <strong>DAILY TIP</strong>
-                                                <i
-                                                    class="fa-regular fa-circle-question fa-lg"
-                                                    style="color: white;"></i>
-                                            </h5>
-                                        </div>
-                                        <div class="description-container " style="height: 335px;text-align:left;">
+                            @livewire('client.dashboard.daily-tip')
 
-                                            {{$hide_button = false}}
-
-                                            @if($tip && !empty($tip['description']))
-                                                <h6 class="traitHeading ">{{$tip['title']}}</h6>
-                                                @if(strlen($tip['description']) > 290)
-                                                    <?php
-                                                    $hide_button = true;
-                                                    ?>
-                                                    <span id="daily-tip-text">
-            <p style="font-size: 15px;" class="fw-bold text-color-blue">{!! substr($tip['description'], 0, 305) !!}</p>
-            <a href="javascript:void(0)"
-               onclick="showDailyTipCompleteText(`{{$tip['description']}}`, `{{$tip['userTip']['is_read'] ?? 1}}`)"
-               style="color: #f2661c;">read more...</a>
-        </span>
-                                                @else
-                                                    <p style="font-size: 15px;"
-                                                       class="fw-bold text-color-blue">{!! $tip['description'] !!}</p>
-                                                @endif
-                                            @else
-                                                <p>Click here to:
-                                                    <a href="{{ url('client/intro-assessment') }}" target="_self"
-                                                       style="color: orange;">Take the Assessment</a>
-                                                </p>
-                                            @endif
-                                            {{--                                            @if($tip && $assessment)--}}
-                                            {{--                                                @if($isReadDailyTip == 0)--}}
-                                            {{--                                                    <div class="dailyTipButton">--}}
-                                            {{--                                                        <div--}}
-                                            {{--                                                            class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"--}}
-                                            {{--                                                            id="read_all_tip">--}}
-                                            {{--                                                            <button--}}
-                                            {{--                                                                class="connection-btn btn-sm"--}}
-                                            {{--                                                                data-bs-toggle="modal"--}}
-                                            {{--                                                                data-bs-target="#daily-tip-completed"--}}
-                                            {{--                                                                onclick="onDailyTipAllRead()">--}}
-                                            {{--                                                                Complete Daily Tip--}}
-                                            {{--                                                            </button>--}}
-                                            {{--                                                        </div>--}}
-                                            {{--                                                    </div>--}}
-                                            {{--                                                @endif--}}
-                                            {{--                                            @endif--}}
-                                        </div>
-
-                                        @if($tip && $assessment)
-                                            @if(($tip['userTip']['is_read'] ?? 1) == 0)
-                                                <div class="dailyTipButton">
-                                                    <div
-                                                        class="{{$hide_button ? "d-none" : "d-flex"}} justify-content-center mt-2"
-                                                        id="read_all_tip">
-                                                        <button
-                                                            style="background-color: #f2661c;color: white !important;"
-                                                            class="connection-btn btn-sm"
-                                                            data-bs-toggle="modal" data-bs-target="#daily-tip-completed"
-                                                            onclick="onDailyTipAllRead()">
-                                                            Complete Daily Tip
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endif
-                                    </div>
-                                    <div class="image-container float-end">
-                                        <img src="{{asset('assets/new-design/icon/dashboard/leave.svg')}}" width="270"
-                                             alt="Leaves">
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
                                 <div class="card core-state-card"
                                      style="height: 530px;position: relative;background-color: #FCB178 !important;border-radius: 40px !important;"
@@ -623,8 +544,8 @@ padding-bottom: 10px !important;
                                                     style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color: #F4ECE0 !important;cursor:pointer ">
                                                     <strong> CORE STATS </strong>
                                                     <i
-                                                    class="fa-regular fa-circle-question fa-lg"
-                                                    style="color: white;"></i>
+                                                        class="fa-regular fa-circle-question fa-lg"
+                                                        style="color: white;"></i>
                                                 </h5>
                                             </div>
 
@@ -927,8 +848,8 @@ padding-bottom: 10px !important;
                                             style="border: 2px solid #1C365E;border-radius: 32px;padding: 10px 30px;color:#1C365E;cursor:pointer;display:flex;justify-content:center;align-items:center;">
                                             <strong>OPTIMIZATION STRATEGY</strong>
                                             <i
-                                                    class="fa-regular fa-circle-question fa-lg"
-                                                    style="color: #1C365E;"></i>
+                                                class="fa-regular fa-circle-question fa-lg"
+                                                style="color: #1C365E;"></i>
                                         </h5>
                                     </div>
                                     <div class="card-body p-3 text-white scrollbar" id="style-2"
@@ -962,8 +883,8 @@ padding-bottom: 10px !important;
                                             style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 10px;color:#F4E3C7;cursor:pointer ">
                                             <strong>RESOURCES & TRAININGS </strong>
                                             <i
-                                                    class="fa-regular fa-circle-question fa-lg"
-                                                    style="color: white;"></i>
+                                                class="fa-regular fa-circle-question fa-lg"
+                                                style="color: white;"></i>
                                             {{--                                        <span class="iconInfo" data-bs-toggle="modal"--}}
                                             {{--                                                                                                                       data-bs-target="#libraryResourceModel"><i--}}
                                             {{--                                                class="fa-regular fa-circle-question fa-lg"--}}
@@ -1015,9 +936,9 @@ padding-bottom: 10px !important;
                                             <strong>HELP
                                                 I'M
                                                 HAVING A CHALLENGE</strong>
-                                                <i
-                                                    class="fa-regular fa-circle-question fa-lg"
-                                                    style="color: white;"></i>
+                                            <i
+                                                class="fa-regular fa-circle-question fa-lg"
+                                                style="color: white;"></i>
                                         </h5>
 
                                     </div>
@@ -1062,10 +983,10 @@ padding-bottom: 10px !important;
                                                 style="border: 2px solid #F4E3C7;border-radius: 32px;padding: 10px 30px;color:#F4E3C7;display:flex;justify-content:center;align-items:center;">
                                                 <strong>INTEGRATION PODCAST</strong>
                                                 <i
-                                                class="fa-regular fa-circle-question fa-lg"
-                                                style="color: white;"></i>
+                                                    class="fa-regular fa-circle-question fa-lg"
+                                                    style="color: white;"></i>
                                             </h5>
-{{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
+                                            {{--                                            <i class="fa-regular fa-circle-question fa-lg" style="color: #F4E3C7;"></i>--}}
                                         </div>
                                         <div class="card mb-4"
                                         >
@@ -1156,7 +1077,7 @@ padding-bottom: 10px !important;
                                     <div class="form-group mt-2">
                                         <button style="background-color: #f2661c;color: #1C365E !important;"
                                                 class="btn btn-sm text-white daily-tip-read-button"
-                                                onclick="onDailyTipAllRead()">
+                                                onclick="onDailyTipAllRead()" >
                                             Complete Daily Tip
                                         </button>
                                     </div>
@@ -1539,15 +1460,18 @@ padding-bottom: 10px !important;
 
                             $('#daily-tip-modal-close-button').click();
 
-                            $('.dailyTipButton').addClass('d-none');
+                            $('#daily_tip_read_btn').text('Completed');
+                            $('#daily_tip_read_btn').removeAttr('data-bs-toggle');
+                            $('#daily_tip_read_btn').removeAttr('data-bs-target');
+                            $('#daily_tip_read_btn').removeAttr('onclick');
 
                             if (response.result.data.point > 0) {
                                 animateNumber('+' + response.result.data.point);
-
                                 old_count = $('#coin-count').text();
                                 $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
                             }
                         },
+
                         error: function (response) {
 
                         }
@@ -1732,9 +1656,9 @@ padding-bottom: 10px !important;
                         intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.</div>`
                     });
                     @endif
-                        introSteps.push({
+                    introSteps.push({
                         element: document.querySelector('[data-step="10"]'), // No specific element for this step
-                            title: 'Congratulations!',
+                        title: 'Congratulations!',
                         intro: `<div style="text-align: center; font-size: 16px;" >
                              <p>Congratulations on completing the tour! 🎉</p>
                              <p>You're now ready to explore and make the most out of our platform.</p>
@@ -1760,19 +1684,19 @@ padding-bottom: 10px !important;
                                 $('.introjs-helperLayer').addClass('custom-helper-layer');
                             }, 100);
                         } else {
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 $('.introjs-helperLayer').removeClass('custom-helper-layer');
-                            },100);
+                            }, 100);
                         }
 
                         if (currentStep === introSteps.length - 1) {
-                            setTimeout(function(){
-                            $('.introjs-floating').addClass('intro-last-step');
-                            },400);
-                        }else{
-                            setTimeout(function(){
+                            setTimeout(function () {
+                                $('.introjs-floating').addClass('intro-last-step');
+                            }, 400);
+                        } else {
+                            setTimeout(function () {
                                 $('.introjs-floating').removeClass('intro-last-step');
-                            },400);
+                            }, 400);
                         }
                     }).start();
                 });
@@ -1849,6 +1773,7 @@ padding-bottom: 10px !important;
                         $('.chat-question-mark').css('display', 'inline-block');
                     });
                 });
+
 
 
             </script>

@@ -32,7 +32,6 @@ class ClientController extends Controller
             $podcast = Podcast::getPodcast();
             $user = Helpers::getWebUser();
             $userPlanName = $user['plan_name'];
-            $tip = DailyTip::getTodayTip();
             $plan = ActionPlan::userActionPlan();
             $assessment = Assessment::getLatestAssessment($user['id']);
             $admin_answer = QueryAnswer::userQueryAnswer();
@@ -56,15 +55,7 @@ class ClientController extends Controller
             $helpInfo = InformationIcon::getHelpInfo();
             $podcastInfo = InformationIcon::getPodcastInfo();
 
-            if (!empty($tip))
-            {
-                $isReadDailyTip = UserDailyTip::userDailytip($tip['id'])['is_read'];
-
-                return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan','isReadDailyTip','podcastInfo'));
-
-            }
-
-            return view('client-dashboard.dashboard.index', compact('user', 'tip', 'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan','podcastInfo'));
+            return view('client-dashboard.dashboard.index', compact('user',  'podcast', 'admin_answer', 'topThreeStyles', 'topTwoFeatures', 'boundary', 'topCommunication', 'assessment', 'preception', 'user_age', 'energyPool', 'plan', 'userPlanName', 'age', 'coreStatsInfo', 'helpInfo', 'actionPlanInfo', 'dailyTipInfo', 'libraryResourceInfo', 'actionPlan','podcastInfo'));
 
         } catch (\Exception $exception) {
 
