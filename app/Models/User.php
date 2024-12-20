@@ -449,6 +449,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $data['is_admin'] = 3;
         $data['status'] = 1;
+        $data['email_verified_at'] = Carbon::now();
 
         $user = self::create($data);
 
