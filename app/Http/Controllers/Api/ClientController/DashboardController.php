@@ -38,7 +38,8 @@ class DashboardController extends Controller
                     'title' => $daily_tip['title'],
                     'is_read' => $is_read['is_read'],
                     'description' => $daily_tip['description'],
-                    'trait' => $trait ? $trait->public_name : null
+                    'trait' => $trait ? $trait->public_name : null,
+                    'created_at' => $is_read['created_at']
                 ];
             } else {
                 $data = [];
