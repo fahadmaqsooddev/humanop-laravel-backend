@@ -1213,7 +1213,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4 html-formated-text-span"
-                                 style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $actionPlanInfo['information'] ?? null !!}</div>
                         </div>
                     </div>
                 </div>

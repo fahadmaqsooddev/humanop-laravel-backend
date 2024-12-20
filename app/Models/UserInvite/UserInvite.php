@@ -29,9 +29,13 @@ class UserInvite extends Model
         return self::where('link', $link)->first();
     }
 
-    public static function getAllInviteLinks()
+    public static function getAllInviteLinks($per_page = 10, $email = null)
     {
-        return self::orderBy('id', 'desc')->get();
+        return self::when($email, function ($query, $email){
+
+            $query->where('email', 'LIKE', "$email%");
+
+        })->orderBy('id', 'desc')->paginate($per_page);
     }
 
     public static function sendInvite($email = null, $file = null)
@@ -43,7 +47,7 @@ class UserInvite extends Model
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
 
                     $csvEmail = $data[0];
-                    
+
                     $invite = self::getSingleInvite($csvEmail);
 
                     if (empty($invite)) {

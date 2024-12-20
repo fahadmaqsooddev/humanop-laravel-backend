@@ -788,6 +788,7 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
+            ->whereNotNull('email_verified_at')
             ->paginate($per_page)
             ->setPath(route('admin_all_users'));
 
