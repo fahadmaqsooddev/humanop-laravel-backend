@@ -4,154 +4,104 @@
         <div class="row sepratediv">
 
         
-        <div class="col-6 my-auto  myprofile" style="padding-left: 30px">
-            <div class="d-flex ">
-                <div>
-                    <img
-                        src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                        height="80" width="80" alt="profile_image"
-                        class="shadow-sm  user_profile_image" style="border-radius: 50%">
+            <div style="z-index: 11" class="row my-4">
+                <div class="col-md-6 my-auto col-lg-6 col-sm-12" style="padding-left: 30px">
+                    <div class="d-flex ">
+                        <div>
+                            <img
+                                src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                                height="80" width="80" alt="profile_image"
+                                class="shadow-sm  user_profile_image" style="border-radius: 50%">
+                        </div>
+                        <div style="margin-top: 12px">
+                            <p class="mb-0 "
+                               style="font-weight: bold;color: #F4ECE0;font-size: 18px;margin-left:10px">
+                                Welcome Back {{Auth::user()['first_name']}} !</p>
+                            @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
+                                <p class="mb-0 font-weight-bold text-sm"
+                                   style="color: white;margin-left:10px">
+                                    Optimal Trait To Be In Right Now:
+                                </p>
+                                <h6 style="color: white;font-size: 18px;margin-left:10px; cursor:pointer;"
+                                    onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
+                                    <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
+                                </h6>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <div style="margin-top: 12px">
-                    <p class="mb-0 "
-                       style="font-weight: bold;color: #F4ECE0;font-size: 18px;margin-left:10px">
-                        Welcome Back {{Auth::user()['first_name']}} !</p>
-                    @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
-                        <p class="mb-0 font-weight-bold text-sm"
-                           style="color: white;margin-left:10px">
-                            Optimal Trait To Be In Right Now:
-                        </p>
-                        <h6 style="color: white;font-size: 18px;margin-left:10px; cursor:pointer;"
-                            onclick="goToProfileOverviewPage('{{\App\Helpers\Helpers::getWebUser()['optional_trait'][2]}}','style_{{\App\Helpers\Helpers::getWebUser()['optional_trait'][0]}}')">
-                            <strong>{{ \App\Helpers\Helpers::getWebUser()['optional_trait'][0] }}</strong>
-                        </h6>
-                    @endif
+                <div class="col-md-6 col-lg-6 my-auto col-sm-12">
+                    <div class="d-flex justify-content-around px-4">
+                        <button class="bg-transparent text-center py-2"
+                                style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%"
+                                data-bs-toggle="modal" data-bs-target="#qrCodeModal">Get free pro version
+                        </button>
+                        @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
+                            <a href="{{route('assessments')}}"
+                               class="bg-transparent  position-relative text-center py-2 px-4"
+                               style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
+                                Access your results
+                                <div class="position-absolute"
+                                     style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                    <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                         alt="notification" width="40" height="40">
+                                </div>
+                            </a>
+                        @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
+                            @php
+                                $userId = \App\Helpers\Helpers::getWebUser()['id'];
+                                $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
+                            @endphp
+                            @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
+                                <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"
+                                   class="bg-transparent  position-relative text-center py-2 "
+                                   style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                                    Access your results
+                                    <div class="position-absolute"
+                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                             alt="notification" width="40" height="40">
+                                    </div>
+                                </a>
+                            @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
+                                <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"
+                                   class="bg-transparent text-center position-relative py-2"
+                                   style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                                    Access your results
+                                    <div class="position-absolute"
+                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                             alt="notification" width="40" height="40">
+                                    </div>
+                                </a>
+                            @else
+                                <a href="{{route('user_profile_overview', $assessment['id'])}}"
+                                   class="bg-transparent  text-center position-relative py-2 "
+                                   style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                                    Access your results
+                                    <div class="position-absolute"
+                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                             alt="notification" width="40" height="40">
+                                    </div>
+                                </a>
+                            @endif
+                        @else
+                            <a class="bg-transparent text-center position-relative py-2 "
+                               data-toggle="tooltip" data-placement="top" title="Take the assessment first"
+                               style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
+                                Access your results
+                                <div class="position-absolute"
+                                     style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
+                                    <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
+                                         alt="notification" width="40" height="40">
+                                </div>
+                            </a>
+                        @endif
+
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-        <div class="col-6 my-auto myaccount">
-            <div class="d-flex justify-content-around px-4" >
-                <button class="bg-transparent text-center py-2"
-                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: auto"
-                        data-bs-toggle="modal"
-                        data-bs-target="#qrCodeModal"
-                >
-                    Get free pro version
-                </button>
-                @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
-                   
-                    <a href="{{route('assessments')}}" class="bg-transparent  position-relative text-center py-2 px-4"
-                       style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
-                        Access your results
-                        <div class="position-absolute"
-                             style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
-                            <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
-                                 alt="notification" width="40" height="40">
-                        </div>
-                    </a>
-                
-
-
-
-                    {{--                                    <a href="{{route('assessments')}}" style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                    {{--                                       class="btn-sm-1 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                    {{--                                    </a>--}}
-
-                @elseif(\App\Helpers\Helpers::getWebUser()->assessments()->where('page', 0)->count() > 0)
-
-                    @php
-                        $userId = \App\Helpers\Helpers::getWebUser()['id'];
-
-                        $assessment = \App\Models\Assessment::where('user_id', $userId)->where('page', 0)->latest()->first();
-
-                    @endphp
-                    @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
-                        {{--                                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}"--}}
-                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                        {{--                                        </a>--}}
-
-
-                        <a href="{{route('practitioner_profile_overview', $assessment['id'])}}" class="bg-transparent  position-relative text-center py-2 "
-                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
-                            Access your results
-                            <div class="position-absolute"
-                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
-                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
-                                     alt="notification" width="40" height="40">
-                            </div>
-                        </a>
-                    @elseif(\App\Helpers\Helpers::getWebUser()['practitioner_id'] != null)
-                        {{--                                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}"--}}
-                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                        {{--                                        </a>--}}
-
-                        <a href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('practitioner-client-profile-overview', ['id' => $assessment['id'] ]) }}" class="bg-transparent text-center position-relative py-2"
-                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
-                            Access your results
-                            <div class="position-absolute"
-                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
-                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
-                                     alt="notification" width="40" height="40">
-                            </div>
-                        </a>
-                    @else
-                        {{--                                        <a href="{{route('user_profile_overview', $assessment['id'])}}"--}}
-                        {{--                                           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-                        {{--                                           class="btn-sm-2 btn-md-3 btn-lg-5 rainbow-border-user-nav-btn navButtonResponsive">Access Latest Results--}}
-                        {{--                                        </a>--}}
-
-                        <a href="{{route('user_profile_overview', $assessment['id'])}}" class="bg-transparent  text-center position-relative py-2 "
-                           style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
-                            Access your results
-                            <div class="position-absolute"
-                                 style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
-                                <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
-                                     alt="notification" width="40" height="40">
-                            </div>
-                        </a>
-
-                    @endif
-
-                @else
-                    <a  class="bg-transparent text-center position-relative py-2 "
-                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"  style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;width: 48%">
-                        Access your results
-                        <div class="position-absolute"
-                             style="right: -10px;top: -16px;height: 36px;width: 36px;background: #8BB1AB;padding-left: 0px;">
-                            <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"
-                                 alt="notification" width="40" height="40">
-                        </div>
-                    </a>
-                    {{--                                    <button--}}
-                    {{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
-                    {{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
-                    {{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
-                    {{--                                    </button>--}}
-
-                @endif
-
-
-
-
-
-
-                {{--                                --}}
-                {{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
-                {{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
-                {{--                                    Access your results--}}
-                {{--                                    <div class="position-absolute"--}}
-                {{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
-                {{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
-                {{--                                             alt="notification" width="40" height="40">--}}
-                {{--                                    </div>--}}
-                {{--                                </button>--}}
-
-            </div>
-        </div>
     </div>
         <div class="position-absolute"
              style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #8BB1AB">

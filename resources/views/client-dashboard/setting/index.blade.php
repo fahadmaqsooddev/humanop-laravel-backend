@@ -19,9 +19,9 @@
             font-weight: bold;
         }
 
-        img {
-            display: block;
-            max-width: 100%;
+        .img {
+            display: block; 
+             max-width: 100%;
         }
 
         .preview {
@@ -287,7 +287,7 @@
                             <div class="avatar avatar-xl position-relative">
                                 <img
                                     src="{{ Auth::user()['photo_url']['url'] }}"
-                                    alt="bruce" height="80" class="w-100 border-radius-lg shadow-sm user_profile_image" id="profile_image">
+                                    alt="bruce" height="80" class="w-100 border-radius-lg shadow-sm user_profile_image img" id="profile_image">
                             </div>
                         </div>
                         <div class="col-sm-auto col-8 my-auto">
@@ -391,7 +391,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-                                                    <img class="w-60 mt-2"
+                                                    <img class="w-60 mt-2 img"
                                                          src="{{ URL::asset('assets/img/logos/mastercard.png') }}"
                                                          alt="logo">
                                                 </div>
@@ -481,7 +481,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <!--  default image where we will set the src via jquery-->
-                                <img id="image">
+                                <img id="image" class="img">
                             </div>
                             <div class="col-md-4">
                                 <div class="preview"></div>
@@ -629,7 +629,7 @@
             reader.onload = function () {
                 imageFile = reader.result;
 
-                document.getElementById("imageChange").innerHTML = '<img width="200" src="' + imageFile + '" class="rounded-circle w-100 shadow" />';
+                document.getElementById("imageChange").innerHTML = '<img width="200" src="' + imageFile + '" class="rounded-circle w-100 shadow img" />';
             };
             reader.readAsDataURL(input.files[0]);
         };
