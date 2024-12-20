@@ -28,6 +28,34 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
+
+        Schema::table('action_plans', function (Blueprint $table) {
+
+            $table->dropForeign('action_plans_user_id_foreign');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+        });
+
+        Schema::table('user_daily_tips', function (Blueprint $table) {
+
+            $table->dropForeign('user_daily_tips_user_id_foreign');
+            $table->dropForeign('user_daily_tips_assessment_id_foreign');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('assessment_id')->references('id')->on('assessments')->onDelete('cascade');
+
+        });
+
+//        Schema::table('connections', function (Blueprint $table) {
+//
+//            $table->dropForeign('connections_user_id_foreign');
+//            $table->dropForeign('connections_friend_id_foreign');
+//
+//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
+//
+//        });
     }
 
     /**
