@@ -30,6 +30,6 @@ class DeletedUsers extends Component
 
     public function deleteUserPermanently($id)
     {
-        User::onlyTrashed()->whereId($id)->update(['is_permanently_deleted' => 1]);
+        User::onlyTrashed()->whereId($id)->forceDelete();;
     }
 }
