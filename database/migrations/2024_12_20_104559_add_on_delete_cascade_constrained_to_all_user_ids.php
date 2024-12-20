@@ -93,6 +93,16 @@ return new class extends Migration
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
 
         });
+
+        Schema::table('messages', function (Blueprint $table) {
+
+            Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign('messages_message_thread_id_foreign');
+
+            $table->foreign('messages_message_thread_id')->references('id')->on('message_threads')->onDelete('cascade');
+
+        });
     }
 
     /**
