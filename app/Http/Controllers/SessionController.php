@@ -269,4 +269,16 @@ class SessionController extends Controller
         }
 
     }
+
+    public function openApp()
+    {
+        try {
+            return view('open-app');
+
+
+        }catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
+        }
+    }
 }

@@ -449,6 +449,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $data['is_admin'] = 3;
         $data['status'] = 1;
+        $data['email_verified_at'] = Carbon::now();
 
         $user = self::create($data);
 
@@ -931,6 +932,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function checkEmail($userEmail = null)
+    {
+        return self::where('email', $userEmail)->first();
+    }
+
+    public static function checkDeleteEmail($userEmail = null)
     {
         return self::where('email', $userEmail)->onlyTrashed()->first();
     }
