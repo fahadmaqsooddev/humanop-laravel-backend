@@ -72,7 +72,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['isClient']], function () {
     Route::get('generate-pdf/{id}', [PDFController::class, 'generatePDF'])->name('generate_pdf');
     Route::get('generate-grid-pdf/{id}', [PDFController::class, 'generateGridPDF'])->name('generate_pdf');
 
-    Route::get('messages', [MessageController::class, 'index'])->name('messages');
+    Route::get('messages/{chat_id?}', [MessageController::class, 'index'])->name('messages');
 
     Route::get('/stories', [StoryController::class, 'stories'])->name('stories');
     Route::get('/tutorials', [InformationController::class, 'tutorials'])->name('user_tutorial');

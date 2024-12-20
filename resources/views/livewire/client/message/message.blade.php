@@ -3,7 +3,7 @@
     <div class="row position-relative mb-2 mt-4 mx-3" style="height: auto; padding:10px;background: #8BB1AB;border-radius: 40px !important;">
         <div class="row sepratediv">
 
-        
+
         <div class="col-6 my-auto  myprofile" style="padding-left: 30px">
             <div class="d-flex ">
                 <div>
@@ -41,7 +41,7 @@
                     Get free pro version
                 </button>
                 @if(\App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::IS_ADMIN || \App\Helpers\Helpers::getWebUser()->is_admin == \App\Enums\Admin\Admin::SUB_ADMIN)
-                   
+
                     <a href="{{route('assessments')}}" class="bg-transparent  position-relative text-center py-2 px-4"
                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;">
                         Access your results
@@ -51,7 +51,7 @@
                                  alt="notification" width="40" height="40">
                         </div>
                     </a>
-                
+
 
 
 
@@ -316,8 +316,8 @@
                           class="messenger-input-form d-flex">
                         <input type="text" wire:model="message" id="user-input" class="form-control border-0 "
                                placeholder="Your message...">
-                        <a type="submit" class=" d-flex align-items-center m-2"><i
-                                class="ni ni-send" style="font-size: 20px; color: #F95520"></i></a>
+                        <a type="submit" wire:click="sendMessage"  class="d-flex align-items-center m-2">
+                            <i class="ni ni-send" style="font-size: 20px; color: #F95520"></i></a>
                     </form>
                 </div>
             </div>
@@ -365,17 +365,17 @@
                                 <div class="profileCard mb-4" style="color: rgb(74, 74, 74);padding:5px 0px;">
                                     <div class="p-1">
                                         @if($connection['friend']['connection_status'] === 0)
-                                            <a class="connection-btn btn-sm" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'connect')" style=' font-size: x-small; font-weight: 900;'>Connect</a>
+                                            <a class="connection-btn px-3 py-2" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'connect')" style=' font-size: x-small; font-weight: 700;'>Connect</a>
                                         @elseif($connection['friend']['connection_status'] === 1)
-                                            <a class="connection-btn updateBtn btn-sm" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'un-connect')" style="font-size: x-small; font-weight: 900;">Connected</a>
+                                            <a class="connection-btn px-3 py-2" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'un-connect')" style="font-size: x-small; font-weight: 700;">Connected</a>
                                         @elseif($connection['friend']['connection_status'] === 2)
-                                            <a class=" connection-btn  btn-sm" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'un-connect')" style="font-size: x-small; font-weight: 900;">Pending</a>
+                                            <a class=" connection-btn px-3 py-2" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'un-connect')" style="font-size: x-small; font-weight: 700;">Pending</a>
                                         @elseif($connection['friend']['connection_status'] === 3)
-                                            <a class="connection-btn  btn-sm" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'accept')" style="font-size: x-small; font-weight: 900;">Accept</a>
+                                            <a class="connection-btn px-3 py-2" wire:click="connectUnConnectUser({{$connection['friend']['id']}},'accept')" style="font-size: x-small; font-weight: 700;">Accept</a>
                                         @endif
                                     </div>
                                     <div class="p-1">
-                                        <a class="connection-btn btn-sm" wire:click="messages('',{{$connection['friend'] ?? null}})" style="font-size: x-small; font-weight: 900;">Message</a>
+                                        <a class="connection-btn px-3 py-2" wire:click="messages('',{{$connection['friend'] ?? null}})" style="font-size: x-small; font-weight: 700;">Message</a>
                                     </div>
                                 </div>
                             </div>
@@ -393,7 +393,7 @@
         sanitizeInput('#search-bar');
     })
 
-     
+
         function scrollToSection(name, id) {
 
             var element = document.getElementById(id);
@@ -438,4 +438,20 @@
 
     </script>
 </div>
+
+
+@push('javascript')
+
+    <script>
+
+        Livewire.on('scrollToBottom', function (){
+
+            const chatboxContent = $('.messenger-messages');
+            chatboxContent.scrollTop(chatboxContent[0].scrollHeight);
+
+        });
+
+    </script>
+
+@endpush
 

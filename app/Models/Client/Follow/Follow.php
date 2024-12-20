@@ -3,6 +3,7 @@
 namespace App\Models\Client\Follow;
 
 use App\Helpers\Helpers;
+use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class Follow extends Model
 {
     use HasFactory;
+
+    protected $appends = ['chat_id'];
 
     public function __construct(array $attributes = [])
     {
@@ -20,6 +23,34 @@ class Follow extends Model
         parent::__construct($attributes);
     }
 
+    // appends
+    public function getChatIdAttribute(){
+
+        $user_id = Helpers::getWebUser()->id;
+
+        $chatId1 = $this->followerChatId()->where('sender_id', $this->follow_id)->first();
+
+        if ($chatId1){ // follower
+
+            return $chatId1->id;
+
+        }else{
+
+            $chatId2 = $this->followingChatId()->where('sender_id', $user_id)->first();
+
+            if ($chatId2){ // following
+
+                return $chatId2->id;
+            }
+
+            return null;
+
+        }
+
+    }
+
+
+    // relations
     public function follower(){
 
         return $this->belongsTo(User::class,'follow_id','id');
@@ -30,6 +61,17 @@ class Follow extends Model
         return $this->belongsTo(User::class,'user_id','id');
     }
 
+    public function followerChatId(){
+
+        return $this->hasMany(MessageThread::class,'receiver_id', 'user_id');
+    }
+
+    public function followingChatId(){
+
+        return $this->hasMany(MessageThread::class, 'receiver_id', 'follow_id');
+    }
+
+    // relations
     public static function addFollow($follow_id = null){
 
         $data['follow_id'] = $follow_id;

@@ -334,7 +334,7 @@
                                         </div>
                                         <div class="d-flex my-auto w-20 mx-auto">
                                             <div class="mx-2">
-                                                <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="cursor: pointer">
+                                                <a wire:click="messageUser({{$follow->user_id ?? ''}})" style="cursor: pointer">
                                                     <img src="{{asset('assets/new-design/icon/connection/follow_message.svg')}}" height="30" width="30">
                                                 </a>
                                             </div>
@@ -410,14 +410,14 @@
                                         </div>
                                         <div class="d-flex my-auto w-20 mx-auto">
                                             <div class="mx-2">
-                                                <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="cursor: pointer">
+                                                <a wire:click="messageUser({{$following->follow_id ?? ''}})" style="cursor: pointer">
                                                     <img src="{{asset('assets/new-design/icon/connection/follow_message.svg')}}" height="30" width="30">
                                                 </a>
                                             </div>
                                             <div class="mt-1">
                                                 @if($following['follower']['is_follow'] ?? false)
                                                     <a class="connection-btn"
-                                                       wire:click="followUser({{$following->follower->id ?? null}})"
+                                                       wire:click="messageUser({{$following->follow_id ?? ''}})"
                                                        style="font-size: small; font-weight: 600;">Unfollow</a>
                                                 @else
                                                     <a class="updateBtn connection-btn"
@@ -477,5 +477,5 @@
     $(document).ready(function(){
         sanitizeInput('#search-bar');
     })
- 
+
 </script>
