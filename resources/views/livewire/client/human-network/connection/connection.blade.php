@@ -190,8 +190,7 @@
                      height="120">
             </div>
         </div>
-        @if(request()->input('type') != 'request')
-            <div class="row suggestion_user_container"
+            <div class="row"
                  style="margin-left: 1.5rem !important;margin-right:0.1rem !important; ">
                 <div class="col-12 col-md-7 my-auto" style="background:#F4E3C7;border-radius: 25px;height: auto">
                     <div class="d-flex justify-content-around" style="height: 50px">
@@ -200,7 +199,7 @@
                             <img src="{{asset('assets/new-design/icon/dashboard/search.svg')}}" height="15" width="15">
                             <input type="text" wire:model.debounce="search_connection_name"
                                    class="search-bar bg-transparent " id="search-bar"
-                                   style="border: 0px !important; width: auto;"
+                                   style="border: 0 !important; width: 100%;"
                                    maxlength="25"
                                    placeholder="Search user to connect">
                         </div>
@@ -214,7 +213,8 @@
                                  height="15" width="15">
                         </div>
                     </div>
-                    <div class="collapse mx-2" id="collapseExample" wire:ignore.self>
+                    <div class="collapse mx-2 suggestion_user_container" id="collapseExample" wire:ignore.self
+                        {{request()->input('type', 'connection') === "request" ? "style='display:none;'" : ""}}>
                         <div class="w-100 mb-2">
                             <div class="row mx-1 justify-content-between">
 
@@ -271,7 +271,6 @@
                                 class="py-2  bg-transparent connectionBtn n mt-2 mt-md-0 updateBtn rounded-1 {{request()->input('type', 'connection') === "request" ? "active" : ""}}"
                                 id="profile-tab" data-bs-toggle="tab"
                                 data-bs-target="#profile-tab-pane" type="button" role="tab"
-
                                 aria-controls="profile-tab-pane" aria-selected="false"
                                 style="border: 1px solid #F95520;color: #F95520;border-radius: 25px !important;">
                                 Connection Requests
@@ -280,7 +279,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-3 suggestion_user_container">
+        @if(request()->input('type') != 'request')
+            <div class="row mt-3">
                 <div class="col-1 pt-1">
                     <span style="color: #F95520"> <strong>Suggestions</strong></span>
                 </div>
@@ -290,13 +290,13 @@
             </div>
             <div class="row mt-3 request_user_container" style="display: none">
                 <div class="col-12 pt-1">
-                    <h4 style="color: #F95520"><strong>Connection Requests:</strong></h4>
+                    <h4 style="color: #F95520"><strong>Connection Requests</strong></h4>
                 </div>
             </div>
         @else
             <div class="row mt-3 request_user_container">
                 <div class="col-12 pt-1">
-                    <h4 style="color: #F95520"><strong>Connection Requests:</strong></h4>
+                    <h4 style="color: #F95520"><strong>Connection Requests</strong></h4>
                 </div>
             </div>
         @endif
@@ -446,14 +446,20 @@
 </div>
 @push('js')
     <script>
+
         $('#profile-tab').on('click', function () {
             $('.suggestion_user_container').css('display', 'none');
             $('.request_user_container').css('display', 'flex');
-        })
+        });
+
+        $('#home-tab').on('click', function () {
+            $('.suggestion_user_container').removeAttr('style')
+            $('.request_user_container').css('display', 'none');
+        });
 
         $(document).ready(function(){
-        sanitizeInput('#search-bar');
-    })
+            sanitizeInput('#search-bar');
+        });
 
     </script>
 @endpush
