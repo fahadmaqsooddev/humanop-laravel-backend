@@ -394,9 +394,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
+                    
                     <div class="col-lg-4 col-md-12 col-sm-12 mb-2 ">
                         <div class="card "
                              style="height: 180px !important;background: #FCB178 !important;border-radius: 40px !important;">
