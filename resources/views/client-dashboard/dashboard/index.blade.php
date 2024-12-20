@@ -350,12 +350,10 @@
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
                             <div class="row position-relative" style="height: auto">
-
-
+                                
                                 <div class="row mydiv1">
 
-
-                                <div class="col-12 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
+                                <div class="col-12 mydiv profilediv" style="margin-left: 30px; margin-top: 35px !important;" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -365,7 +363,7 @@
                                         </div>
                                         <div>
 
-                                                <p class="mb-0 mt-4"
+                                                <p class="mb-0 mt-2"
                                                    style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
                                                     Welcome Back {{Auth::user()['first_name']}} !</p>
                                                 @if(!empty(\App\Helpers\Helpers::getWebUser()['optional_trait']))
@@ -394,7 +392,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                     <div class="col-lg-4 col-md-12 col-sm-12 mb-2 ">
                         <div class="card "
                              style="height: 180px !important;background: #FCB178 !important;border-radius: 40px !important;">
