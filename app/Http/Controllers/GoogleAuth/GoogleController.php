@@ -37,9 +37,7 @@ class GoogleController extends Controller
 
         }
 
-        $url = last(\request()->segments());
-
-        Session::put('auth_url',$url);
+        Session::put('auth_url', $inviteLink);
 
         return Socialite::driver('google')->redirect();
 
@@ -56,7 +54,7 @@ class GoogleController extends Controller
             $checkDeletedUser = User::checkDeleteEmail($googleUser['email']);
 
             if (!empty($checkDeletedUser)) {
-                
+
                 dd(Session::get('auth_url'));
 
                 $invite = UserInvite::getInviteLinkUsingEmail($googleUser['email']);
