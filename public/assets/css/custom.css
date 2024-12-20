@@ -53,7 +53,7 @@
 .humanop-version
 {
     border: 2px solid #f2661c;
-    padding: 7px;
+    padding: 11px 3px 10px 3px !important;
     border-radius: 9px;
 
 }
