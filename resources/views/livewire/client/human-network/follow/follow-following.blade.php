@@ -328,13 +328,13 @@
                                             </div>
                                             <div>
                                                 <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
-                                                    {{$follow->user ? $follow->user->first_name . ' ' . $follow->user->last_name : ""}}
+                                                    {{$follow->user ? substr($follow->user->first_name . ' ' . $follow->user->last_name, 0, 52) : ""}}
                                                 </h6>
                                             </div>
                                         </div>
                                         <div class="d-flex my-auto w-20 mx-auto">
                                             <div class="mx-2">
-                                                <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="cursor: pointer">
+                                                <a wire:click="messageUser({{$follow->user_id ?? ''}})" style="cursor: pointer">
                                                     <img src="{{asset('assets/new-design/icon/connection/follow_message.svg')}}" height="30" width="30">
                                                 </a>
                                             </div>
@@ -404,13 +404,13 @@
                                             </div>
                                             <div>
                                                 <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
-                                                    {{$following->follower ? $following->follower->first_name . ' ' . $following->follower->last_name : ""}}
+                                                    {{$following->follower ? substr($following->follower->first_name . ' ' . $following->follower->last_name , 0, 52) : ""}}
                                                 </h6>
                                             </div>
                                         </div>
                                         <div class="d-flex my-auto w-20 mx-auto">
                                             <div class="mx-2">
-                                                <a  wire:click="connectUnConnectUser({{$connection_request->user->id ?? null}},'accept')" style="cursor: pointer">
+                                                <a wire:click="messageUser({{$following->follow_id ?? ''}})" style="cursor: pointer">
                                                     <img src="{{asset('assets/new-design/icon/connection/follow_message.svg')}}" height="30" width="30">
                                                 </a>
                                             </div>
@@ -477,5 +477,5 @@
     $(document).ready(function(){
         sanitizeInput('#search-bar');
     })
- 
+
 </script>

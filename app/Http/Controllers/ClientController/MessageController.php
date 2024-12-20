@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 class MessageController extends Controller
 {
 
-    public function index(){
+    public function index($id = null){
 
         try {
 
-            return view('client-dashboard.messages.message');
+            return view('client-dashboard.messages.message', compact('id'));
 
         }catch (\Exception $exception){
 

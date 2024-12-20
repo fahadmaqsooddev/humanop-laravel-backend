@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\MessageThread\MessageThread;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
@@ -13,7 +14,9 @@ class Message extends Component
 {
     public $chats = [], $message, $chat_user_id, $messages = [], $logged_in_user_id, $chat_user, $connections = [],
 
-    $filter_text;
+    $filter_text, $redirected_user_id;
+
+    protected $listeners = ['updateChatUserId'];
 
     public function updatingFilterText($value){
 
@@ -33,9 +36,32 @@ class Message extends Component
 
         });
 
+        if ($this->redirected_user_id){
+
+            $chat_id = MessageThread::where(function ($query){
+
+                $query->where('sender_id', $this->redirected_user_id)
+
+                    ->where('receiver_id', $this->logged_in_user_id);
+
+            })->orWhere(function ($query){
+
+                $query->where('receiver_id', $this->redirected_user_id)
+
+                    ->where('sender_id', $this->logged_in_user_id);
+
+            })->first()->id ?? null;
+
+            $this->chat_user = User::whereId($this->redirected_user_id)->select(['id','first_name','last_name'])->first();
+
+            $this->messages = \App\Models\Client\Message\Message::threadMessages($chat_id);
+
+            $this->redirected_user_id = null;
+        }
+
         $this->connections = Connection::userConnections();
 
-//        $this->followers = Follow::following();
+        $this->emit('scrollToBottom');
 
         return view('livewire.client.message.message');
     }
@@ -101,5 +127,10 @@ class Message extends Component
 
         $this->chat_user = '';
 
+    }
+
+    public function updateChatUserId($user_id){
+
+        $this->chat_user_id = $user_id;
     }
 }

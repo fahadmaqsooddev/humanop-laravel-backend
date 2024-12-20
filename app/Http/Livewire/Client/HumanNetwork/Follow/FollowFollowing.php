@@ -25,4 +25,9 @@ class FollowFollowing extends Component
 
         Follow::addFollow($user_id);
     }
+
+    public function messageUser($user_id = null){
+
+        $this->redirect('/client/messages/' . $user_id);
+    }
 }
