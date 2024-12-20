@@ -932,7 +932,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkEmail($userEmail = null)
     {
-        return self::where('email', $userEmail)->first();
+        return self::where('email', $userEmail)->onlyTrashed()->first();
     }
 
     public static function updateUserTimezone($timezone = null)

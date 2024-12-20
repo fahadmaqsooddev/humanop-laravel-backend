@@ -170,9 +170,11 @@ class RegisterController extends Controller
             }
             else
             {
-                session()->flash('error', 'Your email already exists');
+                $invite = UserInvite::getInviteLinkUsingEmail($checkUser['email']);
 
-                return redirect()->route('create');
+                session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+
+                return redirect()->to('register?link=' . $invite['link']);
 
             }
 
@@ -180,7 +182,9 @@ class RegisterController extends Controller
         } catch (\Exception $exception) {
 
             DB::rollBack();
-            return redirect()->route('create')->withInput()->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+
+            return redirect()->route('create')->withErrors(['server_error' => Helpers::serverErrorResponse($exception->getMessage())]);
+
 
         }
     }

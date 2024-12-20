@@ -98,4 +98,9 @@ class UserInvite extends Model
         return self::where('email', $email)->delete();
 
     }
+
+    public static function getInviteLinkUsingEmail($email = null)
+    {
+        return self::where('email', $email)->first();
+    }
 }

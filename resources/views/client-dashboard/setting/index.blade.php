@@ -31,6 +31,27 @@
             margin: 10px;
             border: 1px solid red;
         }
+
+        
+        @media only screen and (max-width: 400px) {
+  .authorization{
+
+    margin-top: 1rem !important;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 700px) {
+
+.agesolve{
+ 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+#client-gender {
+        width: 100%;
+    }
+}
     </style>
 @endpush
 
@@ -40,7 +61,7 @@
         <div class="row mb-5">
             <div class="col-lg-3 ">
                 <div class="card position-sticky top-1 background-none">
-                    <ul class="nav flex-column border-radius-lg p-3 rainbow-border-user-nav-btn" >
+                    <ul class="nav flex-column border-radius-lg p-3 rainbow-border-user-nav-btn" style="border: 2px solid #f2661c;" >
                         <li class="nav-item">
                             <a class="nav-link text-body setting-options" data-scroll="" href="#profile">
                                 <div class="icon me-2">
@@ -225,7 +246,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <span class="text-sm custom-text-dark">2-Factor Authorization</span>
+                                <span class="text-sm custom-text-dark ">2-Factor Authorization</span>
                             </a>
                         </li>
                         <li class="nav-item pt-2">
