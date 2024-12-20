@@ -933,6 +933,11 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkEmail($userEmail = null)
     {
+        return self::where('email', $userEmail)->first();
+    }
+
+    public static function checkDeleteEmail($userEmail = null)
+    {
         return self::where('email', $userEmail)->onlyTrashed()->first();
     }
 

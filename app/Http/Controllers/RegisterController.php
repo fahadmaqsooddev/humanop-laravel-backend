@@ -95,7 +95,7 @@ class RegisterController extends Controller
 
             $dataArray = $request->only($this->user->getFillable());
 
-            $checkUser = User::checkEmail($dataArray['email']);
+            $checkUser = User::checkDeleteEmail($dataArray['email']);
 
             if (empty($checkUser))
             {
