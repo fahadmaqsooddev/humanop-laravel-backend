@@ -150,7 +150,7 @@
                     <!-- Message Container -->
                     <div id="chatMessages" class="d-flex flex-column gap-3">
                     @if(!empty($conversations))
-                        @foreach($conversations as $conversation)
+                        @foreach($conversations as $key => $conversation)
                             <!-- Initial User Message -->
                                 <div class="d-flex flex-row gap-1 justify-content-end">
                                     @if($conversation['message'])
@@ -196,11 +196,11 @@
                                                                  wire:click="likeReply({{$conversation['id'] ?? null}})">
                                                                 <i class="fa fa-thumbs-up fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
                                                             </div>
-                                                            <!-- Thumbs down -->
-                                                            <div wire:loading.class="active" wire:target="dislikeReply"
-                                                                 class="dislike grow {{ $conversation['is_liked'] != null && in_array($conversation['is_liked'] ?? null, [2,3]) ? 'active' : ''}}"
-                                                                 wire:click="dislikeReply({{$conversation->id ?? null}})">
-                                                                <i class="fa fa-thumbs-down" style="font-size: x-large;" aria-hidden="true"></i>
+                                                            <!-- Edit Response -->
+                                                            <div class="dislike" wire:click="editHaiResponse({{$conversation['id']}})"
+                                                                 data-bs-toggle="modal" data-bs-target="#editHaiReplyModal{{$conversation['id']}}">
+{{--                                                                <i class="fa fa-thumbs-down" style="font-size: x-large;" aria-hidden="true"></i>--}}
+                                                                <i class="fa-solid fa-pen-to-square" style="font-size: x-large;" aria-hidden="true"></i>
                                                             </div>
                                                         </div>
 
@@ -209,6 +209,58 @@
 
                                             </div>
                                         </div>
+
+{{--                                    Edit Hai Reply Modal--}}
+                                        <div wire:ignore.self class="modal fade" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body" style=" border-radius: 9px">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label class="form-label fs-4 text-white">Query Answer</label>
+                                                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                                                            aria-label="Close" id="close-query-edit-modal-{{$conversation->id}}">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    @include('layouts.message')
+                                                                    <form wire:submit.prevent="updateHaiReply">
+                                                                        @csrf
+                                                                        <div class="form-group mt-2">
+                                                                            <label class="form-label fs-6 text-white">Client Query :</label>
+                                                                            <span
+                                                                                style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
+                                                                            <label class="form-label fs-4 text-white">Answer :</label>
+                                                                            <span class="copy-text float-end" >
+                                       <!-- Copy text link -->
+{{--                                        <a class="btn-sm text-white px-3"  style="background-color: #f2661c;" onclick="copyToClipboard(`{{$conversation['reply']}}`,`{{$key}}`, this)"><strong id="copy-text{{$key}}">Copy</strong></a>--}}
+
+                                                                            </span>
+                                                                            <br>
+                                                                            <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span>
+                                                                            <br>
+                                                                            <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="4" class="form-control text-white mt-2"
+                                                                                  style="background-color: #0f1535"
+                                                                                  wire:model.defer="updated_reply"
+                                                                                  placeholder="update answer">
+                                                                        </textarea>
+                                                                    </div>
+                                                                </div>
+                                                                        <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     @endif
                                 </div>
                             @endforeach
@@ -248,6 +300,7 @@
         </div>
 
     </div>
+
 </div>
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -270,6 +323,11 @@
       window.livewire.on('submitQuery', function (){
 
           $('#submit_btn').click();
+      });
+
+      window.livewire.on('closeEditHaiReplyModal', function (id){
+
+          $('#close-query-edit-modal-' + id).click();
       });
 
 
@@ -373,8 +431,6 @@
     <script>
 
         function updateUserId(id){
-
-            console.log(id);
 
             window.livewire.emit('updateUserId', id);
         }
