@@ -120,12 +120,12 @@
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$hai_tutorial['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$hai_tutorial['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <p class="text-white mt-4" style="text-align: justify">{{$hai_tutorial['information']}}</p>
+                            <p class="text-white mt-4" style="text-align: justify">{{$hai_tutorial['information'] ?? null}}</p>
                         </div>
                     </div>
                 </div>
