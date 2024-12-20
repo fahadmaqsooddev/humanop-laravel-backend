@@ -50,6 +50,17 @@ class GoogleController extends Controller
 
             $googleUser = Socialite::driver('google')->user();
 
+            $checkDeletedUser = User::checkDeleteEmail($googleUser['email']);
+
+            if (!empty($checkDeletedUser))
+            {
+                $invite = UserInvite::getInviteLinkUsingEmail($googleUser['email']);
+
+                session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+
+                return redirect()->to('register?link=' . $invite['link']);
+            }
+            
             $finduser = null;
 
             if (!empty($practitionerSession)) {
