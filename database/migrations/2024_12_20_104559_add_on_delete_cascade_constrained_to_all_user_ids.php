@@ -89,8 +89,10 @@ return new class extends Migration
             Schema::disableForeignKeyConstraints();
 
             $table->dropForeign('message_threads_receiver_id_foreign');
+            $table->dropForeign('message_threads_sender_id_foreign');
 
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
 
         });
 
