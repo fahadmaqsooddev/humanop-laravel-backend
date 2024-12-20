@@ -71,75 +71,88 @@ class SessionController extends Controller
 
             $attributes['status'] = 1;
 
-            $userEmailVerify = User::where('email', $request['email'])->first();
+            $checkDeletedUser = User::checkDeleteEmail($request['email']);
 
-           if($userEmailVerify) {
-               if ($userEmailVerify['two_way_auth'] == 1) {
+            if (empty($checkDeletedUser))
+            {
+                $userEmailVerify = User::where('email', $request['email'])->first();
 
-                   $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
-                   if ($status) {
-                       Session::put(['two_way_auth.id' => $userEmailVerify['id'], 'two_way_auth.phone' => $userEmailVerify['phone']]);
-                       session()->flash('success', 'Verification Code Sent To Your Number Successfully');
-                       return redirect()->route('two.way.auth');
-                   } else {
-                       session()->flash('error', 'Something Went Wrong During Sending Code');
-                       return redirect()->route('two.way.auth');
-                   }
-               }
-               if ($userEmailVerify['email_verified_at'] != null)
-               {
+                if($userEmailVerify) {
+                    if ($userEmailVerify['two_way_auth'] == 1) {
 
-                   $remember_me = $request->has('remember') ? true : false;
+                        $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
+                        if ($status) {
+                            Session::put(['two_way_auth.id' => $userEmailVerify['id'], 'two_way_auth.phone' => $userEmailVerify['phone']]);
+                            session()->flash('success', 'Verification Code Sent To Your Number Successfully');
+                            return redirect()->route('two.way.auth');
+                        } else {
+                            session()->flash('error', 'Something Went Wrong During Sending Code');
+                            return redirect()->route('two.way.auth');
+                        }
+                    }
+                    if ($userEmailVerify['email_verified_at'] != null)
+                    {
 
-                   if(Auth::attempt($attributes, $remember_me))
-                   {
+                        $remember_me = $request->has('remember') ? true : false;
 
-                       if (isset($request['remember']) && !empty($request['remember']))
-                       {
-                           setcookie("email", $attributes['email'], 30*time()+3600);
-                           setcookie("password", $attributes['password'], 30*time()+3600);
-                       }else
-                       {
-                           setcookie("email", "");
-                           setcookie("password", "");
-                       }
+                        if(Auth::attempt($attributes, $remember_me))
+                        {
 
-                       $user = Helpers::getWebUser();
+                            if (isset($request['remember']) && !empty($request['remember']))
+                            {
+                                setcookie("email", $attributes['email'], 30*time()+3600);
+                                setcookie("password", $attributes['password'], 30*time()+3600);
+                            }else
+                            {
+                                setcookie("email", "");
+                                setcookie("password", "");
+                            }
 
-                       Cache::forget('admin_' . $user->id);
+                            $user = Helpers::getWebUser();
 
-                       if (!empty(Session::get('google_user')))
-                       {
-                           Session::forget('google_user');
-                       }
+                            Cache::forget('admin_' . $user->id);
 
-                       if ($user->is_admin == Admin::IS_CUSTOMER){
+                            if (!empty(Session::get('google_user')))
+                            {
+                                Session::forget('google_user');
+                            }
 
-                           Helpers::createCustomerAndSubscriptionOnStripe($user);
+                            if ($user->is_admin == Admin::IS_CUSTOMER){
 
-                           User::updateUserIsFeedback();
+                                Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                       }
+                                User::updateUserIsFeedback();
 
-                       if ($user->is_admin === Admin::IS_PRACTITIONER){
+                            }
 
-                           return redirect('/practitioner/dashboard');
-                       }
+                            if ($user->is_admin === Admin::IS_PRACTITIONER){
 
-                       return redirect()->route('admin_dashboard');
-                   }
+                                return redirect('/practitioner/dashboard');
+                            }
 
-                   return back()->withErrors(['msgError' => 'The email or password you entered is incorrect.']);
+                            return redirect()->route('admin_dashboard');
+                        }
 
-               }else
-               {
+                        return back()->withErrors(['msgError' => 'The email or password you entered is incorrect.']);
 
-                   return back()->withErrors(['msgError' => 'Your email is not verified.']);
+                    }else
+                    {
 
-               }
-           }else{
-               return back()->withErrors(['msgError' => 'This email does not exist in our records.']);
-           }
+                        return back()->withErrors(['msgError' => 'Your email is not verified.']);
+
+                    }
+                }
+                else{
+                    return back()->withErrors(['msgError' => 'This email does not exist in our records.']);
+                }
+            }
+            else
+            {
+                return back()->withErrors(['msgError' => 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.']);
+
+            }
+
+
         }catch (ValidationException $validationException){
 
             return back()->with(['errors' => $validationException->validator->errors()]);
