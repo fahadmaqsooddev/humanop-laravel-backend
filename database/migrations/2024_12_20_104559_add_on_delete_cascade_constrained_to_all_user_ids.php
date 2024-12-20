@@ -100,7 +100,7 @@ return new class extends Migration
 
             $table->dropForeign('messages_message_thread_id_foreign');
 
-            $table->foreign('messages_message_thread_id')->references('id')->on('message_threads')->onDelete('cascade');
+            $table->foreign('message_thread_id')->references('id')->on('message_threads')->onDelete('cascade');
 
         });
     }
