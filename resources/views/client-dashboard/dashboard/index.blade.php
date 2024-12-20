@@ -14,6 +14,12 @@
         margin-left: 25px !important;
     }
 
+    .intro-last-step {
+        margin-top: 180px !important;
+        min-width: 300px !important;
+        max-width: 350px !important;
+    }
+
     .description-container::-webkit-scrollbar-track {
         background: rgb(160, 174, 192);
         /* Color of the track */
@@ -335,9 +341,11 @@ padding-bottom: 10px !important;
 
     <!-- main features section -->
         <div class="container-fluid px-0 ">
+            <div data-step="10" class="mx-auto" ></div>
             <section class=""> {{-- py-3 --}}
 
                 <div class="row mt-4">
+
                     <div class="col-lg-8 col-md-12 col-sm-12 mb-2">
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
@@ -356,6 +364,7 @@ padding-bottom: 10px !important;
                                                 class="shadow-sm  user_profile_image" style="border-radius: 50%">
                                         </div>
                                         <div>
+
                                             <p class="mb-0 mt-4"
                                                style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
                                                 Welcome Back {{Auth::user()['first_name']}} !</p>
@@ -371,8 +380,10 @@ padding-bottom: 10px !important;
                                             @endif
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="col-4 my-auto mydiv feelingdiv">
+
                                     <p class="mb-0"
                                        style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are
                                         you</p>
@@ -394,6 +405,7 @@ padding-bottom: 10px !important;
                                         </button>
                                     </div>
                                 </div>
+
                             </div>
 
                                 <div class="position-absolute"
@@ -500,44 +512,19 @@ padding-bottom: 10px !important;
                                                  alt="notification" width="40" height="40">
                                         </div>
                                     </a>
-                                    {{--                                    <button--}}
-                                    {{--                                        style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey;"--}}
-                                    {{--                                        data-toggle="tooltip" data-placement="top" title="Take the assessment first"--}}
-                                    {{--                                        class="text-white btn-sm-2 btn-md-3 btn-lg-5  navButtonResponsive">Access Latest Results--}}
-                                    {{--                                    </button>--}}
-
                                 @endif
-
-
-
-
-
-
-                                {{--                                --}}
-                                {{--                                <button class="bg-transparent w-70 py-2 position-relative"--}}
-                                {{--                                        style="color: #F4ECE0;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px">--}}
-                                {{--                                    Access your results--}}
-                                {{--                                    <div class="position-absolute"--}}
-                                {{--                                         style="right: -10px;top: -16px;height: 36px;width: 36px;background: #FCB178;padding-left: 0px;">--}}
-                                {{--                                        <img src="{{asset('assets/new-design/icon/dashboard/Arrow.svg')}}"--}}
-                                {{--                                             alt="notification" width="40" height="40">--}}
-                                {{--                                    </div>--}}
-                                {{--                                </button>--}}
                                 <button class="bg-transparent mt-4 py-2 mx-2"
                                         style="color: #1C365E;border: 1px solid #1C365E;border-radius: 24px;font-size: 18px;padding: 30px"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#qrCodeModal"
-                                >
+                                        data-bs-target="#qrCodeModal" >
                                     Get free pro version
                                 </button>
-
                             </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="row">
-                    {{--                    <div class="col-xl-8 col-lg-12 mt-2 col-sm-12 col-md-12 mainCardFlex">--}}
                     <div class="col-md-8 col-sm-12">
                         <div class="row">
                             <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
@@ -1694,71 +1681,77 @@ padding-bottom: 10px !important;
                 var back_arrow_src = '{{asset('assets/new-design/icon/dashboard/back-arrow.svg')}}'
                 // Set up the button click event to start the tour
                 $('.start-tour').on('click', function () {
+                    let introSteps = [
+                        {
+                            element: document.querySelector('[data-step="1"]'),
+                            title: 'HumanOp Assessment',
+                            intro: 'Here is where you can take your very first HumanOp Assessment. Taking your first assessment will not only unlock all the features on the platform but it is also the first step on your path to understanding your true nature and optimizing your life.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="2"]'),
+                            title: 'Daily Tips',
+                            intro: 'Here is where you will see your daily tips. After you take your HumanOp Assessment, HAi will generate daily tips to help you optimize your day - every day!',
+                        },
+                        {
+                            element: document.querySelector('[data-step="3"]'),
+                            title: 'Core Stats',
+                            intro: 'Here is where your Core Stats are. These stats are a quick summary of your latest HumanOp Assessment to help remind you of your results. Clicking on each stat will take you to the Full Results page so you can watch the explanations of each component.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="4"]'),
+                            title: 'Optimal Trait To Be In Right Now',
+                            intro: 'Check here in the morning, mid-day, and in the evening to reference the most optimal trait to align with at these various times a day.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="5"]'),
+                            title: '90-Day Optimization Plan',
+                            intro: 'Here is where you access your 90-Day Optimization Plan. This plan references your latest assessment results and offers you specific optimization strategies related to your results that you can implement over the next 90-days.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="6"]'),
+                            title: 'Library of Resources & Trainings',
+                            intro: 'Here is where you’ll find an ever growing library of resources and trainings that will deepen the understanding of your results and support you on your self-optimization journey.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="7"]'),
+                            title: 'HumanOp Integration Podcast',
+                            intro: 'Here is where you access the HumanOp Integration Podcast - listen to the latest episodes and learn about how to optimally integrate and make the most of your HumanOp experience.',
+                        },
+                        {
+                            element: document.querySelector('[data-step="8"]'),
+                            title: 'Help I’m Having A Challenge',
+                            intro: 'This is where you can go to interact with HAi® to share any challenge you may be having and where you will receive supportive feedback.',
+                        }
+                    ];
+
+                    // Laravel Blade conditional to determine whether to add step-9
+                    @if($user->hai_chat == \App\Enums\Admin\Admin::HAI_CHAT_SHOW) // Replace $conditionForStep9 with your actual server-side condition
+                    introSteps.push({
+                        element: document.querySelector('[data-step="9"]'),
+                        title: 'Ask HAi Questions',
+                        intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.</div>`
+                    });
+                    @endif
+                        introSteps.push({
+                        element: document.querySelector('[data-step="10"]'), // No specific element for this step
+                            title: 'Congratulations!',
+                        intro: `<div style="text-align: center; font-size: 16px;" >
+                             <p>Congratulations on completing the tour! 🎉</p>
+                             <p>You're now ready to explore and make the most out of our platform.</p>
+                              <div class="d-flex justify-content-center">
+                             <a href="{{ url('client/intro-assessment') }}" class="btn-lg mt-2 mb-1 connection-btn" style="font-size:14px !important">
+                             Take Assessment
+                            </a>
+                                 </div>
+                             </div>`,
+                        position: 'floating'
+                    });
                     introJs().setOptions({
                         exitOnOverlayClick: false,
                         tooltipPosition: 'bottom',
                         scrollToElement: true,
                         doneLabel: 'Exit Tutorial',
-                        steps: [
-                            {
-                                element: document.querySelector('[data-step="1"]'),
-                                title: 'HumanOp Assessment',
-                                intro: 'Here is where you can take your very first HumanOp Assessment. Taking your first assessment will not only unlock all the features on the platform but it is also the first step on your path to understanding your true nature and optimizing your life.',
-                            },
-                            {
-                                element: document.querySelector('[data-step="2"]'),
-                                title: 'Daily Tips',
-                                intro: 'Here is where you will see your daily tips. After you take your HumanOp Assessment, HAi will generate daily tips to help you optimize your day - every day!',
-                            },
-                            {
-                                element: document.querySelector('[data-step="3"]'),
-                                title: 'Core Stats',
-                                intro: 'Here is where your Core Stats are. These stats are a quick summary of your latest HumanOp Assessment to help remind you of your results.  Clicking on each stat will take you to the Full Results page so you can watch the explanations of each component.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="4"]'),
-                                title: 'Optimal Trait To Be In Right Now',
-                                intro: 'Check here in the morning, mid-day, and in the evening to reference the most optimal trait to align with at these various times a day.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="5"]'),
-                                title: '90-Day Optimization Plan',
-                                intro: 'Here is where you access your 90-Day Optimization Plan.  This plan references your latest assessment results and offers you specific optimization strategies related to your results that you can implement over the next 90-days.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="6"]'),
-                                title: 'Library of Resources & Trainings',
-                                intro: 'Here is where you’ll find an ever growing library of resources and trainings that will deepen the understanding of your results and support you on your self-optimization journey.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="7"]'),
-                                title: 'HumanOp Integration Podcast',
-                                intro: 'Here is where you access the HumanOp Integration Podcast - listen to the latest episodes and learn about how to optimally integrate and make the most of your HumanOp experience.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="8"]'),
-                                title: 'Help I’m Having A Challenge',
-                                intro: 'This is where you can go to interact with HAi® to share any challenge you may be having and where you will receive supportive feedback.',
-
-                            },
-                            {
-                                element: document.querySelector('[data-step="9"]'),
-                                title: 'Ask HAi Questions',
-                                intro: `<div>Here is where you can ask questions or have conversation with HAi, our proprietary chat powered by HumanOp Authentic Intelligence® for support, guidance, and strategies around how best to use the HumanOp HAi Optimization System (HAi OS) to optimize every aspect of your life.Congratulations on finishing your first tutorial.Now let’s have you take your first assessment!Make sure you give yourself 10-15 minutes of no distractions to focus on you so you can make the most out of this powerful technology.
-                       <div class="d-flex justify-content-center">
-              <a href="{{ url('client/intro-assessment') }}" class="btn-sm mt-2 mb-1 rainbow-border-user-nav-btn" style="background-color: #f2661c; color: white; font-size: 14px">
-
-                   Take Assessment
-                        </a>
-                                </div>
-                         </div>`,
-                            }
-                        ]
+                        steps: introSteps
                     }).onbeforechange(function (targetElement) {
                         targetElement.scrollIntoView();
                         const currentStep = this._currentStep;
@@ -1770,6 +1763,16 @@ padding-bottom: 10px !important;
                             setTimeout(function(){
                                 $('.introjs-helperLayer').removeClass('custom-helper-layer');
                             },100);
+                        }
+
+                        if (currentStep === introSteps.length - 1) {
+                            setTimeout(function(){
+                            $('.introjs-floating').addClass('intro-last-step');
+                            },400);
+                        }else{
+                            setTimeout(function(){
+                                $('.introjs-floating').removeClass('intro-last-step');
+                            },400);
                         }
                     }).start();
                 });
