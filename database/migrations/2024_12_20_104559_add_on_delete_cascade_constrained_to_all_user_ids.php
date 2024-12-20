@@ -47,15 +47,42 @@ return new class extends Migration
 
         });
 
-//        Schema::table('connections', function (Blueprint $table) {
-//
-//            $table->dropForeign('connections_user_id_foreign');
-//            $table->dropForeign('connections_friend_id_foreign');
-//
-//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-//            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
-//
-//        });
+        Schema::table('connections', function (Blueprint $table) {
+
+            Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign('connections_friend_id_foreign');
+
+            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
+
+        });
+
+        Schema::table('connections', function (Blueprint $table) {
+
+            $table->dropForeign('connections_user_id_foreign');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+        });
+
+        Schema::table('follows', function (Blueprint $table) {
+
+            Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign('follows_user_id_foreign');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+        });
+
+        Schema::table('follows', function (Blueprint $table) {
+
+            Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign('follows_follow_id_foreign');
+
+            $table->foreign('follow_id')->references('id')->on('users')->onDelete('cascade');
+
+        });
     }
 
     /**
