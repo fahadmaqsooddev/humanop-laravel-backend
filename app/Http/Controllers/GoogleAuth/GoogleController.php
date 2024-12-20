@@ -60,6 +60,8 @@ class GoogleController extends Controller
 
                 $url = last(\request()->segments());
 
+                dd($url);
+                
                 if ($url == false || $url == 'login')
                 {
                     return redirect()->route('login');
