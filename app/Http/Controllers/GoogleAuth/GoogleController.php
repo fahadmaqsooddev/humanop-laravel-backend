@@ -58,9 +58,18 @@ class GoogleController extends Controller
 
                 session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
 
-                return redirect()->to('register?link=' . $invite['link']);
+                $url = last(\request()->segments());
+
+                if ($url == false && $url == 'login')
+                {
+                    return redirect()->route('login');
+                }
+                else
+                {
+                    return redirect()->to('register?link=' . $invite['link']);
+                }
             }
-            
+
             $finduser = null;
 
             if (!empty($practitionerSession)) {
