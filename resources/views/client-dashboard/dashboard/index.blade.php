@@ -355,7 +355,7 @@ padding-bottom: 10px !important;
                                 <div class="row mydiv1">
 
 
-                                <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
+                                <div class="col-12 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
                                             <img
@@ -382,29 +382,29 @@ padding-bottom: 10px !important;
                                     </div>
 
                                 </div>
-                                <div class="col-4 my-auto mydiv feelingdiv">
+{{--                                <div class="col-4 my-auto mydiv feelingdiv">--}}
 
-                                    <p class="mb-0"
-                                       style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are
-                                        you</p>
-                                    <p class="mb-0"
-                                       style="color: #8BB1AB;font-size: 24px;line-height: 20px;font-weight: 600">feeling
-                                        today?</p>
-                                    <div class="mt-2">
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
-                                            Happy
-                                        </button>
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px;">
-                                            Sad
-                                        </button>
-                                        <button class="bg-transparent"
-                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">
-                                            Excited
-                                        </button>
-                                    </div>
-                                </div>
+{{--                                    <p class="mb-0"--}}
+{{--                                       style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are--}}
+{{--                                        you</p>--}}
+{{--                                    <p class="mb-0"--}}
+{{--                                       style="color: #8BB1AB;font-size: 24px;line-height: 20px;font-weight: 600">feeling--}}
+{{--                                        today?</p>--}}
+{{--                                    <div class="mt-2">--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">--}}
+{{--                                            Happy--}}
+{{--                                        </button>--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px;">--}}
+{{--                                            Sad--}}
+{{--                                        </button>--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">--}}
+{{--                                            Excited--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                             </div>
 
