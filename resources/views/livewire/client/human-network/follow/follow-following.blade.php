@@ -328,7 +328,7 @@
                                             </div>
                                             <div>
                                                 <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
-                                                    {{$follow->user ? $follow->user->first_name . ' ' . $follow->user->last_name : ""}}
+                                                    {{$follow->user ? substr($follow->user->first_name . ' ' . $follow->user->last_name, 0, 52) : ""}}
                                                 </h6>
                                             </div>
                                         </div>
@@ -404,7 +404,7 @@
                                             </div>
                                             <div>
                                                 <h6 class="card-title mt-1 mb-0" style="cursor:pointer; color: #1E1D1D;font-weight: 700;">
-                                                    {{$following->follower ? $following->follower->first_name . ' ' . $following->follower->last_name : ""}}
+                                                    {{$following->follower ? substr($following->follower->first_name . ' ' . $following->follower->last_name , 0, 52) : ""}}
                                                 </h6>
                                             </div>
                                         </div>
@@ -417,7 +417,7 @@
                                             <div class="mt-1">
                                                 @if($following['follower']['is_follow'] ?? false)
                                                     <a class="connection-btn"
-                                                       wire:click="messageUser({{$following->follow_id ?? ''}})"
+                                                       wire:click="followUser({{$following->follower->id ?? null}})"
                                                        style="font-size: small; font-weight: 600;">Unfollow</a>
                                                 @else
                                                     <a class="updateBtn connection-btn"

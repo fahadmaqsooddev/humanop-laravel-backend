@@ -241,7 +241,7 @@
                                      wire:click="messages({{$chat->id}}, {{$chat['user_data'] ?? null}})">
                                     <div class="chatlist-header d-flex justify-content-between">
                                     <span class="fw-bold"
-                                          style="font-size: 15px;">{{$chat['user_data'] ? $chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name'] : ""}}</span>
+                                          style="font-size: 15px;">{{$chat['user_data'] ? substr($chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name'], 0, 15) : ""}}</span>
                                         <span class="text-end"
                                               style="font-size: 10px;">{{$chat['lastMessage']['created_at'] ?? null}}</span>
                                     </div>

@@ -83,10 +83,11 @@
                                                     <input type="text" class="form-control " placeholder="first name"
                                                            value="{{$google_user['first_name'] ?? ''}}"
                                                            name="first_name" id="first_name"
+                                                           maxlength="25"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
                                                 @error('first_name')
-                                                <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
+                                                    <p class="text-danger text-xs mt-2 mb-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                             <div>
@@ -96,6 +97,7 @@
                                                     <input type="text" class="form-control " placeholder="last name"
                                                            value="{{$google_user['last_name'] ?? ''}}"
                                                            name="last_name" id="last_name"
+                                                           maxlength="25"
                                                            style="background-color: #f3deba; color: black; border-radius: 15px;">
                                                 </div>
                                                 @error('last_name')
