@@ -355,15 +355,15 @@
                                 <div class="row mydiv1">
 
 
-                                    <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
-                                        <div class="d-flex ">
-                                            <div>
-                                                <img
-                                                    src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
-                                                    height="100" width="100" alt="profile_image"
-                                                    class="shadow-sm  user_profile_image" style="border-radius: 50%">
-                                            </div>
-                                            <div>
+                                <div class="col-12 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
+                                    <div class="d-flex ">
+                                        <div>
+                                            <img
+                                                src="{{ Auth::user()['photo_url']['url'] ?? URL::asset('assets/img/default-user-image.png') }}"
+                                                height="100" width="100" alt="profile_image"
+                                                class="shadow-sm  user_profile_image" style="border-radius: 50%">
+                                        </div>
+                                        <div>
 
                                                 <p class="mb-0 mt-4"
                                                    style="font-weight: bold;color: #D26622;font-size: 18px;margin-left:10px">
@@ -409,6 +409,31 @@
                                     </div>
 
                                 </div>
+{{--                                <div class="col-4 my-auto mydiv feelingdiv">--}}
+
+{{--                                    <p class="mb-0"--}}
+{{--                                       style="font-weight: bold;color: #D26622;font-size: 18px;margin-top: 33px">How are--}}
+{{--                                        you</p>--}}
+{{--                                    <p class="mb-0"--}}
+{{--                                       style="color: #8BB1AB;font-size: 24px;line-height: 20px;font-weight: 600">feeling--}}
+{{--                                        today?</p>--}}
+{{--                                    <div class="mt-2">--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">--}}
+{{--                                            Happy--}}
+{{--                                        </button>--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px;">--}}
+{{--                                            Sad--}}
+{{--                                        </button>--}}
+{{--                                        <button class="bg-transparent"--}}
+{{--                                                style="color: #D26622;border: 1px solid #D26622;border-radius: 24px;padding: 3px 6px 3px 6px;font-size: 14px">--}}
+{{--                                            Excited--}}
+{{--                                        </button>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+                            </div>
 
                                 <div class="position-absolute"
                                      style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #F4E3C7">

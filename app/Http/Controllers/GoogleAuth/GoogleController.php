@@ -22,12 +22,10 @@ class GoogleController extends Controller
     {
         $inviteLink = $request->query('link');
 
-        if (!empty($inviteLink))
-        {
+        if (!empty($inviteLink)) {
             $invite = UserInvite::getInviteLink($inviteLink);
 
-            if (!empty($invite))
-            {
+            if (!empty($invite)) {
                 Session::put('inviteLink', $invite['link']);
 
             }
@@ -39,9 +37,12 @@ class GoogleController extends Controller
 
         }
 
+        Session::put('auth_url', $inviteLink);
+
         return Socialite::driver('google')->redirect();
 
     }
+
     public function handleGoogleCallback()
     {
         try {
@@ -49,6 +50,28 @@ class GoogleController extends Controller
             $practitionerSession = Session::get('practitioner');
 
             $googleUser = Socialite::driver('google')->user();
+
+            $checkDeletedUser = User::checkDeleteEmail($googleUser['email']);
+
+            if (!empty($checkDeletedUser)) {
+
+                $invite = UserInvite::getInviteLinkUsingEmail($googleUser['email']);
+
+                session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+
+                $urlGet = Session::get('auth_url');
+
+                if ($urlGet == false || $urlGet == 'login')
+                {
+                    return redirect()->to('login');
+                }
+                else
+                {
+                    return redirect()->to('register?link=' . $invite['link']);
+
+                }
+
+            }
 
             $finduser = null;
 
@@ -71,8 +94,7 @@ class GoogleController extends Controller
                             ->first();
                     }
                 }
-            }
-            else {
+            } else {
                 $finduser = User::where(function ($query) use ($googleUser) {
                     $query->where('google_id', $googleUser->id)
                         ->orWhere('email', $googleUser->email);
@@ -83,13 +105,11 @@ class GoogleController extends Controller
 
             if ($finduser) {
                 Auth::login($finduser);
-            }
-            else {
+            } else {
 
                 $invite_link = Session::get('inviteLink');
 
-                if (!empty($invite_link))
-                {
+                if (!empty($invite_link)) {
 
                     $nameParts = explode(' ', $googleUser->name);
 
@@ -107,13 +127,12 @@ class GoogleController extends Controller
                     } else {
 
 
-                        $redirectUrl = '/register?link='. $invite_link;
+                        $redirectUrl = '/register?link=' . $invite_link;
                     }
 
                     return redirect()->to($redirectUrl);
 
-                }
-                else{
+                } else {
 
                     return redirect()->back()->with('error', 'Invite link is missing. Please provide a valid link.');
 
@@ -129,15 +148,12 @@ class GoogleController extends Controller
 
 //            Session::forget('practitioner');
 
-            if (!empty($practitionerSession))
-            {
+            if (!empty($practitionerSession)) {
                 $parts = explode(' ', $practitionerSession);
 
-                return redirect()->to('/'. $parts[0] . '/' . $parts[1]. '/dashboard');
+                return redirect()->to('/' . $parts[0] . '/' . $parts[1] . '/dashboard');
 
-            }
-            else
-            {
+            } else {
 
                 return redirect()->route('client_dashboard');
             }

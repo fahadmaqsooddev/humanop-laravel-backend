@@ -34,7 +34,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep','checkEmailVerification','registerLastStep']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep']);
 
         $this->auth = Auth::guard('api');
     }
@@ -50,19 +50,33 @@ class AuthController extends Controller
 
             $credentials['is_admin'] = Admin::IS_CUSTOMER;
 
-            $checkUser = User::where('email', $credentials['email'])->whereNotNull('email_verified_at')->exists();
+            $checkDeletedUser = User::checkDeleteEmail($credentials['email']);
 
-            if ($checkUser == true) {
+            if (!empty($checkDeletedUser)) {
 
+                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+            }
+
+            $checkUser = User::checkEmail($credentials['email']);
+
+            if (empty($checkUser))
+            {
+                return Helpers::validationResponse("These credentials do not match our records.");
+
+            }
+            else if ($checkUser && $checkUser['email_verified_at'] == null)
+            {
+                return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
+
+            }
+            else
+            {
                 $remember_me = $request['remember'] == 'true' ? true : false;
 
-                if ($remember_me == true)
-                {
+                if ($remember_me == true) {
                     $token = $this->auth->attempt($credentials, $remember_me);
 
-                }
-                else
-                {
+                } else {
                     $token = $this->auth->attempt($credentials);
 
                 }
@@ -93,10 +107,8 @@ class AuthController extends Controller
 
                     return Helpers::unauthResponse('Wrong Password');
                 }
-            } else {
-                return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
-
             }
+
 
         } catch (\Exception $exception) {
 
@@ -232,11 +244,10 @@ class AuthController extends Controller
 
             $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
-            if (!empty($checkDeleteAccount))
-            {
+            if (!empty($checkDeleteAccount)) {
                 return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
             }
-            
+
             $checkUser = $user->checkEmail($dataArray['email']);
 
             if (empty($checkUser)) {
@@ -245,8 +256,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-                if (empty($request['google_id']) && empty($request['apple_id']))
-                {
+                if (empty($request['google_id']) && empty($request['apple_id'])) {
 
                     $emailData = $this->prepareEmailData($user);
 
@@ -286,18 +296,13 @@ class AuthController extends Controller
                         ],
                     ]);
 
-                }
-                else
-                {
+                } else {
                     $checkLastStep = User::checkLastStep($checkUser['email']);
 
-                    if ($checkLastStep && $checkLastStep['step'] == 3)
-                    {
+                    if ($checkLastStep && $checkLastStep['step'] == 3) {
                         return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
-                    }
-                    else
-                    {
+                    } else {
                         $checkLastStep->setAppends([]);
 
                         return Helpers::successResponse('kindly complete your last step', [
@@ -505,11 +510,9 @@ class AuthController extends Controller
 
             $user->setAppends([]);
 
-            if (!empty($user))
-            {
+            if (!empty($user)) {
                 return Helpers::successResponse('Your Email is verified', $user);
-            }
-            else{
+            } else {
 
                 return Helpers::serverErrorResponse('Your Email is not verified');
 

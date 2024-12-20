@@ -70,7 +70,7 @@
         })
         swalWithBootstrapButtons.fire({
             title: '<span style="color: white;">Are you sure?</span>',
-            html: "<span style='color: white;'>Want to delete user permanently!</span>",
+            html: "<span style='color: white;'><strong>Permanently delete the user account and all related data.</strong></span>",
             showCancelButton: true,
             confirmButtonText: 'Delete',
         }).then((result) => {

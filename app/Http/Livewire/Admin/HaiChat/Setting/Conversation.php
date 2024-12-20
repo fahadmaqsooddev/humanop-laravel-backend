@@ -19,7 +19,9 @@ use Livewire\Component;
 class Conversation extends Component
 {
 
-    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0;
+    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
+
+        $editConversation = null, $updated_reply = null, $convo_id;
 
     protected $listeners = ['updateUserId'];
 
@@ -237,6 +239,28 @@ class Conversation extends Component
 
             $this->disliked = 1;
         }
+
+    }
+
+    public function editHaiResponse($id){
+
+        $this->convo_id = $id;
+    }
+
+    public function updateHaiReply(){
+
+        $this->validate(['updated_reply' => 'required|max:100000'],
+            ['updated_reply.required' => 'Reply is required']);
+
+        HaiChatConversation::whereId($this->convo_id)->update(['reply' => $this->updated_reply]);
+
+        $conversation_id = $this->convo_id;
+
+        session()->flash('Hai Reply updated');
+
+        $this->reset('convo_id','updated_reply');
+
+        $this->emit('closeEditHaiReplyModal', $conversation_id);
 
     }
 

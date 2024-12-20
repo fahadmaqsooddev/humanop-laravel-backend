@@ -35,6 +35,7 @@ class RegisterController extends Controller
     public function create(Request $request)
     {
 
+
         $inviteLink = $request->query('link');
 
         if (!empty($inviteLink))

@@ -52,6 +52,9 @@ use App\Http\Controllers\Practitioner\PractitionerController;
     Route::get('/logout', [SessionController::class, 'destroy']);
     Route::get('/', [SessionController::class, 'create'])->name('login');
 
+
+    Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');
+
 //});
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
