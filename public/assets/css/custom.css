@@ -53,8 +53,9 @@
 .humanop-version
 {
     border: 2px solid #f2661c;
-    padding: 14px;
+    padding: 7px;
     border-radius: 9px;
+
 }
 
 @media (min-width: 360px) and (max-width: 528px) {

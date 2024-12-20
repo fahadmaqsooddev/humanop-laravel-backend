@@ -912,7 +912,7 @@
                                 <p class="sidenav-normal" style="color: #F4E3C7 !important;font-size: 14px"> Signout </p>
                             </li>
                             {{--                            download on apple--}}
-                            <li class="nav-item mt-5 d-flex justify-content-center">
+                            <li class="nav-item mt-2 d-flex justify-content-center">
                                 <div class="d-flex justify-content-between">
                                          <span class="humanopMiniLogo" >
                                   <img src="{{asset('assets/icons/android_mobile_logo.png')}}"
@@ -924,20 +924,15 @@
                                          alt="apple icon"
                                          style="width: 40px; height: 40px; color: white;"/>
                                   </span>
-                                    {{--                                    <span class="humanopLogo ">--}}
-                                    {{--                                 <img src="{{asset('assets/icons/downloadapple.svg')}}"--}}
-                                    {{--                                      alt="apple icon"--}}
-                                    {{--                                      style="width: 100px; height: 40px; color: white;"/>--}}
-                                    {{--                                </span>--}}
-
-                                    {{--                                    <span class="humanopLogo" style="margin-left: 5px">--}}
-                                    {{--                                   <img src="{{asset('assets/icons/downloadandroid.png')}}"--}}
-                                    {{--                                        alt="android icon"--}}
-                                    {{--                                        style="width: 100px;height: 35px;margin-top: 2px;"/>--}}
-                                    {{--                                  </span>--}}
                                 </div>
                             </li>
                             {{--                            end download here--}}
+                            <li class="nav-item mt-3 {{ (Request::is('client/version') ? 'active' : '') }}">
+                                <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"
+                                   href="{{ route('get_latest_version') }}">
+                                    <span style="margin-left: -30px !important;" class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion() ? \App\Models\Admin\VersionControl\Version::getLatestVersion()['version'] : '0.0.0'}} </span>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
                                     @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_CUSTOMER)
@@ -959,13 +954,7 @@
                                     @endif
                                 </div>
                             </li>
-                            {{--                            <li class="nav-item {{ (Request::is('client/version') ? 'active' : '') }}">--}}
-                            {{--                                <a class="nav-link {{ (Request::is('client/prversionicing') ? 'active' : '') }}"--}}
-                            {{--                                   href="{{ route('get_latest_version') }}">--}}
-                            {{--                                    <span class="humanop-version sidenav-mini-icon">HAI</span>--}}
-                            {{--                                    <span class="humanop-version sidenav-normal"> HAI OS {{\App\Models\Admin\VersionControl\Version::getLatestVersion() ? \App\Models\Admin\VersionControl\Version::getLatestVersion()['version'] : '0.0.0'}} </span>--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
+
                         </ul>
                     </div>
                 </li>
