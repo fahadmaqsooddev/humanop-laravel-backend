@@ -94,15 +94,15 @@ return new class extends Migration
 
         });
 
-//        Schema::table('messages', function (Blueprint $table) {
-//
-//            Schema::disableForeignKeyConstraints();
-//
-//            $table->dropForeign('messages_message_thread_id_foreign');
-//
-//            $table->foreign('message_thread_id')->references('id')->on('message_threads')->onDelete('cascade');
-//
-//        });
+        Schema::table('messages', function (Blueprint $table) {
+
+            Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign('messages_message_thread_id_foreign');
+
+            $table->foreign('message_thread_id')->references('id')->on('message_threads')->onDelete('cascade');
+
+        });
     }
 
     /**
