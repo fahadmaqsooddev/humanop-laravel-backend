@@ -29,14 +29,13 @@ class UserInvite extends Model
         return self::where('link', $link)->first();
     }
 
-    public static function getInviteLinkUsingEmail($email = null)
+    public static function getAllInviteLinks($per_page = 10, $email = null)
     {
-        return self::where('email', $email)->first();
-    }
+        return self::when($email, function ($query, $email){
 
-    public static function getAllInviteLinks()
-    {
-        return self::orderBy('id', 'desc')->get();
+            $query->where('email', 'LIKE', "$email%");
+
+        })->orderBy('id', 'desc')->paginate($per_page);
     }
 
     public static function sendInvite($email = null, $file = null)
@@ -98,5 +97,10 @@ class UserInvite extends Model
 
         return self::where('email', $email)->delete();
 
+    }
+
+    public static function getInviteLinkUsingEmail($email = null)
+    {
+        return self::where('email', $email)->first();
     }
 }

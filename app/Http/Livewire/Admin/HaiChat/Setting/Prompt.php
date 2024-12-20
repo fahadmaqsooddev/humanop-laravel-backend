@@ -14,8 +14,8 @@ class Prompt extends Component
     public $name;
     protected $rules = [
         'name' => 'required',
-        'prompt' => 'required|max:5000',
-        'restriction' => 'required|max:5000',
+        'prompt' => 'required|max:5100',
+        'restriction' => 'required|max:5100',
     ];
 
     protected $messages = [

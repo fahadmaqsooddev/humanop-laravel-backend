@@ -449,6 +449,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $data['is_admin'] = 3;
         $data['status'] = 1;
+        $data['email_verified_at'] = Carbon::now();
 
         $user = self::create($data);
 
@@ -788,6 +789,7 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
+            ->whereNotNull('email_verified_at')
             ->paginate($per_page)
             ->setPath(route('admin_all_users'));
 
@@ -930,6 +932,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function checkEmail($userEmail = null)
+    {
+        return self::where('email', $userEmail)->first();
+    }
+
+    public static function checkDeleteEmail($userEmail = null)
     {
         return self::where('email', $userEmail)->onlyTrashed()->first();
     }

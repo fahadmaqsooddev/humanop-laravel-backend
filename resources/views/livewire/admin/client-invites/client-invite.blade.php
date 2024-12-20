@@ -1,7 +1,20 @@
 <div>
 
+    <div class="p-2">
+
+        <div class="input-group ms-md-4 pe-md-4 d-flex justify-content-end">
+            <input type="email" wire:model="searched_email"
+                   style="border-radius: 5px; width: 30%; padding: 5px;"
+                   class="table-orange-color search-bar" placeholder="Search Email">
+        </div>
+
+    </div>
+
     <div class="table-responsive table-orange-color">
-        <table class="table table-flush" id="datatable-search">
+
+        @if(count($invites) > 0)
+
+        <table class="table table-flush">
             <thead class="thead-light">
             <tr class="table-text-color">
                 <th>Email</th>
@@ -25,6 +38,17 @@
 
             </tbody>
         </table>
+
+        @else
+            <div class="text-center p-5">
+
+                <span class="custom-text-dark">No invites found</span>
+
+            </div>
+        @endif
+
+        {{$invites->links('pagination.table-pagination')}}
+
     </div>
 
 
@@ -64,11 +88,11 @@
                                                 accept=".csv,.xlsx,.xls"
                                                 placeholder="Choose a file">
                                             @error('file')
-                                            <span class="text-sm text-danger">{{$message}}</span>
+                                                <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
-                                            <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Generate Invite
-                                            </button>
+                                                <button type="submit" class="btn btn-sm mt-4 float-end text-white"
+                                                        style="background-color: #f2661c ">Generate Invite
+                                                </button>
                                         </div>
                                     </div>
                                 </div>

@@ -18,11 +18,11 @@
     margin-right: 20px;
 }
 }
-   
+
 </style>
 
     <link rel="stylesheet" href="{{asset('css/messages-style.css')}}">
 
-    <livewire:client.message.message />
+    <livewire:client.message.message :redirected_user_id="$id"/>
 
 @endsection

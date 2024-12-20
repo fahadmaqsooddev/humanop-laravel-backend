@@ -35,8 +35,8 @@ class RegisterFormRequest extends FormRequest
         $required = (request()->has('google_id') && !empty(request()->input('google_id')) ? 'nullable' : 'required');
 
         return [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:25',
+            'last_name' => 'required|string|max:25',
             'email' => $required . '|email|max:255|unique:users,email,NULL,id,deleted_at,NULL',
             'password' => $required . '|string|max:255|confirmed',
             'date_of_birth' => 'required|date',

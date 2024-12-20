@@ -5,12 +5,13 @@ namespace App\Http\Livewire\Admin\ClientInvites;
 use App\Models\UserInvite\UserInvite;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class ClientInvite extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $invites, $email, $file;
+    public $email, $file, $per_page = 10, $page = 1, $searched_email;
 
     protected $rules = [
         'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
@@ -27,13 +28,6 @@ class ClientInvite extends Component
         'file.mimes' => 'Only CSV files are allowed.',
         'file.max' => 'The file size should not exceed 10MB.',
     ];
-
-    public function getInvites()
-    {
-
-        $this->invites = UserInvite::getAllInviteLinks();
-    }
-
 
     public function submitForm()
     {
@@ -64,7 +58,8 @@ class ClientInvite extends Component
 
     public function render()
     {
-        $this->getInvites();
-        return view('livewire.admin.client-invites.client-invite');
+        $invites = UserInvite::getAllInviteLinks($this->per_page, $this->searched_email);
+
+        return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
     }
 }

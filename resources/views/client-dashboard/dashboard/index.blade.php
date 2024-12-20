@@ -188,8 +188,8 @@
 .mydiv1{
     display: flex;
     flex-direction: column !important;
-    align-items: center; 
-   
+    align-items: center;
+
 }
 .profilediv{
 width: 100% !important;
@@ -252,9 +252,9 @@ padding-bottom: 10px !important;
         color: blue !important;
     }
 
-    
 
-   
+
+
 
 </style>
 @section('content')
@@ -342,11 +342,11 @@ padding-bottom: 10px !important;
                         <div class="card "
                              style="height: 180px;background: #F4E3C7 !important;border-radius: 40px !important;">
                             <div class="row position-relative" style="height: auto">
-                             
-                                    
+
+
                                 <div class="row mydiv1">
 
-                                
+
                                 <div class="col-7 my-auto mydiv profilediv" style="margin-left: 30px" data-step="4">
                                     <div class="d-flex ">
                                         <div>
@@ -395,7 +395,7 @@ padding-bottom: 10px !important;
                                     </div>
                                 </div>
                             </div>
-                            
+
                                 <div class="position-absolute"
                                      style="right: -10px;top: -25px;height: 60px;width: 60px;border-radius: 50%;background: #1C365E;padding-left: 5px;border: 10px solid #F4E3C7">
                                     <img src="{{asset('assets/new-design/icon/dashboard/bell.svg')}}" alt="notification"
@@ -1277,7 +1277,7 @@ padding-bottom: 10px !important;
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4 html-formated-text-span"
-                                 style="text-align: justify">{!! $actionPlanInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $actionPlanInfo['information'] ?? null !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1331,13 +1331,13 @@ padding-bottom: 10px !important;
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$helpInfo['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$helpInfo['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4 html-formated-text-span"
-                                 style="text-align: justify">{!! $helpInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $helpInfo['information'] ?? null !!}</div>
                         </div>
                     </div>
                 </div>
@@ -1351,13 +1351,13 @@ padding-bottom: 10px !important;
                 <div class="modal-content">
                     <div class="modal-body" style=" border-radius: 9px">
                         <div class="card-body pt-0">
-                            <label class="form-label fs-4 text-white">{{$podcastInfo['name']}}</label>
+                            <label class="form-label fs-4 text-white">{{$podcastInfo['name'] ?? null}}</label>
                             <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                     aria-label="Close" id="close-info-modal-button">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="text-white mt-4"
-                                 style="text-align: justify">{!! $podcastInfo['information'] !!}</div>
+                                 style="text-align: justify">{!! $podcastInfo['information'] ?? null !!}</div>
                         </div>
                     </div>
                 </div>
