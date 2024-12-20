@@ -439,7 +439,7 @@
                                 <div class="card-body p-3">
                                     <h1 class="" style="color: #f2661c">Your HumanOp Profile Overview<span
                                             class="iconInfo" style="margin-left: 10px" data-bs-toggle="modal"
-                                            data-bs-target="#profileOverviewModel"><i class="fa-regular fa-circle-question"
+                                            data-bs-target="#profileOverviewModel"><i class="fa-regular fa-circle-question fa-lg"
                                                 style="color:#f2661c; font-size: 25px"></i></span>
                                     </h1>
                                     <p class="custom-color">Date of Results: {{ $created_at ?? '' }}</p>
