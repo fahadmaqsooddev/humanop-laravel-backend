@@ -55,13 +55,21 @@ class GoogleController extends Controller
 
             if (!empty($checkDeletedUser)) {
 
-                dd(Session::get('auth_url'));
-
                 $invite = UserInvite::getInviteLinkUsingEmail($googleUser['email']);
 
                 session()->flash('error', 'Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
 
-                return redirect()->back();
+                $urlGet = Session::get('auth_url');
+
+                if ($urlGet == false || $urlGet == 'login')
+                {
+                    return redirect()->to('login');
+                }
+                else
+                {
+                    return redirect()->to('register?link=' . $invite['link']);
+
+                }
 
             }
 
