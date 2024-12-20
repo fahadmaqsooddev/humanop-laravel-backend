@@ -30,7 +30,7 @@
         <!-- Example Card -->
         @foreach($chats as $chat)
             <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
-                <div class="card card-body" style="background-color: #F3DEBA !important;border: 3px solid {{$chat->chat_bot_color}};">
+                <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
                     <div class="d-flex flex-column gap-3 chat-card">
                         <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
