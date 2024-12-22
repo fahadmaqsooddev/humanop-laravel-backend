@@ -1,5 +1,5 @@
 <!-- Navbar -->
-@if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
+@if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
 <nav class="navbar navbar-main navbar-expand-lg left px-1 shadow-none border-radius-xl z-index-sticky"
      style="background-color: #8BB1AB; border-radius: 0px !important; padding: 0px !important;"
      id="navbarBlur" data-scroll="true">

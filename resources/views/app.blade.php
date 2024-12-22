@@ -37,7 +37,7 @@
 @php
 if (App\Helpers\Helpers::getWebUser())
     {
-            $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 ? '16.5rem' : '13.5rem';
+            $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || App\Helpers\Helpers::getWebUser()['is_admin'] === 3 ? '16.5rem' : '13.5rem';
     }
     else
         {
@@ -134,7 +134,7 @@ if (App\Helpers\Helpers::getWebUser())
 
 
   <script>
-    
+
     function sanitizeInput(selector){
         $(selector).on('input',function(){
             var val=$(this).val();

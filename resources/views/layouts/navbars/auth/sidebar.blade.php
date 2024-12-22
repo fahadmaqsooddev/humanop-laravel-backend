@@ -24,7 +24,7 @@
 
 @endpush
 
-@if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
+@if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
 
 <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"
      style="margin-left: 282px;margin-top:54px;position: absolute;z-index: 1024">
@@ -53,8 +53,8 @@
         </div>
     </div>
 @endif
-<aside id="" style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
-       class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] != 1 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
+<aside style="z-index: 1024; !important;{{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2  ? 'width: 155px; height: auto;border-radius: 40px !important;margin-left: 30px;' : ''}}background: #1C365E !important"
+       class=" {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 2 ? "mt-4 mb-4" : ''}}  sidenav sidenavHideClass navbar navbar-vertical navbar-expand-xs border-0   {{ (\Request::is('pages-rtl') ? 'fixed-end me-3 rotate-caret' : 'fixed-start' ) }} "
        id="sidenav-main">
     <div class="d-flex ">
         <div class="sidenav-header mb-3">
@@ -75,7 +75,7 @@
                 </a>
             @else
 
-                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1)
+                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
 
                     <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
                 <span class="humanopLogo">
