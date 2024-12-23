@@ -241,6 +241,12 @@ class AuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
+//            $invite = UserInvite::getSingleInvite($dataArray['email']);
+//
+//            if (empty($invite)) {
+//
+//                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+//            }
 
             $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
