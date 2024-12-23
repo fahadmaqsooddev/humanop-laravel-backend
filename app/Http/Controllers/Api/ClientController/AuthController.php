@@ -211,7 +211,8 @@ class AuthController extends Controller
 
                 }
             } else {
-                return Helpers::validationResponse('Your are not Authorized');
+
+                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
             }
 
 
