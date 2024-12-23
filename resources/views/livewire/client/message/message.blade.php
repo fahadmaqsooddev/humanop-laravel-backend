@@ -159,6 +159,32 @@
 
                         <div class="col-3">
 
+                            @if (empty($chats[0]))
+                                <p class="p-2">No chat found</p>
+                            @endif
+                            @foreach ($chats as $chat)
+                                <div class="messages-list mt-4 clientChatBox-{{ $chat['id'] }}"
+                                     onclick="scrollToSection('messenger-container1', {{ $chat['id'] }})">
+                                    @if ($chat['user_data'])
+                                        <div class="chathead flex-shrink-0"
+                                             style="background-color: #e4dede; width: 60px; height: 60px; border-radius: 50%;">
+                                            <img src="{{ $chat['user_data']['photo_url']['thumbnail_url'] ?? null }}"
+                                                 class="img-fluid rounded-circle">
+                                        </div>
+                                        <div class="chatlist cursor-pointer flex-grow-1 rounded-2 p-2"
+                                             wire:click="messages({{ $chat->id }}, {{ $chat['user_data'] ?? null }})">
+                                            <div class="chatlist-header d-flex justify-content-between">
+                                        <span class="fw-bold"
+                                              style="font-size: 15px;">{{ $chat['user_data'] ? substr($chat['user_data']['first_name'] . ' ' . $chat['user_data']['last_name'], 0, 15) : '' }}</span>
+                                                <span class="text-end"
+                                                      style="font-size: 10px;">{{ $chat['lastMessage']['created_at'] ?? null }}</span>
+                                            </div>
+                                            <span
+                                                style="font-size: 12px;">{{ $chat['lastMessage'] ? (strlen($chat['lastMessage']['message']) > 25 ? substr($chat['lastMessage']['message'], 0, 25) . '...' : substr($chat['lastMessage']['message'], 0, 25)) : null }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
 
                         </div>
 
