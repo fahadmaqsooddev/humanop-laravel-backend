@@ -21,7 +21,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4 col-6 w-50">
-                    @foreach(['users', 'questions', 'resources'] as $permissionName)
+                    @foreach(['users', 'questions', 'resources', 'assessments'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}">
                         <label class="form-check-label text-white">{{ ucfirst($permissionName) }}</label>
                         <br>
