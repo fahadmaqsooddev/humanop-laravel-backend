@@ -193,7 +193,8 @@
                                     </a>
                                 </li>
                             @endif
-                            @can('abandonedAssessment')
+                            @can('assessments')
+
                                 <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
                                        href="{{ route('assessments') }}">
@@ -205,6 +206,8 @@
                                     </a>
                                 </li>
 
+                            @endcan
+                            @can('abandonedAssessment')
                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
                                        href="{{ route('admin_abandoned_assessment') }}">
