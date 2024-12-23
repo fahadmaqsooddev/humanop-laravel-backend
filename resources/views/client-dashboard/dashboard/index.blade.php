@@ -1268,14 +1268,14 @@
                                 </p>
                                 <div class="d-flex justify-content-between">
                                     <button data-bs-dismiss="modal" aria-label="Close"
-                                            class="start-tour btn-sm mt-2 mb-0 rainbow-border-user-nav-btn"
-                                            style="background-color: #f2661c; color: white; font-size: 14px">
+                                            class="start-tour btn-sm mt-2 mb-0  "
+                                            style="background-color: #f2661c !important; color: white !important; font-size: 14px;border:none;">
                                         Start Tutorial
                                     </button>
                                     <button data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            class="btn-sm float-end mt-2 mb-0 rainbow-border-user-nav-btn"
-                                            style="background-color: #f2661c; color: white; font-size: 14px">
+                                            class="btn-sm float-end mt-2 mb-0 "
+                                            style="background-color: #f2661c !important; color: white !important; font-size: 14px;border:none;">
                                         Skip Tutorial
                                     </button>
                                 </div>
