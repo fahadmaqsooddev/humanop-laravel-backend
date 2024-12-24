@@ -91,6 +91,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     Route::group(['middleware' => ['permission:abandonedAssessment']], function () {
         Route::get('/abandoned-assessment', [AdminController::class, 'abandonedAssessment'])->name('admin_abandoned_assessment');
+    });
+
+    Route::group(['middleware' => ['permission:assessments']], function () {
         Route::get('/assessments', [AdminController::class, 'assessments'])->name('assessments');
     });
 

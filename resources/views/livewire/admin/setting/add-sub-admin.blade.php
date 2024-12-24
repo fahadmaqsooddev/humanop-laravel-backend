@@ -144,6 +144,11 @@
                                class="form-check-input"
                                wire:model.defer="permission.resources">
                         <label class="form-check-label text-color-dark">Resources</label>
+                        <br>
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.defer="permission.approveQueries">
+                        <label class="form-check-label text-color-dark">Approve Queries</label>
                     </div>
                     <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
                         <input type="checkbox"
@@ -163,13 +168,14 @@
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
-                               wire:model.defer="permission.abandonedAssessment">
-                        <label class="form-check-label text-color-dark">Abandoned Assessment</label>
+                               wire:model.defer="permission.assessments">
+                        <label class="form-check-label text-color-dark">Assessments</label>
                         <br>
                         <input type="checkbox"
                                class="form-check-input"
-                               wire:model.defer="permission.approveQueries">
-                        <label class="form-check-label text-color-dark">Approve Queries</label>
+                               wire:model.defer="permission.abandonedAssessment">
+                        <label class="form-check-label text-color-dark">Abandoned Assessment</label>
+                        <br>
                     </div>
                 </div>
 
