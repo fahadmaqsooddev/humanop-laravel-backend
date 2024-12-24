@@ -2489,7 +2489,7 @@
 
             console.log(autoReplayMotivationVideos, firstVideoPlayed);
 
-            if (autoReplayMotivationVideos){
+            if (autoReplayMotivationVideos || firstVideoPlayed){
 
                 console.log('autoplay');
 
@@ -2498,6 +2498,8 @@
                     console.log('2nd time autoplay');
 
                     $('#feature_video_1').click();
+
+                    firstVideoPlayed = 0;
 
                 }else{
 
