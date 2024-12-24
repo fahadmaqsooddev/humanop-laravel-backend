@@ -127,6 +127,14 @@ class ChangePasswordController extends Controller
             {
                 User::emailVerified($user['id']);
 
+              
+                if($user->register_from_app==1){
+
+                    $android = 'humanop://open/';
+
+                    return $android;
+                }
+                
                 return redirect()->route('email_verified');
             }
             else
