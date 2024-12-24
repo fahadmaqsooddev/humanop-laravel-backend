@@ -1481,46 +1481,8 @@
                                                     understanding.
                                                     <br>
                                                 <div class="read-more-content hidden">
-                                                    <label class="form-label fs-4" style="color: #f2661c;">Main Results
-                                                        Introduction:</label>
-                                                    <p class="custom-color mt-4" style="text-align: justify">You're about to
-                                                        experience your
-                                                        Human Op ULT assessment results. Most people find
-                                                        this experience to be extremely insightful, validating and even
-                                                        empowering to learn
-                                                        about themselves from this objective natural perspective. I want to
-                                                        spend just a few
-                                                        minutes with you and share a little bit about what makes our
-                                                        technology so unique.
-                                                        It's the objectivity of the HumanOp ULT assessment that sets us
-                                                        apart from the
-                                                        thousands of other human assessments. Now you may have experienced
-                                                        other human
-                                                        assessments over the years, and we're certainly not here to dismiss
-                                                        any one of them.
-                                                        Our assessment is just different from those others. The others fall
-                                                        under the
-                                                        umbrella of psychometric assessments. They're asking your opinion
-                                                        about yourself,
-                                                        and, of course, what you believe to be true about yourself is
-                                                        important. It
-                                                        certainly matters. And as we know, if we solely rely on our
-                                                        subjective opinions
-                                                        about ourselves, we can also recognize that sometimes our opinions
-                                                        of ourselves can
-                                                        be skewed. Our assessment technology elicits the objectivity that
-                                                        exists in human
-                                                        nature because we address the physics that exists in all of nature.
-                                                        After all,
-                                                        physical law governs this physical world in which we live. It is a
-                                                        constant. It's
-                                                        never changing. It governs all living things, plants, trees,
-                                                        animals…and human
-                                                        beings. So those questions that we ask you about what you look like,
-                                                        objectively,
-                                                        the answers actually mean something in terms of how you naturally
-                                                        operate on the
-                                                        road of life and our technology quantifies this understanding. </p>
+                                                   
+                                                   
                                                     <p class="custom-color" style="text-align: justify">Let's take a look at
                                                         a very elementary
                                                         illustration of what this looks like in
