@@ -98,7 +98,7 @@
                     </label>
 
                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                            aria-label="Close">
+                            aria-label="Close"  wire:click="resetForm">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
@@ -178,21 +178,21 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="table-responsive ">
-                                        <table class="table table-flush" style="border-collapse: separate">
-                                            <thead class="thead-light" >
-                                            <tr>
+                                        <table class="table table-flush" style="border-collapse: separate;table-layout: fixed; width: 100%;">
+                                            <thead class="thead-light"  >
+                                            <tr style="">
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
-                                                    <th class="text-center border border-white cursor-pointer {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
-                                                        wire:click="selectCode('{{ $select_code }}')">
+                                                    <th class="text-center border border-white cursor-pointer  {{ !empty($code) && in_array($select_code,$code) ? 'bg-success' : '' }}"
+                                                        wire:click="selectCode('{{ $select_code }}')" >
                                                         {{ strtoupper($select_code) }}
                                                     </th>
                                                 @endforeach
                                             </tr>
-                                            <tr>
+                                            <tr class="">
                                                 @foreach(['DE', 'DOM', 'FE', 'GRE', 'LUN', 'NAI', 'NE', 'POW', 'SP', 'TRA', 'VAN', 'WIL'] as $select_code)
                                                     <th class="text-center border border-white cursor-pointer ">
                                                         <div class="d-flex">
-                                                        <select class="form-control bg-transparent text-white text-center" wire:model="min_point_array.{{ $select_code }}" style="padding: 0px !important; border-color: white"  >
+                                                        <select class="form-control bg-transparent text-white text-center" wire:model="min_point_array.{{ $select_code }}" style="padding: 0px !important; border-color:white;width:100%;"  >
                                                             <option value="0" style="color: black">0</option>
                                                             <option value="1" style="color: black">1</option>
                                                             <option value="2" style="color: black">2</option>
@@ -617,6 +617,17 @@
             });
 
         });
+   
+
+        $(document).ready(function(){
+            $('#dailyTipModel').on('hidden.bs.modal',function(){
+                Livewire.emit('resetForm');
+            });
+        });
+
+   
+
+ 
 
     </script>
 
