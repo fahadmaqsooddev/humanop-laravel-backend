@@ -2003,7 +2003,7 @@
                                                         <div id="your_motivation_heading" class="card"
                                                             style="height: auto;">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}', 1, 'your_motivation')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}', 1, 'your_motivation', true)"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Motivation Introduction
@@ -2023,6 +2023,7 @@
                                                                 style="height: auto">
                                                                 <div class="card-body p-3">
                                                                     <h5 onclick="showFeatureVideo('{{ $feature[3] }}', 1, 'feature_{{ $feature_name }}')"
+                                                                        id="feature_video_{{$index}}"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
@@ -2356,6 +2357,9 @@
 
 @push('js')
     <script>
+
+        var autoReplayMotivationVideos;
+
         function toggleReadMore(button) {
             const content = document.querySelector('.read-more-content');
             const ele = document.getElementById('coreStats');
@@ -2377,7 +2381,7 @@
 
         showFeatureVideo(video_url, 0, content_id);
 
-        function showFeatureVideo(src, is_core_stats = 0, div_id = null) {
+        function showFeatureVideo(src, is_core_stats = 0, div_id = null, is_auto_play = false) {
 
             var video = document.getElementById('myVideo100');
             var videoContainer = document.getElementById('container_video');
@@ -2387,6 +2391,8 @@
             if (video_source !== null) {
                 video_source.remove();
             }
+
+            autoReplayMotivationVideos = is_auto_play;
 
             video.pause();
             var playPauseBtnIcon = videoContainer.querySelector(".play-pause i");
@@ -2515,6 +2521,15 @@
 
         mainVideo.addEventListener("loadeddata", () => {
             videoDuration.innerText = formatTime(mainVideo.duration);
+        });
+
+        mainVideo.addEventListener('ended', () => {
+
+            if (autoReplayMotivationVideos){
+
+                $('#feature_video_0').click();
+            }
+
         });
 
         const draggableProgressBar = e => {
