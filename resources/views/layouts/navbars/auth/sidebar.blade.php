@@ -273,8 +273,8 @@
                                        href="{{ route('admin_resources') }}">
                                         <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
                                                                              src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
-                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                        <span class="sidenav-normal"> Resources <br>& Trainings </span>
+                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"src="{{URL::asset('assets/icons/resourcee.png')}}">
+                                        <span class="sidenav-normal"> Resources & Trainings </span>
                                     </a>
                                 </li>
                             @endcan
