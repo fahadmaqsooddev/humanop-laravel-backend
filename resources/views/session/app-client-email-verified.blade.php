@@ -36,9 +36,12 @@
                         <div class="card-body">
                             <h5 class="mb-2" style="color: #f2661c">Email Verified Successfully!</h5>
                             <p class="d-flex text-justify text-bold" style="color: #0f1534">Your email has been
-                                successfully verified. Thank you
-                                for verifying your email, and we look forward to having you onboard! If you have any
-                                issues, feel free to reach out to our support team.</p>
+                                successfully verified. Thank you for completing the verification process. Please click
+                                the button above to access the app and continue the registration process. Once
+                                completed, you can proceed to your dashboard and begin your assessments.</p>
+                            <a href="humanop://open/" class="connection-btn btn-sm mt-2" style="font-size: medium">
+                                Open App
+                            </a>
                         </div>
                     </div>
                 </div>
