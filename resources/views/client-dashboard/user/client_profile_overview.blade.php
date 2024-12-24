@@ -2320,7 +2320,7 @@
 @push('js')
     <script>
 
-        var autoReplayMotivationVideos;
+        var autoReplayMotivationVideos, firstVideoPlayed = 0;
 
         function toggleReadMore(button) {
             const content = document.querySelector('.read-more-content');
@@ -2487,9 +2487,33 @@
 
         mainVideo.addEventListener('ended', () => {
 
+            console.log(autoReplayMotivationVideos, firstVideoPlayed);
+
             if (autoReplayMotivationVideos){
 
-                $('#feature_video_0').click();
+                console.log('autoplay');
+
+                if(firstVideoPlayed){
+
+                    console.log('2nd time autoplay');
+
+                    $('#feature_video_1').click();
+
+                }else{
+
+                    console.log('1st time autoplay');
+
+                    $('#feature_video_0').click();
+
+                    firstVideoPlayed = 1;
+
+                }
+
+                console.log('done');
+
+                mainVideo.play();
+
+                console.log('video played');
             }
 
         });
