@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\CheckInviteLinkRequest;
 use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
@@ -34,7 +35,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep','checkInviteLink']);
 
         $this->auth = Auth::guard('api');
     }
@@ -567,6 +568,28 @@ class AuthController extends Controller
             return Helpers::errorResponse('User not found');
         } catch (\Exception $exception) {
             // Handle exceptions
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function checkInviteLink(CheckInviteLinkRequest $request)
+    {
+        try {
+
+            $inviteLink = UserInvite::getInviteLink($request['invite_link']);
+
+            if (!empty($inviteLink))
+            {
+                return Helpers::successResponse('User Invite link email', $inviteLink['email']);
+            }
+            else
+            {
+                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+            }
+
+
+        } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }

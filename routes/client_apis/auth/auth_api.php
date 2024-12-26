@@ -22,6 +22,7 @@ Route::post('social-login', 'AuthController@socialLogin');
 Route::get('version', 'AuthController@appVersion');
 Route::get('resend-email-verification', 'AuthController@resendEmailVerification');
 Route::get('intention-option', 'UserController@intentionOption');
+Route::get('check-invite-link', 'AuthController@checkInviteLink');
 
 
 Route::post('register-first-step', 'AuthController@registerFirstStep');
