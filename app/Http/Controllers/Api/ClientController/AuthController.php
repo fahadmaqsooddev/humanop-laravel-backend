@@ -146,7 +146,8 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $baseUrl = url('/check-email-verification?token=', $user['email_verify_token']);
+//                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
+                        $baseUrl = "https://human-nine-dun.vercel.app/email-validate?token=" .$user['email_verify_token'];
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
                         $serviceUrl = url('/term-of-service');
@@ -158,7 +159,6 @@ class AuthController extends Controller
                             '{$service}' => $serviceUrl,
                             '{$privacy}' => $privacyUrl,
                         ];
-
 
                         $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
 
@@ -559,7 +559,7 @@ class AuthController extends Controller
 
 
             return Helpers::successResponse('Your Email is verified.', $data);
-            
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
