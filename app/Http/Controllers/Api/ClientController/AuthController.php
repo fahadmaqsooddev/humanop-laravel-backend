@@ -150,7 +150,7 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $baseUrl = url('/check-email?token=', $user['email_verify_token']);
+                        $baseUrl = url('/check-email-verification?token=', $user['email_verify_token']);
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
                         $serviceUrl = url('/term-of-service');
@@ -519,6 +519,7 @@ class AuthController extends Controller
             $user->setAppends([]);
 
             if (!empty($user)) {
+                
                 return Helpers::successResponse('Your Email is verified', $user);
             } else {
 
