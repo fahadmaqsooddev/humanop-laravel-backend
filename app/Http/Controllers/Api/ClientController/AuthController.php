@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\CheckInviteLinkRequest;
+use App\Http\Requests\Api\Auth\EmailVerifiedRequest;
 use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
@@ -35,7 +36,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep','checkInviteLink','EmailVerification']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
 
         $this->auth = Auth::guard('api');
     }
@@ -60,18 +61,13 @@ class AuthController extends Controller
 
             $checkUser = User::checkEmail($credentials['email']);
 
-            if (empty($checkUser))
-            {
+            if (empty($checkUser)) {
                 return Helpers::validationResponse("These credentials do not match our records.");
 
-            }
-            else if ($checkUser && $checkUser['email_verified_at'] == null)
-            {
+            } else if ($checkUser && $checkUser['email_verified_at'] == null) {
                 return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
 
-            }
-            else
-            {
+            } else {
                 $remember_me = $request['remember'] == 'true' ? true : false;
 
                 if ($remember_me == true) {
@@ -519,7 +515,7 @@ class AuthController extends Controller
             $user->setAppends([]);
 
             if (!empty($user)) {
-                
+
                 return Helpers::successResponse('Your Email is verified', $user);
             } else {
 
@@ -533,38 +529,37 @@ class AuthController extends Controller
         }
     }
 
-    public function EmailVerification(Request $request){
+    public function EmailVerified(EmailVerifiedRequest $request)
+    {
         try {
-
             $token = $request->query('token');
 
-        $user = User::where('email_verify_token', $token)->first();
+            $user = User::where('email_verify_token', $token)->first();
 
-        if (!empty($user)) {
-
-            if (empty($user['email_verified_at']))
-            {
-                User::emailVerified($user['id']);
-
-                Auth::login($user);
-
-                return Helpers::successResponse('Your Email is verified', $user);
+            if (!$user) {
+                return Helpers::validationResponse('Email verification has expired.');
             }
-            else
-            {
 
-                Auth::login($user);
+            if (empty($user->email_verified_at)) {
 
-                return Helpers::successResponse('You are already verified.', $user);
+                User::emailVerified($user->id);
 
-
+                $user->refresh();
             }
-        }
-        else
-        {
 
-            return Helpers::validationResponse('Email verification has been exoired');
-        }
+            $authToken = $this->auth->login($user);
+
+            $data = [
+                'user' => $user,
+                'authorization' => [
+                    'token' => $authToken,
+                    'type' => 'bearer',
+                ],
+            ];
+
+
+            return Helpers::successResponse('Your Email is verified.', $data);
+            
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -617,12 +612,9 @@ class AuthController extends Controller
 
             $inviteLink = UserInvite::getInviteLink($request['invite_link']);
 
-            if (!empty($inviteLink))
-            {
+            if (!empty($inviteLink)) {
                 return Helpers::successResponse('User Invite link email', $inviteLink['email']);
-            }
-            else
-            {
+            } else {
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
             }
 
