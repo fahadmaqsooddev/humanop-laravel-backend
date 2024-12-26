@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="rainbow-border-user-nav-btn btn-sm float-end mt-6 mb-0">Update
+                <button type="submit" class=" btn-sm float-end mt-6 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">Update
                     account
                 </button>
             </div>

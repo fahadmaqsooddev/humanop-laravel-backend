@@ -33,7 +33,7 @@
                 </td>
                 <td class="text-md font-weight-normal">
                     <a wire:click="approveFeedback({{$feedback['id']}})"
-                       class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0">
+                       class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                         Approve
                     </a>
                 </td>

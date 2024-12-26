@@ -44,12 +44,12 @@
                 </td>
                 <td class="text-md font-weight-normal">
                     <a type="submit" data-bs-toggle="modal"
-                       data-bs-target="#editQueryModal{{$query['id']}}" class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0">
+                       data-bs-target="#editQueryModal{{$query['id']}}" class=" btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                         Edit
                     </a>
                 </td>
                 <td class="text-md font-weight-normal">
-                    <a wire:click="approveAnswer({{$query['id']}})" class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0">
+                    <a wire:click="approveAnswer({{$query['id']}})" class=" btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                         Approve
                     </a>
                 </td>

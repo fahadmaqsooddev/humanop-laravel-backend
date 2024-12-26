@@ -42,13 +42,13 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <button class="rainbow-border-user-nav-btn btn-sm mt-2 mb-0" type="button" data-toggle="modal"
-                                data-target="#createCategory">
+                        <button class=" btn-sm mt-2 mb-0" type="button" data-toggle="modal"
+                                data-target="#createCategory" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                             Add Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm"
                                 id="create_resourse_btn"
-                                class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">Create Resource
+                                class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Create Resource
                         </button>
                     </div>
                 </div>
