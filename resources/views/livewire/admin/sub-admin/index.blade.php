@@ -56,7 +56,7 @@
                 </td>
                 <td class="text-sm font-weight-normal">{{ \Carbon\Carbon::parse($admin->signup_date)->format('Y/m/d') }}</td>
                 <td class="text-sm font-weight-normal">
-                    <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">View</a>
+                    <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}" class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;">View</a>
                 </td>
             </tr>
             <div wire:ignore.self class="modal fade" id="subadmindetail{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="subadmindetail{{ $admin->id }}" aria-hidden="true">

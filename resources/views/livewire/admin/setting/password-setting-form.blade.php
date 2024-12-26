@@ -42,7 +42,7 @@
 {{--                    <span class="text-sm text-color-dark">Change it often</span>--}}
 {{--                </li>--}}
 {{--            </ul>--}}
-            <button type="submit" class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">
+            <button type="submit" class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                 Update password
             </button>
         </div>

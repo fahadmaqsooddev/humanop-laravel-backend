@@ -36,7 +36,7 @@
         </div>
     </div>
     @if(Auth::user()->hasRole('super admin'))
-        <button wire:click="hideHaiChatFromAllClients" class="rainbow-border-user-nav-btn btn-sm float-end m-2 mb-0">Hai Chat Change Status</button>
+        <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
     @endif
     <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
@@ -110,7 +110,7 @@
                         </td>
                         <td class="text-sm font-weight-normal">
                             <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
-                               class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">
+                               class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;">
                                 Login
                             </a>
                         </td>

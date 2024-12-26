@@ -63,7 +63,7 @@
                     <td class="text-sm font-weight-normal">{{request()->getHttpHost(). '/' . $user['first_name'].'/'.$user['last_name']. '/login'}}</td>
                     <td class="text-sm font-weight-normal">
                         <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
-                           class="rainbow-border-user-nav-btn btn-sm float-end mt-2 mb-0">
+                           class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                             Login
                         </a>
                     </td>

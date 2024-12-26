@@ -180,7 +180,7 @@
                 </div>
 
             </div>
-            <button type="submit" class="rainbow-border-user-nav-btn btn-sm float-end mt-4 mb-4">
+            <button type="submit" class=" btn-sm float-end mt-4 mb-4" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                 Create Sub Admin
             </button>
 {{--            <p class="text-muted mt-4 mb-2">--}}
