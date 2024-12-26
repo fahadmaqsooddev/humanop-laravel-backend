@@ -23,7 +23,7 @@ Route::get('version', 'AuthController@appVersion');
 Route::get('resend-email-verification', 'AuthController@resendEmailVerification');
 Route::get('intention-option', 'UserController@intentionOption');
 
-
+Route::post('email-verification', 'AuthController@EmailVerification');
 Route::post('register-first-step', 'AuthController@registerFirstStep');
 Route::post('check-email-verification', 'AuthController@checkEmailVerification');
 Route::post('register-last-step', 'AuthController@registerLastStep');

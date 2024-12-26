@@ -34,7 +34,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep']);
+        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep','EmailVerification']);
 
         $this->auth = Auth::guard('api');
     }
@@ -525,6 +525,44 @@ class AuthController extends Controller
 
             }
 
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function EmailVerification(Request $request){
+        try {
+
+            $token = $request->query('token');
+
+        $user = User::where('email_verify_token', $token)->first();
+
+        if (!empty($user)) {
+
+            if (empty($user['email_verified_at']))
+            {
+                User::emailVerified($user['id']);
+
+                Auth::login($user);
+
+                return Helpers::successResponse('Your Email is verified', $user);
+            }
+            else
+            {
+
+                Auth::login($user);
+
+                return Helpers::successResponse('You are already verified.', $user);
+
+
+            }
+        }
+        else
+        {
+
+            return Helpers::validationResponse('Email verification has been exoired');
+        }
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
