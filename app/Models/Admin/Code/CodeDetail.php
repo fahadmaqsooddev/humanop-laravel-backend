@@ -231,8 +231,8 @@ class CodeDetail extends Model
                         'public_name' => substr($record->public_name, 0, $str_len),
                         'description' => $record->text,
                         'video_url' => $record['video_url'],
-                        'code' => $codeKey,
-                        'number' => $assessment[$codeKey] ?? null,
+                        'code_name' => $codeKey,
+                        'code_number' => $assessment[$codeKey] ?? null,
                     ];
 
                     array_push($result, $data);
@@ -243,8 +243,8 @@ class CodeDetail extends Model
                         'public_name' => $record->public_name,
                         'description' => $record->text,
                         'video_url' => $record->video_url,
-                        'code' => $codeKey,
-                        'number' => $assessment[$codeKey] ?? null,
+                        'code_name' => $codeKey,
+                        'code_number' => $assessment[$codeKey] ?? null,
                     ];
 
                     array_push($result, $data);
@@ -258,7 +258,18 @@ class CodeDetail extends Model
     public static function getPerceptionStaticText()
     {
 
-        return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+        // return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+        $result= self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+        return [
+            'code_number'=>$result['id'],
+            'public_name'=>$result['public_name'],
+            'description'=>$result['text'],
+            'video'=>$result['video'],
+            'p_name'=>$result['p_name'],
+            'video_url'=>$result['video_url']
+        ];
+        
+        
 
     }
 

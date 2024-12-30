@@ -900,7 +900,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$style[1] }} : </span>{{$style[2]}}
+                                                            style="color: #f2661c;">{{$style['public_name'] }} : </span>{{$style['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -937,7 +937,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                                     <span
-                                                                        style="color: #f2661c;">{{$feature[1] }} : </span>{{$feature[2]}}
+                                                                        style="color: #f2661c;">{{$feature['public_name'] }} : </span>{{$feature['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1103,7 +1103,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
-                                                        {{$boundary['text']}}
+                                                        {{$boundary['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1230,8 +1230,8 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$energyPool['code']}}:</span>
-                                                        {{$energyPool['text']}}
+                                                            style="color: #f2661c;">{{$energyPool['public_name']}}:</span>
+                                                        {{$energyPool['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1308,12 +1308,12 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify"><span
                                                             style="color: #f2661c;">
-                                                            {{($perception['id'] == 40 ? "Negatively Charged" :
-                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
-                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
+                                                            {{($perception['code_number'] == 40 ? "Negatively Charged" :
+                                                                          ($perception['code_number'] == 41 ? "Neutrally Charged" :
+                                                                          ($perception['code_number'] == 42 ? "Positively Charged" : '')))
                                                                         }} [{{ $perception['pv'] ?? '' }}]
                                                         </span>
-                                                        {{$perception['text']}}
+                                                        {{$perception['description']}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1826,11 +1826,12 @@
                                                             <div id="style_{{$index.'_heading'}}" class="card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$style[3]}}', 1, '{{'style_'.$index}}')"
+                                                                    <h5 onclick="showFeatureVideo('{{$style['video_url']}}', 1, '{{'style_'.$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                       {{$style[1] . ' [' . "$style[0]" . ']'}}
+                                                                       {{-- {{$style[1] . ' [' . "$style[0]" . ']'}} --}}
+                                                                       {{ $style['public_name'] . ' [' . $style['code_number'] . ']' }}
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1857,18 +1858,20 @@
                                                             <div id="feature_{{$index}}_heading" class="card"
                                                                  style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{$feature[3]}}', 1, 'feature_{{$index}}')"
+                                                                    <h5 onclick="showFeatureVideo('{{$feature['video_url']}}', 1, 'feature_{{$index}}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
                                                                         {{-- {{$index + 1}} --}}
-                                                                        {{$feature[1] . ' [' . "$feature[0]" . ']'}}
+                                                                        {{-- {{$feature[1] . ' [' . "$feature[0]" . ']'}} --}}
+                                                    
+                                                                        {{$feature['public_name'] . ' [' . $feature['code_number'] . ']'}}
                                                                     </h5>
-                                                                    <div id="{{$feature[1]}}"
+                                                                    <div id="{{$feature['public_name']}}"
                                                                          class="collapse description-container"
                                                                          aria-labelledby="headingOne"
                                                                          data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px"
-                                                                           style="color: rgb(160, 174, 192);">{{$feature[2]}}</p>
+                                                                           style="color: rgb(160, 174, 192);">{{$feature['description']}}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1969,7 +1972,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{$energyPool['code']}}
+                                                                        {{$energyPool['public_name']}}
 
                                                                     </h5>
                                                                 </div>
@@ -1977,6 +1980,7 @@
                                                         </div>
                                                     </div>
                                                 @endif
+                                            
                                                 @if($perception_life)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
@@ -2006,9 +2010,9 @@
 
                                                                         {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}}--}}
 
-                                                                        {{($perception['id'] == 40 ? "Negatively Charged" :
-                                                                          ($perception['id'] == 41 ? "Neutrally Charged" :
-                                                                          ($perception['id'] == 42 ? "Positively Charged" : '')))
+                                                                        {{($perception['code_number'] == 40 ? "Negatively Charged" :
+                                                                          ($perception['code_number'] == 41 ? "Neutrally Charged" :
+                                                                          ($perception['code_number'] == 42 ? "Positively Charged" : '')))
                                                                         }} [{{ $perception['pv'] ?? '' }}]
 
                                                                     </h5>

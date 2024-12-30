@@ -525,8 +525,8 @@ class Assessment extends Model
         $record = CodeDetail::whereId($energy_code['energy_code'])->first();
 
         $data = [
-            'code' => $publicName,
-            'text' => $record['text'],
+            'public_name' => $publicName,
+            'description' => $record['text'],
             'video_url' => $record['video_url'] ?? null,
         ];
 
@@ -629,7 +629,22 @@ class Assessment extends Model
 
         arsort($getStyle);
 
-        return CodeDetail::getPublicNames($getStyle);
+        // return CodeDetail::getPublicNames($getStyle);
+        $data= CodeDetail::getPublicNames($getStyle);
+        $transformedData = array_map(function($item) {
+            return [
+                'code_number' => $item[0],
+                'public_name' => $item[1],
+                'description' => $item[2],
+                'video_url' => $item[3]
+            ];
+        }, $data);
+
+        return $transformedData;
+        
+        // Dumping or using the transformed data
+        // dd($transformedData);
+      
     }
 
     public static function getFeatures($assessment = null, $isCode = true)
@@ -837,7 +852,17 @@ class Assessment extends Model
             }
         }
 
-        return CodeDetail::getPublicNames($topFeatures);
+        // return CodeDetail::getPublicNames($topFeatures);
+        $topfeaturesdata= CodeDetail::getPublicNames($topFeatures);
+        $newtopfeaturesdata=array_map(function($item){
+             return [
+                'code_number' => $item[0],
+                'public_name' => $item[1],
+                'description' => $item[2],
+                'video_url' => $item[3]
+               ];
+        },$topfeaturesdata);
+        return $newtopfeaturesdata;
     }
 
     public static function getAlchemy($assessment = null)
@@ -1280,7 +1305,7 @@ class Assessment extends Model
             $boundaries = [
                 'public_name' => $publicName['public_name'],
                 'code_number' => $gold . $silver . $copper,
-                'text' => $publicName['text'],
+                'description' => $publicName['text'],
                 'video_url' => $publicName['video_url'],
                 'img_url' => $alchemyCodeDetail['image'],
             ];
@@ -1310,8 +1335,20 @@ class Assessment extends Model
         $record = CodeDetail::whereId($polarity_code)->select(['id', 'public_name', 'text', 'video'])->first();
 
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
+        // return $record;
 
-        return $record;
+        return $data=[
+         'code_number'=>$record['id'],
+         'public_name'=>$record['public_name'],
+         'description'=>$record['text'],
+         'video'=>$record['video'],
+         'video_url'=>$record['video_url'],
+         'pv'=>$record['pv'],
+        ];
+
+        
+
+      
 
     }
 

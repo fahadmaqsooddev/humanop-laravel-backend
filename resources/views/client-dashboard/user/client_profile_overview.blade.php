@@ -956,16 +956,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <?php
+                                    //  dd($allStyles);
+                                    ?>
                                     @foreach ($allStyles as $index => $style)
                                         <div class="row d-flex">
-                                            <div id="style_{{ $style[1] }}" class="col-12 mt-3"
+                                            <div id="style_{{ $style['public_name'] }}" class="col-12 mt-3"
                                                 style="display: none;">
-                                                <div id="style_{{ $style[1] }}_text" class="card p-2"
+                                                <div id="style_{{ $style['public_name'] }}_text" class="card p-2"
                                                     style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{ $style[1] }} :
-                                                        </span>{{ $style[2] }}
+                                                            style="color: #f2661c;">{{ $style['public_name'] }} :
+                                                        </span>{{ $style['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -993,7 +996,7 @@
                                     </div>
                                     @foreach ($topTwoFeatures as $index => $feature)
                                         @php
-                                            $feature_name = str_replace(' ', '-', $feature[1]);
+                                            $feature_name = str_replace(' ', '-', $feature['public_name']);
                                         @endphp
                                         <div class="row d-flex">
                                             <div id="feature_{{ $feature_name }}" class="col-12 mt-3"
@@ -1002,8 +1005,8 @@
                                                     style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify">
-                                                        <span style="color: #f2661c;">{{ $feature[1] }} :
-                                                        </span>{{ $feature[2] }}
+                                                        <span style="color: #f2661c;">{{ $feature['public_name'] }} :
+                                                        </span>{{ $feature['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1153,6 +1156,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                   
                                     @if ($boundary)
                                         <div class="row d-flex">
                                             <div id="boundary_dynamic_div" class="col-12 mt-3" style="display: none;">
@@ -1162,7 +1166,7 @@
                                                         style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span
                                                             style="color: #f2661c;">{{ $boundary['public_name'] . ' Alchemy' }}
-                                                            : </span>{{ $boundary['text'] }}
+                                                            : </span>{{ $boundary['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1286,8 +1290,8 @@
                                                     style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{ $energyPool['code'] }}:</span>
-                                                        {{ $energyPool['text'] }}
+                                                            style="color: #f2661c;">{{ $energyPool['public_name'] }}:</span>
+                                                        {{ $energyPool['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1361,16 +1365,16 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify"><span
                                                             style="color: #f2661c;">
-                                                            {{ $perception['id'] == 40
+                                                            {{ $perception['code_number'] == 40
                                                                 ? 'Negatively Charged'
-                                                                : ($perception['id'] == 41
+                                                                : ($perception['code_number'] == 41
                                                                     ? 'Neutrally Charged'
-                                                                    : ($perception['id'] == 42
+                                                                    : ($perception['code_number'] == 42
                                                                         ? 'Positively Charged'
                                                                         : '')) }}
                                                             [{{ $perception['pv'] ?? '' }}]
                                                         </span>
-                                                        {{ $perception['text'] }}
+                                                        {{ $perception['description'] }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1946,14 +1950,16 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach ($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
-                                                            <div id="style_{{ $style[1] . '_heading' }}"
+                                                            <div id="style_{{ $style['public_name'] . '_heading' }}"
                                                                 class="card core_stats_dynamic_card" style="height: auto">
                                                                 <div class="card-body p-3 ">
-                                                                    <h5 onclick="showFeatureVideo('{{ $style[3] }}', 1, '{{ 'style_' . $style[1] }}')"
+                                                                    <h5 onclick="showFeatureVideo('{{ $style['video_url'] }}', 1, '{{ 'style_' . $style['public_name'] }}')"
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                         {{ $style[1] . ' [' . "$style[0]" . ']' }}
+                                                                         {{-- {{ $style[1] . ' [' . "$style[0]" . ']' }} --}}
+                                                                         {{ $style['public_name'] . ' [' . $style['code_number'] . ']' }}
+
                                                                     </h5>
                                                                 </div>
                                                             </div>
@@ -1977,26 +1983,33 @@
                                                 <div class="row d-flex mt-5">
                                                     @foreach ($topTwoFeatures as $index => $feature)
                                                         @php
-                                                            $feature_name = str_replace(' ', '-', $feature[1]);
+                                                            $feature_name = str_replace(' ', '-', $feature['public_name']);
                                                         @endphp
                                                         <div class="col-lg-6 col-sm-12 col-md-6">
                                                             <div id="feature_{{ $feature_name }}_heading"
                                                                 class="card core_stats_dynamic_card_motivation"
                                                                 style="height: auto">
                                                                 <div class="card-body p-3">
+<<<<<<< Updated upstream
                                                                     <h5 onclick="showFeatureVideo('{{ $feature[3] }}', 1, 'feature_{{ $feature_name }}')"
+=======
+                                                                    <h5 onclick="showFeatureVideo('{{ $feature['video_url'] }}', 1, 'feature_{{ $feature_name }}')"
+                                                                        id="feature_video_{{$index}}"
+>>>>>>> Stashed changes
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                         {{ $feature[1] . ' [' . "$feature[0]" . ']' }}
+                                                                         {{-- {{ $feature[1] . ' [' . "$feature[0]" . ']' }} --}}
+                                                                         {{ $feature['public_name'] . ' [' . $feature['code_number'] . ']' }}
+
                                                                     </h5>
-                                                                    <div id="{{ $feature[1] }}"
+                                                                    <div id="{{ $feature['public_name'] }}"
                                                                         class="collapse description-container"
                                                                         aria-labelledby="headingOne"
                                                                         data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px"
                                                                             style="color: rgb(160, 174, 192);">
-                                                                            {{ $feature[2] }}</p>
+                                                                            {{ $feature['description'] }}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2060,7 +2073,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['code']] ?? null) . ']' }}
+                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['public_name']] ?? null) . ']' }}
 
                                                                     </h5>
                                                                 </div>
@@ -2093,7 +2106,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{ $energyPool['code'] }}
+                                                                        {{ $energyPool['public_name'] }}
 
                                                                     </h5>
                                                                 </div>
@@ -2129,11 +2142,11 @@
 
                                                                         {{--                                                                        {{$perception['public_name'] . (isset($perception->pv) ? ' [' . $perception['pv'] . ']' : "")}} --}}
 
-                                                                        {{ $perception['id'] == 40
+                                                                        {{ $perception['code_number'] == 40
                                                                             ? 'Negatively Charged'
-                                                                            : ($perception['id'] == 41
+                                                                            : ($perception['code_number'] == 41
                                                                                 ? 'Neutrally Charged'
-                                                                                : ($perception['id'] == 42
+                                                                                : ($perception['code_number'] == 42
                                                                                     ? 'Positively Charged'
                                                                                     : '')) }}
                                                                         [{{ $perception['pv'] ?? '' }}]

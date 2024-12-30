@@ -685,12 +685,15 @@
                                                 <div class="mt-2">
                                                     <p class="traitHeading mb-2"> Top 3 Traits:</p>
                                                     <div class="d-flex flex-column" style="margin-top: -10px">
+                                                        <?php
+// dd($topThreeStyles);
+                                                        ?>
                                                         @if($topThreeStyles)
                                                             @foreach(array_slice($topThreeStyles, 0, 3) as $index => $style)
                                                                 <p class="fw-bold text-color-blue"
                                                                    style=" cursor: pointer;margin: unset; font-size: 15px !important;"
-                                                                   onclick="goToProfileOverviewPage('{{$style[3]}}','style_{{$style[1]}}')">
-                                                                    {{ $style[1] }} [{{ $style[0] }}]
+                                                                   onclick="goToProfileOverviewPage('{{$style['video_url']}}','style_{{$style['public_name']}}')">
+                                                                    {{ $style['public_name'] }} [{{ $style['code_number'] }}]
                                                                 </p>
                                                             @endforeach
                                                         @else
@@ -705,13 +708,16 @@
                                                         Drivers:</p>
                                                     <div class="d-flex flex-column text-color-blue"
                                                          style="margin-top: -10px">
+                                                         <?php
+                                                        //  dd($topTwoFeatures);
+                                                         ?>
                                                         @if($topTwoFeatures)
                                                             @foreach($topTwoFeatures as $index => $feature)
                                                                 <p class="fw-bold"
                                                                    style=" cursor: pointer;margin: unset ; font-size: 15px"
-                                                                   onclick="goToProfileOverviewPage('{{$feature[3]}}','{{'feature_'.$feature[1]}}')">
-                                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature[1] }}
-                                                                    [{{ $feature[0] }}]
+                                                                   onclick="goToProfileOverviewPage('{{$feature['video_url']}}','{{'feature_'.$feature['public_name']}}')">
+                                                                    {{($index%2) === 1 ? 'Co-Pilot: ' : 'Pilot: '}}{{ $feature['public_name'] }}
+                                                                    [{{ $feature['code_number'] }}]
                                                                 </p>
                                                             @endforeach
                                                         @else
@@ -788,11 +794,12 @@
                                                        style="color: rgb(160, 174, 192)">
                                                         Energy
                                                         Pool:</p>
+                                                        
                                                     @if($energyPool)
                                                         <p class="fw-bold text-color-blue "
                                                            style="margin-top: -10px;cursor: pointer;font-size: 15px"
                                                            onclick="goToProfileOverviewPage('{{$energyPool['video_url']}}','energy_pool_dynamic_dev')">
-                                                            {{ $energyPool['code'] }}
+                                                            {{ $energyPool['public_name'] }}
                                                         </p>
                                                     @else
                                                         <p class="fw-bold fs-12px text-color-blue"
