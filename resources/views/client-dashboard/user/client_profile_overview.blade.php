@@ -1485,8 +1485,8 @@
                                                     understanding.
                                                     <br>
                                                 <div class="read-more-content hidden">
-                                                   
-                                                   
+
+
                                                     <p class="custom-color" style="text-align: justify">Let's take a look at
                                                         a very elementary
                                                         illustration of what this looks like in
@@ -1971,7 +1971,7 @@
                                                         <div id="your_motivation_heading" class="card"
                                                             style="height: auto;">
                                                             <div class="card-body p-3 " style="text-align: center">
-                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}', 1, 'your_motivation')"
+                                                                <h5 onclick="showFeatureVideo('{{ asset('assets/video/Intro to Motivation (Drivers).mp4') }}', 1, 'your_motivation', true)"
                                                                     style="cursor: pointer;color: #f2661c;"
                                                                     class="fs-10px">
                                                                     Motivation Introduction
@@ -1990,12 +1990,8 @@
                                                                 class="card core_stats_dynamic_card_motivation"
                                                                 style="height: auto">
                                                                 <div class="card-body p-3">
-<<<<<<< Updated upstream
-                                                                    <h5 onclick="showFeatureVideo('{{ $feature[3] }}', 1, 'feature_{{ $feature_name }}')"
-=======
                                                                     <h5 onclick="showFeatureVideo('{{ $feature['video_url'] }}', 1, 'feature_{{ $feature_name }}')"
                                                                         id="feature_video_{{$index}}"
->>>>>>> Stashed changes
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
@@ -2189,12 +2185,12 @@
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
                     <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">{{ $profileInfo['name'] }}</label>
+                        <label class="form-label fs-4 text-white">{{ $profileInfo['name'] ?? null }}</label>
                         <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"
                             id="close-info-modal-button">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <p class="text-white mt-4" style="text-align: justify">{{ $profileInfo['information'] }}</p>
+                        <p class="text-white mt-4" style="text-align: justify">{{ $profileInfo['information'] ?? null }}</p>
                     </div>
                 </div>
             </div>
@@ -2331,6 +2327,9 @@
 
 @push('js')
     <script>
+
+        var autoReplayMotivationVideos, firstVideoPlayed = 0;
+
         function toggleReadMore(button) {
             const content = document.querySelector('.read-more-content');
             const ele = document.getElementById('coreStats');
@@ -2352,7 +2351,7 @@
 
         showFeatureVideo(video_url, 0, content_id);
 
-        function showFeatureVideo(src, is_core_stats = 0, div_id = null) {
+        function showFeatureVideo(src, is_core_stats = 0, div_id = null, is_auto_play = false) {
 
             var video = document.getElementById('myVideo100');
             var videoContainer = document.getElementById('container_video');
@@ -2362,6 +2361,8 @@
             if (video_source !== null) {
                 video_source.remove();
             }
+
+            autoReplayMotivationVideos = is_auto_play;
 
             video.pause();
             var playPauseBtnIcon = videoContainer.querySelector(".play-pause i");
@@ -2490,6 +2491,41 @@
 
         mainVideo.addEventListener("loadeddata", () => {
             videoDuration.innerText = formatTime(mainVideo.duration);
+        });
+
+        mainVideo.addEventListener('ended', () => {
+
+            console.log(autoReplayMotivationVideos, firstVideoPlayed);
+
+            if (autoReplayMotivationVideos || firstVideoPlayed){
+
+                console.log('autoplay');
+
+                if(firstVideoPlayed){
+
+                    console.log('2nd time autoplay');
+
+                    $('#feature_video_1').click();
+
+                    firstVideoPlayed = 0;
+
+                }else{
+
+                    console.log('1st time autoplay');
+
+                    $('#feature_video_0').click();
+
+                    firstVideoPlayed = 1;
+
+                }
+
+                console.log('done');
+
+                mainVideo.play();
+
+                console.log('video played');
+            }
+
         });
 
         const draggableProgressBar = e => {
