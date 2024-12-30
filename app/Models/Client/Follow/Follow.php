@@ -26,7 +26,7 @@ class Follow extends Model
     // appends
     public function getChatIdAttribute(){
 
-        $user_id = Helpers::getWebUser()->id;
+        $user_id = Helpers::getUser()->id;
 
         $chatId1 = $this->followerChatId()->where('sender_id', $this->follow_id)->first();
 
@@ -229,6 +229,8 @@ class Follow extends Model
         $followers = $followers->has('user')->where('follow_id', (Helpers::getWebUser()->id ?? Helpers::getUser()->id))
 
             ->with('user:id,first_name,last_name,image_id');
+
+          
 
         return Helpers::pagination($followers, $request->input('pagination'), $request->input('per_page'));
     }
