@@ -13,7 +13,36 @@
     <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet"/>
 
     @livewireStyles
+    <style>
+        
+@media only screen and (max-width: 768px) {
+    .card {
+        width: 90%;
+        margin: 0 auto;
+    }
+    h5 {
+        font-size: 1rem;
+    }
+    p {
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .card {
+        width: 100%;
+        margin: 0 auto;
+    }
+    h5 {
+        font-size: 2rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+}
+    </style>
 </head>
+
 
 <body style="background-color: #2C4C7E">
 
