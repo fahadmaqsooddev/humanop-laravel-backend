@@ -78,9 +78,7 @@ class CreateResource extends Component
                 ]
             );
 
-            dd($responseData['output']);
-
-            LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id']]);
+            LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['thumbnail_url'][0]]);
 
 //            Upload::deleteUploadFile($getResource['upload_id']);
 
