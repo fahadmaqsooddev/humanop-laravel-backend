@@ -67,20 +67,21 @@ class CreateResource extends Component
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
 
-            $getResource = LibraryResource::singleLibraryResource($resource['id']);
+            if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
+            {
+                $getResource = LibraryResource::singleLibraryResource($resource['id']);
 
-            $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
-                [
-                    'format' => 'MP4',
-                    'input' => $getResource['video_url'] ? $getResource['video_url']['path'] : '',
-                    'collection_id' => "675260ac948718dd9422d8bb",
-                    'title' => $this->heading
-                ]
-            );
+                $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
+                    [
+                        'format' => 'MP4',
+                        'input' => $getResource['video_url'] ? $getResource['video_url']['path'] : '',
+                        'collection_id' => "675260ac948718dd9422d8bb",
+                        'title' => $this->heading
+                    ]
+                );
 
-            LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
-
-//            Upload::deleteUploadFile($getResource['upload_id']);
+                LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
+            }
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -237,18 +238,23 @@ class CreateResource extends Component
 
         $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
-        $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
-            [
-                'format' => 'MP4',
-                'input' => $updateResource['video_url'] ? $updateResource['video_url']['path'] : '',
-                'collection_id' => "675260ac948718dd9422d8bb",
-                'title' => $this->heading
-            ]
-        );
+        if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
+        {
+            $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
+                [
+                    'format' => 'MP4',
+                    'input' => $updateResource['video_url'] ? $updateResource['video_url']['path'] : '',
+                    'collection_id' => "675260ac948718dd9422d8bb",
+                    'title' => $this->heading
+                ]
+            );
+
+            LibraryResource::whereId($getResource['id'])->update(['upload_id' => null, 'source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
+
+        }
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
-        LibraryResource::whereId($getResource['id'])->update(['upload_id' => null, 'source_id' => $responseData['asset_id']]);
 
         $this->emit('toggleEditResourceModal');
 
