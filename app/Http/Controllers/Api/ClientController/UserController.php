@@ -186,6 +186,21 @@ class UserController extends Controller
         }
     }
 
+    public function updateUserTimezone()
+    {
+
+        try {
+
+            $timezones = Helpers::timeZone();
+
+            return Helpers::successResponse('Timezone successfully updated', $timezones);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
     public function getLatestVersion()
     {
 
