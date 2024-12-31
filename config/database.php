@@ -302,7 +302,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment','user_id','approve'],
+            'fillable' => ['comment','user_id','approve','rating'],
             'hidden' => ['updated_at','created_at'],
         ],
         'Connection' => [

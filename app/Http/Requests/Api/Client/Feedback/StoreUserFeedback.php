@@ -25,12 +25,14 @@ class StoreUserFeedback extends FormRequest
     {
         return [
             'comment' => 'required|max:1000',
+            'rating' =>  'required',
         ];
     }
 
     public function messages()
     {
         return [
+            'rating.required' => 'Rating is required',
             'comment.required' => 'Please Fill out Feedback Section',
             'comment.max' => 'Feedback must not exceed 1000 character Limit',
         ];
