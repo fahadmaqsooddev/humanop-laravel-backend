@@ -77,8 +77,6 @@ class CreateResource extends Component
                     'title' => $this->heading
                 ]
             );
-
-            dd($getResource['video_url']['path']);
             
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id']]);
 
