@@ -232,10 +232,8 @@ class CreateResource extends Component
 
         $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
-        $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
-
-        dd($updateResource['video_url']['path']);
-
+        dd($getResource['video_url']['path']);
+        
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
         {
 
@@ -244,11 +242,13 @@ class CreateResource extends Component
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
                 [
                     'format' => 'MP4',
-                    'input' => $updateResource['video_url'] ? $updateResource['video_url']['path'] : '',
+                    'input' => $getResource['video_url'] ? $getResource['video_url']['path'] : '',
                     'collection_id' => "675260ac948718dd9422d8bb",
                     'title' => $this->heading
                 ]
             );
+
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
 
