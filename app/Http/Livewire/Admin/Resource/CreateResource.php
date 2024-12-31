@@ -232,8 +232,10 @@ class CreateResource extends Component
 
         $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
-        dd($getResource['video_url']['path']);
-        
+//        dd($getResource['video_url']['path']);
+
+        $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
+
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
         {
 
@@ -248,7 +250,6 @@ class CreateResource extends Component
                 ]
             );
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id'], 'source_url' => $responseData['output']['playback_url']]);
 
