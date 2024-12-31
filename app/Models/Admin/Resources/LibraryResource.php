@@ -40,7 +40,8 @@ class LibraryResource extends Model
     public function getVideoUrlAttribute()
     {
 
-        return Helpers::getVideo($this->upload_id, 1);
+        return Helpers::getVideo($this->upload_id, 1, $this->source_url);
+
     }
 
     public function getAudioUrlAttribute()

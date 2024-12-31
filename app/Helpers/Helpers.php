@@ -182,31 +182,31 @@ class Helpers
         // return $zones_array;
 
         $preferred_zones = array(
-            'America/Los_Angeles',  
-            'America/Denver',       
-            'America/Chicago',      
-            'America/New_York'      
+            'America/Los_Angeles',
+            'America/Denver',
+            'America/Chicago',
+            'America/New_York'
         );
-        
+
         $zones_array = array();
         $timestamp = time();
-        
-        
+
+
         foreach ($preferred_zones as $zone) {
             date_default_timezone_set($zone);
             $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
         }
-        
-        
+
+
         foreach (timezone_identifiers_list() as $key => $zone) {
-            if (!in_array($zone, $preferred_zones)) { 
+            if (!in_array($zone, $preferred_zones)) {
                 date_default_timezone_set($zone);
                 $zones_array[] = 'UTC/GMT ' . date('P', $timestamp) . ' - ' . $zone;
             }
         }
-        
+
         return $zones_array;
-        
+
 
     }
 
@@ -314,8 +314,15 @@ class Helpers
         }
     }
 
-    public static function getVideo($video, $is_original_name = 0)
+    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
     {
+
+        if (!empty($sourceUrl))
+        {
+            return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+        
         if (!empty($video)) {
             $upload = Upload::find($video);
 
