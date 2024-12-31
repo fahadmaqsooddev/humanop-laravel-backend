@@ -24,7 +24,14 @@ class ChangeTimezoneRequest extends FormRequest
     public function rules()
     {
         return [
-            'timezone' => 'nullable',
+            'timezone' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'timezone.required' => 'The Timezone is required.',
         ];
     }
 }

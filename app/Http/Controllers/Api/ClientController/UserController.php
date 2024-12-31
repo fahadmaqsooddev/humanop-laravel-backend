@@ -186,14 +186,25 @@ class UserController extends Controller
         }
     }
 
-    public function updateUserTimezone()
+    public function updateUserTimezone(ChangeTimezoneRequest $request)
     {
 
         try {
+                  $user=Helpers::getUser();
 
-            $timezones = Helpers::timeZone();
+                  if($user){
 
-            return Helpers::successResponse('Timezone successfully updated', $timezones);
+                    $timezones = $user->update([
+
+                        'timezone'=>$request['timezone']
+
+                    ]);
+
+                    return Helpers::successResponse('Timezone successfully updated');
+                  } else{
+                   return Helpers::forbiddenResponse('User Does Not Foiund');
+                  }
+            
 
         } catch (\Exception $exception) {
 
