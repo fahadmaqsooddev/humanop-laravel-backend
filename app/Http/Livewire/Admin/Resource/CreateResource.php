@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Admin\Resource;
 
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -29,7 +31,6 @@ class CreateResource extends Component
 
     protected $messages = [
         'heading.required' => 'Heading is required',
-//        'resource.required' => 'Resource is required',
         'resource.mimes' => 'Resource must be a valid image or video file (jpeg, png, jpg, gif, mp4, mov, avi, mkv).',
         'permission.required' => 'At least one permission is required',
         'description.max' => 'Description maximum length is 1000 characters'
@@ -55,6 +56,7 @@ class CreateResource extends Component
                 } else {
 
                     $upload_id = Upload::uploadFile($this->resource, '', '', 'video');
+
                 }
 
             }else{
@@ -64,6 +66,21 @@ class CreateResource extends Component
             }
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
+
+            $getResource = LibraryResource::singleLibraryResource($resource['id']);
+
+            $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
+                [
+                    'format' => 'MP4',
+                    'input' => $getResource['video_url'] ? $getResource['video_url']['path'] : '',
+                    'collection_id' => "675260ac948718dd9422d8bb",
+                    'title' => $this->heading
+                ]
+            );
+
+            LibraryResource::whereId($getResource['id'])->update(['upload_id' => null, 'source_id' => $responseData['asset_id']]);
+
+            Upload::deleteUploadFile($getResource['upload_id']);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -90,6 +107,12 @@ class CreateResource extends Component
             $this->resourceSlug = $slug;
 
             DB::beginTransaction();
+
+            $getResource = LibraryResource::singleLibraryResource($id);
+
+            $url = 'https://api.gumlet.com/v1/video/assets/'. $getResource['source_id'];
+
+            $this->sendRequestFromGuzzle('DELETE', $url);
 
             PermissionResource::deleteResourcePermission($id);
 
@@ -174,6 +197,7 @@ class CreateResource extends Component
       $this->resource = '';
        $this->permission = [];
     }
+
     public function updateContent($editorId, $data)
     {
         $this->update_content = $data;
@@ -205,9 +229,26 @@ class CreateResource extends Component
             $upload_id = $this->editResourceData['upload_id'] ?? null;
         }
 
-        LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
+        $getResource = LibraryResource::singleLibraryResource($this->resourceId);
+
+        $url = 'https://api.gumlet.com/v1/video/assets/'. $getResource['source_id'];
+
+        $this->sendRequestFromGuzzle('DELETE', $url);
+
+        $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
+
+        $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
+            [
+                'format' => 'MP4',
+                'input' => $updateResource['video_url'] ? $updateResource['video_url']['path'] : '',
+                'collection_id' => "675260ac948718dd9422d8bb",
+                'title' => $this->heading
+            ]
+        );
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
+
+        LibraryResource::whereId($getResource['id'])->update(['upload_id' => null, 'source_id' => $responseData['asset_id']]);
 
         $this->emit('toggleEditResourceModal');
 
@@ -240,6 +281,27 @@ class CreateResource extends Component
         session()->flash('success', 'Category added');
 
         $this->emit('toggleCreateCategoryModal');
+    }
+
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = env('GUMLET_API_KEY');
+
+        $queryArray = [
+            'headers' => ['Authorization' => "Bearer {$authorization}"],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
     }
 
     public function render()

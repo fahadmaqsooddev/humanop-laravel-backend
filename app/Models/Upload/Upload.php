@@ -188,4 +188,9 @@ class Upload extends Model
             $constraint->aspectRatio();
         });
     }
+
+    public static function deleteUploadFile($id = null)
+    {
+        return self::whereId($id)->delete();
+    }
 }

@@ -20,29 +20,33 @@ class LibraryResource extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['photo_url','video_url','audio_url'];
+    protected $appends = ['photo_url', 'video_url', 'audio_url'];
 
     // relation
-    public function libraryPermissions(){
+    public function libraryPermissions()
+    {
 
-        return $this->hasMany(PermissionResource::class,'resource_id','id');
+        return $this->hasMany(PermissionResource::class, 'resource_id', 'id');
     }
 
 
     // append
-    public function getPhotoUrlAttribute(){
+    public function getPhotoUrlAttribute()
+    {
 
-        return Helpers::getImage($this->upload_id,'profile_pic.png');
+        return Helpers::getImage($this->upload_id, 'profile_pic.png');
     }
 
-    public function getVideoUrlAttribute(){
+    public function getVideoUrlAttribute()
+    {
 
-        return Helpers::getVideo($this->upload_id,1);
+        return Helpers::getVideo($this->upload_id, 1);
     }
 
-    public function getAudioUrlAttribute(){
+    public function getAudioUrlAttribute()
+    {
 
-        return Helpers::getAudio($this->upload_id,1);
+        return Helpers::getAudio($this->upload_id, 1);
     }
 
 
@@ -54,7 +58,7 @@ class LibraryResource extends Model
 
     public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null)
     {
-        $resource =  self::create([
+        $resource = self::create([
             'heading' => $heading,
             'slug' => Str::slug($heading),
             'upload_id' => $uploadId,
@@ -76,6 +80,9 @@ class LibraryResource extends Model
             'description' => $description,
             'content' => $content,
         ]);
+
+        return self::singleLibraryResource($id);
+
     }
 
     public static function deleteResource($id = null)
@@ -85,30 +92,33 @@ class LibraryResource extends Model
 
     public static function deleteResourceOfCategory($id = null)
     {
-        return self::where('resource_category_id',$id)->delete();
+        return self::where('resource_category_id', $id)->delete();
     }
 
-    public static function singleLibraryResource($resource_id){
+    public static function singleLibraryResource($resource_id)
+    {
+
         return self::whereId($resource_id)->with('libraryPermissions')->first()->toArray();
     }
 
-    public static function resourcesForApi(){
+    public static function resourcesForApi()
+    {
 
         $user_plan = Helpers::getUser()->plan_name;
 
         $permission_id = $user_plan === 'Freemium' || $user_plan === 'Core' ? $user_plan === 'Core' ? 2 : 1 : 3;
 
-        return self::whereHas('libraryPermissions', function ($q) use ($permission_id){
+        return self::whereHas('libraryPermissions', function ($q) use ($permission_id) {
 
-            $q->whereIn('permission', [4,$permission_id]);
+            $q->whereIn('permission', [4, $permission_id]);
 
         })->get();
 
     }
 
-    public static function updateCategory($current,$new)
+    public static function updateCategory($current, $new)
     {
-        self::where('resource_category_id',$current)->update(['resource_category_id' => $new]);
+        self::where('resource_category_id', $current)->update(['resource_category_id' => $new]);
     }
 
 
