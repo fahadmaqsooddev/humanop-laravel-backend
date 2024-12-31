@@ -78,9 +78,11 @@ class CreateResource extends Component
                 ]
             );
 
-            LibraryResource::whereId($getResource['id'])->update(['upload_id' => null, 'source_id' => $responseData['asset_id']]);
+            dd($getResource['video_url']['path']);
+            
+            LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id']]);
 
-            Upload::deleteUploadFile($getResource['upload_id']);
+//            Upload::deleteUploadFile($getResource['upload_id']);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
