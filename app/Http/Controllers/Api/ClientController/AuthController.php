@@ -534,8 +534,6 @@ class AuthController extends Controller
         try {
             $token = $request->query('token');
 
-            dd($token);
-            
             $user = User::where('email_verify_token', $token)->first();
 
             if (!$user) {
