@@ -186,7 +186,7 @@ class UserController extends Controller
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
             $perception_life = CodeDetail::getPerceptionStaticText();
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
             $actionPlan = ActionPlan::userActionPlan();
             $profileInfo = InformationIcon::getProfileOverviewInfo();

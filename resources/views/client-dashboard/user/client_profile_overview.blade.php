@@ -1156,7 +1156,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                     @if ($boundary)
                                         <div class="row d-flex">
                                             <div id="boundary_dynamic_div" class="col-12 mt-3" style="display: none;">
@@ -2069,7 +2069,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($assessment[$communication['public_name']] ?? null) . ']' }}
+                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($communication['code_number'] ?? null) . ']' }}
 
                                                                     </h5>
                                                                 </div>

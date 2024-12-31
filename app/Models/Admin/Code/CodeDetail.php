@@ -268,8 +268,8 @@ class CodeDetail extends Model
             'p_name'=>$result['p_name'],
             'video_url'=>$result['video_url']
         ];
-        
-        
+
+
 
     }
 

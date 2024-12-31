@@ -346,7 +346,7 @@
     </style>
 
     <div class="row">
-       
+
 
         <div class="col-lg-12 position-relative z-index-2">
 
@@ -1419,7 +1419,7 @@
                                                     understanding.
                                                     <br>
                                                     <div class="read-more-content hidden">
-                                                       
+
                                                             <p class="custom-color" style="text-align: justify">Let's take a look at a very elementary
                                                                 illustration of what this looks like in
                                                                 nature. As humans, we can look at most things in nature, and most of the time we
@@ -1863,7 +1863,7 @@
                                                                         class="text-white fs-10px">
                                                                         {{-- {{$index + 1}} --}}
                                                                         {{-- {{$feature[1] . ' [' . "$feature[0]" . ']'}} --}}
-                                                    
+
                                                                         {{$feature['public_name'] . ' [' . $feature['code_number'] . ']'}}
                                                                     </h5>
                                                                     <div id="{{$feature['public_name']}}"
@@ -1939,7 +1939,7 @@
                                                                         style="cursor: pointer;"
                                                                         class="text-white fs-10px">
 
-                                                                        {{'The ' . $communication['public_name'] . ' Energy Center'}}
+                                                                        {{  ' The ' . $communication['public_name'] . ' Energy Center' . ' [' . ($communication['code_number'] ?? null) . ']' }}
 
                                                                     </h5>
                                                                 </div>
@@ -1980,7 +1980,7 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                            
+
                                                 @if($perception_life)
                                                     <div class="row d-flex mt-5">
                                                         <div class="col-lg-4 col-sm-12 col-md-6">
