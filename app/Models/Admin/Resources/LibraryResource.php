@@ -40,16 +40,7 @@ class LibraryResource extends Model
     public function getVideoUrlAttribute()
     {
 
-        $client = new \GuzzleHttp\Client();
-
-        $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/6773bb3778796e577c9de409', [
-            'headers' => [
-                'Authorization' => 'Bearer gumlet_f330acf5449eaf2e84a63a2931a80023',
-                'accept' => 'application/json',
-            ],
-        ]);
-
-        return $response->getBody();
+        return Helpers::getVideo($this->upload_id, 1);
     }
 
     public function getAudioUrlAttribute()
