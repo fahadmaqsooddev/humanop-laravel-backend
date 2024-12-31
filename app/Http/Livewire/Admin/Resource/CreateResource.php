@@ -77,7 +77,9 @@ class CreateResource extends Component
                     'title' => $this->heading
                 ]
             );
-            
+
+            dd($responseData['output']);
+
             LibraryResource::whereId($getResource['id'])->update(['source_id' => $responseData['asset_id']]);
 
 //            Upload::deleteUploadFile($getResource['upload_id']);
