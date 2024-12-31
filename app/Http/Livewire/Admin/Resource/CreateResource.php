@@ -234,11 +234,11 @@ class CreateResource extends Component
 
         $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
+        dd($updateResource['video_url']['path']);
+
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
         {
 
-            dd($updateResource['video_url']['path']);
-            
             $this->sendRequestFromGuzzle('DELETE', 'https://api.gumlet.com/v1/video/assets/'. $getResource['source_id']);
 
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
