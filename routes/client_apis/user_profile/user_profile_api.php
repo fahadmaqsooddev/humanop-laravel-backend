@@ -17,6 +17,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('user-profile', 'UserController@userProfile');
     Route::post('update-user-profile', 'UserController@updateUserProfile');
+    Route::post('update-user-image', 'UserController@updateUserImage');
     Route::post('update-user-timezone', 'UserController@updateUserTimezone');
     Route::post('change-password', 'UserController@changePassword');
     Route::post('update-intention-plan', 'UserController@updateintentionPlan');
