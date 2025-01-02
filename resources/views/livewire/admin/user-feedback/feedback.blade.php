@@ -5,6 +5,7 @@
             {{--            <th>#</th>--}}
             <th>Username</th>
             <th>Feedback</th>
+            <th>Rating</th>
             <th>Approve</th>
 
         </tr>
@@ -15,6 +16,9 @@
                 <td>No any feedback...</td>
             </tr>
         @endif
+        <?php
+ 
+        ?>
         @foreach($feedbacks as $key => $feedback)
             <tr class="table-text-color">
                 <td class="text-md font-weight-normal">{{$feedback['user'] ? $feedback['user']['first_name'] . ' ' . $feedback['user']['last_name'] : ""}}</td>
@@ -31,6 +35,24 @@
                         {{$feedback['comment'] ?? null}}
                     @endif
                 </td>
+                
+                <td>
+                    @php
+                        $rating = $feedback['rating'] ?? 0;  
+                    @endphp
+                
+                    @foreach(range(1,5) as $i)
+                        <span class="fa-stack" style="width:1em">
+                            <i class="far fa-star fa-stack-1x" ></i>
+                    
+                            @if($rating > 0)
+                                <i class="fas fa-star fa-stack-1x" style="color: #f2661c"></i> 
+                            @endif
+                            @php $rating--; @endphp
+                        </span>
+                    @endforeach
+                </td>
+                
                 <td class="text-md font-weight-normal">
                     <a wire:click="approveFeedback({{$feedback['id']}})"
                        class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">

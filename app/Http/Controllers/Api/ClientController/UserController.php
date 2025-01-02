@@ -12,6 +12,7 @@ use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
+use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -114,26 +115,34 @@ class UserController extends Controller
 
 
     public function updateUserProfile(UpdateUserProfileRequest $request)
+ 
     {
+    
 
         try {
+           
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-            if ($request->profile_image) {
+            // if ($request->profile_image) {
 
-                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
-                $request->merge(['image_id' => $upload_id]);
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id','timezone']);
+            //     $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
+            //     $request->merge(['image_id' => $upload_id]);
+            //     $dataArray = $request->only(['first_name', 'last_name', 'phone', 'age_max', 'age_min', 'gender', 'image_id','timezone']);
 
-            } else {
+            // } else {
+            //     $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender','timezone']);
+
+            // }
+            if ($request) {
+
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender','timezone']);
-
+                $updated_user = User::updateUserProfile($dataArray);
+                return Helpers::successResponse('User updated successfully', $updated_user);
+            } else {
+                return Helpers::forbiddenResponse('Please Filled Data');
             }
 
-            $updated_user = User::updateUserProfile($dataArray);
-
-
-            return Helpers::successResponse('User updated successfully', $updated_user);
+           
 
         } catch (\Exception $exception) {
 
@@ -141,6 +150,26 @@ class UserController extends Controller
         }
 
     }
+    public function updateUserImage(UpdateUserImageRequest $request)
+    {
+        try {
+            if ($request->profile_image) {
+                $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
+                $user = Helpers::getUser();
+                $updated_user = $user->update(['image_id'=>$upload_id]);
+                tap($user);
+                return Helpers::successResponse('User updated successfully', $user);
+            } else {
+                return Helpers::forbiddenResponse('Please Select Image');
+            }
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+
 
     public function changePassword(ChangePasswordRequest $request)
     {
