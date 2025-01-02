@@ -279,70 +279,73 @@
         crossorigin="anonymous"></script>
 <script>
 
-    {{--var is_admin = {{\App\Helpers\Helpers::getWebUser()->is_admin ?? 0}};--}}
-    {{--var feedback_exists = "{{\App\Helpers\Helpers::getWebUser()->feedback() ? \App\Helpers\Helpers::getWebUser()->feedback()->exists() ?? "" : ''}}";--}}
-    {{--var is_feedback = {{\App\Helpers\Helpers::getWebUser()->is_feedback ?? 3}};--}}
+    if ({{\App\Helpers\Helpers::getWebUser()}})
+    {
+        var is_admin = {{\App\Helpers\Helpers::getWebUser()->is_admin ?? 0}};
+        var feedback_exists = "{{\App\Helpers\Helpers::getWebUser()->feedback()->exists() ?? ""}}";
+        var is_feedback = {{\App\Helpers\Helpers::getWebUser()->is_feedback ?? 3}};
 
-    // console.log(is_admin, feedback_exists, is_feedback);
+        // console.log(is_admin, feedback_exists, is_feedback);
 
-    // if (is_admin === 2 && !feedback_exists) { // check if user is client then show feedback pop up
-    //
-    //     open_modal = localStorage.getItem('modal_open_time');
-    //
-    //     if (open_modal === null && is_feedback == 1) {
-    //
-    //         $(window).on('load', function () { // on page change the modal populates
-    //
-    //             $('#add_feedback').click();
-    //
-    //             localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
-    //
-    //             console.log('aaa');
-    //         });
-    //
-    //     }
-    //
-    //
-    //     if (open_modal !== 'true') {
-    //
-    //         var now = new Date();
-    //
-    //         var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
-    //
-    //         var local_storage_time = localStorage.getItem('modal_open_time');
-    //
-    //         // if (local_storage_time === null) {
-    //
-    //         console.log('Set');
-    //
-    //         localStorage.setItem('modal_open_time', modal_open_time);
-    //
-    //         local_storage_time = localStorage.getItem('modal_open_time');
-    //         // }
-    //
-    //         let intervalID = setInterval(function () {
-    //
-    //             var now_date_minute = Math.floor(new Date().getMinutes());
-    //
-    //             var local_storage_date_minute = Math.floor(new Date(parseInt(local_storage_time)).getMinutes());
-    //
-    //             if (local_storage_date_minute === now_date_minute) {
-    //
-    //                 console.log('RUN');
-    //
-    //                 $('#add_feedback_after_thirty_mins').click();
-    //
-    //                 localStorage.setItem('modal_open_time', true);
-    //
-    //                 clearInterval(intervalID);
-    //
-    //                 intervalID = null;
-    //
-    //             }
-    //
-    //         }, 60000);
-    //
-    //     }
-    // }
+        if (is_admin === 2 && !feedback_exists) { // check if user is client then show feedback pop up
+
+            open_modal = localStorage.getItem('modal_open_time');
+
+            if (open_modal === null && is_feedback == 1) {
+
+                $(window).on('load', function () { // on page change the modal populates
+
+                    $('#add_feedback').click();
+
+                    localStorage.setItem('modal_open_time', false); // after showing modal value turns to false
+
+                    console.log('aaa');
+                });
+
+            }
+
+
+            if (open_modal !== 'true') {
+
+                var now = new Date();
+
+                var modal_open_time = now.setMinutes(now.getMinutes() + 30); // add 30 minutes in login time to open modal
+
+                var local_storage_time = localStorage.getItem('modal_open_time');
+
+                // if (local_storage_time === null) {
+
+                console.log('Set');
+
+                localStorage.setItem('modal_open_time', modal_open_time);
+
+                local_storage_time = localStorage.getItem('modal_open_time');
+                // }
+
+                let intervalID = setInterval(function () {
+
+                    var now_date_minute = Math.floor(new Date().getMinutes());
+
+                    var local_storage_date_minute = Math.floor(new Date(parseInt(local_storage_time)).getMinutes());
+
+                    if (local_storage_date_minute === now_date_minute) {
+
+                        console.log('RUN');
+
+                        $('#add_feedback_after_thirty_mins').click();
+
+                        localStorage.setItem('modal_open_time', true);
+
+                        clearInterval(intervalID);
+
+                        intervalID = null;
+
+                    }
+
+                }, 60000);
+
+            }
+        }
+    }
 
 </script>
