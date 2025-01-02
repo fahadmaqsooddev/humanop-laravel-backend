@@ -51,6 +51,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
     Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
     Route::get('/logout', [SessionController::class, 'destroy']);
     Route::get('/', [SessionController::class, 'create'])->name('login');
+    Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 
 
     Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');

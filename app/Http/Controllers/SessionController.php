@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Admin\Admin;
+use App\Events\RealTimeMessage;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -293,5 +294,13 @@ class SessionController extends Controller
 
             return back()->withErrors(['msgError' => $exception->getMessage()]);
         }
+    }
+
+    public function triggerEvent()
+    {
+        event(new RealTimeMessage('Hello World! I am an event'));
+
+        return "Done";
+
     }
 }
