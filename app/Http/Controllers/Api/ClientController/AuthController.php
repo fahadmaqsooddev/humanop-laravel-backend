@@ -247,7 +247,7 @@ class AuthController extends Controller
 
             $checkUser = $user->checkEmail($dataArray['email']);
 
-            $url = url('/check-email-verification?token=' . $user['email_verify_token']);
+            $url = "https://human-nine-dun.vercel.app/check-email-verification?token=" . $user['email_verify_token'];
 
             if (empty($checkUser)) {
 
@@ -256,8 +256,6 @@ class AuthController extends Controller
                 $user->setAppends([]);
 
                 if (empty($request['google_id']) && empty($request['apple_id'])) {
-                    $url = url('/check-email-verification?token=' . $user['email_verify_token']);
-                    $emailData = $this->prepareEmailData($user,$url);
 
                     $emailData = $this->prepareEmailData($user, $url);
 
@@ -282,8 +280,6 @@ class AuthController extends Controller
                 $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
                 if (empty($checkEmailVerified)) {
-
-                    $url = url('/check-email-verification?token=' . $user['email_verify_token']);
 
                     $emailData = $this->prepareEmailData($checkUser, $url);
 
