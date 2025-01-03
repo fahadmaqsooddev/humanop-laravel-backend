@@ -34,4 +34,4 @@ Route::group(['middleware' => ['checkUser']], function () {
 });
 
 Route::get('timezone', 'UserController@getTimezone');
-Route::post('forgot-password', 'UserController@forgotPassword');
+Route::post('reset-password', 'UserController@forgotPassword');

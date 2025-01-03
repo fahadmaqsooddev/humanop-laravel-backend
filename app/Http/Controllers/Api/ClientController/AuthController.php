@@ -344,6 +344,7 @@ class AuthController extends Controller
     private function sendEmailVerification($emailData, $recipientEmail, $name)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
         Email::sendEmailVerification(
             ['content' => $emailTemplate],
             $recipientEmail,
@@ -379,24 +380,11 @@ class AuthController extends Controller
 
             if (!empty($checkUserEmail)) {
 
-                $token = User::generateToken($checkUserEmail['email']);
+                $url = "https://human-nine-dun.vercel.app/reset-password?token=" . $checkUserEmail['reset_password_toke'];
 
-                $baseUrl = url('/reset-password?token=' . $token['reset_password_token']);
-                $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
-                $privacyUrl = url('/privacy-policy');
-                $serviceUrl = url('/term-of-service');
+                $emailData = $this->prepareEmailData($checkUserEmail, $url);
 
-                $data = [
-                    '{$userName}' => $checkUserEmail['first_name'] . ' ' . $checkUserEmail['last_name'],
-                    '{$link}' => $baseUrl,
-                    '{$logo}' => $logoUrl,
-                    '{$service}' => $serviceUrl,
-                    '{$privacy}' => $privacyUrl,
-                ];
-
-                $email_template = EmailTemplate::getTemplate($data, 'reset-password');
-
-                Email::sendEmailVerification(['content' => $email_template], $checkUserEmail['email'], 'emails.Email_Template', 'Reset Password');
+                $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
 
                 return Helpers::successResponse('We have emailed your password reset link!');
 
