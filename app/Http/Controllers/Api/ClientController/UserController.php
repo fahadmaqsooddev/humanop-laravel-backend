@@ -14,6 +14,7 @@ use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
 use App\Http\Requests\Api\Client\UpdateUserProfileRequest;
 use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
+use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\VersionControl\Version;
@@ -43,7 +44,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion','getTimezone']);
+        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion','getTimezone','forgotPassword']);
 
         $this->user = $user;
     }
@@ -198,6 +199,37 @@ class UserController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+   
+
+    public function forgotPassword(ResetPasswordRequest $request)
+    {
+
+        $dataArray = $request->only($this->user->getFillable());
+
+        $token = $request['token'];
+
+        $user = User::where('reset_password_token', $token)->first();
+
+        if (!empty($token) && !empty($user)) {
+
+            $user->password = $dataArray['password'];
+
+            $user->reset_password = 1;
+
+            $user->save();
+
+            Auth::logoutOtherDevices($user->password);
+
+            return Helpers::successResponse('Your password has been reset');
+
+        } else {
+
+            return Helpers::forbiddenResponse('Reset password link not match');
+        }
+
+
     }
 
     public function getTimezone()
