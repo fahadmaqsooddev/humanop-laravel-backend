@@ -230,7 +230,7 @@ class AuthController extends Controller
         try {
 
             $user = new User();
-            
+
             $dataArray = $request->only($user->getFillable());
 
             $parts = explode(' ', $request->input('full_name'));
@@ -252,7 +252,7 @@ class AuthController extends Controller
             if (empty($checkUser)) {
 
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
-                
+
                 $user->setAppends([]);
 
                 if (empty($request['google_id']) && empty($request['apple_id'])) {
@@ -280,9 +280,9 @@ class AuthController extends Controller
             } else {
 
                 $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
-               
+
                 if (empty($checkEmailVerified)) {
-                   
+
                     $url = url('/check-email-verification?token=' . $user['email_verify_token']);
 
                     $emailData = $this->prepareEmailData($checkUser, $url);
@@ -380,13 +380,16 @@ class AuthController extends Controller
 
             $request->validate(['email' => 'required|email']);
 
+
             $checkUserEmail = User::where('email', $request['email'])->first();
+
 
             if (!empty($checkUserEmail)) {
 
-                $url = "https://human-nine-dun.vercel.app/reset-password?token=" . $checkUserEmail['reset_password_token'];
-           
-                
+                $token = User::generateToken($checkUserEmail['email']);
+
+                $url = "https://human-nine-dun.vercel.app/reset-password?token=" . $token['reset_password_token'];
+
                 $emailData = $this->prepareEmailData($checkUserEmail, $url);
 
                 $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
