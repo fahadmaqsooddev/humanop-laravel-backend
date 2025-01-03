@@ -247,11 +247,12 @@ class AuthController extends Controller
 
             $checkUser = $user->checkEmail($dataArray['email']);
 
-            $url = "https://human-nine-dun.vercel.app/check-email-verification?token=" . $user['email_verify_token'];
 
             if (empty($checkUser)) {
 
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
+                
+                $url = "https://human-nine-dun.vercel.app/check-email-verification?token=" . $user['email_verify_token'];
 
                 $user->setAppends([]);
 
