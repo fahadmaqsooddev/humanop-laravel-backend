@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['sendPhoneOtp','googleLoginSignup', 'intentionOption','getLatestVersion','getTimezone','forgotPassword']);
+        $this->middleware('auth:api')->except(['sendPhoneOtp', 'googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
 
         $this->user = $user;
     }
@@ -66,15 +66,16 @@ class UserController extends Controller
 
     }
 
-    public function changeTwoWayAuth(TwoWayAuthRequest $request){
+    public function changeTwoWayAuth(TwoWayAuthRequest $request)
+    {
         try {
-                 $status = $request->status;
+            $status = $request->status;
 
-                if($status == 1){
-                    User::updateUser(['two_way_auth' => 1], Helpers::getUser()->id);
-                }else{
-                    User::updateUser(['two_way_auth' => 2], Helpers::getUser()->id);
-                }
+            if ($status == 1) {
+                User::updateUser(['two_way_auth' => 1], Helpers::getUser()->id);
+            } else {
+                User::updateUser(['two_way_auth' => 2], Helpers::getUser()->id);
+            }
             return Helpers::successResponse('2 Way Auth successfully updated');
         } catch (\Exception $exception) {
 
@@ -82,11 +83,12 @@ class UserController extends Controller
         }
     }
 
-    public function completeIntro(Request $request){
+    public function completeIntro(Request $request)
+    {
         try {
 
 
-            User::updateUser(['app_intro_check' => 1],Helpers::getUser()->id);
+            User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
 
             return Helpers::successResponse('Intro Completed Successfully');
@@ -98,13 +100,14 @@ class UserController extends Controller
         }
     }
 
-    public function sendPhoneOtp(SendPhoneOtpRequest $request){
+    public function sendPhoneOtp(SendPhoneOtpRequest $request)
+    {
         try {
             $phone = $request->phone;
-            $otp = Helpers::sendNumberOtp($phone,true);
-            if($otp){
-                return Helpers::successResponse('Otp sent Successfully',['otp' => $otp]);
-            }else{
+            $otp = Helpers::sendNumberOtp($phone, true);
+            if ($otp) {
+                return Helpers::successResponse('Otp sent Successfully', ['otp' => $otp]);
+            } else {
                 return Helpers::validationResponse('something went wrong during sending otp');
             }
         } catch (\Exception $exception) {
@@ -113,15 +116,13 @@ class UserController extends Controller
     }
 
 
-
-
     public function updateUserProfile(UpdateUserProfileRequest $request)
- 
+
     {
-    
+
 
         try {
-           
+
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
             // if ($request->profile_image) {
@@ -136,14 +137,13 @@ class UserController extends Controller
             // }
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender','timezone']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
                 $updated_user = User::updateUserProfile($dataArray);
                 return Helpers::successResponse('User updated successfully', $updated_user);
             } else {
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
 
-           
 
         } catch (\Exception $exception) {
 
@@ -151,13 +151,14 @@ class UserController extends Controller
         }
 
     }
+
     public function updateUserImage(UpdateUserImageRequest $request)
     {
         try {
             if ($request->profile_image) {
                 $upload_id = Upload::uploadFile($request->profile_image, 200, 200, 'base64Image', 'png', true);
                 $user = Helpers::getUser();
-                $updated_user = $user->update(['image_id'=>$upload_id]);
+                $updated_user = $user->update(['image_id' => $upload_id]);
                 tap($user);
                 return Helpers::successResponse('User updated successfully', $user);
             } else {
@@ -169,7 +170,6 @@ class UserController extends Controller
         }
 
     }
-
 
 
     public function changePassword(ChangePasswordRequest $request)
@@ -201,7 +201,6 @@ class UserController extends Controller
         }
     }
 
-   
 
     public function forgotPassword(ResetPasswordRequest $request)
     {
@@ -251,21 +250,21 @@ class UserController extends Controller
     {
 
         try {
-                  $user=Helpers::getUser();
+            $user = Helpers::getUser();
 
-                  if($user){
+            if ($user) {
 
-                    $timezones = $user->update([
+                $timezones = $user->update([
 
-                        'timezone'=>$request['timezone']
+                    'timezone' => $request['timezone']
 
-                    ]);
+                ]);
 
-                    return Helpers::successResponse('Timezone successfully updated');
-                  } else{
-                   return Helpers::forbiddenResponse('User Does Not Foiund');
-                  }
-            
+                return Helpers::successResponse('Timezone successfully updated');
+            } else {
+                return Helpers::forbiddenResponse('User Does Not Foiund');
+            }
+
 
         } catch (\Exception $exception) {
 
@@ -354,7 +353,6 @@ class UserController extends Controller
 //                    DailyTip::updateUserDailyTip();
 
 //                    ActionPlan::storeUserActionPlan();
-
 
 
                     $data = [

@@ -239,13 +239,6 @@ class AuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
-//            $invite = UserInvite::getSingleInvite($dataArray['email']);
-//
-//            if (empty($invite)) {
-//
-//                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
-//            }
-
             $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
             if (!empty($checkDeleteAccount)) {
@@ -286,9 +279,11 @@ class AuthController extends Controller
 
                 if (empty($checkEmailVerified)) {
 
-                    $emailData = $this->prepareEmailData($checkUser);
+                    $url = url('/check-email-verification?token=' . $user['email_verify_token']);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email']);
+                    $emailData = $this->prepareEmailData($checkUser, $url);
+
+                    $this->sendEmailVerification($emailData, $checkUser['email'], 'email-verification');
 
                     $checkUser->setAppends([]);
 
@@ -332,11 +327,11 @@ class AuthController extends Controller
     /**
      * Prepare email data.
      */
-    private function prepareEmailData($user)
+    private function prepareEmailData($user, $url)
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
-            '{$link}' => url('/check-email-verification?token=' . $user['email_verify_token']),
+            '{$link}' => $url,
             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
             '{$service}' => url('/term-of-service'),
             '{$privacy}' => url('/privacy-policy'),
@@ -346,9 +341,9 @@ class AuthController extends Controller
     /**
      * Send email verification.
      */
-    private function sendEmailVerification($emailData, $recipientEmail)
+    private function sendEmailVerification($emailData, $recipientEmail, $name)
     {
-        $emailTemplate = EmailTemplate::getTemplate($emailData, 'email-verification');
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
         Email::sendEmailVerification(
             ['content' => $emailTemplate],
             $recipientEmail,
