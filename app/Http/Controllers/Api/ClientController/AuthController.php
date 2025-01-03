@@ -247,6 +247,8 @@ class AuthController extends Controller
 
             $checkUser = $user->checkEmail($dataArray['email']);
 
+            $url = url('/check-email-verification?token=' . $user['email_verify_token']);
+
             if (empty($checkUser)) {
 
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
@@ -255,9 +257,9 @@ class AuthController extends Controller
 
                 if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                    $emailData = $this->prepareEmailData($user);
+                    $emailData = $this->prepareEmailData($user, $url);
 
-                    $this->sendEmailVerification($emailData, $user['email']);
+                    $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
 
                 }
 
@@ -278,8 +280,6 @@ class AuthController extends Controller
                 $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
                 if (empty($checkEmailVerified)) {
-
-                    $url = url('/check-email-verification?token=' . $user['email_verify_token']);
 
                     $emailData = $this->prepareEmailData($checkUser, $url);
 
