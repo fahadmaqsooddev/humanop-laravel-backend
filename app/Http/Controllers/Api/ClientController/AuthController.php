@@ -380,8 +380,9 @@ class AuthController extends Controller
 
             if (!empty($checkUserEmail)) {
 
-                $url = "https://human-nine-dun.vercel.app/reset-password?token=" . $checkUserEmail['reset_password_toke'];
-
+                $url = "https://human-nine-dun.vercel.app/reset-password?token=" . $checkUserEmail['reset_password_token'];
+           
+                
                 $emailData = $this->prepareEmailData($checkUserEmail, $url);
 
                 $this->sendEmailVerification($emailData, $checkUserEmail['email'], 'reset-password');
