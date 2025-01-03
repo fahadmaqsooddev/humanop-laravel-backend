@@ -353,7 +353,7 @@ class AuthController extends Controller
             ['content' => $emailTemplate],
             $recipientEmail,
             'emails.Email_Template',
-            'Email Verification'
+            $name
         );
     }
 
