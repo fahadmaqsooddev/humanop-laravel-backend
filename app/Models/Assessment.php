@@ -1018,9 +1018,9 @@ class Assessment extends Model
 
         if ($assessment) {
 
-            if ($assessment['page'] === 0) {
+            dd($assessment);
 
-                dd($assessment);
+            if ($assessment['page'] === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
@@ -1041,8 +1041,6 @@ class Assessment extends Model
                     ->toDateTimeString();
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
-
-                dd($difference);
 
                 if ($difference > 90) {
 

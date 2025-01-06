@@ -74,7 +74,7 @@ class AssessmentController extends Controller
         try {
 
             $user = Helpers::getUser();
-            
+
             if (empty($user['timezone'])) {
 
                 return Helpers::successResponse('Assessment Status', [
