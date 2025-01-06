@@ -641,10 +641,10 @@ class Assessment extends Model
         }, $data);
 
         return $transformedData;
-        
+
         // Dumping or using the transformed data
         // dd($transformedData);
-      
+
     }
 
     public static function getFeatures($assessment = null, $isCode = true)
@@ -1040,6 +1040,8 @@ class Assessment extends Model
 
                 $difference = \Carbon\Carbon::now()->diffInDays($userTime);
 
+                dd($difference);
+                
                 if ($difference > 90) {
 
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
@@ -1346,9 +1348,9 @@ class Assessment extends Model
          'pv'=>$record['pv'],
         ];
 
-        
 
-      
+
+
 
     }
 
