@@ -23,7 +23,8 @@ class AssessmentController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function allAssessments(Request $request){
+    public function allAssessments(Request $request)
+    {
 
         try {
 
@@ -31,13 +32,14 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('All assessments', $assessments, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function assessmentAnswers(AssessmentAnswersRequest $request){
+    public function assessmentAnswers(AssessmentAnswersRequest $request)
+    {
 
         try {
 
@@ -45,13 +47,14 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('Assessment Answers', $assessment_answers, $request->input('pagination'));
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function grid(GridRequest $request){
+    public function grid(GridRequest $request)
+    {
 
         try {
 
@@ -59,60 +62,43 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('User grid data', $grid);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function assessmentStatus(){
+    public function assessmentStatus()
+    {
 
         try {
 
             $user = Helpers::getUser();
 
-            if (!empty($user['timezone']))
-            {
+            if (empty($user['timezone'])) {
 
-                $status = Assessment::assessmentStatusForApi();
-
-                $latest_assessment = Assessment::getLatestAssessment($user['id']);
-
-                $assessment_price = StripeSetting::getSingle();
-
-                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-
-                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])
-                    ->addMinutes($minutes * 60)
-                    ->toDateTimeString();
-
-                $difference = \Carbon\Carbon::now()->diffInDays($userTime);
-
-                if ($difference <= 90)
-                {
-                    $data = [
-                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                        'assessment_page_number' => $status,
-                        'assessment_price' => ($assessment_price->amount ?? 0),
-                        'user' => [
-                            'last_four_digits' => $user['pm_last_four'],
-                            'exp_month' => $user['pm_exp_month'],
-                            'exp_year' => $user['pm_exp_year'],
-                            'name' => $user['card_name'],
-                        ]
-                    ];
-
-                    $takeAssessment = 90 - $difference;
-
-                    return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', $data);
-
-                }
-
-            }else
-            {
-                $data = [
+                return Helpers::successResponse('Assessment Status', [
                     'timezone' => null,
                     'assessment_page_number' => null,
+                    'assessment_price' => 0,
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
+            }
+
+            $status = Assessment::assessmentStatusForApi();
+
+            $latest_assessment = Assessment::getLatestAssessment($user['id']);
+
+            if ($status === 0) {
+
+                return Helpers::successResponse('Assessment Status', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_page_number' => $status,
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
                         'last_four_digits' => $user['pm_last_four'],
@@ -120,43 +106,71 @@ class AssessmentController extends Controller
                         'exp_year' => $user['pm_exp_year'],
                         'name' => $user['card_name'],
                     ]
-                ];
+                ]);
 
-                return Helpers::successResponse('Assessment Status', $data);
+            }
+
+            $assessment_price = StripeSetting::getSingle();
+
+            $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+            $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])
+                ->addMinutes($minutes * 60)
+                ->toDateTimeString();
+
+            $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+
+            if ($difference <= 90) {
+
+                $takeAssessment = 90 - $difference;
+
+                return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_page_number' => $status,
+                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
 
             }
 
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function questions(QuestionsRequest $request){
+    public function questions(QuestionsRequest $request)
+    {
 
         try {
 
             $assessment = Assessment::where('user_id', Helpers::getUser()->id)->latest()->first();
 
-            if($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')){
+            if ($assessment && ($assessment->page + 1 ?? 0) == $request->input('page')) {
 
                 $questions = Question::paginatedQuestions();
 
                 return Helpers::successResponse('Questions', $questions, true);
 
-            }else{
+            } else {
 
                 return Helpers::validationResponse('Invalid page number');
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function submitAnswers(AssessmentSubmitRequest $request){
+    public function submitAnswers(AssessmentSubmitRequest $request)
+    {
 
         try {
 
@@ -164,14 +178,15 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse($message);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function userReport(UserReportRequest $request){
+    public function userReport(UserReportRequest $request)
+    {
 
         try {
 
@@ -192,7 +207,7 @@ class AssessmentController extends Controller
 
             return Helpers::successResponse('User assessment report', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
