@@ -190,8 +190,8 @@ class CreateResource extends Component
         $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
 
         $this->uploadFileToGumlet($this->resource, $resource['id']);
-
-        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
+        
+        PermissionResource::createResourcePermission($resource->id, $this->permission);
 
         $this->emit('toggleEditResourceModal');
 
