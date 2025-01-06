@@ -1021,7 +1021,7 @@ class Assessment extends Model
             if ($assessment['page'] === 0) {
 
                 dd($assessment);
-                
+
                 if ($assessment['reset_assessment'] == 1) {
                     $assessment = Assessment::createAssessmentData(Helpers::getUser()->id, 1);
 
