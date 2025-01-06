@@ -75,30 +75,9 @@ class AssessmentController extends Controller
 
             $user = Helpers::getUser();
 
-            if (!empty($user['timezone'])) {
+            if (empty($user['timezone'])) {
 
-                $status = Assessment::assessmentStatusForApi();
-
-                $latest_assessment = Assessment::getLatestAssessment($user['id']);
-
-                $assessment_price = StripeSetting::getSingle();
-
-                $data = [
-                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                    'assessment_page_number' => $status,
-                    'assessment_price' => ($assessment_price->amount ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ];
-                return Helpers::successResponse('Assessment Status', $data);
-
-
-            } else {
-                $data = [
+                return Helpers::successResponse('Assessment Status', [
                     'timezone' => null,
                     'assessment_page_number' => null,
                     'assessment_price' => ($assessment_price->amount ?? 0),
@@ -108,10 +87,57 @@ class AssessmentController extends Controller
                         'exp_year' => $user['pm_exp_year'],
                         'name' => $user['card_name'],
                     ]
-                ];
+                ]);
+            }
 
-                return Helpers::successResponse('Assessment Status', $data);
+            $status = Assessment::assessmentStatusForApi();
 
+            $assessment_price = StripeSetting::getSingle();
+
+            $latest_assessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($latest_assessment)) {
+
+                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])
+                    ->addMinutes($minutes * 60)
+                    ->toDateTimeString();
+
+                $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+
+                if ($difference <= 90) {
+
+                    $takeAssessment = 90 - $difference;
+
+                    return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
+                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'assessment_page_number' => $status,
+                        'assessment_price' => ($assessment_price->amount ?? 0),
+                        'user' => [
+                            'last_four_digits' => $user['pm_last_four'],
+                            'exp_month' => $user['pm_exp_month'],
+                            'exp_year' => $user['pm_exp_year'],
+                            'name' => $user['card_name'],
+                        ]
+                    ]);
+
+                }
+            }
+            else
+            {
+
+                return Helpers::successResponse('Assessment Status', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_page_number' => $status,
+                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
             }
 
 
