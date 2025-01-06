@@ -1017,7 +1017,7 @@ class Assessment extends Model
         $assessment = self::where('user_id', Helpers::getUser()->id)->select(['page', 'type', 'updated_at', 'reset_assessment'])->latest()->first();
 
         if ($assessment) {
-            
+
             if ($assessment['page'] === 0) {
 
                 if ($assessment['reset_assessment'] == 1) {

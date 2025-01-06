@@ -92,6 +92,8 @@ class AssessmentController extends Controller
 
             $status = Assessment::assessmentStatusForApi();
 
+            dd($status);
+            
             $latest_assessment = Assessment::getLatestAssessment($user['id']);
 
             if ($status === 0) {
