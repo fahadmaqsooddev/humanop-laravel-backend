@@ -74,24 +74,39 @@ class AssessmentController extends Controller
             if (!empty($user['timezone']))
             {
 
-
                 $status = Assessment::assessmentStatusForApi();
 
                 $latest_assessment = Assessment::getLatestAssessment($user['id']);
 
                 $assessment_price = StripeSetting::getSingle();
 
-                $data = [
-                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
-                    'assessment_page_number' => $status,
-                    'assessment_price' => ($assessment_price->amount ?? 0),
-                    'user' => [
-                        'last_four_digits' => $user['pm_last_four'],
-                        'exp_month' => $user['pm_exp_month'],
-                        'exp_year' => $user['pm_exp_year'],
-                        'name' => $user['card_name'],
-                    ]
-                ];
+                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+
+                $userTime = \Carbon\Carbon::parse($latest_assessment['updated_at'])
+                    ->addMinutes($minutes * 60)
+                    ->toDateTimeString();
+
+                $difference = \Carbon\Carbon::now()->diffInDays($userTime);
+
+                if ($difference <= 90)
+                {
+                    $data = [
+                        'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'assessment_page_number' => $status,
+                        'assessment_price' => ($assessment_price->amount ?? 0),
+                        'user' => [
+                            'last_four_digits' => $user['pm_last_four'],
+                            'exp_month' => $user['pm_exp_month'],
+                            'exp_year' => $user['pm_exp_year'],
+                            'name' => $user['card_name'],
+                        ]
+                    ];
+
+                    $takeAssessment = 90 - $difference;
+
+                    return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', $data);
+
+                }
 
             }else
             {
@@ -106,9 +121,11 @@ class AssessmentController extends Controller
                         'name' => $user['card_name'],
                     ]
                 ];
+
+                return Helpers::successResponse('Assessment Status', $data);
+
             }
 
-            return Helpers::successResponse('Assessment Status', $data);
 
         }catch (\Exception $exception){
 
