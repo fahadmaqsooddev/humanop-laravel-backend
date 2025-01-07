@@ -58,6 +58,9 @@
                 <td class="text-sm font-weight-normal">
                     <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}" class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;">View</a>
                 </td>
+                <td class="text-sm font-weight-normal">
+                    <a data-bs-toggle="modal" data-bs-target="#subadmindetail{{ $admin->id }}" class=" btn-sm float-end mt-2 mb-0" style="background:#ff0000;color:white;font-weight:bolder;">Delete</a>
+                </td>
             </tr>
             <div wire:ignore.self class="modal fade" id="subadmindetail{{ $admin->id }}" tabindex="-1" role="dialog" aria-labelledby="subadmindetail{{ $admin->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-md" role="document">
