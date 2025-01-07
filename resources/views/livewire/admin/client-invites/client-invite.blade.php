@@ -23,7 +23,11 @@
             </tr>
             </thead>
             <tbody>
+
             @foreach($invites as $index => $invite)
+            <?php
+            // dd($invite)
+                           ?>
                 <tr class="table-text-color">
                     <td class="text-md font-weight-normal">{{$invite['email']}} </td>
                     <td class="text-md font-weight-normal">{{ url('/register?link=' . $invite['link']) }} </td>
@@ -32,7 +36,12 @@
                                     onclick="copyToClipboard('{{ url('/register?link=' . $invite['link']) }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                         </button>
+                        <button class="btn mb-0 text-white" id="delete_link_{{$index+1}}"
+                                   onclick="deleteClientLink({{$invite['id'] ?? null}})"
+                                    style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link
+                        </button>
                     </td>
+                   
                 </tr>
             @endforeach
 
@@ -119,8 +128,9 @@
 
 
     </script>
-
+ <script src="../../assets/js/plugins/sweetalert.min.js"></script>
    <script>
+
        async function copyToClipboard(text,id) {
            try {
                // Use the Clipboard API to copy the text
@@ -136,6 +146,30 @@
                console.error('Failed to copy text: ', err);
            }
        }
+
+
+    //    deleteClientLink
+    function deleteClientLink(id) {
+
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn bg-gradient-danger m-2',
+        cancelButton: 'btn bg-gradient-secondary m-2',
+    },
+    buttonsStyling: false,
+    background: '#3442b4',
+})
+swalWithBootstrapButtons.fire({
+    title: '<span style="color: white;">Are you sure?</span>',
+    html: "<span style='color: white;'>Want to delete this Link</span>",
+    showCancelButton: true,
+    confirmButtonText: 'Delete',
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.livewire.emit('deleteClientLink', id)
+    }
+})
+}
 
    </script>
 

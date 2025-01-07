@@ -421,7 +421,7 @@
 
                                         <ul>
                                             @foreach($editResourceData['library_permissions'] ?? [] as $permission)
-                                                @if($permission['permission'] === 1)
+                                            @if($permission['permission'] === 1)
                                                     <li>Freemium</li>
                                                 @elseif($permission['permission'] === 2)
                                                     <li>Core</li>
@@ -435,35 +435,32 @@
 
                                     </div>
                                     <div class="row">
-
+                                    
                                         <div class="col-6">
                                             <div class="form-check">
-
-                                                <input type="checkbox" wire:model.defer="permission" value="1"
-                                                       class="form-check-input">
-
+                                                        <input type="checkbox" wire:model.defer="permission" value="1"class="form-check-input option-checkbox1">
                                                 <label class="form-check-label text-white">Freemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="3"
-                                                       class="form-check-input">
+                                                       class="form-check-input option-checkbox1">
                                                 <label class="form-check-label text-white">Preemium</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input">
+                                                       class="form-check-input option-checkbox1" >
                                                 <label class="form-check-label text-white">Core</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
-                                                       class="form-check-input">
-                                                <label class="form-check-label text-white">All Of The Above</label>
+                                                       class="form-check-input" id="editOptions">
+                                                <label class="form-check-label text-white" for="editOptions">All Of The Above</label>
                                             </div>
                                         </div>
                                     </div>
@@ -708,6 +705,24 @@
                 });
             });
         });
+        document.addEventListener('DOMContentLoaded', function () {
+            const optionCheckboxes1 = document.querySelectorAll('.option-checkbox1');
+            const allOptionseditCheckbox = document.getElementById('editOptions');
+
+            // Function to check/uncheck all other checkboxes when "All of these" is clicked
+            allOptionseditCheckbox.addEventListener('change', function () {
+                optionCheckboxes1.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+            });
+
+            // Function to control the "All of these" checkbox state when individual checkboxes are clicked
+            optionCheckboxes1.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    allOptionseditCheckbox.checked = [...optionCheckboxes1].every(checkbox => checkbox.checked);
+                });
+            });
+        });
 
         function toggleCategoryBtn(id) {
             if ($('#category_edit_' + id).hasClass('d-flex')) {
@@ -740,4 +755,6 @@
             })
         }
     </script>
+
+   
 @endpush
