@@ -9,12 +9,15 @@ class Index extends Component
 {
     public $admins;
     public $statuses = [];
+    protected $listeners=['deleteSubAdmin','refreshComponent' => '$refresh'];
+
     public function mount($admins)
     {
         $this->admins = $admins;
         foreach ($this->admins as $admin) {
             $this->statuses[$admin->id] = $admin->status == 1;
         }
+        
     }
     public function updateStatus($id)
     {
@@ -30,6 +33,11 @@ class Index extends Component
         } else {
             session()->flash('error'.$id, 'Sub Admin not found.');
         }
+    }
+
+    public function deleteSubAdmin($id){
+    User::deleteSubAdmin($id); 
+    $this->emit('refreshComponent');
     }
 
 

@@ -317,8 +317,11 @@ class User extends Authenticatable implements JWTSubject
 
     public static function allSubAdmin()
     {
-        $subAdmins = self::where('is_admin', 3)->get();
+        $subAdmins = self::where('is_admin', 3)->orderBy('id','desc')->get();
         return $subAdmins;
+    }
+    public static function deleteSubAdmin($id=null){
+        return self::where('id',$id)->forceDelete();
     }
 
     public static function getSingleUser($id = null)
