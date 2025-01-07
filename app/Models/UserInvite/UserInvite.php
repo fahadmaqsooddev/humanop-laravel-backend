@@ -84,14 +84,14 @@ class UserInvite extends Model
         }
     }
 
-    public static function deleteInvite($userEmail = null)
+    public static function deleteInvite($userEmail = null, $id = null)
     {
 
         $email = Helpers::getWebUser()->email ?? Helpers::getUser()->email;
 
-        if (!empty($userEmail))
+        if (!empty($userEmail) || !empty($id))
         {
-            return self::where('email', $userEmail)->delete();
+            return self::where('email', $userEmail)->orwhere('id', $id)->delete();
 
         }
 

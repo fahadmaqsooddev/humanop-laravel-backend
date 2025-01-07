@@ -11,8 +11,12 @@ class ClientInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $email, $file, $per_page = 10, $page = 1, $searched_email;
+    public $email, $file, $searched_email;
+
+    public $perPage = 10;
+    protected $paginationTheme = 'bootstrap';
     protected $listeners = ['deleteClientLink'];
+
     protected $rules = [
         'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
         'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
@@ -57,11 +61,8 @@ class ClientInvite extends Component
     }
 
     public function deleteClientLink($id){
-       $data= UserInvite::where('id',$id)->first();
-       if($data){
-        $data->delete();
-       }
-       
+
+       UserInvite::deleteInvite(null, $id);
     }
 
 //     public function deleteClientLink($id)

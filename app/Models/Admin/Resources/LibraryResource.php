@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Resources;
 
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -39,8 +40,25 @@ class LibraryResource extends Model
 
     public function getVideoUrlAttribute()
     {
+        if (!empty($this->source_id))
+        {
+            $client = new Client();
 
-        return Helpers::getVideo($this->upload_id, 1, $this->source_url);
+            $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/677b7cd5005ccdfd0365165c', [
+                'headers' => [
+                    'Authorization' => 'Bearer gumlet_f330acf5449eaf2e84a63a2931a80023',
+                    'accept' => 'application/json',
+                ],
+            ]);
+
+            $response_body = json_decode($response->getBody()->getContents(), true);
+
+            return Helpers::getVideo($this->upload_id, 1, $response_body['output']['playback_url']);
+
+        }
+
+        return Helpers::getVideo($this->upload_id, 1, $this->source_id);
+
 
     }
 
