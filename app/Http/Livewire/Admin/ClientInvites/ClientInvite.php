@@ -75,7 +75,7 @@ class ClientInvite extends Component
     public function render()
     {
        
-        $invites = UserInvite::getAllInviteLinks($this->per_page, $this->searched_email);
+        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email);
         $invites->withPath(url('/admin/client-invites'));
         return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
     }
