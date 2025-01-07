@@ -36,10 +36,15 @@
                                     onclick="copyToClipboard('{{ url('/register?link=' . $invite['link']) }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                         </button>
-                        <button class="btn mb-0 text-white" id="delete_link_{{$index+1}}"
+                        <button class="btn mb-0 text-white" id=""
                                    onclick="deleteClientLink({{$invite['id'] ?? null}})"
                                     style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link
                         </button>
+                        {{-- <button class="btn mb-0 text-white"
+        wire:click="deleteClientLink({{$invite['id'] ?? null}})"
+        style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">
+    Delete Link
+</button> --}}
                     </td>
                    
                 </tr>
@@ -114,6 +119,7 @@
     </div>
 
 </div>
+<script src="../../assets/js/plugins/sweetalert.min.js"></script>
 @push('javascript')
 
     <script type="module">
@@ -122,13 +128,15 @@
             Livewire.on('closeModal', () => {
                 // Close the modal
                 $('#inviteLinkSendModel').modal('hide');
+                console.log('hello');
+                
             });
 
         });
 
 
     </script>
- <script src="../../assets/js/plugins/sweetalert.min.js"></script>
+
    <script>
 
        async function copyToClipboard(text,id) {
@@ -151,7 +159,7 @@
     //    deleteClientLink
     function deleteClientLink(id) {
 
-const swalWithBootstrapButtons = Swal.mixin({
+const swalWithBootstrapButtonsget = Swal.mixin({
     customClass: {
         confirmButton: 'btn bg-gradient-danger m-2',
         cancelButton: 'btn bg-gradient-secondary m-2',
@@ -159,7 +167,7 @@ const swalWithBootstrapButtons = Swal.mixin({
     buttonsStyling: false,
     background: '#3442b4',
 })
-swalWithBootstrapButtons.fire({
+swalWithBootstrapButtonsget.fire({
     title: '<span style="color: white;">Are you sure?</span>',
     html: "<span style='color: white;'>Want to delete this Link</span>",
     showCancelButton: true,
