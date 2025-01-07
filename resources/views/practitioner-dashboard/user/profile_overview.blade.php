@@ -333,6 +333,7 @@
                         <div class="col-12">
                             <div class="card px-0 left-nav-blue-light-color" style="text-align: center">
                                 <div class="card-body p-3 ">
+                                    <p id="main_result_intro"></p>
                                     <h1 class="text-white">Your HumanOp Profile Overview</h1>
                                     <div class="video-container show-controls" id="container_video">
                                         <div class="wrapper mx-auto w-75 ">
@@ -1386,6 +1387,20 @@
                                                     </a>
                                                 </p>
                                                 <div class="row d-flex mt-5">
+                                                    <div class="col-lg-5 col-sm-12 col-md-6">
+                                                        <div id="main_result_intro_heading" class="card"
+                                                             style="height: auto;">
+                                                            <div class="card-body p-3">
+                                                                <h5 onclick="showFeatureVideo('{{asset('assets/video/HumanOp ULT Results Intro - Lisa Nelson.mp4')}}', 1, 'main_result_intro')"
+                                                                    style="cursor: pointer;color: #f2661c;"
+                                                                    class="fs-10px">
+                                                                    Main Results Introduction:
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-flex mt-5">
                                                     <div class="col-lg-4 col-sm-12 col-md-6">
                                                         <div id="intro_to_cycle_to_life_heading" class="card"
                                                              style="height: auto;">
@@ -1897,21 +1912,21 @@
                                     you show up through that component. So here are the six components: Traits,
                                     Motivations, Boundaries, Communication style, and then there's a dual component at
                                     the bottom Energy and Perception. </p>
-                                <p class="text-white" style="text-align: justify">Now there's one last very important
-                                    aspect that you will experience in your results
-                                    session. And it relates to time. Everything that we can see with the naked eye in
-                                    this physical world points to a clue about human nature. Notice that this graphic,
-                                    we call it the Cycle of Life resembles a clock, The clock in this case is a mirror
-                                    example representing our shelf life..the time we spend in this lifetime, and the 12
-                                    phases that require special attention. Each number that you see here represents an
-                                    age, and in between each age is an interval that has a certain nature to it. In your
-                                    results review session, we will help you to understand how to best support yourself
-                                    as you travel through the current age agent interval that you're experiencing right
-                                    now and even help prepare you for the next interval of life that you'll eventually
-                                    be entering into. The Cycle of Life is a very, very important reminder that we were
-                                    all at the effect of time, and knowing yourself through our technology will help you
-                                    to make the most of that time. We very much look forward to sharing your assessment
-                                    results with you</p>
+                                    <p class="custom-color" style="text-align: justify">Now there's one last very important
+                                        aspect that you will experience in your results
+                                        session. And it relates to time. Everything that we can see with the naked eye in
+                                        this physical world points to a clue about human nature. Notice that this graphic,
+                                        we call it the Cycle of Life resembles a clock, The clock in this case is a mirror
+                                        example representing our shelf life..the time we spend in this lifetime, and the 12
+                                        phases that require special attention. Each number that you see here represents an
+                                        age, and in between each age is an interval that has a certain nature to it. In your
+                                        results review session, we will help you to understand how to best support yourself
+                                        as you travel through the current age agent interval that you're experiencing right
+                                        now and even help prepare you for the next interval of life that you'll eventually
+                                        be entering into. The Cycle of Life is a very, very important reminder that we were
+                                        all at the effect of time, and knowing yourself through our technology will help you
+                                        to make the most of that time. We very much look forward to sharing your assessment
+                                        results with you</p>
                             </div>
                         </div>
                     </div>
