@@ -146,7 +146,6 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-//                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
                         $baseUrl = "https://human-nine-dun.vercel.app/email-validate?token=" .$user['email_verify_token'];
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
@@ -251,8 +250,8 @@ class AuthController extends Controller
             if (empty($checkUser)) {
 
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
-                
-                $url = "https://human-nine-dun.vercel.app/check-email-verification?token=" . $user['email_verify_token'];
+
+                $url = "https://human-nine-dun.vercel.app/email-validate?token=" . $user['email_verify_token'];
 
                 $user->setAppends([]);
 
@@ -281,6 +280,8 @@ class AuthController extends Controller
                 $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
                 if (empty($checkEmailVerified)) {
+
+                    $url = "https://human-nine-dun.vercel.app/email-validate?token=" . $checkUser['email_verify_token'];
 
                     $emailData = $this->prepareEmailData($checkUser, $url);
 
@@ -464,8 +465,9 @@ class AuthController extends Controller
         try {
 
             $user = User::getSingleUser($request->input('user_id'));
+            
+            $baseUrl = "https://human-nine-dun.vercel.app/email-validate?token=" . $user['email_verify_token'];
 
-            $baseUrl = url('/check-email', $user['id']);
             $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
             $privacyUrl = url('/privacy-policy');
             $serviceUrl = url('/term-of-service');
