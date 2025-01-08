@@ -40,8 +40,7 @@ class LibraryResource extends Model
 
     public function getVideoUrlAttribute()
     {
-        if (!empty($this->source_id))
-        {
+        if (!empty($this->source_id)) {
             $client = new Client();
 
             $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/677b7cd5005ccdfd0365165c', [
@@ -89,16 +88,30 @@ class LibraryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $resource = null)
     {
-        self::whereId($id)->update([
-            'heading' => $heading,
-            'slug' => Str::slug($heading),
-            'upload_id' => $uploadId,
-            'resource_category_id' => $category_id,
-            'description' => $description,
-            'content' => $content,
-        ]);
+        if ($resource && in_array($resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+            self::whereId($id)->update([
+                'heading' => $heading,
+                'slug' => Str::slug($heading),
+                'upload_id' => $uploadId,
+                'resource_category_id' => $category_id,
+                'description' => $description,
+                'content' => $content,
+                'source_id' => null,
+                'source_url' => null
+            ]);
+        } else {
+            self::whereId($id)->update([
+                'heading' => $heading,
+                'slug' => Str::slug($heading),
+                'upload_id' => $uploadId,
+                'resource_category_id' => $category_id,
+                'description' => $description,
+                'content' => $content,
+            ]);
+        }
+
 
         return self::singleLibraryResource($id);
 

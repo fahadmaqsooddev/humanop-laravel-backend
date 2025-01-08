@@ -201,7 +201,7 @@ class CreateResource extends Component
         }
         else
         {
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content, $this->resource);
 
         }
 
