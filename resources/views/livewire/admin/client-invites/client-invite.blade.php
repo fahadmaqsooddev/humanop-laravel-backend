@@ -9,7 +9,7 @@
     </div>
     <div class="table-responsive w-100 pt-4 table-orange-color">
         @if(count($invites) > 0)
-
+        @include('layouts.message')
             <table class="table table-flush">
                 <thead class="thead-light">
                 <tr class="table-text-color">
