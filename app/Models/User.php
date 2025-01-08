@@ -915,7 +915,7 @@ class User extends Authenticatable implements JWTSubject
 
         $user = self::whereId($id)->first();
 
-        UserInvite::deleteInvite($user['email']);
+//        UserInvite::deleteInvite($user['email']);
 
         self::whereId($id)->delete();
     }
