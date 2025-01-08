@@ -81,6 +81,7 @@
                                 <p style="text-align: justify">Your physical "TRAITS" determine how nature shows up in
                                     you. These traits assist in providing unique insight into your capabilities and
                                     natural talents.</p>
+                                 
 
                                 @foreach($allStyles as $style)
                                     <h2 class="mt-4"
@@ -106,7 +107,7 @@
                                     $featureHeading = '';
                                     $featureText = '';
                                     ?>
-                                    @switch($feature[1])
+                                    @switch($feature['public_name'])
                                         @case('Initiates Change')
                                         <?php
                                         $featureHeading = 'Initiating Change';

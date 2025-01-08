@@ -35,9 +35,9 @@ class PdfGenerate extends Model
                 $styleText = '';
                 $styleTextArray = [];
 
-                if (isset($style[1])) {
+                if (isset($style['public_name'])) {
                     // Determine the heading and corresponding text options based on style
-                    switch ($style[1]) {
+                    switch ($style['public_name']) {
                         case 'Regal':
                             $styleHeading = 'Regal';
                             $styleTextArray = [

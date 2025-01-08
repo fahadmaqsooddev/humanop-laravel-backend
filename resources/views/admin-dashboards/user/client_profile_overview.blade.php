@@ -413,8 +413,8 @@
                                             <div id="intro_to_cycle_to_life_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192); text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life Introduction: </span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life Introduction: </span><br><br>
                                                     This video is an introduction to the Cycle of Life. The
                                                     Cycle of Life simply explains our relationship with time
                                                     as it's consistently unfolding for us. Now even though
@@ -451,8 +451,8 @@
                                             <div id="roadworthy_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Roadworthy (21-29): </span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Roadworthy (21-29): </span><br><br>
                                                     Your current interval of life between 21 and 29
                                                     is what we call “The Road Worthy Interval”. Now,
                                                     if you were to consider your body as the vehicle
@@ -471,7 +471,7 @@
                                                     later in life.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     So if you're not officially an adult, what do
                                                     you rely upon to help you navigate this current
                                                     interval in the years moving forward? Well, the
@@ -519,7 +519,7 @@
                                                 </p>
 
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     The overall nature of this current age interval
                                                     you're experiencing is that it's a time for
                                                     experimentation with life. So give yourself
@@ -553,8 +553,8 @@
                                             <div id="power_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);"><span
-                                                        style="color: #f2661c;text-align: justify">Cycle of Life - The Power Interval (30-33):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;text-align:justify;">Cycle of Life - The Power Interval (30-33):</span><br><br>
                                                     Your current interval of life between 30 and 33
                                                     is “The Power Interval”. This is a time of life
                                                     when you have the most physical energy in all of
@@ -597,8 +597,8 @@
                                             <div id="mid_life_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Mid-Life Transformation (34-42):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Mid-Life Transformation (34-42):</span><br><br>
                                                     Your current interval of life starts at 34 and
                                                     ends at 43, and it is the most transformational
                                                     aspect of anyone's life. It's called the
@@ -616,7 +616,7 @@
                                                     it all away.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     So many transformative life events occur during
                                                     the interval, and it's not about categorizing
                                                     them as bad or good. They are simply
@@ -684,8 +684,8 @@
                                             <div id="awareness_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Awareness (43-51):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Awareness (43-51):</span><br><br>
                                                     Your current interval begins at age 43 and it
                                                     ends at 52. This interval is called “The
                                                     Interval of Awareness”, and it marks the
@@ -743,8 +743,8 @@
                                             <div id="forward_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Pay It Forward (52-65):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Pay It Forward (52-65):</span><br><br>
                                                     Your current interval begins at age 52 and it
                                                     ends at 66. This interval is called “The Pay It
                                                     Forward Interval”. All that you've collected
@@ -780,8 +780,8 @@
                                             <div id="liberated_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Liberated (66-69): </span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Liberated (66-69): </span><br><br>
                                                     Your current interval begins at age 66 and ends
                                                     at 70, and even for some, it can go on up to 75.
                                                     It's the interval where you experience
@@ -812,8 +812,8 @@
                                             <div id="being_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Being (70-74):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Being (70-74):</span><br><br>
                                                     Your current interval begins at age 70 and ends
                                                     at 75. And we call this interval “The Interval
                                                     of Being”. So much has been archived in the
@@ -851,8 +851,8 @@
                                             <div id="review_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Cycle of Life - Life Review (75-83):</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Life Review (75-83):</span><br><br>
                                                     Your current interval begins at age 75 and ends
                                                     at 84. It is in this interval where a “Natural
                                                     Life Review” takes place. It's a time when
@@ -875,8 +875,8 @@
                                             <div id="intro_to_trait_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Traits Introduction:</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Traits Introduction:</span><br><br>
                                                     This video is an introduction to traits. Traits are the
                                                     natural physical traits that make you unique. The color
                                                     of your hair and eyes, the shape of your face and other
@@ -900,8 +900,10 @@
                                                 <div id="style_{{$index}}_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$style['public_name'] }} : </span>{{$style['description']}}
+                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$style['public_name'] }} : </span>
+                                                            {{-- {{$style['description']}} --}}
+                                                            {!!$style['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -913,8 +915,8 @@
                                             <div id="your_motivation_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Motivation Introduction:</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Motivation Introduction:</span><br><br>
                                                     This video is an
                                                     introduction to Motivation (or what's driving you to do
                                                     what you do). There are 12 motivators or drivers in
@@ -936,9 +938,11 @@
                                                 <div id="feature_{{$index}}_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
+                                                       style="color: white; text-align: justify; font-size:1rem">
                                                                     <span
-                                                                        style="color: #f2661c;">{{$feature['public_name'] }} : </span>{{$feature['description']}}
+                                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$feature['public_name'] }} : </span>
+                                                                        {{-- {{$feature['description']}} --}}
+                                                                        {!!$feature['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -949,8 +953,8 @@
                                             <div id="your_boundary_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Boundaries:</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Boundaries:</span> <br><br>
                                                     This video is an introduction to boundaries. Boundaries
                                                     refer to what your personal preferences reveal about
                                                     your boundaries of tolerance for people, places and
@@ -976,7 +980,7 @@
                                                     and things in your life.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     Now our personal preferences that determine our
                                                     boundaries of tolerance are not learned. They are an
                                                     innate part of our molecular makeup. It's one of the
@@ -997,7 +1001,7 @@
                                                     them.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     The people, places and things in our life range from a
                                                     Gold to a Copper Alchemy, and your unique Alchemy is
                                                     determined by the combined quantity of each ore that you
@@ -1007,7 +1011,7 @@
                                                     maintenance and organic you are.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     So let's take a look at how the Gold Alchemy represents
                                                     itself through some images. Gold aligns with quality.
                                                     Where they live, where and how they travel, and the
@@ -1028,7 +1032,7 @@
                                                     the gold standard that sets things apart for them.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     The Silver a represents itself as practical. So in
                                                     taking a look at the living and workspaces you see here,
                                                     everything is neat and practical, there's a functional
@@ -1040,7 +1044,7 @@
                                                     their disposal. They can flex whenever they need to.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     Now the Copper Alchemy aligns with utility. In other
                                                     words, getting the most use out of everything. Copper’s
                                                     simply have a more relaxed way of living and being. When
@@ -1061,7 +1065,7 @@
                                                     others to just relax.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     It's really important to recognize that as humans we
                                                     have different boundaries of tolerance. And, the number
                                                     one reason why relationships are challenged is when
@@ -1080,7 +1084,7 @@
                                                     your Alchemy.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     Now your next step is to watch the following video that
                                                     describes the nature of your unique Alchemy. And as you
                                                     begin to understand your Alchemy, we invite you to
@@ -1103,8 +1107,9 @@
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
-                                                        {{$boundary['description']}}
+                                                       style="color: white; text-align: justify; font-size:1rem">
+                                                        {{-- {{$boundary['description']}} --}}
+                                                        {!!$boundary['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1116,8 +1121,8 @@
                                             <div id="your_communication_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Communication Style:</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span>
                                                     This video is an introduction to Communication Style.
                                                     Energy Centers define your Communication Style. In other
                                                     words, how you are presently wired to engage in life.
@@ -1154,7 +1159,7 @@
                                                     result, and optimal communication can occur for them.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify">
+                                                   style="color: white; text-align: justify; font-size:1rem">
                                                     Now the four following videos describe the nature of
                                                     each of the four Energy Center. They are presented to
                                                     you in your uniquely ordered sequence (or
@@ -1181,8 +1186,10 @@
                                                 <div id="communication_{{$index}}_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify">
-                                                        <span style="color: #f2661c;">{{$communication['public_name'] }} : </span>{{$communication['description']}}
+                                                       style="color: white; text-align: justify; font-size:1rem">
+                                                        <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$communication['public_name'] }} : </span>
+                                                        {{-- {{$communication['description']}} --}}
+                                                        {!!$communication['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1193,8 +1200,8 @@
                                             <div id="energy_pool_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                        style="color: #f2661c;">Intro To Energy Pool:</span>
+                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span>
                                                     This video is an introduction to Energy Pool. Your
                                                     Energy Pool represents how much physical energy you have
                                                     to expend on a daily basis. And here are some important
@@ -1230,9 +1237,10 @@
                                                 <div id="energy_pool_dynamic_dev_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">{{$energyPool['public_name']}}:</span>
-                                                        {{$energyPool['description']}}
+                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$energyPool['public_name']}}:</span>
+                                                        {{-- {{$energyPool['description']}} --}}
+                                                        {!!$energyPool['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1245,8 +1253,8 @@
                                                 <div id="your_perception_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">Intro To Perception of Life:</span>
+                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span>
                                                         This video is an introduction to Perception. Your
                                                         Perception of Life defines your electromagnetic
                                                         potential. It reveals whether you perceive what is
@@ -1307,14 +1315,15 @@
                                                 <div id="perception_dynamic_dev_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: rgb(160, 174, 192);text-align: justify"><span
-                                                            style="color: #f2661c;">
+                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">
                                                             {{($perception['code_number'] == 40 ? "Negatively Charged" :
                                                                           ($perception['code_number'] == 41 ? "Neutrally Charged" :
                                                                           ($perception['code_number'] == 42 ? "Positively Charged" : '')))
                                                                         }} [{{ $perception['pv'] ?? '' }}]
                                                         </span>
-                                                        {{$perception['description']}}
+                                                        {{-- {{$perception['description']}} --}}
+                                                        {!!$perception['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1850,6 +1859,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row d-flex mt-5">
+                                                   
                                                     @foreach($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="style_{{$index.'_heading'}}" class="card"
