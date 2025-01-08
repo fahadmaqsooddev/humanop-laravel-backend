@@ -396,6 +396,9 @@
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
                                     </div>
+                                    <span wire:loading.flex wire:target="resource">
+                                            Uploading ...
+                                        </span>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
@@ -435,7 +438,7 @@
 
                                     </div>
                                     <div class="row">
-                                    
+
                                         <div class="col-6">
                                             <div class="form-check">
                                                         <input type="checkbox" wire:model.defer="permission" value="1"class="form-check-input option-checkbox1">
@@ -756,5 +759,5 @@
         }
     </script>
 
-   
+
 @endpush

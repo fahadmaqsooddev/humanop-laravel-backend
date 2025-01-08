@@ -1107,9 +1107,9 @@
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem">
-                                                        {{-- {{$boundary['description']}} --}}
-                                                        {!!$boundary['description']!!}
+                                                       style="color: rgb(160, 174, 192);text-align: justify">
+                                                        <span
+                                                            style="color: #f2661c;">{{$boundary['public_name'] . ' Alchemy' }}  : </span>{{$boundary['description']}}
                                                     </p>
                                                 </div>
                                             </div>

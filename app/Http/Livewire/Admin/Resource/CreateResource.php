@@ -6,6 +6,7 @@ use App\Models\Admin\ResourceCategory\ResourceCategory;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -183,15 +184,30 @@ class CreateResource extends Component
             $this->deleteFileToGumlet($getResource['source_id']);
         }
 
-        LibraryResource::deleteResource($this->resourceId);
-
         $upload_id = $this->uploadFile($this->resource);
 
-        $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
+        if (empty($this->resource))
+        {
+            LibraryResource::whereId($this->resourceId)->update([
+                'heading' => $this->heading,
+                'slug' => Str::slug($this->heading),
+                'resource_category_id' => $this->category_id,
+                'description' => $this->description,
+                'content' => $this->content,
+            ]);
 
-        $this->uploadFileToGumlet($this->resource, $resource['id']);
-        
-        PermissionResource::createResourcePermission($resource->id, $this->permission);
+            $updateResource =  LibraryResource::singleLibraryResource($this->resourceId);
+
+        }
+        else
+        {
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content, $this->resource);
+
+        }
+
+        $this->uploadFileToGumlet($this->resource, $updateResource['id']);
+
+        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
         $this->emit('toggleEditResourceModal');
 

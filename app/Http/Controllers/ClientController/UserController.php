@@ -173,8 +173,6 @@ class UserController extends Controller
                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
             }
 
-//            $id = last(request()->segments());
-
             $user = Helpers::getWebUser()['is_admin'];
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;

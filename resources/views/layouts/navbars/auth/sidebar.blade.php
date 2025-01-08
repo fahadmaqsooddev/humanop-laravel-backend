@@ -478,7 +478,7 @@
                                                                              src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                        <span class="sidenav-normal"> HAI Chat <b class="caret"></b></span>
+                                        <span class="sidenav-normal"> HAI <b class="caret"></b></span>
                                     </a>
                                     <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
                                          id="chat">
@@ -492,7 +492,7 @@
                                                     <span class="sidenav-normal"><img
                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                    <span class="sidenav-normal"> Chatbots </span>
+                                                    <span class="sidenav-normal"> Brains </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
@@ -504,7 +504,7 @@
                                                     <span class="sidenav-normal"><img
                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                    <span class="sidenav-normal"> Embeddings </span>
+                                                    <span class="sidenav-normal"> Knowledge </span>
                                                 </a>
                                             </li>
                                         </ul>

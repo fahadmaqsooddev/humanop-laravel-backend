@@ -302,7 +302,7 @@ class Helpers
             }
 
         } else {
-            if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png"
+            if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png" || $original_default == "humanop_default_image.png"
                 || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png") {
 
                 $path = url('/') . '/media/files/' . 'original_default' . '/' . $original_default;
@@ -322,11 +322,11 @@ class Helpers
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
 
         }
-        
+
         if (!empty($video)) {
             $upload = Upload::find($video);
 
-            if ($upload->extension === 'mp3' && $upload->extension != 'mp4') {
+            if ($upload->extension != 'mp4') {
 
                 return [];
             }
@@ -348,7 +348,7 @@ class Helpers
         if (!empty($audio)) {
             $upload = Upload::find($audio);
 
-            if ($upload->extension === 'mp4' && $upload->extension != 'mp3') {
+            if ($upload->extension != 'mp3') {
 
                 return [];
             }

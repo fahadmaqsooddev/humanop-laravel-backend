@@ -1302,7 +1302,7 @@ class Assessment extends Model
         if (!empty($alchemyCodeDetail)) {
             $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail['code']);
 
-            $boundaries = [
+            return [
                 'public_name' => $publicName['public_name'],
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
@@ -1310,9 +1310,15 @@ class Assessment extends Model
                 'img_url' => $alchemyCodeDetail['image'],
             ];
 
-            return $boundaries;
         } else {
-            return null;
+
+            return [
+                'public_name' => "",
+                'code_number' => $gold . $silver . $copper,
+                'description' => "",
+                'video_url' => "",
+                'img_url' => "",
+            ];
         }
 
     }
