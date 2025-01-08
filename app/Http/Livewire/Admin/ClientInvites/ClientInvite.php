@@ -65,16 +65,9 @@ class ClientInvite extends Component
        UserInvite::deleteInvite(null, $id);
     }
 
-//     public function deleteClientLink($id)
-// {
-//     // Handle the delete logic here
-//     // Emit an event or directly delete the link
-//     $this->emit('clientLinkDeleted', $id);
-// }
-
     public function render()
     {
-       
+
         $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email);
         $invites->withPath(url('/admin/client-invites'));
         return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);

@@ -22,19 +22,25 @@ class CreateResource extends Component
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
     protected $rules = [
-        'heading' => 'required',
-        'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800', // Max file size 200MB
+        'heading' => 'required|unique:library_resources,heading',
+        'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
-        'description' => 'nullable|max:1000',
-        'content' => 'nullable',
+        'description' => 'nullable|string|max:1000',
+        'content' => 'nullable|string',
     ];
 
     protected $messages = [
-        'heading.required' => 'Heading is required',
-        'resource.mimes' => 'Resource must be a valid image or video file (jpeg, png, jpg, gif, mp4, mov, avi, mkv).',
-        'permission.required' => 'At least one permission is required',
-        'description.max' => 'Description maximum length is 1000 characters'
+        'heading.required' => 'Heading is required.',
+        'heading.unique' => 'The heading must be unique in the library resources.',
+        'resource.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource.max' => 'The resource file size must not exceed 200MB.',
+        'permission.required' => 'At least one permission is required.',
+        'permission.array' => 'Permissions must be an array.',
+        'permission.min' => 'At least one permission is required.',
+        'category_id.required' => 'Category is required.',
+        'category_id.exists' => 'The selected category does not exist.',
+        'description.max' => 'Description may not exceed 1000 characters.',
     ];
 
     public function CreateResource()
@@ -223,12 +229,13 @@ class CreateResource extends Component
     {
 
         $rule = [
-            'category_name' => 'required|max:100',
+            'category_name' => 'required|unique:resource_categories,name|max:100',
         ];
 
         $message = [
             'category_name.required' => 'Category name is required',
-            'category_name.max' => 'Category maximum length is 100 characters'
+            'category_name.unique' => 'This category name already exists',
+            'category_name.max' => 'Category maximum length is 100 characters',
         ];
 
         $this->validate($rule, $message);
@@ -321,7 +328,6 @@ class CreateResource extends Component
 
     public function render()
     {
-//        $resources = $this->allResources();
 
         $categories = ResourceCategory::categories();
 
