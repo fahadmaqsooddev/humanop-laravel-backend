@@ -753,6 +753,7 @@ class User extends Authenticatable implements JWTSubject
         return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
             ->where('is_permanently_deleted', 0)
             ->onlyTrashed()
+            ->orderBy('deleted_at','desc')
             ->paginate($per_page)->setPath(route('deleted_clients'));
 
     }

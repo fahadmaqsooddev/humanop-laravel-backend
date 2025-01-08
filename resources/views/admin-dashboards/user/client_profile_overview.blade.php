@@ -898,7 +898,7 @@
                                             <div id="style_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="style_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto; text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$style['public_name'] }} : </span>
@@ -936,7 +936,7 @@
                                             <div id="feature_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="feature_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem">
                                                                     <span
@@ -1105,7 +1105,7 @@
                                             <div id="boundary_dynamic_div" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span
@@ -1122,7 +1122,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span>
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span> <br><br>
                                                     This video is an introduction to Communication Style.
                                                     Energy Centers define your Communication Style. In other
                                                     words, how you are presently wired to engage in life.
@@ -1184,7 +1184,7 @@
                                             <div id="communication_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="communication_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem">
                                                         <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$communication['public_name'] }} : </span>
@@ -1201,7 +1201,7 @@
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span>
+                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span> <br> <br>
                                                     This video is an introduction to Energy Pool. Your
                                                     Energy Pool represents how much physical energy you have
                                                     to expend on a daily basis. And here are some important
@@ -1235,7 +1235,7 @@
                                             <div id="energy_pool_dynamic_dev" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="energy_pool_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$energyPool['public_name']}}:</span>
@@ -1254,7 +1254,7 @@
                                                      style="height: auto;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
-                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span>
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span> <br><br>
                                                         This video is an introduction to Perception. Your
                                                         Perception of Life defines your electromagnetic
                                                         potential. It reveals whether you perceive what is
@@ -1313,7 +1313,7 @@
                                             <div id="perception_dynamic_dev" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="perception_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align:justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">
