@@ -435,7 +435,7 @@
 
                                     </div>
                                     <div class="row">
-                                    
+
                                         <div class="col-6">
                                             <div class="form-check">
                                                         <input type="checkbox" wire:model.defer="permission" value="1"class="form-check-input option-checkbox1">
@@ -756,5 +756,5 @@
         }
     </script>
 
-   
+
 @endpush

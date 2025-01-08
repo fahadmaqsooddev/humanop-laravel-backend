@@ -183,15 +183,15 @@ class CreateResource extends Component
             $this->deleteFileToGumlet($getResource['source_id']);
         }
 
-        LibraryResource::deleteResource($this->resourceId);
+//        LibraryResource::deleteResource($this->resourceId);
 
         $upload_id = $this->uploadFile($this->resource);
 
-        $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
+        $resource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
 
         $this->uploadFileToGumlet($this->resource, $resource['id']);
-        
-        PermissionResource::createResourcePermission($resource->id, $this->permission);
+
+        PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
         $this->emit('toggleEditResourceModal');
 
