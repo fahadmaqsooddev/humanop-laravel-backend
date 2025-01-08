@@ -6,6 +6,7 @@ use App\Models\Admin\ResourceCategory\ResourceCategory;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Upload\Upload;
@@ -185,9 +186,26 @@ class CreateResource extends Component
 
         $upload_id = $this->uploadFile($this->resource);
 
-        $resource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+        if (empty($this->resource))
+        {
+            LibraryResource::whereId($this->resourceId)->update([
+                'heading' => $this->heading,
+                'slug' => Str::slug($this->heading),
+                'resource_category_id' => $this->category_id,
+                'description' => $this->description,
+                'content' => $this->content,
+            ]);
 
-        $this->uploadFileToGumlet($this->resource, $resource['id']);
+            $updateResource =  LibraryResource::singleLibraryResource($this->resourceId);
+
+        }
+        else
+        {
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+
+        }
+
+        $this->uploadFileToGumlet($this->resource, $updateResource['id']);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
