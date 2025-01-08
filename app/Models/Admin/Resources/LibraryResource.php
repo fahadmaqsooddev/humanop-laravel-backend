@@ -35,7 +35,7 @@ class LibraryResource extends Model
     public function getPhotoUrlAttribute()
     {
 
-        return Helpers::getImage($this->upload_id, 'profile_pic.png');
+        return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
     }
 
     public function getVideoUrlAttribute()

@@ -183,8 +183,6 @@ class CreateResource extends Component
             $this->deleteFileToGumlet($getResource['source_id']);
         }
 
-//        LibraryResource::deleteResource($this->resourceId);
-
         $upload_id = $this->uploadFile($this->resource);
 
         $resource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);

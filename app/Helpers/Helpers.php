@@ -302,7 +302,7 @@ class Helpers
             }
 
         } else {
-            if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png"
+            if ($original_default == "female_profile_pic.png" || $original_default == "profile_pic.png" || $original_default == "cover_pic.png" || $original_default == "ind-database-default.jpg" || $original_default == "image_placeholder.png" || $original_default == "humanop_default_image.png"
                 || $original_default == "gin_logo.png" || $original_default == "hand_shake.png" || $original_default == "calender.png") {
 
                 $path = url('/') . '/media/files/' . 'original_default' . '/' . $original_default;
