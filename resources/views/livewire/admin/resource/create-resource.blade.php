@@ -396,6 +396,9 @@
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
                                     </div>
+                                    <span wire:loading.flex wire:target="resource">
+                                            Uploading ...
+                                        </span>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
                                             <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
