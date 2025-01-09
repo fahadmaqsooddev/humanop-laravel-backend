@@ -558,18 +558,4 @@ class UserController extends Controller
         }
 
     }
-
-    public function notifications()
-    {
-        try {
-
-            $notifications = Notification::allNotification();
-
-            return Helpers::successResponse('All Notification', $notifications);
-
-        }catch (\Exception $exception){
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
 }
