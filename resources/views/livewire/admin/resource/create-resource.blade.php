@@ -154,6 +154,7 @@
 
     @foreach($categories as $category)
         @foreach($category['libraryResources'] as $resource)
+            {{dd($resource['video_url'])}}
             <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true"
                  aria-labelledby="{{$resource['slug']}}"
                  tabindex="-1" role="dialog">
