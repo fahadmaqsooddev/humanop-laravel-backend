@@ -60,7 +60,7 @@ class LibraryResource extends Model
 
         }
 
-        return Helpers::getVideo($this->upload_id, 1, $this->source_id);
+        return Helpers::getVideo($this->upload_id, 1, null);
 
 
     }
