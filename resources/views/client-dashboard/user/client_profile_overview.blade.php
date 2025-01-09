@@ -965,7 +965,7 @@
                                             <div id="style_{{ $style['public_name'] }}" class="col-12 mt-3"
                                                 style="display: none;">
                                                 <div id="style_{{ $style['public_name'] }}_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: white; text-align: justify; font-size:1rem">
                                                         <span
@@ -1007,7 +1007,7 @@
                                             <div id="feature_{{ $feature_name }}" class="col-12 mt-3"
                                                 style="display: none;">
                                                 <div id="feature_{{ $feature_name }}_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: white; text-align: justify; font-size:1rem">
                                                         <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{ $feature['public_name'] }} :
@@ -1168,7 +1168,7 @@
                                         <div class="row d-flex">
                                             <div id="boundary_dynamic_div" class="col-12 mt-3" style="display: none;">
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: white; text-align: justify; font-size:1rem">
                                                         <span
@@ -1248,7 +1248,7 @@
                                             <div id="communication_{{ $index }}" class="col-12 mt-3"
                                                 style="display: none;">
                                                 <div id="communication_{{ $index }}_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{ $communication['public_name'] }}
@@ -1298,7 +1298,7 @@
                                         <div class="row d-flex">
                                             <div id="energy_pool_dynamic_dev" class="col-12 mt-3" style="display: none;">
                                                 <div id="energy_pool_dynamic_dev_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: white; text-align: justify; font-size:1rem">
                                                         <span
@@ -1374,7 +1374,7 @@
                                         <div class="row d-flex">
                                             <div id="perception_dynamic_dev" class="col-12 mt-3" style="display: none;">
                                                 <div id="perception_dynamic_dev_text" class="card p-2"
-                                                    style="height: auto;">
+                                                    style="height: auto;text-align: justify;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                         style="color: rgb(160, 174, 192);text-align: justify"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">
