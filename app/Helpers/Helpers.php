@@ -316,11 +316,11 @@ class Helpers
 
     public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
     {
-        dd(isset($sourceUrl['output']));
 
-        if (isset($sourceUrl['output']) && !empty($sourceUrl['output'])) {
+        if (!empty($sourceUrl))
+        {
+            return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
 
-            return array('path' => $sourceUrl, 'original_name' => $sourceUrl['output']['playback_url']);
         }
 
         if (!empty($video)) {
