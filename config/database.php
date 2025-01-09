@@ -471,8 +471,8 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['heading','notification','read'],
-            'hidden' => ['created_at','updated_at','deleted_at'],
+            'fillable' => ['heading','notification','read','created_at'],
+            'hidden' => ['updated_at','deleted_at'],
         ],
     ]
 ];
