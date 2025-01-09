@@ -316,8 +316,6 @@ class Helpers
 
     public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
     {
-        dd($sourceUrl);
-        
 
         if (!empty($sourceUrl))
         {
