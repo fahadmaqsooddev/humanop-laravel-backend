@@ -283,7 +283,14 @@
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*">
                                         <span wire:loading.flex wire:target="resource">
-                                            Uploading ...
+                                            {{-- Uploading ... --}}
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="spinner-border" role="status" style="color: #f2661c !important;">
+                                                  
+                                                </div>
+                                                <span class="ms-2" style="color: #f2661c;">Uploading...</span>
+                                              </div>
+                                              
                                         </span>
                                     </div>
                                     <label class="form-label fs-4 text-white">Permission Level</label>
@@ -397,7 +404,13 @@
                                                accept="image/*,video/*,audio/*">
                                     </div>
                                     <span wire:loading.flex wire:target="resource">
-                                            Uploading ...
+                                            {{-- Uploading ... --}}
+                                            <div class="d-flex align-items-center mt-2">
+                                                <div class="spinner-border" role="status" style="color: #f2661c !important;">
+                                                  
+                                                </div>
+                                                <span class="ms-2" style="color: #f2661c;">Uploading...</span>
+                                              </div>
                                         </span>
                                     @if(!empty($editResourceData['photo_url']))
                                         <div class="form-group mt-4">
