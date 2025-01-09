@@ -317,7 +317,8 @@ class Helpers
     public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
     {
 
-        if (!empty($sourceUrl))
+        dd($sourceUrl['output']);
+        if (!empty($sourceUrl['output']))
         {
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
 
