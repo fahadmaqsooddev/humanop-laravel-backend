@@ -154,7 +154,6 @@
 
     @foreach($categories as $category)
         @foreach($category['libraryResources'] as $resource)
-            {{dd($resource['video_url'])}}
             <div class="modal fade" id="{{$resource['slug']}}" aria-hidden="true"
                  aria-labelledby="{{$resource['slug']}}"
                  tabindex="-1" role="dialog">
@@ -177,15 +176,15 @@
                             @if($resource['upload_id'] != null)
                                 @if(!empty($resource['photo_url']))
                                     <img style="width: 100%; max-height: 400px;"
-                                         src="{{ $resource['photo_url']['url'] }}">
+                                         src="{{ $resource['photo_url'] ? $resource['photo_url']['url'] : '' }}">
                                 @elseif(!empty($resource['video_url']))
                                     <video controls style="width: 100%; max-height: 400px;">
-                                        <source src="{{ $resource['video_url']['path'] }}" type="video/mp4">
+                                        <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
                                 @elseif(!empty($resource['audio_url']))
                                     <audio controls style="width: 100%;">
-                                        <source src="{{ $resource['audio_url']['path'] }}" type="audio/mpeg">
+                                        <source src="{{ $resource['audio_url'] ? $resource['audio_url']['path'] : '' }}" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
                                 @endif
