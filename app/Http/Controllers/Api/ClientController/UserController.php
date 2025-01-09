@@ -90,7 +90,6 @@ class UserController extends Controller
 
             User::updateUser(['app_intro_check' => 1], Helpers::getUser()->id);
 
-
             return Helpers::successResponse('Intro Completed Successfully');
 
         } catch (\Exception $exception) {
