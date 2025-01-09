@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Assessment;
 
-use App\Models\Client\Plan\Plan;
-use App\Models\Subscription;
+use App\Events\Admin\Assessment\ResetAssessment;
+use App\Models\Admin\Notification\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -110,20 +110,16 @@ class Assessment extends Component
 
     }
 
-//    public function changeUserAssessmentStatus($assessmentId, $assessmentDate)
-//    {
-//
-//        \App\Models\Assessment::changeAssessmentTime($assessmentId, $assessmentDate);
-//
-//        session()->flash('success', "Date and time updated successfully");
-//
-//        $this->render();
-//    }
-
     public function resetAssessment($assessmentId)
     {
 
         $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
+
+        $message = 'The assessment has been successfully reset.';
+
+        event(new ResetAssessment($assessment['user_id'], 'reset notification', $message));
+
+        Notification::createNotification('reset notification', $message);
 
         session()->flash('success', "Reset Assessment updated successfully");
 

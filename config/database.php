@@ -454,23 +454,25 @@ return [
             'fillable' => ['id','email','link'],
             'hidden' => ['created_at','updated_at'],
         ],
-
         'EmbeddingGroup' => [
             'table' => 'embedding_groups',
             'fillable' => ['id','name'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
-
         'ChatbotKeyword' => [
             'table' => 'chatbot_keywords',
             'fillable' => ['word','chatbot_id','message'],
             'hidden' => ['created_at','updated_at'],
         ],
-
         'GroupEmbedding' => [
             'table' => 'group_embeddings',
             'fillable' => ['embedding_id','group_id'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'Notification' => [
+            'table' => 'notifications',
+            'fillable' => ['heading','notification','read'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
         ],
     ]
 ];

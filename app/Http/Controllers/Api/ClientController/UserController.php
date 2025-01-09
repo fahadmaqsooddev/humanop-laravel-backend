@@ -17,6 +17,7 @@ use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
@@ -556,5 +557,19 @@ class UserController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function notifications()
+    {
+        try {
+
+            $notifications = Notification::allNotification();
+
+            return Helpers::successResponse('All Notification', $notifications);
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 }

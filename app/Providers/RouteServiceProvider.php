@@ -117,6 +117,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ChatAiNamespace)
                 ->group(base_path('routes/client_apis/chat_ai/chat_ai_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->ApiClientController)
+                ->group(base_path('routes/client_apis/notification/notification_api.php'));
         });
     }
 

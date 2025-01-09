@@ -30,6 +30,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('profile-overview-result', 'UserController@profileOverviewResult');
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
+//    Route::get('all-notification', 'UserController@notifications');
+
 
 });
 
