@@ -52,7 +52,7 @@ class LibraryResource extends Model
 
             $response_body = json_decode($response->getBody()->getContents(), true);
 
-            return Helpers::getVideo($this->upload_id, 1, $response_body['output']['playback_url']);
+            return Helpers::getVideo($this->upload_id, 1, $response_body['output'] ? $response_body['output']['playback_url'] : '');
 
         }
 
