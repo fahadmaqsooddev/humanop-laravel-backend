@@ -20,7 +20,7 @@ class Notification extends Model
 
     public static function allNotification()
     {
-        return self::orderBy('created_at', 'desc');
+        return self::orderBy('created_at', 'desc')->get(['heading', 'notification', 'created_at', 'read']);
     }
 
     public static function createNotification($heading = null, $message = null)
