@@ -318,9 +318,8 @@ class Helpers
     {
 
         if (isset($sourceUrl['output']) && !empty($sourceUrl['output'])) {
-            dd(1);
-            
-            return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+            return array('path' => $sourceUrl, 'original_name' => $sourceUrl['output']['playback_url']);
         }
 
         if (!empty($video)) {
