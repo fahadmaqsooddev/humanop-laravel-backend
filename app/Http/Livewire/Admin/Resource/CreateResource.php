@@ -63,8 +63,6 @@ class CreateResource extends Component
 
             $this->resetForm();
 
-            $this->render();
-
             DB::commit();
 
             session()->flash('success', 'Library resource created successfully.');

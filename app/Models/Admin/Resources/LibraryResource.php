@@ -59,9 +59,11 @@ class LibraryResource extends Model
             }
 
         }
+        else
+        {
+            return Helpers::getVideo($this->upload_id, 1, null);
 
-        return Helpers::getVideo($this->upload_id, 1, null);
-
+        }
 
     }
 
