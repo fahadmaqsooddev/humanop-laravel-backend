@@ -43,7 +43,7 @@ class LibraryResource extends Model
         if (!empty($this->source_id)) {
             $client = new Client();
 
-            $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/677b7cd5005ccdfd0365165c', [
+            $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/' . $this->source_id, [
                 'headers' => [
                     'Authorization' => 'Bearer gumlet_f330acf5449eaf2e84a63a2931a80023',
                     'accept' => 'application/json',
