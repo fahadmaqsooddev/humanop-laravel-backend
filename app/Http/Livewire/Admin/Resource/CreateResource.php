@@ -71,7 +71,7 @@ class CreateResource extends Component
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
-                    Notification::createNotification('Reset Notification', $message, null, null, $permission);
+                    Notification::createNotification('new training & resource', $message, null, null, $permission);
 
                 }
 
