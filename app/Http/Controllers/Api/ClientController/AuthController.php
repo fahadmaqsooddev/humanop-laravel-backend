@@ -20,6 +20,7 @@ use App\Models\Email\EmailTemplate;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
+
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
+        $this->middleware('auth:api')->except(['SendInvite','loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
 
         $this->auth = Auth::guard('api');
     }
@@ -328,6 +329,32 @@ class AuthController extends Controller
         }
     }
 
+    public function SendInvite(Request $request)
+    {
+        try {
+            $email = $request->query('email');
+            $validatedData = \Validator::make(['email' => $email], [
+                'email' => 'required|email',
+            ])->validate();
+            $getInvite = UserInvite::where('email', $validatedData['email'])->first();
+    
+            if (!empty($getInvite)) {
+                $link = "http://127.0.0.1:8000/register?link=" . urlencode($getInvite['link']);
+                return response()->json(['link' => $link]);
+            } else {
+                $createlink = UserInvite::sendInvite($validatedData['email']);
+                $link = "http://127.0.0.1:8000/register?link=" . urlencode($createlink['link']);
+                return response()->json(['link' => $link]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'msg' => $e->getMessage(),
+            ]);
+        }
+    }
+    
+
     /**
      * Prepare email data.
      */
@@ -341,6 +368,8 @@ class AuthController extends Controller
             '{$privacy}' => url('/privacy-policy'),
         ];
     }
+
+
 
     /**
      * Send email verification.
