@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('heading')->nullable();
-            $table->string('notification')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('type')->nullable();
+            $table->text('message')->nullable();
             $table->integer('read')->comment('0 = un-read, 1 = read')->default(0);
+            $table->string('device_token')->nullable();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
