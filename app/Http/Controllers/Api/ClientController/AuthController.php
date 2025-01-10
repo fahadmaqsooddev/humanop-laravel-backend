@@ -333,27 +333,44 @@ class AuthController extends Controller
     {
         try {
             $email = $request->query('email');
+
             $validatedData = \Validator::make(['email' => $email], [
                 'email' => 'required|email',
+
             ])->validate();
+
             $getInvite = UserInvite::where('email', $validatedData['email'])->first();
-    
+
             if (!empty($getInvite)) {
-                $link = "http://127.0.0.1:8000/register?link=" . urlencode($getInvite['link']);
+
+                $link = url('/register?link=' . $getInvite['link']);
+
                 return response()->json(['link' => $link]);
+
             } else {
+
                 $createlink = UserInvite::sendInvite($validatedData['email']);
-                $link = "http://127.0.0.1:8000/register?link=" . urlencode($createlink['link']);
+           
+                $link = url('/register?link=' . $createlink['link']);
+
                 return response()->json(['link' => $link]);
+
             }
+
         } catch (\Exception $e) {
+
             return response()->json([
+
                 'success' => false,
+
                 'msg' => $e->getMessage(),
+
             ]);
+
         }
     }
-    
+
+
 
     /**
      * Prepare email data.
