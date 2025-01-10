@@ -203,7 +203,7 @@ class DailyTip extends Model
 
                             event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
 
-                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id']);
+                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], null);
                         }
 
                         $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
