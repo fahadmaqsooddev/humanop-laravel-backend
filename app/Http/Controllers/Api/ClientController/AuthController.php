@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -334,28 +335,41 @@ class AuthController extends Controller
         try {
             $email = $request->query('email');
 
+            $inviteKey = config('inviteKey.key');
+
+            $key = $request->query('key');
+
             $validatedData = \Validator::make(['email' => $email], [
+
                 'email' => 'required|email',
 
             ])->validate();
 
-            $getInvite = UserInvite::where('email', $validatedData['email'])->first();
+            if ($key == $inviteKey)
+            {
+                $getInvite = UserInvite::where('email', $validatedData['email'])->first();
 
-            if (!empty($getInvite)) {
+                if (!empty($getInvite)) {
 
-                $link = url('/register?link=' . $getInvite['link']);
+                    $link = url('/register?link=' . $getInvite['link']);
 
-                return response()->json(['link' => $link]);
+                    return response()->json(['link' => $link]);
 
-            } else {
+                } else {
 
-                $createlink = UserInvite::sendInvite($validatedData['email']);
-           
-                $link = url('/register?link=' . $createlink['link']);
+                    $createlink = UserInvite::sendInvite($validatedData['email']);
 
-                return response()->json(['link' => $link]);
+                    $link = url('/register?link=' . $createlink['link']);
 
+                    return response()->json(['link' => $link]);
+
+                }
             }
+            else
+            {
+                return response()->json(['error' => 'key is not valid']);
+            }
+
 
         } catch (\Exception $e) {
 
