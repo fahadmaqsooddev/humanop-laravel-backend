@@ -40,4 +40,9 @@ class ResetAssessment implements ShouldBroadcast
     {
         return new PrivateChannel('push-notification.' . $this->userId);
     }
+
+    public function broadcastAs(){
+
+        return 'assessment.reset';
+    }
 }
