@@ -37,46 +37,42 @@ class ClientInvite extends Component
     ];
 
     public function submitForm()
-    {
+    { 
         try {
+           
        
             $this->validate();
            
+            
             if ($this->email) {
-                $uniqueEmail = UserInvite::where('email', $this->email)->first();
+                $user = User::where('email', $this->email)->first();
             
-                if ($uniqueEmail) {
-                    $user = User::where('email', $this->email)->first();
-            
-                    if ($user) {
-                        if (!empty($user->email_verified_at)) {
-                            session()->flash('success', "{$this->email} already has an Registered account.");
-                            return; 
-                        }
-            
+                if ($user) {
+                    if (!empty($user->email_verified_at)) {
+                        session()->flash('success', "{$this->email} already has a Registered account.");
+                        return; 
                     }
-                    $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
-                     if (!empty($softDeletedUser)) {
-                            session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
-                            return; 
-                        }
-            
-                   
-                    UserInvite::sendInvite($this->email, $this->file);
-                    session()->flash('success', "{$this->email} invite link generated successfully.");
-                } else {
-                    
-                    UserInvite::sendInvite($this->email, $this->file);
-                    session()->flash('success', "{$this->email} invite link generated successfully.");
                 }
+            
+                $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+                if ($softDeletedUser) {
+                    session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
+                    return; 
+                }
+                $uniqueEmail = UserInvite::where('email', $this->email)->first();
+                if ($uniqueEmail) {
+                    session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
+                    return;
+                }
+            
+              
+                UserInvite::sendInvite($this->email, $this->file);
+                session()->flash('success', "{$this->email} invite link generated successfully.");
             }
             
-            
 
 
-            // UserInvite::sendInvite($this->email, $this->file);
-
-            // session()->flash('success', "{$this->email} invite link generated successfully.");
+           
 
             $this->resetForm();
 
