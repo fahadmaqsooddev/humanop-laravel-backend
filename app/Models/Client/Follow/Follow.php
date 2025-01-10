@@ -7,6 +7,9 @@ use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\Follow\FollowRequest;
+
+use App\Events\Follow\UnFollowRequest;
 
 class Follow extends Model
 {
@@ -173,11 +176,17 @@ class Follow extends Model
             if (!$follow){
 
                 self::create($data);
+
+                $msg='Follow Request is send';
+                event(new FollowRequest($data['follow_id'],'Follow Request',$msg));
+
             }
 
         }else if ($request['type'] === "un-follow"){
 
             self::where('follow_id', $data['follow_id'])->where('user_id', $data['user_id'])->delete();
+            $msg='Unfollow Request is send';
+            event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
 
         }
 

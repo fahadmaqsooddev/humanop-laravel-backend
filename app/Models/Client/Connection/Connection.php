@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\Connection\ConnectionRequest;
+use App\Events\Connection\UnconnectRequest;
+use App\Events\Connection\RequestAccept;
 class Connection extends Model
 {
     use HasFactory;
@@ -79,6 +81,10 @@ class Connection extends Model
                 $q->where('user_id', $data['friend_id'])->where('friend_id', $data['user_id']);
 
             })->delete();
+            $msg='Dis-Connect Request send it';
+
+            event(new UnconnectRequest($data['friend_id'],'Dis-Connection Request',$msg));
+
 
         }else if ($data['type'] === 'accept'){
 
@@ -95,12 +101,15 @@ class Connection extends Model
                 ]);
 
                 $received_request->update(['status' => 1]);
-
+                $msg='Your Connection Request Accepted';
+            event(new RequestAccept($data['user_id'],'Connection Request Accept',$msg));
             }elseif ($received_request && $send_request){
 
                 $received_request->update(['status' => 1]);
 
                 $send_request->update(['status' => 1]);
+                $msg='Your Connection Request Accepted';
+                event(new RequestAccept($data['user_id'],'Connection Request Accept',$msg));
 
             }
 
