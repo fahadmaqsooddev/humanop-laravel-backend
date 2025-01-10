@@ -7,7 +7,7 @@ use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Events\Connection\ConnectionRequest;
 class Connection extends Model
 {
     use HasFactory;
@@ -59,6 +59,10 @@ class Connection extends Model
             if (!$connection){
 
                 self::create($data);
+                
+                $msg='Connection Request send it';
+
+                event(new ConnectionRequest($data['friend_id'],'Connection Request',$msg));
 
                 toastr()->success("connection request was sent");
 
