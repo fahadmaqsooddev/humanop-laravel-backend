@@ -30,7 +30,7 @@ class Follow extends Model
     public function getChatIdAttribute(){
 
         $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-        
+
         $chatId1 = $this->followerChatId()->where('sender_id', $this->follow_id)->first();
 
         if ($chatId1){ // follower
@@ -89,6 +89,10 @@ class Follow extends Model
 
             $follow->delete();
 
+            $msg='Unfollow Request is send';
+
+            event(new UnFollowRequest($follow_id,'Un-Follow Request',$msg));
+
             $message = "You unfollowed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
 
             toastr()->success($message);
@@ -96,6 +100,10 @@ class Follow extends Model
         } else {
 
             self::create($data);
+
+            $msg='Follow Request is send';
+
+            event(new FollowRequest($follow_id,'Follow Request',$msg));
 
             $message = "You followed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
 
@@ -185,7 +193,9 @@ class Follow extends Model
         }else if ($request['type'] === "un-follow"){
 
             self::where('follow_id', $data['follow_id'])->where('user_id', $data['user_id'])->delete();
+
             $msg='Unfollow Request is send';
+
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
 
         }
