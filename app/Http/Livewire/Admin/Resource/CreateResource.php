@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
+use App\Events\Resource\NewResource;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +60,22 @@ class CreateResource extends Component
             $this->uploadFileToGumlet($this->resource, $resource['id']);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
+
+
+            if (!empty($resource))
+            {
+
+                foreach ($this->permission as $permission)
+                {
+                    $message = 'Your New Training & Resource';
+
+                    event(new NewResource($permission, 'new training & resource', $message));
+
+                    Notification::createNotification('Reset Notification', $message, null, null, $permission);
+
+                }
+
+            }
 
             $this->emit('toggleCreateResourceModal');
 

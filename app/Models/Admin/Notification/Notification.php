@@ -24,13 +24,14 @@ class Notification extends Model
         return self::orderBy('created_at', 'desc')->get(['heading', 'notification', 'created_at', 'read']);
     }
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null)
     {
         self::create([
             'user_id' => $userId,
             'type' => $type,
             'message' => $message,
             'device_token' => $deviceToken,
+            'permission' => $permission,
         ]);
 
         if ($deviceToken) {

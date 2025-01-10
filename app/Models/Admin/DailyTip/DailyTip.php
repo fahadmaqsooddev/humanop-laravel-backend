@@ -2,9 +2,11 @@
 
 namespace App\Models\Admin\DailyTip;
 
+use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\Practitioner\PractitionerHelpers;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
 use App\Models\Client\Plan\Plan;
@@ -193,10 +195,16 @@ class DailyTip extends Model
                         }
                         $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-//                        if ($newDailyTip)
-//                        {
-//
-//                        }
+                        if (!empty($newDailyTip))
+                        {
+                            $message = 'Your New daily tip';
+
+                            $deviceToken = $user['device_token'];
+
+                            event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
+
+                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id']);
+                        }
 
                         $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
 

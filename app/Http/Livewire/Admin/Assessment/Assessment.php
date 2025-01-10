@@ -124,7 +124,7 @@ class Assessment extends Component
 
             $deviceToken = $user['device_token'];
 
-            event(new ResetAssessment($user['id'], 'reset notification', $message));
+            event(new ResetAssessment($user['id'], 'reset assessment', $message));
 
             Notification::createNotification('Reset Notification', $message, $deviceToken, $user['id']);
         }

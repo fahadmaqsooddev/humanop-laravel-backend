@@ -471,7 +471,7 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type','message','read','created_at','user_id','device_token'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission'],
             'hidden' => ['updated_at','deleted_at'],
         ],
     ]
