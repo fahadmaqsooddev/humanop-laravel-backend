@@ -115,11 +115,19 @@ class Assessment extends Component
 
         $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
 
-        $message = 'The assessment has been successfully reset.';
 
-        event(new ResetAssessment($assessment['user_id'], 'reset notification', $message));
+        if ($assessment['reset_assessment'] == 1)
+        {
+            $message = 'The assessment has been successfully reset.';
 
-        Notification::createNotification('reset notification', $message);
+            $user = User::getSingleUser($assessment['user_id']);
+
+            $deviceToken = $user['device_token'];
+
+            event(new ResetAssessment($user['id'], 'reset notification', $message));
+
+            Notification::createNotification('Reset Notification', $message, $deviceToken, $user['id']);
+        }
 
         session()->flash('success', "Reset Assessment updated successfully");
 

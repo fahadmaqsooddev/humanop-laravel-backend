@@ -33,6 +33,6 @@ class RealTimeMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('events');
+        return new Channel('push-notification');
     }
 }
