@@ -2,6 +2,7 @@
 
 namespace App\Events\Admin\Assessment;
 
+use http\Client\Curl\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -38,7 +39,7 @@ class ResetAssessment implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('push-notification.' . 1468);
+        return new Channel('push-notification.' . $this->userId);
     }
 
     public function broadcastAs(){
