@@ -55,10 +55,10 @@ class LibraryResource extends Model
 
             $response_body = json_decode($response->getBody()->getContents(), true);
 
-//            if (!empty($response_body) && $response_body['status'] == 'ready') {
+            if (!empty($response_body) && $response_body['status'] == 'ready') {
                 return Helpers::getVideo($this->upload_id, 1, $response_body['output']['playback_url']);
 
-//            }
+            }
 
         } else {
 
