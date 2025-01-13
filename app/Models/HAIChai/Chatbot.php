@@ -69,6 +69,11 @@ class Chatbot extends Model
         return self::whereId($id)->first();
     }
 
+    public static function getChatFromName($name = null)
+    {
+        return self::where('name', $name)->first();
+    }
+
     public static function getChatFromVendorName($vendor_name = null)
     {
 
