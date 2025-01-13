@@ -12,11 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('follows', function (Blueprint $table) {
+        Schema::table('feedbacks', function (Blueprint $table) {
 
             Schema::disableForeignKeyConstraints();
 
-            $table->dropForeign('follows_user_id_foreign');
+            $table->dropForeign('feedbacks_user_id_foreign');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
