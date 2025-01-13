@@ -203,12 +203,20 @@ class CreateResource extends Component
 
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
         {
+
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
             $this->deleteFileToGumlet($getResource['source_id']);
+
+            $upload_id = $this->uploadFile($this->resource);
+
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+
+            tap($updateResource);
+
+            $this->uploadFileToGumlet($this->resource, $updateResource['id']);
         }
 
-        $upload_id = $this->uploadFile($this->resource);
 
         if (empty($this->resource))
         {
@@ -220,16 +228,10 @@ class CreateResource extends Component
                 'content' => $this->content,
             ]);
 
-            $updateResource =  LibraryResource::singleLibraryResource($this->resourceId);
-
-        }
-        else
-        {
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content, $this->resource);
+            LibraryResource::singleLibraryResource($this->resourceId);
 
         }
 
-        $this->uploadFileToGumlet($this->resource, $updateResource['id']);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
