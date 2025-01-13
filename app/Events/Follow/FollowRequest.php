@@ -41,4 +41,14 @@ class FollowRequest implements ShouldBroadcast
     
         return 'follow.request';
     }
+    public function broadcastWith()
+    {
+        return [
+            'friend_id' => $this->friendId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+        
+    }
 }
