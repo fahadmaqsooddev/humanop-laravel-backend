@@ -82,25 +82,36 @@ class AuthController extends Controller
 
                 if ($token) {
 
-                    $user_data = User::user(Helpers::getUser()->id);
+                    $data=User::where('email',$request['email'])->first();
+                    
+                    if(!empty($data['register_from_app']) && $data['step'] != 3 )
+                    {
+                       
+                        return Helpers::validationResponse('Please complete all required steps in the signup process to log in.');
+                        
+                    }else{
+                       
+                        $user_data = User::user(Helpers::getUser()->id);
 
-                    $user = Helpers::getUser();
-
-                    Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                    $updateUser = User::updateUserIsFeedback();
-
-                    $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-                    $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-
-                    $data = [
-                        'user' => $updateUser,
-                        'authorization' => [
-                            'token' => $token,
-                            'type' => 'bearer',
-                        ]
-                    ];
-                    return Helpers::successResponse('User loggedIn successfully', $data);
+                        $user = Helpers::getUser();
+    
+                        Helpers::createCustomerAndSubscriptionOnStripe($user);
+    
+                        $updateUser = User::updateUserIsFeedback();
+    
+                        $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                        $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+    
+                        $data = [
+                            'user' => $updateUser,
+                            'authorization' => [
+                                'token' => $token,
+                                'type' => 'bearer',
+                            ]
+                        ];
+                        return Helpers::successResponse('User loggedIn successfully', $data);
+                    }
+                   
 
                 } else {
 
