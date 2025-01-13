@@ -159,9 +159,10 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
+//                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
 
-//                        $baseUrl = "https://human-nine-dun.vercel.app/email-validate?token=" .$user['email_verify_token'];
+                        $baseUrl = "https://human-opi.vercel.app/email-validate?token=" .$user['email_verify_token'];
+
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
                         $serviceUrl = url('/term-of-service');
