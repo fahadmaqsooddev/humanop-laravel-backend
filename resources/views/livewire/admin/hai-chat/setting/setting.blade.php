@@ -2,7 +2,7 @@
 
     <style>
 
-        .new-orange-button{
+        .new-orange-button {
             background-color: #F95520 !important;
             padding: 10px 20px 10px 20px;
             border-radius: 8px;
@@ -12,7 +12,7 @@
             font-weight: 800;
         }
 
-        .new-orange-button:hover{
+        .new-orange-button:hover {
             color: white;
         }
 
@@ -41,16 +41,12 @@
                                    class="form-label fw-bold text-orange">Temperature
                                 (Randomness)</label>
                             <select
-                                    class="form-control input-bg"
-                                    wire:model.defer="temperature">
+                                class="form-control input-bg"
+                                wire:model.defer="temperature">
                                 @for($i = 0.1; $i <= 1; $i += 0.1)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
-{{--                            <input type="text" class="form-control "--}}
-{{--                                   style="font-size: small; background-color: #8bb1ab; color: black !important;"--}}
-{{--                                   name="temperature"--}}
-{{--                                    wire:model.defer="temperature">--}}
                             <small class="form-text text-muted">
                                 Amount of randomness injected into the response. Ranges from
                                 0
@@ -64,9 +60,9 @@
                             <label for="temperature" style="font-size: small;"
                                    class="form-label fw-bold text-orange">Max Token</label>
                             <select
-                                    class="form-control input-bg"
-                                    wire:model.defer="max_token">
-                                    <option value="250">250</option>
+                                class="form-control input-bg"
+                                wire:model.defer="max_token">
+                                <option value="250">250</option>
                                 @for($i = 500; $i <= 5000; $i += 500)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
@@ -92,6 +88,7 @@
                                     wire:model.defer="model_type">
                                 <option value="1">gpt-4o-mini</option>
                                 <option value="2">gpt-4o</option>
+                                <option value="4">gpt-4o-finetunned</option>
                                 <option value="3">Claude 3.5 Sonnet</option>
                             </select>
                         </div>
@@ -111,7 +108,8 @@
                             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="submit"
                                     class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                                 save
-                                <span wire:loading wire:target="submitForm" class="swal2-loader" style="font-size: 8px;">
+                                <span wire:loading wire:target="submitForm" class="swal2-loader"
+                                      style="font-size: 8px;">
                                 </span>
                             </button>
                         </div>
