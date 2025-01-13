@@ -92,14 +92,12 @@
                             </div>
                         </a>
                         <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}">
-                            <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
-                                    onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete
-                                Category
+                            <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px" onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete Category
                             </button>
 
                             <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
                                     wire:click="editMoveResource(`{{$category->id}}`)" data-bs-toggle="modal"
-                                    data-bs-target="#moveResource" class="btn btn-sm mb-2">Edit Category
+                                    data-bs-target="#moveResource" class="btn btn-sm mb-2 ">Edit Category
                             </button>
                         </div>
                     </div>
@@ -200,15 +198,17 @@
 
                         </div>
                         <div>
-                            <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
-                                    style="background-color: red; color: white"
-                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete
-                                Resource
+                            <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')" style="background-color: red; color: white"
+                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete Resource
+                                <span wire:loading wire:target="deleteResource" class="swal2-loader"
+                                      style="font-size: 8px;">
+                                </span>
                             </button>
-                            <button wire:click="editResource({{ $resource['id'] }})"
-                                    style="background-color: #f2661c; color: white"
-                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit
-                                Resource
+                            <button wire:click="editResource({{ $resource['id'] }})" style="background-color: #f2661c; color: white"
+                                    class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit Resource
+                                <span wire:loading wire:target="editResource" class="swal2-loader"
+                                      style="font-size: 8px;">
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -286,11 +286,11 @@
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status" style="color: #f2661c !important;">
-                                                  
+
                                                 </div>
                                                 <span class="ms-2" style="color: #f2661c;">Uploading...</span>
                                               </div>
-                                              
+
                                         </span>
                                     </div>
                                     <label class="form-label fs-4 text-white">Permission Level</label>
@@ -331,6 +331,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
+                                <span wire:loading wire:target="CreateResource" class="swal2-loader"
+                                      style="font-size: 8px;">
+                                </span>
                             </button>
                         </div>
                     </form>
@@ -407,7 +410,7 @@
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status" style="color: #f2661c !important;">
-                                                  
+
                                                 </div>
                                                 <span class="ms-2" style="color: #f2661c;">Uploading...</span>
                                               </div>
@@ -483,6 +486,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Update
+                                <span wire:loading wire:target="updateResource" class="swal2-loader"
+                                      style="font-size: 8px;">
+                                </span>
                             </button>
                         </div>
                     </form>
@@ -517,6 +523,9 @@
                     <div class="p-2">
                         <button wire:click="createCategory" style="background-color: #f2661c; color: white"
                                 class="btn btn-sm float-end">submit
+                            <span wire:loading wire:target="createCategory" class="swal2-loader"
+                                  style="font-size: 8px;">
+                                </span>
                         </button>
                     </div>
                 </div>
