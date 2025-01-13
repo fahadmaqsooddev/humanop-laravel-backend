@@ -83,25 +83,25 @@ class AuthController extends Controller
                 if ($token) {
 
                     $data=User::where('email',$request['email'])->first();
-                    
+
                     if(!empty($data['register_from_app']) && $data['step'] != 3 )
                     {
-                       
+
                         return Helpers::validationResponse('Please complete all required steps in the signup process to log in.');
-                        
+
                     }else{
-                       
+
                         $user_data = User::user(Helpers::getUser()->id);
 
                         $user = Helpers::getUser();
-    
+
                         Helpers::createCustomerAndSubscriptionOnStripe($user);
-    
+
                         $updateUser = User::updateUserIsFeedback();
-    
+
                         $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
                         $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-    
+
                         $data = [
                             'user' => $updateUser,
                             'authorization' => [
@@ -111,7 +111,7 @@ class AuthController extends Controller
                         ];
                         return Helpers::successResponse('User loggedIn successfully', $data);
                     }
-                   
+
 
                 } else {
 
@@ -267,7 +267,7 @@ class AuthController extends Controller
 
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-                $url = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
+                $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
 
                 $user->setAppends([]);
 
@@ -297,7 +297,7 @@ class AuthController extends Controller
 
                 if (empty($checkEmailVerified)) {
 
-                    $url = "https://human-opi.vercel.app/email-validate?token=" . $checkUser['email_verify_token'];
+                    $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
 
                     $emailData = $this->prepareEmailData($checkUser, $url);
 
