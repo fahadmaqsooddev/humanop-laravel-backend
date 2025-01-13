@@ -43,4 +43,14 @@ class RequestAccept implements ShouldBroadcast
 
         return 'connection.accept';
     }
+    public function broadcastWith()
+    {
+        return [
+            'user_id' => $this->userId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+        
+    }
 }

@@ -43,4 +43,14 @@ class UnconnectRequest implements ShouldBroadcast
     
         return 'connection.un-connect';
     }
+    public function broadcastWith()
+    {
+        return [
+            'friend_id' => $this->friendId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+        
+    }
 }
