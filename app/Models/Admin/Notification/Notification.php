@@ -21,7 +21,7 @@ class Notification extends Model
 
     public static function allNotification()
     {
-        return self::orderBy('created_at', 'desc')->get(['heading', 'notification', 'created_at', 'read']);
+        return self::orderBy('created_at', 'desc')->get(['type', 'message', 'created_at', 'read']);
     }
 
     public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null)
