@@ -29,7 +29,7 @@ class Message extends Model
     // query
     public static function createMessage($data = null){
 
-        self::create($data);
+       return  self::create($data);
     }
 
     public static function threadMessages($thread_id = null){

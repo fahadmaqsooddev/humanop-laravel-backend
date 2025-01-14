@@ -11,6 +11,7 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Message\Message;
 use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Http\Request;
+use App\Events\messages\MessageSent;
 
 class MessageController extends Controller
 {
@@ -54,7 +55,11 @@ class MessageController extends Controller
 
                 $dataArray['sender_id'] = Helpers::getUser()->id;
 
-                Message::createMessage($dataArray);
+               $message= Message::createMessage($dataArray);
+                
+                // mesage sent
+                
+                event(new MessageSent($request->input('receiver_id'),$request->input('message'),$message->created_at));
 
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
