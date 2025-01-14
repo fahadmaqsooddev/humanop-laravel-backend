@@ -126,7 +126,7 @@ class Assessment extends Component
 
             event(new ResetAssessment($user['id'], 'reset assessment', $message));
 
-            Notification::createNotification('Reset Notification', $message, $deviceToken, $user['id'], null);
+            Notification::createNotification('Reset Assessment', $message, $deviceToken, $user['id'], 1);
         }
 
         session()->flash('success', "Reset Assessment updated successfully");
