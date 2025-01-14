@@ -38,7 +38,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['SendInvite','loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
 
         $this->auth = Auth::guard('api');
     }
@@ -82,14 +82,13 @@ class AuthController extends Controller
 
                 if ($token) {
 
-                    $data=User::where('email',$request['email'])->first();
+                    $data = User::where('email', $request['email'])->first();
 
-                    if(!empty($data['register_from_app']) && $data['step'] != 3 )
-                    {
+                    if (!empty($data['register_from_app']) && $data['step'] != 3) {
 
                         return Helpers::validationResponse('Please complete all required steps in the signup process to log in.');
 
-                    }else{
+                    } else {
 
                         $user_data = User::user(Helpers::getUser()->id);
 
@@ -161,7 +160,7 @@ class AuthController extends Controller
 
 //                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
 
-                        $baseUrl = "https://human-opi.vercel.app/email-validate?token=" .$user['email_verify_token'];
+                        $baseUrl = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
 
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
@@ -254,88 +253,97 @@ class AuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
-            $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
-            if (!empty($checkDeleteAccount)) {
-                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-            }
+            if (!empty($authorizedUser)) {
 
-            $checkUser = $user->checkEmail($dataArray['email']);
+                $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
-
-            if (empty($checkUser)) {
-
-                $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
-
-                $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
-
-                $user->setAppends([]);
-
-                if (empty($request['google_id']) && empty($request['apple_id'])) {
-
-                    $emailData = $this->prepareEmailData($user, $url);
-
-                    $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
-
+                if (!empty($checkDeleteAccount)) {
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
                 }
 
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
+                $checkUser = $user->checkEmail($dataArray['email']);
 
-                DB::commit();
 
-                return Helpers::successResponse('User registered successfully', [
-                    'authorization' => [
-                        'user' => $user,
-                        'status' => true,
-                        'type' => 'bearer',
-                    ],
-                ]);
+                if (empty($checkUser)) {
 
-            } else {
+                    $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-                $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
+                    $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
 
-                if (empty($checkEmailVerified)) {
+                    $user->setAppends([]);
 
-                    $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
+                    if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                    $emailData = $this->prepareEmailData($checkUser, $url);
+                        $emailData = $this->prepareEmailData($user, $url);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email'], 'email-verification');
+                        $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
 
-                    $checkUser->setAppends([]);
+                    }
 
-                    return Helpers::successResponse('Your email is not verified. Verification email sent.', [
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    DB::commit();
+
+                    return Helpers::successResponse('User registered successfully', [
                         'authorization' => [
-                            'user' => $checkUser,
+                            'user' => $user,
                             'status' => true,
                             'type' => 'bearer',
                         ],
                     ]);
 
                 } else {
-                    $checkLastStep = User::checkLastStep($checkUser['email']);
 
-                    if ($checkLastStep && $checkLastStep['step'] == 3) {
-                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
+                    $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
-                    } else {
-                        $checkLastStep->setAppends([]);
+                    if (empty($checkEmailVerified)) {
 
-                        return Helpers::successResponse('kindly complete your last step', [
+                        $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
 
+                        $emailData = $this->prepareEmailData($checkUser, $url);
+
+                        $this->sendEmailVerification($emailData, $checkUser['email'], 'email-verification');
+
+                        $checkUser->setAppends([]);
+
+                        return Helpers::successResponse('Your email is not verified. Verification email sent.', [
                             'authorization' => [
-                                'user' => $checkLastStep,
+                                'user' => $checkUser,
                                 'status' => true,
                                 'type' => 'bearer',
                             ],
                         ]);
+
+                    } else {
+                        $checkLastStep = User::checkLastStep($checkUser['email']);
+
+                        if ($checkLastStep && $checkLastStep['step'] == 3) {
+                            return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
+
+                        } else {
+                            $checkLastStep->setAppends([]);
+
+                            return Helpers::successResponse('kindly complete your last step', [
+
+                                'authorization' => [
+                                    'user' => $checkLastStep,
+                                    'status' => true,
+                                    'type' => 'bearer',
+                                ],
+                            ]);
+                        }
+
+
                     }
 
-
                 }
+            } else {
 
+                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
             }
+
         } catch (\Exception $exception) {
             DB::rollBack();
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -357,8 +365,7 @@ class AuthController extends Controller
 
             ])->validate();
 
-            if ($key == $inviteKey)
-            {
+            if ($key == $inviteKey) {
                 $getInvite = UserInvite::where('email', $validatedData['email'])->first();
 
                 if (!empty($getInvite)) {
@@ -376,9 +383,7 @@ class AuthController extends Controller
                     return response()->json(['link' => $link]);
 
                 }
-            }
-            else
-            {
+            } else {
                 return response()->json(['error' => 'key is not valid']);
             }
 
@@ -397,7 +402,6 @@ class AuthController extends Controller
     }
 
 
-
     /**
      * Prepare email data.
      */
@@ -411,7 +415,6 @@ class AuthController extends Controller
             '{$privacy}' => url('/privacy-policy'),
         ];
     }
-
 
 
     /**
