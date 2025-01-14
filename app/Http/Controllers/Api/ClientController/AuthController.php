@@ -160,7 +160,9 @@ class AuthController extends Controller
 
 //                        $baseUrl = url('/check-email?token='. $user['email_verify_token']);
 
-                        $baseUrl = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
+//                        $baseUrl = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
+
+                        $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
 
                         $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
                         $privacyUrl = url('/privacy-policy');
