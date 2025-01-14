@@ -343,6 +343,20 @@
             color: #0f1535;
             font-weight: bold;
         }
+
+       
+        .text-tiny{
+    font-size: 0.6rem !important;
+         }
+        .text-small{
+    font-size: 1rem !important;
+         }
+        .text-big{
+    font-size: 1.5rem !important;
+        }
+        .text-huge{
+    font-size: 2rem !important;
+         }
     </style>
 
     <div class="row">
