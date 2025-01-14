@@ -77,14 +77,9 @@ class Notification extends Model
                 'json' => $data,
             ]);
 
-            dd($response->getBody()->getContents());
-
             return $response->getBody()->getContents();
 
         } catch (\Exception $e) {
-
-
-            dd($e->getMessage());
 
             \Log::error('FCM Error: ' . $e->getMessage());
 
