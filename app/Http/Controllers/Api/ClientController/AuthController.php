@@ -270,7 +270,9 @@ class AuthController extends Controller
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-                    $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
+//                    $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
+
+                    $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
 
                     $user->setAppends([]);
 
@@ -300,7 +302,9 @@ class AuthController extends Controller
 
                     if (empty($checkEmailVerified)) {
 
-                        $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
+//                        $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
+
+                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
@@ -463,7 +467,9 @@ class AuthController extends Controller
 
                 $token = User::generateToken($checkUserEmail['email']);
 
-                $url = "https://human-opi.vercel.app/reset-password?token=" . $token['reset_password_token'];
+//                $url = "https://human-opi.vercel.app/reset-password?token=" . $token['reset_password_token'];
+
+                $url = env('CLIENT_DASHBOARD_URL') . '/reset-password?token=' . $token['reset_password_token'];
 
                 $emailData = $this->prepareEmailData($checkUserEmail, $url);
 
@@ -543,7 +549,9 @@ class AuthController extends Controller
 
             $user = User::getSingleUser($request->input('user_id'));
 
-            $baseUrl = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
+//            $baseUrl = "https://human-opi.vercel.app/email-validate?token=" . $user['email_verify_token'];
+
+            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
 
             $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
             $privacyUrl = url('/privacy-policy');
