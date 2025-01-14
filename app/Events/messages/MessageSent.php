@@ -22,12 +22,15 @@ class MessageSent implements ShouldBroadcast
     public $friendId;
     public $message;
     public $time;
-    public function __construct($friendId=null,$message=null,$time=null)
+    public $heading;
+
+    public function __construct($friendId = null, $message = null, $time = null, $heading = null)
     {
-        
+
         $this->friendId=$friendId;
         $this->message=$message;
         $this->time=$time;
+        $this->heading = $heading;
     }
 
     /**
@@ -35,24 +38,25 @@ class MessageSent implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    
+
     public function broadcastOn()
     {
         return new Channel('push-notification.' . $this->friendId);
     }
     public function broadcastAs(){
-    
+
         return 'message.sent';
     }
 
     public function broadcastWith()
     {
         return [
+            'heading' => $this->heading,
             'friend_id' => $this->friendId,
             'message' => $this->message,
             'time' => $this->time,
         ];
 
-        
+
     }
 }

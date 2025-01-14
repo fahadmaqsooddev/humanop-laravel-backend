@@ -57,9 +57,13 @@ class MessageController extends Controller
 
                 $dataArray['sender_id'] = Helpers::getUser()->id;
 
+                $senderUserName = Helpers::getUser()['first_name'] . ' ' . Helpers::getUser()['last_name'];
+
                 $message = Message::createMessage($dataArray);
 
-                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at));
+                $heading = $senderUserName . "send you a message";
+
+                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
 
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 

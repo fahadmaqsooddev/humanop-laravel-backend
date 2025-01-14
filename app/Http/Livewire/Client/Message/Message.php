@@ -83,11 +83,15 @@ class Message extends Component
 
             $data['sender_id'] = Helpers::getWebUser()->id;
 
+            $senderUserName = Helpers::getWebUser()['first_name'] . ' ' . Helpers::getWebUser()['last_name'];
+
             if (strlen(trim($this->message)) > 0){
 
                $createMessage =  \App\Models\Client\Message\Message::createMessage($data);
 
-                event(new MessageSent($data['receiver_id'], $createMessage['message'], $createMessage['created_at']));
+               $heading = $senderUserName . "send you a message";
+
+                event(new MessageSent($data['receiver_id'], $createMessage['message'], $createMessage['created_at'], $heading));
 
             }
 
