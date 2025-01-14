@@ -19,6 +19,11 @@ class Notification extends Model
         parent::__construct($attributes);
     }
 
+    public static function getNotification($notificationId = null)
+    {
+        return self::whereId($notificationId)->first();
+    }
+
     public static function allNotification()
     {
         return self::orderBy('created_at', 'desc')->get(['type', 'message', 'created_at', 'read']);
@@ -85,5 +90,10 @@ class Notification extends Model
 
             return false;
         }
+    }
+
+    public static function readNotification($notificationId = null)
+    {
+        return self::whereId($notificationId)->update(['read' => 1]);
     }
 }
