@@ -1220,7 +1220,6 @@ class Assessment extends Model
 
         }
 
-
         foreach ($answer_ids as $answer_id) {
 
             $data['user_id'] = $userId;
