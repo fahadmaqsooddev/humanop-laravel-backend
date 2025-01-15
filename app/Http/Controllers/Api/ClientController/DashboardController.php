@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
             $daily_tip = DailyTip::getTodayTip();
 
-            if (!empty($daily_tip))
+            if ($daily_tip)
             {
 
                 $tip =  DailyTip::where('id', $daily_tip->daily_tip_id)->where('user_id', $daily_tip->user_id)->first();
