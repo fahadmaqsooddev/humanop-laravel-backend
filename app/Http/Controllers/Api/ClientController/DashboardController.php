@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -29,6 +31,14 @@ class DashboardController extends Controller
 
             $daily_tip = DailyTip::getTodayTip();
 
+            if (!empty($daily_tip))
+            {
+
+                $tip =  DailyTip::where('id', $daily_tip['daily_tip_id'])->where('user_id', $daily_tip['user_id'])->first();
+
+                return Helpers::successResponse('Daily Tip', $tip);
+
+            }
 //            if ($daily_tip) {
 //
 //                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
@@ -46,7 +56,6 @@ class DashboardController extends Controller
 //                $data = [];
 //            }
 
-            return Helpers::successResponse('Daily Tip', $daily_tip);
 
         } catch (\Exception $exception) {
 
