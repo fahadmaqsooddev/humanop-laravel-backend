@@ -195,7 +195,7 @@ class DailyTip extends Model
 
                             return $newUserDailyTip;
 
-                            if (!empty($newDailyTip))
+                            if (!empty($newUserDailyTip))
                             {
                                 $message = 'Your New daily tip';
 
