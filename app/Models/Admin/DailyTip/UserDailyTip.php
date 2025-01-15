@@ -22,12 +22,12 @@ class UserDailyTip extends Model
         return $this->hasOne(DailyTip::class,'id','daily_tip_id');
     }
 
-    public static function getLatestTip(){
+    public static function getLatestTip($userId = null){
 
-       $userDailyTip =  self::where('user_id', Helpers::getUser()->id)->with('dailyTip')->latest()->first();
+       $userDailyTip =  self::where('user_id', $userId)->with('dailyTip')->latest()->first();
 
        return $userDailyTip;
-       
+
     }
 
     public static function removeUserTip($user_id){
