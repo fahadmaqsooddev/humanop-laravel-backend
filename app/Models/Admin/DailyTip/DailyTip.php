@@ -172,12 +172,12 @@ class DailyTip extends Model
 
                     $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
-                    return $randomCode;
-
                     if ($randomCode) {
 
                         $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
+                        dd($newDailyTip);
+                        
                         if ($newDailyTip) {
 
                             $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
