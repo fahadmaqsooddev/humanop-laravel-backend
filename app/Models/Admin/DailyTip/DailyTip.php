@@ -117,11 +117,14 @@ class DailyTip extends Model
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
+
         $assessment = Assessment::getLatestAssessment($user['id']);
 
         if (!empty($assessment))
         {
             $userDailyTip = UserDailyTip::getLatestTip();
+
+            $userDailyTip->setAppends([]);
 
             if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
 
