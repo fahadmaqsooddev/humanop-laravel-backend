@@ -35,7 +35,7 @@ class UserInvite extends Model
 
             $query->where('email', 'LIKE', "$email%");
 
-        })->orderBy('id', 'desc')->paginate($per_page);
+        })->orderBy('created_at', 'desc')->paginate($per_page);
     }
 
     public static function sendInvite($email = null, $file = null)
