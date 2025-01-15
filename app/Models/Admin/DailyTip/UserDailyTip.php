@@ -24,9 +24,10 @@ class UserDailyTip extends Model
 
     public static function getLatestTip(){
 
-       $userDailyTip =  self::where('user_id', Helpers::getUser()->id)->latest()->first();
+       $userDailyTip =  self::where('user_id', Helpers::getUser()->id)->with('dailyTip')->latest()->first();
 
-        return $userDailyTip;
+       return $userDailyTip;
+       
     }
 
     public static function removeUserTip($user_id){
