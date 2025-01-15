@@ -127,7 +127,6 @@ class DailyTip extends Model
 
         $assessment = Assessment::getLatestAssessment($user['id']);
 
-
         if (!empty($assessment)) {
 
             $userDailyTip = UserDailyTip::getLatestTip();
@@ -183,7 +182,7 @@ class DailyTip extends Model
                                 ->latest()
                                 ->first();
 
-                            return $latestTip;
+
                             $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
                             if ($alreadyExist) {
@@ -191,7 +190,10 @@ class DailyTip extends Model
                                 self::getTodayTip();
 
                             }
+
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                            return $newUserDailyTip;
 
                             if (!empty($newDailyTip))
                             {
