@@ -27,8 +27,6 @@ class DashboardController extends Controller
     {
         try {
 
-            return Helpers::successResponse('Daily Tip');
-
             $daily_tip = DailyTip::getTodayTip();
 
             if ($daily_tip) {
