@@ -193,8 +193,6 @@ class DailyTip extends Model
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-                            return $newUserDailyTip;
-
                             if (!empty($newUserDailyTip))
                             {
                                 $message = 'Your New daily tip';
