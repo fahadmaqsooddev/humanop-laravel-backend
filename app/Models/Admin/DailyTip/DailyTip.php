@@ -192,6 +192,8 @@ class DailyTip extends Model
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
+                            return $newUserDailyTip;
+
                             if (!empty($newUserDailyTip))
                             {
                                 $message = 'Your New daily tip';
@@ -203,7 +205,7 @@ class DailyTip extends Model
                                 Notification::createNotification('New Daily Tip', $message, $deviceToken, $newUserDailyTip['user_id'], 1);
 
                                 return DailyTip::findTip($newUserDailyTip['daily_tip_id'], $newUserDailyTip['user_id']);
-                                
+
                             }
 
                         }
