@@ -137,7 +137,7 @@ class DailyTip extends Model
                 if ($dayCheck) {
                     return $userDailyTip->dailyTip;
                 }
-                
+
             }
 
             if ($assessment) {
@@ -188,17 +188,17 @@ class DailyTip extends Model
                         }
                         $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
-//                        if (!empty($newDailyTip))
-//                        {
-//                            $message = 'Your New daily tip';
-//
-//                            $deviceToken = $user['device_token'];
-//
-//                            event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
-//
-//                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
-//
-//                        }
+                        if (!empty($newDailyTip))
+                        {
+                            $message = 'Your New daily tip';
+
+                            $deviceToken = $user['device_token'];
+
+                            event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
+
+                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
+
+                        }
 
                         $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
 
