@@ -21,14 +21,14 @@ class NewMessage implements ShouldBroadcast
      */
     public $sender_id;
     public $receiver_id;
-    public $user;
+    
     public $message;
     public $time;
-    public function __construct($sender_id=null,$receiver_id=null,$user=null,$message=null,$time=null)
+    public function __construct($sender_id=null,$receiver_id=null,$message=null,$time=null)
     {
         $this->sender_id=$sender_id;
         $this->receiver_id=$receiver_id;
-        $this->user=$user;
+      
         $this->message=$message;
         $this->time=$time;
     }
@@ -40,7 +40,7 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('messages'.$this->sender_id.'-'.$this->receiver_id);
+        return new Channel('messages'. $this->sender_id.'-'.$this->receiver_id);
     }
     public function broadcastAs(){
     
@@ -52,7 +52,7 @@ class NewMessage implements ShouldBroadcast
         return [
             'sender_id' => $this->sender_id,
             'receiver_id' => $this->receiver_id,
-            'user' => $this->user,
+          
             'message' => $this->message,
             'time' => $this->time,
         ];

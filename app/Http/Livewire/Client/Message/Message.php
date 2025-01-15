@@ -93,7 +93,7 @@ class Message extends Component
                $heading = $senderUserName . "send you a message";
 
                 event(new MessageSent($data['receiver_id'], $createMessage['message'], $createMessage['created_at'], $heading));
-                event(new NewMessage(Helpers::getWebUser()->id,$data['receiver_id'],Helpers::getWebUser(),$data['message'],$createMessage['created_at']));
+                event(new NewMessage(Helpers::getWebUser()->id,$data['receiver_id'],$data['message'],$createMessage['created_at']));
                 
             }
 
