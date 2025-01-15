@@ -31,12 +31,11 @@ class DashboardController extends Controller
 
             if ($daily_tip) {
 
-                return $daily_tip;
 
                 $data = [
-                    'title' => $daily_tip->daily_tip->title,
-                    'is_read' => $daily_tip->daily_tip->is_read,
-                    'description' => $daily_tip->daily_tip->description,
+                    'title' => $daily_tip->title,
+                    'is_read' => $daily_tip->is_read,
+                    'description' => $daily_tip->description,
                     'trait' => null,
                     'created_at' => $daily_tip->created_at
                 ];
