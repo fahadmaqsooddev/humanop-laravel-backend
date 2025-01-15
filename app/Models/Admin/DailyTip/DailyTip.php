@@ -144,75 +144,75 @@ class DailyTip extends Model
             }
             else{
 
-                return 'no user';
-            }
+                if ($assessment) {
 
-            if ($assessment) {
+                    $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
 
-                $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+                    $alchemy = Assessment::getAlchemy($assessment);
 
-                $alchemy = Assessment::getAlchemy($assessment);
+                    if ($alchemy) {
 
-                if ($alchemy) {
+                        $codeAlchemy = $alchemy['code'];
 
-                    $codeAlchemy = $alchemy['code'];
+                    }
 
-                }
+                    $communication = Assessment::getEnergy($assessment);
 
-                $communication = Assessment::getEnergy($assessment);
+                    if ($communication) {
 
-                if ($communication) {
+                        $codeCommunication = $communication[0];
 
-                    $codeCommunication = $communication[0];
+                    }
 
-                }
+                    $selectedCodeList = [
+                        $codeColor['code'] ?? '',
+                        $codeAlchemy ?? '',
+                        $codeCommunication ?? ''
+                    ];
 
-                $selectedCodeList = [
-                    $codeColor['code'] ?? '',
-                    $codeAlchemy ?? '',
-                    $codeCommunication ?? ''
-                ];
-
-                $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
+                    $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
 
-                if ($randomCode) {
+                    if ($randomCode) {
 
-                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+                        $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                    if ($newDailyTip) {
+                        if ($newDailyTip) {
 
-                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
-                            ->latest()
-                            ->first();
+                            $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
+                                ->latest()
+                                ->first();
 
-                        $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                            $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
-                        if ($alreadyExist) {
+                            if ($alreadyExist) {
 
-                            self::getTodayTip();
+                                self::getTodayTip();
 
+                            }
+                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                            if (!empty($newDailyTip))
+                            {
+                                $message = 'Your New daily tip';
+
+                                $deviceToken = $user['device_token'];
+
+                                event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
+
+                                Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
+
+                            }
+
+                            $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+
+                            return $todayTip;
                         }
-                        $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                        if (!empty($newDailyTip))
-                        {
-                            $message = 'Your New daily tip';
-
-                            $deviceToken = $user['device_token'];
-
-                            event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
-
-                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
-
-                        }
-
-                        $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
-
-                        return $todayTip;
                     }
                 }
             }
+
+
 
         } else {
             return '';
