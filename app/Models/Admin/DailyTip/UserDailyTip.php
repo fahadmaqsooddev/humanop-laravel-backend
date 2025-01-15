@@ -19,6 +19,7 @@ class UserDailyTip extends Model
     }
 
     public function dailyTip(){
+
         return $this->hasOne(DailyTip::class,'id','daily_tip_id');
     }
 

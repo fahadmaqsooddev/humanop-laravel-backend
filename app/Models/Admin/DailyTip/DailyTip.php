@@ -172,6 +172,7 @@ class DailyTip extends Model
 
                     $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
+                    return $randomCode;
 
                     if ($randomCode) {
 
