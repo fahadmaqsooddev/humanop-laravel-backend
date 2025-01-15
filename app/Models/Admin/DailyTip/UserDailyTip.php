@@ -19,16 +19,12 @@ class UserDailyTip extends Model
     }
 
     public function dailyTip(){
-
         return $this->hasOne(DailyTip::class,'id','daily_tip_id');
     }
 
     public static function getLatestTip($userId = null){
 
-       $userDailyTip =  self::where('user_id', $userId)->with('dailyTip')->latest()->first();
-
-       return $userDailyTip;
-
+       return self::where('user_id', $userId)->with('dailyTip')->latest()->first();
     }
 
     public static function removeUserTip($user_id){
