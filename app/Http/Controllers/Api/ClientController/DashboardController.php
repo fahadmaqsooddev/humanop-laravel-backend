@@ -31,6 +31,8 @@ class DashboardController extends Controller
 
             if ($daily_tip) {
 
+                return $daily_tip->daily_tip;
+                
                 $data = [
                     'title' => $daily_tip->daily_tip->title,
                     'is_read' => $daily_tip->daily_tip->is_read,
