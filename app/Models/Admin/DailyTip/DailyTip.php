@@ -119,8 +119,6 @@ class DailyTip extends Model
 
         $assessment = Assessment::getLatestAssessment($user['id']);
 
-        dd($assessment);
-
         if (!empty($assessment))
         {
             $userDailyTip = UserDailyTip::getLatestTip();
