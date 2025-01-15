@@ -36,7 +36,7 @@ class DashboardController extends Controller
                     'is_read' => $daily_tip->daily_tip->is_read,
                     'description' => $daily_tip->daily_tip->description,
                     'trait' => null,
-                    'created_at' => $daily_tip['created_at']
+                    'created_at' => $daily_tip->created_at
                 ];
             } else {
                 $data = [];
