@@ -204,9 +204,7 @@ class DailyTip extends Model
 
                             }
 
-                            $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id'], $newUserDailyTip['user_id']);
-
-                            return $todayTip;
+                            return DailyTip::findTip($newUserDailyTip['daily_tip_id'], $newUserDailyTip['user_id']);
                         }
                     }
                 }
