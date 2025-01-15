@@ -205,7 +205,7 @@ class DailyTip extends Model
 
                             }
 
-                            $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+                            $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id'], $newUserDailyTip['user_id']);
 
                             return $todayTip;
                         }
@@ -299,8 +299,8 @@ class DailyTip extends Model
         return self::where('code', $code)->inRandomOrder()->first();
     }
 
-    public static function findTip($id = null)
+    public static function findTip($id = null, $userId = null)
     {
-        return self::where('id', $id)->with('userTip')->first();
+        return self::where('id', $id)->where('user_id', $userId)->first();
     }
 }
