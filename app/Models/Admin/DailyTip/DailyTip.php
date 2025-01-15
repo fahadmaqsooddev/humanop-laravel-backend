@@ -176,7 +176,6 @@ class DailyTip extends Model
 
                         $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
-                        return $newDailyTip;
 
                         if ($newDailyTip) {
 
@@ -184,6 +183,7 @@ class DailyTip extends Model
                                 ->latest()
                                 ->first();
 
+                            return $latestTip;
                             $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
                             if ($alreadyExist) {
