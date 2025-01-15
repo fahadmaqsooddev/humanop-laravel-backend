@@ -115,8 +115,6 @@ class DailyTip extends Model
 
     public static function getTodayTip()
     {
-        dd(1);
-        
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
         $assessment = Assessment::getLatestAssessment($user['id']);
