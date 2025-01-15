@@ -147,21 +147,22 @@ class DailyTip extends Model
 
 
             }
+            else{
 
-            if ($assessment) {
+                if ($assessment) {
 
-                $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+                    $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
 
-                $alchemy = Assessment::getAlchemy($assessment);
-                if($alchemy){
-                    $codeAlchemy = $alchemy['code'];
+                    $alchemy = Assessment::getAlchemy($assessment);
+                    if ($alchemy) {
+                        $codeAlchemy = $alchemy['code'];
 
-                }
+                    }
 
-                $communication = Assessment::getEnergy($assessment);
-                if($communication){
-                    $codeCommunication =$communication[0];
-                }
+                    $communication = Assessment::getEnergy($assessment);
+                    if ($communication) {
+                        $codeCommunication = $communication[0];
+                    }
 
                 }
 
@@ -179,11 +180,11 @@ class DailyTip extends Model
                     $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
                     if ($newDailyTip) {
-                        $latestTip = UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id', $newDailyTip['id'])
+                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
                             ->latest()
                             ->first();
                         $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
-                        if($alreadyExist){
+                        if ($alreadyExist) {
                             self::getTodayTip();
                         }
                         $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
@@ -191,6 +192,8 @@ class DailyTip extends Model
                         return $todayTip;
                     }
                 }
+            }
+
             }
 
         else
