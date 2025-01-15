@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
-use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
-use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -31,32 +29,26 @@ class DashboardController extends Controller
 
             $daily_tip = DailyTip::getTodayTip();
 
-            if ($daily_tip)
-            {
+            return $daily_tip;
 
-                $tip =  DailyTip::where('id', $daily_tip->daily_tip_id)->where('user_id', $daily_tip->user_id)->first();
+            if ($daily_tip) {
 
-                return Helpers::successResponse('Daily Tip', $tip);
+                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
 
-                $is_read = UserDailyTip::userDailytip($tip['id']);
-
-                $trait = CodeDetail::getSinglePublicName($tip['code']);
+                $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
 
                 $data = [
-                    'title' => $tip['title'],
+                    'title' => $daily_tip['title'],
                     'is_read' => $is_read['is_read'],
-                    'description' => $tip['description'],
+                    'description' => $daily_tip['description'],
                     'trait' => $trait ? $trait->public_name : null,
                     'created_at' => $is_read['created_at']
                 ];
             } else {
-
                 $data = [];
-
-
             }
-            return Helpers::successResponse('Daily Tip', $data);
 
+            return Helpers::successResponse('Daily Tip', $data);
 
         } catch (\Exception $exception) {
 
