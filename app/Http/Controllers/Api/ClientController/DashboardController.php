@@ -46,7 +46,7 @@ class DashboardController extends Controller
                 $data = [];
             }
 
-            return Helpers::successResponse('Daily Tip', $daily_tip);
+            return Helpers::successResponse('Daily Tip', $data);
 
         } catch (\Exception $exception) {
 
