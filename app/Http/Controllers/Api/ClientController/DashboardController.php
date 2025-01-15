@@ -29,20 +29,14 @@ class DashboardController extends Controller
 
             $daily_tip = DailyTip::getTodayTip();
 
-            return $daily_tip;
-
             if ($daily_tip) {
 
-                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
-
-                $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
-
                 $data = [
-                    'title' => $daily_tip['title'],
-                    'is_read' => $is_read['is_read'],
-                    'description' => $daily_tip['description'],
-                    'trait' => $trait ? $trait->public_name : null,
-                    'created_at' => $is_read['created_at']
+                    'title' => $daily_tip->daily_tip->title,
+                    'is_read' => $daily_tip->daily_tip->is_read,
+                    'description' => $daily_tip->daily_tip->description,
+                    'trait' => null,
+                    'created_at' => $daily_tip['created_at']
                 ];
             } else {
                 $data = [];
