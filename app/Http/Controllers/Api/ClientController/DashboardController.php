@@ -25,8 +25,8 @@ class DashboardController extends Controller
 
     public function dailyTip()
     {
-//        try {
-        
+        try {
+
             $daily_tip = DailyTip::getTodayTip();
 
             if ($daily_tip) {
@@ -48,10 +48,10 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('Daily Tip', $data);
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
      public function haiChatStatus(){
