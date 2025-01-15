@@ -124,7 +124,6 @@ class DailyTip extends Model
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-
         $assessment = Assessment::getLatestAssessment($user['id']);
 
         if (!empty($assessment)) {
@@ -201,7 +200,7 @@ class DailyTip extends Model
 
                                 event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
 
-                                Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
+                                Notification::createNotification('New Daily Tip', $message, $deviceToken, $newUserDailyTip['user_id'], 1);
 
                             }
 
