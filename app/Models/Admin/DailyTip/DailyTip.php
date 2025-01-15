@@ -124,9 +124,10 @@ class DailyTip extends Model
     {
         $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        return $user;
-        
+
         $assessment = Assessment::getLatestAssessment($user['id']);
+
+        return $assessment;
 
         if (!empty($assessment)) {
 
