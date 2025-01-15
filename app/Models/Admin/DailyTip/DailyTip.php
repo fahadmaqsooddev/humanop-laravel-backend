@@ -132,7 +132,7 @@ class DailyTip extends Model
 
             $userDailyTip = UserDailyTip::getLatestTip();
 
-            return $userDailyTip;
+//            return $userDailyTip;
 
             if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
 
@@ -143,6 +143,10 @@ class DailyTip extends Model
                     return $userDailyTip->dailyTip;
                 }
 
+            }
+            else{
+
+                return 'no user';
             }
 
             if ($assessment) {
