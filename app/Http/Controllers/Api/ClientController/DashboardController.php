@@ -34,27 +34,28 @@ class DashboardController extends Controller
             if (!empty($daily_tip))
             {
 
-                $tip =  DailyTip::where('id', $daily_tip['daily_tip_id'])->where('user_id', $daily_tip['user_id'])->first();
+                $tip =  DailyTip::where('id', $daily_tip->daily_tip_id)->where('user_id', $daily_tip->user_id)->first();
 
                 return Helpers::successResponse('Daily Tip', $tip);
 
+                $is_read = UserDailyTip::userDailytip($tip['id']);
+
+                $trait = CodeDetail::getSinglePublicName($tip['code']);
+
+                $data = [
+                    'title' => $tip['title'],
+                    'is_read' => $is_read['is_read'],
+                    'description' => $tip['description'],
+                    'trait' => $trait ? $trait->public_name : null,
+                    'created_at' => $is_read['created_at']
+                ];
+            } else {
+
+                $data = [];
+
+
             }
-//            if ($daily_tip) {
-//
-//                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
-//
-//                $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
-//
-//                $data = [
-//                    'title' => $daily_tip['title'],
-//                    'is_read' => $is_read['is_read'],
-//                    'description' => $daily_tip['description'],
-//                    'trait' => $trait ? $trait->public_name : null,
-//                    'created_at' => $is_read['created_at']
-//                ];
-//            } else {
-//                $data = [];
-//            }
+            return Helpers::successResponse('Daily Tip', $data);
 
 
         } catch (\Exception $exception) {
