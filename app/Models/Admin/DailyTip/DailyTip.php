@@ -127,6 +127,7 @@ class DailyTip extends Model
 
         $assessment = Assessment::getLatestAssessment($user['id']);
 
+                return $assessment;
 
         if (!empty($assessment)) {
 
@@ -137,7 +138,6 @@ class DailyTip extends Model
 
                 $dayCheck = $userDailyTip->created_at >= now()->subDay();
 
-//                return $dayCheck;
 
                 if ($dayCheck) {
                     return $userDailyTip->dailyTip;
