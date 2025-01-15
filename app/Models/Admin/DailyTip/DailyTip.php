@@ -132,8 +132,7 @@ class DailyTip extends Model
 
             $userDailyTip = UserDailyTip::getLatestTip();
 
-
-//            dd($userDailyTip);
+            return $userDailyTip;
 
             if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
 
