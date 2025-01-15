@@ -33,11 +33,13 @@ class UserDailyTip extends Model
 
     public static function createUserDailyTip($user_id = null,$daily_tip_id = null, $assessment_id = null)
     {
-       return  self::create([
+       $tip = self::create([
            'user_id' => $user_id,
            'daily_tip_id' => $daily_tip_id,
            'assessment_id' => $assessment_id
            ]);
+
+       return $tip;
     }
 
     public static function readUserDailyTip(){
