@@ -12,6 +12,7 @@ use App\Models\Client\Message\Message;
 use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Http\Request;
 use App\Events\messages\MessageSent;
+use App\Events\messages\NewMessage;
 
 class MessageController extends Controller
 {
@@ -64,7 +65,8 @@ class MessageController extends Controller
                 $heading = $senderUserName . "send you a message";
 
                 event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
-
+                event(new NewMessage(Helpers::getUser()->id,$request->input('receiver_id'),Helpers::getUser(),$request->input('message'),$message['created_at']));
+                
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
             } else {
