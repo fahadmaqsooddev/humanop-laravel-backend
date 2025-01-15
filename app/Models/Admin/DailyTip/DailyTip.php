@@ -132,8 +132,6 @@ class DailyTip extends Model
 
             $userDailyTip = UserDailyTip::getLatestTip();
 
-//            return $userDailyTip;
-
             if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
 
                 $dayCheck = $userDailyTip->created_at >= now()->subDay();
