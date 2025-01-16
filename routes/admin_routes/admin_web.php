@@ -55,6 +55,10 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 
 
     Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');
+    Route::get('/pusher', function ()
+    {
+        return view('pusher');
+    });
 
 //});
 
