@@ -144,6 +144,53 @@ class DailyTip extends Model
                 if ($dayCheck) {
                     return $userDailyTip->dailyTip;
                 }
+                else{
+                    if ($assessment) {
+
+                        $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+
+                        $alchemy = Assessment::getAlchemy($assessment);
+                        if ($alchemy) {
+                            $codeAlchemy = $alchemy['code'];
+
+                        }
+
+                        $communication = Assessment::getEnergy($assessment);
+                        if ($communication) {
+                            $codeCommunication = $communication[0];
+                        }
+
+                    }
+                    else
+                    {
+                        $selectedCodeList = [
+                            $codeColor['code'] ?? '',
+                            $codeAlchemy ?? '',
+                            $codeCommunication ?? ''
+                        ];
+
+                        $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
+
+
+                        if ($randomCode) {
+
+                            $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+
+                            if ($newDailyTip) {
+                                $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
+                                    ->latest()
+                                    ->first();
+                                $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+                                if ($alreadyExist) {
+                                    self::getTodayTip();
+                                }
+                                $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+                                $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
+                                return $todayTip;
+                            }
+                        }
+                    }
+                }
 
 
             }
