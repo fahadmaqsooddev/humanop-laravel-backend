@@ -130,10 +130,6 @@ class Chatbot extends Model
 
     public static function chatBotFromUserPlan(){
 
-        return self::whereHas('plan',function ($query){
-
-            $query->where('name', Helpers::getUser()->plan_name);
-
-        })->latest()->first();
+        return self::latest()->first();
     }
 }
