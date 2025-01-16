@@ -529,6 +529,7 @@ class AssessmentColorCode extends Model
     }
 
     public static function getGreenCodes($assessment_id = null){
+
         return self::where('assessment_id',$assessment_id)->where('code_color','green')->select(['id','code'])->inRandomOrder()->first();
     }
 }

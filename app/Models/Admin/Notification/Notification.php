@@ -41,12 +41,9 @@ class Notification extends Model
 
         if ($deviceToken) {
 
-            $response = self::sendFCMNotification($type, $message, $deviceToken);
+            self::sendFCMNotification($type, $message, $deviceToken);
 
-            return $response;
         }
-
-        return true;
     }
 
     protected static function sendFCMNotification($title, $body, $deviceToken)

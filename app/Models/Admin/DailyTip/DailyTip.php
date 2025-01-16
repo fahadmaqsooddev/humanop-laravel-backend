@@ -29,32 +29,36 @@ class DailyTip extends Model
         parent::__construct($attributes);
     }
 
-    public function tip(){
-        return $this->hasOne(TipRecord::class,'tip_id','id')->whereNot('user_id', Helpers::getUser()->id);
+    public function tip()
+    {
+        return $this->hasOne(TipRecord::class, 'tip_id', 'id')->whereNot('user_id', Helpers::getUser()->id);
     }
 
-    public function userTip(){
+    public function userTip()
+    {
 
-        return $this->hasOne(UserDailyTip::class,'daily_tip_id','id')->where('user_id', Helpers::getWebUser()->id);
+        return $this->hasOne(UserDailyTip::class, 'daily_tip_id', 'id')->where('user_id', Helpers::getWebUser()->id);
     }
 
     public static function getTip()
     {
         return self::get();
     }
-    public static function allTips(){
+
+    public static function allTips()
+    {
         return self::whereNotNull('code')->orderBy('created_at', 'desc');
     }
 
     public static function createTip($data = null)
     {
-        if($data['subscription_type'] == 'Freemium'){
-            foreach ($data['code'] as $key => $code){
+        if ($data['subscription_type'] == 'Freemium') {
+            foreach ($data['code'] as $key => $code) {
                 $data['code'] = $key;
                 $data['min_point'] = $code['min'];
                 $data['max_point'] = $code['max'];
             }
-        }else{
+        } else {
             $codes = [];
             $min_points = [];
             $max_points = [];
@@ -74,13 +78,13 @@ class DailyTip extends Model
 
     public static function updateIntentionPlan($data = null, $id = null)
     {
-        if($data['subscription_type'] == 'Freemium'){
-            foreach ($data['code'] as $key => $code){
+        if ($data['subscription_type'] == 'Freemium') {
+            foreach ($data['code'] as $key => $code) {
                 $data['code'] = $key;
                 $data['min_point'] = $code['min'];
                 $data['max_point'] = $code['max'];
             }
-        }else{
+        } else {
             $codes = [];
             $min_points = [];
             $max_points = [];
@@ -101,9 +105,12 @@ class DailyTip extends Model
 
         return $daily_tip;
     }
-    public static function deleteDailyTip($id){
+
+    public static function deleteDailyTip($id)
+    {
         self::whereId($id)->delete();
     }
+
     public static function getSingleTip()
     {
 
@@ -113,130 +120,72 @@ class DailyTip extends Model
 
     }
 
-    public static function getTodayTip()
+    public static function checkTodayTip($assessmentId = null)
     {
-        $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-        $assessment = Assessment::getLatestAssessment($user['id']);
+        $userDailyTip = UserDailyTip::getLatestTip();
 
-        if (!empty($assessment))
-        {
-            $userDailyTip = UserDailyTip::getLatestTip();
+        if ($userDailyTip && $userDailyTip['assessment_id'] == $assessmentId) {
 
-            if ($userDailyTip && $userDailyTip['assessment_id'] == $assessment['id']) {
+            $dayCheck = $userDailyTip->created_at >= now()->subDay();
 
-//                if (!empty($user['timezone'])) {
-//
-//                    $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
-//
-//                    $userTime = \Carbon\Carbon::parse($userDailyTip->created_at)
-//                        ->addMinutes($minutes)
-//                        ->toDateTimeString();
-//
-//                    $difference = \Carbon\Carbon::now()->diffInDays($userTime);
-//                    $dayCheck = $difference < 1;
-//
-//                } else {
-                    $dayCheck = $userDailyTip->created_at >= now()->subDay();
-//                }
+            if ($dayCheck == true) {
 
-                if ($dayCheck) {
-                    return $userDailyTip->dailyTip;
-                }
+                return $userDailyTip->dailyTip;
 
-
-            }
-
-            if ($assessment) {
-
-                $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
-
-                $alchemy = Assessment::getAlchemy($assessment);
-
-                if($alchemy){
-
-                    $codeAlchemy = $alchemy['code'];
-
-                }
-
-                $communication = Assessment::getEnergy($assessment);
-
-                if($communication){
-
-                    $codeCommunication =$communication[0];
-
-                }
-
-                $selectedCodeList = [
-                    $codeColor['code'] ?? '',
-                    $codeAlchemy ?? '',
-                    $codeCommunication ?? ''
-                ];
-
-                $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
-
-
-                if ($randomCode) {
-
-                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
-
-                    if ($newDailyTip) {
-
-                        $latestTip = UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id', $newDailyTip['id'])
-                            ->latest()
-                            ->first();
-
-                        $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
-
-                        if($alreadyExist){
-
-                            self::getTodayTip();
-
-                        }
-                        $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                        if (!empty($newDailyTip))
-                        {
-                            $message = 'Your New daily tip';
-
-                            $deviceToken = $user['device_token'];
-
-                            event(new NewDailyTip($user['id'], 'New Daily Tip', $message));
-
-                            Notification::createNotification('New Daily Tip', $message, $deviceToken, $user['id'], 1);
-
-                        }
-
-                        $todayTip = DailyTip::findTip($newUserDailyTip['daily_tip_id']);
-
-                        return $todayTip;
-                    }
-                }
+            } else {
+                return false;
             }
 
         }
-        else
-        {
-            return '';
 
-        }
 
     }
 
-    public static function dailyTip(){
+    public static function randomCode($assessment = null)
+    {
+        $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
+
+        $alchemy = Assessment::getAlchemy($assessment);
+
+        if ($alchemy) {
+            $codeAlchemy = $alchemy['code'];
+        }
+
+        $communication = Assessment::getEnergy($assessment);
+
+        if ($communication) {
+            $codeCommunication = $communication[0];
+        }
+
+        $selectedCodeList = [
+            $codeColor['code'] ?? '',
+            $codeAlchemy ?? '',
+            $codeCommunication ?? ''
+        ];
+
+        do {
+            $random = $selectedCodeList[array_rand($selectedCodeList)];
+        } while (empty($random)); // Retry until $random is not empty
+
+        return $random; // Return the valid $random value
+    }
+
+    public static function dailyTip()
+    {
 
         return self::where('user_id', Helpers::getUser()->id)->first();
     }
 
-    public static function updateUserDailyTip(){
+    public static function updateUserDailyTip()
+    {
 
         $user = Helpers::getUser() ?? Helpers::getWebUser();
 
         $today_tip = self::where('user_id', $user->id)
-
             ->whereDate('updated_at', Carbon::today())->exists();
 
-        if (!$today_tip){
+        if (!$today_tip) {
 
             self::hitDailyTipApiAndUpdateUserTip($user);
         }
@@ -281,13 +230,14 @@ class DailyTip extends Model
 //
 //    }
 
-    public static function readUserDailyTip(){
+    public static function readUserDailyTip()
+    {
 
         $daily_tip = self::where('user_id', Helpers::getWebUser()->id ?? Helpers::getUser()->id)->first();
 
         $daily_tip_read = $daily_tip->is_read ?? 1;
 
-        if ($daily_tip){
+        if ($daily_tip) {
 
             $daily_tip->update(['is_read' => 1]);
         }
@@ -295,11 +245,13 @@ class DailyTip extends Model
         return $daily_tip_read;
     }
 
-    public static function getSameCodeTips($code = null){
-        return self::where('code',$code)->inRandomOrder()->first();
+    public static function getSameCodeTips($code = null)
+    {
+        return self::where('code', $code)->inRandomOrder()->first();
     }
 
-    public static function findTip($id = null){
-        return self::where('id',$id)->with('userTip')->first();
+    public static function findTip($id = null)
+    {
+        return self::where('id', $id)->with('userTip')->first();
     }
 }

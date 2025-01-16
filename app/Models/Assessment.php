@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
 use Carbon\Carbon;
 use Faker\Extension\Helper;
@@ -247,6 +248,7 @@ class Assessment extends Model
 
     public static function getLatestAssessment($user_id = null)
     {
+
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
 
@@ -1190,9 +1192,72 @@ class Assessment extends Model
 
                     $existingAssessment->update($resultArray);
 
-                    if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
+                    $latestAssessment = Assessment::getLatestAssessment($userId);
 
-                        $latestAssessment = Assessment::getLatestAssessment($userId);
+                    $user = Helpers::getWebUser() ?? Helpers::getUser();
+
+                    if (!empty($latestAssessment)) {
+
+                        $userDailyTip = UserDailyTip::getLatestTip();
+
+                        if (empty($userDailyTip)) {
+
+                            if ($latestAssessment) {
+
+                                $codeColor = AssessmentColorCode::getGreenCodes($latestAssessment['id']);
+
+                                $alchemy = Assessment::getAlchemy($latestAssessment);
+
+                                if ($alchemy) {
+
+                                    $codeAlchemy = $alchemy['code'];
+
+                                }
+
+                                $communication = Assessment::getEnergy($latestAssessment);
+
+                                if ($communication) {
+
+                                    $codeCommunication = $communication[0];
+
+                                }
+
+                                $selectedCodeList = [
+                                    $codeColor['code'] ?? '',
+                                    $codeAlchemy ?? '',
+                                    $codeCommunication ?? ''
+                                ];
+
+                                $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
+
+                                if ($randomCode) {
+
+                                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+
+                                    if ($newDailyTip) {
+
+                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
+                                            ->latest()
+                                            ->first();
+
+                                        $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
+
+                                        if ($alreadyExist) {
+
+                                            self::getTodayTip();
+
+                                        }
+
+                                        UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $latestAssessment['id']);
+
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    if (\App\Models\Assessment::where('user_id', Helpers::getUser()->id)->count() === 1) {
 
                         $message = "Congratulations on finishing your first assessment!  Remember to come back next season (90 days) to take it again for free.";
 
@@ -1219,7 +1284,6 @@ class Assessment extends Model
             }
 
         }
-
 
         foreach ($answer_ids as $answer_id) {
 

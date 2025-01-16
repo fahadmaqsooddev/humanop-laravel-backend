@@ -77,7 +77,10 @@ class AssessmentController extends Controller
 
             if (empty($user['timezone'])) {
 
+                $check_assessment = Assessment::getLatestAssessment($user['id']);
+
                 return Helpers::successResponse('Assessment Status', [
+                    'check_assessment' => !empty($check_assessment) ? true : false,
                     'timezone' => null,
                     'assessment_page_number' => null,
                     'assessment_price' => ($assessment_price->amount ?? 0),

@@ -17,12 +17,14 @@ class UserDailyTip extends Model
 
         parent::__construct($attributes);
     }
-    public static function getLatestTip(){
-       return self::where('user_id',Helpers::getWebUser()['id'] ?? Helpers::getUser()['id'])->with('dailyTip')->latest()->first();
-    }
 
     public function dailyTip(){
         return $this->hasOne(DailyTip::class,'id','daily_tip_id');
+    }
+
+    public static function getLatestTip(){
+
+       return self::where('user_id',Helpers::getWebUser()->id ?? Helpers::getUser()->id)->with('dailyTip')->latest()->first();
     }
 
     public static function removeUserTip($user_id){
@@ -31,11 +33,13 @@ class UserDailyTip extends Model
 
     public static function createUserDailyTip($user_id = null,$daily_tip_id = null, $assessment_id = null)
     {
-       return  self::create([
+       self::create([
            'user_id' => $user_id,
            'daily_tip_id' => $daily_tip_id,
            'assessment_id' => $assessment_id
            ]);
+
+       return self::getLatestTip();
     }
 
     public static function readUserDailyTip(){
