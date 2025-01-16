@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Helpers\Points\PointHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
@@ -50,6 +52,14 @@ class DashboardController extends Controller
                         if (empty($latestTip) || $latestTip->created_at < Carbon::now()->subDays(365)) {
 
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                            $message = 'Your New Daily Tip';
+
+                            $deviceToken = $user['device_token'];
+
+                            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                            Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
