@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Connection;
+namespace App\Events\messages;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -10,24 +10,27 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UnconnectRequest implements ShouldBroadcast
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $friendId;
-    public $heading;
-    public $message;
-    
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($friendId=null,$heading=null,$message=null)
+    public $friendId;
+    public $message;
+    public $time;
+    public $heading;
+
+    public function __construct($friendId = null, $message = null, $time = null, $heading = null)
     {
-        //
-        $this->friendId = $friendId;
+
+        $this->friendId=$friendId;
+        $this->message=$message;
+        $this->time=$time;
         $this->heading = $heading;
-        $this->message = $message;
     }
 
     /**
@@ -35,22 +38,25 @@ class UnconnectRequest implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
+
     public function broadcastOn()
     {
         return new Channel('push-notification.' . $this->friendId);
     }
     public function broadcastAs(){
-    
-        return 'connection.un-connect';
+
+        return 'message.sent';
     }
+
     public function broadcastWith()
     {
         return [
-            'friend_id' => $this->friendId,
             'heading' => $this->heading,
+            'friend_id' => $this->friendId,
             'message' => $this->message,
+            'time' => $this->time,
         ];
 
-        
+
     }
 }

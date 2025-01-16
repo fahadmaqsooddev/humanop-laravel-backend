@@ -473,21 +473,30 @@ class Helpers
     }
 
     public static function sendNumberOtp($phone,$api = null){
-        $otp = Str::random(4);
+
+        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
         $to = $phone;
-        $message = 'Your Human Op verification code is '.$otp;
+
+        $message = 'Your Human Op verification code is '.$otpNumber;
+
         $status = TwilioServices::sendOtp($to, $message);
 
         if($status != false) {
+
             if($api){
-                return $otp;
+
+                return $otpNumber;
+
             }else{
-                Session::put(['two_way_auth.otp' => $otp]);
+
+                Session::put(['two_way_auth.otp' => $otpNumber]);
 
                 return true;
             }
+
         }else {
+
             return false;
         }
     }

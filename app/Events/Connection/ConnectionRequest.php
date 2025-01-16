@@ -44,4 +44,14 @@ class ConnectionRequest implements ShouldBroadcast
     
         return 'connection.request';
     }
+    public function broadcastWith()
+    {
+        return [
+            'friend_id' => $this->friendId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+        
+    }
 }

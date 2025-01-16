@@ -19,9 +19,14 @@ class Notification extends Model
         parent::__construct($attributes);
     }
 
+    public static function getNotification($notificationId = null)
+    {
+        return self::whereId($notificationId)->first();
+    }
+
     public static function allNotification()
     {
-        return self::orderBy('created_at', 'desc')->get(['heading', 'notification', 'created_at', 'read']);
+        return self::orderBy('created_at', 'desc')->get(['id', 'type', 'message', 'created_at', 'read']);
     }
 
     public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null)
@@ -36,12 +41,9 @@ class Notification extends Model
 
         if ($deviceToken) {
 
-            $response = self::sendFCMNotification($type, $message, $deviceToken);
+            self::sendFCMNotification($type, $message, $deviceToken);
 
-            return $response;
         }
-
-        return true;
     }
 
     protected static function sendFCMNotification($title, $body, $deviceToken)
@@ -72,18 +74,18 @@ class Notification extends Model
                 'json' => $data,
             ]);
 
-            dd($response->getBody()->getContents());
-
             return $response->getBody()->getContents();
 
         } catch (\Exception $e) {
-
-
-            dd($e->getMessage());
 
             \Log::error('FCM Error: ' . $e->getMessage());
 
             return false;
         }
+    }
+
+    public static function readNotification($notificationId = null)
+    {
+        return self::whereId($notificationId)->update(['read' => 1]);
     }
 }

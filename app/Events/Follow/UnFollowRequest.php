@@ -14,8 +14,10 @@ class UnFollowRequest implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
-    public $data;
+    
     public $friendId;
+    public $heading;
+    public $message;
     /**
      * Create a new event instance.
      *
@@ -23,13 +25,11 @@ class UnFollowRequest implements ShouldBroadcast
      */
     public function __construct($friendId=null,$heading=null,$message=null)
     {
-        $this->friendId=$friendId;
+        $this->friendId = $friendId;
+        $this->heading = $heading;
+        $this->message = $message;
         
-        $this->data = [
-            'friend_id' => $friendId,
-            'heading'=>$heading,
-            'message'=>$message
-        ];
+       
     }
 
     /**
@@ -44,5 +44,15 @@ class UnFollowRequest implements ShouldBroadcast
     public function broadcastAs(){
     
         return 'un-follow.request';
+    }
+    public function broadcastWith()
+    {
+        return [
+            'friend_id' => $this->friendId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+        
     }
 }

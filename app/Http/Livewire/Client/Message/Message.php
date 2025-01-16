@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Client\Message;
 
+use App\Events\messages\MessageSent;
+use App\Events\messages\NewMessage;
 use App\Helpers\Helpers;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
@@ -82,9 +84,17 @@ class Message extends Component
 
             $data['sender_id'] = Helpers::getWebUser()->id;
 
+            $senderUserName = Helpers::getWebUser()['first_name'] . ' ' . Helpers::getWebUser()['last_name'];
+
             if (strlen(trim($this->message)) > 0){
 
-                \App\Models\Client\Message\Message::createMessage($data);
+               $createMessage =  \App\Models\Client\Message\Message::createMessage($data);
+
+               $heading = $senderUserName . "send you a message";
+
+                event(new MessageSent($data['receiver_id'], $createMessage['message'], $createMessage['created_at'], $heading));
+                event(new NewMessage(Helpers::getWebUser()->id,$data['receiver_id'],$data['message'],$createMessage['created_at']));
+                
             }
 
             $this->reset('message');

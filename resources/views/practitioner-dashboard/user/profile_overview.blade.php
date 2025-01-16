@@ -323,6 +323,21 @@
         .orange-border {
             border: 1px solid #f2661c;
         }
+
+
+        
+        .text-tiny{
+    font-size: 0.6rem !important;
+         }
+        .text-small{
+    font-size: 1rem !important;
+         }
+        .text-big{
+    font-size: 1.5rem !important;
+        }
+        .text-huge{
+    font-size: 2rem !important;
+         }
     </style>
 
     <div class="row">

@@ -86,6 +86,11 @@ class ClientInvite extends Component
 
     }
 
+    public function updatedSearchedEmail()
+    {
+    $this->resetPage(); 
+    }
+
     public function resetForm()
     {
         $this->reset(['email']);

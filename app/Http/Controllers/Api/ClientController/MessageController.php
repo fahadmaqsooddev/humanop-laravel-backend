@@ -11,6 +11,8 @@ use App\Models\Client\Connection\Connection;
 use App\Models\Client\Message\Message;
 use App\Models\Client\MessageThread\MessageThread;
 use Illuminate\Http\Request;
+use App\Events\messages\MessageSent;
+use App\Events\messages\NewMessage;
 
 class MessageController extends Controller
 {
@@ -20,7 +22,8 @@ class MessageController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function chats(Request $request){
+    public function chats(Request $request)
+    {
 
         try {
 
@@ -30,13 +33,14 @@ class MessageController extends Controller
 
             return Helpers::successResponse('User chats', $all_chats);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function sendMessage(SendMessageRequest $request){
+    public function sendMessage(SendMessageRequest $request)
+    {
 
         try {
 
@@ -54,22 +58,30 @@ class MessageController extends Controller
 
                 $dataArray['sender_id'] = Helpers::getUser()->id;
 
-                Message::createMessage($dataArray);
+                $senderUserName = Helpers::getUser()['first_name'] . ' ' . Helpers::getUser()['last_name'];
 
+                $message = Message::createMessage($dataArray);
+
+                $heading = $senderUserName . "send you a message";
+
+                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
+                event(new NewMessage(Helpers::getUser()->id,$request->input('receiver_id'),$request->input('message'),$message['created_at']));
+                
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
-            }else{
+            } else {
 
                 return Helpers::validationResponse('Connect first to send message');
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
-    public function messages(MessagesRequest $request){
+    public function messages(MessagesRequest $request)
+    {
 
         try {
 
@@ -77,14 +89,15 @@ class MessageController extends Controller
 
             return Helpers::successResponse('Thread messages', $messages);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function deleteChat(DeleteChatRequest $request){
+    public function deleteChat(DeleteChatRequest $request)
+    {
 
         try {
 
@@ -92,7 +105,7 @@ class MessageController extends Controller
 
             return Helpers::successResponse('Chat deleted');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }

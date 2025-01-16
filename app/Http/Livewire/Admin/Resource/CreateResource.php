@@ -19,7 +19,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description,$update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
@@ -62,11 +62,9 @@ class CreateResource extends Component
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
 
-            if (!empty($resource))
-            {
+            if (!empty($resource)) {
 
-                foreach ($this->permission as $permission)
-                {
+                foreach ($this->permission as $permission) {
                     $message = 'Your New Training & Resource';
 
                     event(new NewResource($permission, 'new training & resource', $message));
@@ -180,13 +178,14 @@ class CreateResource extends Component
         ResourceCategory::deleteSingleCategory($id);
     }
 
-    public function emptyCreateForm(){
-      $this->category_id = '';
-      $this->heading = '';
-      $this->description = '';
-      $this->content = '';
-      $this->resource = '';
-       $this->permission = [];
+    public function emptyCreateForm()
+    {
+        $this->category_id = '';
+        $this->heading = '';
+        $this->description = '';
+        $this->content = '';
+        $this->resource = '';
+        $this->permission = [];
     }
 
     public function updateContent($editorId, $data)
@@ -201,35 +200,27 @@ class CreateResource extends Component
 
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
-        if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4']))
-        {
+        if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4'])) {
+
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
             $this->deleteFileToGumlet($getResource['source_id']);
-        }
 
-        $upload_id = $this->uploadFile($this->resource);
+            $upload_id = $this->uploadFile($this->resource);
 
-        if (empty($this->resource))
-        {
-            LibraryResource::whereId($this->resourceId)->update([
-                'heading' => $this->heading,
-                'slug' => Str::slug($this->heading),
-                'resource_category_id' => $this->category_id,
-                'description' => $this->description,
-                'content' => $this->content,
-            ]);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
 
-            $updateResource =  LibraryResource::singleLibraryResource($this->resourceId);
+            tap($updateResource);
 
-        }
-        else
-        {
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content, $this->resource);
+            $this->uploadFileToGumlet($this->resource, $updateResource['id']);
+
+        } else {
+
+            $upload_id = $this->uploadFile($this->resource);
+
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
 
         }
-
-        $this->uploadFileToGumlet($this->resource, $updateResource['id']);
 
         PermissionResource::createResourcePermission($this->resourceId, $this->permission);
 
@@ -269,8 +260,7 @@ class CreateResource extends Component
 
     public function uploadFile($resourceFile = null)
     {
-        if (!empty($resourceFile))
-        {
+        if (!empty($resourceFile)) {
             if (in_array($resourceFile->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
 
                 return Upload::uploadFile($resourceFile, 200, 200, 'base64Image', 'png', true);
@@ -284,7 +274,7 @@ class CreateResource extends Component
 
             }
 
-        }else{
+        } else {
 
             return null;
 
@@ -293,8 +283,7 @@ class CreateResource extends Component
 
     public function uploadFileToGumlet($resourceFile = null, $resourceId = null)
     {
-        if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4']))
-        {
+        if (!empty($resourceFile) && in_array($resourceFile->extension(), ['mp4'])) {
             $getResource = LibraryResource::singleLibraryResource($resourceId);
 
             $responseData = $this->sendRequestFromGuzzle('post', 'https://api.gumlet.com/v1/video/assets',
@@ -314,9 +303,8 @@ class CreateResource extends Component
     public function deleteFileToGumlet($resourceId = null)
     {
 
-        if (!empty($resourceId))
-        {
-            $url = 'https://api.gumlet.com/v1/video/assets/'. $resourceId;
+        if (!empty($resourceId)) {
+            $url = 'https://api.gumlet.com/v1/video/assets/' . $resourceId;
 
             $this->sendRequestFromGuzzle('DELETE', $url);
         }

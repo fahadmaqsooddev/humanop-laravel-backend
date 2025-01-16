@@ -23,10 +23,10 @@
                 @foreach($invites as $index => $invite)
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
-                        <td class="text-md font-weight-normal">{{ url('/register?link=' . $invite['link']) }} </td>
+                        <td class="text-md font-weight-normal">{{ env('CLIENT_DASHBOARD_URL') .'/register?link=' . $invite['link'] }} </td>
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
-                                    onclick="copyToClipboard('{{ url('/register?link=' . $invite['link']) }}','{{$index +1}}')"
+                                    onclick="copyToClipboard('{{ env('CLIENT_DASHBOARD_URL') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
@@ -112,7 +112,7 @@
                 // Close the modal
                 $('#inviteLinkSendModel').modal('hide');
                 console.log('hello');
-                
+
             });
 
         });

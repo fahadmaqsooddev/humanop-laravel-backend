@@ -40,7 +40,10 @@ class LibraryResource extends Model
 
     public function getVideoUrlAttribute()
     {
+
+
         if (!empty($this->source_id)) {
+
             $client = new Client();
 
             $response = $client->request('GET', 'https://api.gumlet.com/v1/video/assets/' . $this->source_id, [
@@ -52,15 +55,14 @@ class LibraryResource extends Model
 
             $response_body = json_decode($response->getBody()->getContents(), true);
 
-            if (!empty($response_body) && $response_body['status'] == 'ready')
-            {
+            if (!empty($response_body) && in_array($response_body['status'], ['ready', 'queued'])) {
+
                 return Helpers::getVideo($this->upload_id, 1, $response_body['output']['playback_url']);
 
             }
 
-        }
-        else
-        {
+        } else {
+
             return Helpers::getVideo($this->upload_id, 1, null);
 
         }
@@ -94,30 +96,18 @@ class LibraryResource extends Model
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null, $resource = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
     {
-        if ($resource && in_array($resource->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
-            self::whereId($id)->update([
-                'heading' => $heading,
-                'slug' => Str::slug($heading),
-                'upload_id' => $uploadId,
-                'resource_category_id' => $category_id,
-                'description' => $description,
-                'content' => $content,
-                'source_id' => null,
-                'source_url' => null
-            ]);
-        } else {
-            self::whereId($id)->update([
-                'heading' => $heading,
-                'slug' => Str::slug($heading),
-                'upload_id' => $uploadId,
-                'resource_category_id' => $category_id,
-                'description' => $description,
-                'content' => $content,
-            ]);
-        }
-
+        self::whereId($id)->update([
+            'heading' => $heading,
+            'slug' => Str::slug($heading),
+            'upload_id' => $uploadId,
+            'resource_category_id' => $category_id,
+            'description' => $description,
+            'content' => $content,
+            'source_id' => null,
+            'source_url' => null
+        ]);
 
         return self::singleLibraryResource($id);
 

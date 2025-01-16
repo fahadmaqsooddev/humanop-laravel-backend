@@ -100,21 +100,60 @@ class UserController extends Controller
         }
     }
 
-    public function sendPhoneOtp(SendPhoneOtpRequest $request)
+    public function sendPhoneOtp(SendPhoneOtpRequest $request, $defaultCountryCode = '1')
     {
         try {
-            $phone = $request->phone;
-            $otp = Helpers::sendNumberOtp($phone, true);
-            if ($otp) {
-                return Helpers::successResponse('Otp sent Successfully', ['otp' => $otp]);
+
+            $phoneNumber = preg_replace('/[^\d+]/', '', $request->input('phone'));
+
+            if (preg_match('/^\+?(92|1)/', $phoneNumber)) {
+
+                $phone = '+1' . $phoneNumber;
+
             } else {
-                return Helpers::validationResponse('something went wrong during sending otp');
+
+                $countryCodeMap = [
+                    '92' => '/^03/',    // Pakistan (starts with 03)
+                    '1'  => '/^[2-9]\d{2}/' // US/Canada (valid area codes)
+                ];
+
+                $matched = false;
+
+                foreach ($countryCodeMap as $code => $pattern) {
+                    if (preg_match($pattern, $phoneNumber)) {
+                        $phoneNumber = preg_replace('/^0/', '', $phoneNumber);
+                        $phone = '+' . $code . $phoneNumber;
+                        $matched = true;
+                        break;
+                    }
+                }
+
+                if (!$matched) {
+
+                    $phoneNumber = preg_replace('/^0/', '', $phoneNumber); // Remove leading '0' if exists
+
+                    $phone = '+' . $defaultCountryCode . $phoneNumber;
+                }
             }
+
+            $otp = Helpers::sendNumberOtp($phone, true);
+
+            if ($otp) {
+
+                return Helpers::successResponse('Otp sent Successfully', ['otp' => $otp]);
+
+            } else {
+
+                return Helpers::validationResponse('Something went wrong during sending OTP');
+
+            }
+
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
-
 
     public function updateUserProfile(UpdateUserProfileRequest $request)
 
