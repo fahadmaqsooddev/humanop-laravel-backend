@@ -78,8 +78,7 @@
         "sort-packages": true,
         "allow-plugins": {
             "php-http/discovery": true
-        },
-        "platform-check": false
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
