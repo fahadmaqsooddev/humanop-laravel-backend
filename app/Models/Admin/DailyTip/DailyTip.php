@@ -138,18 +138,15 @@ class DailyTip extends Model
 //                    $dayCheck = $difference < 1;
 //
 //                } else {
-//                    $dayCheck = ;
+                    $dayCheck = $userDailyTip->created_at >= now()->subDay();
 //                }
-
-                if ($userDailyTip->created_at >= now()->subDay()) {
-
+                
+                if ($dayCheck) {
                     return $userDailyTip->dailyTip;
                 }
                 else{
                     if ($assessment) {
 
-                        return $assessment;
-                        
                         $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
 
                         $alchemy = Assessment::getAlchemy($assessment);
@@ -173,6 +170,7 @@ class DailyTip extends Model
                         ];
 
                         $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
+
 
                         if ($randomCode) {
 
