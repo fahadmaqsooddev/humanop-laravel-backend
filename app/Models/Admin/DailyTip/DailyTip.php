@@ -138,12 +138,11 @@ class DailyTip extends Model
 //                    $dayCheck = $difference < 1;
 //
 //                } else {
-                    $dayCheck = $userDailyTip->created_at >= now()->subDay();
+//                    $dayCheck = ;
 //                }
 
-                return now()->subDay();
-                
-                if ($dayCheck) {
+                if ($userDailyTip->created_at >= now()->subDay()) {
+
                     return $userDailyTip->dailyTip;
                 }
                 else{
