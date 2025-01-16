@@ -48,14 +48,15 @@ class DashboardController extends Controller
 
                         // Check if the tip already exists within the past 365 days
                         if (empty($latestTip) || $latestTip->created_at < Carbon::now()->subDays(365)) {
+
                             $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
-                                'is_read' => $newUserDailyTip['dailyTip']['is_read'],
+                                'is_read' => $newUserDailyTip['is_read'],
                                 'description' => $newUserDailyTip['dailyTip']['description'],
                                 'trait' => null,
-                                'created_at' => $newUserDailyTip['dailyTip']['created_at'],
+                                'created_at' => $newUserDailyTip['created_at'],
                             ];
 
                             return Helpers::successResponse('Daily Tip', $data);
@@ -63,12 +64,15 @@ class DashboardController extends Controller
                     }
                 } while ($newDailyTip && $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365)); // Retry if the tip exists
             } else {
+
+                $userDailyTipData = UserDailyTip::userDailytip($daily_tip['id']);
+
                 $data = [
                     'title' => $daily_tip['title'],
-                    'is_read' => $daily_tip['is_read'],
+                    'is_read' => $userDailyTipData['is_read'],
                     'description' => $daily_tip['description'],
                     'trait' => null,
-                    'created_at' => $daily_tip['created_at'],
+                    'created_at' => $userDailyTipData['created_at'],
                 ];
 
                 return Helpers::successResponse('Daily Tip', $data);
