@@ -10,9 +10,11 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Podcast\Podcast;
 use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Information\InformationIcon;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,30 +28,72 @@ class DashboardController extends Controller
     public function dailyTip()
     {
         try {
+            $user = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $daily_tip = DailyTip::getTodayTip();
+            $assessment = Assessment::getLatestAssessment($user['id']);
 
-            if ($daily_tip)
-            {
+            $daily_tip = DailyTip::checkTodayTip($assessment['id']);
 
-                $is_read = UserDailyTip::userDailytip($daily_tip['id']);
+            if ($daily_tip === false) {
+                do {
+                    $randomCode = DailyTip::randomCode($assessment);
 
-                $trait = CodeDetail::getSinglePublicName($daily_tip['code']);
+                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
 
+                    if ($newDailyTip) {
+                        $latestTip = UserDailyTip::where('user_id', $user['id'])
+                            ->where('daily_tip_id', $newDailyTip['id'])
+                            ->latest()
+                            ->first();
+
+                        // Check if the tip already exists within the past 365 days
+                        if (empty($latestTip) || $latestTip->created_at < Carbon::now()->subDays(365)) {
+                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                            $data = [
+                                'title' => $newUserDailyTip['dailyTip']['title'],
+                                'is_read' => $newUserDailyTip['dailyTip']['is_read'],
+                                'description' => $newUserDailyTip['dailyTip']['description'],
+                                'trait' => null,
+                                'created_at' => $newUserDailyTip['dailyTip']['created_at'],
+                            ];
+
+                            return Helpers::successResponse('Daily Tip', $data);
+                        }
+                    }
+                } while ($newDailyTip && $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365)); // Retry if the tip exists
+            } else {
                 $data = [
                     'title' => $daily_tip['title'],
-                    'is_read' => $is_read['is_read'],
+                    'is_read' => $daily_tip['is_read'],
                     'description' => $daily_tip['description'],
-                    'trait' => $trait ? $trait->public_name : null,
-                    'created_at' => $is_read['created_at']
+                    'trait' => null,
+                    'created_at' => $daily_tip['created_at'],
                 ];
 
-            } else {
-
-                $data = [];
+                return Helpers::successResponse('Daily Tip', $data);
             }
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
-            return Helpers::successResponse('Daily Tip', $data);
+    public function haiChatStatus()
+    {
+        try {
+            $user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+            $haiStatus = User::checkHaiStatus($user_id);
+
+            if ($haiStatus) {
+                $data = [
+                    'status' => $haiStatus
+                ];
+            } else {
+                $data = [
+                    'status' => false
+                ];
+            }
+            return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
 
         } catch (\Exception $exception) {
 
@@ -57,29 +101,8 @@ class DashboardController extends Controller
         }
     }
 
-     public function haiChatStatus(){
-         try {
-               $user_id =  Helpers::getWebUser()->id ?? Helpers::getUser()->id;
-               $haiStatus = User::checkHaiStatus($user_id);
-
-             if ($haiStatus) {
-                 $data = [
-                     'status' => $haiStatus
-                 ];
-             } else {
-                 $data = [
-                     'status' => false
-                 ];
-             }
-             return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
-
-         } catch (\Exception $exception) {
-
-             return Helpers::serverErrorResponse($exception->getMessage());
-         }
-     }
-
-    public function latestPodcast(){
+    public function latestPodcast()
+    {
 
         try {
 
@@ -87,14 +110,15 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('Podcast url', $podcast);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function coreStats(Request $request){
+    public function coreStats(Request $request)
+    {
 
         try {
 
@@ -134,14 +158,15 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('core stats', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function dailyTipRead(){
+    public function dailyTipRead()
+    {
 
         try {
 
@@ -149,7 +174,7 @@ class DashboardController extends Controller
 
             $daily_tip_updated = UserDailyTip::readUserDailyTip();
 
-            if (!$daily_tip_updated){
+            if (!$daily_tip_updated) {
                 $point = PointHelper::addPointsOnDailyTipRead();
             }
 
@@ -157,7 +182,7 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('Daily tip read', ['point' => $point ?? 0]);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
@@ -166,7 +191,8 @@ class DashboardController extends Controller
 
     }
 
-    public function actionPlan(){
+    public function actionPlan()
+    {
 
         try {
 
@@ -180,14 +206,15 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('Action plan', $plan);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
     }
 
-    public function informationIcon(){
+    public function informationIcon()
+    {
 
         try {
 
@@ -195,7 +222,7 @@ class DashboardController extends Controller
 
             return Helpers::successResponse('Information Icons', $info);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -226,14 +253,12 @@ class DashboardController extends Controller
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
 
-            }
-            else
-            {
+            } else {
                 return Helpers::notFoundResponse('Assessment not found');
             }
 
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
