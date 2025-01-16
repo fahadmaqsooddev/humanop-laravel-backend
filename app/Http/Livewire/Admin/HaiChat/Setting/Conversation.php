@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -13,15 +14,21 @@ use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class Conversation extends Component
 {
 
-    public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
+    public $message, $conversations, $user_details, $user_id, $is_restricted_word = false, $disliked = 0,
 
         $editConversation = null, $updated_reply = null, $convo_id;
+
+    public $chatBot;
 
     protected $listeners = ['updateUserId'];
 
@@ -34,11 +41,11 @@ class Conversation extends Component
         'message.max' => 'Query does not contain more than 2000 characters',
     ];
 
-    public function mount(){
-
-        $this->user_details = User::getUserDetailByIds();
-
-    }
+//    public function mount(){
+//
+//        $this->user_details = User::getUserDetailByIds();
+//
+//    }
 
     public function submitForm()
     {
@@ -46,50 +53,81 @@ class Conversation extends Component
 
             $this->validate();
 
-            $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+            $client = \OpenAI::client(env("OPEN_AI_API_KEY"));
 
-            $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
-
-            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
-
-            $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->name, $this->message);
+            $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->chatBot->id, $this->message);
 
             if (!$this->is_restricted_word){
 
-                if ($this->user_id){
+//                if ($this->user_id){
+//
+//                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+//                }
 
-                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+                $knowledge = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id);
+
+                $chunks = HaiChatHelpers::findRelevantChunks($this->message, $knowledge, $this->chatBot->chunks);
+
+                $chunks = array_column($chunks,'content');
+
+                $messages = [
+                    [
+                        'role' => 'system',
+                        'content' => "Ensure responses follow these prompts: ". $this->chatBot->prompt ."Use context to provide accurate answers. Ensure responses follow these restrictions: ". $this->chatBot->restriction,
+                    ],
+                    [
+                        'role' => 'assistant',
+                        'content' => "Here is the related context: ". implode('\n',$chunks) .".",
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $this->message,
+                    ]
+                ];
+
+                $reply = $client->chat()->create([
+                    'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
+                    'messages' => $messages,
+                    'max_tokens' => $this->chatBot->max_tokens ?? 200,
+                    'temperature' => $this->chatBot->temperature ?? 0.2,
+                ]);
+
+                if (isset($reply->toArray()['choices'][0]['message']['content'])){
+
+                    HaiChatConversation::createConversation($this->chatBot->id, $this->message,($reply->toArray()['choices'][0]['message']['content'] ?? null), $this->user_id);
+
                 }
 
-                if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+//                if (HaiChatSetting::GPT_4o_MINI === $this->chatBot->model_type){
+//
+//                    $body = ['query' => $this->message, 'temperature' => $this->chatBot['temperature'], 'max_tokens' => $['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+//
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+//
+//                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
+//
+//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+//
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+//
+//                }else{
+//
+//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+//
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
+//                }
 
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+//                HaiChatConversation::deleteOldChat();
 
-                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
-
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
-
-                }else{
-
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
-                }
-
-                HaiChatConversation::deleteOldChat();
-
-                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
+//                HaiChatConversation::createConversation($this->name, $this->message,($reply->toArray()['choices'][0]['text'] ?? null), $this->user_id);
 
             }else{
 
                 $conversationsArray = $this->conversations->toArray();
 
                 $restrictedResponse = [
-                    'reply' => $this->is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                    'reply' => $this->is_restricted_word ?? 'Your query contains restricted keywords. So, I am unable to response you about these.',
                     'message' => $this->message,
                     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 ];
@@ -141,7 +179,7 @@ class Conversation extends Component
 
     public function getChatBotConversation()
     {
-        $this->conversations = HaiChatConversation::getConversation($this->name, $this->user_id);
+        $this->conversations = HaiChatConversation::getConversation($this->chatBot->id, $this->user_id);
     }
 
     public function updateUserId($id){
@@ -165,16 +203,32 @@ class Conversation extends Component
 
         if ($conversation){
 
-            $body = [
-                'question' => $conversation->message ?? null,
-                'answer' => $conversation->reply ?? null,
-            ];
+            $filePath = public_path('lisa_question_answer_doc/Lisa Document.txt');
 
-            $app_env = env('APP_ENV');
+            $fileContent = file_get_contents($filePath);
 
-            $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
+            $newContent = $fileContent . "\n Question: $conversation->message \n Answer: $conversation->reply";
 
-            GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+            file_put_contents($filePath, $newContent);
+
+
+//            $text = $section->addText($request->get('number'),array('name'=>'Arial','size' => 20,'bold' => true));
+
+//            $phpWord = \PhpOffice\PhpWord\IOFactory::load(public_path('lisa_question_answer_doc/Lisa Document.docx'), 'Word2007');
+//
+//            $section = $phpWord->addSection();
+//
+//            $section->addText("Question: $conversation->message");
+//            $section->addText("Answer: $conversation->reply");
+//
+//            IOFactory::createWriter($phpWord, 'Word2007')->save(public_path('lisa_question_answer_doc/Lisa Document.docx'));
+
+
+//            $app_env = env('APP_ENV');
+//
+//            $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
+//
+//            GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
         }
 
@@ -182,7 +236,7 @@ class Conversation extends Component
 
     public function dislikeReply($id){
 
-        $last_convo = HaiChatConversation::where('chatbot', $this->name)
+        $last_convo = HaiChatConversation::where('chat_bot_id', $this->chatBot->id)
 
             ->where('user_id', $this->user_id)
 
@@ -269,6 +323,8 @@ class Conversation extends Component
     {
 
         $this->is_restricted_word ? '' : $this->getChatBotConversation();
+
+        $this->user_details = User::getUserDetailByIds();
 
         $this->emit('scrollToBottom');
 

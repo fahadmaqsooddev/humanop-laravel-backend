@@ -19,13 +19,11 @@ class ChatbotKeyword extends Model
     }
 
     // Queries
-    public static function createChatbotKeyword($word, $chatbot_name, $message){
-
-        $chatbot = Chatbot::getChatFromVendorName($chatbot_name);
+    public static function createChatbotKeyword($word, $chat_bot_id, $message){
 
         self::create([
             'word' => $word,
-            'chatbot_id' => $chatbot->id ?? null,
+            'chat_bot_id' => $chat_bot_id,
             'message' => $message,
         ]);
 
@@ -37,18 +35,14 @@ class ChatbotKeyword extends Model
 
     }
 
-    public static function chatbotKeywords($name){
+    public static function chatbotKeywords($chat_bot_id){
 
-        $chatbot = Chatbot::getChatFromVendorName($name);
-
-        return self::where('chatbot_id', $chatbot->id)->get();
+        return self::where('chat_bot_id', $chat_bot_id)->get();
     }
 
-    public static function checkChatBotKeywords($name, $query){
+    public static function checkChatBotKeywords($chat_bot_id, $query){
 
-        $chatbot = Chatbot::getChatFromVendorName($name);
-
-        $keywords = self::where('chatbot_id', $chatbot->id)->get();
+        $keywords = self::where('chat_bot_id', $chat_bot_id)->get();
 
         foreach ($keywords as $keyword){
 

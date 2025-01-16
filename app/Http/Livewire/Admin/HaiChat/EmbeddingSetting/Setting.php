@@ -3,24 +3,25 @@
 namespace App\Http\Livewire\Admin\HaiChat\EmbeddingSetting;
 
 use App\Models\HAIChai\EmbeddingSetting;
+use App\Models\HAIChai\HaiChatEmbedding;
 use Livewire\Component;
 
 class Setting extends Component
 {
-    public $name, $chunk;
+    public $chunk, $embedding_id;
 
     public function getEmbedding()
     {
-        $embedding = EmbeddingSetting::getEmbeddingSetting($this->name);
+        $embedding = HaiChatEmbedding::singleEmbedding($this->embedding_id);
 
-        $this->chunk = $embedding['chunk'] ?? null;
+        $this->chunk = $embedding['chunks'] ?? null;
     }
 
     public function submitForm()
     {
         try {
 
-            EmbeddingSetting::checkAndUpdateEmbedding($this->name, $this->chunk);
+            HaiChatEmbedding::updateEmbeddingChunks($this->embedding_id, $this->chunk);
 
             session()->flash('success', "Embedding Chunk update Successfully.");
 

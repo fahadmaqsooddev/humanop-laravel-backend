@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('knowledge_base', function (Blueprint $table) {
 
-            $table->unique('email')->change();
+            $table->id();
+            $table->text('content')->nullable();
+            $table->json('embedding');
+            $table->foreignId('embedding_id')->nullable()->constrained();
+            $table->timestamps();
 
         });
     }
@@ -27,9 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-
-            $table->string('email')->unique();
-        });
+        Schema::dropIfExists('knowledge_base');
     }
 };

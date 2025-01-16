@@ -2,12 +2,15 @@
 
 namespace App\Models\HAIChai;
 
+use App\Models\KnowledgeBase\KnowledgeBase;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class HaiChatEmbedding extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -27,13 +30,18 @@ class HaiChatEmbedding extends Model
 
     public function activeEmbedding(){
 
-        return $this->hasOne(HaiChatActiveEmbedding::class,'request_id','request_id')->where('chat_bot', request()->input('chat_bot'));
+        return $this->hasOne(HaiChatActiveEmbedding::class,'knowledge_base_id','id')->where('chat_bot_id', request()->input('chat_bot_id'));
+    }
+
+    public function knowledgeBase(){
+
+        return $this->hasOne(KnowledgeBase::class,'embedding_id','id');
     }
 
     // Appends
     public function getIsActiveEmbeddingAttribute(){
 
-        return $this->activeEmbedding()->exists();
+        return $this->knowledgeBase()->has('activeEmbeddings')->exists();
     }
 
 
@@ -45,7 +53,7 @@ class HaiChatEmbedding extends Model
 
     public static function getEmbeddingByName($name = null)
     {
-        return self::where('name', $name)->pluck('request_id')->toArray();
+        return self::where('name', $name)->pluck('embedding_id')->toArray();
     }
 
     public static function allEmbeddings()
@@ -57,11 +65,10 @@ class HaiChatEmbedding extends Model
         return self::orderBy('created_at', 'desc')->whereNotIn('request_id',$embeddings)->get();
     }
 
-    public static function createEmbedding($name = null, $request_id = null)
+    public static function createEmbedding($name = null)
     {
         return self::create([
             'name' => $name,
-            'request_id' => $request_id,
         ]);
     }
 
@@ -70,15 +77,15 @@ class HaiChatEmbedding extends Model
         return self::whereId($id)->delete();
     }
 
-    public static function updateGroupId($embedding_id = null, $group_id = null){
+    public static function updateGroupId($id = null, $group_id = null){
 
-        self::whereId($embedding_id)->update(['group_id' => $group_id]);
+        self::whereId($id)->update(['group_id' => $group_id]);
 
     }
 
-    public static function embeddings($group_id, $chat_bot, $searchText){
+    public static function embeddings($group_id, $chat_bot_id, $searchText){
 
-        request()->merge(['chat_bot' => $chat_bot]);
+        request()->merge(['chat_bot_id' => $chat_bot_id]);
 
         return self::whereHas('group', function ($q) use($group_id){
 
@@ -88,7 +95,7 @@ class HaiChatEmbedding extends Model
 
             $query->where('name', 'LIKE', "%$name%");
 
-        })->get();
+        })->with('knowledgeBase')->get();
 
     }
 
@@ -125,6 +132,17 @@ class HaiChatEmbedding extends Model
             ->orderBy('created_at', 'desc')
 
             ->get();
+    }
+
+    public static function embeddingByName($name){
+
+        return self::where('name', $name)->first();
+    }
+
+    public static function updateEmbeddingChunks($embedding_id, $chunks){
+
+        self::whereId($embedding_id)->update(['chunks' => $chunks]);
+
     }
 
 }

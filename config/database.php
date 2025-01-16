@@ -410,8 +410,8 @@ return [
             'hidden' => ['created_at','updated_at'],
         ],
         'Chatbot' => [
-            'table' => 'chatbot',
-            'fillable' => ['name','description'],
+            'table' => 'chat_bots',
+            'fillable' => ['name','description', 'prompt','restriction', 'temperature','max_token','chunks','model_type','plan_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ChatPrompt' => [
@@ -420,13 +420,13 @@ return [
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatEmbedding' => [
-            'table' => 'hai_chat_embeddings',
-            'fillable' => ['name','request_id'],
-            'hidden' => ['created_at','updated_at'],
+            'table' => 'embeddings',
+            'fillable' => ['name','chunks'],
+            'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'HaiChatActiveEmbedding' => [
-            'table' => 'hai_chat_active_embeddings',
-            'fillable' => ['chat_bot','request_id','group_id'],
+            'table' => 'active_embeddings',
+            'fillable' => ['chat_bot_id','knowledge_base_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatSetting' => [
@@ -436,7 +436,7 @@ return [
         ],
         'HaiChatConversation' => [
             'table' => 'hai_chat_conversation',
-            'fillable' => ['id','chatbot','message','reply','user_id','is_liked'],
+            'fillable' => ['id','chat_bot_id','message','reply','user_id','is_liked'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingSetting' => [
@@ -461,7 +461,7 @@ return [
         ],
         'ChatbotKeyword' => [
             'table' => 'chatbot_keywords',
-            'fillable' => ['word','chatbot_id','message'],
+            'fillable' => ['word','chat_bot_id','message'],
             'hidden' => ['created_at','updated_at'],
         ],
         'GroupEmbedding' => [
@@ -474,5 +474,10 @@ return [
             'fillable' => ['type','message','read','created_at','user_id','device_token','permission'],
             'hidden' => ['updated_at','deleted_at'],
         ],
+        'KnowledgeBase' => [
+            'table' => 'knowledge_base',
+            'fillable' => ['content','embedding','embedding_id'],
+            'hidden' => ['updated_at','created_at']
+        ]
     ]
 ];

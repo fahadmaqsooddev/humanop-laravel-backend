@@ -2,16 +2,19 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\Helpers;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
+use App\Models\KnowledgeBase\KnowledgeBase;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Embedding extends Component
 {
-    public $name,$embedding, $group_id, $group_ids, $fileInputId, $groups, $embedding_name;
+    public $name,$embedding, $group_id, $group_ids = [], $fileInputId, $groups, $embedding_name;
 
     use WithFileUploads;
 
@@ -19,42 +22,23 @@ class Embedding extends Component
 
     public function deleteEmbedding($id)
     {
-        $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+//
+//        if ($embedding)
+//        {
 
-        if ($aiReply == 1)
-        {
+        GroupEmbedding::deleteGroupEmbeddings($id);
 
-            GroupEmbedding::deleteGroupEmbeddings($id);
+        KnowledgeBase::deleteEmbedding($id);
 
-            HaiChatEmbedding::deleteEmbedding($id);
+        HaiChatEmbedding::deleteEmbedding($id);
 
-            session()->flash('success', "{$embedding['name']} deleted successfully.");
 
-        }
+        session()->flash('success', "Embedding deleted successfully.");
 
-    }
+//        }
 
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-
-        $authorization = Request::header('Authorization');
-
-        $queryArray = [
-            'headers' => ['Authorization' => $authorization],
-            'json' => $body
-        ];
-
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $route = $route_name;
-
-        $response = $client->request($method, $route, $queryArray);
-
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
     }
 
     public function getEmbeddings()
@@ -77,32 +61,25 @@ class Embedding extends Component
                     'embedding.mimes' => 'The Embedding must be a file of type: txt, pdf.', // Added message for mime type validation
                 ]
             );
-            // Get the real path of the uploaded file
-            $filePath = $this->embedding->getRealPath();
 
-            // Prepare the multipart data for sending
-            $multipart = [
-                [
-                    'name'     => 'file', // Field name expected by the server
-                    'contents' => file_get_contents($filePath), // File contents
-                    'filename' => basename($filePath) // Optional: the file name
-                ]
-            ];
+            $texts = Helpers::stringFromPdfOrTextFile($this->embedding);
 
-            // Include other form data like 'name' (if provided)
-            if ($this->embedding_name) {
-                $multipart[] = [
-                    'name'     => 'name',
-                    'contents' => $this->embedding_name
-                ];
-            }
-            // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
-                'multipart' => $multipart
+            $yourApiKey = env('OPEN_AI_API_KEY');
+
+            $client = \OpenAI::client($yourApiKey);
+
+            $response = $client->embeddings()->create([
+                'model' => 'text-embedding-3-small',
+                'input' => $texts,
             ]);
-            if(!empty($aiReply['request_id'])){
 
-                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
+            $response = $response->toArray();
+
+            foreach ($response['data'] as $embeddingVector){
+
+                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name);
+
+                KnowledgeBase::createEmbeddingKnowledge($texts,$embeddingVector,$embedding->id);
 
                 if($embedding){
 
@@ -120,9 +97,15 @@ class Embedding extends Component
 
                 }else{
 
+                    DB::rollBack();
+
                     session()->flash('embedding_error', "Something went wrong.");
                 }
+
+                DB::commit();
+
             }
+
         }catch (\Illuminate\Validation\ValidationException $exception){
 
             session()->flash('embedding_errors', $exception->validator->errors()->getMessages());
@@ -133,30 +116,6 @@ class Embedding extends Component
         }
 
         $this->emit('closeAlert');
-    }
-
-    public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-        $authorization = Request::header('Authorization');
-
-        // Prepare the query array with headers and multipart data
-        $queryArray = [
-            'headers' => [
-                'Authorization' => $authorization, // Authorization header
-            ],
-            'multipart' => $body['multipart'] // Send multipart data
-        ];
-
-        // Initialize Guzzle client
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        // Send the request
-        $response = $client->request($method, $route_name, $queryArray);
-
-        // Get and decode the response body
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
     }
 
     public function render()

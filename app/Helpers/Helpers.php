@@ -14,6 +14,8 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Smalot\PdfParser\Parser;
+use Spatie\PdfToText\Pdf;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -488,6 +490,24 @@ class Helpers
         }else {
             return false;
         }
+    }
+
+    public static function stringFromPdfOrTextFile($file){
+
+        if ($file->extension() === 'txt'){
+
+            return file_get_contents($file->getRealPath());
+
+        }else{
+
+            $pdfParser = new Parser();
+
+            $pdf = $pdfParser->parseFile($file->getRealPath());
+
+            return $pdf->getText();
+
+        }
+
     }
 }
 

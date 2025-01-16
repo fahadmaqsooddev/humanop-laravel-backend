@@ -47,7 +47,7 @@
             <main class="col-md-12 col-lg-10 justify-content-center ">
                 <div id="content">
 
-                    @livewire('admin.hai-chat.search-embedding',['name' => $lastSegment])
+                    @livewire('admin.hai-chat.search-embedding',['embedding' => $embedding])
 
                     <!-- Train section -->
 

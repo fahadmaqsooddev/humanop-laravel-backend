@@ -150,20 +150,20 @@
                     <!-- Message Container -->
                     <div id="chatMessages" class="d-flex flex-column gap-3">
                     @if(!empty($conversations))
-                        @foreach($conversations as $key => $conversation)
+                        @foreach($conversations as $key => $conversationMessage)
                             <!-- Initial User Message -->
                                 <div class="d-flex flex-row gap-1 justify-content-end">
-                                    @if($conversation['message'])
+                                    @if($conversationMessage['message'])
 
                                         <div class="rounded " style="max-width: 70%;">
                                             <div>
                                                 <p class="text-end text-sm" style="color: #000000;margin-bottom: 3px;">Admin</p>
                                             </div>
                                             <div class="bg-secondary text-white p-2"  style="font-size:small;background: #E05A35 !important;border-radius: 10px 0px 10px 10px !important">
-                                                {{ $conversation['message'] }}
+                                                {{ $conversationMessage['message'] }}
                                             </div>
                                             <div>
-                                                <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
+                                                <p class="text-end" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversationMessage['created_at'] ?? null)->diffForHumans()}}</p>
                                             </div>
                                         </div>
 
@@ -174,31 +174,31 @@
                                 </div>
                                 <!-- Initial Assistant Message -->
                                 <div class="d-flex flex-row gap-3 align-items-start">
-                                    @if($conversation['reply'])
+                                    @if($conversationMessage['reply'])
                                         <div>
                                             <img src="{{asset('assets\img\icons\assessment_intro_icon.png')}}" width="35" height="35" style="border-radius: 50%;background-color: white" >
                                         </div>
                                         <div class="rounded " style="max-width: 70%;">
                                             <div class="bg-primary text-white  p-2"
                                                  style="max-width: 100%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
-                                                {!! $conversation['reply'] !!}
+                                                {!! $conversationMessage['reply'] !!}
                                             </div>
                                             <div class="row" style="width: 100%;">
                                                 <div class="col-10">
-                                                    <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
+                                                    <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversationMessage['created_at'] ?? null)->diffForHumans()}}</p>
                                                 </div>
-                                                @if(isset($conversation->id))
+                                                @if(isset($conversationMessage['id']))
                                                     <div class="col-2">
 
                                                         <div class="rating d-flex mb-2">
                                                             <!-- Thumbs up -->
-                                                            <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversation['is_liked'] === 1 ? 'active' : ''}}"
-                                                                 wire:click="likeReply({{$conversation['id'] ?? null}})">
+                                                            <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversationMessage['is_liked'] === 1 ? 'active' : ''}}"
+                                                                 wire:click="likeReply({{$conversationMessage['id'] ?? null}})">
                                                                 <i class="fa fa-thumbs-up fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
                                                             </div>
                                                             <!-- Edit Response -->
-                                                            <div class="dislike" wire:click="editHaiResponse({{$conversation['id']}})"
-                                                                 data-bs-toggle="modal" data-bs-target="#editHaiReplyModal{{$conversation['id']}}">
+                                                            <div class="dislike" wire:click="editHaiResponse({{$conversationMessage['id']}})"
+                                                                 data-bs-toggle="modal" data-bs-target="#editHaiReplyModal{{$conversationMessage['id']}}">
 {{--                                                                <i class="fa fa-thumbs-down" style="font-size: x-large;" aria-hidden="true"></i>--}}
                                                                 <i class="fa-solid fa-pen-to-square" style="font-size: x-large;" aria-hidden="true"></i>
                                                             </div>
@@ -210,9 +210,11 @@
                                             </div>
                                         </div>
 
+                                    @if(isset($conversationMessage['id']))
+
 {{--                                    Edit Hai Reply Modal--}}
-                                        <div wire:ignore.self class="modal fade" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
-                                             aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
+                                        <div wire:ignore.self class="modal fade" id="editHaiReplyModal{{ $conversationMessage->id ?? null }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="editHaiReplyModal{{ $conversationMessage->id ?? null }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-body" style=" border-radius: 9px">
@@ -221,7 +223,7 @@
                                                                 <div class="col-12">
                                                                     <label class="form-label fs-4 text-white">Query Answer</label>
                                                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                                                            aria-label="Close" id="close-query-edit-modal-{{$conversation->id}}">
+                                                                            aria-label="Close" id="close-query-edit-modal-{{$conversationMessage->id ?? null}}">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                     @include('layouts.message')
@@ -230,7 +232,7 @@
                                                                         <div class="form-group mt-2">
                                                                             <label class="form-label fs-6 text-white">Client Query :</label>
                                                                             <span
-                                                                                style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
+                                                                                style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversationMessage['message'] ?? null}}</span>
                                                                             <label class="form-label fs-4 text-white">Answer :</label>
                                                                             <span class="copy-text float-end" >
                                        <!-- Copy text link -->
@@ -238,7 +240,7 @@
 
                                                                             </span>
                                                                             <br>
-                                                                            <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span>
+                                                                            <span class="mt-2">{!! $conversationMessage['reply'] ?? null !!}</span>
                                                                             <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group">
@@ -260,6 +262,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
 
                                     @endif
                                 </div>
