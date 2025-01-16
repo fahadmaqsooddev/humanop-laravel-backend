@@ -141,6 +141,7 @@ class DailyTip extends Model
                     $dayCheck = $userDailyTip->created_at >= now()->subDay();
 //                }
 
+                return $userDailyTip->created_at;
                 if ($dayCheck) {
                     return $userDailyTip->dailyTip;
                 }
