@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+    
     @if(Auth::user()->hasRole('super admin'))
         <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
     @endif
@@ -42,6 +43,7 @@
                 <th>Email</th>
                 <th>Gender</th>
                 @if(Auth::user()->hasRole('super admin'))
+                    <th>Email verified</th>
                     <th>HAI Chat</th>
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
@@ -55,11 +57,17 @@
             <tbody>
             @foreach($users as $user)
                 <tr class="text-color-blue">
-                    <td class="text-sm font-weight-normal">{{$user['first_name'].' '.$user['last_name'] }} </td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
-                    <td class="text-sm font-weight-normal">{{$user['gender'] != null ? $user['gender'] === '0' ? 'Male' : 'Female' : '-'}}</td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] === '0' ? 'Male' : 'Female' : '-'}}</td>
                     @if(Auth::user()->hasRole('super admin'))
-
+                       <td class="text-sm font-weight-normal text-center">
+                        @if(!empty($user['email_verified_at']))
+                        Yes
+                        @else
+                        No
+                        @endif
+                       </td>
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
                                 @php
@@ -105,9 +113,18 @@
                             </div>
                         </td>
                         <td class="text-sm font-weight-normal">
-                            <a onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
-                               class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;">
-                                Login
+                            
+                            <a 
+                            @if(empty($user['email_verified_at']))
+                            disabled 
+                            style="background:grey;color:white;font-weight:bolder;"
+                            @else
+                            onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
+                            @endif   
+                            class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;"
+                            >
+                          Login
+                           
                             </a>
                         </td>
                         <td class="text-sm font-weight-normal">

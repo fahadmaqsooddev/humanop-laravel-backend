@@ -761,6 +761,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
     {
+        
         $userId = Helpers::getWebUser()['id'];
 
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
@@ -794,9 +795,10 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
-            ->whereNotNull('email_verified_at')
+            // ->whereNotNull('email_verified_at')
             ->paginate($per_page)
             ->setPath(route('admin_all_users'));
+
 
         return $users;
     }

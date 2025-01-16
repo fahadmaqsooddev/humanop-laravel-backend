@@ -22,10 +22,20 @@ class AllUser extends Component
     public $email = '';
     public $age = '';
 
+
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'
         ,'updateHaiChatVisibility','deleteClientProfile'];
+
+
+        public function updated($field)
+        {
+            if (in_array($field, ['name', 'email', 'age'])) {
+                $this->resetPage(); 
+            }
+        }
+    
 
     public function logInAdminAsUser($id = null, $isClientOrPractitioner = null){
 
@@ -102,7 +112,6 @@ class AllUser extends Component
     public function render()
     {
         $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER,Admin::IS_PRACTITIONER]);
-
         return view('livewire.admin.user.all-user', [
 
             'users' => $users
