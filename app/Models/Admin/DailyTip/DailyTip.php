@@ -148,6 +148,8 @@ class DailyTip extends Model
                 else{
                     if ($assessment) {
 
+                        return $assessment;
+                        
                         $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);
 
                         $alchemy = Assessment::getAlchemy($assessment);
@@ -172,7 +174,6 @@ class DailyTip extends Model
 
                         $randomCode = $selectedCodeList[array_rand($selectedCodeList)];
 
-return $randomCode;
                         if ($randomCode) {
 
                             $newDailyTip = DailyTip::getSameCodeTips($randomCode);
