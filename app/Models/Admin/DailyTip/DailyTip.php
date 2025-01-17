@@ -138,7 +138,10 @@ class DailyTip extends Model
             }
 
         }
-
+        else
+        {
+            return false;
+        }
 
     }
 
