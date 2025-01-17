@@ -32,10 +32,35 @@
             <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
                     <div class="d-flex flex-column gap-3 chat-card">
-                        <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
-                            <h5 style="color: #f2661c" class="text-decoration-none"><i
-                            </h5>
-                        </a>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
+                                    <h5 style="color: #f2661c" class="text-decoration-none"><i
+                                            class="bi bi-robot"></i> {{ $chat['name'] }}
+                                    </h5>
+                                </a>
+
+                                @if($chat->is_connected === 1 && $chat->is_chat_bot_connected === true)
+
+                                    <button class="new-orange-button" wire:click="connectUnConnectChatBot({{$chat->id}})">
+                                        Disconnect
+                                    </button>
+
+                                @elseif($chat->is_connected === 0 && $chat->is_chat_bot_connected === true)
+
+                                    <button class="new-orange-button disabled opacity-5" wire:click="connectUnConnectChatBot({{$chat->id}})">
+                                        Connect
+                                    </button>
+
+                                @else
+
+                                    <button class="new-orange-button" wire:click="connectUnConnectChatBot({{$chat->id}})">
+                                        Connect
+                                    </button>
+
+                                @endif
+                            </div>
+                        </div>
                         @if(strlen($chat['description']) > 50)
 
                             <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
