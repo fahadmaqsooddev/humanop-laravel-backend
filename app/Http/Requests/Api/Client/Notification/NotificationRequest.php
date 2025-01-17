@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\APi\Client\Notification;
+namespace App\Http\Requests\Api\Client\Notification;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +13,7 @@ class NotificationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
