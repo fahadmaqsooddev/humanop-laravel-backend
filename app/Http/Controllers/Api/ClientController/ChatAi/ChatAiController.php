@@ -88,7 +88,7 @@ class ChatAiController extends Controller
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => $chatBot->chunks,
+                    'max_tokens' => $chatBot->max_tokens,
                     'temperature' => $chatBot->temperature ?? 0.2,
                 ]);
 

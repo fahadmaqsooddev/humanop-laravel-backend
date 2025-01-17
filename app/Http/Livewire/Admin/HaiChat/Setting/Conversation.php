@@ -7,6 +7,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
+use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
@@ -94,6 +95,8 @@ class Conversation extends Component
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
 
+                    HaiChatConversation::deleteOldChat();
+
                     HaiChatConversation::createConversation($this->chatBot->id, $this->message,($reply->toArray()['choices'][0]['message']['content'] ?? null), $this->user_id);
 
                 }
@@ -156,26 +159,26 @@ class Conversation extends Component
 
     }
 
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-
-        $authorization = Request::header('Authorization');
-
-        $queryArray = [
-            'headers' => ['Authorization' => $authorization],
-            'json' => $body
-        ];
-
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $route = $route_name;
-
-        $response = $client->request($method, $route, $queryArray);
-
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
-    }
+//    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+//    {
+//
+//        $authorization = Request::header('Authorization');
+//
+//        $queryArray = [
+//            'headers' => ['Authorization' => $authorization],
+//            'json' => $body
+//        ];
+//
+//        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+//
+//        $route = $route_name;
+//
+//        $response = $client->request($method, $route, $queryArray);
+//
+//        $response_body = json_decode($response->getBody()->getContents(), true);
+//
+//        return $response_body;
+//    }
 
     public function getChatBotConversation()
     {
