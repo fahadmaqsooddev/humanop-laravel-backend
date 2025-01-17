@@ -58,7 +58,7 @@ class NotificationController extends Controller
             }
             else{
 
-                Helpers::validationResponse('Notification not found');
+                return Helpers::validationResponse('Notification not found');
 
             }
 
