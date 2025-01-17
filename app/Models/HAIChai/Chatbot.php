@@ -25,7 +25,7 @@ class Chatbot extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['chat_bot_color'];
+    protected $appends = ['chat_bot_color','is_chat_bot_connected'];
 
     // Relations
     public function plan(){
@@ -33,20 +33,27 @@ class Chatbot extends Model
         return $this->belongsTo(Plan::class, 'plan_id','id');
     }
 
+    public function setting(){
+
+        return $this->hasOne(HaiChatSetting::class,'chat_bot_id','id');
+    }
+
     // Appends
     public function getChatBotColorAttribute(){
 
-        if($this->setting?->plan()?->first()?->name ?? false){
+        $plan_name = $this->plan()?->first()?->name ?? false;
 
-            if ($this->setting->plan()->first()->name === 'Freemium'){
+        if($plan_name){
+
+            if ($plan_name === 'Freemium'){
 
                 return '#F3DEBA';
 
-            }elseif($this->setting->plan()->first()->name === 'Core'){
+            }elseif($plan_name === 'Core'){
 
                 return '#8BB1AB';
 
-            }elseif ($this->setting->plan()->first()->name === 'Premium') {
+            }elseif ($plan_name === 'Premium') {
 
                 return '#1A7D9E';
             }
@@ -55,10 +62,12 @@ class Chatbot extends Model
         return '#F3DEBA';
     }
 
-    // Relations
-    public function setting(){
+    public function getIsChatBotConnectedAttribute(){
 
-        return $this->hasOne(HaiChatSetting::class,'chat_bot_id','id');
+        return self::where('plan_id', $this->plan_id)
+
+            ->where('is_connected', 1)->exists();
+
     }
 
 
@@ -68,15 +77,22 @@ class Chatbot extends Model
 
         $formatted_name = str_replace(' ','', $name) .'_' . Carbon::now()->format('Y-m-d-H-i-s');
 
+        $plan_id = Plan::planIdFromName("Freemium");
+
         self::create([
             'name' => $formatted_name,
             'description' => $description,
+            'plan_id' => $plan_id,
         ]);
     }
 
     public static function allChatBots()
     {
-        return self::orderBy('created_at', 'desc')->select(['id', 'name', 'description'])->with('setting.plan')->get();
+        return self::orderBy('created_at', 'desc')
+
+            ->select(['id', 'name', 'description','plan_id','is_connected'])
+
+            ->with('plan')->get();
     }
 
 //    public static function singleChat($id = null)
@@ -130,6 +146,13 @@ class Chatbot extends Model
 
     public static function chatBotFromUserPlan(){
 
-        return self::latest()->first();
+        return self::whereHas('plan', function ($query){
+
+            $query->where('name', Helpers::getUser()->plan_name);
+
+        })
+            ->where('is_connected', 1)
+            ->latest()
+            ->first();
     }
 }

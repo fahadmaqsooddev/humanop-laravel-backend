@@ -34,7 +34,6 @@
                     <div class="d-flex flex-column gap-3 chat-card">
                         <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
                             <h5 style="color: #f2661c" class="text-decoration-none"><i
-                                    class="bi bi-robot"></i> {{ $chat['name'] }}
                             </h5>
                         </a>
                         @if(strlen($chat['description']) > 50)
@@ -44,9 +43,10 @@
                         @else
                             <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
                         @endif
-                        <div class="d-flex justify-content-end">
-{{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
-{{--                                than a minute</p>--}}
+                        <div class="d-flex justify-content-between">
+                            <p class="custom-text-dark">
+                                <strong>Plan : </strong>{{$chat['plan']['name'] ?? 'Fremium'}}
+                            </p>
                             <div class="d-flex gap-2">
                                 <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive">
                                     <i class="fa-solid fa-copy"></i></button>

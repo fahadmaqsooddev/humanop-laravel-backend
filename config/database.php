@@ -411,7 +411,7 @@ return [
         ],
         'Chatbot' => [
             'table' => 'chat_bots',
-            'fillable' => ['name','description', 'prompt','restriction', 'temperature','max_token','chunks','model_type','plan_id'],
+            'fillable' => ['name','description', 'prompt','restriction', 'temperature','max_token','chunks','model_type','plan_id','is_connected'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ChatPrompt' => [
