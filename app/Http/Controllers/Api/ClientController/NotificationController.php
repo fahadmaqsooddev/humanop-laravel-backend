@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\ClientController;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\APi\Client\Notification\NotificationRequest;
+use App\Http\Requests\Api\Client\Notification\NotificationRequest;
 use App\Models\Admin\Notification\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,7 +58,7 @@ class NotificationController extends Controller
             }
             else{
 
-                Helpers::validationResponse('Notification not found');
+                return Helpers::validationResponse('Notification not found');
 
             }
 
