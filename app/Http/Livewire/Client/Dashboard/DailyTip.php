@@ -14,7 +14,7 @@ class DailyTip extends Component
         $this->getDailyTip();
     }
     public function getDailyTip(){
-        $this->tip = UserTip::getTodayTip();
+        $this->tip = UserTip::checkTodayTip();
         if($this->tip){
             $userDailyTipDetail = UserDailyTip::userDailytip($this->tip['id']);
             $this->isReadDailyTip = $userDailyTipDetail['is_read'];
