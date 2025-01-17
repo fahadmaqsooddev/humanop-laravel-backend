@@ -58,13 +58,13 @@ class ChatAiController extends Controller
 
             $chatBot = Chatbot::chatBotFromUserPlan();
 
-            $is_restricted_word = ChatbotKeyword::checkChatBotKeywords($chatBot->id, $request->input('question'));
+            $is_restricted_word = ChatbotKeyword::checkChatBotKeywords($chatBot->id ?? null, $request->input('question'));
 
             if (!$is_restricted_word){
 
-                $knowledge = HaiChatActiveEmbedding::activeEmbeddings($chatBot->id);
+                $knowledge = HaiChatActiveEmbedding::activeEmbeddings($chatBot->id ?? null);
 
-                $chunks = HaiChatHelpers::findRelevantChunks($request->input('question'), $knowledge, $chatBot->chunks);
+                $chunks = HaiChatHelpers::findRelevantChunks($request->input('question'), $knowledge, $chatBot->chunks ?? 1);
 
                 $chunks = array_column($chunks,'content');
 
@@ -73,7 +73,7 @@ class ChatAiController extends Controller
                 $messages = [
                     [
                         'role' => 'system',
-                        'content' => "Ensure responses follow these prompts: ". $chatBot->prompt ."Use context to provide accurate answers. Ensure responses follow these restrictions: ". $chatBot->restriction,
+                        'content' => "Ensure responses follow these prompts: ". ($chatBot->prompt ?? null) ."Use context to provide accurate answers. Ensure responses follow these restrictions: ". ($chatBot->restriction ?? null),
                     ],
                     [
                         'role' => 'assistant',
@@ -88,7 +88,7 @@ class ChatAiController extends Controller
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => $chatBot->max_tokens,
+                    'max_tokens' => $chatBot->max_tokens ?? 250,
                     'temperature' => $chatBot->temperature ?? 0.2,
                 ]);
 
