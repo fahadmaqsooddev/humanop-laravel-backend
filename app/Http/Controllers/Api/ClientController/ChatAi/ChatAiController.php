@@ -64,7 +64,7 @@ class ChatAiController extends Controller
 
                 $knowledge = HaiChatActiveEmbedding::activeEmbeddings($chatBot->id);
 
-                $chunks = HaiChatHelpers::findRelevantChunks($request->input('question'), $knowledge, 1);
+                $chunks = HaiChatHelpers::findRelevantChunks($request->input('question'), $knowledge, $chatBot->chunks);
 
                 $chunks = array_column($chunks,'content');
 
@@ -88,7 +88,7 @@ class ChatAiController extends Controller
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => 100,
+                    'max_tokens' => $chatBot->chunks,
                     'temperature' => $chatBot->temperature ?? 0.2,
                 ]);
 
@@ -125,8 +125,6 @@ class ChatAiController extends Controller
             }
 
             return Helpers::successResponse('Answer of asked question', $aiReply);
-
-
 
 //            HaiChat::createChat($request->input('question'), $aiReply);
 

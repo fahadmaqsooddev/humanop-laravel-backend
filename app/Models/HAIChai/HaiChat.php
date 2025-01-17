@@ -93,6 +93,15 @@ class HaiChat extends Model
 
             HaiChat::updateChat($chat['id'], 2);
 
+            // Update Lisa Question Answer Doc
+            $filePath = public_path('lisa_question_answer_doc/Lisa Document.txt');
+
+            $fileContent = file_get_contents($filePath);
+
+            $newContent = $fileContent . "\n Question: " . $chat->query ." \n Answer: " .$chat->answer;
+
+            file_put_contents($filePath, $newContent);
+
         }elseif ($type === 'dislike'){
 
             if ($chat['likedislike'] == 3 || $chat['likedislike'] == 2) {
