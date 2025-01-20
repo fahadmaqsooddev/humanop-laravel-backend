@@ -425,7 +425,7 @@
                                         <div id="intro_to_cycle_to_life" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="intro_to_cycle_to_life_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life Introduction: </span><br><br>
@@ -888,7 +888,7 @@
                                     <div class="row d-flex">
                                         <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
                                             <div id="intro_to_trait_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Traits Introduction:</span><br><br>
@@ -929,7 +929,7 @@
                                         <div id="your_motivation" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="your_motivation_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Motivation Introduction:</span><br><br>
@@ -968,7 +968,7 @@
                                     <div class="row d-flex">
                                         <div id="your_boundary" class="col-12 mt-3" style="display: none;">
                                             <div id="your_boundary_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Boundaries:</span> <br><br>
@@ -1138,7 +1138,7 @@
                                         <div id="your_communication" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="your_communication_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span> <br><br>
@@ -1218,7 +1218,7 @@
                                     <div class="row d-flex">
                                         <div id="energy_pool" class="col-12 mt-3" style="display: none;">
                                             <div id="energy_pool_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;text-align: justify;">
                                                 {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span> <br> <br>
@@ -1272,7 +1272,7 @@
                                             <div id="your_perception" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="your_perception_text" class="card p-2"
-                                                     style="height: auto;">
+                                                     style="height: auto;text-align: justify;">
                                                     {{-- <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span> <br><br>
@@ -1540,7 +1540,25 @@
                                                     </a>
                                                 </p> --}}
                                                 <div class="mt-4 custom-color">
-                                                    {!!$main_result['description']!!}
+                                                    {{-- {!!$main_result['description']!!} --}}
+                                                      
+                                                    <div id="description-container">
+                                                        <div id="description-preview">
+                                                            <p >
+                                                                {!! Str::words($main_result['description'], 200) !!}
+                                                            </p>
+                                                           
+                                                        </div>
+                                                       
+                                                        <div  id="description-full" style="display: none !important;">
+                                                            <p >
+                                                                {!! $main_result['description'] !!}
+                                                            </p>
+                                                        </div>
+                                                       
+                                                        <p id="toggle-button" style="cursor: pointer;color:#f2661c" onclick="toggleDescription()">read More...</p>
+                                                    </div>
+                                                    
                                                 </div>
                                                
                                                 <div class="row d-flex mt-5">
@@ -2487,6 +2505,32 @@
         });
 
     </script>
+    <script>
+
+        
+        function toggleDescription() {
+            
+            const preview = document.getElementById('description-preview');
+            const full = document.getElementById('description-full');
+            const button = document.getElementById('toggle-button');
+    
+            if (full.style.display === 'none') {
+                
+                preview.style.display = 'none';
+                full.style.display = 'block';
+                button.textContent = 'less More...';
+                full.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+               
+                preview.style.display = 'block';
+                full.style.display = 'none';
+                button.textContent = 'read More...';
+                preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            }
+        }
+    </script>
+    
 
 @endpush
 
