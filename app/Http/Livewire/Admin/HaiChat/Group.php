@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat;
 use App\Helpers\Helpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
+use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use App\Models\KnowledgeBase\KnowledgeBase;
 use Illuminate\Support\Facades\DB;
