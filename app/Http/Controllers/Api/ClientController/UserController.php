@@ -501,17 +501,26 @@ class UserController extends Controller
     {
 
         try {
+            
 
             $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
-
+           
+            
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+            
+            if(empty($assessment)){
+                return Helpers::validationResponse('Assessment Not Found');
+            }
+            
+            $user_name =Helpers::getUser()->first_name.' ' .Helpers::getUser()->last_name;
+            
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
-            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
@@ -523,14 +532,34 @@ class UserController extends Controller
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
+            $summary_static = CodeDetail::summaryIntro();
+            $main_result = CodeDetail::mainResult();
+            $cycle_life = CodeDetail::cycleLife();
+            $trait_intro = CodeDetail::traitIntro();
+            $motivation_intro = CodeDetail::motivationIntroduction();
+            $intro_boundaries = CodeDetail::introBoundaries();
+            $intro_communication = CodeDetail::introCommunication();
+            $intro_energypool = CodeDetail::introEnergypool();
+            $intro_perceptionlife = CodeDetail::perceptionLife();
+          
             $data = [
+                'user_name'=>$user_name,
                 'user_age' => $user_age,
+                'summary_intro'=>$summary_static,
+                'main_result_into'=>$main_result,
+                'cycle_life'=>$cycle_life,
+                'traits_intro'=>$trait_intro,
                 'all_styles' => $allStyles,
+                'motivation_introduction'=>$motivation_intro,
                 'top_features' => $topTwoFeatures,
+                'intro_boundaries'=>$intro_boundaries,
                 'boundary' => $boundary,
-                'your_perception' => $perception_life,
+                'your_perception' => $perception_life??'N/A',
+                'intro_perceptionlife'=>$intro_perceptionlife,
                 'perception' => $perception,
+                'intro_communication'=>$intro_communication,
                 'top_communication' => $topCommunication,
+                'intro_energypool'=>$intro_energypool,
                 'energy_pool' => $energyPool,
                 'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
             ];
@@ -538,7 +567,7 @@ class UserController extends Controller
             return Helpers::successResponse('Profile overview data', $data);
 
         } catch (\Exception $exception) {
-
+         
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 

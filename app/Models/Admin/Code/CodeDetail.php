@@ -273,4 +273,83 @@ class CodeDetail extends Model
 
     }
 
+    public static function summaryIntro(){
+        $data= self::where('code','s_intro')->first();
+      
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function mainResult(){
+        $data=self::where('code','main_result')->first();
+        
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+
+    }
+    public static function cycleLife(){
+        $data=self::where('code','cycle_life')->first();
+        
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function traitIntro(){
+        $data=self::where('code','trait_intro')->first();
+
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function motivationIntroduction(){
+        $data=self::where('code','motivation_introduction')->first();
+        
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function introBoundaries(){
+        $data= self::where('code','intro_boundaries')->first();
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function introCommunication(){
+        $data= self::where('code','intro_communication')->first();
+        return [
+            'public_name'=>$data->name ??  '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function introEnergypool(){
+        $data=self::where('code','intro_energypool')->first();
+        return [
+            'public_name'=>$data->name ?? '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+    public static function perceptionLife(){
+        $data= self::where('code','intro_perceptionlife')->first();
+        return [
+            'public_name'=>$data->name ?? '',
+            'description'=>$data->text ?? '',
+            'video'=>$data->video ?? ''
+           ];
+    }
+
 }
