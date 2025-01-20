@@ -132,7 +132,7 @@ class Group extends Component
 
                 'name' => 'required|max:20',
                 'embedding_ids' => 'required|array',
-                'embedding_ids.*' => 'required|exists:hai_chat_embeddings,id',
+                'embedding_ids.*' => 'required|exists:embeddings,id',
 
             ], [
                     'name.required' => 'Group name is required'
