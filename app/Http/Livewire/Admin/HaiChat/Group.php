@@ -131,8 +131,8 @@ class Group extends Component
             $this->validate([
 
                 'name' => 'required|max:20',
-                'embedding_ids' => 'required|array',
-                'embedding_ids.*' => 'required|exists:embeddings,id',
+                'embedding_ids' => 'nullable|array',
+                'embedding_ids.*' => 'nullable|exists:embeddings,id',
 
             ], [
                     'name.required' => 'Group name is required'
