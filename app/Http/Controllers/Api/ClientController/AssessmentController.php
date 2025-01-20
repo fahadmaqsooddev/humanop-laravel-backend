@@ -115,6 +115,7 @@ class AssessmentController extends Controller
 
                     return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'retake_assessment' => $takeAssessment,
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount ?? 0),
                         'user' => [
