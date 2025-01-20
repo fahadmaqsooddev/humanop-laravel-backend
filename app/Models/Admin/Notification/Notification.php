@@ -35,7 +35,7 @@ class Notification extends Model
         return self::where('id', $user['id'])
             ->orWhere('permission', $userPermission)
             ->orderBy('created_at', 'desc')
-            ->get(['id', 'type', 'message', 'created_at', 'read']);
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }
 
 
