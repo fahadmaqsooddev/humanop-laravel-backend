@@ -68,4 +68,22 @@ class NotificationController extends Controller
         }
 
     }
+
+    public function deleteNotification(NotificationRequest $request)
+    {
+        try {
+
+            $notifications = Notification::deleteNotification($request['notification_id']);
+
+            if ($notifications == true)
+            {
+                return Helpers::successResponse('Notification delete successfully');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }

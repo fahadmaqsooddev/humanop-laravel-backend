@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Resource;
 
+use App\Enums\Admin\Admin;
 use App\Events\Resource\NewResource;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
@@ -61,15 +62,15 @@ class CreateResource extends Component
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
-
             if (!empty($resource)) {
 
                 foreach ($this->permission as $permission) {
+
                     $message = 'Your New Training & Resource';
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
-                    Notification::createNotification('new training & resource', $message, null, null, $permission);
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION);
 
                 }
 

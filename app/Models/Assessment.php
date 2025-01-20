@@ -1258,7 +1258,7 @@ class Assessment extends Model
 
                                         event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                                        Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1);
+                                        Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
 
                                     }
                                 }

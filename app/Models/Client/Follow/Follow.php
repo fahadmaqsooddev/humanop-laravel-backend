@@ -2,7 +2,9 @@
 
 namespace App\Models\Client\Follow;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Client\MessageThread\MessageThread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -93,6 +95,8 @@ class Follow extends Model
 
             event(new UnFollowRequest($follow_id,'Un-Follow Request',$msg));
 
+            Notification::createNotification('un follow request', $msg, null, $follow_id, 1, Admin::UN_FOLLOW_REQUEST_NOTIFICATION);
+
             $message = "You unfollowed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
 
             toastr()->success($message);
@@ -104,6 +108,8 @@ class Follow extends Model
             $msg='Follow Request is send';
 
             event(new FollowRequest($follow_id,'Follow Request',$msg));
+
+            Notification::createNotification('follow request', $msg, null, $follow_id, 1, Admin::FOLLOW_REQUEST_NOTIFICATION);
 
             $message = "You followed " . $followUser['first_name'] . " " . $followUser['last_name'] . ".";
 
@@ -186,7 +192,10 @@ class Follow extends Model
                 self::create($data);
 
                 $msg='Follow Request is send';
+
                 event(new FollowRequest($data['follow_id'],'Follow Request',$msg));
+
+                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::FOLLOW_REQUEST_NOTIFICATION);
 
             }
 
@@ -197,6 +206,8 @@ class Follow extends Model
             $msg='Unfollow Request is send';
 
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
+
+            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::UN_FOLLOW_REQUEST_NOTIFICATION);
 
         }
 

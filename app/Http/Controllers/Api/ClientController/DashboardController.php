@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Helpers\Points\PointHelper;
@@ -59,7 +60,7 @@ class DashboardController extends Controller
 
                             event(new NewDailyTip($user['id'], 'new daily tip', $message));
 
-                            Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1);
+                            Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
