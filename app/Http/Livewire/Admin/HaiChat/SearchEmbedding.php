@@ -64,9 +64,9 @@ class SearchEmbedding extends Component
 //            }
 
 
-            $knowledgeBase = KnowledgeBase::whereId($this->embedding->id)->get();
+            $knowledgeBase = KnowledgeBase::where('embedding_id', $this->embedding->id)->get();
 
-            $relevantChunks = HaiChatHelpers::findRelevantChunks($this->query, $knowledgeBase);
+            $relevantChunks = HaiChatHelpers::findRelevantChunks($this->query, $knowledgeBase, $this->embedding->chunks ?? 1);
 
             $this->chunks = $relevantChunks;
 

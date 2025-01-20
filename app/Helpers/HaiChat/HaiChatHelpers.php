@@ -58,7 +58,7 @@ class HaiChatHelpers
         usort($results, fn($a, $b) => $b['similarity'] <=> $a['similarity']);
 
 //        $threshold = 0.3;
-
+//
 //        $results = array_filter($results, function ($match) use ($threshold) {
 //            return $match['similarity'] >= $threshold;
 //        });

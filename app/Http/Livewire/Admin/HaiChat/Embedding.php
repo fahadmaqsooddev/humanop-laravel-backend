@@ -62,47 +62,51 @@ class Embedding extends Component
                 ]
             );
 
+            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name);
+
             $texts = Helpers::stringFromPdfOrTextFile($this->embedding);
 
             $yourApiKey = env('OPEN_AI_API_KEY');
 
             $client = \OpenAI::client($yourApiKey);
 
-            $response = $client->embeddings()->create([
-                'model' => 'text-embedding-3-small',
-                'input' => $texts,
-            ]);
+            foreach ($texts as $text){
 
-            $response = $response->toArray();
+                $response = $client->embeddings()->create([
+                    'model' => 'text-embedding-3-small',
+                    'input' => $text,
+                ]);
 
-            foreach ($response['data'] as $embeddingVector){
+                $response = $response->toArray();
 
-                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name);
+                foreach ($response['data'] as $embeddingVector){
 
-                KnowledgeBase::createEmbeddingKnowledge($texts,$embeddingVector,$embedding->id);
+                    KnowledgeBase::createEmbeddingKnowledge($text,$embeddingVector,$embedding->id);
 
-                if($embedding){
+                    if($embedding){
 
-                    GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
+                        GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
 
-                    session()->flash('embedding_success', "Embedding created successfully.");
+                        session()->flash('embedding_success', "Embedding created successfully.");
 
-                    $this->emit('closeCreateEmbeddingModal');
+                        $this->emit('closeCreateEmbeddingModal');
 
-                    $this->reset('embedding_name','group_ids');
+                        $this->reset('embedding_name','group_ids');
 
-                    $this->fileInputId++; // this is just for remove placeholder for file input field
+                        $this->fileInputId++; // this is just for remove placeholder for file input field
 
-                    $this->embedding = null;
+                        $this->embedding = null;
 
-                }else{
+                    }else{
 
-                    DB::rollBack();
+                        DB::rollBack();
 
-                    session()->flash('embedding_error', "Something went wrong.");
+                        session()->flash('embedding_error', "Something went wrong.");
+                    }
+
+                    DB::commit();
+
                 }
-
-                DB::commit();
 
             }
 
