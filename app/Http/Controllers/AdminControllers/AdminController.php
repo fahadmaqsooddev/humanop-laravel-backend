@@ -417,14 +417,24 @@ class AdminController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
-
+           
+            $summary_static = CodeDetail::summaryIntro();
+            $main_result = CodeDetail::mainResult();
+            $cycle_life = CodeDetail::cycleLife();
+            $trait_intro = CodeDetail::traitIntro();
+            $motivation_intro = CodeDetail::motivationIntroduction();
+            $intro_boundaries = CodeDetail::introBoundaries();
+            $intro_communication = CodeDetail::introCommunication();
+            $intro_energypool = CodeDetail::introEnergypool();
+            $intro_perceptionlife = CodeDetail::perceptionLife();
+          
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
             {
                 return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
             else
             {
-                return view('admin-dashboards.user.client_profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
+                return view('admin-dashboards.user.client_profile_overview', compact('summary_static','main_result','cycle_life','trait_intro','motivation_intro','intro_boundaries','intro_communication','intro_energypool','intro_perceptionlife','allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
 
         }catch (\Exception $exception){

@@ -426,7 +426,7 @@
                                              style="display: none;">
                                             <div id="intro_to_cycle_to_life_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life Introduction: </span><br><br>
                                                     This video is an introduction to the Cycle of Life. The
@@ -455,7 +455,8 @@
                                                     current interval you're experiencing and help prepare
                                                     you for the next interval of life that you'll eventually
                                                     be entering into.
-                                                </p>
+                                                </p> --}}
+                                                {!!$cycle_life['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -888,7 +889,7 @@
                                         <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
                                             <div id="intro_to_trait_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Traits Introduction:</span><br><br>
                                                     This video is an introduction to traits. Traits are the
@@ -903,7 +904,8 @@
                                                     a doing trait. Most people are a combination of at least
                                                     three prominent traits (sometimes more). The following
                                                     videos will explore your most prominent traits.
-                                                </p>
+                                                </p> --}}
+                                                {!!$trait_intro['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -928,7 +930,7 @@
                                              style="display: none;">
                                             <div id="your_motivation_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Motivation Introduction:</span><br><br>
                                                     This video is an
@@ -941,7 +943,8 @@
                                                     understand why you do things a certain way and what fuel
                                                     you specifically need every day in order to thrive. The
                                                     following videos will explore your two drivers.
-                                                </p>
+                                                </p> --}}
+                                                {!!$motivation_intro['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -966,7 +969,7 @@
                                         <div id="your_boundary" class="col-12 mt-3" style="display: none;">
                                             <div id="your_boundary_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Boundaries:</span> <br><br>
                                                     This video is an introduction to boundaries. Boundaries
@@ -1110,7 +1113,9 @@
                                                     step away in order to avoid excessive energy drain or
                                                     ignite unnecessary challenges for yourself or with
                                                     others.
-                                                </p>
+                                                </p> --}}
+
+                                                {!! $intro_boundaries['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -1123,7 +1128,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span
-                                                            style="color: #f2661c;">{{$boundary['public_name'] . ' Alchemy' }}  : </span>{{$boundary['description']}}
+                                                            style="color: #f2661c;">{{$boundary['public_name'] . ' Alchemy' }}  : </span>{!!$boundary['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
@@ -1134,7 +1139,7 @@
                                              style="display: none;">
                                             <div id="your_communication_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span> <br><br>
                                                     This video is an introduction to Communication Style.
@@ -1189,7 +1194,8 @@
                                                     watch each Energy Center video, consider for yourself
                                                     quick strategies you can activate on the fly in the
                                                     moment to “open each door”.
-                                                </p>
+                                                </p> --}}
+                                                {!!$intro_communication['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -1213,7 +1219,7 @@
                                         <div id="energy_pool" class="col-12 mt-3" style="display: none;">
                                             <div id="energy_pool_text" class="card p-2"
                                                  style="height: auto;">
-                                                <p class="text-sm mt-3 fs-12px"
+                                                {{-- <p class="text-sm mt-3 fs-12px"
                                                    style="color: white; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span> <br> <br>
                                                     This video is an introduction to Energy Pool. Your
@@ -1240,7 +1246,8 @@
                                                     you become energy efficient…no matter what the size of
                                                     your Energy Pool. The following video describes the
                                                     nature of your Energy Pool.
-                                                </p>
+                                                </p> --}}
+                                                {!!$intro_energypool['description']!!}
                                             </div>
                                         </div>
                                     </div>
@@ -1266,7 +1273,7 @@
                                                  style="display: none;">
                                                 <div id="your_perception_text" class="card p-2"
                                                      style="height: auto;">
-                                                    <p class="text-sm mt-3 fs-12px"
+                                                    {{-- <p class="text-sm mt-3 fs-12px"
                                                        style="color: white; text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span> <br><br>
                                                         This video is an introduction to Perception. Your
@@ -1317,7 +1324,8 @@
                                                         avoid attempting to change another's way of
                                                         experiencing the moment. The following video
                                                         describes your Perception of Life.
-                                                    </p>
+                                                    </p> --}}
+                                                    {!!$intro_perceptionlife['description']!!}
                                                 </div>
                                             </div>
                                         </div>
@@ -1367,7 +1375,7 @@
                                         <div class="tab-pane {{request()->has('video_url') ? '' : "active"}}"
                                              id="summaryReport">
                                             <div class="slider-padding p-3 mt-5 ">
-                                                <p class="custom-color">The HumanOp Summary Report serves to identify those aspects about you
+                                                {{-- <p class="custom-color">The HumanOp Summary Report serves to identify those aspects about you
                                                     that define and direct your best performance qualities. Since your
                                                     physical being is respectively the assigned vehicle transporting you
                                                     through life, it's often helpful to know what kind of vehicle you
@@ -1395,7 +1403,12 @@
                                                     <li>Premarital counseling</li>
                                                     <li>Roommate selection</li>
                                                     <li>Self-understanding and interpersonal relationships</li>
-                                                </ul>
+                                                </ul> --}}
+                                                <div class="custom-color">
+                                                    {!!$summary_static['description']!!}
+
+                                                </div>
+                                               
 
                                                 @if($assessment)
                                                     <a href="{{url('admin/download-user-report/'. $assessment->id)}}"
@@ -1417,7 +1430,7 @@
                                                     </h4>
                                                 </div>
                                                 <h4 class="primaryColor">Main Results Introduction:</h4>
-                                                <p class="mt-4 custom-color">You're about to experience your Human Op ULT assessment
+                                                {{-- <p class="mt-4 custom-color">You're about to experience your Human Op ULT assessment
                                                     results. Most people find this experience to be extremely
                                                     insightful, validating and even empowering to learn about themselves
                                                     from this objective natural perspective. I want to spend just a few
@@ -1525,7 +1538,11 @@
                                                        style="color: #f2661c;">read
                                                         more...
                                                     </a>
-                                                </p>
+                                                </p> --}}
+                                                <div class="mt-4 custom-color">
+                                                    {!!$main_result['description']!!}
+                                                </div>
+                                               
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-5 col-sm-12 col-md-6">
                                                         <div id="main_result_intro_heading" class="card"
