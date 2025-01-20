@@ -99,7 +99,22 @@ class AssessmentController extends Controller
 
             $latest_assessment = Assessment::getLatestAssessment($user['id']);
 
-            if (!empty($latest_assessment)) {
+            if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
+
+                return Helpers::successResponse('Reset Assessment', [
+                    'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_page_number' => $status,
+                    'retake_assessment' => null,
+                    'assessment_price' => ($assessment_price->amount ?? 0),
+                    'user' => [
+                        'last_four_digits' => $user['pm_last_four'],
+                        'exp_month' => $user['pm_exp_month'],
+                        'exp_year' => $user['pm_exp_year'],
+                        'name' => $user['card_name'],
+                    ]
+                ]);
+            }
+            elseif (!empty($latest_assessment)){
 
                 $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
 
