@@ -48,7 +48,15 @@ class KnowledgeBase extends Model
 
     public static function deleteEmbedding($id){
 
-        self::where('embedding_id', $id)->delete();
+        $knowledge = self::where('embedding_id', $id)->first();
+
+        if ($knowledge){
+
+            HaiChatActiveEmbedding::where('id', $knowledge->id)->delete();
+
+            $knowledge->delete();
+
+        }
     }
 
 
