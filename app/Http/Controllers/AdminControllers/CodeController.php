@@ -46,4 +46,16 @@ class CodeController extends Controller
         }
     }
 
+
+    public function createCode(){
+        try {
+            return view('admin-dashboards.manage-codes.create');
+
+        } catch (\Exception $exception) {
+
+            return redirect()->route('admin_all_questions')->with('error', $exception->getMessage());
+
+        }
+    }
+
 }

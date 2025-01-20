@@ -122,6 +122,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
         Route::get('/codes', [CodeController::class, 'ManageCode'])->name('admin_manage_code');
         Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
+        Route::get('/create-code', [CodeController::class, 'createCode'])->name('admin_create_code');
         Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
         Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');

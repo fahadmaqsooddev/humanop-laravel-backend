@@ -5,6 +5,7 @@ namespace App\Models\Admin\Code;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class CodeDetail extends Model
 {
     use HasFactory;
@@ -35,6 +36,18 @@ class CodeDetail extends Model
     public static function allCodes()
     {
         return self::all();
+    }
+
+    public static function createCode($data=null){
+    
+        self::create([
+            'name' => $data['name'],
+            'public_name' => $data['public_name'],
+            'code' => $data['code'],
+            'number' => $data['number'],
+            'type' => $data['type'],
+            'text' => $data['text'],
+        ]);
     }
 
     public static function getSingleCode($id = null)
