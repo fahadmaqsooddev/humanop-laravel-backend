@@ -139,6 +139,14 @@ class AuthController extends Controller
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
             if (!empty($authorizedUser)) {
+
+                $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+
+                if (!empty($checkDeleteAccount)) {
+
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+                }
+
                 $checkUser = User::checkEmail($dataArray['email']);
 
                 if (empty($checkUser)) {
