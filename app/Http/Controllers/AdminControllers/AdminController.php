@@ -426,7 +426,7 @@ class AdminController extends Controller
             $intro_boundaries = CodeDetail::introBoundaries();
             $intro_communication = CodeDetail::introCommunication();
             $intro_energypool = CodeDetail::introEnergypool();
-            $intro_perceptionlife = CodeDetail::perceptionLife();
+           
           
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
             {
@@ -434,7 +434,7 @@ class AdminController extends Controller
             }
             else
             {
-                return view('admin-dashboards.user.client_profile_overview', compact('summary_static','main_result','cycle_life','trait_intro','motivation_intro','intro_boundaries','intro_communication','intro_energypool','intro_perceptionlife','allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
+                return view('admin-dashboards.user.client_profile_overview', compact('summary_static','main_result','cycle_life','trait_intro','motivation_intro','intro_boundaries','intro_communication','intro_energypool','allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
             }
 
         }catch (\Exception $exception){
