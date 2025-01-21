@@ -1382,7 +1382,7 @@ class Assessment extends Model
                 'code_number' => $gold . $silver . $copper,
                 'description' => $publicName['text'],
                 'video_url' => $publicName['video_url'],
-                'img_url' => $alchemyCodeDetail['image'],
+                'img_url' => $alchemyCodeDetail['image_url'],
             ];
 
         } else {
