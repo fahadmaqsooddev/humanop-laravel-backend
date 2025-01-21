@@ -9,6 +9,7 @@ use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\DailyTip\UserDailyTip;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\GenerateFile\PdfGenerate;
 use Carbon\Carbon;
 use Faker\Extension\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -606,8 +607,6 @@ class Assessment extends Model
         // Sort $third_row_style in descending order based on values
         arsort($third_row_style);
 
-        dd($third_row_style);
-
         // Get the first two elements from the sorted array
         $top_two = array_slice($third_row_style, 0, 2, true);
 
@@ -634,20 +633,22 @@ class Assessment extends Model
         arsort($getStyle);
 
         // return CodeDetail::getPublicNames($getStyle);
-        $data= CodeDetail::getPublicNames($getStyle);
-        $transformedData = array_map(function($item) {
-            return [
-                'code_number' => $item[0],
-                'public_name' => $item[1],
-                'description' => $item[2],
-                'video_url' => $item[3]
+        $stylelCodes = CodeDetail::getStylePublicNames($getStyle);
+
+        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $stylelCodes, $getStyle);
+
+        $data = [];
+        foreach ($allStyles as $style)
+        {
+            $data[] =  [
+                'code_number' => $style['code_number'],
+                'public_name' => $style['codeDetails'][0]['public_name'],
+                'description' => $style['codeDetails'][0]['text'],
+                'video_url' => $style['codeDetails'][0]['video_url']
             ];
-        }, $data);
+        }
 
-        return $transformedData;
-
-        // Dumping or using the transformed data
-        // dd($transformedData);
+        return $data;
 
     }
 
