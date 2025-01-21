@@ -346,11 +346,15 @@
 
        
         .text-tiny{
-    font-size: 0.6rem !important;
+    font-size: 0.5rem !important;
          }
-        .text-small{
+         .text-small{
+    font-size: 0.75rem !important;
+          }
+         .text-default{
     font-size: 1rem !important;
-         }
+          }
+         
         .text-big{
     font-size: 1.5rem !important;
         }
