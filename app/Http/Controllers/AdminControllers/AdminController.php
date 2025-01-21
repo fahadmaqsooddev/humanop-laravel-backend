@@ -390,7 +390,6 @@ class AdminController extends Controller
     public function profileOverview($id = null)
     {
         try {
-
             if (empty($id))
             {
                 $userId = Helpers::getWebUser()['id'];
@@ -405,7 +404,6 @@ class AdminController extends Controller
 
             $user_age = Helpers::getWebUser()->date_of_birth;
             $age = Carbon::parse($user_age)->age;
-//            $assessment = Assessment::singleAssessmentFromId($id);
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
@@ -417,7 +415,7 @@ class AdminController extends Controller
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
-           
+
             $summary_static = CodeDetail::summaryIntro();
             $main_result = CodeDetail::mainResult();
             $cycle_life = CodeDetail::cycleLife();
@@ -447,7 +445,7 @@ class AdminController extends Controller
     {
         $assessment = Assessment::singleAssessmentFromId($id);
         $user_name = $assessment['users'] ? $assessment['users']['first_name'] . ' ' . $assessment['users']['last_name'] : '';
-        $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+        $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
         $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
         $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
@@ -463,7 +461,6 @@ class AdminController extends Controller
 
         $ep = $positive + $negative;
         $pv = $positive - $negative;
-        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $Styles);
 
         $contxt = stream_context_create([
             'ssl' => [

@@ -372,7 +372,7 @@ return [
         ],
         'PdfGenerate' => [
             'table' => 'pdf_generates',
-            'fillable' => ['user_id', 'assessment_id','public_name','text'],
+            'fillable' => ['user_id', 'assessment_id','code_detail_id','code_number'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ModelHasRole' => [

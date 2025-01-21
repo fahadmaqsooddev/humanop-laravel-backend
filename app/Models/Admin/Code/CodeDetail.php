@@ -39,7 +39,7 @@ class CodeDetail extends Model
     }
 
     public static function createCode($data=null){
-    
+
         self::create([
             'name' => $data['name'],
             'public_name' => $data['public_name'],
@@ -162,6 +162,22 @@ class CodeDetail extends Model
         return $codeDetail;
     }
 
+    public static function getStylePublicNames($codekeys = null)
+    {
+
+        $codeDetail = [];
+
+        foreach ($codekeys as $index => $codeKey) {
+
+            $key = strtoupper($index);
+
+            $codeDetail[] = self::where('code', $key)->inRandomOrder()->first();
+
+        }
+
+        return $codeDetail;
+    }
+
     public static function getOptionalTraitDetail($trait = null)
     {
 
@@ -271,7 +287,6 @@ class CodeDetail extends Model
     public static function getPerceptionStaticText()
     {
 
-        // return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
         $result= self::where('id', 64)->first(['id', 'text', 'public_name', 'video', 'p_name']);
         return [
             'code_number'=>$result['id'],
@@ -288,7 +303,7 @@ class CodeDetail extends Model
 
     public static function summaryIntro(){
         $data= self::where('code','SI')->first();
-      
+
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -297,7 +312,7 @@ class CodeDetail extends Model
     }
     public static function mainResult(){
         $data=self::where('code','MRI')->first();
-        
+
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -307,7 +322,7 @@ class CodeDetail extends Model
     }
     public static function cycleLife(){
         $data=self::where('code','CLI')->first();
-        
+
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -325,7 +340,7 @@ class CodeDetail extends Model
     }
     public static function motivationIntroduction(){
         $data=self::where('code','MI')->first();
-        
+
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
