@@ -1329,7 +1329,7 @@
                                                         experiencing the moment. The following video
                                                         describes your Perception of Life.
                                                     </p> --}}
-                                                    {!!$intro_perceptionlife['description']!!}
+                                                    {!!$perception_life['description']!!}
                                                 </div>
                                             </div>
                                         </div>
