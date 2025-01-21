@@ -1132,7 +1132,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span
-                                                            style="color: #f2661c;">{{$boundary['public_name'] . ' Alchemy' }}  : </span>{!!$boundary['description']!!}
+                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$boundary['public_name'] . ' Alchemy' }}  : </span>{!!$boundary['description']!!}
                                                     </p>
                                                 </div>
                                             </div>
