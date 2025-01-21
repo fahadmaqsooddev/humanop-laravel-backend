@@ -95,7 +95,7 @@ class Conversation extends Component
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
 
-                    HaiChatConversation::deleteOldChat();
+//                    HaiChatConversation::deleteOldChat();
 
                     HaiChatConversation::createConversation($this->chatBot->id, $this->message,($reply->toArray()['choices'][0]['message']['content'] ?? null), $this->user_id);
 

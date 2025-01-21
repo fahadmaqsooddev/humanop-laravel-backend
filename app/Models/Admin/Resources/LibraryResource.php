@@ -98,6 +98,7 @@ class LibraryResource extends Model
 
     public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
     {
+      
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),

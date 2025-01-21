@@ -198,8 +198,8 @@ class CreateResource extends Component
     {
 
         DB::beginTransaction();
-
         $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        
 
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4'])) {
 
@@ -208,8 +208,10 @@ class CreateResource extends Component
             $this->deleteFileToGumlet($getResource['source_id']);
 
             $upload_id = $this->uploadFile($this->resource);
+           
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
             tap($updateResource);
 
@@ -219,7 +221,8 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource);
 
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
 
         }
 

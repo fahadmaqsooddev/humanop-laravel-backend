@@ -272,7 +272,7 @@ class CodeDetail extends Model
     {
 
         // return self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
-        $result= self::where('id', 38)->first(['id', 'text', 'public_name', 'video', 'p_name']);
+        $result= self::where('id', 64)->first(['id', 'text', 'public_name', 'video', 'p_name']);
         return [
             'code_number'=>$result['id'],
             'public_name'=>$result['public_name'],
@@ -287,7 +287,7 @@ class CodeDetail extends Model
     }
 
     public static function summaryIntro(){
-        $data= self::where('code','s_intro')->first();
+        $data= self::where('code','SI')->first();
       
         return [
             'public_name'=>$data->name ??  '',
@@ -296,7 +296,7 @@ class CodeDetail extends Model
            ];
     }
     public static function mainResult(){
-        $data=self::where('code','main_result')->first();
+        $data=self::where('code','MRI')->first();
         
         return [
             'public_name'=>$data->name ??  '',
@@ -306,7 +306,7 @@ class CodeDetail extends Model
 
     }
     public static function cycleLife(){
-        $data=self::where('code','cycle_life')->first();
+        $data=self::where('code','CLI')->first();
         
         return [
             'public_name'=>$data->name ??  '',
@@ -315,7 +315,7 @@ class CodeDetail extends Model
            ];
     }
     public static function traitIntro(){
-        $data=self::where('code','trait_intro')->first();
+        $data=self::where('code','TI')->first();
 
         return [
             'public_name'=>$data->name ??  '',
@@ -324,7 +324,7 @@ class CodeDetail extends Model
            ];
     }
     public static function motivationIntroduction(){
-        $data=self::where('code','motivation_introduction')->first();
+        $data=self::where('code','MI')->first();
         
         return [
             'public_name'=>$data->name ??  '',
@@ -333,7 +333,7 @@ class CodeDetail extends Model
            ];
     }
     public static function introBoundaries(){
-        $data= self::where('code','intro_boundaries')->first();
+        $data= self::where('code','BI')->first();
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -341,7 +341,7 @@ class CodeDetail extends Model
            ];
     }
     public static function introCommunication(){
-        $data= self::where('code','intro_communication')->first();
+        $data= self::where('code','CI')->first();
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -349,7 +349,7 @@ class CodeDetail extends Model
            ];
     }
     public static function introEnergypool(){
-        $data=self::where('code','intro_energypool')->first();
+        $data=self::where('code','EI')->first();
         return [
             'public_name'=>$data->name ?? '',
             'description'=>$data->text ?? '',
@@ -357,7 +357,7 @@ class CodeDetail extends Model
            ];
     }
     public static function perceptionLife(){
-        $data= self::where('code','intro_perceptionlife')->first();
+        $data= self::where('code','PLI')->first();
         return [
             'public_name'=>$data->name ?? '',
             'description'=>$data->text ?? '',
