@@ -81,12 +81,12 @@
                                 <p style="text-align: justify">Your physical "TRAITS" determine how nature shows up in
                                     you. These traits assist in providing unique insight into your capabilities and
                                     natural talents.</p>
-                                 
+
 
                                 @foreach($allStyles as $style)
                                     <h2 class="mt-4"
                                         style="color: #f2661c; text-align: justify">{{ $style['public_name'] }}</h2>
-                                    <p class="text-white" style="text-align: justify">{{ $style['text'] }}</p>
+                                    <p class="text-white" style="text-align: justify !important;">{!! $style['description'] !!}</p>
                                 @endforeach
 
                                 <h2 class="mt-4" style="color: #f2661c; text-align: justify">YOUR MOTIVATION</h2>
