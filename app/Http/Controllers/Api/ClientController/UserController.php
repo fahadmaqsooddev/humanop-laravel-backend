@@ -501,19 +501,19 @@ class UserController extends Controller
     {
 
         try {
-            
+
 
             $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
-            
+
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
-            
+
             if(empty($assessment)){
                 return Helpers::validationResponse('Assessment Not Found');
             }
-            
+
             $user_name =Helpers::getUser()->first_name.' ' .Helpers::getUser()->last_name;
             $gender =Helpers::getUser()->gender == 0 ?'(M)':'(F)';
-            
+
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
@@ -540,7 +540,7 @@ class UserController extends Controller
             $intro_boundaries = CodeDetail::introBoundaries();
             $intro_communication = CodeDetail::introCommunication();
             $intro_energypool = CodeDetail::introEnergypool();
-            $intro_perceptionlife = CodeDetail::perceptionLife();          
+            $intro_perceptionlife = CodeDetail::perceptionLife();
 
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
         $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
@@ -563,7 +563,7 @@ class UserController extends Controller
                 'top_features' => $topTwoFeatures,
                 'intro_boundaries'=>$intro_boundaries,
                 'boundary' => $boundary,
-                'your_perception' => $perception_life,
+                'intro_perception' => $perception_life,
                 'perception' => $perception,
                 'intro_communication'=>$intro_communication,
                 'top_communication' => $topCommunication,
@@ -582,7 +582,7 @@ class UserController extends Controller
             return Helpers::successResponse('Profile overview data', $data);
 
         } catch (\Exception $exception) {
-         
+
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
