@@ -374,7 +374,7 @@
                         <div class="col-12">
                             <div class="card px-0 left-nav-blue-light-color orange-border" style="text-align: center">
                                 {{-- hello --}}
-                                <div class="card-body p-3 ">
+                                <div class="card-body p-3 " style="background-color: #F4ECE0;">
                                     <p id="main_result_intro"></p>
                                     <h1 class="" style="color: #f2661c" >Your HumanOp Profile Overview</h1>
                                     <p class="custom-color">Date of Results: {{$created_at ?? ''}}</p>
@@ -424,53 +424,25 @@
                                         </div>
                                         <video id="myVideo100" class="w-100 h-100 " style="max-height: 500px;"></video>
                                     </div>
-
+                                    
                                     <div class="row d-flex">
                                         <div id="intro_to_cycle_to_life" class="col-12 mt-3"
-                                             style="display: none;">
+                                             style="display: none;background-color:#F4E3C7 !important;">
                                             <div id="intro_to_cycle_to_life_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life Introduction: </span><br><br>
-                                                    This video is an introduction to the Cycle of Life. The
-                                                    Cycle of Life simply explains our relationship with time
-                                                    as it's consistently unfolding for us. Now even though
-                                                    each one of us is as unique as our thumb print, and we
-                                                    each operate differently on the road of life, the
-                                                    element of time remains the same for all of us. The fact
-                                                    is time came before us, and it will continue after we
-                                                    leave. It's not dependent on us, but our self mastery as
-                                                    it relates to understanding the nature of time, will
-                                                    help us to make conscious choices that maximize our
-                                                    potential as we travel through the different intervals
-                                                    of life. So let's take a look at this image of the Cycle
-                                                    of life. It somewhat resembles a clock and just like a
-                                                    clock, the hands of time are continuously ticking away.
-                                                    The clock in this case is a mirror example, essentially,
-                                                    representing our shelf life here in this physical world,
-                                                    and the 12 unique phases that require special attention.
-                                                    Now each number that you see here represents an age, and
-                                                    between each age is an interval…and each age interval
-                                                    has a certain nature to it. The following video will
-                                                    describe the nature of your current interval of life and
-                                                    it will also provide you with some strategies that you
-                                                    can apply to support yourself as you travel through this
-                                                    current interval you're experiencing and help prepare
-                                                    you for the next interval of life that you'll eventually
-                                                    be entering into.
-                                                </p> --}}
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7 !important;">
+                                                 <h4 class="" style="color: #f2661c">{{$cycle_life['public_name']}}</h4>
+                                             
                                                 {!!$cycle_life['description']!!}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row d-flex">
+                                    <div class="row d-flex" style="">
                                         <div id="roadworthy_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="roadworthy_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;color:#1C365E !important;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="text-align: justify; font-size:1rem;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Roadworthy (21-29): </span><br><br>
                                                     Your current interval of life between 21 and 29
                                                     is what we call “The Road Worthy Interval”. Now,
@@ -490,7 +462,7 @@
                                                     later in life.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem">
                                                     So if you're not officially an adult, what do
                                                     you rely upon to help you navigate this current
                                                     interval in the years moving forward? Well, the
@@ -538,7 +510,7 @@
                                                 </p>
 
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem">
                                                     The overall nature of this current age interval
                                                     you're experiencing is that it's a time for
                                                     experimentation with life. So give yourself
@@ -572,7 +544,7 @@
                                             <div id="power_life_cycle_text" class="card p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;text-align:justify;">Cycle of Life - The Power Interval (30-33):</span><br><br>
                                                     Your current interval of life between 30 and 33
                                                     is “The Power Interval”. This is a time of life
@@ -614,9 +586,9 @@
                                         <div id="mid_life_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="mid_life_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Mid-Life Transformation (34-42):</span><br><br>
                                                     Your current interval of life starts at 34 and
                                                     ends at 43, and it is the most transformational
@@ -635,7 +607,7 @@
                                                     it all away.
                                                 </p>
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem">
                                                     So many transformative life events occur during
                                                     the interval, and it's not about categorizing
                                                     them as bad or good. They are simply
@@ -701,9 +673,9 @@
                                         <div id="awareness_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="awareness_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Awareness (43-51):</span><br><br>
                                                     Your current interval begins at age 43 and it
                                                     ends at 52. This interval is called “The
@@ -760,9 +732,9 @@
                                         <div id="forward_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="forward_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Pay It Forward (52-65):</span><br><br>
                                                     Your current interval begins at age 52 and it
                                                     ends at 66. This interval is called “The Pay It
@@ -797,9 +769,9 @@
                                         <div id="liberated_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="liberated_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Liberated (66-69): </span><br><br>
                                                     Your current interval begins at age 66 and ends
                                                     at 70, and even for some, it can go on up to 75.
@@ -829,9 +801,9 @@
                                         <div id="being_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="being_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Being (70-74):</span><br><br>
                                                     Your current interval begins at age 70 and ends
                                                     at 75. And we call this interval “The Interval
@@ -868,9 +840,9 @@
                                         <div id="review_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="review_life_cycle_text" class="card p-2"
-                                                 style="height: auto;">
+                                                 style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
+                                                   style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">Cycle of Life - Life Review (75-83):</span><br><br>
                                                     Your current interval begins at age 75 and ends
                                                     at 84. It is in this interval where a “Natural
@@ -892,23 +864,8 @@
                                     <div class="row d-flex">
                                         <div id="intro_to_trait" class="col-12 mt-3" style="display: none;">
                                             <div id="intro_to_trait_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Traits Introduction:</span><br><br>
-                                                    This video is an introduction to traits. Traits are the
-                                                    natural physical traits that make you unique. The color
-                                                    of your hair and eyes, the shape of your face and other
-                                                    physical traits all provide objective insight into your
-                                                    natural talents, capabilities and potential. Now there
-                                                    are seven key traits and each trait possesses unique
-                                                    physical attributes, and also displays certain obvious
-                                                    natural characteristics. Each trait has a particular
-                                                    function…It's either a thinking trait, a seeing trait or
-                                                    a doing trait. Most people are a combination of at least
-                                                    three prominent traits (sometimes more). The following
-                                                    videos will explore your most prominent traits.
-                                                </p> --}}
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7 !important">
+                                                 <h4 class="" style="color: #f2661c">{{$trait_intro['public_name']}}</h4>
                                                 {!!$trait_intro['description']!!}
                                             </div>
                                         </div>
@@ -918,9 +875,10 @@
                                             <div id="style_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="style_{{$index}}_text" class="card p-2"
-                                                     style="height: auto; text-align:justify;">
+                                                     style="height: auto; text-align:justify; background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                       style="color: white; text-align: justify; font-size:1rem">
+                                                       <span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$style['public_name'] }} : </span>
                                                             {{-- {{$style['description']}} --}}
                                                             {!!$style['description']!!}
@@ -933,21 +891,9 @@
                                         <div id="your_motivation" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="your_motivation_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Motivation Introduction:</span><br><br>
-                                                    This video is an
-                                                    introduction to Motivation (or what's driving you to do
-                                                    what you do). There are 12 motivators or drivers in
-                                                    everyone's “vehicle of self”, but only two are
-                                                    authentically in the “front seat” navigating us through
-                                                    life. Each one of us has a pilot and a co-pilot, and
-                                                    identifying what your two drivers are will help you to
-                                                    understand why you do things a certain way and what fuel
-                                                    you specifically need every day in order to thrive. The
-                                                    following videos will explore your two drivers.
-                                                </p> --}}
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7;">
+                                                 <h4 class="" style="color: #f2661c">{{$motivation_intro['public_name']}}</h4>
+                                             
                                                 {!!$motivation_intro['description']!!}
                                             </div>
                                         </div>
@@ -957,9 +903,9 @@
                                             <div id="feature_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="feature_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;text-align:justify;">
+                                                     style="height: auto;text-align:justify;background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem">
+                                                       style=" text-align: justify; font-size:1rem;">
                                                                     <span
                                                                         style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$feature['public_name'] }} : </span>
                                                                         {{-- {{$feature['description']}} --}}
@@ -972,153 +918,9 @@
                                     <div class="row d-flex">
                                         <div id="your_boundary" class="col-12 mt-3" style="display: none;">
                                             <div id="your_boundary_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Boundaries:</span> <br><br>
-                                                    This video is an introduction to boundaries. Boundaries
-                                                    refer to what your personal preferences reveal about
-                                                    your boundaries of tolerance for people, places and
-                                                    things. Now to begin, we invite you to answer some
-                                                    questions for yourself to start to become more aware of
-                                                    your own boundaries of tolerance as it relates to the
-                                                    people, places and things in your life. So here's some
-                                                    questions to ask yourself: Are you someone who can leave
-                                                    dirty dishes in the sink overnight…or perhaps over
-                                                    several nights? If you leave your bed on made in the
-                                                    morning, will you think about the unmade bed throughout
-                                                    the day? What about camping? Can you do it? And if so,
-                                                    how do you camp? Do you require a motorhome? Are you
-                                                    more comfortable with just a tent and a book of matches?
-                                                    How about the people in your life? Do you have less
-                                                    tolerance for those who are less tidy? Or perhaps you
-                                                    have less tolerance around those in your life who happen
-                                                    to be extremely particular about their space and all
-                                                    that they do. The answers to these types of questions
-                                                    (and more), reveal your boundaries of tolerance. In
-                                                    other words, why you either gain energy or lose energy
-                                                    around specific dynamics related to the people, places
-                                                    and things in your life.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    Now our personal preferences that determine our
-                                                    boundaries of tolerance are not learned. They are an
-                                                    innate part of our molecular makeup. It's one of the
-                                                    elements that makes each one of us so unique. Some
-                                                    people, by nature, prefer a more disheveled and organic
-                                                    manner of living. Some people prefer to live from a
-                                                    practical and flexible perspective. Some people
-                                                    naturally prefer a meticulous and particular existence.
-                                                    Every human being falls somewhere on a continuum from
-                                                    extremely tolerant of disarray and en messes, to very
-                                                    tolerant, to somewhat tolerant, to having little to no
-                                                    tolerance at all around anything less than a pristine
-                                                    environment. Now we use the term Alchemy to describe the
-                                                    various levels of refinement, and we use the analogy of
-                                                    ore. Gold, Silver and Copper. And one's not better than
-                                                    the other, it's not the Olympics…we’re not all trying to
-                                                    attain a Gold Alchemy. Everyone's Alchemy is perfect for
-                                                    them.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    The people, places and things in our life range from a
-                                                    Gold to a Copper Alchemy, and your unique Alchemy is
-                                                    determined by the combined quantity of each ore that you
-                                                    possess. The more Gold in you, the more meticulous you
-                                                    are. The more Silver in you, the more flexible and
-                                                    adaptable you are. The more Copper in you, the more low
-                                                    maintenance and organic you are.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    So let's take a look at how the Gold Alchemy represents
-                                                    itself through some images. Gold aligns with quality.
-                                                    Where they live, where and how they travel, and the
-                                                    kinds of creature comforts that they select are usually
-                                                    of quality or mimic something of high quality quite
-                                                    well. Their living and workspaces are more minimalistic.
-                                                    So in other words, no extra things laying about.
-                                                    Everything has its place. And as it relates to travel,
-                                                    individuals with a Gold Alchemy seek quality
-                                                    destinations and quality accommodations. Now an
-                                                    important thing to remember is Gold can sometimes be
-                                                    perceived by others as having obsessive tendencies. But
-                                                    the reality is they simply put great attention on those
-                                                    details that keep the standards high for themselves and
-                                                    in their environment. Overall, the Gold Alchemy is
-                                                    highly refined. Gold’s seek the best of the best and
-                                                    desire to align with the best of the best. It really is
-                                                    the gold standard that sets things apart for them.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    The Silver a represents itself as practical. So in
-                                                    taking a look at the living and workspaces you see here,
-                                                    everything is neat and practical, there's a functional
-                                                    feel to the living room, animals can be on the couches;
-                                                    organized piles on the desk; the hammock image reflects
-                                                    versatility and experiencing nature. Overall, the Silver
-                                                    Alchemy is very accepting and tolerant of a wide range
-                                                    of people,places and things. The world is essentially at
-                                                    their disposal. They can flex whenever they need to.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    Now the Copper Alchemy aligns with utility. In other
-                                                    words, getting the most use out of everything. Copper’s
-                                                    simply have a more relaxed way of living and being. When
-                                                    we look at these images of examples of Copper work and
-                                                    living spaces, we can see there's a great tolerance for
-                                                    messes. Copper’s tend to thrive in more disheveled, very
-                                                    lived in, environments. Even when they travel, Copper's
-                                                    don't necessarily need a fancy Rv. There's an organic
-                                                    quality to all that they do and how they do it. Now,
-                                                    Copper’s can get a bad rap at times from others for
-                                                    being slobs and careless… when in fact, the intention
-                                                    that lies behind their performance is never directed at
-                                                    trying to achieve mediocrity or destruction. It's just
-                                                    an intentional creation for reasons of personal comfort…
-                                                    again, they thrive in a more dish environment. Overall,
-                                                    the Copper Alchemy possesses an easy going approach to
-                                                    life. They tend not to judge others and they encourage
-                                                    others to just relax.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    It's really important to recognize that as humans we
-                                                    have different boundaries of tolerance. And, the number
-                                                    one reason why relationships are challenged is when
-                                                    those boundaries are stretched too far between you and
-                                                    certain people, places and things in your life. What
-                                                    happens is this causes incompatibility in the moment as
-                                                    it relates to your relationship with those certain
-                                                    people, places and things and the inca generates energy
-                                                    drain. The longer you stay in the state of energy drain,
-                                                    the greater the potential for challenges to ignite, and
-                                                    even escalate… within yourself and in relating to
-                                                    others. So understanding the nature of your Alchemy will
-                                                    help you to gain clarity around your boundaries of
-                                                    tolerance, and help you to make conscious choices every
-                                                    day to ensure that you're maintaining alignment with
-                                                    your Alchemy.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    Now your next step is to watch the following video that
-                                                    describes the nature of your unique Alchemy. And as you
-                                                    begin to understand your Alchemy, we invite you to
-                                                    practice becoming aware when you feel your boundaries of
-                                                    tolerance for people, places and things are being
-                                                    stretched too far. And you can recognize this when you
-                                                    notice your energy beginning to wane or drain. We
-                                                    recommend when this happens that you make the choice to
-                                                    step away in order to avoid excessive energy drain or
-                                                    ignite unnecessary challenges for yourself or with
-                                                    others.
-                                                </p> --}}
-
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7;">
+                                              
+                                                 <h4 class="" style="color: #f2661c">{{$intro_boundaries['public_name']}}</h4>
                                                 {!! $intro_boundaries['description']!!}
                                             </div>
                                         </div>
@@ -1128,7 +930,7 @@
                                             <div id="boundary_dynamic_div" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="boundary_dynamic_div_text" class="card p-2"
-                                                     style="height: auto;text-align:justify;">
+                                                     style="height: auto;text-align:justify;background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="color: rgb(160, 174, 192);text-align: justify">
                                                         <span
@@ -1142,63 +944,8 @@
                                         <div id="your_communication" class="col-12 mt-3"
                                              style="display: none;">
                                             <div id="your_communication_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Communication Style:</span> <br><br>
-                                                    This video is an introduction to Communication Style.
-                                                    Energy Centers define your Communication Style. In other
-                                                    words, how you are presently wired to engage in life.
-                                                    There are four Energy Centers: Emotional, Instinctual,
-                                                    Intellectual and Moving. Every person has all four and
-                                                    each Center has a volume that is unique to you. Your
-                                                    most pronounced Energy Center determines how you connect
-                                                    with yourself first, and how you express and respond
-                                                    first in processing contact with people, places and
-                                                    things. The four energy centers are like the doors to
-                                                    your “house of self”. Your most pronounced or what we
-                                                    call primary Energy Center, is essentially your “front
-                                                    door”. It determines the primary way you connect with
-                                                    yourself and your environment, and it determines how you
-                                                    relate to others - first. And when you know how to
-                                                    unlock or open that front door, you can make a
-                                                    successful first connection. But we cannot ignore the
-                                                    other three “doors”. Many people don't retain
-                                                    information because they're not fully integrating the
-                                                    information. When you open your “doors” in the unique
-                                                    order in which you are configured, two things happen.
-                                                    First, you fully integrate the experience of the moment.
-                                                    And second, you ensure that the information from that
-                                                    moment is retained and available for future use. So
-                                                    essentially you fully downloaded that experience. Now,
-                                                    the Energy Center configuration that you see here is an
-                                                    example. This person's “front door” is their Emotional
-                                                    center. And when they open the door to their Emotional
-                                                    Center by being in the company of living things,
-                                                    physical touch, expressing what they're feeling, that
-                                                    “front door” opens, and an initial connection is made.
-                                                    When this person in turn opens up their other three
-                                                    doors, in this ordered sequence, a full download will
-                                                    result, and optimal communication can occur for them.
-                                                </p>
-                                                <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem">
-                                                    Now the four following videos describe the nature of
-                                                    each of the four Energy Center. They are presented to
-                                                    you in your uniquely ordered sequence (or
-                                                    configuration), and we encourage you to pay special
-                                                    attention to your first or primary Energy Center, as
-                                                    this is how you make your initial connection. Now,
-                                                    because Energy Centers play such an important role in
-                                                    how we connect, communicate and commit experiences to
-                                                    memory, one of the best practices you can do first thing
-                                                    every morning, and then throughout your day, whenever
-                                                    fatigue of any kind creeps in, is to open up all four
-                                                    doors in your uniquely ordered sequence. So when you
-                                                    watch each Energy Center video, consider for yourself
-                                                    quick strategies you can activate on the fly in the
-                                                    moment to “open each door”.
-                                                </p> --}}
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7;">
+                                                 <h4 class="" style="color: #f2661c">{{$intro_communication['public_name']}}</h4>
                                                 {!!$intro_communication['description']!!}
                                             </div>
                                         </div>
@@ -1208,11 +955,11 @@
                                             <div id="communication_{{$index}}" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="communication_{{$index}}_text" class="card p-2"
-                                                     style="height: auto;text-align:justify;">
+                                                     style="height: auto;text-align:justify;background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem">
+                                                       style=" text-align: justify; font-size:1rem">
                                                         <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$communication['public_name'] }} : </span>
-                                                        {{-- {{$communication['description']}} --}}
+                                                        
                                                         {!!$communication['description']!!}
                                                     </p>
                                                 </div>
@@ -1222,35 +969,8 @@
                                     <div class="row d-flex">
                                         <div id="energy_pool" class="col-12 mt-3" style="display: none;">
                                             <div id="energy_pool_text" class="card p-2"
-                                                 style="height: auto;text-align: justify;">
-                                                {{-- <p class="text-sm mt-3 fs-12px"
-                                                   style="color: white; text-align: justify; font-size:1rem"><span
-                                                        style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Energy Pool:</span> <br> <br>
-                                                    This video is an introduction to Energy Pool. Your
-                                                    Energy Pool represents how much physical energy you have
-                                                    to expend on a daily basis. And here are some important
-                                                    points to know about your Energy Pool …first, knowing
-                                                    that not everyone is working with the same amount of
-                                                    energy. Think about it for a minute. Just like the many
-                                                    different cars on the road are various sizes and have
-                                                    various size fuel tanks, your body is the vehicle
-                                                    transporting your thoughts around in this life, and some
-                                                    of you have bigger “fuel tanks” or larger “pools of
-                                                    energy” than others… just by the nature of your
-                                                    physicality. Another point is your Energy Pool can
-                                                    fluctuate. When you're extremely fatigued your Energy
-                                                    Pool can lower and when you're fully optimized it can
-                                                    rise a bit… or even for some of you - a lot. Some
-                                                    activities, choices, people, places and things can rob
-                                                    you of vital energy. And depending upon the nature of
-                                                    those dynamics, you may or may not be able to recoup the
-                                                    energy. The most important point is to recognize when
-                                                    you focus on making intelligent choices about what you
-                                                    uniquely need in order to optimize your current state,
-                                                    you become energy efficient…no matter what the size of
-                                                    your Energy Pool. The following video describes the
-                                                    nature of your Energy Pool.
-                                                </p> --}}
+                                                 style="height: auto;text-align: justify;background-color:#F4E3C7;">
+                                                 <h4 class="" style="color: #f2661c">{{$intro_energypool['public_name']}}</h4>
                                                 {!!$intro_energypool['description']!!}
                                             </div>
                                         </div>
@@ -1260,11 +980,11 @@
                                             <div id="energy_pool_dynamic_dev" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="energy_pool_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;text-align:justify;">
+                                                     style="height: auto;text-align:justify;background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                       style="text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$energyPool['public_name']}}:</span>
-                                                        {{-- {{$energyPool['description']}} --}}
+                                                        
                                                         {!!$energyPool['description']!!}
                                                     </p>
                                                 </div>
@@ -1276,59 +996,8 @@
                                             <div id="your_perception" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="your_perception_text" class="card p-2"
-                                                     style="height: auto;text-align: justify;">
-                                                    {{-- <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem"><span
-                                                            style="color: #f2661c;font-size:1rem;font-weight:bold;">Intro To Perception of Life:</span> <br><br>
-                                                        This video is an introduction to Perception. Your
-                                                        Perception of Life defines your electromagnetic
-                                                        potential. It reveals whether you perceive what is
-                                                        working first, what's not, or whether you have the
-                                                        ability to perceive both perspectives at the same
-                                                        time. It's really the glass half full, half empty
-                                                        dynamic. Some people, by nature, are glass half full
-                                                        people. Some people, by nature, are glass not full
-                                                        enough people, and some people land right in the
-                                                        middle, on the surface of that water, perceiving the
-                                                        space above and the fullness below simultaneously.
-                                                        So let's break it down a little more…just like
-                                                        magnets, possess poles allowing for attraction and
-                                                        repulsion, people do as well. Some perceive and
-                                                        express what's working first, and they are what we
-                                                        call positively charged. Some people perceive and
-                                                        express what's not working first, and they are what
-                                                        we call negatively charged. And some people perceive
-                                                        both perspectives simultaneously, and they are
-                                                        neutrally charged. All perceptions are good, valued
-                                                        and needed. Positively charged people are more
-                                                        solution-oriented. Negatively charged people are
-                                                        more problem-oriented. And neutrally charged people
-                                                        can perceive the whole picture. And because of this,
-                                                        there will be a slight delay in expressing their
-                                                        perception while they weigh both sides. Positively
-                                                        charged people will naturally attract individuals
-                                                        who are somewhat more negatively charged…there's an
-                                                        actual bonding attraction that occurs - just like
-                                                        those magnets. And vice versa, the negatively
-                                                        charged people will naturally attract individuals
-                                                        who are more (or somewhat more) positively charged.
-                                                        Now, when two negatively charged people interact,
-                                                        they will actually experience an electromagnetic
-                                                        repulsion. And when both are not operating at their
-                                                        optimum, two negatively charged people can easily
-                                                        make meaning out of what simply began as a natural
-                                                        energetic repulsion. And unfortunately, sparks can
-                                                        potentially fly. So understanding your Perception of
-                                                        Life is an essential ingredient in cultivating
-                                                        tolerance and harmony. First and foremost, with
-                                                        yourself, and of course, in relating to others. When
-                                                        we understand these differences in Perceptions of
-                                                        Life, we can begin to honor and see the value that
-                                                        exists in the differences between each one of us and
-                                                        avoid attempting to change another's way of
-                                                        experiencing the moment. The following video
-                                                        describes your Perception of Life.
-                                                    </p> --}}
+                                                     style="height: auto;text-align: justify;background-color:#F4E3C7;">
+                                                     <h4 class="" style="color: #f2661c">{{$perception_life['public_name']}}</h4>
                                                     {!!$perception_life['description']!!}
                                                 </div>
                                             </div>
@@ -1339,9 +1008,9 @@
                                             <div id="perception_dynamic_dev" class="col-12 mt-3"
                                                  style="display: none;">
                                                 <div id="perception_dynamic_dev_text" class="card p-2"
-                                                     style="height: auto;text-align:justify;">
+                                                     style="height: auto;text-align:justify;background-color:#F4E3C7;">
                                                     <p class="text-sm mt-3 fs-12px"
-                                                       style="color: white; text-align: justify; font-size:1rem"><span
+                                                       style=" text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">
                                                             {{($perception['code_number'] == 40 ? "Negatively Charged" :
                                                                           ($perception['code_number'] == 41 ? "Neutrally Charged" :
@@ -1614,9 +1283,9 @@
                                                             <div id="motivation_life_cycle" class="col-12 mt-3"
                                                                  style="display: none;">
                                                                 <div id="motivation_life_cycle_text" class="card p-2"
-                                                                     style="height: auto;">
+                                                                     style="height: auto;background-color:#F4E3C7 !important;">
                                                                     <p class="text-sm mt-3 fs-12px"
-                                                                       style="color: rgb(160, 174, 192);">
+                                                                       style="color:#1C365E !important;">
                                                                         Your current interval of life between 16 and 20
                                                                         is the time of life when you're essentially test
                                                                         driving the many different motivating forces
@@ -1669,9 +1338,9 @@
                                                             <div id="motivation_life_cycle" class="col-12 mt-3"
                                                                  style="display: none;">
                                                                 <div id="motivation_life_cycle_text" class="card p-2"
-                                                                     style="height: auto;">
+                                                                     style="height: auto;background-color:#F4E3C7 !important;">
                                                                     <p class="text-sm mt-3 fs-12px"
-                                                                       style="color: rgb(160, 174, 192);">
+                                                                       style="color:#1C365E !important;">
                                                                         Your current interval of life between 16 and 20
                                                                         is the time of life when you're essentially test
                                                                         driving the many different motivating forces
@@ -1724,9 +1393,9 @@
                                                             <div id="motivation_life_cycle" class="col-12 mt-3"
                                                                  style="display: none;">
                                                                 <div id="motivation_life_cycle_text" class="card p-2"
-                                                                     style="height: auto;">
+                                                                     style="height: auto;background-color:#F4E3C7 !important;">
                                                                     <p class="text-sm mt-3 fs-12px"
-                                                                       style="color: rgb(160, 174, 192);">
+                                                                       style="color:#1C365E !important;">
                                                                         Your current interval of life between 16 and 20
                                                                         is the time of life when you're essentially test
                                                                         driving the many different motivating forces
@@ -1963,7 +1632,7 @@
                                                                          aria-labelledby="headingOne"
                                                                          data-parent="#accordion">
                                                                         <p class="text-sm mt-3 fs-12px"
-                                                                           style="color: rgb(160, 174, 192);">{{$feature['description']}}</p>
+                                                                           style="color:#1C365E !important;">{{$feature['description']}}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
