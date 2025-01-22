@@ -95,14 +95,14 @@ class HaiChat extends Model
 
         }elseif ($type === 'dislike'){
 
-//            if ($chat['likedislike'] == 3 || $chat['likedislike'] == 2) {
-//
-//                self::updateChat($request->input('chat_id'), 1);
-//
-//            } else {
+            if ($chat['likedislike'] == 3 || $chat['likedislike'] == 2) {
 
-                HaiChat::updateChat($chat['id'], 1);
-//            }
+                self::updateChat($request->input('chat_id'), 1);
+
+            } else {
+
+                HaiChat::updateChat($chat['id'], 0);
+            }
 
         }
 
