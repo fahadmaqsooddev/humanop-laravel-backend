@@ -94,7 +94,7 @@ class ChatAiController extends Controller
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
 
-                    HaiChat::createChat($request->input('question'), $reply->toArray()['choices'][0]['message']['content'], null, $request->input('is_repeat_answer'));
+                    HaiChat::createChat($request->input('question'), $reply->toArray()['choices'][0]['message']['content'], null);
 
                     $aiReply = $reply->toArray()['choices'][0]['message']['content'];
 
