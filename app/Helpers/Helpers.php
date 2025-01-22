@@ -503,9 +503,7 @@ class Helpers
 
         if ($file->extension() === 'txt'){
 
-            $text = file_get_contents($file->getRealPath());
-
-            return str_split($text,3000);
+            return file_get_contents($file->getRealPath());
 
         }else{
 
@@ -513,7 +511,7 @@ class Helpers
 
             $pdf = $pdfParser->parseFile($file->getRealPath());
 
-            return str_split($pdf->getText(),3000);
+            return $pdf->getText();
 
         }
 

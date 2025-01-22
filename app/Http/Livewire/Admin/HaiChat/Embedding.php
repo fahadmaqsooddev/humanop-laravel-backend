@@ -104,21 +104,21 @@ class Embedding extends Component
 
                 $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
 
-                    if($embedding){
+                if($embedding){
 
-                        GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
+                    GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
 
-                        session()->flash('embedding_success', "Embedding created successfully.");
+                    session()->flash('embedding_success', "Embedding created successfully.");
 
-                        $this->emit('closeCreateEmbeddingModal');
+                    $this->emit('closeCreateEmbeddingModal');
 
-                        $this->reset('embedding_name','group_ids');
+                    $this->reset('embedding_name','group_ids');
 
-                        $this->fileInputId++; // this is just for remove placeholder for file input field
+                    $this->fileInputId++; // this is just for remove placeholder for file input field
 
-                        $this->embedding = null;
+                    $this->embedding = null;
 
-                    }else{
+                }else{
 
                     session()->flash('embedding_error', "Something went wrong.");
                 }
