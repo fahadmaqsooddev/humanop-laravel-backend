@@ -462,6 +462,16 @@ class AdminController extends Controller
         $ep = $positive + $negative;
         $pv = $positive - $negative;
 
+        $summary_static = CodeDetail::summaryIntro();
+        $main_result = CodeDetail::mainResult();
+        $cycle_life = CodeDetail::cycleLife();
+        $trait_intro = CodeDetail::traitIntro();
+        $motivation_intro = CodeDetail::motivationIntroduction();
+        $intro_boundaries = CodeDetail::introBoundaries();
+        $intro_communication = CodeDetail::introCommunication();
+        $intro_energypool = CodeDetail::introEnergypool();
+        $intro_perceptionlife = CodeDetail::perceptionLife();
+
         $contxt = stream_context_create([
             'ssl' => [
                 'verify_peer' => FALSE,
@@ -473,7 +483,8 @@ class AdminController extends Controller
         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name','style_position','feature_position','alchl_code','ep','pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+        $pdf->loadView('pdf.report_pdf', compact('summary_static','main_result','cycle_life',
+        'trait_intro','motivation_intro','intro_boundaries','intro_perceptionlife','intro_communication','intro_energypool','allStyles','topTwoFeatures','assessment', 'boundary','perception','topCommunication','energyPool','user_name','style_position','feature_position','alchl_code','ep','pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
         $filename = $user_name. '_report.pdf';
 
         return $pdf->stream($filename);
