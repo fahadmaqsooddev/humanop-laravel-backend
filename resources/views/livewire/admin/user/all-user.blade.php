@@ -61,13 +61,31 @@
                     <td class="text-sm font-weight-normal">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender'] != null ? $user['gender'] === '0' ? 'Male' : 'Female' : '-'}}</td>
                     @if(Auth::user()->hasRole('super admin'))
-                       <td class="text-sm font-weight-normal text-center">
+                       {{-- <td class="text-sm font-weight-normal text-center">
                         @if(!empty($user['email_verified_at']))
                         Yes
                         @else
                         No
                         @endif
-                       </td>
+                       </td> --}}
+                       <td class="text-sm font-weight-normal">
+                        <div class="form-check form-switch mb-0 d-flex justify-content-center">
+                            @php
+                                if(!empty($user['email_verified_at']))
+                                    $status = true;
+                                else
+                                    $status = false;
+                            @endphp
+                            <input class="form-check-input"
+                            
+                                   onchange="updateUserEmailVerifiedStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                   name="status"
+                                   type="checkbox"
+                                   id="{{$status}}"
+                                   @checked($status)
+                                   >
+                        </div>
+                    </td>
                         <td class="text-sm font-weight-normal">
                             <div class="form-check form-switch mb-0 d-flex justify-content-center">
                                 @php
@@ -181,6 +199,56 @@
                 }
             });
         }
+        function updateUserEmailVerifiedStatus(id, name, checkbox, e) {
+            e.preventDefault();
+
+            // Store the current state of the checkbox
+            const isChecked = checkbox.checked;
+            const status = checkbox.id;
+            
+            
+
+            // Reset checkbox to its original state temporarily
+            checkbox.checked = !isChecked;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            });
+            let title = '';
+            let html = '';
+            if (status == 1) {
+        title = '<span style="color: white;">Are you sure?</span>';
+        html = "<span style='color: white;'>This email is already verified.</span>";
+    } else {
+        title = '<span style="color: white;">Are you sure?</span>';
+        html = "<span style='color: white;'>Want to verify the email of  " + name + "?</span>";
+    }
+            swalWithBootstrapButtons.fire({
+                title: title,
+                html: html,
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   
+                    if(status!=1){
+                        checkbox.checked = isChecked;
+                    
+                    window.livewire.emit('updateEmailVerified', id);
+                    }
+                   
+                } else {
+                   
+                    checkbox.checked = !isChecked;
+                }
+            });
+        }
+
 
         function adminLoggedInToUserAccount(id, firstName, lastName, identify) {
 
