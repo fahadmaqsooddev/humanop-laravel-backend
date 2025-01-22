@@ -739,9 +739,7 @@ For those who are primarily Moving centered, it's crucial to recognize this aspe
                                 <p class="text-white mt-4" style="text-align: justify">S {{$style_position}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">F {{$feature_position}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">Alch {{$alchl_code}}</p>
-                                <p class="text-white mt-4" style="text-align: justify">
-                                    PV {{$pv > 0 ? '+' : ''}} {{$pv}} REP
-                                    ARC {{$pv - $ep}} to +{{$pv + $ep}}</p>
+                                <p class="text-white mt-4" style="text-align: justify">PV {{$pv > 0 ? '+' : ''}} {{$pv}} REP ARC {{$pv - $ep}} to +{{$pv + $ep}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">REP {{$ep}}</p>
                                 <p class="text-white mt-4" style="text-align: justify">TEP {{$ep * 2}}</p>
                             </div>

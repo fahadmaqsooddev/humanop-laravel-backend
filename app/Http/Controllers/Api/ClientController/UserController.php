@@ -7,7 +7,6 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
-use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
@@ -16,12 +15,9 @@ use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionOption;
@@ -32,11 +28,9 @@ use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Client\Plan\Plan;
 
 class UserController extends Controller
 {
@@ -45,7 +39,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['sendPhoneOtp', 'googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
 
         $this->user = $user;
     }
@@ -97,61 +91,6 @@ class UserController extends Controller
 
 
             return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function sendPhoneOtp(SendPhoneOtpRequest $request, $defaultCountryCode = '1')
-    {
-        try {
-
-            $phoneNumber = preg_replace('/[^\d+]/', '', $request->input('phone'));
-
-            if (preg_match('/^\+?(92|1)/', $phoneNumber)) {
-
-                $phone = '+1' . $phoneNumber;
-
-            } else {
-
-                $countryCodeMap = [
-                    '92' => '/^03/',    // Pakistan (starts with 03)
-                    '1'  => '/^[2-9]\d{2}/' // US/Canada (valid area codes)
-                ];
-
-                $matched = false;
-
-                foreach ($countryCodeMap as $code => $pattern) {
-                    if (preg_match($pattern, $phoneNumber)) {
-                        $phoneNumber = preg_replace('/^0/', '', $phoneNumber);
-                        $phone = '+' . $code . $phoneNumber;
-                        $matched = true;
-                        break;
-                    }
-                }
-
-                if (!$matched) {
-
-                    $phoneNumber = preg_replace('/^0/', '', $phoneNumber); // Remove leading '0' if exists
-
-                    $phone = '+' . $defaultCountryCode . $phoneNumber;
-                }
-            }
-
-            $otp = Helpers::sendNumberOtp($phone, true);
-
-            if ($otp) {
-
-                return Helpers::successResponse('Otp sent Successfully', ['otp' => $otp]);
-
-            } else {
-
-                return Helpers::validationResponse('Something went wrong during sending OTP');
-
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
