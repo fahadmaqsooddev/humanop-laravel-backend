@@ -119,31 +119,6 @@ class HaiChat extends Component
         $this->chatBot = null;
     }
 
-    public function connectUnConnectChatBot($chat_bot_id){
-
-        $chat_bot = Chatbot::whereId($chat_bot_id)->first();
-
-        if ($chat_bot){
-
-            if ($chat_bot->is_connected === 1){ // already connect then disconnect it
-
-                $chat_bot->update(['is_connected' => 0]);
-
-            }else{
-
-                $connectedChatBotCount = Chatbot::where('plan_id', $chat_bot->plan_id)->where('is_connected', 1)->count();
-
-                if ($connectedChatBotCount === 0){
-
-                    $chat_bot->update(['is_connected' => 1]);
-                }
-
-            }
-
-        }
-
-    }
-
     public function render()
     {
         $this->getChats();

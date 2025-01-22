@@ -19,24 +19,22 @@ class Chatbot extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['chat_bot_color','is_chat_bot_connected'];
+    protected $appends = ['chat_bot_color'];
 
     // Appends
     public function getChatBotColorAttribute(){
 
-        $plan_name = $this->plan()?->first()?->name ?? false;
+        if($this->setting?->plan()?->first()?->name ?? false){
 
-        if($plan_name){
-
-            if ($plan_name === 'Freemium'){
+            if ($this->setting->plan()->first()->name === 'Freemium'){
 
                 return '#F3DEBA';
 
-            }elseif($plan_name === 'Core'){
+            }elseif($this->setting->plan()->first()->name === 'Core'){
 
                 return '#8BB1AB';
 
-            }elseif ($plan_name === 'Premium') {
+            }elseif ($this->setting->plan()->first()->name === 'Premium') {
 
                 return '#1A7D9E';
             }
@@ -45,12 +43,10 @@ class Chatbot extends Model
         return '#F3DEBA';
     }
 
-    public function getIsChatBotConnectedAttribute(){
+    // Relations
+    public function setting(){
 
-        return self::where('plan_id', $this->plan_id)
-
-            ->where('is_connected', 1)->exists();
-
+        return $this->hasOne(HaiChatSetting::class,'chat_bot_id','id');
     }
 
 
@@ -60,7 +56,6 @@ class Chatbot extends Model
         return self::create([
             'name' => $name,
             'description' => $description,
-            'plan_id' => $plan_id,
         ]);
     }
 
