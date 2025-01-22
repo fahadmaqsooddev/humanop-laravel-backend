@@ -80,7 +80,7 @@ class Conversation extends Component
                     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
                 }
 
-                HaiChatConversation::deleteOldChat();
+//                HaiChatConversation::deleteOldChat();
 
                 HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
