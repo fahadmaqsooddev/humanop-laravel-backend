@@ -2,7 +2,7 @@
 
 return[
     'footer'=>'<p><span style="background-color:
-transparent;color:hsl(0, 0%, 100%);"> The results documented in your HumanOp Summary Report address the uniqueness and perfection of YOU. We call this Summary Report your “Operating Manual.”
+transparent;"> The results documented in your HumanOp Summary Report address the uniqueness and perfection of YOU. We call this Summary Report your “Operating Manual.”
 
 
 Your Operating Manual identifies what is required for you to maintain a healthy state. 

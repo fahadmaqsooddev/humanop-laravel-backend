@@ -304,7 +304,7 @@ class CodeDetail extends Model
     public static function summaryIntro(){
 
         $data= self::where('code','SI')->first();
-
+       
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -325,9 +325,9 @@ class CodeDetail extends Model
     public static function cycleLife(){
 
         $data=self::where('code','CLI')->first();
-
+       
         return [
-            'public_name'=>$data->name ??  '',
+            'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -337,7 +337,7 @@ class CodeDetail extends Model
         $data=self::where('code','TI')->first();
 
         return [
-            'public_name'=>$data->name ??  '',
+            'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -347,7 +347,7 @@ class CodeDetail extends Model
         $data=self::where('code','MI')->first();
 
         return [
-            'public_name'=>$data->name ??  '',
+            'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -357,7 +357,7 @@ class CodeDetail extends Model
         $data= self::where('code','BI')->first();
 
         return [
-            'public_name'=>$data->name ??  '',
+            'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -367,7 +367,7 @@ class CodeDetail extends Model
         $data= self::where('code','CI')->first();
 
         return [
-            'public_name'=>$data->name ??  '',
+            'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -377,7 +377,7 @@ class CodeDetail extends Model
         $data=self::where('code','EI')->first();
 
         return [
-            'public_name'=>$data->name ?? '',
+            'public_name'=>$data->public_name ?? '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
@@ -387,7 +387,7 @@ class CodeDetail extends Model
         $data= self::where('code','PLI')->first();
 
         return [
-            'public_name'=>$data->name ?? '',
+            'public_name'=>$data->public_name ?? '',
             'description'=>$data->text ?? '',
             'video'=>$data['video_url'] ?? ''
            ];
