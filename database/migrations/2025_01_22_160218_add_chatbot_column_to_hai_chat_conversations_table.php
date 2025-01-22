@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('hai_chat_conversations', function (Blueprint $table) {
+        Schema::table('hai_chat_conversation', function (Blueprint $table) {
 
             $table->dropColumn('chatbot');
 
