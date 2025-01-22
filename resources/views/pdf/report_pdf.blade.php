@@ -41,6 +41,7 @@
 
                      
                                <div style="text-align: justify" class="mystyle">
+                                <h2 style="color: #f2661c;">{{$trait_intro['public_name']}}</h2>
                                 {!!$trait_intro['description']!!}
                                </div>
                                
@@ -56,6 +57,7 @@
 
                                
                                     <div style="text-align: justify"  class="mystyle">
+                                        <h2 style="color: #f2661c;">{{$motivation_intro['public_name']}}</h2>
                                       {!!$motivation_intro['description']!!}
                                     </div>
 
@@ -223,6 +225,7 @@
 
                                
                                  <div style="text-align: justify"  class="mystyle">
+                                    <h2 style="color: #f2661c;">{{$intro_boundaries['public_name']}}</h2>
                                    {!!$intro_boundaries['description']!!}
                                  </div>
                                 @if($boundary)
@@ -350,6 +353,7 @@
                               
 
                                     <div style="text-align:justify"  class="mystyle">
+                                        <h2 style="color: #f2661c;">{{$intro_communication['public_name']}}</h2>
                                      {!!$intro_communication['description']!!}
                                     </div>
 
@@ -420,6 +424,7 @@
 
                           
                                  <div style="text-align: justify"  class="mystyle">
+                                    <h2 style="color: #f2661c;">{{$intro_perceptionlife['public_name']}}</h2>
                                 {!!$intro_perceptionlife['description']!!}
                                  </div>
                                 @if($perception)
@@ -546,8 +551,10 @@
                                      $text=config('pdffooter.footer');
                                    
                                      ?>
-                                   
-                                    {!!$text!!}
+                                   <div style="color: black !important;">
+
+                                       {!!$text!!}
+                                   </div>
 
                                 </div>
 
