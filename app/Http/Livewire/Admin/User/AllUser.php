@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Enums\Admin\Admin;
+use Carbon\Carbon;
 
 
 class AllUser extends Component
@@ -26,7 +27,7 @@ class AllUser extends Component
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'
-        ,'updateHaiChatVisibility','deleteClientProfile'];
+        ,'updateHaiChatVisibility','deleteClientProfile','updateEmailVerified'];
 
 
         public function updated($field)
@@ -83,6 +84,18 @@ class AllUser extends Component
                 User::updateUser(['hai_chat' => Admin::HAI_CHAT_HIDE],$id);
             }else{
                 User::updateUser(['hai_chat' => Admin::HAI_CHAT_SHOW],$id);
+            }
+        }
+    }
+    public function updateEmailVerified($id)
+    {
+        $user = User::find($id);
+      
+        if ($user) {
+
+            if(empty($user->email_verified_at)){
+                User::updateUser(['email_verified_at' =>Carbon::now()->format('Y-m-d H:i:s')],$id);
+            }else{
             }
         }
     }
