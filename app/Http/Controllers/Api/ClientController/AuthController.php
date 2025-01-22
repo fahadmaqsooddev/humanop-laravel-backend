@@ -280,8 +280,6 @@ class AuthController extends Controller
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-//                    $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
-
                     $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
 
                     $user->setAppends([]);
@@ -312,8 +310,6 @@ class AuthController extends Controller
 
                     if (empty($checkEmailVerified)) {
 
-//                        $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
-
                         $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
@@ -331,12 +327,15 @@ class AuthController extends Controller
                         ]);
 
                     } else {
+
                         $checkLastStep = User::checkLastStep($checkUser['email']);
 
                         if ($checkLastStep && $checkLastStep['step'] == 3) {
+
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
                         } else {
+
                             $checkLastStep->setAppends([]);
 
                             return Helpers::successResponse('kindly complete your last step', [
@@ -359,8 +358,11 @@ class AuthController extends Controller
             }
 
         } catch (\Exception $exception) {
+
             DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
@@ -602,6 +604,7 @@ class AuthController extends Controller
             if (!empty($user)) {
 
                 return Helpers::successResponse('Your Email is verified', $user);
+
             } else {
 
                 return Helpers::serverErrorResponse('Your Email is not verified');
@@ -668,6 +671,7 @@ class AuthController extends Controller
                 tap($getUser->update($dataArray));
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
                 $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                 $token = $this->auth->login($getUser);
@@ -684,7 +688,9 @@ class AuthController extends Controller
             }
 
             // If user not found
+
             return Helpers::errorResponse('User not found');
+
         } catch (\Exception $exception) {
             // Handle exceptions
             return Helpers::serverErrorResponse($exception->getMessage());
