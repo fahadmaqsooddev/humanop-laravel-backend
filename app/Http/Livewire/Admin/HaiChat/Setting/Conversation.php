@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Models\AssessmentColorCode;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -52,7 +53,15 @@ class Conversation extends Component
     {
         try {
 
-            $this->validate();
+//            $this->validate();
+
+//            $this->validate([
+//                'message' => 'required|max:2000',
+//            ],
+//            [
+//                'message.required' => 'The Message field is required.',
+//                'message.max' => 'Query does not contain more than 2000 characters',
+//            ]);
 
             $client = \OpenAI::client(env("OPEN_AI_API_KEY"));
 
@@ -60,10 +69,39 @@ class Conversation extends Component
 
             if (!$this->is_restricted_word){
 
-//                if ($this->user_id){
+                $grid_info = [];
+
+                if ($this->user_id){
 //
-//                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
-//                }
+////                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+
+                    $latest_assessment = Assessment::getLatestAssessment($this->user_id);
+
+                    if ($latest_assessment){
+
+                        $assessment = Assessment::getAllRowGrid($latest_assessment->id);
+
+                        $gridColor = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id); 
+
+                        $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
+                        $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
+                        $energyCenter = ['EM','INS','INT','MOV'];
+
+                        arsort($gridColor);
+                        arsort($assessment['firstRow']);
+
+                        $grid_info = [[
+                            'role' => 'user',
+//                        'content' => "If user ask something any key from ['SA' => 1, 'JO' => 2] then just return like that Your question {key name} value is {value}.",
+                            'content' => "The list of all trait codes are " . json_encode($traits) . " and list of all driver codes are " . json_encode($drivers) . " and list of all energy center codes are " . json_encode($energyCenter) .' and ' .
+                                "The list of user top traits, top drivers and top energy centers are " . json_encode($gridColor) .
+                                "and their values are " . json_encode($assessment['firstRow']) . ". If code is not present in the top codes then
+                            said {code} is not a top code and if user ask from any n top code and its not available then said {driver/trait/energy center} has not any nth top.
+                            Answer must be to the point and does not contain codes full form and contain the values of the code that user ask.",
+                        ]];
+
+                    }
+                }
 
                 $knowledge = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id);
 
@@ -86,11 +124,13 @@ class Conversation extends Component
                     ]
                 ];
 
+                array_splice($messages, 1, 0, $grid_info);
+
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => $this->chatBot->max_tokens ?? 200,
-                    'temperature' => $this->chatBot->temperature ?? 0.2,
+                    'max_tokens' => $this->chatBot->max_tokens ?? 500,
+                    'temperature' => $this->chatBot->temperature ?? 0.4,
                 ]);
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
@@ -100,7 +140,6 @@ class Conversation extends Component
                     HaiChatConversation::createConversation($this->chatBot->id, $this->message,($reply->toArray()['choices'][0]['message']['content'] ?? null), $this->user_id);
 
                 }
-
 
 //                if (HaiChatSetting::GPT_4o_MINI === $this->chatBot->model_type){
 //
