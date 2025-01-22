@@ -2,6 +2,8 @@
 
 namespace App\Models\Admin\Notification;
 
+use App\Helpers\Helpers;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
@@ -12,9 +14,9 @@ class Notification extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
@@ -26,10 +28,18 @@ class Notification extends Model
 
     public static function allNotification()
     {
-        return self::orderBy('created_at', 'desc')->get(['id', 'type', 'message', 'created_at', 'read']);
+        $user = Helpers::getUser();
+
+        $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
+
+        return self::where('id', $user['id'])
+            ->orWhere('permission', $userPermission)
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null)
+
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null)
     {
         self::create([
             'user_id' => $userId,
@@ -37,6 +47,7 @@ class Notification extends Model
             'message' => $message,
             'device_token' => $deviceToken,
             'permission' => $permission,
+            'notification_priority' => $priority,
         ]);
 
         if ($deviceToken) {
@@ -87,5 +98,12 @@ class Notification extends Model
     public static function readNotification($notificationId = null)
     {
         return self::whereId($notificationId)->update(['read' => 1]);
+    }
+
+    public static function deleteNotification($id = null)
+    {
+        $notification = self::whereId($id)->first();
+
+        return $notification->delete();
     }
 }

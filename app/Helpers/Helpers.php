@@ -470,33 +470,51 @@ class Helpers
         }
     }
 
-    public static function sendNumberOtp($phone,$api = null){
+//    public static function sendNumberOtp($phone,$api = null){
+//
+//        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+//
+//        $to = $phone;
+//
+//        $message = 'Your Human Op verification code is '.$otpNumber;
+//
+//        $status = TwilioServices::sendOtp($to, $message);
+//
+//        if($status != false) {
+//
+//            if($api){
+//
+//                return $otpNumber;
+//
+//            }else{
+//
+//                Session::put(['two_way_auth.otp' => $otpNumber]);
+//
+//                return true;
+//            }
+//
+//        }else {
+//
+//            return false;
+//        }
+//    }
 
-        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+    public static function stringFromPdfOrTextFile($file){
 
-        $to = $phone;
+        if ($file->extension() === 'txt'){
 
-        $message = 'Your Human Op verification code is '.$otpNumber;
+            return file_get_contents($file->getRealPath());
 
-        $status = TwilioServices::sendOtp($to, $message);
+        }else{
 
-        if($status != false) {
+            $pdfParser = new Parser();
 
-            if($api){
+            $pdf = $pdfParser->parseFile($file->getRealPath());
 
-                return $otpNumber;
+            return $pdf->getText();
 
-            }else{
-
-                Session::put(['two_way_auth.otp' => $otpNumber]);
-
-                return true;
-            }
-
-        }else {
-
-            return false;
         }
+
     }
 }
 

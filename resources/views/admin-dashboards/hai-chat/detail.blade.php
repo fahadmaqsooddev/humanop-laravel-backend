@@ -229,9 +229,60 @@
             <div class="col-lg-9 mt-lg-0 mt-4">
                 @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])
+
+{{--                <div class="card setting-box-background mt-4" id="capture">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h5 class="text-color-dark setting-form-heading">Capture</h5>--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-12 col-sm-12">--}}
+{{--                                <label class="form-label mt-4 text-color-dark">Email</label>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <input id="email"--}}
+
+{{--                                           class="form-control text-color-dark setting-box-background" type="email"--}}
+{{--                                           placeholder="Enter your email">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-12 col-sm-12">--}}
+{{--                                <label class="form-label mt-4 text-color-dark">Type</label><br>--}}
+{{--                                <span class="mt-4 text-color-dark">What type of data is this?</span>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <input id="email"--}}
+
+{{--                                           class="form-control text-color-dark setting-box-background" type="email"--}}
+{{--                                           placeholder="Enter your email">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-12 col-sm-12">--}}
+{{--                                <label class="form-label mt-4 text-color-dark">Description</label><br>--}}
+{{--                                <span class="mt-4 text-color-dark">Helpful description of the field, so your AI--}}
+{{--                                    can understand what<br> this field is about and can potentially analyze or qualify--}}
+{{--                                    them.</span>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <textarea class="form-control" id="chatDescription"--}}
+{{--                                              style="background-color: #8bb1ab; color: #0f1535" rows="5"--}}
+{{--                                              placeholder="Enter chat description">eg:Name of the customer</textarea>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-12 col-sm-12">--}}
+{{--                                <label class="form-label mt-4 text-color-dark">Message</label><br>--}}
+{{--                                <span class="mt-4 text-color-dark">How should your AI ask for this field?</span>--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <textarea class="form-control" id="chatDescription"--}}
+{{--                                              style="background-color: #8bb1ab; color: #0f1535" rows="5"--}}
+{{--                                              placeholder="Enter chat description">eg:Could you please share your email so that we can follow up with you</textarea>--}}
+{{--                                </div>--}}
+{{--                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+{{--                                        class=" mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end rainbow-border-user-nav-btn navButtonResponsive">--}}
+{{--                                    Add new field--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 @livewire('admin.hai-chat.setting.conversation',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])
-                @livewire('admin.hai-chat.setting.publish', ['bot_name' => $lastSegment])
 
             </div>
         </div>

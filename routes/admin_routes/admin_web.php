@@ -34,33 +34,39 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 */
 
 //Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [RegisterController::class, 'create'])->name('create');
-    Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
-    Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
-    Route::get('/email-verified', [RegisterController::class, 'emailVerified'])->name('email_verified');
-    Route::get('/call-back-register', [RegisterController::class, 'callBackRegistration'])->name('call_back_registration');
-    Route::get('/login', [SessionController::class, 'create'])->name('login');
-    Route::post('/session', [SessionController::class, 'store']);
-    Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
-    Route::get('/check-email', [ChangePasswordController::class, 'checkEmail'])->name('check_email');
-    Route::get('/check-email-verification', [ChangePasswordController::class, 'checkEmailVerification'])->name('check_email');
-    Route::get('/login-to-dashboard/{id}', [ChangePasswordController::class, 'loginUserToDashboard'])->name('login_to_dashboard');
+Route::get('/register', [RegisterController::class, 'create'])->name('create');
+Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
+Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
+Route::get('/email-verified', [RegisterController::class, 'emailVerified'])->name('email_verified');
+Route::get('/call-back-register', [RegisterController::class, 'callBackRegistration'])->name('call_back_registration');
+Route::get('/login', [SessionController::class, 'create'])->name('login');
+Route::post('/session', [SessionController::class, 'store']);
+Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
+Route::get('/check-email', [ChangePasswordController::class, 'checkEmail'])->name('check_email');
+Route::get('/check-email-verification', [ChangePasswordController::class, 'checkEmailVerification'])->name('check_email');
+Route::get('/login-to-dashboard/{id}', [ChangePasswordController::class, 'loginUserToDashboard'])->name('login_to_dashboard');
 
-    Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
-    Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
-    Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-    Route::get('/logout', [SessionController::class, 'destroy']);
-    Route::get('/', [SessionController::class, 'create'])->name('login');
-    Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
+Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
+Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
+Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+Route::get('/logout', [SessionController::class, 'destroy']);
+Route::get('/', [SessionController::class, 'create'])->name('login');
+Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 
 
-    Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');
+Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');
+Route::get('/pusher', function () {
+    return view('pusher');
+});
+Route::get('/email-template', function () {
+    return view('welcome');
+});
 
 //});
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
-$prefix = $prefix === 'admin' ? str_contains(request()->url(),'/client.') ? 'practitioner' : $prefix : $prefix;
+$prefix = $prefix === 'admin' ? str_contains(request()->url(), '/client.') ? 'practitioner' : $prefix : $prefix;
 
 Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
@@ -118,6 +124,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/dashboard-cms', [AdminController::class, 'cms'])->name('admin_cms');
         Route::get('/codes', [CodeController::class, 'ManageCode'])->name('admin_manage_code');
         Route::get('/edit-code/{id}', [CodeController::class, 'editCode'])->name('admin_edit_manage_code');
+        Route::get('/create-code', [CodeController::class, 'createCode'])->name('admin_create_code');
         Route::get('/pages-users-reports', [AdminController::class, 'pagesUsersReports'])->name('admin_pages_users_reports');
         Route::get('/pages-users-new', [AdminController::class, 'pagesUsersNewUser'])->name('admin_pages_users_new_user');
         Route::get('/cms', [WebPagesController::class, 'webPages'])->name('admin_web_pages');
@@ -133,7 +140,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
 
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
-            Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
+        Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
     });
 
     Route::group(['middleware' => ['permission:questions']], function () {
@@ -163,11 +170,11 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     });
 
-    Route::get('/login-back-to-admin', [SessionController::class,'loginBackToAdmin'])->name('login_back_to_admin');
+    Route::get('/login-back-to-admin', [SessionController::class, 'loginBackToAdmin'])->name('login_back_to_admin');
 
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
 });
 
 
-Route::view('/privacy-policy','session.privacy')->name('privacy');
-Route::view('/term-of-service','session.term-of-service')->name('term_of_service');
+Route::view('/privacy-policy', 'session.privacy')->name('privacy');
+Route::view('/term-of-service', 'session.term-of-service')->name('term_of_service');

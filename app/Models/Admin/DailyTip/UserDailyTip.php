@@ -55,8 +55,10 @@ class UserDailyTip extends Model
         return $daily_tip_read;
     }
     public static function userDailytip($daily_tip = null){
+
         $user = Helpers::getWebUser() ?? Helpers::getUser();
-       return UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id',$daily_tip)
+
+        return UserDailyTip::where('user_id',$user['id'])->where('daily_tip_id',$daily_tip)
             ->latest()
             ->first();
     }

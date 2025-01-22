@@ -25,7 +25,7 @@ class SendPhoneOtpRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'required',
+            'email' => 'required',
         ];
     }
 }

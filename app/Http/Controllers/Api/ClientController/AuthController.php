@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
+use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -38,7 +39,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp']);
 
         $this->auth = Auth::guard('api');
     }
@@ -139,6 +140,14 @@ class AuthController extends Controller
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
             if (!empty($authorizedUser)) {
+
+                $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+
+                if (!empty($checkDeleteAccount)) {
+
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+                }
+
                 $checkUser = User::checkEmail($dataArray['email']);
 
                 if (empty($checkUser)) {
@@ -238,7 +247,6 @@ class AuthController extends Controller
 
     }
 
-
     public function registerFirstStep(RegisterFirstStepRequest $request)
     {
         DB::beginTransaction();
@@ -272,8 +280,6 @@ class AuthController extends Controller
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-//                    $url = "https://human-opi.vercel.app/email-verified?token=" . $user['email_verify_token'];
-
                     $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
 
                     $user->setAppends([]);
@@ -304,8 +310,6 @@ class AuthController extends Controller
 
                     if (empty($checkEmailVerified)) {
 
-//                        $url = "https://human-opi.vercel.app/email-verified?token=" . $checkUser['email_verify_token'];
-
                         $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
@@ -323,12 +327,15 @@ class AuthController extends Controller
                         ]);
 
                     } else {
+
                         $checkLastStep = User::checkLastStep($checkUser['email']);
 
                         if ($checkLastStep && $checkLastStep['step'] == 3) {
+
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
                         } else {
+
                             $checkLastStep->setAppends([]);
 
                             return Helpers::successResponse('kindly complete your last step', [
@@ -351,8 +358,11 @@ class AuthController extends Controller
             }
 
         } catch (\Exception $exception) {
+
             DB::rollBack();
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
@@ -407,25 +417,41 @@ class AuthController extends Controller
         }
     }
 
+    public function sendPhoneOtp(SendPhoneOtpRequest $request)
+    {
+        try {
 
-    /**
-     * Prepare email data.
-     */
-    private function prepareEmailData($user, $url)
+            $email = $request->input('email');
+
+            $checkUserEmail = User::checkEmail($email);
+
+            $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber);
+
+            $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
+
+            return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
             '{$link}' => $url,
+            '{$code}' => $codeNumber,
             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
             '{$service}' => url('/term-of-service'),
             '{$privacy}' => url('/privacy-policy'),
         ];
     }
 
-
-    /**
-     * Send email verification.
-     */
     private function sendEmailVerification($emailData, $recipientEmail, $name)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
@@ -437,7 +463,6 @@ class AuthController extends Controller
             $name
         );
     }
-
 
     public function logoutClient()
     {
@@ -594,6 +619,7 @@ class AuthController extends Controller
             if (!empty($user)) {
 
                 return Helpers::successResponse('Your Email is verified', $user);
+
             } else {
 
                 return Helpers::serverErrorResponse('Your Email is not verified');
@@ -660,6 +686,7 @@ class AuthController extends Controller
                 tap($getUser->update($dataArray));
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+
                 $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
                 $token = $this->auth->login($getUser);
@@ -676,7 +703,9 @@ class AuthController extends Controller
             }
 
             // If user not found
+
             return Helpers::errorResponse('User not found');
+
         } catch (\Exception $exception) {
             // Handle exceptions
             return Helpers::serverErrorResponse($exception->getMessage());

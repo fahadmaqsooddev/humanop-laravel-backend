@@ -372,7 +372,7 @@ return [
         ],
         'PdfGenerate' => [
             'table' => 'pdf_generates',
-            'fillable' => ['user_id', 'assessment_id','public_name','text'],
+            'fillable' => ['user_id', 'assessment_id','code_detail_id','code_number'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ModelHasRole' => [
@@ -411,7 +411,7 @@ return [
         ],
         'Chatbot' => [
             'table' => 'chatbot',
-            'fillable' => ['name','description','publish'],
+            'fillable' => ['name','description'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ChatPrompt' => [
@@ -471,7 +471,7 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type','message','read','created_at','user_id','device_token','permission'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority'],
             'hidden' => ['updated_at','deleted_at'],
         ],
     ]

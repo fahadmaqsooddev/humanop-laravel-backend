@@ -14,12 +14,12 @@ class DailyTip extends Component
         $this->getDailyTip();
     }
     public function getDailyTip(){
-        $this->tip = UserTip::getTodayTip();
-        if($this->tip){
-            $userDailyTipDetail = UserDailyTip::userDailytip($this->tip['id']);
-            $this->isReadDailyTip = $userDailyTipDetail['is_read'];
-            $this->userTipCreatedAt = $userDailyTipDetail['created_at'];
-        }
+//        $this->tip = UserTip::checkTodayTip();
+//        if($this->tip){
+//            $userDailyTipDetail = UserDailyTip::userDailytip($this->tip['id']);
+//            $this->isReadDailyTip = $userDailyTipDetail['is_read'];
+//            $this->userTipCreatedAt = $userDailyTipDetail['created_at'];
+//        }
     }
     public function updateTip(){
         $this->getDailyTip();

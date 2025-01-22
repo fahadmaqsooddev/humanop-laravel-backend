@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Assessment;
 
+use App\Enums\Admin\Admin;
 use App\Events\Admin\Assessment\ResetAssessment;
 use App\Models\Admin\Notification\Notification;
 use App\Models\User;
@@ -124,9 +125,9 @@ class Assessment extends Component
 
             $deviceToken = $user['device_token'];
 
-            event(new ResetAssessment($user['id'], 'reset assessment', $message));
+            event(new ResetAssessment($assessment['user_id'], 'reset assessment', $message));
 
-            Notification::createNotification('Reset Assessment', $message, $deviceToken, $user['id'], 1);
+            Notification::createNotification('Reset Assessment', $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION);
         }
 
         session()->flash('success', "Reset Assessment updated successfully");

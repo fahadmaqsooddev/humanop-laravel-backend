@@ -2,11 +2,8 @@
 
 namespace App\Events\Admin\Assessment;
 
-use http\Client\Curl\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -30,6 +27,7 @@ class ResetAssessment implements ShouldBroadcast
         $this->userId = $userId;
         $this->heading = $heading;
         $this->message = $message;
+
     }
 
     /**
@@ -45,5 +43,16 @@ class ResetAssessment implements ShouldBroadcast
     public function broadcastAs(){
 
         return 'assessment.reset';
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'user_id' => $this->userId,
+            'heading' => $this->heading,
+            'message' => $this->message,
+        ];
+
+
     }
 }

@@ -6,13 +6,13 @@
             <div class="card">
                 <!-- Card header -->
                 <div class="card-header">
-                    <h5 class="mb-0 text-white">Edit Code</h5>
+                    <h5 class="mb-0 text-white">Create Code</h5>
                 </div>
                 <div class="card-body pt-0">
-                    @livewire('admin.manage-code.manage-code-form', ['code' => $code])
+                    @livewire('admin.manage-code.create-code')
 
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 @endsection

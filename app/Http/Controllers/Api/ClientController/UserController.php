@@ -7,7 +7,6 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
 use App\Http\Requests\Api\Client\TwoWayAuthRequest;
-use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\Api\Client\ChangeTimezoneRequest;
 use App\Http\Requests\Api\Client\Feedback\StoreUserFeedback;
 use App\Http\Requests\Api\Client\updateIntentionPlanRequest;
@@ -16,12 +15,9 @@ use App\Http\Requests\Api\Client\UpdateUserImageRequest;
 use App\Http\Requests\Api\Client\User\GoogleLoginSignupRequest;
 use App\Http\Requests\Client\Register\ResetPasswordRequest;
 use App\Models\Admin\Code\CodeDetail;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\VersionControl\Version;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\GenerateFile\PdfGenerate;
 use App\Models\IntentionPlan\IntentionOption;
@@ -32,11 +28,9 @@ use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Client\Plan\Plan;
 
 class UserController extends Controller
 {
@@ -45,7 +39,7 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['sendPhoneOtp', 'googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
+        $this->middleware('auth:api')->except(['googleLoginSignup', 'intentionOption', 'getLatestVersion', 'getTimezone', 'forgotPassword']);
 
         $this->user = $user;
     }
@@ -97,61 +91,6 @@ class UserController extends Controller
 
 
             return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function sendPhoneOtp(SendPhoneOtpRequest $request, $defaultCountryCode = '1')
-    {
-        try {
-
-            $phoneNumber = preg_replace('/[^\d+]/', '', $request->input('phone'));
-
-            if (preg_match('/^\+?(92|1)/', $phoneNumber)) {
-
-                $phone = '+1' . $phoneNumber;
-
-            } else {
-
-                $countryCodeMap = [
-                    '92' => '/^03/',    // Pakistan (starts with 03)
-                    '1'  => '/^[2-9]\d{2}/' // US/Canada (valid area codes)
-                ];
-
-                $matched = false;
-
-                foreach ($countryCodeMap as $code => $pattern) {
-                    if (preg_match($pattern, $phoneNumber)) {
-                        $phoneNumber = preg_replace('/^0/', '', $phoneNumber);
-                        $phone = '+' . $code . $phoneNumber;
-                        $matched = true;
-                        break;
-                    }
-                }
-
-                if (!$matched) {
-
-                    $phoneNumber = preg_replace('/^0/', '', $phoneNumber); // Remove leading '0' if exists
-
-                    $phone = '+' . $defaultCountryCode . $phoneNumber;
-                }
-            }
-
-            $otp = Helpers::sendNumberOtp($phone, true);
-
-            if ($otp) {
-
-                return Helpers::successResponse('Otp sent Successfully', ['otp' => $otp]);
-
-            } else {
-
-                return Helpers::validationResponse('Something went wrong during sending OTP');
-
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
 
@@ -502,16 +441,25 @@ class UserController extends Controller
 
         try {
 
+
             $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
+
+            if(empty($assessment)){
+                return Helpers::validationResponse('Assessment Not Found');
+            }
+
+            $user_name =Helpers::getUser()->first_name.' ' .Helpers::getUser()->last_name;
+            $gender =Helpers::getUser()->gender == 0 ?'(M)':'(F)';
+
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
 
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
-            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
 
             $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
@@ -523,15 +471,50 @@ class UserController extends Controller
 
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
+            $summary_static = CodeDetail::summaryIntro();
+            $main_result = CodeDetail::mainResult();
+            $cycle_life = CodeDetail::cycleLife();
+            $trait_intro = CodeDetail::traitIntro();
+            $motivation_intro = CodeDetail::motivationIntroduction();
+            $intro_boundaries = CodeDetail::introBoundaries();
+            $intro_communication = CodeDetail::introCommunication();
+            $intro_energypool = CodeDetail::introEnergypool();
+            $intro_perceptionlife = CodeDetail::perceptionLife();
+
+            $style_position = AssessmentColorCode::getStylePosition($assessment->id);
+        $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
+        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
+        $ep = $positive + $negative;
+        $pv = $positive - $negative;
+
             $data = [
+                'user_name'=>$user_name,
                 'user_age' => $user_age,
+                'gender'=>$gender,
+                'summary_intro'=>$summary_static,
+                'main_result_into'=>$main_result,
+                'intro_cycle_life'=>$cycle_life,
+                'traits_intro'=>$trait_intro,
                 'all_styles' => $allStyles,
+                'motivation_introduction'=>$motivation_intro,
                 'top_features' => $topTwoFeatures,
+                'intro_boundaries'=>$intro_boundaries,
                 'boundary' => $boundary,
-                'your_perception' => $perception_life,
+                'intro_perception' => $perception_life,
                 'perception' => $perception,
+                'intro_communication'=>$intro_communication,
                 'top_communication' => $topCommunication,
+                'intro_energypool'=>$intro_energypool,
                 'energy_pool' => $energyPool,
+                'style_position' => $style_position,
+                'feature_position' => $feature_position,
+                'positive' => $positive,
+                'negative' => $negative,
+                'pv' => $pv,
+                'ep' => $ep,
+                'footer'=> config('pdffooter'),
                 'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
             ];
 

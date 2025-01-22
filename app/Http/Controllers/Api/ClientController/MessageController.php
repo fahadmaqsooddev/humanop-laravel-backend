@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\Messages\DeleteChatRequest;
 use App\Http\Requests\Api\Client\Messages\MessagesRequest;
 use App\Http\Requests\Api\Client\Messages\SendMessageRequest;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Message\Message;
 use App\Models\Client\MessageThread\MessageThread;
@@ -65,8 +67,11 @@ class MessageController extends Controller
                 $heading = $senderUserName . "send you a message";
 
                 event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
+
+                Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION);
+
                 event(new NewMessage(Helpers::getUser()->id,$request->input('receiver_id'),$request->input('message'),$message['created_at']));
-                
+
                 return Helpers::successResponse('Message sent', ['thread_id' => $thread->id]);
 
             } else {

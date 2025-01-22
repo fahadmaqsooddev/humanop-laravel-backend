@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Client\Message;
 
+use App\Enums\Admin\Admin;
 use App\Events\messages\MessageSent;
 use App\Events\messages\NewMessage;
 use App\Helpers\Helpers;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\MessageThread\MessageThread;
@@ -93,8 +95,11 @@ class Message extends Component
                $heading = $senderUserName . "send you a message";
 
                 event(new MessageSent($data['receiver_id'], $createMessage['message'], $createMessage['created_at'], $heading));
+
+                Notification::createNotification('message sent', $heading, null, $data['receiver_id'], 1, Admin::MESSAGE_SEND_NOTIFICATION);
+
                 event(new NewMessage(Helpers::getWebUser()->id,$data['receiver_id'],$data['message'],$createMessage['created_at']));
-                
+
             }
 
             $this->reset('message');

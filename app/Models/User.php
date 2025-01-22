@@ -761,7 +761,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function adminClients($search_name = null, $email = null, $age = null, $per_page = 10, $isAdmin)
     {
-        
+
         $userId = Helpers::getWebUser()['id'];
 
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
@@ -857,22 +857,6 @@ class User extends Authenticatable implements JWTSubject
     public static function checkUserFromEmailOrSocialId($request)
     {
 
-//        $users = $users->when($request->input('email'), function ($query, $email) {
-//
-//            $query->where('email', $email);
-//        });
-//
-//        $users = $users->when($request->input('google_id'), function ($query, $google_id) {
-//
-//            $query->where('google_id', $google_id);
-//        });
-//
-//        $users = $users->when($request->input('apple_id'), function ($query, $apple_id) {
-//
-//            $query->where('apple_id', $apple_id);
-//
-//        });
-
         $user = self::where('email', $request->input('email'))->first();
 
         if ($user) {
@@ -916,9 +900,7 @@ class User extends Authenticatable implements JWTSubject
     public static function deleteClientProfile($id)
     {
 
-        $user = self::whereId($id)->first();
-
-//        UserInvite::deleteInvite($user['email']);
+        self::whereId($id)->first();
 
         self::whereId($id)->delete();
     }
@@ -1021,6 +1003,11 @@ class User extends Authenticatable implements JWTSubject
         $user = self::whereId($userId)->update($data);
 
         return $user;
+    }
+
+    public static function getAllClientUser()
+    {
+        return self::where('is_admin', 2)->get();
     }
 
 }

@@ -120,28 +120,6 @@ class DailyTip extends Model
 
     }
 
-    public static function checkTodayTip($assessmentId = null)
-    {
-
-        $userDailyTip = UserDailyTip::getLatestTip();
-
-        if ($userDailyTip && $userDailyTip['assessment_id'] == $assessmentId) {
-
-            $dayCheck = $userDailyTip->created_at >= now()->subDay();
-
-            if ($dayCheck == true) {
-
-                return $userDailyTip->dailyTip;
-
-            } else {
-                return false;
-            }
-
-        }
-
-
-    }
-
     public static function randomCode($assessment = null)
     {
         $codeColor = AssessmentColorCode::getGreenCodes($assessment['id']);

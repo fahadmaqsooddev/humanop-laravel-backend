@@ -69,7 +69,7 @@ class HaiChat extends Model
         return $chats;
     }
 
-    public static function createChat($query = null, $reply = null, $admin_id = null)
+    public static function createChat($query = null, $reply = null, $admin_id = null, $likeDisLike = 0)
     {
         return self::create([
             'user_id' => (Helpers::getWebUser()->id ?? Helpers::getUser()->id),
