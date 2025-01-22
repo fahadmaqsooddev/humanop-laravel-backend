@@ -36,8 +36,7 @@
                       placeholder="Search across all documents"></textarea>
                             <button type="submit"
                                     class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
-                                <span wire:loading.remove wire:target="submitForm">search</span>
-                                <span wire:loading wire:target="submitForm">searching...</span>
+                                search
                             </button>
                         </div>
                     </form>
@@ -66,7 +65,7 @@
             @if(count($chunks) > 0)
                 @foreach($chunks as $chunk)
                     <div class="chunk-card">
-                        <p>{{ $chunk['content'] ?? null }}</p>
+                        <p>{{ $chunk['retrieved_docs'] }}</p>
                     </div>
                 @endforeach
             @else
@@ -111,7 +110,7 @@
                 <hr/>
                 <div>
 
-                    @livewire('admin.hai-chat.embedding-setting.setting',['embedding_id' => $embedding['id']])
+                    @livewire('admin.hai-chat.embedding-setting.setting',['name' => $name])
 
                     <div class="flex-column">
                         <div class="d-flex flex-column gap-3 justify-content-center align-items-center">

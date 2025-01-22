@@ -11,13 +11,11 @@ use Livewire\Component;
 
 class HaiChat extends Component
 {
-    public $chatBots, $name, $description, $chatBot;
-
-    protected $listeners = ['deleteChatBot'];
-
+    public $chats, $name, $description, $chatBot;
+    protected $listeners = ['deleteChatbot'];
     protected $rules = [
         'name' => 'required|max:30',
-        'description' => 'required|max:900',
+        'description' => 'required|max:2000',
     ];
 
     protected $messages = [
@@ -32,35 +30,73 @@ class HaiChat extends Component
 
             $this->validate();
 
-            Chatbot::createChatBot($this->name, $this->description);
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/create-chatbot', ['vendor_n' => $this->name]);
 
-            session()->flash('success', "Chat Bot created successfully.");
+            $chatbot = Chatbot::createChat($aiReply, $this->description);
+
+            HaiChatSetting::updateHaiChatSetting(null,null,null,null,$chatbot->id);
+
+            session()->flash('success', "Chatbot created successfully.");
 
             $this->resetForm();
 
             $this->emit('closeModel');
 
+            $this->emit('closeAlert');
+
         }catch (ValidationException $exception) {
 
             session()->flash('errors', $exception->validator->errors()->getMessages());
 
+            $this->emit('closeAlert');
+
         }catch (\Exception $exception) {
 
             session()->flash('error', $exception->getMessage());
-        }
 
-        $this->emit('closeAlert');
+            $this->emit('closeAlert');
+
+        }
     }
 
-    public function deleteChatBot($id)
+    public function deleteChatbot($id)
+    {
+        $chat = Chatbot::singleChat($id);
+
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete-folder', ['folder_n' => $chat['name']]);
+
+        if ($aiReply == 1)
+        {
+
+            Chatbot::deleteChat($id);
+
+            session()->flash('success', "Chatbot deleted successfully.");
+
+            $this->emit('closeAlert');
+
+        }
+
+    }
+
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
 
-        Chatbot::deleteChatBot($id);
+        $authorization = Request::header('Authorization');
 
-        session()->flash('success', "Chat Bot deleted successfully.");
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
 
-        $this->emit('closeAlert');
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
     }
 
     public function resetForm()
@@ -68,9 +104,14 @@ class HaiChat extends Component
         $this->reset(['name', 'description']);
     }
 
+    public function getChats()
+    {
+        $this->chats = Chatbot::allChats();
+    }
+
     public function showModalChatBotDetail($id){
 
-        $this->chatBot = Chatbot::singleChatBot($id);
+        $this->chatBot = Chatbot::singleChat($id);
     }
 
     public function closeChatBotDetailModal(){
@@ -105,9 +146,8 @@ class HaiChat extends Component
 
     public function render()
     {
+        $this->getChats();
 
-        $this->chatBots = Chatbot::allChatBots();
-
-        return view('livewire.admin.hai-chat.hai-chat');
+        return view('livewire.admin.hai-chat.hai-chat', ['chats' => $this->chats]);
     }
 }

@@ -2,22 +2,16 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
-use App\Helpers\HaiChat\HaiChatHelpers;
-use App\Helpers\Helpers;
 use App\Models\HAIChai\EmbeddingSetting;
 use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatEmbedding;
-use App\Models\KnowledgeBase\KnowledgeBase;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
 class SearchEmbedding extends Component
 {
     public $name, $query, $chunks = [];
-
-    public $embedding;
 
     protected $rules = [
         'query' => 'required',
@@ -29,54 +23,41 @@ class SearchEmbedding extends Component
     public function submitForm()
     {
         try {
+            $this->validate();
 
-//            $client = \OpenAI::client(env('OPEN_AI_API_KEY'));
-//
-//            $response = $client->embeddings()->create([
-//                'model' => 'text-embedding-3-small',
-//                'input' => $this->query,
-//            ]);
-//
-//            $response = $response->toArray();
-//
-//            $pinecone = new \Probots\Pinecone\Client(env('PINECONE_API_KEY'));
-//
-//            $pinecone->setIndexHost('https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io');
+            $embedding = HaiChatEmbedding::getEmbeddingByName($this->name);;
 
-//            foreach ($response['data'] as $embedding){
-//
-//                $response = $pinecone->data()->vectors()->query(
-//                    vector:$embedding['embedding'],
-//                    topK : $this->embedding->chunks ?? 1,
-//                    includeMetadata : true,
-//                    filter : [
-////                        'id' => ['$in' => ['vector_1','vector_2']]
-////                        'id' => ['$in' => ['vector_1']],
-//                    ]
-//                );
-//
-//                $result = $response->array();
-//
-//                $this->chunks = array_filter($result['matches'] ?? [], function ($match) {
-//                    return $match['score'] >= 0.3;
-//                });
-//
-//            }
+            $setting = EmbeddingSetting::getEmbeddingSetting($this->name);
 
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2]);
 
-            $knowledgeBase = KnowledgeBase::where('embedding_id', $this->embedding->id)->get();
+            $i = 0;
 
-            $relevantChunks = HaiChatHelpers::findRelevantChunks($this->query, $knowledgeBase, $this->embedding->chunks ?? 1);
+            if ($aiReply['retrieved_docs'] ?? false){
 
-            $this->chunks = $relevantChunks;
+                foreach ($aiReply['retrieved_docs'] as $retrieved)
+                {
+                    foreach ($retrieved as $da)
+                    {
+                        $data = [
+                            'embedding' => $embedding,
+                            'query' => $this->query,
+                            'retrieved_docs' => $da
+                        ];
 
-            if (count($this->chunks) === 0){
+                        $this->chunks[$i] = $data;
 
-                session()->flash('error', 'No result found');
+                        $i++;
+                    }
+                }
 
             }
 
+//            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, $this->name);
+
             $this->query = '';
+
+            $this->emit('closeModel');
 
         }catch (\Exception $exception)
         {
@@ -86,8 +67,35 @@ class SearchEmbedding extends Component
         }
     }
 
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
+//    public function getChunks()
+//    {
+//        $this->chunks = HaiChaiChunk::getHaiChunk($this->name);
+//    }
+
     public function render()
     {
+
         return view('livewire.admin.hai-chat.search-embedding');
     }
 }

@@ -52,9 +52,9 @@ class EmbeddingGroup extends Model
         })->get();
     }
 
-    public static function groups($chat_bot_id = null, $searchName = null){
+    public static function groups($chat_bot_name = null, $searchName = null){
 
-        request()->merge(['chat_bot_id' => $chat_bot_id]);
+        request()->merge(['chat_bot' => $chat_bot_name]);
 
         return self::when($searchName,function ($query)use ($searchName){
 

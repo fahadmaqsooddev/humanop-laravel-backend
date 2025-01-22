@@ -121,7 +121,7 @@
                                                     @foreach($embeddings as $key => $embedding)
                                                         <li>
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="checkbox{{$key}}" wire:click="changeEmbeddingStatus('{{$embedding['knowledgeBase']['id'] ?? null}}')" {{($embedding['is_active_embedding'] ? 'checked' : '')}}>
+                                                                <input class="form-check-input" type="checkbox" id="checkbox{{$key}}" wire:click="changeEmbeddingStatus('{{$embedding['request_id']}}')" {{($embedding['is_active_embedding'] ? 'checked' : '')}}>
                                                                 <label class="form-check-label" for="checkbox{{$key}}">
                                                                     {{$embedding->name}}
                                                                 </label>
@@ -175,7 +175,7 @@
                                 @if(count($chunks) > 0)
                                     @foreach($chunks as $chunk)
                                         <div class="chunk-card input-bg">
-                                            <p class="custom-text-dark">{{ $chunk['content'] }}</p>
+                                            <p class="custom-text-dark">{{ $chunk['retrieved_docs'] }}</p>
                                         </div>
                                     @endforeach
                                 @endif
@@ -190,49 +190,49 @@
         </div>
     </div>
 
-{{--    --}}{{-- Create Embedding Models--}}
-{{--    <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"--}}
-{{--         aria-labelledby="createResource" aria-hidden="true">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-body" style=" border-radius: 9px">--}}
-{{--                    <form wire:submit.prevent="createEmbedding" enctype="multipart/form-data">--}}
-{{--                        @csrf--}}
-{{--                        <div class="card-body">--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col-12">--}}
-{{--                                    <label class="form-label fs-4 text-white">Create Embeding</label>--}}
-{{--                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"--}}
-{{--                                            aria-label="Close">--}}
-{{--                                        <span aria-hidden="true">&times;</span>--}}
-{{--                                    </button>--}}
-{{--                                    @include('layouts.message')--}}
-{{--                                    <div class="form-group mt-4">--}}
-{{--                                        <label class="form-label fs-4 text-white">Name</label>--}}
-{{--                                        <input style="background-color: #0f1534;" class="form-control text-white"--}}
-{{--                                               wire:model.defer="name" placeholder="Enter Embedding Name" type="text">--}}
-{{--                                    </div>--}}
+    {{-- Create Embedding Models--}}
+    <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"
+         aria-labelledby="createResource" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <form wire:submit.prevent="createEmbedding" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label fs-4 text-white">Create Embeding</label>
+                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    @include('layouts.message')
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Name</label>
+                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model.defer="name" placeholder="Enter Embedding Name" type="text">
+                                    </div>
 
-{{--                                    <div class="form-group mt-4">--}}
-{{--                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>--}}
-{{--                                        <input style="background-color: #0f1534;" wire:model.defer="embedding"--}}
-{{--                                               id="embedding_file"--}}
-{{--                                               class="form-control text-white" type="file"--}}
-{{--                                               accept="file/*">--}}
-{{--                                        <span wire:loading.flex wire:target="embedding">--}}
-{{--                                            Uploading ...--}}
-{{--                                        </span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>
+                                        <input style="background-color: #0f1534;" wire:model.defer="embedding"
+                                               id="embedding_file"
+                                               class="form-control text-white" type="file"
+                                               accept="file/*">
+                                        <span wire:loading.flex wire:target="embedding">
+                                            Uploading ...
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @push('js')
 

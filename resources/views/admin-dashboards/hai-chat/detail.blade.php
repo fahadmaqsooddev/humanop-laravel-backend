@@ -227,8 +227,8 @@
                 $lastSegment = array_pop($urlParts);
             @endphp
             <div class="col-lg-9 mt-lg-0 mt-4">
-                @livewire('admin.hai-chat.setting.prompt',['chatBot' => $chatBot])
-                @livewire('admin.hai-chat.setting.embedding',['chatBot' => $chatBot])
+                @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])
+                @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])
 
 {{--                <div class="card setting-box-background mt-4" id="capture">--}}
 {{--                    <div class="card-header">--}}
@@ -281,8 +281,8 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                @livewire('admin.hai-chat.setting.conversation',['chatBot' => $chatBot])
-                @livewire('admin.hai-chat.setting.setting', ['chatBot' => $chatBot])
+                @livewire('admin.hai-chat.setting.conversation',['name' => $lastSegment])
+                @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])
 
             </div>
         </div>

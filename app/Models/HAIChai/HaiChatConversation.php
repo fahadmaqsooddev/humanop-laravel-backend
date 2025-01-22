@@ -18,17 +18,17 @@ class HaiChatConversation extends Model
         parent::__construct($attributes);
     }
 
-    public static function getConversation($chat_bot_id = null, $user_id = null)
+    public static function getConversation($chatBot = null, $user_id = null)
     {
         $user_id = empty($user_id) ? null : $user_id;
-
-        return self::where('chat_bot_id', $chat_bot_id)->where('user_id', $user_id)->get();
+        
+        return self::where('chatbot', $chatBot)->where('user_id', $user_id)->get();
     }
 
-    public static function createConversation($chat_bot_id = null, $message = null,$reply = null,$user_id = null)
+    public static function createConversation($chatBot = null, $message = null,$reply = null,$user_id = null)
     {
         return self::create([
-            'chat_bot_id' => $chat_bot_id,
+            'chatbot' => $chatBot,
             'message' => $message,
             'reply' => $reply,
             'user_id' => $user_id

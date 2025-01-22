@@ -291,9 +291,7 @@
                             </div>
 
                         </div>
-                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">
-                            <span wire:loading.remove wire:target="createEmbedding">Create</span>
-                            <span wire:loading wire:target="createEmbedding">Creating...</span>
+                        <button type="submit" class="btn-sm-2 new-orange-button btn-sm float-end text-white mt-4 mb-0">Create
                         </button>
                     </form>
                 </div>

@@ -10,7 +10,6 @@ use App\Models\Admin\Coupon\Coupon;
 use App\Http\Requests\Admin\StripeSetting\UpdateStripeRequest;
 use App\Models\Client\Feedback\Feedback;
 use App\Models\HAIChai\Chatbot;
-use App\Models\HAIChai\HaiChatEmbedding;
 use App\Models\Upload\Upload;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Carbon\Carbon;
@@ -234,14 +233,9 @@ class AdminController extends Controller
     {
         try {
 
-            $chatBot = Chatbot::chatBotFromName($name);
+            $chatName = Chatbot::getChatFromVendorName($name);
 
-            if (!$chatBot){
-
-                return redirect()->back();
-            }
-
-            return view('admin-dashboards.hai-chat.detail', compact('chatBot'));
+            return view('admin-dashboards.hai-chat.detail', compact('chatName'));
 
         } catch (\Exception $exception) {
 
@@ -254,14 +248,7 @@ class AdminController extends Controller
     {
         try {
 
-            $embedding = HaiChatEmbedding::embeddingByName($name);
-
-            if (!$embedding){
-
-                return redirect()->back();
-            }
-
-            return view('admin-dashboards.hai-chat.embedding-detail', compact('embedding'));
+            return view('admin-dashboards.hai-chat.embedding-detail');
 
         } catch (\Exception $exception) {
 

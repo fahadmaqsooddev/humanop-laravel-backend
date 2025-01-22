@@ -80,28 +80,15 @@ class QueryAnswer extends Model
 
         $answer = self::whereId($id)->with('question')->first();
 
-        if ($answer){
+        $body = [
+            'question' => $answer['question']['query'] ?? null,
+            'answer' => $answer->answer ?? null,
+        ];
+        $app_env = env('APP_ENV');
 
-            $filePath = public_path('lisa_question_answer_doc/Lisa Document.txt');
+        $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
 
-            $fileContent = file_get_contents($filePath);
-
-            $newContent = $fileContent . "\n Question: ".($answer['question']['query'] ?? null)." \n Answer: $answer->answer";
-
-            file_put_contents($filePath, $newContent);
-
-        }
-
-//        $body = [
-//            'question' => $answer['question']['query'] ?? null,
-//            'answer' => $answer->answer ?? null,
-//        ];
-
-//        $app_env = env('APP_ENV');
-//
-//        $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
-//
-//        GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+        GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
     }
 }

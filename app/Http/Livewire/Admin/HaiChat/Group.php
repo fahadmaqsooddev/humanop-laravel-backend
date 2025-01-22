@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
-use App\Helpers\Helpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
-use App\Models\KnowledgeBase\KnowledgeBase;
-use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -55,33 +54,35 @@ class Group extends Component
     }
 
     public function createEmbedding(){
-
-        DB::beginTransaction();
-
         try {
 
             $this->validate();
+            // Get the real path of the uploaded file
+            $filePath = $this->embedding->getRealPath();
 
-            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name);
+            // Prepare the multipart data for sending
+            $multipart = [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ]
+            ];
 
-            $texts = Helpers::stringFromPdfOrTextFile($this->embedding);
+            // Include other form data like 'name' (if provided)
+            if ($this->embedding_name) {
+                $multipart[] = [
+                    'name'     => 'name',
+                    'contents' => $this->embedding_name
+                ];
+            }
+            // Send the request
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
+                'multipart' => $multipart
+            ]);
+            if(!empty($aiReply['request_id'])){
 
-            $yourApiKey = env('OPEN_AI_API_KEY');
-
-            $client = \OpenAI::client($yourApiKey);
-
-            foreach ($texts as $text){
-
-                $response = $client->embeddings()->create([
-                    'model' => 'text-embedding-3-small',
-                    'input' => $text,
-                ]);
-
-                $response = $response->toArray();
-
-                foreach ($response['data'] as $embeddingVector){
-
-                    KnowledgeBase::createEmbeddingKnowledge($text, $embeddingVector, $embedding->id);
+                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
 
                     if($embedding){
 
@@ -99,34 +100,45 @@ class Group extends Component
 
                     }else{
 
-                        DB::rollBack();
-
-                        session()->flash('embedding_error', "Something went wrong.");
-                    }
-
-                    DB::commit();
-
+                    session()->flash('embedding_error', "Something went wrong.");
                 }
-
             }
-
         }catch (\Illuminate\Validation\ValidationException $exception){
-
-            DB::rollBack();
 
             session()->flash('embedding_errors', $exception->validator->errors()->getMessages());
 
         } catch (\Exception $exception) {
 
-            DB::rollBack();
-
             session()->flash('embedding_error', $exception->getMessage());
-
         }
 
         $this->showGroupDropdownMenu = false;
 
         $this->emit('closeAlert');
+    }
+
+    public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+        $authorization = Request::header('Authorization');
+
+        // Prepare the query array with headers and multipart data
+        $queryArray = [
+            'headers' => [
+                'Authorization' => $authorization, // Authorization header
+            ],
+            'multipart' => $body['multipart'] // Send multipart data
+        ];
+
+        // Initialize Guzzle client
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        // Send the request
+        $response = $client->request($method, $route_name, $queryArray);
+
+        // Get and decode the response body
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
     }
 
     public function createGroup(){
@@ -173,27 +185,44 @@ class Group extends Component
 
     public function deleteEmbedding($id)
     {
-//        $embedding = HaiChatEmbedding::singleEmbedding($id);
+        $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-//        if ($embedding){
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
 
-        GroupEmbedding::deleteGroupEmbeddings($id);
+        if ($aiReply == 1)
+        {
 
-        KnowledgeBase::deleteEmbedding($id);
+            GroupEmbedding::deleteGroupEmbeddings($id);
 
-        HaiChatEmbedding::deleteEmbedding($id);
+            HaiChatEmbedding::deleteEmbedding($id);
 
-        session()->flash('embedding_deleted', "Embedding deleted successfully.");
+            session()->flash('embedding_deleted', "{$embedding['name']} deleted successfully.");
 
-        $this->emit('closeAlert');
+            $this->emit('closeAlert');
 
-//        }else{
-//
-//            session()->flash('error', "Something went wrong while deleting {$embedding['name']} embedding.");
-//
-//            $this->emit('closeAlert');
-//        }
+        }
 
+    }
+
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
     }
 
     public function setEmbeddingId($embedding_id){

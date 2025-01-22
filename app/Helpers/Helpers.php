@@ -14,8 +14,6 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Smalot\PdfParser\Parser;
-use Spatie\PdfToText\Pdf;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;

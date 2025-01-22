@@ -28,7 +28,7 @@
     <!-- Chatbot Cards Container -->
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
         <!-- Example Card -->
-        @foreach($chatBots as $chat)
+        @foreach($chats as $chat)
             <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
                     <div class="d-flex flex-column gap-3 chat-card">
@@ -193,7 +193,7 @@
                 confirmButtonText: 'Delete',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.livewire.emit('deleteChatBot', id)
+                    window.livewire.emit('deleteChatbot', id)
                 }
             })
         }
