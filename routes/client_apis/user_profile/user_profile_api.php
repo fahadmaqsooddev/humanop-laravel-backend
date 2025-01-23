@@ -23,7 +23,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('update-intention-plan', 'UserController@updateintentionPlan');
     Route::post('update-two-way-auth', 'UserController@changeTwoWayAuth');
     Route::post('complete-intro-guide', 'UserController@completeIntro');
-    Route::post('send-phone-otp', 'UserController@sendPhoneOtp');
     Route::delete('delete-profile', 'UserController@deleteProfile');
     Route::post('user-feedback', 'UserController@userFeedback');
     Route::post('/google/login/signup', 'UserController@googleLoginSignup');

@@ -317,12 +317,18 @@ class Helpers
         }
     }
 
-    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
+    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null, $embedLink = null)
     {
 
         if (!empty($sourceUrl))
         {
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+
+        if (!empty($embedLink))
+        {
+            return array('path' => $embedLink, 'original_name' => $embedLink);
 
         }
 
@@ -473,34 +479,34 @@ class Helpers
         }
     }
 
-    public static function sendNumberOtp($phone,$api = null){
-
-        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-        $to = $phone;
-
-        $message = 'Your Human Op verification code is '.$otpNumber;
-
-        $status = TwilioServices::sendOtp($to, $message);
-
-        if($status != false) {
-
-            if($api){
-
-                return $otpNumber;
-
-            }else{
-
-                Session::put(['two_way_auth.otp' => $otpNumber]);
-
-                return true;
-            }
-
-        }else {
-
-            return false;
-        }
-    }
+//    public static function sendNumberOtp($phone,$api = null){
+//
+//        $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+//
+//        $to = $phone;
+//
+//        $message = 'Your Human Op verification code is '.$otpNumber;
+//
+//        $status = TwilioServices::sendOtp($to, $message);
+//
+//        if($status != false) {
+//
+//            if($api){
+//
+//                return $otpNumber;
+//
+//            }else{
+//
+//                Session::put(['two_way_auth.otp' => $otpNumber]);
+//
+//                return true;
+//            }
+//
+//        }else {
+//
+//            return false;
+//        }
+//    }
 
     public static function stringFromPdfOrTextFile($file){
 

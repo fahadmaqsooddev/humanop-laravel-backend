@@ -23,6 +23,7 @@ Route::get('version', 'AuthController@appVersion');
 Route::get('resend-email-verification', 'AuthController@resendEmailVerification');
 Route::get('intention-option', 'UserController@intentionOption');
 Route::get('check-invite-link', 'AuthController@checkInviteLink');
+Route::post('send-phone-otp', 'AuthController@sendPhoneOtp');
 
 Route::post('email-verified', 'AuthController@EmailVerified');
 Route::post('register-first-step', 'AuthController@registerFirstStep');

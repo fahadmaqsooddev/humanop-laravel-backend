@@ -81,7 +81,7 @@ class Conversation extends Component
 
                         $assessment = Assessment::getAllRowGrid($latest_assessment->id);
 
-                        $gridColor = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id); 
+                        $gridColor = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id);
 
                         $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
                         $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
@@ -97,7 +97,7 @@ class Conversation extends Component
                                 "The list of user top traits, top drivers and top energy centers are " . json_encode($gridColor) .
                                 "and their values are " . json_encode($assessment['firstRow']) . ". If code is not present in the top codes then
                             said {code} is not a top code and if user ask from any n top code and its not available then said {driver/trait/energy center} has not any nth top.
-                            Answer must be to the point and does not contain codes full form and contain the values of the code that user ask.",
+                            Answer must be to the point and just use code abbreviations in answer with their values and contain the values of the code that user ask.",
                         ]];
 
                     }

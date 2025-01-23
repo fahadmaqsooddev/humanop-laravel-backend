@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Client\Auth\SocialLoginRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\RegisterRequest;
+use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -38,7 +39,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified']);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'registerClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp']);
 
         $this->auth = Auth::guard('api');
     }
@@ -246,7 +247,6 @@ class AuthController extends Controller
 
     }
 
-
     public function registerFirstStep(RegisterFirstStepRequest $request)
     {
         DB::beginTransaction();
@@ -417,25 +417,41 @@ class AuthController extends Controller
         }
     }
 
+    public function sendPhoneOtp(SendPhoneOtpRequest $request)
+    {
+        try {
 
-    /**
-     * Prepare email data.
-     */
-    private function prepareEmailData($user, $url)
+            $email = $request->input('email');
+
+            $checkUserEmail = User::checkEmail($email);
+
+            $otpNumber = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $emailData = $this->prepareEmailData($checkUserEmail, null, $otpNumber);
+
+            $this->sendEmailVerification($emailData, $email, '2fa-verification-code');
+
+            return Helpers::successResponse('Otp sent Successfully', ['otp' => $otpNumber]);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
     {
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
             '{$link}' => $url,
+            '{$code}' => $codeNumber,
             '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
             '{$service}' => url('/term-of-service'),
             '{$privacy}' => url('/privacy-policy'),
         ];
     }
 
-
-    /**
-     * Send email verification.
-     */
     private function sendEmailVerification($emailData, $recipientEmail, $name)
     {
         $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
@@ -447,7 +463,6 @@ class AuthController extends Controller
             $name
         );
     }
-
 
     public function logoutClient()
     {
@@ -595,19 +610,20 @@ class AuthController extends Controller
     {
         try {
 
+
             $user = User::getSingleUser($request['user_id']);
 
             $user = User::checkEmailVerified($user['email']);
 
-            $user->setAppends([]);
-
             if (!empty($user)) {
+
+                $user->setAppends([]);
 
                 return Helpers::successResponse('Your Email is verified', $user);
 
             } else {
 
-                return Helpers::serverErrorResponse('Your Email is not verified');
+                return Helpers::validationResponse('Your Email is not verified');
 
             }
 
