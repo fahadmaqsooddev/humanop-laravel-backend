@@ -52,7 +52,7 @@ class KnowledgeBase extends Model
 
         if ($knowledge){
 
-            HaiChatActiveEmbedding::where('id', $knowledge->id)->delete();
+            HaiChatActiveEmbedding::where('knowledge_base_id', $knowledge->id)->delete();
 
             $knowledge->delete();
 

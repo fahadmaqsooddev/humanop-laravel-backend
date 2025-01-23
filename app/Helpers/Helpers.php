@@ -14,6 +14,7 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use PhpOffice\PhpWord\Writer\PDF\DomPDF;
 use Smalot\PdfParser\Parser;
 use Spatie\PdfToText\Pdf;
 use Stripe\BaseStripeClient;
@@ -511,11 +512,19 @@ class Helpers
 
         }else{
 
-            $pdfParser = new Parser();
+            $text = Pdf::getText($file->getRealPath(),public_path() . '/library/pdftotext.exe');
 
-            $pdf = $pdfParser->parseFile($file->getRealPath());
+//            $parser = new Parser();
+//
+//            $pdf = $parser->parseFile($file->getRealPath());
+//
+//            $text = $pdf->getText();
+//
+//            $text = preg_replace('/\s+/', ' ', trim($text));
+//
+//            $new = preg_replace('/([a-z])([A-Z])/s','$1 $2', $text);
 
-            return str_split($pdf->getText(),3000);
+            return str_split($text,3000);
 
         }
 
