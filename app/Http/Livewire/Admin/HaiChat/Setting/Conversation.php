@@ -121,7 +121,7 @@ class Conversation extends Component
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Answer must be in HTML Format : " . $this->message,
+                        'content' => "Answer must be in HTML Format \n Headings must be in h5 tag with and in Dark Blue color : " . $this->message,
                     ]
                 ];
 
