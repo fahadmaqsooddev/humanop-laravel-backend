@@ -116,11 +116,12 @@ class Conversation extends Component
                     ],
                     [
                         'role' => 'assistant',
-                        'content' => "Here is the related context: ". implode('\n',$chunks) .".",
+//                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
+                        'content' => "Answer the question using this content: {". implode('\n',$chunks) ."}" ,
                     ],
                     [
                         'role' => 'user',
-                        'content' => $this->message,
+                        'content' => "Answer must be in HTML Format : " . $this->message,
                     ]
                 ];
 
