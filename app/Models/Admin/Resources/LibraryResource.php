@@ -34,13 +34,19 @@ class LibraryResource extends Model
     // append
     public function getPhotoUrlAttribute()
     {
+        if (empty($this->source_id) && empty($this->embed_link))
+        {
+            return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
-        return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
+        }else{
+
+            return null;
+        }
+
     }
 
     public function getVideoUrlAttribute()
     {
-
 
         if (!empty($this->source_id)) {
 
@@ -61,7 +67,14 @@ class LibraryResource extends Model
 
             }
 
-        } else {
+        }
+        elseif (!empty($this->embed_link))
+        {
+            return Helpers::getVideo($this->upload_id, 1, null,$this->embed_link);
+
+        }
+
+        else {
 
             return Helpers::getVideo($this->upload_id, 1, null);
 
@@ -82,7 +95,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null,$link=null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -91,14 +104,15 @@ class LibraryResource extends Model
             'resource_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
+            'embed_link'=>$link
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null,$link=null)
     {
-      
+
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
@@ -107,7 +121,8 @@ class LibraryResource extends Model
             'description' => $description,
             'content' => $content,
             'source_id' => null,
-            'source_url' => null
+            'source_url' => null,
+            'embed_link'=>$link
         ]);
 
         return self::singleLibraryResource($id);

@@ -14,6 +14,9 @@ use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use PhpOffice\PhpWord\Writer\PDF\DomPDF;
+use Smalot\PdfParser\Parser;
+use Spatie\PdfToText\Pdf;
 use Stripe\BaseStripeClient;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -314,12 +317,18 @@ class Helpers
         }
     }
 
-    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
+    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null, $embedLink = null)
     {
 
         if (!empty($sourceUrl))
         {
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+
+        if (!empty($embedLink))
+        {
+            return array('path' => $embedLink, 'original_name' => $embedLink);
 
         }
 
@@ -507,9 +516,17 @@ class Helpers
 
         }else{
 
-            $pdfParser = new Parser();
+            $text = Pdf::getText($file->getRealPath());
 
-            $pdf = $pdfParser->parseFile($file->getRealPath());
+//            $parser = new Parser();
+//
+//            $pdf = $parser->parseFile($file->getRealPath());
+//
+//            $text = $pdf->getText();
+//
+//            $text = preg_replace('/\s+/', ' ', trim($text));
+//
+//            $new = preg_replace('/([a-z])([A-Z])/s','$1 $2', $text);
 
             return $pdf->getText();
 

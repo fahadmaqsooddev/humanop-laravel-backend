@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Models\AssessmentColorCode;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -44,7 +46,15 @@ class Conversation extends Component
     {
         try {
 
-            $this->validate();
+//            $this->validate();
+
+//            $this->validate([
+//                'message' => 'required|max:2000',
+//            ],
+//            [
+//                'message.required' => 'The Message field is required.',
+//                'message.max' => 'Query does not contain more than 2000 characters',
+//            ]);
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
