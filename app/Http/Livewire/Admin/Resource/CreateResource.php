@@ -21,14 +21,14 @@ class CreateResource extends Component
     use WithFileUploads;
     public $booleanValue = false;
     public $elink='';
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name,$link;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name,$link;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory','fileChanged'];
    
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
-        'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
+        'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
         'permission' => 'required|array|min:1',
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
@@ -39,8 +39,8 @@ class CreateResource extends Component
     protected $messages = [
         'heading.required' => 'Heading is required.',
         'heading.unique' => 'The heading must be unique in the library resources.',
-        'resource.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
-        'resource.max' => 'The resource file size must not exceed 200MB.',
+        'resource_file.mimes' => 'The resource must be a valid file of type: jpeg, png, jpg, gif, mp4, mov, avi, mkv, mp3, wav.',
+        'resource_file.max' => 'The resource file size must not exceed 200MB.',
         'permission.required' => 'At least one permission is required.',
         'permission.array' => 'Permissions must be an array.',
         'permission.min' => 'At least one permission is required.',
@@ -54,6 +54,13 @@ class CreateResource extends Component
         $this->booleanValue = $value;
     }
 
+    public function handleFileChange()
+{
+    
+        $this->booleanValue = true;
+    
+}
+
     public function CreateResource()
     {
         try {
@@ -63,11 +70,11 @@ class CreateResource extends Component
 
             $this->validate();
 
-            $upload_id = $this->uploadFile($this->resource);
+            $upload_id = $this->uploadFile($this->resource_file);
 
             $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content,$this->link);
 
-            $this->uploadFileToGumlet($this->resource, $resource['id']);
+            $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
@@ -101,9 +108,26 @@ class CreateResource extends Component
         }
     }
 
-    public function updated(){
-        $this->elink=$this->link;
+    public function updatedLink($value){
+        $this->link=$value;
     }
+    public function updatedResourceLink()
+    {
+        
+        $this->booleanValue = $this->resource_file ? true : false;
+    }
+
+
+    public function getVideoLink()
+    {
+        $this->resource_file = null; // Important: Set to null, not empty string
+
+    }
+    public function getResourceFile()
+    {
+        $this->link = null; }
+
+   
 
     public function deleteResource($id, $slug)
     {
@@ -147,7 +171,7 @@ class CreateResource extends Component
         $booleanValue = false;
          $elink='';
          
-        $this->reset(['heading', 'resource', 'permission', 'resource','link','description','content']);
+        $this->reset(['heading', 'resource_file', 'permission', 'resource_file','link','description','content']);
     }
 
     public function handleRefreshQuery()
@@ -202,7 +226,7 @@ class CreateResource extends Component
         $this->heading = '';
         $this->description = '';
         $this->content = '';
-        $this->resource = '';
+        $this->resource_file = '';
         $this->permission = [];
     }
 
@@ -217,15 +241,15 @@ class CreateResource extends Component
         
         DB::beginTransaction();
         
-        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable|url','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable|url','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
       
-        if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4'])) {
+        if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
 
             $this->deleteFileToGumlet($getResource['source_id']);
 
-            $upload_id = $this->uploadFile($this->resource);
+            $upload_id = $this->uploadFile($this->resource_file);
            
         
             // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
@@ -235,11 +259,11 @@ class CreateResource extends Component
             tap($updateResource);
            
 
-            $this->uploadFileToGumlet($this->resource, $updateResource['id']);
+            $this->uploadFileToGumlet($this->resource_file, $updateResource['id']);
 
         } else {
 
-            $upload_id = $this->uploadFile($this->resource);
+            $upload_id = $this->uploadFile($this->resource_file);
 
             // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
             $this->elink=$this->link;
