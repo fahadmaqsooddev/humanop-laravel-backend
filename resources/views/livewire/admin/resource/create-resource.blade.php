@@ -292,28 +292,37 @@
                                     </div>
 
 
-                                    <div class="form-group mt-4  {{ $booleanValue ? 'd-none' : 'd-block' }}">
+                                    {{-- <div class="form-group mt-4  {{  $booleanValue ? 'd-none' : 'd-block' }}"> --}}
+                                    <div class="form-group mt-4 ">
                                         <label class="form-label fs-4 text-white">Gumlet Video Url</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white "
-                                               wire:model="link" placeholder="Link" type="text" id="embedlink"
+                                        wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
+                                         wire:change="getVideoLink"
                                         >
-
+                                        {{-- <p class="text-white mt-3">Updated Link: {{ $link }}</p> --}}
+                                    {{-- </div> --}}
                                     </div>
-                                    @if ($booleanValue==false && empty($link))
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    {{-- @if ($booleanValue==false && empty($link))
                                         <label class="form-label fs-4 text-white ">OR</label>
-                                    @endif
+                                    @endif --}}
 
-                                    <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}">
+                                    {{-- <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}"> --}}
+                                    <div class="form-group mt-4 ">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="resource"
+                                        <input style="background-color: #0f1534;" wire:model="resource_file"
                                                id="resourse_file"
+                                               wire:change="getResourceFile"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*"
-                                               {{-- wire:change="updateBooleanValue" --}}
-                                               onclick="checkFile(this)"
+                                               
+               
+                                              
                                         >
-                                        <span wire:loading.flex wire:target="resource">
+                                        {{-- <p class="text-white mt-3">Boolean Value: {{ $booleanValue ? 'True' : 'False' }}</p> --}}
+                                        
+                                        <span wire:loading.flex wire:target="resource_file">
 
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
@@ -325,9 +334,10 @@
 
                                         </span>
 
-                                        {{-- Boolean Value: {{ $booleanValue ? 'True' : 'False' }} --}}
+                                      
 
 
+                                    {{-- </div> --}}
                                     </div>
 
 
@@ -431,16 +441,23 @@
                                         </textarea>
                                     </div>
 
-                                    <div class="form-group mt-4 {{ $booleanValue ? 'd-none' : 'd-block' }}">
+                                    {{-- <div class="form-group mt-4 {{ $booleanValue ? 'd-none' : 'd-block' }}"> --}}
+                                    <div class="form-group mt-4 ">
                                         <label class="form-label fs-4 text-white">Gumlet Video Url</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model="link" placeholder="Link" type="text">
+                                        {{-- <input style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model="link" placeholder="Link" type="text" > --}}
+                                               <input style="background-color: #0f1534;" class="form-control text-white "
+                                        wire:model.debounce.500ms="link" placeholder="Link" type="text" id="embedlink"
+                                         wire:change="getVideoLink"
+                                        >
+                                    {{-- </div> --}}
                                     </div>
 
-
-                                    @if ($booleanValue==false && empty($elink))
-                                        <label class="form-label fs-4 text-white ">OR</label>
-                                    @endif
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    
+                                    {{-- @if ($booleanValue==false && empty($elink))
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    @endif --}}
 
                                     <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
@@ -448,16 +465,16 @@
                                                wire:model.defer="resourceId" type="text">
                                     </div>
                                     
-                                    <div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}">
+                                    {{-- <div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}"> --}}
                                         <div class="form-group mt-4 ">
                                             <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                                 [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                            <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                                   class="form-control text-white" type="file"
-                                                   accept="image/*,video/*,audio/*"
-                                                   onclick="checkFile(this)">
+                                                <input style="background-color: #0f1534;" wire:model.defer="resource_file"
+                                                id="resource_file"
+                                                class="form-control text-white" type="file"
+                                                accept="image/,video/,audio/*" wire:change="getResourceFile">
                                         </div>
-                                        <span wire:loading.flex wire:target="resource">
+                                        <span wire:loading.flex wire:target="resource_file">
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
@@ -488,7 +505,7 @@
                                             </div>
                                         @else
                                         @endif
-                                    </div>
+                                    {{-- </div> --}}
 
 
                                     <label class="form-label fs-4 text-white">Permission Level</label>
@@ -843,38 +860,13 @@
         }
 
 
-        // function checkFile(input) {
-        //     const file = input.files[0];
-        //     if (file) {
-        //         console.log('hello');
-                
-        //         Livewire.emit('fileChanged', true);
-        //     } else {
-                
-        //         console.log('bye');
-                
-        //         input.value = '';
-                
-        //         Livewire.emit('fileChanged', false);
-        //     }
-        // }
-
-        function checkFile(input) {
-            const file = input.files[0];
-            if (file) {
-                console.log('hello');
-                
-                Livewire.emit('fileChanged', true);
-            } else {
-                
-                console.log('bye');
-                
-                input.value = '';
-                
-                Livewire.emit('fileChanged', false);
-            }
-        }
        
+       
+
+ 
+
+
+
 
 
     </script>
