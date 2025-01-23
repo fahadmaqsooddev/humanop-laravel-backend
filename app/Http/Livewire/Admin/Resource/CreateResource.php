@@ -20,7 +20,7 @@ class CreateResource extends Component
 {
     use WithFileUploads;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name,$link;
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
 
@@ -31,6 +31,7 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
+        'link'=>'nullable|url'
     ];
 
     protected $messages = [
@@ -46,17 +47,22 @@ class CreateResource extends Component
         'description.max' => 'Description may not exceed 1000 characters.',
     ];
 
+    
+
+
+
     public function CreateResource()
     {
         try {
-
+             
+            
             DB::beginTransaction();
 
             $this->validate();
 
             $upload_id = $this->uploadFile($this->resource);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content,$this->link);
 
             $this->uploadFileToGumlet($this->resource, $resource['id']);
 
@@ -155,6 +161,7 @@ class CreateResource extends Component
         $this->description = $this->editResourceData['description'] ?? null;
 
         $this->update_content = $this->editResourceData['content'] ?? null;
+        $this->link = $this->editResourceData['embed_link'] ?? null;
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -196,10 +203,11 @@ class CreateResource extends Component
 
     public function updateResource()
     {
-
-        DB::beginTransaction();
-        $this->validate(['heading' => 'required', 'category_id' => 'required', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
         
+        DB::beginTransaction();
+        
+        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable|url','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+      
 
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4'])) {
 
@@ -209,9 +217,9 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource);
            
-
+        
             // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
             tap($updateResource);
 
@@ -222,7 +230,7 @@ class CreateResource extends Component
             $upload_id = $this->uploadFile($this->resource);
 
             // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content);
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
         }
 
