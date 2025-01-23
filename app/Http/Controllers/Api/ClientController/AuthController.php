@@ -610,19 +610,20 @@ class AuthController extends Controller
     {
         try {
 
+
             $user = User::getSingleUser($request['user_id']);
 
             $user = User::checkEmailVerified($user['email']);
 
-            $user->setAppends([]);
-
             if (!empty($user)) {
+
+                $user->setAppends([]);
 
                 return Helpers::successResponse('Your Email is verified', $user);
 
             } else {
 
-                return Helpers::serverErrorResponse('Your Email is not verified');
+                return Helpers::validationResponse('Your Email is not verified');
 
             }
 
