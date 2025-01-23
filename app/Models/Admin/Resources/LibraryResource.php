@@ -82,7 +82,7 @@ class LibraryResource extends Model
         return self::get();
     }
 
-    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null)
+    public static function createResource($heading = null, $uploadId = null, $category_id = null, $description = null, $content = null,$link=null)
     {
         $resource = self::create([
             'heading' => $heading,
@@ -91,14 +91,15 @@ class LibraryResource extends Model
             'resource_category_id' => $category_id,
             'description' => $description,
             'content' => $content,
+            'embed_link'=>$link
         ]);
 
         return $resource;
     }
 
-    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null)
+    public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null,$link=null)
     {
-      
+     
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
@@ -107,7 +108,8 @@ class LibraryResource extends Model
             'description' => $description,
             'content' => $content,
             'source_id' => null,
-            'source_url' => null
+            'source_url' => null,
+            'embed_link'=>$link
         ]);
 
         return self::singleLibraryResource($id);

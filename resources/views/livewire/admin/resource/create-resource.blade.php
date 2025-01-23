@@ -32,6 +32,7 @@
     </style>
 @endpush
 <div class="row container-fluid">
+   
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
             <div class="card-body p-3">
@@ -274,6 +275,15 @@
                                                   id="editor" name="content" wire:model="content" rows="10" cols="10">
                                         </textarea>
                                     </div>
+                                    
+                                 
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Embed link</label>
+                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model="link" placeholder="Link" type="text" id="embedlink" >
+                                    </div>
+                                    {{-- <p class="text-white mt-3">Entered Link: {{ $link }}</p> --}}
+                                    <label class="form-label fs-4 text-white">OR</label>
 
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
@@ -281,9 +291,11 @@
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                id="resourse_file"
                                                class="form-control text-white" type="file"
-                                               accept="image/*,video/*,audio/*">
+                                               accept="image/*,video/*,audio/*"
+                                               onchange="toggleInputFields()"
+                                               {{ !empty($link) ? 'disabled' : '' }}>
                                         <span wire:loading.flex wire:target="resource">
-                                            {{-- Uploading ... --}}
+                                           
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status" style="color: #f2661c !important;">
 
@@ -293,6 +305,9 @@
 
                                         </span>
                                     </div>
+                                    
+
+                                 
                                     <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
@@ -393,6 +408,14 @@
                                         </textarea>
                                     </div>
 
+                                    <div class="form-group mt-4">
+                                        <label class="form-label fs-4 text-white">Embed Link</label>
+                                        <input style="background-color: #0f1534;" class="form-control text-white"
+                                               wire:model.defer="link" placeholder="Link" type="text">
+                                    </div>
+                                    <p class="text-white mt-3">Entered Link: {{ $link }}</p>
+                                    <label class="form-label fs-4 text-white">OR</label>
+
                                     <div class="form-group mt-4" hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
@@ -435,6 +458,9 @@
                                         </div>
                                     @else
                                     @endif
+
+                                    
+
                                     <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
 
@@ -747,6 +773,9 @@
                     allOptionseditCheckbox.checked = [...optionCheckboxes1].every(checkbox => checkbox.checked);
                 });
             });
+
+
+    
         });
 
         function toggleCategoryBtn(id) {
@@ -779,7 +808,25 @@
                 }
             })
         }
+
+        
     </script>
+
+<script>
+    function toggleInputFields() {
+        const resourceInput = document.getElementById('resourse_file');
+        const linkInput = document.getElementById('embedlink');
+
+        // If a file is selected in the resource input, disable the link input field
+        if (resourceInput.files.length > 0) {
+            console.log(';by');
+            
+            linkInput.disabled = true;
+        } else {
+            linkInput.disabled = false;
+        }
+    }
+</script>
 
 
 @endpush
