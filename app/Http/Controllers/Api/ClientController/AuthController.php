@@ -386,7 +386,9 @@ class AuthController extends Controller
 
                 if (!empty($getInvite)) {
 
-                    $link = url('/register?link=' . $getInvite['link']);
+//                    $link = url('/register?link=' . $getInvite['link']);
+
+                    $link = env('CLIENT_DASHBOARD_URL') . '/register?link=' . $getInvite['link'];
 
                     return response()->json(['link' => $link]);
 
@@ -394,7 +396,7 @@ class AuthController extends Controller
 
                     $createlink = UserInvite::sendInvite($validatedData['email']);
 
-                    $link = url('/register?link=' . $createlink['link']);
+                    $link = env('CLIENT_DASHBOARD_URL') . '/register?link=' . $createlink['link'];
 
                     return response()->json(['link' => $link]);
 
