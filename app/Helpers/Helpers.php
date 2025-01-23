@@ -518,7 +518,7 @@ class Helpers
 
         }else{
 
-            $text = Pdf::getText($file->getRealPath(),public_path() . '/library/pdftotext.exe');
+            $text = Pdf::getText($file->getRealPath());
 
 //            $parser = new Parser();
 //
