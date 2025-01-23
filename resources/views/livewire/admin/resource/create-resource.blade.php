@@ -32,7 +32,7 @@
     </style>
 @endpush
 <div class="row container-fluid">
-
+{{-- {{dd($booleanValue)}} --}}
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
             <div class="card-body p-3">
@@ -293,7 +293,7 @@
 
 
                                     <div class="form-group mt-4  {{ $booleanValue ? 'd-none' : 'd-block' }}">
-                                        <label class="form-label fs-4 text-white">Embed link</label>
+                                        <label class="form-label fs-4 text-white">Gumlet Video Url</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white "
                                                wire:model="link" placeholder="Link" type="text" id="embedlink"
                                         >
@@ -432,10 +432,11 @@
                                     </div>
 
                                     <div class="form-group mt-4 {{ $booleanValue ? 'd-none' : 'd-block' }}">
-                                        <label class="form-label fs-4 text-white">Embed Link</label>
+                                        <label class="form-label fs-4 text-white">Gumlet Video Url</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model="elink" placeholder="Link" type="text">
+                                               wire:model="link" placeholder="Link" type="text">
                                     </div>
+
 
                                     @if ($booleanValue==false && empty($elink))
                                         <label class="form-label fs-4 text-white ">OR</label>
@@ -446,6 +447,7 @@
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
+                                    
                                     <div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}">
                                         <div class="form-group mt-4 ">
                                             <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
@@ -841,19 +843,38 @@
         }
 
 
+        // function checkFile(input) {
+        //     const file = input.files[0];
+        //     if (file) {
+        //         console.log('hello');
+                
+        //         Livewire.emit('fileChanged', true);
+        //     } else {
+                
+        //         console.log('bye');
+                
+        //         input.value = '';
+                
+        //         Livewire.emit('fileChanged', false);
+        //     }
+        // }
+
         function checkFile(input) {
             const file = input.files[0];
             if (file) {
                 console.log('hello');
-
-                Livewire.emit('fileChanged', false);
-            } else {
-
-                console.log('hello byyyyy');
-                input.value = '';
+                
                 Livewire.emit('fileChanged', true);
+            } else {
+                
+                console.log('bye');
+                
+                input.value = '';
+                
+                Livewire.emit('fileChanged', false);
             }
         }
+       
 
 
     </script>

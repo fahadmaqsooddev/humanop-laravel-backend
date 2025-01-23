@@ -101,6 +101,10 @@ class CreateResource extends Component
         }
     }
 
+    public function updated(){
+        $this->elink=$this->link;
+    }
+
     public function deleteResource($id, $slug)
     {
         try {
@@ -140,7 +144,10 @@ class CreateResource extends Component
 
     public function resetForm()
     {
-        $this->reset(['heading', 'resource', 'permission', 'resource']);
+        $booleanValue = false;
+         $elink='';
+         
+        $this->reset(['heading', 'resource', 'permission', 'resource','link','description','content']);
     }
 
     public function handleRefreshQuery()
@@ -164,7 +171,7 @@ class CreateResource extends Component
         $this->description = $this->editResourceData['description'] ?? null;
 
         $this->update_content = $this->editResourceData['content'] ?? null;
-        $this->link = $this->editResourceData['embed_link'] ?? null;
+        // $this->link = $this->editResourceData['embed_link'] ?? null;
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -207,11 +214,11 @@ class CreateResource extends Component
     public function updateResource()
     {
         
+        
         DB::beginTransaction();
         
         $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable|url','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
       
-
         if (!empty($this->resource) && in_array($this->resource->extension(), ['mp4'])) {
 
             $getResource = LibraryResource::singleLibraryResource($this->resourceId);
@@ -222,10 +229,11 @@ class CreateResource extends Component
            
         
             // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-            $this->link=$this->elink;
+            $this->elink=$this->link;
             $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
             tap($updateResource);
+           
 
             $this->uploadFileToGumlet($this->resource, $updateResource['id']);
 
@@ -234,7 +242,8 @@ class CreateResource extends Component
             $upload_id = $this->uploadFile($this->resource);
 
             // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-            $this->link=$this->elink;
+            $this->elink=$this->link;
+            
             LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
         }
@@ -277,6 +286,7 @@ class CreateResource extends Component
 
     public function uploadFile($resourceFile = null)
     {
+        
         if (!empty($resourceFile)) {
             if (in_array($resourceFile->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
 
@@ -290,6 +300,8 @@ class CreateResource extends Component
                 return Upload::uploadFile($resourceFile, '', '', 'video');
 
             }
+           
+         
 
         } else {
 
