@@ -19,10 +19,12 @@ use App\Models\Admin\Resources\PermissionResource;
 class CreateResource extends Component
 {
     use WithFileUploads;
-
+    public $booleanValue = false;
+    public $elink='';
     public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource, $category_id, $permission = [], $editResourceData, $category_name,$link;
 
-    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory'];
+    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory','fileChanged'];
+   
 
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
@@ -47,9 +49,10 @@ class CreateResource extends Component
         'description.max' => 'Description may not exceed 1000 characters.',
     ];
 
-    
-
-
+    public function fileChanged($value)
+    {
+        $this->booleanValue = $value;
+    }
 
     public function CreateResource()
     {
@@ -219,6 +222,7 @@ class CreateResource extends Component
            
         
             // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            $this->link=$this->elink;
             $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
             tap($updateResource);
@@ -230,6 +234,7 @@ class CreateResource extends Component
             $upload_id = $this->uploadFile($this->resource);
 
             // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
+            $this->link=$this->elink;
             LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
         }

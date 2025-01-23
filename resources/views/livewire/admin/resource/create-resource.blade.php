@@ -277,23 +277,27 @@
                                     </div>
                                     
                                  
-                                    <div class="form-group mt-4">
+                                    <div class="form-group mt-4  {{ $booleanValue ? 'd-none' : 'd-block' }}">
                                         <label class="form-label fs-4 text-white">Embed link</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model="link" placeholder="Link" type="text" id="embedlink" >
+                                        <input style="background-color: #0f1534;" class="form-control text-white "
+                                               wire:model="link" placeholder="Link" type="text" id="embedlink"
+                                                >
+                                              
                                     </div>
-                                    {{-- <p class="text-white mt-3">Entered Link: {{ $link }}</p> --}}
-                                    <label class="form-label fs-4 text-white">OR</label>
+                                    @if ($booleanValue==false && empty($link))
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    @endif
 
-                                    <div class="form-group mt-4">
+                                    <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                id="resourse_file"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*"
-                                               onchange="toggleInputFields()"
-                                               {{ !empty($link) ? 'disabled' : '' }}>
+                                                {{-- wire:change="updateBooleanValue" --}}
+                                                onclick="checkFile(this)"
+                                               >
                                         <span wire:loading.flex wire:target="resource">
                                            
                                             <div class="d-flex align-items-center mt-2">
@@ -304,6 +308,10 @@
                                               </div>
 
                                         </span>
+
+                                        {{-- Boolean Value: {{ $booleanValue ? 'True' : 'False' }} --}}
+
+                                       
                                     </div>
                                     
 
@@ -408,26 +416,29 @@
                                         </textarea>
                                     </div>
 
-                                    <div class="form-group mt-4">
+                                    <div class="form-group mt-4 {{ $booleanValue ? 'd-none' : 'd-block' }}">
                                         <label class="form-label fs-4 text-white">Embed Link</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="link" placeholder="Link" type="text">
+                                               wire:model="elink" placeholder="Link" type="text">
                                     </div>
-                                    <p class="text-white mt-3">Entered Link: {{ $link }}</p>
-                                    <label class="form-label fs-4 text-white">OR</label>
 
-                                    <div class="form-group mt-4" hidden>
+                                    @if ($booleanValue==false && empty($elink))
+                                    <label class="form-label fs-4 text-white ">OR</label>
+                                    @endif
+
+                                    <div class="form-group mt-4 " hidden>
                                         <label class="form-label fs-4 text-white">Resource Id</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
-
-                                    <div class="form-group mt-4">
+<div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}" >
+                                    <div class="form-group mt-4 ">
                                         <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
                                             [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
                                         <input style="background-color: #0f1534;" wire:model.defer="resource"
                                                class="form-control text-white" type="file"
-                                               accept="image/*,video/*,audio/*">
+                                               accept="image/*,video/*,audio/*"
+                                               onclick="checkFile(this)">
                                     </div>
                                     <span wire:loading.flex wire:target="resource">
                                             {{-- Uploading ... --}}
@@ -458,6 +469,7 @@
                                         </div>
                                     @else
                                     @endif
+</div>
 
                                     
 
@@ -809,24 +821,27 @@
             })
         }
 
+
         
-    </script>
-
-<script>
-    function toggleInputFields() {
-        const resourceInput = document.getElementById('resourse_file');
-        const linkInput = document.getElementById('embedlink');
-
-        // If a file is selected in the resource input, disable the link input field
-        if (resourceInput.files.length > 0) {
-            console.log(';by');
-            
-            linkInput.disabled = true;
+       
+    function checkFile(input) {
+        const file = input.files[0]; 
+        if (file) {
+            console.log('hello');
+          
+            Livewire.emit('fileChanged', false);
         } else {
-            linkInput.disabled = false;
+           
+            console.log('hello byyyyy');
+            input.value = ''; 
+            Livewire.emit('fileChanged', true);
         }
     }
-</script>
+
+    
+    </script>
+
+
 
 
 @endpush
