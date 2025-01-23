@@ -41,7 +41,7 @@
 
                      
                                <div style="text-align: justify" class="mystyle">
-                                <h2 style="color: #f2661c;">{{$trait_intro['public_name']}}</h2>
+                                <h2 style="color: #f2661c;">YOUR TRAITS</h2>
                                 {!!$trait_intro['description']!!}
                                </div>
                                
@@ -57,7 +57,7 @@
 
                                
                                     <div style="text-align: justify"  class="mystyle">
-                                        <h2 style="color: #f2661c;">{{$motivation_intro['public_name']}}</h2>
+                                        <h2 style="color: #f2661c;">YOUR MOTIVATION</h2>
                                       {!!$motivation_intro['description']!!}
                                     </div>
 
@@ -225,7 +225,7 @@
 
                                
                                  <div style="text-align: justify"  class="mystyle">
-                                    <h2 style="color: #f2661c;">{{$intro_boundaries['public_name']}}</h2>
+                                    <h2 style="color: #f2661c;">YOUR BOUNDARIES</h2>
                                    {!!$intro_boundaries['description']!!}
                                  </div>
                                 @if($boundary)
@@ -339,9 +339,11 @@
                                     <h2 class="mt-4" style="color: #f2661c; text-align: justify">YOU HAVE
                                         A {{ $boundaryHeading }} Alchemy</h2>
                                     <div class="mt-4" style="border: 0px solid #ccc;">
+                                     @if(!empty($boundaryImage))
                                         <img
                                             src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('assets/' . $boundaryImage))) }}"
                                             style="background:#351a0d; padding: 0px; max-width: 500px"/>
+                                      @endif      
                                     </div>
                                     <div style="text-align: justify">
                                         <p class="text-white mt-4" style="text-align: justify">{!! $boundaryText !!}</p>
@@ -353,7 +355,7 @@
                               
 
                                     <div style="text-align:justify"  class="mystyle">
-                                        <h2 style="color: #f2661c;">{{$intro_communication['public_name']}}</h2>
+                                        <h2 style="color: #f2661c;">YOUR COMMUNICATION STYLE</h2>
                                      {!!$intro_communication['description']!!}
                                     </div>
 
@@ -424,7 +426,7 @@
 
                           
                                  <div style="text-align: justify"  class="mystyle">
-                                    <h2 style="color: #f2661c;">{{$intro_perceptionlife['public_name']}}</h2>
+                                    <h2 style="color: #f2661c;">YOUR PERCEPTION OF LIFE</h2>
                                 {!!$intro_perceptionlife['description']!!}
                                  </div>
                                 @if($perception)
@@ -479,6 +481,7 @@
                           
 
                                     <div style="text-align: justify"  class="mystyle">
+                                        <h2 style="color: #f2661c;">YOUR ENERGY POOL</h2>
                                     {!!$intro_energypool['description']!!}
                                     </div>
                                    
