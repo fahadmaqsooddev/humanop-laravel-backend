@@ -316,12 +316,18 @@ class Helpers
         }
     }
 
-    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null)
+    public static function getVideo($video, $is_original_name = 0, $sourceUrl = null, $embedLink = null)
     {
 
         if (!empty($sourceUrl))
         {
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
+
+        }
+
+        if (!empty($embedLink))
+        {
+            return array('path' => $embedLink, 'original_name' => $embedLink);
 
         }
 

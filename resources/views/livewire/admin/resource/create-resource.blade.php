@@ -21,18 +21,18 @@
             z-index: 1050 !important;
         }
 
-        .ck > p > a{
+        .ck > p > a {
             color: blue !important;
         }
 
-        #html-formated-text-span > p > a{
+        #html-formated-text-span > p > a {
             color: blue !important;
         }
 
     </style>
 @endpush
 <div class="row container-fluid">
-   
+
     <div class="col-lg-9 position-relative z-index-2">
         <div class="mb-4">
             <div class="card-body p-3">
@@ -44,12 +44,14 @@
                     </div>
                     <div class="col-lg-6">
                         <button class=" btn-sm mt-2 mb-0" type="button" data-toggle="modal"
-                                data-target="#createCategory" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
+                                data-target="#createCategory"
+                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                             Add Category
                         </button>
                         <button data-bs-toggle="modal" data-bs-target="#createResource" wire:click="emptyCreateForm"
                                 id="create_resourse_btn"
-                                class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Create Resource
+                                class=" btn-sm float-end mt-2 mb-0"
+                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">Create Resource
                         </button>
                     </div>
                 </div>
@@ -93,7 +95,9 @@
                             </div>
                         </a>
                         <div class="d-none p-3 py-0" id="category_edit_{{$category->id}}">
-                            <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px" onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete Category
+                            <button style="background-color: red; color: white;margin-right: 5px;margin-bottom: 0px"
+                                    onclick="confirmDeleteCategory('{{$category->id }}')" class="btn btn-sm mb-2">Delete
+                                Category
                             </button>
 
                             <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
@@ -178,15 +182,23 @@
                                          src="{{ $resource['photo_url'] ? $resource['photo_url']['url'] : '' }}">
                                 @elseif(!empty($resource['video_url']))
                                     <video controls style="width: 100%; max-height: 400px;">
-                                        <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}" type="video/mp4">
+                                        <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}"
+                                                type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
                                 @elseif(!empty($resource['audio_url']))
                                     <audio controls style="width: 100%;">
-                                        <source src="{{ $resource['audio_url'] ? $resource['audio_url']['path'] : '' }}" type="audio/mpeg">
+                                        <source src="{{ $resource['audio_url'] ? $resource['audio_url']['path'] : '' }}"
+                                                type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
                                 @endif
+                            @elseif($resource['embed_link'] != null)
+                                <video controls style="width: 100%; max-height: 400px;">
+                                    <source src="{{ $resource['video_url'] ? $resource['video_url']['path'] : '' }}"
+                                            type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             @endif
 
                             <div class="mt-2 text-white">
@@ -199,13 +211,15 @@
 
                         </div>
                         <div>
-                            <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')" style="background-color: red; color: white"
+                            <button wire:click="deleteResource({{ $resource['id'] }}, '{{ $resource['slug'] }}')"
+                                    style="background-color: red; color: white"
                                     class="btn btn-sm float-end mt-2 mb-4 mx-3">Delete Resource
                                 <span wire:loading wire:target="deleteResource" class="swal2-loader"
                                       style="font-size: 8px;">
                                 </span>
                             </button>
-                            <button wire:click="editResource({{ $resource['id'] }})" style="background-color: #f2661c; color: white"
+                            <button wire:click="editResource({{ $resource['id'] }})"
+                                    style="background-color: #f2661c; color: white"
                                     class="btn btn-sm float-end mt-2 mb-4 mx-3">Edit Resource
                                 <span wire:loading wire:target="editResource" class="swal2-loader"
                                       style="font-size: 8px;">
@@ -258,7 +272,8 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Heading</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="heading" placeholder="heading" type="text" maxlength="150">
+                                               wire:model.defer="heading" placeholder="heading" type="text"
+                                               maxlength="150">
                                     </div>
 
                                     <div class="form-group mt-4">
@@ -275,17 +290,17 @@
                                                   id="editor" name="content" wire:model="content" rows="10" cols="10">
                                         </textarea>
                                     </div>
-                                    
-                                 
+
+
                                     <div class="form-group mt-4  {{ $booleanValue ? 'd-none' : 'd-block' }}">
                                         <label class="form-label fs-4 text-white">Embed link</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white "
                                                wire:model="link" placeholder="Link" type="text" id="embedlink"
-                                                >
-                                              
+                                        >
+
                                     </div>
                                     @if ($booleanValue==false && empty($link))
-                                    <label class="form-label fs-4 text-white ">OR</label>
+                                        <label class="form-label fs-4 text-white ">OR</label>
                                     @endif
 
                                     <div class="form-group mt-4 {{ !empty($link) ? 'd-none' : 'd-block' }}">
@@ -295,13 +310,14 @@
                                                id="resourse_file"
                                                class="form-control text-white" type="file"
                                                accept="image/*,video/*,audio/*"
-                                                {{-- wire:change="updateBooleanValue" --}}
-                                                onclick="checkFile(this)"
-                                               >
+                                               {{-- wire:change="updateBooleanValue" --}}
+                                               onclick="checkFile(this)"
+                                        >
                                         <span wire:loading.flex wire:target="resource">
-                                           
+
                                             <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status" style="color: #f2661c !important;">
+                                                <div class="spinner-border" role="status"
+                                                     style="color: #f2661c !important;">
 
                                                 </div>
                                                 <span class="ms-2" style="color: #f2661c;">Uploading...</span>
@@ -311,11 +327,10 @@
 
                                         {{-- Boolean Value: {{ $booleanValue ? 'True' : 'False' }} --}}
 
-                                       
-                                    </div>
-                                    
 
-                                 
+                                    </div>
+
+
                                     <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
                                         <div class="col-6">
@@ -423,7 +438,7 @@
                                     </div>
 
                                     @if ($booleanValue==false && empty($elink))
-                                    <label class="form-label fs-4 text-white ">OR</label>
+                                        <label class="form-label fs-4 text-white ">OR</label>
                                     @endif
 
                                     <div class="form-group mt-4 " hidden>
@@ -431,54 +446,55 @@
                                         <input style="background-color: #0f1534;" class="form-control text-white"
                                                wire:model.defer="resourceId" type="text">
                                     </div>
-<div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}" >
-                                    <div class="form-group mt-4 ">
-                                        <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
-                                            [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="resource"
-                                               class="form-control text-white" type="file"
-                                               accept="image/*,video/*,audio/*"
-                                               onclick="checkFile(this)">
-                                    </div>
-                                    <span wire:loading.flex wire:target="resource">
+                                    <div class="{{ !empty($elink) ? 'd-none' : 'd-block' }}">
+                                        <div class="form-group mt-4 ">
+                                            <label class="form-label fs-4 text-white">Resource (Image, Video, or Audio
+                                                [PNG, JPG, GIF, MP4, MP3, MPEG, MOV])</label>
+                                            <input style="background-color: #0f1534;" wire:model.defer="resource"
+                                                   class="form-control text-white" type="file"
+                                                   accept="image/*,video/*,audio/*"
+                                                   onclick="checkFile(this)">
+                                        </div>
+                                        <span wire:loading.flex wire:target="resource">
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
-                                                <div class="spinner-border" role="status" style="color: #f2661c !important;">
+                                                <div class="spinner-border" role="status"
+                                                     style="color: #f2661c !important;">
 
                                                 </div>
                                                 <span class="ms-2" style="color: #f2661c;">Uploading...</span>
                                               </div>
                                         </span>
-                                    @if(!empty($editResourceData['photo_url']))
-                                        <div class="form-group mt-4">
-                                            <img src="{{$editResourceData['photo_url']['url'] ?? null}}" height="120"
-                                                 width="200">
-                                        </div>
-                                    @elseif(!empty($editResourceData['video_url']))
-                                        <div class="form-group mt-4">
-                                            <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
-                                                   style="height: 200px;"></video>
-                                        </div>
-                                    @elseif(!empty($editResourceData['audio_url']))
-                                        <div class="form-group mt-4">
-                                            <audio controls style="width: 100%;">
-                                                <source src="{{ $editResourceData['audio_url']['path'] }}"
-                                                        type="audio/mpeg">
-                                                Your browser does not support the audio element.
-                                            </audio>
-                                        </div>
-                                    @else
-                                    @endif
-</div>
+                                        @if(!empty($editResourceData['photo_url']))
+                                            <div class="form-group mt-4">
+                                                <img src="{{$editResourceData['photo_url']['url'] ?? null}}"
+                                                     height="120"
+                                                     width="200">
+                                            </div>
+                                        @elseif(!empty($editResourceData['video_url']))
+                                            <div class="form-group mt-4">
+                                                <video controls src="{{$editResourceData['video_url']['path'] ?? null}}"
+                                                       style="height: 200px;"></video>
+                                            </div>
+                                        @elseif(!empty($editResourceData['audio_url']))
+                                            <div class="form-group mt-4">
+                                                <audio controls style="width: 100%;">
+                                                    <source src="{{ $editResourceData['audio_url']['path'] }}"
+                                                            type="audio/mpeg">
+                                                    Your browser does not support the audio element.
+                                                </audio>
+                                            </div>
+                                        @else
+                                        @endif
+                                    </div>
 
-                                    
 
                                     <label class="form-label fs-4 text-white">Permission Level</label>
                                     <div class="row">
 
                                         <ul>
                                             @foreach($editResourceData['library_permissions'] ?? [] as $permission)
-                                            @if($permission['permission'] === 1)
+                                                @if($permission['permission'] === 1)
                                                     <li>Freemium</li>
                                                 @elseif($permission['permission'] === 2)
                                                     <li>Core</li>
@@ -495,7 +511,8 @@
 
                                         <div class="col-6">
                                             <div class="form-check">
-                                                        <input type="checkbox" wire:model.defer="permission" value="1"class="form-check-input option-checkbox1">
+                                                <input type="checkbox" wire:model.defer="permission" value="1"
+                                                       class="form-check-input option-checkbox1">
                                                 <label class="form-check-label text-white">Freemium</label>
                                             </div>
                                         </div>
@@ -509,7 +526,7 @@
                                         <div class="col-6">
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="2"
-                                                       class="form-check-input option-checkbox1" >
+                                                       class="form-check-input option-checkbox1">
                                                 <label class="form-check-label text-white">Core</label>
                                             </div>
                                         </div>
@@ -517,7 +534,8 @@
                                             <div class="form-check">
                                                 <input type="checkbox" wire:model.defer="permission" value="4"
                                                        class="form-check-input" id="editOptions">
-                                                <label class="form-check-label text-white" for="editOptions">All Of The Above</label>
+                                                <label class="form-check-label text-white" for="editOptions">All Of The
+                                                    Above</label>
                                             </div>
                                         </div>
                                     </div>
@@ -552,7 +570,8 @@
 
                     <label class="text-white">Category Name </label>
                     <input style="background-color: #0f1534;" class="form-control text-white"
-                           wire:model.defer="category_name" placeholder="Enter category name" type="text" maxlength="191">
+                           wire:model.defer="category_name" placeholder="Enter category name" type="text"
+                           maxlength="191">
 
                     @if(session()->has('success'))
                         <span class="text-sm text-success">{{session()->get('success')}}</span>
@@ -622,6 +641,7 @@
             "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
         }
     }
+
 
 
 
@@ -787,7 +807,6 @@
             });
 
 
-    
         });
 
         function toggleCategoryBtn(id) {
@@ -822,23 +841,21 @@
         }
 
 
-        
-       
-    function checkFile(input) {
-        const file = input.files[0]; 
-        if (file) {
-            console.log('hello');
-          
-            Livewire.emit('fileChanged', false);
-        } else {
-           
-            console.log('hello byyyyy');
-            input.value = ''; 
-            Livewire.emit('fileChanged', true);
-        }
-    }
+        function checkFile(input) {
+            const file = input.files[0];
+            if (file) {
+                console.log('hello');
 
-    
+                Livewire.emit('fileChanged', false);
+            } else {
+
+                console.log('hello byyyyy');
+                input.value = '';
+                Livewire.emit('fileChanged', true);
+            }
+        }
+
+
     </script>
 
 

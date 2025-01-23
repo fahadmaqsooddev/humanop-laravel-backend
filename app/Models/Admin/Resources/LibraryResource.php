@@ -34,13 +34,19 @@ class LibraryResource extends Model
     // append
     public function getPhotoUrlAttribute()
     {
+        if (empty($this->source_id) && empty($this->embed_link))
+        {
+            return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
 
-        return Helpers::getImage($this->upload_id, 'humanop_default_image.png');
+        }else{
+
+            return null;
+        }
+
     }
 
     public function getVideoUrlAttribute()
     {
-
 
         if (!empty($this->source_id)) {
 
@@ -61,7 +67,14 @@ class LibraryResource extends Model
 
             }
 
-        } else {
+        }
+        elseif (!empty($this->embed_link))
+        {
+            return Helpers::getVideo($this->upload_id, 1, null,$this->embed_link);
+
+        }
+
+        else {
 
             return Helpers::getVideo($this->upload_id, 1, null);
 
@@ -99,7 +112,7 @@ class LibraryResource extends Model
 
     public static function updateResource($heading = null, $uploadId = null, $id = null, $category_id = null, $description = null, $content = null,$link=null)
     {
-     
+
         self::whereId($id)->update([
             'heading' => $heading,
             'slug' => Str::slug($heading),
