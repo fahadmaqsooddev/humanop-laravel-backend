@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\Code\CodeDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Assessment;
@@ -538,8 +539,15 @@ class AssessmentColorCode extends Model
         $assessmentCodeColors = self::where('assessment_id', $assessmentId)->get();
 
         $code_color = [];
+
         foreach ($assessmentCodeColors as $assessment) {
-            $code_color[$assessment['code']] = $assessment['code_number'];
+
+            $public_name = CodeDetail::where('code', $assessment['code'])->first()->public_name ?? null;
+
+            if ($public_name){
+
+                $code_color[$public_name] = $assessment['code_number'];
+            }
         }
 
         return $code_color;

@@ -35,64 +35,72 @@ class DashboardController extends Controller
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 
-            $userDailyTip = UserDailyTip::getLatestTip();
+            if (!empty($assessment))
+            {
+                $userDailyTip = UserDailyTip::getLatestTip();
 
-            if ($userDailyTip) {
+                if ($userDailyTip) {
 
-                $isRead = $userDailyTip['is_read'];
+                    $isRead = $userDailyTip['is_read'];
 
-                $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
+                    $updatedWithinDay = $userDailyTip['updated_at'] >= now()->subDay();
 
-                if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
-
-                    $data = [
-                        'title' => $userDailyTip['dailyTip']['title'] ?? '',
-                        'description' => $userDailyTip['dailyTip']['description'] ?? '',
-                        'is_read' => $isRead,
-                        'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
-                    ];
-
-                    return Helpers::successResponse('Daily Tip', $data);
-                }
-            }
-
-            do {
-
-                $randomCode = DailyTip::randomCode($assessment);
-
-                $newDailyTip = DailyTip::getSameCodeTips($randomCode);
-
-                if ($newDailyTip) {
-
-                    $latestTip = UserDailyTip::where('user_id', $user['id'])
-                        ->where('daily_tip_id', $newDailyTip['id'])
-                        ->latest()
-                        ->first();
-
-                    if (empty($latestTip)) {
-
-                        $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
-
-                        $message = 'Your New Daily Tip';
-
-                        event(new NewDailyTip($user['id'], 'new daily tip', $message));
-
-                        Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+                    if ($isRead == 0 || ($isRead == 1 && $updatedWithinDay)) {
 
                         $data = [
-                            'title' => $newUserDailyTip['dailyTip']['title'],
-                            'description' => $newUserDailyTip['dailyTip']['description'],
-                            'is_read' => $newUserDailyTip['is_read'],
-                            'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
+                            'title' => $userDailyTip['dailyTip']['title'] ?? '',
+                            'description' => $userDailyTip['dailyTip']['description'] ?? '',
+                            'is_read' => $isRead,
+                            'created_at' => $isRead == 1 ? $userDailyTip['updated_at'] : null,
                         ];
 
                         return Helpers::successResponse('Daily Tip', $data);
                     }
                 }
-            } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
 
+                do {
 
-            return Helpers::validationResponse('No new daily tip found.');
+                    $randomCode = DailyTip::randomCode($assessment);
+
+                    $newDailyTip = DailyTip::getSameCodeTips($randomCode);
+
+                    if ($newDailyTip) {
+
+                        $latestTip = UserDailyTip::where('user_id', $user['id'])
+                            ->where('daily_tip_id', $newDailyTip['id'])
+                            ->latest()
+                            ->first();
+
+                        if (empty($latestTip)) {
+
+                            $newUserDailyTip = UserDailyTip::createUserDailyTip($user['id'], $newDailyTip['id'], $assessment['id']);
+
+                            $message = 'Your New Daily Tip';
+
+                            event(new NewDailyTip($user['id'], 'new daily tip', $message));
+
+                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+
+                            $data = [
+                                'title' => $newUserDailyTip['dailyTip']['title'],
+                                'description' => $newUserDailyTip['dailyTip']['description'],
+                                'is_read' => $newUserDailyTip['is_read'],
+                                'created_at' => $newUserDailyTip['is_read'] == 1 ? $newUserDailyTip['updated_at'] : null,
+                            ];
+
+                            return Helpers::successResponse('Daily Tip', $data);
+                        }
+                    }
+                } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
+
+                return Helpers::validationResponse('No new daily tip found.');
+
+            }
+            else
+            {
+                return Helpers::successResponse('No new daily tip found.');
+
+            }
 
         } catch (\Exception $exception) {
 

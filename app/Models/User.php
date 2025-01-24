@@ -94,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check','step','register_from_app', 'email_verified_at']);
     }
 
     // appends
@@ -866,6 +866,7 @@ class User extends Authenticatable implements JWTSubject
                 $user->update(['apple_id' => $request->input('apple_id')]);
 
             }
+
             if ($request->has('google_id') && !empty($request->input('google_id')) && empty($user['google_id'])) {
 
                 $user->update(['google_id' => $request->input('google_id')]);
@@ -876,10 +877,12 @@ class User extends Authenticatable implements JWTSubject
                 ->with('userIntensionPlan')->selection()->first();
 
             $user ? $user['gender'] = ($user['gender'] === 0 || $user['gender'] === '0' ? "male" : "female") : "";
+
             if ($user) {
                 $user['intro_check'] = ($user['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
                 $user['is_feedback'] = ($user['is_feedback'] === Admin::Is_Feed_Back_Show ? true : false);
             }
+
             return $user;
 
         }

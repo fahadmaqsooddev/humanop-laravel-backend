@@ -66,5 +66,46 @@ class HaiChatHelpers
         return array_slice($results, 0, $chunks);
     }
 
+    public static function findRelevantChunksForGrid($publicNames, $knowledgeBase, $chunks = 1) {
+
+        $embeddingModel = \OpenAI::client(env('OPEN_AI_API_KEY'));;
+
+        $finalResults = [];
+
+        foreach ($publicNames as $key => $publicName){
+
+            $queryEmbedding = $embeddingModel->embeddings()->create([
+                'model' => 'text-embedding-3-small',
+                'input' => "Detailed overview of " . $key,
+            ]);
+
+            $queryEmbedding = $queryEmbedding->toArray();
+
+            $queryEmbedding = $queryEmbedding['data'][0] ?? [];
+
+            $results = [];
+
+            foreach ($knowledgeBase as $chunk) {
+                $similarity = self::cosineSimilarity($queryEmbedding['embedding'], json_decode($chunk['embedding'], true));
+                $results[] = ['content' => $key .':'.$chunk['content'], 'similarity' => $similarity];
+            }
+
+            usort($results, fn($a, $b) => $b['similarity'] <=> $a['similarity']);
+
+            $threshold = 0.3;
+
+            $results = array_filter($results, function ($match) use ($threshold) {
+                return $match['similarity'] >= $threshold;
+            });
+
+            $new_array = array_slice($results, 0, $chunks);
+
+            array_push($finalResults, $new_array);
+
+        }
+
+        return $finalResults;
+    }
+
 
 }
