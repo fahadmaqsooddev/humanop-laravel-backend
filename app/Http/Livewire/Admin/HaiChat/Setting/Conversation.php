@@ -104,6 +104,9 @@ class Conversation extends Component
                         $chunks = array_column($chunks,'content');
 
                         $grid_info = [[
+                            'role' => 'assistant',
+                            'content' => "Answer the with he description of every {traits/drivers/energy centers} are: {". implode('\n', $chunks) ."}",
+                        ],[
                             'role' => 'user',
 //                        'content' => "If user ask something any key from ['SA' => 1, 'JO' => 2] then just return like that Your question {key name} value is {value}.",
 //                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
@@ -112,11 +115,10 @@ class Conversation extends Component
 //                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top.
 //                            Answer must be to the point and just use code abbreviations in answer with their values and contain the values of the code that user ask.",
                             'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
-                                "If a user asks about their top traits, drivers, or energy centers, respond by referencing the provided categories:
-                                { " . json_encode($gridPublicNames) . " }. \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}.
-                                If code is not present in the top codes then said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not
-                                available then said {driver/trait/energy center} has not any nth top.
-                                Answer will be in detail with heading name and their description of name:" . implode('\n', $chunks),
+                                "If user ask about their top traits \ drivers \ energy centers then answer from this according to their relevant categories: {" . json_encode($gridPublicNames) .
+                                "} \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top. \n
+                            If user ask for their top {traits/drivers/energy centers} respond with their and description too.",
                         ]];
 
                     }
@@ -140,7 +142,7 @@ class Conversation extends Component
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Answer must be in complete HTML Format \n Headings must be in h6 tag and in Black color. \n" . $this->message,
+                        'content' => "Answer must be in complete HTML Format \n Headings must be in h6 tag and in Black color. \n Answer must be in detail with their description and context. \n" . $this->message,
                     ]
                 ];
 
