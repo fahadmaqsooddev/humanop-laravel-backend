@@ -33,7 +33,7 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
-        'link'=>'nullable|url'
+        'link'=>'nullable'
     ];
 
     protected $messages = [
@@ -246,7 +246,7 @@ class CreateResource extends Component
         // dd($this->resource_file);
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable|url','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
       
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
