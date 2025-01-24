@@ -369,7 +369,7 @@ class AuthController extends Controller
 
                     }else{
 
-                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=0';
+                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
 
                     }
 
