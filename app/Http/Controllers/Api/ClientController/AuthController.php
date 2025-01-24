@@ -74,7 +74,7 @@ class AuthController extends Controller
                     'user_id' => $checkUser['id'],
                     'registration_step' => $checkUser['step']
                 ];
-                
+
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
 
             } else {
@@ -139,6 +139,73 @@ class AuthController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+    }
+
+    public function socialLogin(Request $request)
+    {
+
+        try {
+
+            $checkDeletedUser = User::checkDeleteEmail($request->input('email'));
+
+            if (!empty($checkDeletedUser)) {
+
+                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+            }
+
+            $user = User::checkUserFromEmailOrSocialId($request);
+
+            if ($user) {
+
+                if ($user['email_verified_at'] == null)
+                {
+
+                    $userData = [
+                        'user_id' => $user['id'],
+                        'registration_step' => $user['step']
+                    ];
+
+                    return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+
+                }
+
+                if ($user['step'] != 3)
+                {
+                    $userData = [
+                        'user_id' => $user['id'],
+                        'registration_step' => $user['step']
+                    ];
+
+                    return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+
+                }
+
+                $token = $this->auth->login($user);
+
+                $updateUser = User::updateUserIsFeedback();
+
+                $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
+
+                $data = [
+                    'user' => $updateUser,
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ]
+                ];
+
+                return Helpers::successResponse('User loggedIn successfully', $data);
+
+            }
+
+            return Helpers::validationResponse('Email does not exists');
+
+        } catch (Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 
     public function registerClient(RegisterRequest $request)
@@ -538,43 +605,6 @@ class AuthController extends Controller
 
 
         } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-
-    }
-
-    public function socialLogin(SocialLoginRequest $request)
-    {
-
-        try {
-
-            $user = User::checkUserFromEmailOrSocialId($request);
-
-            if ($user) {
-
-                $token = $this->auth->login($user);
-
-                $updateUser = User::updateUserIsFeedback();
-
-                $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-                $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-
-                $data = [
-                    'user' => $updateUser,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ]
-                ];
-
-                return Helpers::successResponse('User loggedIn successfully', $data);
-
-            }
-
-            return Helpers::validationResponse('Email does not exists');
-
-        } catch (Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
