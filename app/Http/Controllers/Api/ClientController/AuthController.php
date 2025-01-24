@@ -372,13 +372,11 @@ class AuthController extends Controller
                         $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
 
                     }
-
-                    dd($user, $url);
-                    
                     $user->setAppends([]);
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
+                        dd($url);
                         $emailData = $this->prepareEmailData($user, $url);
 
                         $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
