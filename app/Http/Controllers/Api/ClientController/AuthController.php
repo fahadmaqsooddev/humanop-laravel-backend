@@ -376,7 +376,6 @@ class AuthController extends Controller
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
 
-                        dd($url);
                         $emailData = $this->prepareEmailData($user, $url);
 
                         $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
@@ -535,6 +534,9 @@ class AuthController extends Controller
 
     private function prepareEmailData($user = null, $url = null, $codeNumber = null)
     {
+
+        dd($url);
+        
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
             '{$link}' => $url,
