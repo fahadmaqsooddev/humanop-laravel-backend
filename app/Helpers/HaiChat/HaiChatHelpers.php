@@ -76,7 +76,7 @@ class HaiChatHelpers
 
             $queryEmbedding = $embeddingModel->embeddings()->create([
                 'model' => 'text-embedding-3-small',
-                'input' => "What is " . $key,
+                'input' => "Detailed overview of " . $key,
             ]);
 
             $queryEmbedding = $queryEmbedding->toArray();
