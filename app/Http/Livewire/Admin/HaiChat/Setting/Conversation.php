@@ -138,11 +138,14 @@ class Conversation extends Component
                     [
                         'role' => 'assistant',
 //                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
-                        'content' => "Answer the question using this content: {". implode('\n',$chunks) ."}. If user greeting with you then reply casually." ,
+                        'content' => "Answer the question using this content: {". implode('\n',$chunks) ."}." ,
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Answer must be in complete HTML Format \n Headings must be in h6 tag and in Black color. \n Answer must be in detail with their description and context. \n" . $this->message,
+                        'content' => "Answer must be in complete HTML Format \n
+                        Headings must be in h6 tag and in Black color. \n
+                        If user greeting with you then reply casually. If user ask any question then answer must be in detail with their description and context.
+                         \n" . $this->message,
                     ]
                 ];
 
