@@ -70,7 +70,12 @@ class AuthController extends Controller
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
-                return Helpers::validationResponse('Your email is not verified. Kindly verify your email to continue.');
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'registration_step' => $checkUser['step']
+                ];
+                
+                return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
 
             } else {
 
