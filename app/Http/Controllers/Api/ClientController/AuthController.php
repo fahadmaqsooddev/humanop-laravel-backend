@@ -373,6 +373,8 @@ class AuthController extends Controller
 
                     }
 
+                    dd($user, $url);
+                    
                     $user->setAppends([]);
 
                     if (empty($request['google_id']) && empty($request['apple_id'])) {
