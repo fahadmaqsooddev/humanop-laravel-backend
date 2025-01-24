@@ -280,7 +280,16 @@ class AuthController extends Controller
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-                    $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
+
+                    if (!empty($request['register_from_app']))
+                    {
+                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
+
+                    }else{
+
+                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=0';
+
+                    }
 
                     $user->setAppends([]);
 
