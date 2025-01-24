@@ -110,11 +110,19 @@ class Conversation extends Component
 //                                "If user ask about their top traits \ drivers \ energy centers then answer from this according to their relevant categories: {" . json_encode($gridPublicNames) .
 //                                "} \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
 ////                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top.",
-                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
-                                "If user ask about their top {traits/drivers/energy centers} then answer from this according to their relevant categories: {" . json_encode($gridPublicNames) .
-                                "} \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
-                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top. \n
-                            If user ask for their top {traits/drivers/energy centers} respond with description. top {driver or trait or energy center} description are: {".json_encode($gridChunks)."}",
+//                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
+//                                "If user ask about their top {traits/drivers/energy centers} then answer from this according to their relevant categories with detailed overviews: {" . json_encode($gridPublicNames) .
+//                                "}. \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+//                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top. \n
+//                            If user ask for any top {traits/drivers/energy centers} the respond it with their description text:" . implode('\n', $gridChunks),
+                        "content" => "The list of all traits are: {".json_encode($traits)."} \n list of all drivers are: {".json_encode($drivers)."} \n list of energy centers are: ".json_encode($energyCenter)." \n
+                        User top {traits/drivers/energy centers} are: {".json_encode($gridPublicNames)."}. Answer should be in detail with their definition and description. For example: If user ask for their top 2 traits then repond like. Your top 3 traits are
+                        1. Regal
+                        Description of the regal in 2 to 3 lines.
+                        2. Effervescent
+                        Description of Effervescent in 2 to 3lines. \n
+                        If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+                        said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top."
                         ]];
 
                     }
