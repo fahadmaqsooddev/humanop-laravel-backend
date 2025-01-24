@@ -534,9 +534,6 @@ class AuthController extends Controller
 
     private function prepareEmailData($user = null, $url = null, $codeNumber = null)
     {
-
-        dd($url);
-        
         return [
             '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
             '{$link}' => $url,
