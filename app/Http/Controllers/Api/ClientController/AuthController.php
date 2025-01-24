@@ -360,8 +360,6 @@ class AuthController extends Controller
 
                 if (empty($checkUser)) {
 
-                    dd($dataArray);
-
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
 
