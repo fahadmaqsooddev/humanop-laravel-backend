@@ -70,7 +70,7 @@ class HaiChatHelpers
 
         $embeddingModel = \OpenAI::client(env('OPEN_AI_API_KEY'));;
 
-        $results = [];
+        $finalResults = [];
 
         foreach ($publicNames as $key => $publicName){
 
@@ -83,22 +83,28 @@ class HaiChatHelpers
 
             $queryEmbedding = $queryEmbedding['data'][0] ?? [];
 
+            $results = [];
+
             foreach ($knowledgeBase as $chunk) {
                 $similarity = self::cosineSimilarity($queryEmbedding['embedding'], json_decode($chunk['embedding'], true));
-                $results[] = ['content' => $chunk['content'], 'similarity' => $similarity];
+                $results[] = ['content' => $key .':'.$chunk['content'], 'similarity' => $similarity];
             }
 
             usort($results, fn($a, $b) => $b['similarity'] <=> $a['similarity']);
 
+            $threshold = 0.3;
+
+            $results = array_filter($results, function ($match) use ($threshold) {
+                return $match['similarity'] >= $threshold;
+            });
+
+            $new_array = array_slice($results, 0, $chunks);
+
+            array_push($finalResults, $new_array);
+
         }
 
-        $threshold = 0.3;
-
-        $results = array_filter($results, function ($match) use ($threshold) {
-            return $match['similarity'] >= $threshold;
-        });
-
-        return array_slice($results, 0, $chunks);
+        return $finalResults;
     }
 
 

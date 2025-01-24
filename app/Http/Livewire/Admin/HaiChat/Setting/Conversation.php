@@ -99,7 +99,7 @@ class Conversation extends Component
 
                         $knowledge = KnowledgeBase::all();
 
-                        $chunks = HaiChatHelpers::findRelevantChunksForGrid($gridPublicNames, $knowledge, count($gridPublicNames));
+                        $chunks = HaiChatHelpers::findRelevantChunksForGrid($gridPublicNames, $knowledge);
 
                         $gridChunks = array_column($chunks,'content');
 
