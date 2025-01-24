@@ -480,7 +480,7 @@
                                                 onchange="logSelectedFile(event)">
                                         </div>
                                        
-                                        <span wire:loading.flex wire:target="resource_file1">
+                                        <span wire:loading.flex wire:target="resource_file">
                                             {{-- Uploading ... --}}
                                             <div class="d-flex align-items-center mt-2">
                                                 <div class="spinner-border" role="status"
