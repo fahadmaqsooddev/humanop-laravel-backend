@@ -35,7 +35,7 @@ class EmailTemplateSeeder extends Seeder
         <h1 style="font-size: 24px; color: #333; margin-bottom: 16px;">Hi {$userName},</h1>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">You have requested us to send a link to reset your password for your HumanOp account. Click on the button below.</p>
         <div style="display: flex; justify-content: center !important;">
-            <a href="{$link}" style="display: inline-block; margin: 20px 0; padding: 12px 20px; background-color: #003a6d; color: #fff; text-decoration: none; border-radius: 20px; font-size: 16px;">Reset Password</a>
+            <a href="{$link}" target="_blank" style="display: inline-block; margin: 20px 0; padding: 12px 20px; background-color: #003a6d; color: #fff; text-decoration: none; border-radius: 20px; font-size: 16px;">Reset Password</a>
         </div>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">If you did not initiate the request, you can safely ignore this email.</p>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">Best Regards,<br>HumanOP Team</p>
@@ -69,7 +69,7 @@ class EmailTemplateSeeder extends Seeder
         <h1 style="font-size: 24px; color: #333; margin-bottom: 16px;">Hi {$userName},</h1>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">Welcome to HumanOp! To complete your account setup, please verify your email address by clicking the button below:</p>
         <div style="display: flex; justify-content: center;">
-            <a href="{$link}" style="display: inline-block; margin: 20px 0; padding: 12px 20px; background-color: #003a6d; color: #fff; text-decoration: none; border-radius: 20px; font-size: 16px;">Verify Your Email</a>
+            <a href="{$link}" target="_blank" style="display: inline-block; margin: 20px 0; padding: 12px 20px; background-color: #003a6d; color: #fff; text-decoration: none; border-radius: 20px; font-size: 16px;">Verify Your Email</a>
         </div>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">Once your account is verified, you will have full access to all our features and services. If you did not sign up for this account, please ignore this email.</p>
         <p style="margin: 12px 0; line-height: 1.5; color: black;">Thank you for choosing HumanOp. We look forward to you.</p>
