@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\HaiChat\HaiChatHelpers;
+use App\Models\Admin\Code\CodeDetail;
 use App\Models\AssessmentColorCode;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
@@ -12,6 +13,7 @@ use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\KnowledgeBase\KnowledgeBase;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -81,22 +83,26 @@ class Conversation extends Component
 
                         $assessment = Assessment::getAllRowGrid($latest_assessment->id);
 
-                        $gridColor = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id);
+                        $gridPublicNames = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id);
 
-                        $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
-                        $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
-                        $energyCenter = ['EM','INS','INT','MOV'];
+//                        $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
+                        $traits = ['Regal','Energetic','Absorptive','Romantic','Sympathetic','Perceptive','Effervescent'];
+//                        $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
+                        $drivers = ['Initiates Change','Creating Order','Compassion','Creates Protection','Monetary Discernment','Visionary',
+                            'Optimistic','Humility','Accomplishment','The Traveler','Aesthetic Sensibility','Perseverance'];
+//                        $energyCenter = ['EM','INS','INT','MOV'];
+                        $energyCenter = ['Emotionally','Instinctually','Intellectually','Moving'];
 
-                        arsort($gridColor);
+                        arsort($gridPublicNames);
                         arsort($assessment['firstRow']);
 
                         $grid_info = [[
                             'role' => 'user',
 //                        'content' => "If user ask something any key from ['SA' => 1, 'JO' => 2] then just return like that Your question {key name} value is {value}.",
-                            'content' => "The list of all trait codes are " . json_encode($traits) . " and list of all driver codes are " . json_encode($drivers) . " and list of all energy center codes are " . json_encode($energyCenter) .' and ' .
-                                "The list of user top traits, top drivers and top energy centers are " . json_encode($gridColor) .
-                                "and their values are " . json_encode($assessment['firstRow']) . ". If code is not present in the top codes then
-                            said {code} is not a top code and if user ask from any n top code and its not available then said {driver/trait/energy center} has not any nth top.
+                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
+                                "If user ask about their top traits \ drivers \ energy centers then answer from this according to their relevant categories: {" . json_encode($gridPublicNames) .
+                                "} \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top.
                             Answer must be to the point and just use code abbreviations in answer with their values and contain the values of the code that user ask.",
                         ]];
 
@@ -117,11 +123,11 @@ class Conversation extends Component
                     [
                         'role' => 'assistant',
 //                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
-                        'content' => "Answer the question using this content: {". implode('\n',$chunks) ."}" ,
+                        'content' => "Answer the question using this content: {". implode('\n',$chunks) ."}. If user greeting with you then reply casually." ,
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Answer must be in HTML Format \n Headings must be in h5 tag with and in Dark Blue color : " . $this->message,
+                        'content' => "Answer must be in complete HTML Format \n Headings must be in h6 tag and in Black color. \n" . $this->message,
                     ]
                 ];
 
