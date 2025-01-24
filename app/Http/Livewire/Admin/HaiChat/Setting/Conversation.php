@@ -142,7 +142,7 @@ class Conversation extends Component
                         'role' => 'user',
                         'content' => "Respond in HTML Format \n
                         Headings must be in h6 tag and in Black color.\n
-                        If user ask for their top {traits/drivers/energy centers} respond with their detailed description. \n"
+                        If user greets then respond casually. If user ask for their top {traits/drivers/energy centers} respond with their detailed description. \n"
                             . $this->message,
                     ]
                 ];
