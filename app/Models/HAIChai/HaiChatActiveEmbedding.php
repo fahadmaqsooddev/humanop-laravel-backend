@@ -66,13 +66,55 @@ class HaiChatActiveEmbedding extends Model
 //
 //    }
 
-    public static function activeEmbeddings($chat_bot_id)
+    public static function activeEmbeddings($chat_bot_id, $is_pine_cone)
     {
-        return self::with('knowledgeBase')->where('chat_bot_id', $chat_bot_id)
+        return self::when($is_pine_cone, function ($query){
+
+            $query->whereHas('knowledgeBase', function ($q){
+
+                $q->whereNotNull('pine_cone_id');
+
+            });
+
+        }, function ($query){
+
+            $query->whereHas('knowledgeBase', function ($q){
+
+                $q->whereNull('pine_cone_id');
+
+            });
+
+        })->with('knowledgeBase')->where('chat_bot_id', $chat_bot_id)
 
             ->orderBy('created_at', 'desc')
 
             ->get()->pluck('knowledgeBase');
+
+    }
+
+    public static function activeEmbeddingsPineConeId($chat_bot_id, $is_pine_cone){
+
+        return self::when($is_pine_cone, function ($query){
+
+            $query->whereHas('knowledgeBase', function ($q){
+
+                $q->whereNotNull('pine_cone_id');
+
+            });
+
+        }, function ($query){
+
+            $query->whereHas('knowledgeBase', function ($q){
+
+                $q->whereNull('pine_cone_id');
+
+            });
+
+        })->with('knowledgeBase')->where('chat_bot_id', $chat_bot_id)
+
+            ->orderBy('created_at', 'desc')
+
+            ->get()->pluck('knowledgeBase.pine_cone_id')->toArray();
 
     }
 

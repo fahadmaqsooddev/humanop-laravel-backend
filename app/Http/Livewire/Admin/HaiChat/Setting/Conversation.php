@@ -30,7 +30,7 @@ class Conversation extends Component
 
     public $message, $conversations, $user_details, $user_id, $is_restricted_word = false, $disliked = 0,
 
-        $editConversation = null, $updated_reply = null, $convo_id;
+        $editConversation = null, $updated_reply = null, $convo_id, $is_pine_cone = false;
 
     public $chatBot;
 
@@ -45,11 +45,10 @@ class Conversation extends Component
         'message.max' => 'Query does not contain more than 2000 characters',
     ];
 
-//    public function mount(){
-//
-//        $this->user_details = User::getUserDetailByIds();
-//
-//    }
+    public function mount(){
+
+        $this->is_pine_cone = \request()->input('pine_cone_database', false);
+    }
 
     public function submitForm()
     {
@@ -64,6 +63,7 @@ class Conversation extends Component
 //                'message.required' => 'The Message field is required.',
 //                'message.max' => 'Query does not contain more than 2000 characters',
 //            ]);
+
 
             $client = \OpenAI::client(env("OPEN_AI_API_KEY"));
 
@@ -96,7 +96,6 @@ class Conversation extends Component
                         arsort($gridPublicNames);
                         arsort($assessment['firstRow']);
 
-
                         $knowledge = KnowledgeBase::all();
 
                         $chunks = HaiChatHelpers::findRelevantChunksForGrid($gridPublicNames, $knowledge);
@@ -128,13 +127,54 @@ class Conversation extends Component
                     }
                 }
 
-                $knowledge = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id);
+                if ($this->is_pine_cone){
 
-                $chunks = HaiChatHelpers::findRelevantChunks($this->message, $knowledge, $this->chatBot->chunks);
+                    $client = \OpenAI::client(env('OPEN_AI_API_KEY'));
 
-                $chunks = array_column($chunks,'content');
+                    $response = $client->embeddings()->create([
+                        'model' => 'text-embedding-3-small',
+                        'input' => $this->message,
+                    ]);
 
-                $final_chunks = array_merge($chunks, $gridChunks ?? []);
+                    $response = $response->toArray();
+
+                    $pinecone = new \Probots\Pinecone\Client(env('PINECONE_API_KEY'),'https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io');
+
+                    $pine_cone_ids = HaiChatActiveEmbedding::activeEmbeddingsPineConeId($this->chatBot->id, $this->is_pine_cone);
+
+
+                    foreach ($response['data'] as $embedding){
+
+                        $response = $pinecone->data()->vectors()->query(
+                            vector:$embedding['embedding'],
+                            topK : $this->chatBot->chunks ?? 1,
+                            includeMetadata : true,
+                            filter : [
+                            'database_id' => ['$in' => $pine_cone_ids]
+//                        'id' => ['$in' => ['vector_1']],
+                            ]
+                        );
+
+                        $result = $response->array();
+
+                        $final_chunks = array_filter($result['matches'] ?? [], function ($match) {
+                            return $match['score'] >= 0.3;
+                        });
+
+                    }
+
+
+                }else{
+
+                    $knowledge = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id, $this->is_pine_cone);
+
+                    $chunks = HaiChatHelpers::findRelevantChunks($this->message, $knowledge, $this->chatBot->chunks);
+
+                    $chunks = array_column($chunks,'content');
+
+                    $final_chunks = array_merge($chunks, $gridChunks ?? []);
+
+                }
 
                 $messages = [
                     [

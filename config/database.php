@@ -421,7 +421,7 @@ return [
         ],
         'HaiChatEmbedding' => [
             'table' => 'embeddings',
-            'fillable' => ['name','chunks'],
+            'fillable' => ['name','chunks','pine_cone_id'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'HaiChatActiveEmbedding' => [
@@ -476,7 +476,7 @@ return [
         ],
         'KnowledgeBase' => [
             'table' => 'knowledge_base',
-            'fillable' => ['content','embedding','embedding_id'],
+            'fillable' => ['content','embedding','embedding_id','pine_cone_id'],
             'hidden' => ['updated_at','created_at']
         ]
     ]

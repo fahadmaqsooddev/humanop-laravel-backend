@@ -58,12 +58,12 @@ class HaiChatEmbedding extends Model
 
     public static function allEmbeddings()
     {
-        return self::orderBy('created_at', 'desc')->get();
+        return self::whereNull('pine_cone_id')->orderBy('created_at', 'desc')->get();
     }
-    public static function allEmbeddingsExcept($embeddings = [])
-    {
-        return self::orderBy('created_at', 'desc')->whereNotIn('request_id',$embeddings)->get();
-    }
+//    public static function allEmbeddingsExcept($embeddings = [])
+//    {
+//        return self::orderBy('created_at', 'desc')->whereNotIn('request_id',$embeddings)->get();
+//    }
 
     public static function createEmbedding($name = null)
     {
@@ -83,11 +83,19 @@ class HaiChatEmbedding extends Model
 
     }
 
-    public static function embeddings($group_id, $chat_bot_id, $searchText){
+    public static function embeddings($group_id, $chat_bot_id, $searchText, $is_pine_cone = false){
 
         request()->merge(['chat_bot_id' => $chat_bot_id]);
 
-        return self::whereHas('group', function ($q) use($group_id){
+        return self::when($is_pine_cone,function ($query){
+
+            $query->whereNotNull('pine_cone_id');
+
+        }, function ($query){
+
+            $query->whereNull('pine_cone_id');
+
+        })->whereHas('group', function ($q) use($group_id){
 
             $q->where('group_id', $group_id);
 
@@ -123,7 +131,7 @@ class HaiChatEmbedding extends Model
 
     public static function allEmbeddingsForDropDown($searchName = null)
     {
-        return self::when($searchName, function ($query, $name){
+        return self::whereNull('pine_cone_id')->when($searchName, function ($query, $name){
 
             $query->where('name', 'LIKE', "%$name%");
 
@@ -136,7 +144,7 @@ class HaiChatEmbedding extends Model
 
     public static function embeddingByName($name){
 
-        return self::where('name', $name)->first();
+        return self::whereNull('pine_cone_id')->where('name', $name)->first();
     }
 
     public static function updateEmbeddingChunks($embedding_id, $chunks){

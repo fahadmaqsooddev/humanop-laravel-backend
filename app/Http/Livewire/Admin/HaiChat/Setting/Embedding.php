@@ -20,6 +20,7 @@ class Embedding extends Component
     public $name,$embedding,$bot_name = "ChatBot02_2025-01-13-13-03-30",$request_id,$button_status, $query, $chunks = [], $groups, $group_id,
         $embeddings = [], $embedding_id, $active_embeddings = [], $activeGroups, $embedding_search,
         $showDropdownMenu = false, $group_search, $showGroupDropdownMenu = false, $groupButtonText = 'Select Group';
+    public $is_pine_cone = false;
 
     public $chatBot;
 
@@ -86,6 +87,11 @@ class Embedding extends Component
 //        }
 //    }
 
+    public function mount(){
+
+        $this->is_pine_cone = \request()->input('pine_cone_database', false);
+    }
+
     public function searchEmbedding()
     {
         try {
@@ -94,7 +100,7 @@ class Embedding extends Component
 
             $this->validate(['query' => 'required'],['query.required' => 'Query is required']);
 
-            $knowledgeBase = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id);
+            $knowledgeBase = HaiChatActiveEmbedding::activeEmbeddings($this->chatBot->id, $this->is_pine_cone);
 
             $this->chunks = HaiChatHelpers::findRelevantChunks($this->query, $knowledgeBase, $this->chatBot->chunks ?? 1);
 
@@ -171,7 +177,7 @@ class Embedding extends Component
 //                }
             }
 
-            $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->chatBot->id, $this->embedding_search);
+            $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->chatBot->id, $this->embedding_search, $this->is_pine_cone);
         }
 
         $this->showDropdownMenu = true;
@@ -253,7 +259,7 @@ class Embedding extends Component
 
 //        $this->active_embeddings = HaiChatEmbedding::activeEmbeddings($id, $this->bot_name);
 
-        $this->embeddings = HaiChatEmbedding::embeddings($id, $this->chatBot->id, $this->embedding_search);
+        $this->embeddings = HaiChatEmbedding::embeddings($id, $this->chatBot->id, $this->embedding_search, $this->is_pine_cone);
 
         $this->emit('makeEmbeddingDownDownScrollable');
 
@@ -294,7 +300,7 @@ class Embedding extends Component
 
         $this->embedding_search = $value;
 
-        $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->chatBot->id, $this->embedding_search);
+        $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->chatBot->id, $this->embedding_search, $this->is_pine_cone);
 
         $this->emit('makeEmbeddingDownDownScrollable');
 
