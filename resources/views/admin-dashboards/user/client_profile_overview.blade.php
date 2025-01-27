@@ -344,7 +344,7 @@
             font-weight: bold;
         }
 
-       
+
         .text-tiny{
     font-size: 0.5rem !important;
          }
@@ -354,7 +354,7 @@
          .text-default{
     font-size: 1rem !important;
           }
-         
+
         .text-big{
     font-size: 1.5rem !important;
         }
@@ -424,14 +424,14 @@
                                         </div>
                                         <video id="myVideo100" class="w-100 h-100 " style="max-height: 500px;"></video>
                                     </div>
-                                    
+
                                     <div class="row d-flex">
                                         <div id="intro_to_cycle_to_life" class="col-12 mt-3"
                                              style="display: none;background-color:#F4E3C7 !important;">
                                             <div id="intro_to_cycle_to_life_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#F4E3C7 !important;">
                                                  <h4 class="" style="color: #f2661c">{{$cycle_life['public_name']}}</h4>
-                                             
+
                                                 {!!$cycle_life['description']!!}
                                             </div>
                                         </div>
@@ -439,7 +439,7 @@
                                     <div class="row d-flex" style="">
                                         <div id="roadworthy_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="roadworthy_life_cycle_text" class="card p-2"
+                                            <div id="roadworthy_life_cycle_text" class="p-2"
                                                  style="height: auto;color:#1C365E !important;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="text-align: justify; font-size:1rem;"><span
@@ -541,7 +541,7 @@
                                     <div class="row d-flex">
                                         <div id="power_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="power_life_cycle_text" class="card p-2"
+                                            <div id="power_life_cycle_text" class="p-2"
                                                  style="height: auto;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -585,7 +585,7 @@
                                     <div class="row d-flex">
                                         <div id="mid_life_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="mid_life_life_cycle_text" class="card p-2"
+                                            <div id="mid_life_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem"><span
@@ -672,7 +672,7 @@
                                     <div class="row d-flex">
                                         <div id="awareness_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="awareness_life_cycle_text" class="card p-2"
+                                            <div id="awareness_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -731,7 +731,7 @@
                                     <div class="row d-flex">
                                         <div id="forward_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="forward_life_cycle_text" class="card p-2"
+                                            <div id="forward_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -768,7 +768,7 @@
                                     <div class="row d-flex">
                                         <div id="liberated_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="liberated_life_cycle_text" class="card p-2"
+                                            <div id="liberated_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -800,7 +800,7 @@
                                     <div class="row d-flex">
                                         <div id="being_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="being_life_cycle_text" class="card p-2"
+                                            <div id="being_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -839,7 +839,7 @@
                                     <div class="row d-flex">
                                         <div id="review_life_cycle" class="col-12 mt-3"
                                              style="display: none;">
-                                            <div id="review_life_cycle_text" class="card p-2"
+                                            <div id="review_life_cycle_text" class="p-2"
                                                  style="height: auto;background-color:#F4E3C7 !important;">
                                                 <p class="text-sm mt-3 fs-12px"
                                                    style="color:#1C365E !important; text-align: justify; font-size:1rem;background-color:#F4E3C7 !important;"><span
@@ -893,7 +893,7 @@
                                             <div id="your_motivation_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#F4E3C7;">
                                                  <h4 class="" style="color: #f2661c">{{$motivation_intro['public_name']}}</h4>
-                                             
+
                                                 {!!$motivation_intro['description']!!}
                                             </div>
                                         </div>
@@ -919,7 +919,7 @@
                                         <div id="your_boundary" class="col-12 mt-3" style="display: none;">
                                             <div id="your_boundary_text" class="card p-2"
                                                  style="height: auto;text-align: justify;background-color:#F4E3C7;">
-                                              
+
                                                  <h4 class="" style="color: #f2661c">{{$intro_boundaries['public_name']}}</h4>
                                                 {!! $intro_boundaries['description']!!}
                                             </div>
@@ -959,7 +959,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style=" text-align: justify; font-size:1rem">
                                                         <span style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$communication['public_name'] }} : </span>
-                                                        
+
                                                         {!!$communication['description']!!}
                                                     </p>
                                                 </div>
@@ -984,7 +984,7 @@
                                                     <p class="text-sm mt-3 fs-12px"
                                                        style="text-align: justify; font-size:1rem"><span
                                                             style="color: #f2661c;font-size:1rem;font-weight:bold;">{{$energyPool['public_name']}}:</span>
-                                                        
+
                                                         {!!$energyPool['description']!!}
                                                     </p>
                                                 </div>
@@ -1081,7 +1081,7 @@
                                                     {!!$summary_static['description']!!}
 
                                                 </div>
-                                               
+
 
                                                 @if($assessment)
                                                     <a href="{{url('admin/download-user-report/'. $assessment->id)}}"
@@ -1214,26 +1214,26 @@
                                                 </p> --}}
                                                 <div class="mt-4 custom-color">
                                                     {{-- {!!$main_result['description']!!} --}}
-                                                      
+
                                                     <div id="description-container">
                                                         <div id="description-preview">
                                                             <p >
                                                                 {!! Str::words($main_result['description'], 200) !!}
                                                             </p>
-                                                           
+
                                                         </div>
-                                                       
+
                                                         <div  id="description-full" style="display: none !important;">
                                                             <p >
                                                                 {!! $main_result['description'] !!}
                                                             </p>
                                                         </div>
-                                                       
+
                                                         <p id="toggle-button" style="cursor: pointer;color:#f2661c" onclick="toggleDescription()">read More...</p>
                                                     </div>
-                                                    
+
                                                 </div>
-                                               
+
                                                 <div class="row d-flex mt-5">
                                                     <div class="col-lg-5 col-sm-12 col-md-6">
                                                         <div id="main_result_intro_heading" class="card"
@@ -1581,7 +1581,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row d-flex mt-5">
-                                                   
+
                                                     @foreach($allStyles as $index => $style)
                                                         <div class="col-lg-4 col-sm-12 col-md-6 mb-3">
                                                             <div id="style_{{$index.'_heading'}}" class="card"
@@ -2180,30 +2180,30 @@
     </script>
     <script>
 
-        
+
         function toggleDescription() {
-            
+
             const preview = document.getElementById('description-preview');
             const full = document.getElementById('description-full');
             const button = document.getElementById('toggle-button');
-    
+
             if (full.style.display === 'none') {
-                
+
                 preview.style.display = 'none';
                 full.style.display = 'block';
                 button.textContent = 'less More...';
                 full.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-               
+
                 preview.style.display = 'block';
                 full.style.display = 'none';
                 button.textContent = 'read More...';
                 preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
+
             }
         }
     </script>
-    
+
 
 @endpush
 
