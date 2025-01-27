@@ -19,13 +19,13 @@ return new class extends Migration
 //
 //        });
 //
-        Schema::table('chatbot_keywords', function (Blueprint $table) {
+//        Schema::table('chatbot_keywords', function (Blueprint $table) {
 //
-            $table->unsignedBigInteger('chatbot_id')->nullable();
+//            $table->unsignedBigInteger('chatbot_id')->nullable();
 //
 //            $table->foreign('chatbot_id')->references('id')->on('chatbots');
 //
-        });
+//        });
     }
 
     /**
@@ -36,19 +36,19 @@ return new class extends Migration
     public function down()
     {
 //        Schema::table('chatbot_keywords', function (Blueprint $table) {
-//
+
 //            $table->unsignedBigInteger('chat_bot_id')->nullable();
-//
-////            $table->foreign('chat_bot_id')->references('id')->on('chat_bots');
-//
+
+//            $table->foreign('chat_bot_id')->references('id')->on('chat_bots');
+
 //        });
 //
-        Schema::table('chatbot_keywords', function (Blueprint $table) {
+//        Schema::table('chatbot_keywords', function (Blueprint $table) {
 //
-            $table->dropColumn(['chatbot_id']);
+//            $table->dropColumn(['chatbot_id']);
 //
 ////            $table->dropConstrainedForeignId('chatbot_id');
 //
-        });
+//        });
     }
 };
