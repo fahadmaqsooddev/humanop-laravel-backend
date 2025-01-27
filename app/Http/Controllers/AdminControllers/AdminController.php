@@ -389,7 +389,8 @@ class AdminController extends Controller
                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
             }
 
-            $user_age = Helpers::getWebUser()->date_of_birth;
+
+            $user_age = User::getSingleUser($assessment['user_id'])->date_of_birth;
             $age = Carbon::parse($user_age)->age;
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
@@ -411,8 +412,8 @@ class AdminController extends Controller
             $intro_boundaries = CodeDetail::introBoundaries();
             $intro_communication = CodeDetail::introCommunication();
             $intro_energypool = CodeDetail::introEnergypool();
-           
-          
+
+
             if (Helpers::getWebUser()['is_admin'] == Admin::IS_PRACTITIONER)
             {
                 return view('practitioner-dashboard.user.profile_overview', compact('allStyles','topTwoFeatures','assessment', 'actionPlan','boundary','perception','topCommunication','energyPool','perception_life', 'age', 'id','created_at'));
