@@ -12,7 +12,7 @@ if (env('APP_ENV') == 'local') {
     return [
         'client_dashboard_url' => 'https://human-opi.vercel.app'
     ];
-} else {
+} elseif (env('APP_ENV') == 'production') {
     return [
         'client_dashboard_url' => 'https://human-op-beta.vercel.app',
     ];
