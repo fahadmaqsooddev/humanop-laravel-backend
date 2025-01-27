@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\AssessmentSubmitRequest;
 use App\Http\Requests\Api\Client\GridRequest;
 use App\Http\Requests\Api\Client\QuestionsRequest;
 use App\Http\Requests\Api\Client\UserReportRequest;
+use App\Models\Admin\Pages\Page;
 use App\Models\Admin\StripeSetting\StripeSetting;
 use App\Models\Assessment;
 use App\Models\AssessmentColorCode;
@@ -233,5 +234,19 @@ class AssessmentController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function introAssessment()
+    {
+        try {
+
+            $introductionAssessment = Page::getSinglePage(14);
+
+            return Helpers::successResponse('intro assessment', $introductionAssessment);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 }
