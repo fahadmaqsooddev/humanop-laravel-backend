@@ -22,10 +22,13 @@ class TwilioServices
 
         $receiverNumber = $to;
         $message = $msg;
-        $account_sid = env("TWILIO_ACCOUNT_SID");
-        $auth_token = env("TWILIO_AUTH_TOKEN");
-        $twilio_number = env("TWILIO_NUMBER"); // Define a Twilio phone number
-//
+//        $account_sid = env("TWILIO_ACCOUNT_SID");
+//        $auth_token = env("TWILIO_AUTH_TOKEN");
+//        $twilio_number = env("TWILIO_NUMBER"); // Define a Twilio phone number
+        $account_sid = config('twilio.TWILIO_ACCOUNT_SID');
+        $auth_token = config('twilio.TWILIO_AUTH_TOKEN');
+        $twilio_number = config('twilio.TWILIO_NUMBER'); // Define a Twilio phone number
+
 //        $response = $this->verifyPhoneNumber($receiverNumber);
 //        $jsonContent = $response->getContent();
 //        $validate_data = json_decode($jsonContent, true);
