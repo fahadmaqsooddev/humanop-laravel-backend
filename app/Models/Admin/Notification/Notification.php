@@ -60,7 +60,7 @@ class Notification extends Model
     protected static function sendFCMNotification($title, $body, $deviceToken)
     {
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $serverKey = env('FCM_SERVER_KEY');
+        $serverKey = config('gumlet.gumlet_server_key');
 
 
         $data = [
