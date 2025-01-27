@@ -23,9 +23,14 @@ class Page extends Model
         return self::all();
     }
 
+    public function scopeSelection($query)
+    {
+        return $query->select(['id', 'name', 'title', 'meta_key', 'meta_description', 'text']);
+    }
+
     public static function getSinglePage($id = null)
     {
-        return self::find($id);
+        return self::selection()->find($id);
     }
 
     public static function updatePage($data = null)
