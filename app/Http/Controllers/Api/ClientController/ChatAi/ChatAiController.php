@@ -54,7 +54,7 @@ class ChatAiController extends Controller
 //
 //            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $request->input('question'), 'user_id' => Helpers::getUser()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $request->input('is_repeat_answer')]);
 
-            $client = \OpenAI::client(env("OPEN_AI_API_KEY"));
+            $client = \OpenAI::client("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");
 
             $chatBot = Chatbot::chatBotFromUserPlan();
 
