@@ -251,7 +251,8 @@
                                    onchange="changeResetAssessmentStatus({{$assessment['id']}}, this , event)"
                                    name="practitioner"
                                    type="checkbox"
-                                   @checked($assessmentStatus)>
+                                   @checked($assessmentStatus)
+                                   @if($assessmentStatus) disabled @endif>
                         </div>
                     </td>
                     <td class="text-md font-weight-normal"><a
