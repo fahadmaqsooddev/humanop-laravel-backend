@@ -17,6 +17,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
@@ -25,7 +27,7 @@ class Conversation extends Component
 
     public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
 
-        $editConversation = null, $updated_reply = null, $convo_id;
+        $editConversation = null, $updated_reply = null, $convo_id, $is_pine_cone = false;
 
     protected $listeners = ['updateUserId'];
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -30,5 +31,11 @@ class AppServiceProvider extends ServiceProvider
         if($this->app->environment('development')) {
             URL::forceScheme('https');
         }
+
+        $mailConfig = config('mail_config');
+
+        // Dynamically set the mail configuration
+        Config::set('mail.from.address', $mailConfig['mail_address']);
+        Config::set('mail.from.name', $mailConfig['mail_name']);
     }
 }

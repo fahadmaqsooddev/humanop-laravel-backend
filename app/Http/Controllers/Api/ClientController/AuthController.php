@@ -157,8 +157,7 @@ class AuthController extends Controller
 
             if ($user) {
 
-                if ($user['email_verified_at'] == null)
-                {
+                if ($user['email_verified_at'] == null) {
 
                     $userData = [
                         'user_id' => $user['id'],
@@ -169,8 +168,7 @@ class AuthController extends Controller
 
                 }
 
-                if ($user['step'] != 3)
-                {
+                if ($user['step'] != 3) {
                     $userData = [
                         'user_id' => $user['id'],
                         'registration_step' => $user['step']
@@ -360,12 +358,11 @@ class AuthController extends Controller
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
 
-                    if (!empty($request['register_from_app']))
-                    {
+                    if (!empty($request['register_from_app'])) {
 //                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
 
-                    }else{
+                    } else {
 
 //                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
@@ -399,8 +396,17 @@ class AuthController extends Controller
 
                     if (empty($checkEmailVerified)) {
 
+                        if (!empty($request['register_from_app'])) {
+                            //                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
+                            $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+
+                        } else {
+
 //                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
-                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+                            $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
+
+                        }
+
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
@@ -630,8 +636,18 @@ class AuthController extends Controller
 
             $user = User::getSingleUser($request->input('user_id'));
 
+            if (!empty($user['register_from_app']))
+            {
 //            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-            $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+
+            }else{
+
+//            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+
+            }
+
 
             $logoUrl = URL::asset('assets/logos/HumanOp Logo.png');
             $privacyUrl = url('/privacy-policy');
