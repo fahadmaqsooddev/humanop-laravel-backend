@@ -29,7 +29,7 @@ class EmailTemplateSeeder extends Seeder
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8f8;">
 <div style="margin: 20px auto; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
     <div style="background-color: #003a6d; padding: 20px; text-align: center;">
-        <img src="https://staging.humanop.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
+        <img src="https://staging.humanoptech.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
     </div>
     <div style="padding: 20px; color: #333; background-color: #f3deba;">
         <h1 style="font-size: 24px; color: #333; margin-bottom: 16px;">Hi {$userName},</h1>
@@ -63,7 +63,7 @@ class EmailTemplateSeeder extends Seeder
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8f8;">
 <div style="margin: 20px auto; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
     <div style="background-color: #003a6d; padding: 20px; text-align: center;">
-        <img src="https://staging.humanop.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
+        <img src="https://staging.humanoptech.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
     </div>
     <div style="padding: 20px; color: #333; background-color: #f3deba;">
         <h1 style="font-size: 24px; color: #333; margin-bottom: 16px;">Hi {$userName},</h1>
@@ -98,7 +98,7 @@ class EmailTemplateSeeder extends Seeder
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f8f8;">
 <div style="margin: 20px auto; background-color: #fff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
     <div style="background-color: #003a6d; padding: 20px; text-align: center;">
-        <img src="https://staging.humanop.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
+        <img src="https://staging.humanoptech.com/assets/logos/HumanOp%20Logo.png" alt="HumanOP Logo" style="height: 50px;">
     </div>
    <div style="padding: 20px; color: #333; background-color: #f3deba;">
         <h1 style="font-size: 24px; color: #333; margin-bottom: 16px;">Hi {$userName},</h1>
