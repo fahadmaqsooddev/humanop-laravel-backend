@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 use PhpOffice\PhpWord\IOFactory;
@@ -138,31 +139,58 @@ class Conversation extends Component
 
                     $response = $response->toArray();
 
-                    $pinecone = new \Probots\Pinecone\Client(env('PINECONE_API_KEY'),'https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io');
+//                    $pinecone = new \Probots\Pinecone\Client(env('PINECONE_API_KEY'),);
 
                     $pine_cone_ids = HaiChatActiveEmbedding::activeEmbeddingsPineConeId($this->chatBot->id, $this->is_pine_cone);
 
-
                     foreach ($response['data'] as $embedding){
 
-                        $response = $pinecone->data()->vectors()->query(
-                            vector:$embedding['embedding'],
-                            topK : $this->chatBot->chunks ?? 1,
-                            includeMetadata : true,
-                            filter : [
-                            'database_id' => ['$in' => $pine_cone_ids]
-//                        'id' => ['$in' => ['vector_1']],
+//                        $response = $pinecone->data()->vectors()->query(
+//                            vector:$embedding['embedding'],
+//                            topK : $this->chatBot->chunks ?? 1,
+//                            includeMetadata : true,
+//                            filter : [
+//                            'database_id' => ['$in' => $pine_cone_ids]
+////                        'id' => ['$in' => ['vector_1']],
+//                            ]
+//                        );
+
+                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
+//                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
+                        $response = Http::withHeaders([
+                            'Api-Key' => "pcsk_RvRK3_8wKwiqZAapNbMNhEpPZvP6nx9szRX3UtKv49VPX25L4VP7vt8MXsRs1C2Csx5xk",
+                            'Content-Type' => 'application/json',
+                        ])->post($url, [
+                            'vector' => $embedding['embedding'],
+                            'topK' => $this->chatBot->chunks ?? 1,
+                            'includeMetadata' => true,
+                            'filter' => [
+                                'database_id' => ['$in' => $pine_cone_ids],
                             ]
-                        );
+                        ]);
 
-                        $result = $response->array();
+//                        $result = $response->array();
 
-                        $final_chunks = array_filter($result['matches'] ?? [], function ($match) {
-                            return $match['score'] >= 0.3;
-                        });
+                        if ($response->successful()){
+
+                            $result = $response->json();
+
+                            $chunks = array_filter($result['matches'] ?? [], function ($match) {
+                                return $match['score'] >= 0.4;
+                            });
+
+                            $chunks = array_column($chunks,'metadata');
+
+                            $chunks = array_column($chunks,'text');
+
+                            $final_chunks = array_merge($chunks, $gridChunks ?? []);
+
+                        }else{
+
+                            session()->flash('error', $response->json());
+                        }
 
                     }
-
 
                 }else{
 
@@ -179,17 +207,17 @@ class Conversation extends Component
                 $messages = [
                     [
                         'role' => 'system',
-                        'content' => "Ensure responses must follow these prompts: ". $this->chatBot->prompt ."Use context to provide accurate answers. Ensure responses follow these restrictions: ". $this->chatBot->restriction,
+                        'content' => $this->chatBot->prompt . ".Always provide answers in detailed HTML format. Use tags like <h6>, <p>, <ul>, <li>, and <strong> to structure the output. Ensure the response is informative and formatted correctly." . $this->chatBot->restriction,
                     ],
                     [
                         'role' => 'assistant',
 //                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
-                        'content' => "Answer the question using this contents: {". implode('\n',$final_chunks) ."}. If user greets respond it casually.",
+//                        'content' => "Answer the question using this contents: {". implode('\n',$final_chunks) ."}. If user greets respond it casually.",
+                        'content' => "Answer the question using this contents: {" . implode('\n',$final_chunks) . "}",
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Respond in accurate and complete HTML Format \n
-                        Headings must be in h6 tag and in Black color. Question: " . $this->message,
+                        'content' => $this->message . ".The answer must be in detailed HTML format using tags like <h6>, <p>, <ul>, and <li>.",
                     ]
                 ];
 
