@@ -80,10 +80,10 @@ class Embedding extends Component
         }
     }
 
-    public function mount(){
-
-        $this->is_pine_cone = \request()->input('pine_cone_database', false);
-    }
+//    public function mount(){
+//
+//        $this->is_pine_cone = \request()->input('pine_cone_database', false);
+//    }
 
     public function searchEmbedding()
     {
