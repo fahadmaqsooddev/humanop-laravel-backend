@@ -11,15 +11,15 @@ switch (env('APP_ENV')) {
 
     case 'staging':
         $pusher_app_id = 1926809;
-        $pusher_app_key = '0ee4b90b400628d0331d';
-        $pusher_app_secret = '6e3577a87f4ec34b97ff';
+        $pusher_app_key = 'a5dee527655617511cab';
+        $pusher_app_secret = '767124ac1947a6374245';
         $pusher_app_cluster = 'ap2';
         break;
 
     case 'production':
-        $pusher_app_id = 19268100;
-        $pusher_app_key = '0ee4b90b400628d0331d';
-        $pusher_app_secret = '6e3577a87f4ec34b97ff';
+        $pusher_app_id = 1926810;
+        $pusher_app_key = 'ca4a9d174db56bc7fd87';
+        $pusher_app_secret = '463171c2c1221a92d435';
         $pusher_app_cluster = 'ap2';
  break;
 
@@ -39,7 +39,7 @@ return [
     | Supported: "pusher", "ably", "redis", "log", "null"
     |
     */
-    
+
     'default' => env('BROADCAST_DRIVER', 'null'),
 
     /*
@@ -54,7 +54,7 @@ return [
     */
 
     'connections' => [
-        
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => $pusher_app_key,
