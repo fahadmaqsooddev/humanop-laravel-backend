@@ -163,7 +163,7 @@ class Embedding extends Component
 //                     if($aiReply['exists']){
                          HaiChatActiveEmbedding::deleteActiveEmbedding($this->request_id, $this->chatBot->id);
 
-                         $this->button_status = 'Connect';
+//                         $this->button_status = 'Connect';
 //                     }
 //                 }
             }else{
@@ -172,7 +172,7 @@ class Embedding extends Component
 //                    if($aiReply['exists']) {
                         HaiChatActiveEmbedding::createActiveEmbedding($this->chatBot->id, $this->request_id);
 
-                        $this->button_status = 'Disconnect';
+//                        $this->button_status = 'Disconnect';
 //                    }
 //                }
             }

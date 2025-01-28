@@ -116,7 +116,8 @@ class Conversation extends Component
 //                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top. \n
 //                            If user ask for any top {traits/drivers/energy centers} the respond it with their description text:" . implode('\n', $gridChunks),
                         "content" => "The list of all traits are: {".json_encode($traits)."} \n list of all drivers are: {".json_encode($drivers)."} \n list of energy centers are: ".json_encode($energyCenter)." \n
-                        User top {traits/drivers/energy centers} are: {".json_encode($gridPublicNames)."}. Answer should be in detail with their definition and description. For example: If user ask for their top 2 traits then repond like. Your top 3 traits are
+                        User top {traits/drivers/energy centers} are: {".json_encode($gridPublicNames)."}. Answer should be in detail with their definition and description. For example: If user ask for their
+                        top 2 traits then respond like. Your top 3 traits are
                         1. Regal
                         Description of the regal in 2 to 3 lines.
                         2. Effervescent
@@ -157,6 +158,7 @@ class Conversation extends Component
 
                         $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
 //                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
+
                         $response = Http::withHeaders([
                             'Api-Key' => "pcsk_RvRK3_8wKwiqZAapNbMNhEpPZvP6nx9szRX3UtKv49VPX25L4VP7vt8MXsRs1C2Csx5xk",
                             'Content-Type' => 'application/json',
@@ -213,7 +215,7 @@ class Conversation extends Component
                         'role' => 'assistant',
 //                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
 //                        'content' => "Answer the question using this contents: {". implode('\n',$final_chunks) ."}. If user greets respond it casually.",
-                        'content' => "Answer the question using this contents: {" . implode('\n',$final_chunks) . "}",
+                        'content' => "Summarize the text delimited by < > \n <" . implode('\n',$final_chunks) . ">",
                     ],
                     [
                         'role' => 'user',
