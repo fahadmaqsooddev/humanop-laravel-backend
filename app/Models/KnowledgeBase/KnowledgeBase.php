@@ -45,7 +45,8 @@ class KnowledgeBase extends Model
 //            ]
 //        ]);
 
-        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/vectors/upsert";
+        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/vectors/upsert"; //dev
+//        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/vectors/upsert"; // local
         $response = Http::withHeaders([
             'Api-Key' => $apiKey,
             'Content-Type' => 'application/json',
