@@ -273,7 +273,7 @@ class Conversation extends Component
             +	-	PV	EP
 
         DO NOT GENERATE TEXT LIKE THIS : Initiating Change (DE), ONLY GENERATE: Initiating Change
-        IMPORTANT : Here BEST TRAITS AND MOTIVATORS, EXPLAIN IN YOUR OWN WORDS [S]:{".json_encode($gridPublicNames)."} [\S] AND HERE BEST TRAITS AND MOTIVATORS SCORE ARE USE THEIR PUBLIC NAMES AS INSTRUCTION ABOVE[S]:{".json_encode($gridPublicNames)."}[\S]
+        IMPORTANT : Here BEST TRAITS AND MOTIVATORS, EXPLAIN IN YOUR OWN WORDS [S]:{".json_encode($gridPublicNames ?? [])."} [\S] AND HERE BEST TRAITS AND MOTIVATORS SCORE ARE USE THEIR PUBLIC NAMES AS INSTRUCTION ABOVE[S]:{".json_encode($gridPublicNames ?? [])."}[\S]
         IMPORTANT INSTRUCTION:
         1)GENERATE TEXT IN HTML FORMAT
         2)DONT MAKE HEADING
