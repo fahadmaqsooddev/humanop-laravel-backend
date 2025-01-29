@@ -74,6 +74,39 @@ class Conversation extends Component
 
                 if ($this->is_pine_cone){
 
+                    if ($this->user_id){
+//
+////                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+
+                        $latest_assessment = Assessment::getLatestAssessment($this->user_id);
+
+                        if ($latest_assessment){
+
+                            $assessment = Assessment::getAllRowGrid($latest_assessment->id);
+
+                            $gridPublicNames = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id);
+
+//                        $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
+                            $traits = ['Regal','Energetic','Absorptive','Romantic','Sympathetic','Perceptive','Effervescent'];
+//                        $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
+                            $drivers = ['Initiates Change','Creating Order','Compassion','Creates Protection','Monetary Discernment','Visionary',
+                                'Optimistic','Humility','Accomplishment','The Traveler','Aesthetic Sensibility','Perseverance'];
+//                        $energyCenter = ['EM','INS','INT','MOV'];
+                            $energyCenter = ['Emotionally','Instinctually','Intellectually','Moving'];
+
+                            arsort($gridPublicNames);
+                            arsort($assessment['firstRow']);
+
+                            $knowledge = KnowledgeBase::all();
+
+                            $chunks = HaiChatHelpers::findRelevantChunksForGrid($gridPublicNames, $knowledge);
+
+                            $gridChunks = array_column($chunks,'content');
+
+                        }
+                    }
+
+
                     $client = \OpenAI::client("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");
 
                     $response = $client->embeddings()->create([
@@ -87,8 +120,8 @@ class Conversation extends Component
 
                     foreach ($response['data'] as $embedding){
 
-//                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
-                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
+                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
+//                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
 
                         $response = Http::withHeaders([
                             'Api-Key' => "pcsk_RvRK3_8wKwiqZAapNbMNhEpPZvP6nx9szRX3UtKv49VPX25L4VP7vt8MXsRs1C2Csx5xk",
@@ -135,62 +168,41 @@ class Conversation extends Component
 
                 }
 
+                $codes = [
+                    'Regal' => 'You are a natural born leader and do not have to campaign for authority because people just naturally trust your abilities. Others turn to you for direction because they innately know you are competent. People listen to you with confidence. You are able to see the big picture in most circumstances and can arrive at a solution for the benefit of all concerned. This is an active, yet benevolent presence that naturally becomes you when you need to hold court or take on a more prominent role. Individuals with this natural trait make great leaders, directors, and authoritative figures. They are naturally seen by others as a necessary decision maker when reaching a consensus.',
+                    'Absorptive' => 'You are extremely absorptive. This means you can archive vast amounts of information easily. Much like a library, you are able to draw from experiences and concepts and hold onto content permanently. This makes you somewhat of a walking encyclopedia when it comes to anything of interest or applied necessity. Providing you make healthy choices for yourself; this aspect lends itself to extreme intelligence. It affords you the opportunity to process, store and deliver information at will. Because of this combination, your understanding of love and life is very deep as opposed to being superficial. You are also an extremely entertaining individual who makes others feel warm and welcome. This availability factor invites others to be in your presence. This is just one part of you and is very passive in nature.'
+                ];
+
+                $system_prompt = $this->chatBot->prompt .'.';
+                $system_prompt .= "User's top traits are: {". json_encode($gridPublicNames??[]) ."}.";
+
+                foreach ($codes as $code => $description) {
+                    $system_prompt .= "If user asks about there top trait and it's top trait is '$code',then respond with: '$description'.";
+                }
+
+                $system_prompt .= "and if the user ask something else then respond from this related content:{". implode('\n', $final_chunks) ."}";
+
+//                $messages = [
+//                    ["role" => "system", "content" => $system_prompt],
+//                    ["role" => "user", "content" => "Tell me about Regal sub code 02."]
+//                ];
+
                 $messages = [
                     [
                         'role' => 'system',
-                        'content' => "Act as a HumanOP chatbot assistant.
-                        Follow some instructions while generating the response:
-                        #GENERATE TEXT IN HTML FORMAT
-                        #DONT MAKE HEADING
-                        #USE BULLET POINTS
-                        #FOR IMPORTANT WORDS USE BOLD <b> tag
-                        #DO NOT PLACE STERIC like this(**Regal**) ON IMPORTANT WORDS ONLY USE HTML TAGS to bold.
-                        AND Do not follow these INSTRUCTIONS:
-                        # Here's a more detailed response to the question
-                        # Here's a more detailed explanation of the Absorptive trait (previously referred to as JO):
-                        # Avoid generate text like this : scoring 5 out of 5
-                        # Donot use work like Certainly! etc.
-
-                        1)VERY IMPORTANT:
-                        # THESE ARE REFERENCE DOCUMENTS related to QUERY but you have to respond with complete information [S]:{". implode('\n', $final_chunks) ."}[/S]
-                        # THESE ARE REFERENCE CODES WITH DESCRIPTIONS if user ask any code with description then respond from this content and replace code with their coresponding public names from guidlines [S]:{{'sa': {
-            'Description': 'Visualize: Solutions to benefit all. See an issue from multiple angles before acting
-                Reflection: This allows you to tap into your natural ability to see the big picture and envision solutions. Observe how your actions and the actions of others affect team morale
-                Lead/Guide/Mentor: Lead a work or community project or event/Oversee a gathering/Mentor a colleague or student
-                Facilitate a Brainstorming Session: With team or family…to get all options “on the table”...look at issues from multiple angles before making decisions
-                Support Others to See Big Picture: Help colleagues, friends, or family members find solutions. Propose ideas that create win-win situations. Share your solutions by painting the picture of benefits for all.
-                                                                                                                                                                                                                          Relationship with Respect/Disrespect: Recognize, appreciate and validate when others show respect (in certain moments).  Communicate your expectations clearly and respectfully. Address any perceived disrespect promptly and diplomatically
-                Delegation:  Identify tasks that can be delegated to others. Empower team members or family members by assigning them responsibilities. Provide clear instructions and support for delegated tasks
-                                                                                                                                                                                                   Activate Your Natural Benevolent Authority: Practice maintaining a confident and open posture. Speak clearly and thoughtfully, allowing for moments of reflection. Show genuine interest in others' perspectives and ideas. Consult with others to gather diverse viewpoints.  Practice active listening in every conversation. Ask follow-up questions to show engagement.  Summarize what others have said before responding
-                Ponder Solutions to Benefit All: Explain your process when you're taking time to ponder and see solutions…to avoid being seen as indecisive'
-            },}}[/S]
-
-                        When the user inputs a word related to Traits, Features, or Energy Centers, respond strictly with the corresponding word(s) from the provided guidelines, with explanation or additional context. Replace the user's input with the specified words as follows:
-                    Guidelines:
-                    1. Traits:
-                      - Use 'Regal' instead of 'SA'
-                      - Use 'Energetic' instead of 'MA'
-                      - Use 'Absorptive' instead of 'JO' or 'jo'
-                      - Use 'Romantic' instead of 'LU' or 'lu'
-                      - Use 'Sympathetic' instead of 'VEN' or 'ven
-                      - Use 'Perceptive' instead of 'MER' or 'mer'
-                      - Use 'Effervescent' instead of 'SO' or 'so'",
-                    ],
-                    [
-                        'role' => 'assistant',
-                        'content' => 'Act as a Human Op assistant',
+                        'content' => $system_prompt
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples.",
+                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples. RESPONSE MUST BE IN HTML FORMAT having <h6> <ul> <li> tags in black color.",
                     ]
                 ];
 
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => 3000,//$this->chatBot->max_tokens ?? 500,
-                    'temperature' => 0.7,//$this->chatBot->temperature ?? 0.4,
+                    'max_tokens' => $this->chatBot->max_tokens ?? 500,
+                    'temperature' => $this->chatBot->temperature ?? 0.4,
                 ]);
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
