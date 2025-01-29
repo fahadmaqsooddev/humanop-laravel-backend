@@ -7,6 +7,13 @@
                    class="table-orange-color search-bar" placeholder="Search Email">
         </div>
     </div>
+    
+    @if(count($selectedItems) > 0)
+    <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+        <button type="button" onclick="deleteBulkLink()"  class="btn btn-danger">All Delete Links</button>
+    </div>
+@endif
+
     <div class="table-responsive w-100 pt-4 table-orange-color">
         @if(count($invites) > 0)
         @include('layouts.message')
@@ -15,6 +22,7 @@
                 <tr class="table-text-color">
                     <th>Email</th>
                     <th>link</th>
+                    <th>Bulk Delete</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -24,6 +32,13 @@
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
                         <td class="text-md font-weight-normal">{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
+                        <td class="text-center">
+                            <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
+                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                        </td>
+                        
+                       
+          
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
                                     onclick="copyToClipboard('{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
@@ -35,7 +50,7 @@
                 @endforeach
                 </tbody>
             </table>
-
+           
         @else
             <div class="text-center p-5">
 
@@ -156,6 +171,27 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.livewire.emit('deleteClientLink', id)
+                }
+            })
+        }
+        function deleteBulkLink() {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete these Links</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('bulkDelete')
                 }
             })
         }
