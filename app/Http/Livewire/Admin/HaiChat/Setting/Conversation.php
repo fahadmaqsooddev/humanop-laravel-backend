@@ -311,13 +311,15 @@ class Conversation extends Component
 
                 $messages = [
                     [
-                        'role' => 'user',
-                        'content' => $system_prompt
+                        'role' => 'system',
+                        'content' => "user: {$this->message}
+                        {$system_prompt}
+                        assistant:"
                     ],
-//                    [
-//                        'role' => 'user',
-//                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples. RESPONSE MUST BE IN HTML FORMAT having <h6> <ul> <li> tags in black color.",
-//                    ]
+                    [
+                        'role' => 'user',
+                        'content' => $this->message,
+                    ]
                 ];
 
                 $reply = $client->chat()->create([
