@@ -26,7 +26,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
 
-class Conversation extends Component
+class OldConversation extends Component
 {
 
     public $message, $conversations, $user_details, $user_id, $is_restricted_word = false, $disliked = 0,
@@ -72,6 +72,63 @@ class Conversation extends Component
 
             if (!$this->is_restricted_word){
 
+                $grid_info = [];
+
+                if ($this->user_id){
+//
+////                    $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
+
+                    $latest_assessment = Assessment::getLatestAssessment($this->user_id);
+
+                    if ($latest_assessment){
+
+                        $assessment = Assessment::getAllRowGrid($latest_assessment->id);
+
+                        $gridPublicNames = AssessmentColorCode::getAssessmentCodeAndNumber($latest_assessment->id);
+
+//                        $traits = ['SA','MA','JO','LU','VEN','MER','SO'];
+                        $traits = ['Regal','Energetic','Absorptive','Romantic','Sympathetic','Perceptive','Effervescent'];
+//                        $drivers = ['DE','DOM','SP','FE','GRE','LUN','NAI','NE','POW','TRA','VAN','WIL'];
+                        $drivers = ['Initiates Change','Creating Order','Compassion','Creates Protection','Monetary Discernment','Visionary',
+                            'Optimistic','Humility','Accomplishment','The Traveler','Aesthetic Sensibility','Perseverance'];
+//                        $energyCenter = ['EM','INS','INT','MOV'];
+                        $energyCenter = ['Emotionally','Instinctually','Intellectually','Moving'];
+
+                        arsort($gridPublicNames);
+                        arsort($assessment['firstRow']);
+
+                        $knowledge = KnowledgeBase::all();
+
+                        $chunks = HaiChatHelpers::findRelevantChunksForGrid($gridPublicNames, $knowledge);
+
+                        $gridChunks = array_column($chunks,'content');
+
+                        $grid_info = [[
+                            'role' => 'user',
+//                        'content' => "If user ask something any key from ['SA' => 1, 'JO' => 2] then just return like that Your question {key name} value is {value}.",
+//                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
+//                                "If user ask about their top traits \ drivers \ energy centers then answer from this according to their relevant categories: {" . json_encode($gridPublicNames) .
+//                                "} \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+////                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top.",
+//                            'content' => "The list of all traits are: {" . json_encode($traits) . "} and list of all drivers are: {" . json_encode($drivers) . "} and list of all energy centers are: {" . json_encode($energyCenter) .'} \n ' .
+//                                "If user ask about their top {traits/drivers/energy centers} then answer from this according to their relevant categories with detailed overviews: {" . json_encode($gridPublicNames) .
+//                                "}. \n If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+//                            said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top. \n
+//                            If user ask for any top {traits/drivers/energy centers} the respond it with their description text:" . implode('\n', $gridChunks),
+                        "content" => "The list of all traits are: {".json_encode($traits)."} \n list of all drivers are: {".json_encode($drivers)."} \n list of energy centers are: ".json_encode($energyCenter)." \n
+                        User top {traits/drivers/energy centers} are: {".json_encode($gridPublicNames)."}. Answer should be in detail with their definition and description. For example: If user ask for their
+                        top 2 traits then respond like. Your top 3 traits are
+                        1. Regal
+                        Description of the regal in 2 to 3 lines.
+                        2. Effervescent
+                        Description of Effervescent in 2 to 3lines. \n
+                        If user ask any value of code then reply according to this : {" . json_encode($assessment['firstRow']) . "}. If code is not present in the top codes then
+                        said {code} is not available and if user ask from any n top {driver or trait or energy center}  and its not available then said {driver/trait/energy center} has not any nth top."
+                        ]];
+
+                    }
+                }
+
                 if ($this->is_pine_cone){
 
                     $client = \OpenAI::client("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");
@@ -83,12 +140,24 @@ class Conversation extends Component
 
                     $response = $response->toArray();
 
+//                    $pinecone = new \Probots\Pinecone\Client(env('PINECONE_API_KEY'),);
+
                     $pine_cone_ids = HaiChatActiveEmbedding::activeEmbeddingsPineConeId($this->chatBot->id, $this->is_pine_cone);
 
                     foreach ($response['data'] as $embedding){
 
-//                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
-                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
+//                        $response = $pinecone->data()->vectors()->query(
+//                            vector:$embedding['embedding'],
+//                            topK : $this->chatBot->chunks ?? 1,
+//                            includeMetadata : true,
+//                            filter : [
+//                            'database_id' => ['$in' => $pine_cone_ids]
+////                        'id' => ['$in' => ['vector_1']],
+//                            ]
+//                        );
+
+                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
+//                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
 
                         $response = Http::withHeaders([
                             'Api-Key' => "pcsk_RvRK3_8wKwiqZAapNbMNhEpPZvP6nx9szRX3UtKv49VPX25L4VP7vt8MXsRs1C2Csx5xk",
@@ -101,6 +170,8 @@ class Conversation extends Component
                                 'database_id' => ['$in' => $pine_cone_ids],
                             ]
                         ]);
+
+//                        $result = $response->array();
 
                         if ($response->successful()){
 
@@ -138,59 +209,27 @@ class Conversation extends Component
                 $messages = [
                     [
                         'role' => 'system',
-                        'content' => "Act as a HumanOP chatbot assistant.
-                        Follow some instructions while generating the response:
-                        #GENERATE TEXT IN HTML FORMAT
-                        #DONT MAKE HEADING
-                        #USE BULLET POINTS
-                        #FOR IMPORTANT WORDS USE BOLD <b> tag
-                        #DO NOT PLACE STERIC like this(**Regal**) ON IMPORTANT WORDS ONLY USE HTML TAGS to bold.
-                        AND Do not follow these INSTRUCTIONS:
-                        # Here's a more detailed response to the question
-                        # Here's a more detailed explanation of the Absorptive trait (previously referred to as JO):
-                        # Avoid generate text like this : scoring 5 out of 5
-                        # Donot use work like Certainly! etc.
-
-                        1)VERY IMPORTANT:
-                        # THESE ARE REFERENCE DOCUMENTS related to QUERY but you have to respond with complete information [S]:{". implode('\n', $final_chunks) ."}[/S]
-                        # THESE ARE REFERENCE CODES WITH DESCRIPTIONS if user ask any code with description then respond from this content and replace code with their coresponding public names from guidlines [S]:{{'sa': {
-            'Description': 'Visualize: Solutions to benefit all. See an issue from multiple angles before acting
-                Reflection: This allows you to tap into your natural ability to see the big picture and envision solutions. Observe how your actions and the actions of others affect team morale
-                Lead/Guide/Mentor: Lead a work or community project or event/Oversee a gathering/Mentor a colleague or student
-                Facilitate a Brainstorming Session: With team or family…to get all options “on the table”...look at issues from multiple angles before making decisions
-                Support Others to See Big Picture: Help colleagues, friends, or family members find solutions. Propose ideas that create win-win situations. Share your solutions by painting the picture of benefits for all.
-                                                                                                                                                                                                                          Relationship with Respect/Disrespect: Recognize, appreciate and validate when others show respect (in certain moments).  Communicate your expectations clearly and respectfully. Address any perceived disrespect promptly and diplomatically
-                Delegation:  Identify tasks that can be delegated to others. Empower team members or family members by assigning them responsibilities. Provide clear instructions and support for delegated tasks
-                                                                                                                                                                                                   Activate Your Natural Benevolent Authority: Practice maintaining a confident and open posture. Speak clearly and thoughtfully, allowing for moments of reflection. Show genuine interest in others' perspectives and ideas. Consult with others to gather diverse viewpoints.  Practice active listening in every conversation. Ask follow-up questions to show engagement.  Summarize what others have said before responding
-                Ponder Solutions to Benefit All: Explain your process when you're taking time to ponder and see solutions…to avoid being seen as indecisive'
-            },}}[/S]
-
-                        When the user inputs a word related to Traits, Features, or Energy Centers, respond strictly with the corresponding word(s) from the provided guidelines, with explanation or additional context. Replace the user's input with the specified words as follows:
-                    Guidelines:
-                    1. Traits:
-                      - Use 'Regal' instead of 'SA'
-                      - Use 'Energetic' instead of 'MA'
-                      - Use 'Absorptive' instead of 'JO' or 'jo'
-                      - Use 'Romantic' instead of 'LU' or 'lu'
-                      - Use 'Sympathetic' instead of 'VEN' or 'ven
-                      - Use 'Perceptive' instead of 'MER' or 'mer'
-                      - Use 'Effervescent' instead of 'SO' or 'so'",
+                        'content' => $this->chatBot->prompt . ".Always provide answers in detailed HTML format. Use tags like <h6>, <p>, <ul>, <li>, and <strong> to structure the output. Ensure the response is informative and formatted correctly." . $this->chatBot->restriction,
                     ],
                     [
                         'role' => 'assistant',
-                        'content' => 'Act as a Human Op assistant',
+//                        'content' => "Here is the related context understand it and answer in detail according to it : ". implode('\n',$chunks) .".",
+//                        'content' => "Answer the question using this contents: {". implode('\n',$final_chunks) ."}. If user greets respond it casually.",
+                        'content' => "Summarize the text delimited by < > \n <" . implode('\n',$final_chunks) . ">",
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples.",
+                        'content' => $this->message . ".The answer must be in detailed HTML format using tags like <h6>, <p>, <ul>, and <li>.",
                     ]
                 ];
+
+                array_splice($messages, 1, 0, $grid_info);
 
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => 3000,//$this->chatBot->max_tokens ?? 500,
-                    'temperature' => 0.7,//$this->chatBot->temperature ?? 0.4,
+                    'max_tokens' => $this->chatBot->max_tokens ?? 500,
+                    'temperature' => $this->chatBot->temperature ?? 0.4,
                 ]);
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
