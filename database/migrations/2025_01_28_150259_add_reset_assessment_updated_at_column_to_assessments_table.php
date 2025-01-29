@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('assessments', function (Blueprint $table) {
-            $table->timestamp('reset_assessment_updated_at')->nullable();
+            $table->timestamp('after_reset_assessment_updated_at')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('assessments', function (Blueprint $table) {
-            $table->dropColumn('reset_assessment_updated_at');
+            $table->dropColumn('after_reset_assessment_updated_at');
         });
     }
 };
