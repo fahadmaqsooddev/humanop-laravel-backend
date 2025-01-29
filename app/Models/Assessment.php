@@ -69,6 +69,22 @@ class Assessment extends Model
 
     }
 
+    public function getAfterResetAssessmentUpdatedAtAttribute($value)
+    {
+        $formattedTimestamp = str_replace('T', ' ', $value);
+
+        $formattedTimestamp = explode('.', $formattedTimestamp)[0];
+
+        $timezone = Helpers::getWebUser()['timezone'] ?? Helpers::getUser()['timezone'] ?? '';
+
+        $minutes = Helpers::explodeTimezoneWithHours($timezone);
+
+        return Carbon::parse($formattedTimestamp)
+            ->addMinutes($minutes * 60)
+            ->format('m/d/Y h:i A');
+
+    }
+
     // scope
     public function scopeSelection($query)
     {
@@ -1003,7 +1019,7 @@ class Assessment extends Model
 
         $assessments = self::where('user_id', Helpers::getUser()->id)
             ->where('page', 0)
-            ->select(['id', 'page', 'updated_at'])
+            ->select(['id', 'page', 'updated_at', 'reset_assessment', 'after_reset_assessment_updated_at'])
             ->orderBy($order_by, $order);
 
         return Helpers::pagination($assessments, $request->input('pagination'), $request->input('per_page'));
@@ -1447,10 +1463,16 @@ class Assessment extends Model
     public static function resetAssessmentStatus($assessmentId = null)
     {
 
+        // dd($assessmentId);
         $assessment = self::whereId($assessmentId)->first();
 
         if ($assessment) {
+
             if ($assessment['reset_assessment'] == Admin::NOT_RESET_ASSESSMENT) {
+
+                $assessment->update([
+                    'after_reset_assessment_updated_at' => Carbon::parse($assessment->updated_at)->format('Y-m-d H:i:s'),
+                ]);
 
                 $assessment->update(['reset_assessment' => Admin::RESET_ASSESSMENT]);
 

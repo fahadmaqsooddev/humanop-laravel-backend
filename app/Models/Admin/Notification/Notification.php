@@ -32,8 +32,8 @@ class Notification extends Model
 
         $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
 
-        return self::where('id', $user['id'])
-            ->orWhere('permission', $userPermission)
+        return self::where('user_id', $user['id'])
+            ->where('permission', $userPermission)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }

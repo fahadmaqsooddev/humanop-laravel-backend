@@ -1,4 +1,29 @@
 <?php
+switch (env('APP_ENV')) {
+    case 'local':
+    case 'development':
+        $pusher_app_id = 1926808;
+        $pusher_app_key = '0ee4b90b400628d0331d';
+        $pusher_app_secret = '6e3577a87f4ec34b97ff';
+        $pusher_app_cluster = 'ap2';
+
+        break;
+
+    case 'staging':
+        $pusher_app_id = 1926809;
+        $pusher_app_key = 'a5dee527655617511cab';
+        $pusher_app_secret = '767124ac1947a6374245';
+        $pusher_app_cluster = 'ap2';
+        break;
+
+    case 'production':
+        $pusher_app_id = 1926810;
+        $pusher_app_key = 'ca4a9d174db56bc7fd87';
+        $pusher_app_secret = '463171c2c1221a92d435';
+        $pusher_app_cluster = 'ap2';
+ break;
+
+};
 
 return [
 
@@ -32,11 +57,11 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
+            'key' => $pusher_app_key,
+            'secret' => $pusher_app_secret,
+            'app_id' => $pusher_app_id,
             'options' => [
-                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'cluster' =>$pusher_app_cluster ,
                 'useTLS' => true,
 //                'useTLS' => env('PUSHER_USE_TLS'),
 //                'host' => env('PUSHER_LOCALHOST_IP'),
@@ -45,6 +70,7 @@ return [
 
             ],
         ],
+
 
         'ably' => [
             'driver' => 'ably',

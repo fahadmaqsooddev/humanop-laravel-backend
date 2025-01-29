@@ -36,11 +36,18 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => 'smtp.emailit.com',
+            'port' => 587,
+            'encryption' => 'tls',
+            'username' => 'emailit',
+            'password' => 'em_smtp_wXlgIENAojDIDPLU1BEcOdJO5QNa4JYM',
+
+//            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+//            'port' => env('MAIL_PORT', 587),
+//            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+//            'username' => env('MAIL_USERNAME'),
+//            'password' => env('MAIL_PASSWORD'),
+
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -92,8 +99,11 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@dev.vizrex.pk'),
-        'name' => env('MAIL_FROM_NAME', config('app.name')),
+//        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@dev.vizrex.pk'),
+//        'name' => env('MAIL_FROM_NAME', config('app.name')),
+
+        'address' => config('mail_config.mail_address'),
+        'name' => config('mail_config.mail_name'),
     ],
 
     /*
