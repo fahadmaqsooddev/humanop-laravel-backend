@@ -22,12 +22,12 @@ class AllUser extends Component
     public $name = '';
     public $email = '';
     public $age = '';
-
+    public $selectedItems = [];
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'
-        ,'updateHaiChatVisibility','deleteClientProfile','updateEmailVerified'];
+        ,'updateHaiChatVisibility','deleteClientProfile','updateEmailVerified','bulkDelete'];
 
 
         public function updated($field)
@@ -103,6 +103,15 @@ class AllUser extends Component
     public function deleteClientProfile($id){
 
         User::deleteClientProfile($id);
+    }
+
+    public function bulkDelete()
+    {
+        
+        User::whereIn('id', $this->selectedItems)->forceDelete();
+
+        
+        $this->selectedItems = [];
     }
 
     public function hideHaiChatFromAllClients(){

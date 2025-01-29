@@ -13,10 +13,11 @@ class ClientInvite extends Component
     use WithFileUploads, WithPagination;
 
     public $email, $file, $searched_email;
+    public $selectedItems = [];
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['deleteClientLink'];
+    protected $listeners = ['deleteClientLink','bulkDelete'];
 
     protected $rules = [
         // 'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
@@ -84,6 +85,16 @@ class ClientInvite extends Component
 
         }
 
+    }
+
+
+    public function bulkDelete()
+    {
+      
+        UserInvite::whereIn('id', $this->selectedItems)->delete();
+
+        
+        $this->selectedItems = [];
     }
 
     public function updatedSearchedEmail()
