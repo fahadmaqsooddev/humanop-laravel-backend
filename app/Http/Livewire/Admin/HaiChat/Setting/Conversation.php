@@ -177,10 +177,10 @@ class Conversation extends Component
                 $system_prompt .= "User's top traits are: {". json_encode($gridPublicNames??[]) ."}.";
 
                 foreach ($codes as $code => $description) {
-                    $system_prompt .= "If the user asks about there top trait and it's top trait are '$code', respond with: '$description'.";
+                    $system_prompt .= "If user asks about there top trait and it's top trait is '$code',then respond with: '$description'.";
                 }
 
-                $system_prompt .= "If the user do not ask from previous questions then respond from this related content:{". implode('\n', $final_chunks) ."}";
+                $system_prompt .= "and if the user ask something else then respond from this related content:{". implode('\n', $final_chunks) ."}";
 
 //                $messages = [
 //                    ["role" => "system", "content" => $system_prompt],
@@ -194,7 +194,7 @@ class Conversation extends Component
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples. RESPONSE MUST BE FOLLOWED HTML FORMAT with <h6> <ul> <li> tags.",
+                        'content' => "Provide a detailed, in-depth explanation of $this->message, covering all aspects with examples. RESPONSE MUST BE IN HTML FORMAT having <h6> <ul> <li> tags in black color.",
                     ]
                 ];
 
