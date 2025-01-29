@@ -34,7 +34,13 @@
     
     @if(Auth::user()->hasRole('super admin'))
         <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
-    @endif
+        @if(count($selectedItems) > 0)
+        <div class=" d-flex justify-content-end ms-md-4 pe-md-4 mt-2">
+            <button type="button" onclick="deleteBulkClient()" class="btn-sm btn-danger" style="font-weight:bolder;border:none;">Delete Clients Permanently</button>
+        </div>
+        @endif
+        @endif
+   
     <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
@@ -43,13 +49,16 @@
                 <th>Email</th>
                 <th>Gender</th>
                 @if(Auth::user()->hasRole('super admin'))
+               
                     <th>Email verified</th>
                     <th>HAI Chat</th>
+
                 @endif
                 @if(Auth::user()->hasRole('super admin') || Auth::user()->hasRole('sub admin'))
                     <th>Membership</th>
                     <th>Practitioner</th>
-                    <th>Login Client</th>
+                    {{-- <th>Login Client</th> --}}
+                    <th>Bulk Delete</th>
                     <th>Delete Client</th>
                 @endif
             </tr>
@@ -68,6 +77,8 @@
                         No
                         @endif
                        </td> --}}
+                     
+                    
                        <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
                             @php
@@ -130,7 +141,7 @@
                                        @checked($practitionerStatus)>
                             </div>
                         </td>
-                        <td class="text-sm font-weight-normal">
+                        {{-- <td class="text-sm font-weight-normal">
                             
                             <a 
                             @if(empty($user['email_verified_at']))
@@ -144,6 +155,11 @@
                           Login
                            
                             </a>
+                        </td> --}}
+
+                        <td class="text-center">
+                            <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
+                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                         </td>
                         <td class="text-sm font-weight-normal">
                             <a onclick="deleteClientProfile({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}')"
@@ -327,6 +343,28 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.livewire.emit('deleteClientProfile', id)
+                }
+            })
+        }
+
+
+        function deleteBulkClient(){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to Permanent delete Clients </span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('bulkDelete')
                 }
             })
         }

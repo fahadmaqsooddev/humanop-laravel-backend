@@ -11,9 +11,10 @@ class DeletedUsers extends Component
 
     use WithPagination;
 
-    protected $listeners = ['deleteUser' => 'deleteUserPermanently', 'restoreUser' => 'restoreUser'];
+    protected $listeners = ['deleteUser' => 'deleteUserPermanently', 'restoreUser' => 'restoreUser','bulkDelete'];
 
     public $page = 1, $perPage = 10;
+    public $selectedItems = [];
 
     public function render()
     {
@@ -30,6 +31,15 @@ class DeletedUsers extends Component
 
     public function deleteUserPermanently($id)
     {
-        User::onlyTrashed()->whereId($id)->forceDelete();;
+        User::onlyTrashed()->whereId($id)->forceDelete();
+    }
+
+    public function bulkDelete()
+    {
+        
+        User::onlyTrashed()->whereIn('id', $this->selectedItems)->forceDelete();
+
+        
+        $this->selectedItems = [];
     }
 }

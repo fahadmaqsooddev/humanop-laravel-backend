@@ -22,8 +22,8 @@ class Prompt extends Component
         'name.required' => 'Something went during updating prompt.',
         'prompt.required' => 'Prompt is required.',
         'restriction.required' => 'LLM Restriction is required.',
-        'restriction.max' => 'LLM Restriction characters limit are 5000.',
-        'prompt.max' => 'Prompt characters limit are 5000.',
+        'restriction.max' => 'LLM Restriction characters limit are 10000.',
+        'prompt.max' => 'Prompt characters limit are 10000.',
     ];
 
     public function mount($name)
