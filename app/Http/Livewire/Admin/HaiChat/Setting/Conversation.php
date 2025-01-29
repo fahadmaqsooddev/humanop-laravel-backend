@@ -120,8 +120,8 @@ class Conversation extends Component
 
                     foreach ($response['data'] as $embedding){
 
-//                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
-                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
+                        $url = "https://my-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // dev
+//                        $url = "https://local-index-wgj0px8.svc.aped-4627-b74a.pinecone.io/query"; // local
 
                         $response = Http::withHeaders([
                             'Api-Key' => "pcsk_RvRK3_8wKwiqZAapNbMNhEpPZvP6nx9szRX3UtKv49VPX25L4VP7vt8MXsRs1C2Csx5xk",
@@ -201,8 +201,8 @@ class Conversation extends Component
                 $reply = $client->chat()->create([
                     'model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
                     'messages' => $messages,
-                    'max_tokens' => 3000,//$this->chatBot->max_tokens ?? 500,
-                    'temperature' => 0.7,//$this->chatBot->temperature ?? 0.4,
+                    'max_tokens' => $this->chatBot->max_tokens ?? 500,
+                    'temperature' => $this->chatBot->temperature ?? 0.4,
                 ]);
 
                 if (isset($reply->toArray()['choices'][0]['message']['content'])){
