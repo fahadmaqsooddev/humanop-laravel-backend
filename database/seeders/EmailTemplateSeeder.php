@@ -125,7 +125,7 @@ class EmailTemplateSeeder extends Seeder
 
 
         $email_template = [
-            ['name' => 'email-verification', 'format' => $email_verification],
+            ['name' => 'Verify Your Email Address', 'format' => $email_verification],
             ['name' => 'reset-password', 'format' => $reset_password],
             ['name' => '2fa-verification-code', 'format' => $fa_verifiction_code]
         ];
