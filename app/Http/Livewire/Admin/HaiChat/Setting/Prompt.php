@@ -11,15 +11,15 @@ class Prompt extends Component
     public $prompt, $restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chatBot;
 
     protected $rules = [
-        'prompt' => 'required|max:5100',
-        'restriction' => 'required|max:5100',
+        'prompt' => 'required|max:10000',
+        'restriction' => 'required|max:10000',
     ];
 
     protected $messages = [
         'prompt.required' => 'Prompt is required.',
         'restriction.required' => 'LLM Restriction is required.',
-        'restriction.max' => 'LLM Restriction characters limit are 5000.',
-        'prompt.max' => 'Prompt characters limit are 5000.',
+        'restriction.max' => 'LLM Restriction characters limit are 10000.',
+        'prompt.max' => 'Prompt characters limit are 10000.',
     ];
 
     public function mount()
