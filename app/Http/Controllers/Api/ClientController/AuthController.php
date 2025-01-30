@@ -262,7 +262,7 @@ class AuthController extends Controller
                             '{$privacy}' => $privacyUrl,
                         ];
 
-                        $email_template = EmailTemplate::getTemplate($userData, 'email-verification');
+                        $email_template = EmailTemplate::getTemplate($userData, 'Verify Your Email Address');
 
                         Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
@@ -374,7 +374,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($user, $url);
 
-                        $this->sendEmailVerification($emailData, $user['email'], 'email-verification');
+                        $this->sendEmailVerification($emailData, $user['email'], 'Verify Your Email Address');
 
                     }
 
@@ -410,7 +410,7 @@ class AuthController extends Controller
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
-                        $this->sendEmailVerification($emailData, $checkUser['email'], 'email-verification');
+                        $this->sendEmailVerification($emailData, $checkUser['email'], 'Verify Your Email Address');
 
                         $checkUser->setAppends([]);
 
@@ -661,7 +661,7 @@ class AuthController extends Controller
                 '{$privacy}' => $privacyUrl,
             ];
 
-            $email_template = EmailTemplate::getTemplate($data, 'email-verification');
+            $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
 
             Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
 
