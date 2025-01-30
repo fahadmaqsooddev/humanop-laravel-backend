@@ -679,7 +679,8 @@ if($signup == 1){
 
             $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
 
-            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
+            // Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
+            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Verify Your Email Address');
 
 
             return Helpers::successResponse('Resend email sent successfully!');
