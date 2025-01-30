@@ -36,7 +36,7 @@
         <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
         @if(count($selectedItems) > 0)
         <div class=" d-flex justify-content-end ms-md-4 pe-md-4 mt-2">
-            <button type="button" onclick="deleteBulkClient()" class="btn-sm btn-danger" style="font-weight:bolder;border:none;">Delete Clients Permanently</button>
+            <button type="button" onclick="deleteBulkClient()" class="btn-sm btn-danger" style="font-weight:bolder;border:none;">Delete Clients </button>
         </div>
         @endif
         @endif
@@ -359,7 +359,7 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to Permanent delete Clients </span>",
+                html: "<span style='color: white;'>Want to delete Clients </span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
