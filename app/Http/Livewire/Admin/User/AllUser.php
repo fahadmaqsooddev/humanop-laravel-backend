@@ -108,7 +108,7 @@ class AllUser extends Component
     public function bulkDelete()
     {
         
-        User::whereIn('id', $this->selectedItems)->forceDelete();
+        User::whereIn('id', $this->selectedItems)->delete();
 
         
         $this->selectedItems = [];
