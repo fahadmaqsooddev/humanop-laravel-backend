@@ -633,18 +633,34 @@ class AuthController extends Controller
     {
 
         try {
-
+            
+           $signup= $request->input('signup');
+          
+         
             $user = User::getSingleUser($request->input('user_id'));
 
             if (!empty($user['register_from_app']))
             {
 //            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+           if($signup == 1){
+    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
+    
+           }else{
+    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+
+    }
 
             }else{
 
 //            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+if($signup == 1){
+   $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+           }else{
+   $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+
+   
+    }
+                // $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
 
             }
 
