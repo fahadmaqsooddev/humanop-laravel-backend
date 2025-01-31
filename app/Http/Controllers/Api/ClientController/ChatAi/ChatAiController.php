@@ -10,6 +10,7 @@ use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Models\Assessment;
+use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\QueryAnswer;
@@ -46,12 +47,14 @@ class ChatAiController extends Controller
 
             $assessmentDetails = Assessment::getAssessment();
 
+            $chat_bot_published_path = Chatbot::where('is_published', 1)->first()->publish_path ?? null;
+
             $body = ['question' => $request->input('question'),
                 'user_id' => Helpers::getUser()->id,
                 'assessment_ids' => $assessments,
                 'assessment_details' => $assessmentDetails,
                 'is_repeat' => $request->input('is_repeat_answer'),
-                'publish_model' => 'publish_model/freemium_publish_model/llm_params_20250130_085301.txt'];
+                'publish_model' => $chat_bot_published_path];
 
             $app_env = env('APP_ENV');
             $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
