@@ -70,10 +70,12 @@ class AuthController extends Controller
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'registration_step' => $checkUser['step'],
-                    'email_verification_token' => $checkUser['email_verify_token']
+                    'email_verification_token' => $userInvite['link']
 
                 ];
 
@@ -99,10 +101,12 @@ class AuthController extends Controller
 
                     if ($data['step'] != 3) {
 
+                        $userInvite = UserInvite::getSingleInvite($data['email']);
+
                         $userData = [
                             'user_id' => $data['id'],
                             'registration_step' => $data['step'],
-                            'email_verification_token' => $data['email_verify_token']
+                            'email_verification_token' => $userInvite['link']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
