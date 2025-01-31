@@ -4,7 +4,7 @@
 switch (env('APP_ENV')) {
     case 'local':
     case 'development':
-        $mail_address = 'info@dev.humanop.com';
+        $mail_address = 'support@humanop.com';
         break;
 
     case 'staging':
