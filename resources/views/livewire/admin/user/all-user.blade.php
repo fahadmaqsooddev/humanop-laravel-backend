@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    
+
     @if(Auth::user()->hasRole('super admin'))
         <button wire:click="hideHaiChatFromAllClients" class=" btn-sm float-end m-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">Hai Chat Change Status</button>
         @if(count($selectedItems) > 0)
@@ -40,7 +40,7 @@
         </div>
         @endif
         @endif
-   
+
     <div class="table-responsive w-100 pt-4 table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
@@ -49,7 +49,7 @@
                 <th>Email</th>
                 <th>Gender</th>
                 @if(Auth::user()->hasRole('super admin'))
-               
+
                     <th>Email verified</th>
                     <th>HAI Chat</th>
 
@@ -77,8 +77,8 @@
                         No
                         @endif
                        </td> --}}
-                     
-                    
+
+
                        <td class="text-sm font-weight-normal">
                         <div class="form-check form-switch mb-0 d-flex justify-content-center">
                             @php
@@ -88,7 +88,7 @@
                                     $status = false;
                             @endphp
                             <input class="form-check-input"
-                            
+
                                    onchange="updateUserEmailVerifiedStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
                                    name="status"
                                    type="checkbox"
@@ -105,11 +105,23 @@
                                     else
                                         $status = false;
                                 @endphp
-                                <input class="form-check-input"
-                                       onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
-                                       name="status"
-                                       type="checkbox"
-                                       @checked($status)>
+
+                                @if($is_chatBot_published || $status)
+
+                                    <input class="form-check-input"
+                                           onchange="updateUserHaiChatStatus({{$user['id']}}, '{{$user['first_name']}}', this , event)"
+                                           name="status"
+                                           type="checkbox"
+                                           @checked($status)>
+
+                                @else
+
+                                    <input class="form-check-input"
+                                           onchange="displayChatBotPublishMessage(event)"
+                                           name="status"
+                                           type="checkbox">
+
+                                @endif
                             </div>
                         </td>
 
@@ -142,18 +154,18 @@
                             </div>
                         </td>
                         {{-- <td class="text-sm font-weight-normal">
-                            
-                            <a 
+
+                            <a
                             @if(empty($user['email_verified_at']))
-                            disabled 
+                            disabled
                             style="background:grey;color:white;font-weight:bolder;"
                             @else
                             onclick="adminLoggedInToUserAccount({{$user['id'] ?? null}}, '{{$user['first_name'] ?? null}}', '{{$user['last_name'] ?? null}}', '{{$user['is_admin'] ?? null}}')"
-                            @endif   
+                            @endif
                             class=" btn-sm float-end mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;"
                             >
                           Login
-                           
+
                             </a>
                         </td> --}}
 
@@ -221,8 +233,8 @@
             // Store the current state of the checkbox
             const isChecked = checkbox.checked;
             const status = checkbox.id;
-            
-            
+
+
 
             // Reset checkbox to its original state temporarily
             checkbox.checked = !isChecked;
@@ -251,15 +263,15 @@
                 confirmButtonText: 'Confirm',
             }).then((result) => {
                 if (result.isConfirmed) {
-                   
+
                     if(status!=1){
                         checkbox.checked = isChecked;
-                    
+
                     window.livewire.emit('updateEmailVerified', id);
                     }
-                   
+
                 } else {
-                   
+
                     checkbox.checked = !isChecked;
                 }
             });
@@ -367,6 +379,29 @@
                     window.livewire.emit('bulkDelete')
                 }
             })
+        }
+
+        function displayChatBotPublishMessage(event){
+            event.preventDefault();
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                // title: '<span style="color: white;">Publish Chat Bot first to enable Hai chat.</span>',
+                html: "<h4 style='color: white;'>Publish Chat Bot first to enable Hai chat.</h4>",
+                // showCancelButton: true,
+                confirmButtonText: 'Close',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.checked = false;
+                }
+            })
+
         }
 
 

@@ -11,9 +11,11 @@ use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Models\Assessment;
 use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\QueryAnswer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChatAiController extends Controller
@@ -43,25 +45,37 @@ class ChatAiController extends Controller
 
         try {
 
-            $assessments = AssessmentHelper::getAssessments();
+            $chat_bot = Chatbot::where('is_published', 1)->first();
 
-            $assessmentDetails = Assessment::getAssessment();
+            $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
 
-            $chat_bot_published_path = Chatbot::where('is_published', 1)->first()->publish_path ?? null;
+            if (!$is_restricted_word){
 
-            $body = ['question' => $request->input('question'),
-                'user_id' => Helpers::getUser()->id,
-                'assessment_ids' => $assessments,
-                'assessment_details' => $assessmentDetails,
-                'is_repeat' => $request->input('is_repeat_answer'),
-                'publish_model' => $chat_bot_published_path];
+                $assessments = AssessmentHelper::getAssessments();
 
-            $app_env = env('APP_ENV');
-            $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+                $assessmentDetails = Assessment::getAssessment();
 
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+                $body = ['question' => $request->input('question'),
+                    'user_id' => Helpers::getUser()->id,
+                    'assessment_ids' => $assessments,
+                    'assessment_details' => $assessmentDetails,
+                    'is_repeat' => $request->input('is_repeat_answer'),
+                    'publish_model' => ($chat_bot->publish_path ?? null)];
 
-            HaiChat::createChat($request->input('question'), $aiReply);
+                $app_env = env('APP_ENV');
+                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+
+                HaiChat::createChat($request->input('question'), $aiReply);
+
+            }else{
+
+                $aiReply = [
+                    $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                    3,
+                ];
+            }
 
             return Helpers::successResponse('Answer of asked question', $aiReply);
 

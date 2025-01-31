@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\User;
 
 use App\Helpers\Helpers;
 use App\Models\Client\Plan\Plan;
+use App\Models\HAIChai\Chatbot;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class AllUser extends Component
     public $email = '';
     public $age = '';
     public $selectedItems = [];
+    public $is_chatBot_published;
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
@@ -33,10 +35,10 @@ class AllUser extends Component
         public function updated($field)
         {
             if (in_array($field, ['name', 'email', 'age'])) {
-                $this->resetPage(); 
+                $this->resetPage();
             }
         }
-    
+
 
     public function logInAdminAsUser($id = null, $isClientOrPractitioner = null){
 
@@ -87,10 +89,11 @@ class AllUser extends Component
             }
         }
     }
+
     public function updateEmailVerified($id)
     {
         $user = User::find($id);
-      
+
         if ($user) {
 
             if(empty($user->email_verified_at)){
@@ -107,10 +110,10 @@ class AllUser extends Component
 
     public function bulkDelete()
     {
-        
+
         User::whereIn('id', $this->selectedItems)->delete();
 
-        
+
         $this->selectedItems = [];
     }
 
@@ -134,6 +137,9 @@ class AllUser extends Component
     public function render()
     {
         $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER,Admin::IS_PRACTITIONER]);
+
+        $this->is_chatBot_published = Chatbot::where('is_published', 1)->exists();
+
         return view('livewire.admin.user.all-user', [
 
             'users' => $users

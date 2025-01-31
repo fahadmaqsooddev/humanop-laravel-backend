@@ -73,4 +73,21 @@ class ChatbotKeyword extends Model
 
         return false;
     }
+
+    public static function checkChatBotKeywordsForApi($chat_bot_id, $question){
+
+        $keywords = self::where('chatbot_id', $chat_bot_id)->get();
+
+        foreach ($keywords as $keyword){
+
+            if (stripos($question, $keyword['word']) !== false){
+
+                return $keyword['message'];
+
+            }
+
+        }
+
+        return false;
+    }
 }
