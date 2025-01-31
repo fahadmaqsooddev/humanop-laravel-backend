@@ -36,7 +36,7 @@
             <div id="train" class="content-page">
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
 
                         <div class="btn-group d-flex justify-content-between ">
 
@@ -96,7 +96,7 @@
                         </div>
 
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
 
                         <div class="btn-group d-flex justify-content-between">
 
@@ -144,6 +144,15 @@
                         </div>
 
                     </div>
+                    <div class="col-2">
+                        <button wire:click="showActiveEmbeddings"
+                            class="text-sm new-orange-button navButtonResponsive"
+                            style="font-size: 10px !important;" >Active Embeddings</button>
+
+                        <button id="showActiveEmbeddingsModalButton" data-bs-toggle="modal" data-bs-target="#showActiveEmbeddingsModal" hidden>
+                            Show Active Embeddings Modal Button
+                        </button>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -188,50 +197,27 @@
 
             </div>
         </div>
-    </div>
 
-    {{-- Create Embedding Models--}}
-    <div wire:ignore.self class="modal fade" id="createEmbedding" tabindex="-1" role="dialog"
-         aria-labelledby="createResource" aria-hidden="true">
+    <div class="modal fade" id="showActiveEmbeddingsModal" tabindex="-1" role="dialog"
+         aria-labelledby="showActiveEmbeddings" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
-                    <form wire:submit.prevent="createEmbedding" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Create Embeding</label>
-                                    <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    @include('layouts.message')
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Name</label>
-                                        <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="name" placeholder="Enter Embedding Name" type="text">
-                                    </div>
+                    <h4 style="color: #F95520;" class="text-center">Active Embeddings</h4>
+                    <ul class="text-white">
+                        @foreach($active_embeddings as $activeEmbedding)
+                            <li>{{$activeEmbedding}}</li>
+                        @endforeach
+                    </ul>
 
-                                    <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Embedding (TXT,PDF)</label>
-                                        <input style="background-color: #0f1534;" wire:model.defer="embedding"
-                                               id="embedding_file"
-                                               class="form-control text-white" type="file"
-                                               accept="file/*">
-                                        <span wire:loading.flex wire:target="embedding">
-                                            Uploading ...
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn updateBtn btn-sm float-end text-white mt-4 mb-0">Create
-                            </button>
-                        </div>
-                    </form>
+                    @if(count($active_embeddings) == 0)
+                        <span class="text-white">No embedding is connected with this chatbot.</span>
+                    @endif
                 </div>
             </div>
         </div>
+    </div>
+
     </div>
 
 @push('js')
@@ -284,6 +270,12 @@
                     top: event.deltaY < 0 ? -30 : 30,
                 });
             });
+        });
+
+        window.livewire.on('showActiveEmbeddingsModal', function (){
+
+            $('#showActiveEmbeddingsModalButton').click();
+
         });
 
     </script>

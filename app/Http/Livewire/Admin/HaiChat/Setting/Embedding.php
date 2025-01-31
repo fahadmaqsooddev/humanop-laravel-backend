@@ -195,6 +195,7 @@ class Embedding extends Component
             }
 
             $this->embeddings = HaiChatEmbedding::embeddings($this->group_id, $this->bot_name, $this->embedding_search);
+
         }
 
         $this->showDropdownMenu = true;
@@ -331,6 +332,14 @@ class Embedding extends Component
         $this->showGroupDropdownMenu = true;
 
         $this->emit('makeGroupDownDownScrollable');
+    }
+
+    public function showActiveEmbeddings(){
+
+        $this->active_embeddings = HaiChatActiveEmbedding::getNamesOfActiveEmbeddings($this->bot_name);
+
+        $this->emit('showActiveEmbeddingsModal');
+
     }
 
     public function render()

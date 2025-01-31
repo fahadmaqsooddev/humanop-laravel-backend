@@ -18,6 +18,11 @@ class HaiChatActiveEmbedding extends Model
         parent::__construct($attributes);
     }
 
+    public function embedding()
+    {
+        return $this->belongsTo(HaiChatEmbedding::class, 'request_id', 'request_id');
+    }
+
     public static function createActiveEmbedding($bot_name = null, $request_id = null)
     {
         return self::create([
@@ -46,12 +51,6 @@ class HaiChatActiveEmbedding extends Model
         return self::where('request_id', $request_id)->delete();
     }
 
-    public function embedding()
-    {
-
-        return $this->belongsTo(HaiChatEmbedding::class, 'request_id', 'request_id');
-    }
-
     public static function getChatActiveEmbedding($chatName = null)
     {
         $requestIds = self::where('chat_bot', $chatName)->pluck('request_id')->toArray();
@@ -59,5 +58,11 @@ class HaiChatActiveEmbedding extends Model
         return [
             'file_name' => $requestIds
         ];
+    }
+
+    public static function getNamesOfActiveEmbeddings($chatBotName = null){
+
+        return self::where('chat_bot', $chatBotName)->select('request_id')->with('embedding')->get()->pluck('embedding.name');
+
     }
 }
