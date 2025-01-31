@@ -213,7 +213,9 @@
                     </div>
                     <ul class="text-white">
                         @foreach($active_embeddings as $activeEmbedding)
-                            <li>{{$activeEmbedding}}</li>
+                            @if(!empty($activeEmbedding))
+                                <li>{{$activeEmbedding}}</li>
+                            @endif
                         @endforeach
                     </ul>
 
