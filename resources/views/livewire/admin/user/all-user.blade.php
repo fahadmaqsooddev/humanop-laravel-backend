@@ -9,11 +9,12 @@
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
             </div>
+           
             <div class="input-group ms-md-4 pe-md-4">
                 <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
                         wire:model.debounce="age">
                     <option value="">Select Age</option>
-                    <option value="5-6">5-6</option>
+                    {{-- <option value="5-6">5-6</option> --}}
                     <option value="7-11">7-11</option>
                     <option value="12-15">12-15</option>
                     <option value="16-20">16-20</option>
