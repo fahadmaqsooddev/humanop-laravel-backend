@@ -148,8 +148,8 @@ class Group extends Component
             $this->validate([
 
                 'name' => 'required|max:20',
-                'embedding_ids' => 'required|array',
-                'embedding_ids.*' => 'required|exists:hai_chat_embeddings,id',
+                'embedding_ids' => 'array',
+                'embedding_ids.*' => 'nullable|exists:hai_chat_embeddings,id',
 
             ], [
                     'name.required' => 'Group name is required'
