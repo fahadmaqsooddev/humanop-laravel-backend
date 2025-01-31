@@ -744,8 +744,11 @@ class AuthController extends Controller
 
             $authToken = $this->auth->login($user);
 
+            $userInvite = UserInvite::getSingleInvite($user['email']);
+
             $data = [
                 'user' => $user,
+                'user_invite' => $userInvite['link'],
                 'authorization' => [
                     'token' => $authToken,
                     'type' => 'bearer',
