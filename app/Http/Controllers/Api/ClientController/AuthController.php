@@ -70,10 +70,12 @@ class AuthController extends Controller
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'registration_step' => $checkUser['step'],
-                    'email_verification_token' => $checkUser['email_verify_token']
+                    'user_invite' => $userInvite['link']
 
                 ];
 
@@ -99,10 +101,12 @@ class AuthController extends Controller
 
                     if ($data['step'] != 3) {
 
+                        $userInvite = UserInvite::getSingleInvite($data['email']);
+
                         $userData = [
                             'user_id' => $data['id'],
                             'registration_step' => $data['step'],
-                            'email_verification_token' => $data['email_verify_token']
+                            'user_invite' => $userInvite['link']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
@@ -646,28 +650,28 @@ class AuthController extends Controller
 
             if (!empty($user['register_from_app'])) {
 
-                if ($signup == 1) {
+//                if ($signup == 1) {
 
                     $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
 
-                } else {
-
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
-
-                }
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
+//
+//                }
 
             } else {
 
-                if ($signup == 1) {
+//                if ($signup == 1) {
 
                     $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
 
-                } else {
-
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
-
-
-                }
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+//
+//
+//                }
 
             }
 
@@ -744,8 +748,11 @@ class AuthController extends Controller
 
             $authToken = $this->auth->login($user);
 
+            $userInvite = UserInvite::getSingleInvite($user['email']);
+
             $data = [
                 'user' => $user,
+                'user_invite' => $userInvite['link'],
                 'authorization' => [
                     'token' => $authToken,
                     'type' => 'bearer',
