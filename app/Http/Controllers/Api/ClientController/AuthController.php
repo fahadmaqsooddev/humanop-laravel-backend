@@ -72,7 +72,9 @@ class AuthController extends Controller
 
                 $userData = [
                     'user_id' => $checkUser['id'],
-                    'registration_step' => $checkUser['step']
+                    'registration_step' => $checkUser['step'],
+                    'email_verification_token' => $checkUser['email_verify_token']
+
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
@@ -99,7 +101,8 @@ class AuthController extends Controller
 
                         $userData = [
                             'user_id' => $data['id'],
-                            'registration_step' => $data['step']
+                            'registration_step' => $data['step'],
+                            'email_verification_token' => $data['email_verify_token']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
@@ -124,6 +127,7 @@ class AuthController extends Controller
                                 'type' => 'bearer',
                             ]
                         ];
+
                         return Helpers::successResponse('User loggedIn successfully', $data);
                     }
 
