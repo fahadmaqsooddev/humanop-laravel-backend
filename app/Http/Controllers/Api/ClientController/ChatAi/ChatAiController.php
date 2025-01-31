@@ -46,7 +46,17 @@ class ChatAiController extends Controller
 
             $assessmentDetails = Assessment::getAssessment();
 
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-data', ['question' => $request->input('question'), 'user_id' => Helpers::getUser()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $request->input('is_repeat_answer')]);
+            $body = ['question' => $request->input('question'),
+                'user_id' => Helpers::getUser()->id,
+                'assessment_ids' => $assessments,
+                'assessment_details' => $assessmentDetails,
+                'is_repeat' => $request->input('is_repeat_answer'),
+                'publish_model' => 'publish_model/freemium_publish_model/llm_params_20250130_085301.txt'];
+
+            $app_env = env('APP_ENV');
+            $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
             HaiChat::createChat($request->input('question'), $aiReply);
 

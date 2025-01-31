@@ -88,7 +88,7 @@
                                     wire:model.defer="model_type">
                                 <option value="1">gpt-4o-mini</option>
                                 <option value="2">gpt-4o</option>
-                                <option value="4">gpt-4o-finetunned</option>
+                                <option value="4">gpt-4o-fine-tuned</option>
                                 <option value="3">Claude 3.5 Sonnet</option>
                             </select>
                         </div>
@@ -112,6 +112,26 @@
                                       style="font-size: 8px;">
                                 </span>
                             </button>
+                            @if($is_published)
+
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey !important; cursor: default;"
+                                        type="button"
+                                        class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
+                                    PUBLISHED
+                                </button>
+
+                            @else
+
+                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" type="button"
+                                        wire:click="publishChatBot"
+                                        class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
+                                    PUBLISH
+                                    <span wire:loading wire:target="publishChatBot" class="swal2-loader"
+                                          style="font-size: 8px;">
+                                </span>
+                                </button>
+
+                            @endif
                         </div>
                     </form>
                 </div>

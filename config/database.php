@@ -411,7 +411,7 @@ return [
         ],
         'Chatbot' => [
             'table' => 'chatbot',
-            'fillable' => ['name','description'],
+            'fillable' => ['name','description','publish_path','is_published'],
             'hidden' => ['created_at','updated_at'],
         ],
         'ChatPrompt' => [

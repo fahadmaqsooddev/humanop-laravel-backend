@@ -4,12 +4,15 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Models\Client\Plan\Plan;
 use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
 class Setting extends Component
 {
-    public $chatSetting, $temperature, $max_token, $chunk, $model_type, $bot_name, $chat_bot_id, $plans, $plan_id;
+    public $chatSetting, $temperature, $max_token, $chunk, $model_type, $bot_name, $chat_bot_id, $plans, $plan_id, $is_published;
 
     public function getSetting()
     {
@@ -32,9 +35,68 @@ class Setting extends Component
 
     }
 
+    public function publishChatBot(){
+
+        $this->submitForm();
+
+        $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
+
+        $model_id = match((int)$this->model_type){
+            1 => 'gpt-4o-mini',
+            2 => 'gpt-4o',
+            3 => 'sonnet',
+            4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
+        };
+
+        $body = [
+            'temperature' => $this->temperature,
+            'max_tokens' => $this->max_token,
+            'file_name' => $active_embedding_ids,
+            'prompt_folder' => $this->bot_name,
+            'total_chunks' => $this->chunk,
+            'gpt_model' => $model_id,
+        ];
+
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
+
+        if (isset($aiReply['s3_path'])){
+
+            Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+
+            Chatbot::where('name', $this->bot_name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+        }
+
+        session()->flash('success', 'Chatbot published');
+    }
+
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
+
     public function render()
     {
-        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->bot_name)->id ?? null;
+        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
+
+        $this->chat_bot_id = $chatBot->id ?? null;
+
+        $this->is_published = $chatBot->is_published ?? 0;
 
         $this->getSetting();
 

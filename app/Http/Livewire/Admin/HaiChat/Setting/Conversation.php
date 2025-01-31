@@ -40,11 +40,11 @@ class Conversation extends Component
         'message.max' => 'Query does not contain more than 2000 characters',
     ];
 
-    public function mount(){
-
-        $this->user_details = User::getUserDetailByIds();
-
-    }
+//    public function mount(){
+//
+//
+//
+//    }
 
     public function submitForm()
     {
@@ -84,6 +84,12 @@ class Conversation extends Component
                 }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 
                     $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+
+                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+
+                }elseif(HaiChatSetting::GPT_4o_FINE_TUNED === $setting->model_type){
+
+                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
                     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
@@ -281,6 +287,8 @@ class Conversation extends Component
 
     public function render()
     {
+
+        $this->user_details = User::getUserDetailByIds();
 
         $this->is_restricted_word ? '' : $this->getChatBotConversation();
 

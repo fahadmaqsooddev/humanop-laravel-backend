@@ -13,6 +13,7 @@ class HaiChatSetting extends Model
     CONST GPT_4o_MINI = 1;
     CONST GPT_4o = 2;
     CONST CLAUDE_Sonnet = 3;
+    CONST GPT_4o_FINE_TUNED = 4;
 
     public function __construct(array $attributes = array())
     {

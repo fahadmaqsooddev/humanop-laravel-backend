@@ -32,7 +32,7 @@
                 @csrf
                 <div class="chatbox-input right-0 w-100">
                     <textarea rows="3" cols="3" style="background-color: #1C365E;border-radius:10px 0 0 10px;"
-                              wire:model="userMessage" id="userMessage"
+                              wire:model.defer="userMessage" id="userMessage"
                               class="form-control text-white messageChat"
                               placeholder="Type your message here..."></textarea>
 

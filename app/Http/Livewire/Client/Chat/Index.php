@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Client\Chat;
 
+use App\Models\HAIChai\Chatbot;
 use App\Models\Information\InformationIcon;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -57,12 +58,20 @@ class Index extends Component
 
                 $assessments = AssessmentHelper::getAssessments();
                 $assessmentDetails = Assessment::getAssessment();
+                $chat_bot_published_path = Chatbot::where('is_published', 1)->first()->publish_path ?? null;
 
                 $app_env = env('APP_ENV');
+                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
 
-                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/llm-data' : 'http://44.201.128.253:8000/llm-data';
+                $body = [
+                    'question' => $this->userMessage, 'user_id' => auth()->user()->id,
+                    'assessment_ids' => $assessments,
+                    'assessment_details' => $assessmentDetails,
+                    'is_repeat' => $is_repeat_answer,
+                    'publish_model' => $chat_bot_published_path
+                ];
 
-                $aiReply = $this->sendRequestFromGuzzle('post', $url, ['question' => $this->userMessage, 'user_id' => auth()->user()->id, 'assessment_ids' => $assessments, 'assessment_details' => $assessmentDetails, 'is_repeat' => $is_repeat_answer]);
+                $aiReply = $this->sendRequestFromGuzzle('post', $url, $body);
 
                 HaiChat::createChat($this->userMessage, $aiReply, $this->adminLoggedInAsClient['admin_id'] ?? null);
 
