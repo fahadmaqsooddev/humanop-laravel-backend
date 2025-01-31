@@ -61,7 +61,7 @@ class Chatbot extends Model
 
     public static function allChats()
     {
-        return self::orderBy('created_at', 'desc')->with('setting.plan')->get(['id', 'name', 'description']);
+        return self::orderBy('created_at', 'desc')->with('setting.plan')->get(['id', 'name', 'description','is_published']);
     }
 
     public static function singleChat($id = null)
