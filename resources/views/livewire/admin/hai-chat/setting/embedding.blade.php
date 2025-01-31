@@ -147,7 +147,7 @@
                     <div class="col-2">
                         <button wire:click="showActiveEmbeddings"
                             class="text-sm new-orange-button navButtonResponsive"
-                            style="font-size: 10px !important;" >Active Embeddings</button>
+                            style="font-size: 10px !important; padding: 10px !important;" >Active Embeddings</button>
 
                         <button id="showActiveEmbeddingsModalButton" data-bs-toggle="modal" data-bs-target="#showActiveEmbeddingsModal" hidden>
                             Show Active Embeddings Modal Button
