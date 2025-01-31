@@ -62,7 +62,7 @@ class HaiChatActiveEmbedding extends Model
 
     public static function getNamesOfActiveEmbeddings($chatBotName = null){
 
-        return self::where('chat_bot', $chatBotName)->select('request_id')->with('embedding')->get()->pluck('embedding.name');
+        return self::where('chat_bot', $chatBotName)->select('request_id')->with('embedding')->get()->pluck('embedding.name')->toArray();
 
     }
 }

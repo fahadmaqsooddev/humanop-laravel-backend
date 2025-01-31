@@ -336,7 +336,9 @@ class Embedding extends Component
 
     public function showActiveEmbeddings(){
 
-        $this->active_embeddings = HaiChatActiveEmbedding::getNamesOfActiveEmbeddings($this->bot_name);
+        $activeEmbeddings = HaiChatActiveEmbedding::getNamesOfActiveEmbeddings($this->bot_name);
+
+        $this->active_embeddings = array_chunk($activeEmbeddings, ceil(count($activeEmbeddings) / 2));
 
         $this->emit('showActiveEmbeddingsModal');
 

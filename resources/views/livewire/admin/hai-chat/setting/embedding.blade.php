@@ -212,11 +212,31 @@
                         </button>
                     </div>
                     <ul class="text-white">
-                        @foreach($active_embeddings as $activeEmbedding)
-                            @if(!empty($activeEmbedding))
-                                <li>{{$activeEmbedding}}</li>
-                            @endif
-                        @endforeach
+
+                        <div class="row">
+
+                            <div class="col-6">
+                                @foreach($active_embeddings[0] ?? [] as $activeEmbedding)
+                                    @if(!empty($activeEmbedding))
+                                        <li>{{$activeEmbedding}}</li>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="col-6">
+                                @foreach($active_embeddings[1] ?? [] as $activeEmbedding)
+                                    @if(!empty($activeEmbedding))
+                                        <li>{{$activeEmbedding}}</li>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                        </div>
+
+{{--                        @foreach($active_embeddings as $activeEmbedding)--}}
+{{--                            @if(!empty($activeEmbedding))--}}
+{{--                                <li>{{$activeEmbedding}}</li>--}}
+{{--                            @endif--}}
+{{--                        @endforeach--}}
                     </ul>
 
                     @if(count($active_embeddings) == 0)
