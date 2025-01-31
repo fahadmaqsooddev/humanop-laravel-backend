@@ -70,9 +70,13 @@ class AuthController extends Controller
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+
                 $userData = [
                     'user_id' => $checkUser['id'],
-                    'registration_step' => $checkUser['step']
+                    'registration_step' => $checkUser['step'],
+                    'user_invite' => $userInvite['link']
+
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
@@ -97,9 +101,12 @@ class AuthController extends Controller
 
                     if ($data['step'] != 3) {
 
+                        $userInvite = UserInvite::getSingleInvite($data['email']);
+
                         $userData = [
                             'user_id' => $data['id'],
-                            'registration_step' => $data['step']
+                            'registration_step' => $data['step'],
+                            'user_invite' => $userInvite['link']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
@@ -124,6 +131,7 @@ class AuthController extends Controller
                                 'type' => 'bearer',
                             ]
                         ];
+
                         return Helpers::successResponse('User loggedIn successfully', $data);
                     }
 
@@ -634,17 +642,36 @@ class AuthController extends Controller
 
         try {
 
+            $signup = $request->input('signup');
+
             $user = User::getSingleUser($request->input('user_id'));
 
-            if (!empty($user['register_from_app']))
-            {
-//            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+            $updateProfile = User::generateEmailVerificationToken($user['email']);
 
-            }else{
+            if (!empty($user['register_from_app'])) {
 
-//            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-                $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+//                if ($signup == 1) {
+
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
+
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
+//
+//                }
+
+            } else {
+
+//                if ($signup == 1) {
+
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+//
+//
+//                }
 
             }
 
@@ -654,7 +681,7 @@ class AuthController extends Controller
             $serviceUrl = url('/term-of-service');
 
             $data = [
-                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$userName}' => $updateProfile['first_name'] . ' ' . $updateProfile['last_name'],
                 '{$link}' => $baseUrl,
                 '{$logo}' => $logoUrl,
                 '{$service}' => $serviceUrl,
@@ -663,8 +690,7 @@ class AuthController extends Controller
 
             $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
 
-            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
-
+            Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
 
             return Helpers::successResponse('Resend email sent successfully!');
 
@@ -722,8 +748,11 @@ class AuthController extends Controller
 
             $authToken = $this->auth->login($user);
 
+            $userInvite = UserInvite::getSingleInvite($user['email']);
+
             $data = [
                 'user' => $user,
+                'user_invite' => $userInvite['link'],
                 'authorization' => [
                     'token' => $authToken,
                     'type' => 'bearer',
