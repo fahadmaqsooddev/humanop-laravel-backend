@@ -203,7 +203,14 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body" style=" border-radius: 9px">
-                    <h4 style="color: #F95520;" class="text-center">Active Embeddings</h4>
+                    <div class="text-center">
+
+                        <label class="form-label fs-4" style="color: #F95520;"><strong>Active Embeddings</strong></label>
+
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <ul class="text-white">
                         @foreach($active_embeddings as $activeEmbedding)
                             <li>{{$activeEmbedding}}</li>
