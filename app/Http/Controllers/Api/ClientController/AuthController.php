@@ -650,28 +650,28 @@ class AuthController extends Controller
 
             if (!empty($user['register_from_app'])) {
 
-                if ($signup == 1) {
+//                if ($signup == 1) {
 
                     $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
 
-                } else {
-
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
-
-                }
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
+//
+//                }
 
             } else {
 
-                if ($signup == 1) {
+//                if ($signup == 1) {
 
                     $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
 
-                } else {
-
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
-
-
-                }
+//                } else {
+//
+//                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+//
+//
+//                }
 
             }
 
