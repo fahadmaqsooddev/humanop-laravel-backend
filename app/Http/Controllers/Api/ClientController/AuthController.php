@@ -75,7 +75,7 @@ class AuthController extends Controller
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'registration_step' => $checkUser['step'],
-                    'email_verification_token' => $userInvite['link']
+                    'user_invite' => $userInvite['link']
 
                 ];
 
@@ -106,7 +106,7 @@ class AuthController extends Controller
                         $userData = [
                             'user_id' => $data['id'],
                             'registration_step' => $data['step'],
-                            'email_verification_token' => $userInvite['link']
+                            'user_invite' => $userInvite['link']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
