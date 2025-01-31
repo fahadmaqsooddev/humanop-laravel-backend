@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => 'smtp.emailit.com',
+            'host' => 'email-smtp.us-east-1.amazonaws.com',
             'port' => 587,
             'encryption' => 'tls',
-            'username' => 'emailit',
-            'password' => 'em_smtp_wXlgIENAojDIDPLU1BEcOdJO5QNa4JYM',
+            'username' => 'AKIASBLHPXE7OY32CTH4',
+            'password' => 'BGSwZkiUzvmYx7YxCIl1Pn5+JekJkPFZNEon3j93RzFk',
 
 //            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 //            'port' => env('MAIL_PORT', 587),

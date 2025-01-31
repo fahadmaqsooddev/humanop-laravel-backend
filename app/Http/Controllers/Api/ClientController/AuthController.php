@@ -72,7 +72,9 @@ class AuthController extends Controller
 
                 $userData = [
                     'user_id' => $checkUser['id'],
-                    'registration_step' => $checkUser['step']
+                    'registration_step' => $checkUser['step'],
+                    'email_verification_token' => $checkUser['email_verify_token']
+
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
@@ -99,7 +101,8 @@ class AuthController extends Controller
 
                         $userData = [
                             'user_id' => $data['id'],
-                            'registration_step' => $data['step']
+                            'registration_step' => $data['step'],
+                            'email_verification_token' => $data['email_verify_token']
                         ];
 
                         return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
@@ -124,6 +127,7 @@ class AuthController extends Controller
                                 'type' => 'bearer',
                             ]
                         ];
+
                         return Helpers::successResponse('User loggedIn successfully', $data);
                     }
 
@@ -633,34 +637,37 @@ class AuthController extends Controller
     {
 
         try {
-            
-           $signup= $request->input('signup');
-          
-         
+
+            $signup = $request->input('signup');
+
             $user = User::getSingleUser($request->input('user_id'));
 
-            if (!empty($user['register_from_app']))
-            {
-//            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-           if($signup == 1){
-    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
-    
-           }else{
-    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'];
+            $updateProfile = User::generateEmailVerificationToken($user['email']);
 
-    }
+            if (!empty($user['register_from_app'])) {
 
-            }else{
+                if ($signup == 1) {
 
-//            $baseUrl = env('CLIENT_DASHBOARD_URL') . '/email-validate?token=' . $user['email_verify_token'];
-if($signup == 1){
-   $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
-           }else{
-   $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
 
-   
-    }
-                // $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+                } else {
+
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'];
+
+                }
+
+            } else {
+
+                if ($signup == 1) {
+
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+
+                } else {
+
+                    $baseUrl = config('client_url.client_dashboard_url') . '/email-validate?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+
+
+                }
 
             }
 
@@ -670,7 +677,7 @@ if($signup == 1){
             $serviceUrl = url('/term-of-service');
 
             $data = [
-                '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+                '{$userName}' => $updateProfile['first_name'] . ' ' . $updateProfile['last_name'],
                 '{$link}' => $baseUrl,
                 '{$logo}' => $logoUrl,
                 '{$service}' => $serviceUrl,
@@ -679,9 +686,7 @@ if($signup == 1){
 
             $email_template = EmailTemplate::getTemplate($data, 'Verify Your Email Address');
 
-            // Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Email Verification');
-            Email::sendEmailVerification(['content' => $email_template], $user['email'], 'emails.Email_Template', 'Verify Your Email Address');
-
+            Email::sendEmailVerification(['content' => $email_template], $updateProfile['email'], 'emails.Email_Template', 'Verify Your Email Address');
 
             return Helpers::successResponse('Resend email sent successfully!');
 
