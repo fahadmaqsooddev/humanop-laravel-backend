@@ -131,7 +131,8 @@
 
                                         @case('Optimistic')
                                         <?php
-                                        $featureHeading = 'Optimism';
+                                        // $featureHeading = 'Optimism';
+                                        $featureHeading = 'Optimistic';
                                         $featureTextArray = [
 
 "0"=>$feature['description']
