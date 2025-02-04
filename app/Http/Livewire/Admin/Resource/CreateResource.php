@@ -33,7 +33,8 @@ class CreateResource extends Component
         'category_id' => 'required|exists:resource_categories,id',
         'description' => 'nullable|string|max:1000',
         'content' => 'nullable|string',
-        'link'=>'nullable'
+        'link' => ['nullable', 'max:90', 'regex:/^https?:\/\/video\.gumlet\.io\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\/main\.mp4$/']
+
     ];
 
     protected $messages = [
@@ -47,6 +48,8 @@ class CreateResource extends Component
         'category_id.required' => 'Category is required.',
         'category_id.exists' => 'The selected category does not exist.',
         'description.max' => 'Description may not exceed 1000 characters.',
+        'link.max' => 'Video URL may not exceed 90 characters.',
+        'link.regex' => 'The video URL must match the required format (e.g., https://video.gumlet.io/xyz/abc/main.mp4).',
     ];
 
     public function fileChanged($value)
@@ -109,19 +112,10 @@ class CreateResource extends Component
     }
 
 
-    // public function updatedResourceLink()
-    // {
-
-    //     $this->booleanValue = $this->resource_file ? true : false;
-    // }
-
-
     public function getVideoLink()
     {
         $this->booleanValue = true;
-        // dd($this->resource_file);
-        $this->resource_file = null; // Important: Set to null, not empty strin
-
+        $this->resource_file = null;
 
     }
     public function getResourceFile()
@@ -199,7 +193,6 @@ class CreateResource extends Component
         $this->description = $this->editResourceData['description'] ?? null;
 
         $this->update_content = $this->editResourceData['content'] ?? null;
-        // $this->link = $this->editResourceData['embed_link'] ?? null;
 
         $this->emit('contentUpdated', $this->update_content ?? '');
     }
@@ -256,9 +249,6 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-
-            // $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-
             $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
             tap($updateResource);
@@ -269,9 +259,6 @@ class CreateResource extends Component
         } else {
 
             $upload_id = $this->uploadFile($this->resource_file);
-
-            // LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->content);
-
 
             LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
 
@@ -330,8 +317,6 @@ class CreateResource extends Component
                 return Upload::uploadFile($resourceFile, '', '', 'video');
 
             }
-
-
 
         } else {
 
