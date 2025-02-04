@@ -748,14 +748,57 @@ class User extends Authenticatable implements JWTSubject
         return Helpers::pagination($users, $request->input('pagination'), $request->input('per_page'));
     }
 
-    public static function deletedClients($page, $per_page)
-    {
+    // public static function deletedClients($page, $per_page)
+    // {
 
-        return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
+    //     return self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
+    //         ->where('is_permanently_deleted', 0)
+    //         ->onlyTrashed()
+    //         ->orderBy('deleted_at','desc')
+    //         ->paginate($per_page)->setPath(route('deleted_clients'));
+
+    // }
+
+
+    public static function deletedClients($page, $per_page,$search_name=null,$email=null,$age=null)
+    {
+        $userId = Helpers::getWebUser()['id'];
+
+        $isAdminLevel = Helpers::getWebUser()['is_admin'];
+        
+        $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId)->orderBy('created_at', 'desc') : self::query()->orderBy('created_at', 'desc');
+    
+        if (!empty($search_name)) {
+            $users->where(function ($query) use ($search_name) {
+                $query->where('first_name', 'LIKE', "%$search_name%")
+                    ->orWhere('last_name', 'LIKE', "%$search_name%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search_name%"]);
+            });
+        }
+
+        // Filter by email
+        if (!empty($email)) {
+        //    $users->where('email', $email);
+        $users->where('email', 'LIKE', "%$email%"); 
+        }
+
+        if (!empty($age)) {
+            $data['age_range'] = $age;
+            $ageData = Helpers::explodeAgeRangeIntoAge($data);
+
+            $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+            $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
+
+            $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+        }
+
+        $users= $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
             ->where('is_permanently_deleted', 0)
             ->onlyTrashed()
             ->orderBy('deleted_at','desc')
             ->paginate($per_page)->setPath(route('deleted_clients'));
+
+            return $users;
 
     }
 
@@ -779,7 +822,11 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by email
         if (!empty($email)) {
-            $users->where('email', $email);
+           
+        //    $users->where('email', $email);
+        $users->where('email', 'LIKE', "%$email%");
+           
+           
         }
 
         // Filter by age
@@ -792,7 +839,7 @@ class User extends Authenticatable implements JWTSubject
 
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
         }
-
+        
         // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
             // ->whereNotNull('email_verified_at')

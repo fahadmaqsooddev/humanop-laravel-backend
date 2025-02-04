@@ -1,5 +1,11 @@
-<div>
 
+
+
+
+<div>
+    
+
+    
     <div class="card-header table-header-text">
         <h5 class="mb-0 mt-2 text-color-blue">Deleted Client's</h5>
         @if(count($selectedItems) > 0)
@@ -7,12 +13,45 @@
         <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete Clients Permanently</button>
         </div>
         @endif
-
-   
-    
-
-    
     </div>
+
+
+    <div class="table-header-text">
+        <div class="d-flex mt-4">
+            <div class="input-group ms-md-4 pe-md-4">
+                <input type="text" name="name" wire:model.debounce="name"
+                       class="form-control table-orange-color search-bar" placeholder="Search Name">
+            </div>
+            <div class="input-group ms-md-4 pe-md-4">
+                <input type="email" name="email" wire:model.debounce="email"
+                       class="form-control table-orange-color search-bar" placeholder="Search Email">
+            </div>
+           
+            <div class="input-group ms-md-4 pe-md-4">
+                <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
+                        wire:model.debounce="age">
+                    <option value="">Select Age</option>
+                    {{-- <option value="5-6">5-6</option> --}}
+                    <option value="7-11">7-11</option>
+                    <option value="12-15">12-15</option>
+                    <option value="16-20">16-20</option>
+                    <option value="21-29">21-29</option>
+                    <option value="30-33">30-33</option>
+                    <option value="34-42">34-42</option>
+                    <option value="43-51">43-51</option>
+                    <option value="52-65">52-65</option>
+                    <option value="66-69">66-69</option>
+                    <option value="70-74">70-74</option>
+                    <option value="75-83">75-83</option>
+                    <option value="84-93">84-93</option>
+                    <option value="94-101">94&up</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    
 
   
     <div class="table-responsive table-orange-color">
