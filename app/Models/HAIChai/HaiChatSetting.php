@@ -76,10 +76,14 @@ class HaiChatSetting extends Model
 
         $chatBotSetting = self::where('chat_bot_id',$id)->first();
 
-        $newChatBot = $chatBotSetting->replicate();
+        if ($chatBotSetting){
 
-        $newChatBot->chat_bot_id = $newChatBotId;
+            $newChatBot = $chatBotSetting->replicate();
 
-        $newChatBot->save();
+            $newChatBot->chat_bot_id = $newChatBotId;
+
+            $newChatBot->save();
+
+        }
     }
 }

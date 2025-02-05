@@ -41,11 +41,15 @@ class ChatPrompt extends Model
 
         $chatBotPrompt = self::where('name', $name)->first();
 
-        $newChatBot = $chatBotPrompt->replicate();
+        if ($chatBotPrompt){
 
-        $newChatBot->name = $newChatBotName;
+            $newChatBot = $chatBotPrompt->replicate();
 
-        $newChatBot->save();
+            $newChatBot->name = $newChatBotName;
+
+            $newChatBot->save();
+
+        }
 
     }
 }
