@@ -74,7 +74,7 @@ class HaiChatSetting extends Model
 
     public static function duplicatingChatBotSetting($id, $newChatBotId){
 
-        $chatBotSetting = self::whereId($id)->first();
+        $chatBotSetting = self::where('chat_bot_id',$id)->first();
 
         $newChatBot = $chatBotSetting->replicate();
 
