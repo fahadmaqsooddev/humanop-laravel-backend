@@ -261,48 +261,6 @@ class RegisterController extends Controller
         }
     }
 
-    public function emailVerify(Request $request)
-    {
-        try {
-            $token = $request->query('token');
-
-            if (!empty($token))
-            {
-                $auth = Helpers::getWebUser();
-
-                if ($auth)
-                {
-                    return redirect()->route('client_dashboard');
-
-                }else
-                {
-                    return view('session/email-verify', compact('token'));
-                }
-
-            }else
-            {
-                session()->flash('success', 'Email Verification link is missing. Please provide a valid link.');
-
-            }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function emailVerified()
-    {
-        try {
-
-            return view('session/app-client-email-verified');
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
     public function practitionerEmailVerify()
     {
         try {
@@ -317,24 +275,6 @@ class RegisterController extends Controller
             {
                 return view('session/email-verify');
             }
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
-
-    public function callBackRegistration()
-    {
-        try {
-
-            Auth::logout();
-
-            Session::flush();
-
-            Cache::forget('admin');
-
-            return redirect('/register')->with(['success' => 'You\'ve been logged out.']);
 
         } catch (\Exception $exception) {
 

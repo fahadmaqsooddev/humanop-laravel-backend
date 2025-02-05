@@ -74,21 +74,10 @@ class SessionController extends Controller
 
             if (empty($checkDeletedUser))
             {
-                $userEmailVerify = User::where('email', $request['email'])->first();
+                $userEmailVerify = User::where('email', $request['email'])->whereIn('is_admin', [1, 3])->first();
 
                 if($userEmailVerify) {
-                    if ($userEmailVerify['two_way_auth'] == 1) {
 
-                        $status = Helpers::sendNumberOtp($userEmailVerify['phone']);
-                        if ($status) {
-                            Session::put(['two_way_auth.id' => $userEmailVerify['id'], 'two_way_auth.phone' => $userEmailVerify['phone']]);
-                            session()->flash('success', 'Verification Code Sent To Your Number Successfully');
-                            return redirect()->route('two.way.auth');
-                        } else {
-                            session()->flash('error', 'Something Went Wrong During Sending Code');
-                            return redirect()->route('two.way.auth');
-                        }
-                    }
                     if ($userEmailVerify['email_verified_at'] != null)
                     {
 
@@ -114,11 +103,6 @@ class SessionController extends Controller
                             if (!empty(Session::get('google_user')))
                             {
                                 Session::forget('google_user');
-                            }
-
-                            if ($user->is_admin == Admin::IS_CUSTOMER){
-                                Auth::logout(); 
-                               
                             }
 
                             if ($user->is_admin === Admin::IS_PRACTITIONER){
@@ -277,18 +261,6 @@ class SessionController extends Controller
             return redirect()->to('/login');
         }
 
-    }
-
-    public function openApp()
-    {
-        try {
-            return view('open-app');
-
-
-        }catch (\Exception $exception) {
-
-            return back()->withErrors(['msgError' => $exception->getMessage()]);
-        }
     }
 
     public function triggerEvent()

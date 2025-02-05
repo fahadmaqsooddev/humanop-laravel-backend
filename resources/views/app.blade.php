@@ -34,17 +34,7 @@
   <link id="pagestyle" href="{{ URL::asset('assets/css/soft-ui-dashboard.css?v=1.0.4') }}" rel="stylesheet" />
     @livewireStyles
 </head>
-@php
-if (App\Helpers\Helpers::getWebUser())
-    {
-            $marginLeft = App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || App\Helpers\Helpers::getWebUser()['is_admin'] === 3 ? '16.5rem' : '13.5rem';
-    }
-    else
-        {
-            $marginLeft = '13rem';
-        }
 
-@endphp
 <style>
     @media (min-width: 1200px) {
         .sidenav:hover{
@@ -56,7 +46,7 @@ if (App\Helpers\Helpers::getWebUser())
         }
 
         .sidenav.fixed-start+.main-content {
-            margin-left: {{ $marginLeft }};
+            margin-left: 16.5rem;
         }
 
         .sidenav.fixed-end+.main-content {
@@ -144,98 +134,6 @@ if (App\Helpers\Helpers::getWebUser())
             }
         })
     }
-  </script>
-
-  <script>
-
-
-
-      function submitFeedBackForm() {
-
-          $.ajax({
-              url: '{{ route("user-feedback") }}',
-              method: 'POST',
-              data: {'comment': $('#comment-value').val()},
-              headers: {
-                  'X-CSRF-TOKEN': "{{csrf_token()}}"
-              },
-              success: function (response) {
-                  $('#customAlert').css('display','none');
-                  $('#feedback_success_message').removeAttr('hidden');
-
-                  // animateNumber(1);
-
-                  if (response.result.data.point > 0) {
-                      animateNumber('+' + response.result.data.point);
-
-                      old_count = $('#coin-count').text();
-                      $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
-                  }
-
-                  setTimeout(function () {
-                      $('#add_feedback').click();
-                  }, 2000);
-              },
-              error: function (response) {
-                  if (response.status === 422) {
-                      $('#feedback_success_message').attr('hidden',true);
-                      // Laravel validation errors
-                      let errors = response.responseJSON.errors;
-
-                      // Display errors (example for form inputs)
-                      for (let field in errors) {
-                          let errorMessage = errors[field][0];
-                          $('#custom_error_message').text(errorMessage);
-                          $('#customAlert').css('display','block');
-                      }
-                  }
-                  // $('#add_feedback').click();
-              }
-          });
-      }
-
-      function submitAfterThirtyFeedBackForm() {
-
-          $.ajax({
-              url: '{{ route("user-feedback") }}',
-              method: 'POST',
-              data: {'comment': $('#feedback-comment-value').val()},
-              headers: {
-                  'X-CSRF-TOKEN': "{{csrf_token()}}"
-              },
-              success: function (response) {
-                  $('#customThirtyMinuteAlert').css('display','none');
-                  $('#feedback_success').removeAttr('hidden');
-
-                  // animateNumber(1);
-
-                  if (response.result.data.point > 0) {
-                      animateNumber('+' + response.result.data.point);
-
-                      old_count = $('#coin-count').text();
-                      $('#coin-count').text(parseInt(response.result.data.point) + parseInt(old_count));
-                  }
-
-                  setTimeout(function () {
-                      $('#add_feedback_after_thirty_mins').click();
-                  }, 2000);
-              },
-              error: function (response) {
-                  if (response.status === 422) {
-                      // Laravel validation errors
-                      $('#feedback_success_message').attr('hidden',true);
-                      let errors = response.responseJSON.errors;
-                      for (let field in errors) {
-                          let errorMessage = errors[field][0];
-                          $('#custom_30_minute_error_message').text(errorMessage);
-                          $('#customThirtyMinuteAlert').css('display','block');
-                      }
-                  }
-                  // $('#add_feedback').click();
-                  console.log(response);
-              }
-          });
-      }
   </script>
 
   <script>
