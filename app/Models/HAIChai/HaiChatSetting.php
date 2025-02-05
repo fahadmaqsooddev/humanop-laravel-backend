@@ -71,4 +71,15 @@ class HaiChatSetting extends Model
 
         }
     }
+
+    public static function duplicatingChatBotSetting($id, $newChatBotId){
+
+        $chatBotSetting = self::whereId($id)->first();
+
+        $newChatBot = $chatBotSetting->replicate();
+
+        $newChatBot->chat_bot_id = $newChatBotId;
+
+        $newChatBot->save();
+    }
 }
