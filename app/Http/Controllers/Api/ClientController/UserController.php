@@ -197,7 +197,7 @@ class UserController extends Controller
 
             $user->save();
 
-            Auth::logoutOtherDevices($user->password);
+//            Auth::logoutOtherDevices($user->password);
 
             return Helpers::successResponse('Your password has been reset');
 

@@ -3,9 +3,9 @@
 
 
 <div>
-    
 
-    
+
+
     <div class="card-header table-header-text">
         <h5 class="mb-0 mt-2 text-color-blue">Deleted Client's</h5>
         @if(count($selectedItems) > 0)
@@ -17,7 +17,7 @@
 
 
     <div class="table-header-text">
-        <div class="d-flex mt-4">
+        <div class="d-flex">
             <div class="input-group ms-md-4 pe-md-4">
                 <input type="text" name="name" wire:model.debounce="name"
                        class="form-control table-orange-color search-bar" placeholder="Search Name">
@@ -26,7 +26,7 @@
                 <input type="email" name="email" wire:model.debounce="email"
                        class="form-control table-orange-color search-bar" placeholder="Search Email">
             </div>
-           
+
             <div class="input-group ms-md-4 pe-md-4">
                 <select class="form-control table-orange-color search-bar custom-text-dark" name="age"
                         wire:model.debounce="age">
@@ -51,9 +51,9 @@
     </div>
 
 
-    
 
-  
+
+
     <div class="table-responsive table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
@@ -82,7 +82,7 @@
                         <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
                             style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                     </td>
-                   
+
                     <td>
                         <button onclick="confirmBoxForRestoreUser({{$user->id}})" class="btn updateBtn" title="restore">
                             <i class="fa-solid fa-rotate-right"></i>
