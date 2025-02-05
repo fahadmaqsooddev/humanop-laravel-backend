@@ -1,4 +1,4 @@
-<div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
+{{-- <div class="col-xxl-6 col-lg-6 col-md-12 col-sm-12 mb-4">
     <div class="card daily-tip-card"
          style="height: 530px;position: relative;background: #8BB1AB !important;border-radius: 40px !important;">
         <div class="card-body" data-step="2" style="cursor: pointer;">
@@ -110,4 +110,4 @@
     updateCountdown();
     }
     </script>
-@endpush
+@endpush --}}

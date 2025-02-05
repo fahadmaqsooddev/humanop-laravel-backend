@@ -29,8 +29,6 @@ class SessionController extends Controller
             if (Auth::user()['is_admin'] == '1')
             {
                 return redirect()->route('admin_dashboard');
-            }else{
-                return redirect()->route('client_dashboard');
             }
         }else{
             return view('session/login');
@@ -119,11 +117,8 @@ class SessionController extends Controller
                             }
 
                             if ($user->is_admin == Admin::IS_CUSTOMER){
-
-                                Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                                User::updateUserIsFeedback();
-
+                                Auth::logout(); 
+                               
                             }
 
                             if ($user->is_admin === Admin::IS_PRACTITIONER){
