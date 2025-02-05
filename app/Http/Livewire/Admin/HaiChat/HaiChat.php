@@ -63,12 +63,12 @@ class HaiChat extends Component
 
     public function deleteChatbot($id)
     {
-        $chat = Chatbot::singleChat($id);
-
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete-folder', ['folder_n' => $chat['name']]);
-
-        if ($aiReply == 1)
-        {
+//        $chat = Chatbot::singleChat($id);
+//
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete-folder', ['folder_n' => $chat['name']]);
+//
+//        if ($aiReply == 1)
+//        {
 
             Chatbot::deleteChat($id);
 
@@ -76,7 +76,7 @@ class HaiChat extends Component
 
             $this->emit('closeAlert');
 
-        }
+//        }
 
     }
 

@@ -75,7 +75,7 @@ class Chatbot extends Model
         return self::where('name', $vendor_name)->first();
     }
 
-    public static function chatBotFromName($chat_bot_name = null)
+    public static function deleteChat($id = null)
     {
         return self::whereId($id)->delete();
 
