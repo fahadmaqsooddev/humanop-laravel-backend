@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\Helpers;
 use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -11,7 +13,7 @@ use Livewire\Component;
 
 class HaiChat extends Component
 {
-    public $chats, $name, $description, $chatBot;
+    public $chats, $name, $description, $chatBot, $copyChatBotId;
     protected $listeners = ['deleteChatbot'];
     protected $rules = [
         'name' => 'required|max:30',
@@ -117,6 +119,50 @@ class HaiChat extends Component
     public function closeChatBotDetailModal(){
 
         $this->chatBot = null;
+    }
+
+    public function copyChatBot($id){
+
+        $this->reset('name','description');
+
+        $this->copyChatBotId = $id;
+    }
+
+    public function createDuplicateChatBot(){
+
+        try {
+
+            $this->validate();
+
+            $chatBot = Chatbot::singleChat($this->copyChatBotId);
+
+            if ($chatBot){
+
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/create-chatbot', ['vendor_n' => $this->name]);
+
+                $newChatBot = Chatbot::createChat($aiReply, $this->description ?? $chatBot->description);
+
+                ChatPrompt::duplicatingChatBot($chatBot->name, $aiReply);
+
+                HaiChatSetting::duplicatingChatBotSetting($chatBot->id, $newChatBot->id);
+
+                $this->reset('copyChatBotId','name','description');
+
+                $this->emit('closeCopyChatBot');
+
+            }
+
+            session()->flash('success','Chatbot copied');
+
+        }catch (ValidationException $exception){
+
+            session()->flash('errors', $exception->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
     }
 
     public function render()

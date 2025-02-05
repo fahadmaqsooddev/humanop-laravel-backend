@@ -54,7 +54,9 @@
 {{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
 {{--                                than a minute</p>--}}
                             <div class="d-flex gap-2">
-                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive">
+                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"
+                                        data-bs-toggle="modal" data-bs-target="#copyChatBot"
+                                wire:click="copyChatBot({{$chat->id}})">
                                     <i class="fa-solid fa-copy"></i></button>
                                 <button  onclick="deleteChatBot({{ $chat['id'] }})"
                                         class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
@@ -149,6 +151,66 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="copyChatBot" tabindex="-1" aria-labelledby="copyChatBotLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="modal-title text-white" id="copyChatBot">Copy Chat Bot</h5>
+                        <button type="button" class="close modal-close-btn new-orange-button" id="copyChatBotCloseButton"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @include('layouts.message')
+                    <form wire:submit.prevent="createDuplicateChatBot">
+                        <div class="pt-0">
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <label class="form-label text-white">Chatbot Name</label>
+                                    <div class="form-group">
+                                        <input style="background-color: #0f1534;color: lightgrey !important"
+                                               class="form-control text-white"
+                                               type="text" name="limit"
+                                               placeholder="Enter duplicate chotbot name"
+                                               wire:model="name">
+                                        @error('name')
+                                            <span class="text-sm text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label text-white">Chatbot description</label>
+                                    <div class="form-group">
+                                            <textarea style="background-color: #0f1534;" class="form-control text-white"
+                                                      rows="5" cols="5"
+                                                      name="description"
+                                                      placeholder="Enter duplicate chatbot description"
+                                                      wire:model="description"></textarea>
+                                        @error('information')
+                                        <span class="text-sm text-danger">{{$message}}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 text-white new-orange-button">
+
+                                <span wire:loading.remove wire:target="createDuplicateChatBot">Copy Chatbot</span>
+
+                                <span wire:loading wire:target="createDuplicateChatBot">Coping...</span>
+
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @push('javascript')
 
@@ -184,6 +246,14 @@
                 $('.alert').alert('close');
             }, 5000);
         })
+
+        window.Livewire.on('closeCopyChatBot', function () {
+
+            setTimeout(function () {
+                $('#copyChatBotCloseButton').click();
+            }, 1000);
+        });
+
     </script>
 
 @endpush
