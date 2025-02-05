@@ -65,4 +65,19 @@ class HaiChatActiveEmbedding extends Model
         return self::where('chat_bot', $chatBotName)->select('request_id')->with('embedding')->get()->pluck('embedding.name')->toArray();
 
     }
+
+    public static function duplicateChatBotActiveEmbeddings($name, $newChatBotName){
+
+        $active_embeddings = self::where('chat_bot', $name)->get();
+
+        foreach ($active_embeddings ?? [] as $active_embedding){
+
+            $newEmbedding = $active_embedding->replicate();
+
+            $newEmbedding->chat_bot = $newChatBotName;
+
+            $newEmbedding->save();
+
+        }
+    }
 }

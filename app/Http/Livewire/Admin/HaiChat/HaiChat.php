@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat;
 use App\Helpers\Helpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
+use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
@@ -145,6 +146,8 @@ class HaiChat extends Component
                 ChatPrompt::duplicatingChatBot($chatBot->name, $aiReply);
 
                 HaiChatSetting::duplicatingChatBotSetting($chatBot->id, $newChatBot->id);
+
+                HaiChatActiveEmbedding::duplicateChatBotActiveEmbeddings($chatBot->name, $aiReply);
 
                 $this->reset('copyChatBotId','name','description');
 
