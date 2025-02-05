@@ -32,7 +32,7 @@ class checkUser
         if ($user) {
             if ($user['reset_password'] > 0 ) {
 
-                $this->auth->logout();
+//                $this->auth->logout();
 
                 User::resetPassword($user['id']);
 
