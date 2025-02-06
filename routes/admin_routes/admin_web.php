@@ -21,6 +21,7 @@ use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Practitioner\PractitionerController;
+use App\Http\Controllers\B2BControllers\RoleTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -168,12 +169,24 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
         Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
 
+    // my routes
+    Route::get('/role-template',[RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
+
     });
 
     Route::get('/login-back-to-admin', [SessionController::class, 'loginBackToAdmin'])->name('login_back_to_admin');
 
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
+
+
+
+
+
+
+
+    // Route::get('')
 });
+
 
 
 Route::view('/privacy-policy', 'session.privacy')->name('privacy');
