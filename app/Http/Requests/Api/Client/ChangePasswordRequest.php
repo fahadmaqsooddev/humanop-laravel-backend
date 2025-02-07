@@ -29,8 +29,9 @@ class ChangePasswordRequest extends FormRequest
                 'required',
                 'confirmed',
                 'min:6',
-                'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
-                'regex:/[0-9].*[0-9]/',           // At least two numbers
+                'max:22'
+                // 'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
+                // 'regex:/[0-9].*[0-9]/',           // At least two numbers
             ],
         ];
     }
@@ -41,7 +42,8 @@ class ChangePasswordRequest extends FormRequest
             'current_password.required' => 'The current password is required.',
             'new_password.required' => 'The new password is required.',
             'new_password.min' => 'The new password should be at least 6 characters long.',
-            'new_password.regex' => 'The new password should contain at least one special character and two numbers.',
+            'new_password.max' => 'The new password should be at less then or equal to 22 characters long.',
+            // 'new_password.regex' => 'The new password should contain at least one special character and two numbers.',
             'new_password.different' => 'The new password must be different from the current password.',
         ];
     }
