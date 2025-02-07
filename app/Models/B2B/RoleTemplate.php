@@ -43,6 +43,8 @@ class RoleTemplate extends Model
 
     public static function updateIntentionPlan($data = null, $id = null)
     {
+        // dd($data);
+       
         if ($data['subscription_type'] == 'Freemium') {
             foreach ($data['code'] as $key => $code) {
                 $data['code'] = $key;
@@ -74,6 +76,8 @@ class RoleTemplate extends Model
 
     public static function createTemplate($data = null)
     {
+
+        // dd($data);
         if ($data['subscription_type'] == 'Freemium') {
             foreach ($data['code'] as $key => $code) {
                 $data['code'] = $key;
@@ -101,5 +105,12 @@ class RoleTemplate extends Model
     public static function deleteTemplate($id)
     {
         self::whereId($id)->delete();
+    }
+
+
+    
+    public function tags()
+    {
+     return $this->hasMany(TaskResponsibilities::class, 'role_template_id');
     }
 }

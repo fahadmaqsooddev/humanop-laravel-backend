@@ -47,7 +47,7 @@ class RoleTemplate extends Component
     {
 
         
-        RoleTemplateModel::deleteTemplate($tip_id);
+        RoleTemplateModel::deleteTemplate($template_id);
     }
 
     public function render()
@@ -55,5 +55,7 @@ class RoleTemplate extends Component
         $this->getTemplate();
         return view('livewire.admin.setting.role-template', ['dailyTemplates' => $this->tips]);
     }
+
+    
    
 }

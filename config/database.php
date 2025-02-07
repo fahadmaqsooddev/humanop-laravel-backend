@@ -227,7 +227,12 @@ return [
         
         'RoleTemplate'=>[
             'table'=>'role_templates',
-            'fillable' => ['title', 'description','code','subscription_type','min_point','max_point','role_name'],
+            'fillable' => ['code','min_point','max_point','role_name'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'TaskResponsibilities'=>[
+            'table'=>'task_responsibilities',
+            'fillable' => ['role_template_id', 'tags'],
             'hidden' => ['created_at','updated_at']
         ],
         'TipRecord' => [

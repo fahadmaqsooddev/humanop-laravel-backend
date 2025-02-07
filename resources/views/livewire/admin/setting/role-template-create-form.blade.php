@@ -74,6 +74,55 @@
             .ck > p > a{
                 color: blue !important;
             }
+ .tags-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-bottom: -15px;
+}
+
+.tag {
+ 
+    position: relative; 
+    background-color: #1C365E; 
+    color: white; 
+    /* top: 1px; */
+    padding: 10px 15px; 
+    border-radius: 20px;
+    display: inline-flex; 
+    align-items: center; 
+    font-size: 14px; 
+    white-space: nowrap; 
+    border: 1px solid #f2661c;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4); 
+}
+
+.delete-btn {
+    position: absolute; 
+    top: -10px; 
+    right: -10px; 
+    background: #f2661c; 
+    color: white;
+    border: none; 
+    border-radius: 50%; 
+    width: 20px; 
+    height: 20px; 
+    font-size: 14px;
+    cursor: pointer; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.delete-btn:hover {
+    background: #f2661c; 
+}
+
+.tag span {
+    margin-right: 5px; 
+    
+}
+
 
     </style>
 @endpush
@@ -86,7 +135,7 @@
                 @include('layouts.message')
                 <div class="card-body pt-0">
                     <label class="form-label fs-4 text-white"><span>Role template</span>
-                        <span style="margin-left: 10px">
+                        {{-- <span style="margin-left: 10px">
                             <input type="radio" name="subscription_type" value="Freemium" wire:model="subscription_type" wire:change="changeSubscriptionType"> Freemium
                         </span>
                         <span style="margin-left: 10px">
@@ -94,7 +143,7 @@
                         </span>
                         <span style="margin-left: 10px">
                               <input type="radio" name="subscription_type" value="Premium" wire:model="subscription_type" wire:change="changeSubscriptionType"> Premium
-                        </span>
+                        </span> --}}
                     </label>
 
                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
@@ -102,21 +151,63 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
+
+{{-- 
+<div class="tags-container">
+    @foreach ($tags as $index => $tag)
+        <div class="tag">
+            <button type="button" class="delete-btn" wire:click="removeTag({{ $index }})">&times;</button>
+            <span>{{ $tag }}</span>
+        </div>
+    @endforeach
+</div>
+
+<br>
+<div class="col-md-6">
+    <label for=""  class="form-label text-white">Add tasks</label>
+    <input
+    type="text"
+    wire:model.defer="tagInput"
+    wire:keydown.enter.prevent="addTag"
+    class="form-control"
+    style="background-color: #1C365E;color:white;"
+    />
+</div> --}}
+
+
                     <form wire:submit.prevent="updateTemplate">
 
                         <div class="row mt-4">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="w-25 mb-5" id="interval_of_life">
-                                        {{-- <select class="form-control bg-transparent text-white text-center" wire:model="interval_of_life" style="border-color: white;padding: 0px !important"  >
-                                            <option value=""  style="color: black">Select Interval Of Life</option>
-                                            @foreach($interval_of_life_array as $key => $interval)
-                                            <option value="{{$interval}}" style="color: black">{{$interval}}</option>
-                                            @endforeach
-                                        </select> --}}
+                                    <div class="col-md-6 mb-3" id="interval_of_life">
+                                        
                                         <label for="" class="form-label text-white"> Role Name</label>
-                                        <input type="text" name="role_name" wire:model="role_name" class="form-control" style="background-color: #1C365E;color:white;" required>
+                                        <input type="text" name="role_name"  wire:model="role_name" class="form-control"
+                                         style="background-color: #1C365E;color:white;" required>
                                     </div>
+                                    
+<div class="tags-container">
+    @foreach ($tags as $index => $tag)
+        <div class="tag">
+            <button type="button" class="delete-btn" wire:click="removeTag({{ $index }})">&times;</button>
+            <span>{{ $tag }}</span>
+        </div>
+    @endforeach
+</div>
+
+<br>
+<div class="col-md-6 col-sm-12 mb-3">
+    <label for=""  class="form-label text-white">Add tasks</label>
+    <input
+    type="text"
+    wire:model.defer="tagInput"
+    wire:keydown.enter.prevent="addTag"
+    class="form-control"
+    style="background-color: #1C365E;color:white;"
+    />
+    <span>Type and press ENTER to save keyword</span>
+</div>
 
                                     <div class="table-responsive">
                                         <table class="table table-flush" style="border-collapse: separate">
@@ -388,7 +479,7 @@
 {{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
-                        <div class="row mt-5">
+                        {{-- <div class="row mt-5">
                             <div class="col-12">
                                 <label class="form-label text-white">Title</label>
                                 <div class="input-group">
@@ -398,15 +489,15 @@
                                            class="form-control table-header-text" type="hidden">
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row mt-4">
                             <div class="col-12">
-                                <label class="form-label text-white">Description</label>
-                                <div class="input-group w-100" wire:ignore >
+                                {{-- <label class="form-label text-white">Description</label> --}}
+                                {{-- <div class="input-group w-100" wire:ignore >
                              <textarea class="form-control table-header-text" id="editor" rows="5" cols="5"
                                     name="description"
                                     wire:model="description"></textarea>
-                                </div>
+                                </div> --}}
                                 @if($template_id)
                                 <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
                                         style="background-color: #f2661c">Update Role

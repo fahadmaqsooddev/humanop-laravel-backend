@@ -6,14 +6,22 @@ use Livewire\Component;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\B2B\RoleTemplate;
+use App\Models\B2B\TaskResponsibilities;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class RoleTemplateCreateForm extends Component
 {
 
-    public $title, $description,$role_name,  $template_id, $min_point, $max_point,  $pv, $ep;
+    public $title,$role_name, $description,$template_id, $min_point, $max_point,$pv, $ep;
     public $code = [];
+
+
+    
+public $tags = [];
+public $tagInput = '';
+
+
 
    
 
@@ -25,9 +33,9 @@ class RoleTemplateCreateForm extends Component
 
     protected $rules = [
         'code' => 'required',
-        'title' => 'required',
-        'role_name' => 'required',
-        'description' => 'required',
+        // 'title' => 'required',
+        'role_name'=>'required',
+        // 'description' => 'required',
         'subscription_type' => 'required',
         'min_point' => 'nullable',
         'max_point' => 'nullable',
@@ -36,11 +44,31 @@ class RoleTemplateCreateForm extends Component
 
     protected $messages = [
         'code.required' => 'Code is required',
-        'title.required' => 'Title is required',
-        'title.required' => 'Role name is required',
+        // 'title.required' => 'Title is required',
+        'role_name.required' => 'Role name is required',
         'subscription_type.required' => 'Please Select Subscription Type',
-        'description.required' => 'Description is required',
+        // 'description.required' => 'Description is required',
     ];
+
+
+
+    public function addTag()
+    {
+        if (!empty($this->tagInput) && !in_array($this->tagInput, $this->tags)) {
+          
+            $this->tags[] = $this->tagInput;
+            $this->tagInput = ''; 
+        }
+        // dd($this->tags);
+        
+    }
+
+    public function removeTag($index)
+    {
+        unset($this->tags[$index]);
+        $this->tags = array_values($this->tags); // Reindex the array
+        // dd($this->tags);
+    }
 
     public function resetPointArray()
     {
@@ -56,6 +84,8 @@ class RoleTemplateCreateForm extends Component
 
     public function updated($propertyName)
     {
+        // $this->subscription_type='Freemium';
+        // dd($this->subscription_type);
         if($this->subscription_type != 'Freemium'){
             if ($propertyName == 'ep') {
                 if(!in_array('ep',$this->code)){
@@ -141,12 +171,19 @@ class RoleTemplateCreateForm extends Component
 
             $this->max_point_array[$this->code[0]] = $maxValues[0];
         }
-
+        
         $this->template_id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->role_name = $role_name;
-        $this->subscription_type = $subscription;
+        // $this->subscription_type = $subscription;
+        
+
+        // get taask and responsisbilkites tags
+        $template=RoleTemplate::with('tags')->findOrFail($id);
+        $tags = $template->tags->pluck('tags')->toArray();
+        $this->tags = $tags;
+
 
 
        if (!in_array('pv',$this->code) && !in_array('ep',$this->code)) {
@@ -222,15 +259,25 @@ class RoleTemplateCreateForm extends Component
 
             $validatedData = $this->validate();
             if ($this->template_id) {
-                // DailyTip::updateIntentionPlan($validatedData, $this->tip_id);
+                
                 RoleTemplate::updateIntentionPlan($validatedData, $this->template_id);
+                $updatedTags = $this->tags;
+                // dd('Tags before deletion:', $this->tags);
+                TaskResponsibilities::DeleteTags($this->template_id);
+              
+                // dd($tags);
+                // dd('Tags before creation:', $this->tags);
+                TaskResponsibilities::createTags( $updatedTags,$this->template_id);
                 $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshDailyTemplate');
                 $this->emit('updateSession', 'Updated');
             } else {
                 // DailyTip::createTip($validatedData);
-                RoleTemplate::createTemplate($validatedData);
+                $check=RoleTemplate::createTemplate($validatedData);
+                // dd($check->id);
+                $tags = $this->tags;
+                TaskResponsibilities::createTags($tags,$check->id);
                 $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshDailyTemplate');

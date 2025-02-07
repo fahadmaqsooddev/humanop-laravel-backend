@@ -4,20 +4,18 @@
         @include('layouts.message')
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
-            <tr class="table-text-color">
+            <tr class="table-text-color ">
+                <th>Id</th>
                 <th>Code</th>
-                <th>Title</th>
-                <th>Subscription</th>
                 <th>Role Name</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
             @foreach($dailyTemplates as $template)
-                <tr class="table-text-color">
+                <tr class="table-text-color ">
+                    <td class="text-md font-weight-normal">{{$template['id']}} </td>
                     <td class="text-md font-weight-normal">{{$template['code']}} </td>
-                    <td class="text-md font-weight-normal">{{$template['title']}} </td>
-                    <td class="text-md font-weight-normal">{{$template['subscription_type'] ?? 'Freemium'}} </td>
                     <td class="text-md font-weight-normal">{{$template['role_name'] ?? ''}} </td>
                    
                     <td>
