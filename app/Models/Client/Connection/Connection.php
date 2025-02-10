@@ -142,43 +142,43 @@ class Connection extends Model
 
     }
 
-    public static function connectionRequests($name = null)
-    {
+    // public static function connectionRequests($name = null)
+    // {
 
-        $connection_requests = self::query();
+    //     $connection_requests = self::query();
 
-        if (!empty($name)) {
+    //     if (!empty($name)) {
 
-            $connection_requests = $connection_requests->whereHas('user', function ($q) use ($name) {
+    //         $connection_requests = $connection_requests->whereHas('user', function ($q) use ($name) {
 
-                $q->where('first_name', 'LIKE', "%$name%")
-                    ->orWhere('last_name', 'LIKE', "%$name%")
-                    ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
+    //             $q->where('first_name', 'LIKE', "%$name%")
+    //                 ->orWhere('last_name', 'LIKE', "%$name%")
+    //                 ->orWhereRaw("concat(first_name, ' ', last_name) like '%$name%' ");
 
-            });
+    //         });
 
-        }
+    //     }
 
-        $connection_requests = $connection_requests->has('user')
-            ->with('user:id,first_name,last_name,image_id')
-            ->where('friend_id', Helpers::getWebUser()->id)
-            ->where('status', 0)
-            ->latest()
-            ->get();
+    //     $connection_requests = $connection_requests->has('user')
+    //         ->with('user:id,first_name,last_name,image_id')
+    //         ->where('friend_id', Helpers::getWebUser()->id)
+    //         ->where('status', 0)
+    //         ->latest()
+    //         ->get();
 
-        return $connection_requests;
-    }
+    //     return $connection_requests;
+    // }
 
-    public static function userConnections()
-    {
+    // public static function userConnections()
+    // {
 
-        $user_id = Helpers::getWebUser()->id;
+    //     $user_id = Helpers::getWebUser()->id;
 
-        return self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
-            ->where('status', 1)
-            ->get();
+    //     return self::has('friend')->with('friend:id,first_name,last_name')->where('user_id', $user_id)
+    //         ->where('status', 1)
+    //         ->get();
 
-    }
+    // }
 
     public static function userPaginatedConnections($request = null)
     {
