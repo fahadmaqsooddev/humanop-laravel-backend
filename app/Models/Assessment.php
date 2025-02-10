@@ -271,6 +271,12 @@ class Assessment extends Model
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
 
+    public static function getAllAssessmentCount($user_id = null)
+    {
+
+        return self::where('user_id', $user_id)->where('page', 0)->count();
+    }
+
     public static function getAllUser()
     {
         return self::where('page', 0)

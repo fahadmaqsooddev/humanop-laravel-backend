@@ -82,6 +82,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Assessment Status', [
                     'check_assessment' => !empty($check_assessment) ? true : false,
+                    'assessment_count' => null,
                     'timezone' => null,
                     'assessment_page_number' => null,
                     'assessment_price' => ($assessment_price->amount ?? 0),
@@ -99,11 +100,13 @@ class AssessmentController extends Controller
             $assessment_price = StripeSetting::getSingle();
 
             $latest_assessment = Assessment::getLatestAssessment($user['id']);
+            $assessment_count = Assessment::getAllAssessmentCount($user['id']);
 
             if (!empty($latest_assessment) && $latest_assessment['reset_assessment'] == 1) {
 
                 return Helpers::successResponse('Reset Assessment', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'retake_assessment' => null,
                     'assessment_price' => ($assessment_price->amount ?? 0),
@@ -131,6 +134,7 @@ class AssessmentController extends Controller
 
                     return Helpers::successResponse('You can take another assessment after ' . $takeAssessment . ' days.', [
                         'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                        'assessment_count' => $assessment_count,
                         'retake_assessment' => $takeAssessment,
                         'assessment_page_number' => $status,
                         'assessment_price' => ($assessment_price->amount ?? 0),
@@ -149,6 +153,7 @@ class AssessmentController extends Controller
 
                 return Helpers::successResponse('Assessment Status', [
                     'latest_assessment_id' => $latest_assessment ? $latest_assessment['id'] : '',
+                    'assessment_count' => $assessment_count,
                     'assessment_page_number' => $status,
                     'assessment_price' => ($assessment_price->amount ?? 0),
                     'user' => [
