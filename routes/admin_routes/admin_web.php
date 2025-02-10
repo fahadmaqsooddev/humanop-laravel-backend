@@ -48,6 +48,8 @@ Route::get('/logout', [SessionController::class, 'destroy']);
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 
+Route::get('/', [SessionController::class, 'create']);
+
 //});
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
