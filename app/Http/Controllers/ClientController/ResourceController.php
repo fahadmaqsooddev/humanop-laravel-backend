@@ -11,23 +11,6 @@ use App\Helpers\Helpers;
 class ResourceController extends Controller
 {
 
-    public function resource()
-    {
-        try {
-
-            $user = Helpers::getWebUser();
-
-//            $resources = PermissionResource::getPermission($user['plan_name']);
-
-            $categories = ResourceCategory::resourceCategoriesForClient($user['plan_name']);
-
-            return view('client-dashboard.resource.index', compact('categories'));
-
-        }catch (\Exception $exception)
-        {
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
-    }
+   
 
 }

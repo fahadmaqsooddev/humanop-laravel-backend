@@ -12,24 +12,6 @@ use App\Helpers\Helpers;
 class PricingController extends Controller
 {
 
-    public function index()
-    {
-        try {
-
-            $user = Helpers::getWebUser();
-
-            $stripe_setting = StripeSetting::getSingle();
-
-            $plans = Plan::all();
-
-            return view('client-dashboard.pricing.index', compact('user', 'stripe_setting', 'plans'));
-
-        }catch (\Exception $exception)
-        {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-
-        }
-    }
+  
 
 }

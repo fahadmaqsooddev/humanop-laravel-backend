@@ -22,216 +22,216 @@ use App\Models\User;
 use App\Models\GenerateFile\PdfGenerate;
 
 
-class UserController extends Controller
-{
+// class UserController extends Controller
+// {
 
-    public function userDetail($id)
-    {
-        try {
+//     public function userDetail($id)
+//     {
+//         try {
 
-            return view('client-dashboard.user.client_user_detail', compact('id'));
+//             return view('client-dashboard.user.client_user_detail', compact('id'));
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function feedback()
-    {
-        try {
+//     public function feedback()
+//     {
+//         try {
 
-            return view('client-dashboard.feedback.index');
+//             return view('client-dashboard.feedback.index');
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function userInfo()
-    {
-        try {
+//     public function userInfo()
+//     {
+//         try {
 
-            $user = Auth::user();
-            return view('client-dashboard.user.client_user_info', compact('user'));
+//             $user = Auth::user();
+//             return view('client-dashboard.user.client_user_info', compact('user'));
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function userProfileImage(Request $request)
-    {
-        try {
+//     public function userProfileImage(Request $request)
+//     {
+//         try {
 
-            if ($request['image']){
+//             if ($request['image']){
 
-                $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image','png', true);
+//                 $upload_id = Upload::uploadFile($request['image'], 200, 200, 'base64Image','png', true);
 
-                $user = Helpers::getWebUser();
+//                 $user = Helpers::getWebUser();
 
-                $updateUser = User::profileUpload($user['id'], $upload_id);
+//                 $updateUser = User::profileUpload($user['id'], $upload_id);
 
-                return response()->json([
-                    'url' => $updateUser['photo_url']
-                ]);
-            }
-            else {
-                return response()->json([
-                    'error' => 'No image provided.'
-                ], 400);
-            }
+//                 return response()->json([
+//                     'url' => $updateUser['photo_url']
+//                 ]);
+//             }
+//             else {
+//                 return response()->json([
+//                     'error' => 'No image provided.'
+//                 ], 400);
+//             }
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function grid($id)
-    {
-        try {
+//     public function grid($id)
+//     {
+//         try {
 
-            $grid = Assessment::getGrid($id);
+//             $grid = Assessment::getGrid($id);
 
-            $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
+//             $grid_code_color = AssessmentColorCode::getCodeColor($grid['id']);
 
-            return view('client-dashboard.user.client_grid', compact('grid', 'grid_code_color'));
+//             return view('client-dashboard.user.client_grid', compact('grid', 'grid_code_color'));
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function report($id)
-    {
-        try {
+//     public function report($id)
+//     {
+//         try {
 
-            $reports = Assessment::getReport($id);
-            $alchl_code = Assessment::getAlchlCode($id);
+//             $reports = Assessment::getReport($id);
+//             $alchl_code = Assessment::getAlchlCode($id);
 
-            $style_position = AssessmentColorCode::getStylePosition($id);
-            $feature_position = AssessmentColorCode::getFeaturePosition($id);
+//             $style_position = AssessmentColorCode::getStylePosition($id);
+//             $feature_position = AssessmentColorCode::getFeaturePosition($id);
 
-            $user = Auth::user();
+//             $user = Auth::user();
 
-            return view('client-dashboard.user.client_report', compact('reports', 'user', 'id', 'style_position', 'feature_position', 'alchl_code'));
+//             return view('client-dashboard.user.client_report', compact('reports', 'user', 'id', 'style_position', 'feature_position', 'alchl_code'));
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return redirect()->back()->with('error', $exception->getMessage());
+//             return redirect()->back()->with('error', $exception->getMessage());
 
-        }
-    }
+//         }
+//     }
 
-    public function userFeedback(StoreUserFeedback $request)
-    {
+//     public function userFeedback(StoreUserFeedback $request)
+//     {
 
-        try {
+//         try {
 
-            $feedback = new Feedback();
+//             $feedback = new Feedback();
 
-            $dataArray = $request->only($feedback->getFillable());
+//             $dataArray = $request->only($feedback->getFillable());
 
-            $dataArray['user_id'] = Helpers::getWebUser()->id;
+//             $dataArray['user_id'] = Helpers::getWebUser()->id;
 
-            Feedback::storeClientFeedback($dataArray);
+//             Feedback::storeClientFeedback($dataArray);
 
-//            $point = PointHelper::addPointsOnFeedbackSubmission();
+// //            $point = PointHelper::addPointsOnFeedbackSubmission();
 
-            return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!', ['point' => $point ?? 0]);
+//             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!', ['point' => $point ?? 0]);
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//             return Helpers::serverErrorResponse($exception->getMessage());
+//         }
 
-    }
+//     }
 
-    public function profileOverview($id = null)
-    {
+//     public function profileOverview($id = null)
+//     {
 
-        try {
+//         try {
 
-            if (empty($id))
-            {
-                $userId = Helpers::getWebUser()['id'];
+//             if (empty($id))
+//             {
+//                 $userId = Helpers::getWebUser()['id'];
 
-                $assessment = Assessment::getLatestAssessment($userId);
-               $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
-            }else
-            {
-                $assessment = Assessment::singleAssessmentFromId($id);
-                $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
-            }
+//                 $assessment = Assessment::getLatestAssessment($userId);
+//                $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+//             }else
+//             {
+//                 $assessment = Assessment::singleAssessmentFromId($id);
+//                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+//             }
 
-            $user = Helpers::getWebUser()['is_admin'];
-            $user_age = Helpers::getWebUser()->date_of_birth;
-            $age = Carbon::parse($user_age)->age;
+//             $user = Helpers::getWebUser()['is_admin'];
+//             $user_age = Helpers::getWebUser()->date_of_birth;
+//             $age = Carbon::parse($user_age)->age;
 
-            $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
-            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
-            $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-            $perception_life = CodeDetail::getPerceptionStaticText();
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
-            $actionPlan = ActionPlan::userActionPlan();
-            $profileInfo = InformationIcon::getProfileOverviewInfo();
+//             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+//             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+//             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+//             $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+//             $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+//             $perception_life = CodeDetail::getPerceptionStaticText();
+//             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+//             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
+//             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
+//             $actionPlan = ActionPlan::userActionPlan();
+//             $profileInfo = InformationIcon::getProfileOverviewInfo();
 
-            return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age','profileInfo','created_at'));
+//             return view('client-dashboard.user.client_profile_overview', compact('allStyles', 'topTwoFeatures', 'assessment', 'actionPlan', 'boundary', 'perception', 'topCommunication', 'energyPool', 'perception_life', 'age','profileInfo','created_at'));
 
-        } catch (\Exception $exception) {
+//         } catch (\Exception $exception) {
 
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
-    }
+//             return Helpers::serverErrorResponse($exception->getMessage());
+//         }
+//     }
 
-    public function downloadUserReport($id)
-    {
-        $user_name = Helpers::getWebUser()->first_name . ' ' . Helpers::getWebUser()->last_name;
-        $assessment = Assessment::singleAssessmentFromId($id);
-        $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
-        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-        $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-        $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
-        $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
-        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
-        $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
-        $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
-        $alchl_code = Assessment::getAlchlCode($id);
-        $style_position = AssessmentColorCode::getStylePosition($id);
-        $feature_position = AssessmentColorCode::getFeaturePosition($id);
-        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
-        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
-        $ep = $positive + $negative;
-        $pv = $positive - $negative;
-        $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getWebUser()->id, $Styles);
+//     public function downloadUserReport($id)
+//     {
+//         $user_name = Helpers::getWebUser()->first_name . ' ' . Helpers::getWebUser()->last_name;
+//         $assessment = Assessment::singleAssessmentFromId($id);
+//         $Styles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+//         $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+//         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+//         $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : [];
+//         $communication = $assessment != null ? Assessment::getEnergy($assessment) : [];
+//         $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
+//         $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication) : [];
+//         $energyPool = $assessment != null ? Assessment::getEnergyPoolDetail($assessment) : [];
+//         $alchl_code = Assessment::getAlchlCode($id);
+//         $style_position = AssessmentColorCode::getStylePosition($id);
+//         $feature_position = AssessmentColorCode::getFeaturePosition($id);
+//         $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+//         $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+//         $ep = $positive + $negative;
+//         $pv = $positive - $negative;
+//         $allStyles = PdfGenerate::createGenerateFile($assessment['id'], Helpers::getWebUser()->id, $Styles);
 
-        $contxt = stream_context_create([
-            'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed' => TRUE,
-            ]
-        ]);
+//         $contxt = stream_context_create([
+//             'ssl' => [
+//                 'verify_peer' => FALSE,
+//                 'verify_peer_name' => FALSE,
+//                 'allow_self_signed' => TRUE,
+//             ]
+//         ]);
 
-        $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
+//         $pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+//         $pdf->getDomPDF()->setHttpContext($contxt);
 
-        $pdf->loadView('pdf.report_pdf', compact('allStyles', 'topTwoFeatures', 'assessment', 'boundary', 'perception', 'topCommunication', 'energyPool', 'user_name', 'style_position', 'feature_position', 'alchl_code', 'ep', 'pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
-        $filename = $user_name . '_report.pdf';
+//         $pdf->loadView('pdf.report_pdf', compact('allStyles', 'topTwoFeatures', 'assessment', 'boundary', 'perception', 'topCommunication', 'energyPool', 'user_name', 'style_position', 'feature_position', 'alchl_code', 'ep', 'pv'))->setOptions(['defaultFont' => 'Poppins, sans-serif']);
+//         $filename = $user_name . '_report.pdf';
 
-        return $pdf->stream($filename);
-    }
-}
+//         return $pdf->stream($filename);
+//     }
+// }
