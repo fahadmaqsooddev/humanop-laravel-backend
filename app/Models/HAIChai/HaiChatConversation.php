@@ -35,15 +35,15 @@ class HaiChatConversation extends Model
         ]);
     }
 
-    public static function updateConversation($chatBot = null, $reply = null)
-    {
-        return self::where('chatbot', $chatBot)->update(['reply' => $reply]);
-    }
+    // public static function updateConversation($chatBot = null, $reply = null)
+    // {
+    //     return self::where('chatbot', $chatBot)->update(['reply' => $reply]);
+    // }
 
-    public static function deleteOldChat(){
+    // public static function deleteOldChat(){
 
-        self::whereDate('created_at', '<',Carbon::now()->subDays(30))->delete();
-    }
+    //     self::whereDate('created_at', '<',Carbon::now()->subDays(30))->delete();
+    // }
 
     public static function singleConversation($id){
 

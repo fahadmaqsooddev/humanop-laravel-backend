@@ -93,10 +93,10 @@ class Assessment extends Model
     }
 
     // queries
-    public static function createAssessment($data = null)
-    {
-        return self::create($data);
-    }
+    // public static function createAssessment($data = null)
+    // {
+    //     return self::create($data);
+    // }
 
     public static function createAssessmentData($userId = null, $type = 0)
     {
@@ -104,21 +104,21 @@ class Assessment extends Model
         return self::create(['user_id' => $userId, 'type' => $type]);
     }
 
-    public static function updateAssessment($data = null, $id = null)
-    {
-        return self::find($id)->update($data);
-    }
+    // public static function updateAssessment($data = null, $id = null)
+    // {
+    //     return self::find($id)->update($data);
+    // }
 
-    public static function getLastPage()
-    {
-        $page = self::where('user_id', Auth::user()->id)->select(['page', 'web_page'])->latest()->first();
+    // public static function getLastPage()
+    // {
+    //     $page = self::where('user_id', Auth::user()->id)->select(['page', 'web_page'])->latest()->first();
 
-        if ($page) {
-            return $page;
-        } else {
-            return 0;
-        }
-    }
+    //     if ($page) {
+    //         return $page;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
 
     public static function getGrid($id = null)
     {
@@ -271,15 +271,15 @@ class Assessment extends Model
         return self::where('user_id', $user_id)->where('page', 0)->latest()->first();
     }
 
-    public static function getAllUser()
-    {
-        return self::where('page', 0)
-            ->orderBy('updated_at', 'desc')
-            ->get()
-            ->unique('user_id')
-            ->pluck('user_id');
+    // public static function getAllUser()
+    // {
+    //     return self::where('page', 0)
+    //         ->orderBy('updated_at', 'desc')
+    //         ->get()
+    //         ->unique('user_id')
+    //         ->pluck('user_id');
 
-    }
+    // }
 
 
     public static function getAssessmentIds()
@@ -897,23 +897,23 @@ class Assessment extends Model
         return $alchemyCodeDetail;
     }
 
-    public static function getAlchemyPublicName($assessment = null)
-    {
-        $gold = $assessment['g'];
-        $silver = $assessment['s'];
-        $copper = $assessment['c'];
-        $alchemy = $gold . '' . $silver . '' . $copper;
-        $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
-        $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
+    // public static function getAlchemyPublicName($assessment = null)
+    // {
+    //     $gold = $assessment['g'];
+    //     $silver = $assessment['s'];
+    //     $copper = $assessment['c'];
+    //     $alchemy = $gold . '' . $silver . '' . $copper;
+    //     $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
+    //     $publicName = CodeDetail::getSinglePublicName($alchemyCodeDetail ? $alchemyCodeDetail['code'] : '');
 
-        $boundaries = [
-            'public_name' => $publicName['public_name'],
-            'code_number' => $gold . '-' . $silver . '-' . $copper,
-            'video_url' => $publicName['video_url']
-        ];
+    //     $boundaries = [
+    //         'public_name' => $publicName['public_name'],
+    //         'code_number' => $gold . '-' . $silver . '-' . $copper,
+    //         'video_url' => $publicName['video_url']
+    //     ];
 
-        return $boundaries;
-    }
+    //     return $boundaries;
+    // }
 
     public static function getAlchlCode($assessment_id = null)
     {
@@ -1333,17 +1333,17 @@ class Assessment extends Model
 
     }
 
-    public static function deleteIncompleteAssessment()
-    {
+    // public static function deleteIncompleteAssessment()
+    // {
 
-        $assessment = self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
+    //     $assessment = self::where('user_id', Helpers::getWebUser()->id)->latest()->first();
 
-        if ($assessment && $assessment->page > 0) {
+    //     if ($assessment && $assessment->page > 0) {
 
-            $assessment->delete();
+    //         $assessment->delete();
 
-        }
-    }
+    //     }
+    // }
 
     public static function singleAssessmentFromId($assessment_id)
     {

@@ -104,13 +104,13 @@ class Subscription extends Model
 
     }
 
-    public static function allSubscriptions(){
+    // public static function allSubscriptions(){
 
-        $subscriptions = self::all();
+    //     $subscriptions = self::all();
 
-        dd($subscriptions);
+    //     dd($subscriptions);
 
-    }
+    // }
 
     public static function updateUserSubscriptionFromAdmin($plan_id, $user_id){
 

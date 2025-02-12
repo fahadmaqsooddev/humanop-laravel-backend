@@ -21,9 +21,9 @@ class AssessmentDetail extends Model
         return self::create($data);
     }
 
-    public static function updateAssessmentDetail($data = null,$id = null){
-        return self::find($id)->update($data);
-    }
+    // public static function updateAssessmentDetail($data = null,$id = null){
+    //     return self::find($id)->update($data);
+    // }
 
     public static function getDetail($id = null)
     {
