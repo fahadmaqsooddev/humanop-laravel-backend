@@ -51,10 +51,10 @@ class HaiChatEmbedding extends Model
         return self::whereId($id)->first();
     }
 
-    public static function getEmbeddingByName($name = null)
-    {
-        return self::where('name', $name)->pluck('embedding_id')->toArray();
-    }
+    // public static function getEmbeddingByName($name = null)
+    // {
+    //     return self::where('name', $name)->pluck('embedding_id')->toArray();
+    // }
 
     public static function allEmbeddings()
     {

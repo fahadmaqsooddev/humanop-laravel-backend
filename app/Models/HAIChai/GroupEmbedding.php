@@ -77,11 +77,11 @@ class GroupEmbedding extends Model
         self::where('embedding_id', $embedding_id)->delete();
     }
 
-    public static function groupEmbeddingsIds($group_id = null){
+    // public static function groupEmbeddingsIds($group_id = null){
 
-        return self::where('group_id', $group_id)->pluck('embedding_id');
+    //     return self::where('group_id', $group_id)->pluck('embedding_id');
 
-    }
+    // }
 
     public static function embeddingGroups($embedding_id = null){
 

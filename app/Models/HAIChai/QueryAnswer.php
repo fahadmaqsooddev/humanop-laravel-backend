@@ -45,10 +45,10 @@ class QueryAnswer extends Model
         self::updateBucketFromApprovedAnswer($id);
     }
 
-    public static function singleAnswer($id){
+    // public static function singleAnswer($id){
 
-        return self::whereId($id)->first();
-    }
+    //     return self::whereId($id)->first();
+    // }
 
     public static function updateQueryAnswer($data = null, $id = null){
 

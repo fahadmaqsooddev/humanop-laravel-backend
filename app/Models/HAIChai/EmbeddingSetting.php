@@ -17,38 +17,38 @@ class EmbeddingSetting extends Model
         parent::__construct($attributes);
     }
 
-    public static function getEmbeddingSetting($name = null)
-    {
-        return self::where('embedding', $name)->first();
-    }
+    // public static function getEmbeddingSetting($name = null)
+    // {
+    //     return self::where('embedding', $name)->first();
+    // }
 
-    public static function createEmbedding($name = null, $chunk = null)
-    {
-        return self::create([
-            'embedding' => $name,
-            'chunk' => $chunk,
-        ]);
-    }
+    // public static function createEmbedding($name = null, $chunk = null)
+    // {
+    //     return self::create([
+    //         'embedding' => $name,
+    //         'chunk' => $chunk,
+    //     ]);
+    // }
 
-    public static function checkAndUpdateEmbedding($name = null, $chunk = 1)
-    {
-        $embedding = self::getEmbeddingSetting($name);
+    // public static function checkAndUpdateEmbedding($name = null, $chunk = 1)
+    // {
+    //     $embedding = self::getEmbeddingSetting($name);
 
-        if (!empty($embedding))
-        {
-            self::deleteEmbedding($name);
+    //     if (!empty($embedding))
+    //     {
+    //         self::deleteEmbedding($name);
 
-            self::createEmbedding($name, $chunk ?? 1);
+    //         self::createEmbedding($name, $chunk ?? 1);
 
-        }else
-        {
-            self::createEmbedding($name, $chunk ?? 1);
+    //     }else
+    //     {
+    //         self::createEmbedding($name, $chunk ?? 1);
 
-        }
-    }
+    //     }
+    // }
 
-    public static function deleteEmbedding($name = null)
-    {
-        return self::where('embedding', $name)->delete();
-    }
+    // public static function deleteEmbedding($name = null)
+    // {
+    //     return self::where('embedding', $name)->delete();
+    // }
 }

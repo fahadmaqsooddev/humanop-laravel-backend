@@ -23,16 +23,16 @@ class Upload extends Model
         parent::__construct($attributes);
     }
 
-    public static function escapeFileUrl($url)
-    {
-        $parts = parse_url($url);
-        $path_parts = array_map('rawurldecode', explode('/', $parts['path']));
+    // public static function escapeFileUrl($url)
+    // {
+    //     $parts = parse_url($url);
+    //     $path_parts = array_map('rawurldecode', explode('/', $parts['path']));
 
-        return
-            $parts['scheme'] . '://' .
-            $parts['host'] .
-            implode('/', array_map('rawurlencode', $path_parts));
-    }
+    //     return
+    //         $parts['scheme'] . '://' .
+    //         $parts['host'] .
+    //         implode('/', array_map('rawurlencode', $path_parts));
+    // }
 
     public static function uploadFile($file,$thumbnail_width,$thumbnail_height, $type = null, $ext = null, $resize = 0){
 
@@ -189,8 +189,8 @@ class Upload extends Model
         });
     }
 
-    public static function deleteUploadFile($id = null)
-    {
-        return self::whereId($id)->delete();
-    }
+    // public static function deleteUploadFile($id = null)
+    // {
+    //     return self::whereId($id)->delete();
+    // }
 }

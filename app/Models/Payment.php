@@ -49,13 +49,13 @@ class Payment extends Model
         ]);
     }
 
-    public static function getPaymentHistory()
-    {
-        $user_id = Auth::user()['id'];
+    // public static function getPaymentHistory()
+    // {
+    //     $user_id = Auth::user()['id'];
 
-        return self::where('user_id', $user_id)->with('coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
+    //     return self::where('user_id', $user_id)->with('coupons', 'assessments')->orderBy('created_at', 'DESC')->get();
 
-    }
+    // }
 
     public static function getAllPaymentHistory()
     {
