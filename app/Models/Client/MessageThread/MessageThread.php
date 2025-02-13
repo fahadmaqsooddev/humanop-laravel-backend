@@ -158,25 +158,25 @@ class MessageThread extends Model
 
     }
 
-    public static function deleteMessageThread($user_id = null){
+    // public static function deleteMessageThread($user_id = null){
 
-        $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
+    //     $logged_in_user_id = Helpers::getWebUser()->id ?? Helpers::getUser()->id;
 
-        self::where(function ($q) use ($user_id){
+    //     self::where(function ($q) use ($user_id){
 
-            $q->where('sender_id', $user_id)
+    //         $q->where('sender_id', $user_id)
 
-                ->orWhere('receiver_id', $user_id);
+    //             ->orWhere('receiver_id', $user_id);
 
-        })->where(function ($q) use ($logged_in_user_id){
+    //     })->where(function ($q) use ($logged_in_user_id){
 
-            $q->where('sender_id', $logged_in_user_id)
+    //         $q->where('sender_id', $logged_in_user_id)
 
-                ->orWhere('receiver_id', $logged_in_user_id);
+    //             ->orWhere('receiver_id', $logged_in_user_id);
 
-        })->delete();
+    //     })->delete();
 
-    }
+    // }
 
     public static function deleteMessageThreadFromApi($thread_id = null){
 

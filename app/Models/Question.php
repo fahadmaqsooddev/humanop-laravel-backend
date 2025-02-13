@@ -49,17 +49,17 @@ class Question extends Model
 
 
 
-    public static function totalAssessmentQuestion(){
-        $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 2])
-            ->where('active', 1)->pluck('id');
-        $main_questions = self::with('answers.answerCodes')
-            ->whereNull('question_id')
-            ->whereIn('id', $question_ids)
-            ->whereIn('gender', [Auth::user()['gender'], 2])
-            ->where('active', 1)
-            ->count();
-        return $main_questions;
-    }
+    // public static function totalAssessmentQuestion(){
+    //     $question_ids =  self::whereIn('gender', [Auth::user()['gender'], 2])
+    //         ->where('active', 1)->pluck('id');
+    //     $main_questions = self::with('answers.answerCodes')
+    //         ->whereNull('question_id')
+    //         ->whereIn('id', $question_ids)
+    //         ->whereIn('gender', [Auth::user()['gender'], 2])
+    //         ->where('active', 1)
+    //         ->count();
+    //     return $main_questions;
+    // }
     public function subQuestions()
     {
         return $this->hasMany(Question::class, 'question_id');

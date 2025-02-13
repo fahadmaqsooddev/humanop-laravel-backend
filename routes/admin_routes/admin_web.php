@@ -21,6 +21,7 @@ use App\Http\Controllers\HAIChat\ClientQueryController;
 use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Practitioner\PractitionerController;
+use App\Http\Controllers\B2BControllers\RoleTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,36 +34,19 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 |
 */
 
-//Route::group(['middleware' => 'guest'], function () {
 Route::get('/register', [RegisterController::class, 'create'])->name('create');
 Route::post('/store-register', [RegisterController::class, 'store'])->name('store_user');
-Route::get('/email-verify', [RegisterController::class, 'emailVerify'])->name('email_verify');
-Route::get('/email-verified', [RegisterController::class, 'emailVerified'])->name('email_verified');
-Route::get('/call-back-register', [RegisterController::class, 'callBackRegistration'])->name('call_back_registration');
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/session', [SessionController::class, 'store']);
 Route::get('/login/forgot-password', [ChangePasswordController::class, 'create'])->name('forgot_password');
-Route::get('/check-email', [ChangePasswordController::class, 'checkEmail'])->name('check_email');
-Route::get('/check-email-verification', [ChangePasswordController::class, 'checkEmailVerification'])->name('check_email');
-Route::get('/login-to-dashboard/{id}', [ChangePasswordController::class, 'loginUserToDashboard'])->name('login_to_dashboard');
-
 Route::get('/check-email-from-app/{id}', [ChangePasswordController::class, 'checkEmailFromApp'])->name('check_email_app');
 Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->name('password.reset');
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy']);
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
+Route::get('/', [SessionController::class, 'create']);
 
-
-Route::get('/open-app', [SessionController::class, 'openApp'])->name('open_app');
-Route::get('/pusher', function () {
-    return view('pusher');
-});
-Route::get('/email-template', function () {
-    return view('welcome');
-});
-
-//});
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
@@ -72,7 +56,6 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
     //    admin dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
-
     Route::get('/intro-assessment', [QuestionController::class, 'introAssessment'])->name('practitioner_intro_assessment');
     Route::get('/play', [QuestionController::class, 'testPlay'])->name('admin_test_play');
     Route::get('/all-assessments', [QuestionController::class, 'allAssessment'])->name('admin_all_assessment');
@@ -136,9 +119,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
-
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
-
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');
     });
@@ -155,6 +136,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
     });
+
     Route::group(['middleware' => ['permission:resources']], function () {
         Route::get('/resources', [ResourceController::class, 'resources'])->name('admin_resources');
         Route::get('/create-resources', [ResourceController::class, 'createrResources'])->name('admin_create_resources');
@@ -167,11 +149,11 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     Route::group(['middleware' => ['role:super admin']], function () {
         Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
         Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
+        Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
 
     });
 
     Route::get('/login-back-to-admin', [SessionController::class, 'loginBackToAdmin'])->name('login_back_to_admin');
-
     Route::get('/settings', [AdminController::class, 'setting'])->name('admin_setting');
 });
 

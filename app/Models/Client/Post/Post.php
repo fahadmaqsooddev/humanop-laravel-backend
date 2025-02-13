@@ -77,34 +77,34 @@ class Post extends Model
         return self::create($data);
     }
 
-    public static function allPosts($per_page = 10){
+    // public static function allPosts($per_page = 10){
 
-        return self::with(['user' => function($q){
+    //     return self::with(['user' => function($q){
 
-            $q->select(['id','first_name','last_name','image_id']);
+    //         $q->select(['id','first_name','last_name','image_id']);
 
-        }, 'postComments' => function($q){
+    //     }, 'postComments' => function($q){
 
-            $q->with('user:id,first_name,last_name,image_id')->latest()
+    //         $q->with('user:id,first_name,last_name,image_id')->latest()
 
-                ->withCount('commentLikes');
+    //             ->withCount('commentLikes');
 
-        }, 'sharedPost' => function($q){
+    //     }, 'sharedPost' => function($q){
 
-            $q->with('user:id,first_name,last_name,image_id');
+    //         $q->with('user:id,first_name,last_name,image_id');
 
-        }, 'postShares' => function($q){
+    //     }, 'postShares' => function($q){
 
-            $q->with('user:id');
+    //         $q->with('user:id');
 
-        }])
+    //     }])
 
-            ->withCount(['postLikes', 'postComments', 'postShares'])
+    //         ->withCount(['postLikes', 'postComments', 'postShares'])
 
-            ->latest()
+    //         ->latest()
 
-            ->paginate($per_page);
-    }
+    //         ->paginate($per_page);
+    // }
 
     public static function deletePost($post_id = null){
 

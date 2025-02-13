@@ -224,6 +224,17 @@ return [
             'fillable' => ['title', 'description','code','user_id','is_read', 'text','subscription_type','min_point','max_point','interval_of_life'],
             'hidden' => ['created_at','updated_at']
         ],
+        
+        'RoleTemplate'=>[
+            'table'=>'role_templates',
+            'fillable' => ['code','min_point','max_point','role_name'],
+            'hidden' => ['created_at','updated_at']
+        ],
+        'TaskResponsibilities'=>[
+            'table'=>'task_responsibilities',
+            'fillable' => ['role_template_id', 'tags'],
+            'hidden' => ['created_at','updated_at']
+        ],
         'TipRecord' => [
             'table' => 'tip_records',
             'fillable' => ['user_id', 'tip_id'],

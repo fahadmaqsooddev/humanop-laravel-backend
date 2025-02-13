@@ -74,27 +74,27 @@ class Story extends Model
         self::create($data);
     }
 
-    public static function loggedInUserStory(){
+    // public static function loggedInUserStory(){
 
-        return self::where('user_id', Helpers::getWebUser()->id)
+    //     return self::where('user_id', Helpers::getWebUser()->id)
 
-            ->with('user')
+    //         ->with('user')
 
-            ->where('created_at', ">", Carbon::now()->subDay())
+    //         ->where('created_at', ">", Carbon::now()->subDay())
 
-            ->first();
-    }
+    //         ->first();
+    // }
 
-    public static function userStories($user_id = null){
+    // public static function userStories($user_id = null){
 
-        return self::has('user')->with('user')
+    //     return self::has('user')->with('user')
 
-            ->where('created_at', ">", Carbon::now()->subDay())
+    //         ->where('created_at', ">", Carbon::now()->subDay())
 
-            ->where('user_id', $user_id)
+    //         ->where('user_id', $user_id)
 
-            ->get();
-    }
+    //         ->get();
+    // }
 
     public static function deleteStory($id = null){
 

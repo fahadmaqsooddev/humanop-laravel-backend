@@ -28,12 +28,12 @@ class TipRecord extends Model
         ]);
     }
 
-    public static function getTipRecord()
-    {
-        $records = self::where('user_id', Auth::user()['id'])->pluck('tip_id');
+    // public static function getTipRecord()
+    // {
+    //     $records = self::where('user_id', Auth::user()['id'])->pluck('tip_id');
 
-        return $records;
+    //     return $records;
 
-    }
+    // }
 
 }

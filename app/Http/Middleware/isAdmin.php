@@ -46,8 +46,6 @@ class isAdmin
 
                 return $next($request);
 
-            }else{
-                return redirect()->route('client_dashboard');
             }
         }else{
 

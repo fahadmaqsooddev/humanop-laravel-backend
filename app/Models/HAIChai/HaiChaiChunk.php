@@ -30,78 +30,78 @@ class HaiChaiChunk extends Model
 
     }
 
-    public static function createHaiChunk($response = null, $embedding = null, $chatBot = null)
-    {
+    // public static function createHaiChunk($response = null, $embedding = null, $chatBot = null)
+    // {
 
-        if (!empty($embedding))
-        {
-            if (!empty($response))
-            {
-                foreach ($response['retrieved_docs'] as $retrieved)
-                {
-                    foreach ($retrieved as $data)
-                    {
-                        self::create([
-                            'embedding' => $embedding,
-                            'query' => $response['query'],
-                            'retrieved_docs' => $data
-                        ]);
-                    }
-                }
-            }
+    //     if (!empty($embedding))
+    //     {
+    //         if (!empty($response))
+    //         {
+    //             foreach ($response['retrieved_docs'] as $retrieved)
+    //             {
+    //                 foreach ($retrieved as $data)
+    //                 {
+    //                     self::create([
+    //                         'embedding' => $embedding,
+    //                         'query' => $response['query'],
+    //                         'retrieved_docs' => $data
+    //                     ]);
+    //                 }
+    //             }
+    //         }
 
-        }
-        elseif (!empty($chatBot))
-        {
-            if (!empty($response))
-            {
-                foreach ($response['retrieved_docs'] as $retrieved)
-                {
+    //     }
+    //     elseif (!empty($chatBot))
+    //     {
+    //         if (!empty($response))
+    //         {
+    //             foreach ($response['retrieved_docs'] as $retrieved)
+    //             {
 
-                    foreach ($retrieved as $data)
-                    {
-                        self::create([
-                            'chatbot' => $chatBot,
-                            'query' => $response['query'],
-                            'retrieved_docs' => $data
-                        ]);
-                    }
-                }
-            }
-        }
+    //                 foreach ($retrieved as $data)
+    //                 {
+    //                     self::create([
+    //                         'chatbot' => $chatBot,
+    //                         'query' => $response['query'],
+    //                         'retrieved_docs' => $data
+    //                     ]);
+    //                 }
+    //             }
+    //         }
+    //     }
 
-    }
+    // }
 
-    public static function checkAndUpdateHaiChunks($response = null, $embedding = null, $chatBot = null)
-    {
-        if (!empty($embedding) || !empty($chatBot))
-        {
-            $chunks = self::getHaiChunk($embedding, $chatBot);
+    // public static function checkAndUpdateHaiChunks($response = null, $embedding = null, $chatBot = null)
+    // {
+    //     if (!empty($embedding) || !empty($chatBot))
+    //     {
+    //         $chunks = self::getHaiChunk($embedding, $chatBot);
 
-            if (!empty($chunks))
-            {
-                self::deleteHaiChunk($embedding, $chatBot);
+    //         if (!empty($chunks))
+    //         {
+    //             self::deleteHaiChunk($embedding, $chatBot);
 
-                self::createHaiChunk($response, $embedding, $chatBot);
-            }
-        }
-    }
+    //             self::createHaiChunk($response, $embedding, $chatBot);
+    //         }
+    //     }
+    // }
 
-    public static function deleteHaiChunk($embedding = null, $chatBot = null)
-    {
-        if (!empty($embedding))
-        {
-            return self::where('embedding', $embedding)->delete();
-        }
-        elseif (!empty($chatBot))
-        {
-            return self::where('chatbot', $chatBot)->delete();
-        }
-        else
-        {
-            return null;
-        }
+    // public static function deleteHaiChunk($embedding = null, $chatBot = null)
+    // {
+    //     if (!empty($embedding))
+    //     {
+    //         return self::where('embedding', $embedding)->delete();
+    //     }
+    //     elseif (!empty($chatBot))
+    //     {
+    //         return self::where('chatbot', $chatBot)->delete();
+    //     }
+    //     else
+    //     {
+    //         return null;
+    //     }
 
-    }
+    // }
 
 }

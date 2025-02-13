@@ -28,43 +28,43 @@ class PostLike extends Model
 
 
     // query
-    public static function createPostLike($post_id = null){
+    // public static function createPostLike($post_id = null){
 
-        $data['user_id'] = Helpers::getWebUser()->id;
+    //     $data['user_id'] = Helpers::getWebUser()->id;
 
-        $data['post_id'] = $post_id;
+    //     $data['post_id'] = $post_id;
 
-        $post_like = self::where($data)->first();
+    //     $post_like = self::where($data)->first();
 
-        if ($post_like){
+    //     if ($post_like){
 
-            $post_like->delete();
+    //         $post_like->delete();
 
-        }else{
+    //     }else{
 
-            self::create($data);
-        }
+    //         self::create($data);
+    //     }
 
-    }
+    // }
 
-    public static function createCommentLike($comment_id = null){
+    // public static function createCommentLike($comment_id = null){
 
-        $data['user_id'] = Helpers::getWebUser()->id;
+    //     $data['user_id'] = Helpers::getWebUser()->id;
 
-        $data['post_comment_id'] = $comment_id;
+    //     $data['post_comment_id'] = $comment_id;
 
-        $comment_like = self::where($data)->first();
+    //     $comment_like = self::where($data)->first();
 
-        if ($comment_like){
+    //     if ($comment_like){
 
-            $comment_like->delete();
+    //         $comment_like->delete();
 
-        }else{
+    //     }else{
 
-            self::create($data);
-        }
+    //         self::create($data);
+    //     }
 
-    }
+    // }
 
     public static function createPostLikeForApi($request = null){
 

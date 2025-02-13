@@ -18,9 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/login';
-    protected $ClientUserNamespace = 'App\Http\Controllers\User';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
-    protected $EnterpriseNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
@@ -55,16 +53,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/admin_routes/admin_web.php'));
 
             Route::middleware('web')
-                ->namespace($this->ClientUserNamespace)
-                ->group(base_path('routes/admin_routes/client_user_web.php'));
-
-            Route::middleware('web')
                 ->namespace($this->PractitionerNamespace)
                 ->group(base_path('routes/admin_routes/practitioner_web.php'));
-
-            Route::middleware('web')
-                ->namespace($this->EnterpriseNamespace)
-                ->group(base_path('routes/admin_routes/enterprise_web.php'));
 
             Route::middleware('web')
                 ->prefix('media')

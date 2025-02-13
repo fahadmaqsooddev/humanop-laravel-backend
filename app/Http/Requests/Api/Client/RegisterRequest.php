@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             'first_name' => 'required|string|max:25',
             'last_name' => $required . '|string|max:25',
             'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
-            'password' => $required . '|string|min:6',
+            'password' => $required . '|string|min:6|max:22',
             'phone' => 'nullable|max:25',
             'gender' => $required_dob . '|in:male,female',
             'date_of_birth' => $required_dob . '|date',

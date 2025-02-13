@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('login-client', 'AuthController@loginClient');
-Route::post('register-client', 'AuthController@registerClient');
 Route::post('logout-client', 'AuthController@logoutClient');
 Route::post('forgot-password', 'AuthController@forgotPassword');
 Route::post('social-login', 'AuthController@socialLogin');
