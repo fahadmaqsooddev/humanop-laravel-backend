@@ -29,17 +29,32 @@ class UserInvite extends Model
         return self::where('link', $link)->first();
     }
 
-    public static function getAllInviteLinks($per_page = 10, $email = null)
+    public static function getAllInviteLinks($per_page = 10, $email = null,$role=null)
     {
         return self::when($email, function ($query, $email){
 
             $query->where('email', 'LIKE', "$email%");
 
-        })->orderBy('created_at', 'desc')->paginate($per_page);
-    }
+        })->where('role',$role)->orderBy('created_at', 'desc')->paginate($per_page);
 
-    public static function sendInvite($email = null, $file = null)
+        // return self::when($email, function ($query, $email){
+
+        //     $query->where('email', 'LIKE', "$email%");
+
+        // })->orderBy('created_at', 'desc')->paginate($per_page);
+    }
+    // public static function getAllB2bInviteLinks($per_page = 10, $email = null)
+    // {
+    //     return self::when($email, function ($query, $email){
+
+    //         $query->where('email', 'LIKE', "$email%");
+
+    //     })->where('role','2')->orderBy('created_at', 'desc')->paginate($per_page);
+    // }
+
+    public static function sendInvite($email = null, $file = null,$role=null)
     {
+        
         if (!empty($file)) {
 
             if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
@@ -53,10 +68,11 @@ class UserInvite extends Model
                     if (empty($invite)) {
 
                         $link = Str::random(16);
-
+ 
                         self::create([
                             'email' => $csvEmail,
                             'link' => $link,
+                            'role'=>$role,
                         ]);
 
                     }
@@ -79,6 +95,7 @@ class UserInvite extends Model
                 return self::create([
                     'email' => $email,
                     'link' => $link,
+                    'role'=>$role,
                 ]);
             }
         }

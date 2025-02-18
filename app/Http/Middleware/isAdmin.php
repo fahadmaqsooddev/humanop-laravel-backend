@@ -63,6 +63,7 @@ class isAdmin
             Auth::logout();
 
             return redirect('/login')->with(['success'=>'You\'ve been logged out.']);
+            // return redirect('/login')->with(['success'=>'Your session has expired. Please log in again..']);
 
         }
     }

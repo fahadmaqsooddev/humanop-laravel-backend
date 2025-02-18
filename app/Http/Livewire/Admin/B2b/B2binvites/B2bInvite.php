@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Http\Livewire\Admin\ClientInvites;
+namespace App\Http\Livewire\Admin\B2b\B2binvites;
 
+use Livewire\Component;
 use App\Models\UserInvite\UserInvite;
 use App\Models\User;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-class ClientInvite extends Component
+class B2bInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
     public $email, $file, $searched_email;
-    public $role=1;
     public $selectedItems = [];
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['deleteClientLink','bulkDelete'];
+
+    public $role=2;
 
     protected $rules = [
         // 'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
@@ -67,7 +68,7 @@ class ClientInvite extends Component
                     return;
                 }
             
-              
+                
                 UserInvite::sendInvite($this->email, $this->file,$this->role);
                 session()->flash('success', "{$this->email} invite link generated successfully.");
             }
@@ -117,7 +118,9 @@ class ClientInvite extends Component
     {
 
         $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email,$this->role);
-        $invites->withPath(url('/admin/client-invites'));
-        return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
+        // $invites->withPath(url('/admin/client-invites'));
+        $invites->withPath(url('/admin/b2b-invites'));
+        return view('livewire.admin.b2b.b2binvites.b2b-invite', ['invites' => $invites]);
     }
+    
 }

@@ -79,4 +79,7 @@ final class Admin
     const MESSAGE_SEND_NOTIFICATION = 9;
 
     const NEW_MESSAGE_NOTIFICATION = 10;
+
+    const CLIENT_INVITE = 1;
+    const B2B_INVITE = 2;
 }
