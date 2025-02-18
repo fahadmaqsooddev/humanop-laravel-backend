@@ -22,6 +22,7 @@ use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\B2BControllers\RoleTemplateController;
+use App\Http\Controllers\B2BControllers\B2BInviteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,7 +150,11 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
     Route::group(['middleware' => ['role:super admin']], function () {
         Route::get('/sub-admins', [AdminController::class, 'allAdmins'])->name('admin_all_sub_admins');
         Route::post('/stripe-settings/{id}', [AdminController::class, 'stripeSetting'])->name('stripe_setting');
+
+
+        // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
+        Route::get('/b2b-invites',[B2BInviteController::class,'getB2BInvite'])->name('admin_b2b_invites');
 
     });
 
