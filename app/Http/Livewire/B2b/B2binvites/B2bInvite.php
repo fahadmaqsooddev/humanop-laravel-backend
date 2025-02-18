@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Admin\B2b\B2binvites;
+namespace App\Http\Livewire\B2b\B2binvites;
 
 use Livewire\Component;
 use App\Models\UserInvite\UserInvite;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Enums\Admin\Admin;
 
 class B2bInvite extends Component
 {
@@ -14,15 +15,13 @@ class B2bInvite extends Component
 
     public $email, $file, $searched_email;
     public $selectedItems = [];
-
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
     protected $listeners = ['deleteClientLink','bulkDelete'];
 
-    public $role=2;
+    public $role = Admin::B2B_INVITE_ROLE;
 
     protected $rules = [
-        // 'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
         'email' => 'nullable|email|max:255|required_without:file',
         'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
     ];
@@ -30,9 +29,7 @@ class B2bInvite extends Component
     protected $messages = [
         'email.required_without' => 'The email is required when a file is not provided.',
         'email.email' => 'Please enter a valid email address.',
-        'email.max' => 'The email should not exceed 255 characters.',
-        // 'email.unique' => 'The email address is already Have Invite Link.',
-       
+        'email.max' => 'The email should not exceed 255 characters.', 
         'file.required_without' => 'A file is required when an email is not provided.',
         'file.file' => 'The uploaded file must be a valid file.',
         'file.mimes' => 'Only CSV files are allowed.',
@@ -43,11 +40,10 @@ class B2bInvite extends Component
     { 
         try {
            
-       
             $this->validate();
-           
             
             if ($this->email) {
+
                 $user = User::where('email', $this->email)->first();
             
                 if ($user) {
@@ -62,21 +58,19 @@ class B2bInvite extends Component
                     session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
                     return; 
                 }
+                
                 $uniqueEmail = UserInvite::where('email', $this->email)->first();
                 if ($uniqueEmail) {
                     session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
                     return;
                 }
-            
                 
-                UserInvite::sendInvite($this->email, $this->file,$this->role);
+                UserInvite::sendInvite($this->email, $this->file, $this->role);
+            
                 session()->flash('success', "{$this->email} invite link generated successfully.");
+            
             }
             
-
-
-           
-
             $this->resetForm();
 
             $this->emit('closeModal');
@@ -95,13 +89,14 @@ class B2bInvite extends Component
       
         UserInvite::whereIn('id', $this->selectedItems)->delete();
 
-        
         $this->selectedItems = [];
     }
 
     public function updatedSearchedEmail()
     {
-    $this->resetPage(); 
+
+        $this->resetPage(); 
+
     }
 
     public function resetForm()
@@ -118,9 +113,10 @@ class B2bInvite extends Component
     {
 
         $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email,$this->role);
-        // $invites->withPath(url('/admin/client-invites'));
+        
         $invites->withPath(url('/admin/b2b-invites'));
-        return view('livewire.admin.b2b.b2binvites.b2b-invite', ['invites' => $invites]);
+
+        return view('livewire.b2b.b2b-invites.b2b-invite', ['invites' => $invites]);
     }
     
 }

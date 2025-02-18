@@ -80,7 +80,7 @@
                        style="background-color: #f2661c; color: white" class=" btn-sm float-end mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">send invite</a>
                 </div>
                 {{-- @livewire('admin.client-invites.client-invite') --}}
-                @livewire('admin.b2b.b2binvites.b2b-invite')
+                @livewire('b2b.b2binvites.b2b-invite')
 
             </div>
         </div>
