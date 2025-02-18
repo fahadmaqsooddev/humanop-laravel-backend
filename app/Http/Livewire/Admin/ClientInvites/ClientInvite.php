@@ -7,13 +7,14 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use App\Enums\Admin\Admin;
 
 class ClientInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
     public $email, $file, $searched_email;
-    public $role=1;
+    public $role=Admin::CLIENT_INVITE_ROLE;
     public $selectedItems = [];
 
     public $perPage = 10;

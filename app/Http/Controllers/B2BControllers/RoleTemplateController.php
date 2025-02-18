@@ -12,7 +12,7 @@ class RoleTemplateController extends Controller
     public function allRoleTemplates(){
         try {
 
-            return view('admin-dashboards.b2b.role-template.index');
+            return view('b2b-dashboard.role-templates.index');
 
         } catch (\Exception $exception) {
 

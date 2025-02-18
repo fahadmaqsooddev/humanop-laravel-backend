@@ -38,7 +38,7 @@
     </div>
 
     <!-- Coupon Discount -->
-    @livewire('admin.setting.role-template-create-form')
+    @livewire('b2b.role-templates.role-template-create-form')
 </div>
 
 @push('js')

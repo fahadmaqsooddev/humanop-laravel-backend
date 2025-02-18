@@ -51,7 +51,8 @@
                        class="btn btn-sm float-end mb-0 createForm">Add Role Template</a>
                 </div>
 
-                @livewire('admin.setting.role-template')
+               
+                @livewire('b2b.role-templates.role-template')
             </div>
         </div>
     </div>

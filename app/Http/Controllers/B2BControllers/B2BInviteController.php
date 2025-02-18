@@ -12,7 +12,7 @@ class B2BInviteController extends Controller
     public function getB2BInvite(){
         try {
 
-            return view('admin-dashboards/b2b/b2bInvite/index');
+            return view('b2b-dashboard/b2b-invites/index');
 
         } catch (\Exception $exception) {
 

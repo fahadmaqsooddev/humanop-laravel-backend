@@ -80,6 +80,7 @@ final class Admin
 
     const NEW_MESSAGE_NOTIFICATION = 10;
 
-    const CLIENT_INVITE = 1;
-    const B2B_INVITE = 2;
+    const CLIENT_INVITE_ROLE = 1;
+
+    const B2B_INVITE_ROLE = 2;
 }
