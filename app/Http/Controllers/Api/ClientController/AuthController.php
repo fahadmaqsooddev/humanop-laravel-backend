@@ -310,7 +310,7 @@ class AuthController extends Controller
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                    Helpers::createClientsOnOneSignal($user);
+                    Helpers::createClientsOnOneSignal($user['id']);
 
                     $updateUser = User::updateUserIsFeedback();
 
