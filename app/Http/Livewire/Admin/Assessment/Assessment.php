@@ -133,7 +133,7 @@ class Assessment extends Component
 
             $deviceToken = $user['device_token'];
 
-            event(new ResetAssessment($assessment['user_id'], 'reset assessment', $message));
+            event(new ResetAssessment($assessment['user_id'], $heading, $message));
 
             Helpers::OneSignalApiUsed($user['id'], $heading, $message);
 
