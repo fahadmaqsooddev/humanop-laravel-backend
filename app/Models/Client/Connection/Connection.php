@@ -76,7 +76,7 @@ class Connection extends Model
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
 
-                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $message);
+                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION);
 
                 toastr()->success("connection request was sent");
