@@ -4,8 +4,10 @@ namespace App\Http\Livewire\Admin\Assessment;
 
 use App\Enums\Admin\Admin;
 use App\Events\Admin\Assessment\ResetAssessment;
+use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -55,7 +57,7 @@ class Assessment extends Component
     {
         $this->searchFilter();
     }
-    
+
     public function updatedName($value)
     {
         // Debug the updated value
@@ -124,6 +126,7 @@ class Assessment extends Component
 
         if ($assessment['reset_assessment'] == 1)
         {
+            $heading = 'Reset Assessment';
             $message = 'The assessment has been successfully reset.';
 
             $user = User::getSingleUser($assessment['user_id']);
@@ -132,7 +135,9 @@ class Assessment extends Component
 
             event(new ResetAssessment($assessment['user_id'], 'reset assessment', $message));
 
-            Notification::createNotification('Reset Assessment', $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION);
+            Helpers::OneSignalApiUsed($user['id'], $heading, $message);
+
+            Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION);
         }
 
         session()->flash('success', "Reset Assessment updated successfully");

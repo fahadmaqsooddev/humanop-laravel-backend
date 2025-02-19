@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\User;
 use App\Helpers\Helpers;
+
 class createClientsOnOneSignal extends Command
 {
     /**
@@ -28,14 +29,13 @@ class createClientsOnOneSignal extends Command
      */
     public function handle()
     {
-        // return Command::SUCCESS;
         $data = User::allUser();
 
-        foreach($data as $user){
+        foreach ($data as $user) {
 
-        Helpers::createClientsOnOneSignal($user['id']);
-         
-    }
+            Helpers::createClientsOnOneSignal($user['id']);
+
+        }
 
     }
 }

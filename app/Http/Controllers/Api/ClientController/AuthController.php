@@ -72,19 +72,14 @@ class AuthController extends Controller
 
                 $checkUser = $user->checkEmail($dataArray['email']);
 
-
                 if (empty($checkUser)) {
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
-
                     if (!empty($request['register_from_app'])) {
-//                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'];
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
 
                     } else {
-
-//                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
 
                     }
@@ -99,6 +94,8 @@ class AuthController extends Controller
                     }
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    Helpers::createClientsOnOneSignal($user['id']);
 
                     DB::commit();
 
@@ -117,12 +114,9 @@ class AuthController extends Controller
                     if (empty($checkEmailVerified)) {
 
                         if (!empty($request['register_from_app'])) {
-                            //                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
                             $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
 
                         } else {
-
-//                        $url = env('CLIENT_DASHBOARD_URL') . '/email-verified?token=' . $checkUser['email_verify_token'];
                             $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
 
                         }
@@ -315,6 +309,8 @@ class AuthController extends Controller
                     $user = Helpers::getUser();
 
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
+
+                    Helpers::createClientsOnOneSignal($user);
 
                     $updateUser = User::updateUserIsFeedback();
 
