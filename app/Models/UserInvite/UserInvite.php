@@ -35,23 +35,11 @@ class UserInvite extends Model
 
             $query->where('email', 'LIKE', "$email%");
 
-        })->where('role',$role)->orderBy('created_at', 'desc')->paginate($per_page);
+        })->orderBy('created_at', 'desc')->paginate($per_page);
 
-        // return self::when($email, function ($query, $email){
-
-        //     $query->where('email', 'LIKE', "$email%");
-
-        // })->orderBy('created_at', 'desc')->paginate($per_page);
+       
     }
-    // public static function getAllB2bInviteLinks($per_page = 10, $email = null)
-    // {
-    //     return self::when($email, function ($query, $email){
-
-    //         $query->where('email', 'LIKE', "$email%");
-
-    //     })->where('role','2')->orderBy('created_at', 'desc')->paginate($per_page);
-    // }
-
+   
     public static function sendInvite($email = null, $file = null,$role=null)
     {
         
