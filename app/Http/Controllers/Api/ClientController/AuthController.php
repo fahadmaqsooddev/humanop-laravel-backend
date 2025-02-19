@@ -43,6 +43,7 @@ class AuthController extends Controller
 
         $this->auth = Auth::guard('api');
     }
+
     public function registerFirstStep(RegisterFirstStepRequest $request)
     {
         DB::beginTransaction();
@@ -258,10 +259,6 @@ class AuthController extends Controller
 
             $credentials = $request->only(['email', 'password']);
 
-            $credentials['status'] = 1;
-
-            $credentials['is_admin'] = Admin::IS_CUSTOMER;
-
             $checkDeletedUser = User::checkDeleteEmail($credentials['email']);
 
             if (!empty($checkDeletedUser)) {
@@ -271,13 +268,13 @@ class AuthController extends Controller
 
             $checkUser = User::checkEmail($credentials['email']);
 
+            $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+
             if (empty($checkUser)) {
 
                 return Helpers::validationResponse("These credentials do not match our records.");
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
-
-                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
@@ -287,6 +284,17 @@ class AuthController extends Controller
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
+
+            } else if ($checkUser && $checkUser['step'] != 3) {
+
+                $userData = [
+                    'user_id' => $checkUser['id'],
+                    'registration_step' => $checkUser['step'],
+                    'user_invite' => $userInvite['link']
+
+                ];
+
+                return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
 
             } else {
 
@@ -304,44 +312,24 @@ class AuthController extends Controller
 
                 if ($token) {
 
-                    $data = User::where('email', $request['email'])->first();
+                    $user = Helpers::getUser();
 
-                    if ($data['step'] != 3) {
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                        $userInvite = UserInvite::getSingleInvite($data['email']);
+                    $updateUser = User::updateUserIsFeedback();
 
-                        $userData = [
-                            'user_id' => $data['id'],
-                            'registration_step' => $data['step'],
-                            'user_invite' => $userInvite['link']
-                        ];
+                    $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
+                    $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
-                        return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
+                    $data = [
+                        'user' => $updateUser,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ]
+                    ];
 
-                    } else {
-
-                        $user_data = User::user(Helpers::getUser()->id);
-
-                        $user = Helpers::getUser();
-
-                        Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                        $updateUser = User::updateUserIsFeedback();
-
-                        $updateUser['two_way_auth'] = ($updateUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
-                        $updateUser['app_intro_check'] = ($updateUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
-
-                        $data = [
-                            'user' => $updateUser,
-                            'authorization' => [
-                                'token' => $token,
-                                'type' => 'bearer',
-                            ]
-                        ];
-
-                        return Helpers::successResponse('User loggedIn successfully', $data);
-                    }
-
+                    return Helpers::successResponse('User loggedIn successfully', $data);
 
                 } else {
 
@@ -603,7 +591,7 @@ class AuthController extends Controller
 
 //                if ($signup == 1) {
 
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'];
 
 //                } else {
 //
@@ -615,7 +603,7 @@ class AuthController extends Controller
 
 //                if ($signup == 1) {
 
-                    $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
+                $baseUrl = config('client_url.client_dashboard_url') . '/email-verified?token=' . $updateProfile['email_verify_token'] . '&app=azklmwosdf';
 
 //                } else {
 //

@@ -20,6 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/login';
     protected $PractitionerNamespace = 'App\Http\Controllers\User';
     protected $ApiClientController = 'App\Http\Controllers\Api\ClientController';
+    protected $B2BApiClientController = 'App\Http\Controllers\B2BControllers\B2BApi';
     protected $UploadControllerNamespace = 'App\Http\Controllers';
     protected $HumanNetworkNamespace = 'App\Http\Controllers\Api\ClientController\HumanNetwork';
     protected $ChatAiNamespace = 'App\Http\Controllers\Api\ClientController\ChatAi';
@@ -67,6 +68,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)
                 ->group(base_path('routes/client_apis/auth/auth_api.php'));
+
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->B2BApiClientController)
+                ->group(base_path('routes/b2b_apis/b2b_auth/b2b_auth_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)

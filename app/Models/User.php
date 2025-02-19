@@ -765,9 +765,9 @@ class User extends Authenticatable implements JWTSubject
         $userId = Helpers::getWebUser()['id'];
 
         $isAdminLevel = Helpers::getWebUser()['is_admin'];
-        
+
         $users = ($isAdminLevel == 4) ? self::where('practitioner_id', $userId)->orderBy('created_at', 'desc') : self::query()->orderBy('created_at', 'desc');
-    
+
         if (!empty($search_name)) {
             $users->where(function ($query) use ($search_name) {
                 $query->where('first_name', 'LIKE', "%$search_name%")
@@ -779,7 +779,7 @@ class User extends Authenticatable implements JWTSubject
         // Filter by email
         if (!empty($email)) {
         //    $users->where('email', $email);
-        $users->where('email', 'LIKE', "%$email%"); 
+        $users->where('email', 'LIKE', "%$email%");
         }
 
         if (!empty($age)) {
@@ -822,11 +822,11 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by email
         if (!empty($email)) {
-           
+
         //    $users->where('email', $email);
         $users->where('email', 'LIKE', "%$email%");
-           
-           
+
+
         }
 
         // Filter by age
@@ -839,7 +839,7 @@ class User extends Authenticatable implements JWTSubject
 
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
         }
-        
+
         // Filter by admin status and paginate
         $users = $users->whereIn('is_admin', $isAdmin)
             // ->whereNotNull('email_verified_at')
@@ -972,7 +972,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkEmail($userEmail = null)
     {
-        return self::where('email', $userEmail)->first();
+        return self::where('email', $userEmail)->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B, Admin::IS_B2U])->first();
     }
 
     public static function checkDeleteEmail($userEmail = null)
