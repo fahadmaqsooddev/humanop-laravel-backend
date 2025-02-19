@@ -22,6 +22,8 @@ use Stripe\Stripe;
 use Stripe\StripeClient;
 use App\Models\User;
 use App\Services\TwilioServices\TwilioServices;
+use GuzzleHttp\Client;
+
 class Helpers
 {
     # ====================================
@@ -533,6 +535,23 @@ class Helpers
             return str_split($text,3000);
 
         }
+
+    }
+
+    public static function createClientsOnOneSignal($userId = null)
+    {
+
+        $client = new Client();
+
+        $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
+            'body' => '{"identity":{"external_id":"'. $userId.'"}}',
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        json_decode($response->getBody()->getContents(), true);
 
     }
 }
