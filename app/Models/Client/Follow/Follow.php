@@ -194,7 +194,7 @@ class Follow extends Model
                 $msg='Follow Request is send';
 
                 event(new FollowRequest($data['follow_id'],'Follow Request',$msg));
-
+                Helpers::OneSignalApiUsed($data['follow_id'],'Follow Request',$msg);
                 Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::FOLLOW_REQUEST_NOTIFICATION);
 
             }
@@ -206,7 +206,7 @@ class Follow extends Model
             $msg='Unfollow Request is send';
 
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
-
+            Helpers::OneSignalApiUsed($data['follow_id'],'Un-Follow Request',$msg);
             Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::UN_FOLLOW_REQUEST_NOTIFICATION);
 
         }

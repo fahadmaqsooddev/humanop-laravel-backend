@@ -76,6 +76,7 @@ class Connection extends Model
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
 
+                Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $message);
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION);
 
                 toastr()->success("connection request was sent");
@@ -97,7 +98,7 @@ class Connection extends Model
             $msg = 'Dis-Connect Request send it';
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
-
+            Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_CANCEL_NOTIFICATION);
 
         } else if ($data['type'] === 'accept') {
@@ -121,6 +122,7 @@ class Connection extends Model
                 $msg = 'Your Connection Request Accepted';
 
                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
+                Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION);
 
@@ -133,7 +135,7 @@ class Connection extends Model
                 $msg = 'Your Connection Request Accepted';
 
                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
-
+                Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION);
 
             }

@@ -1289,7 +1289,7 @@ class Assessment extends Model
                                         $deviceToken = $user['device_token'];
 
                                         event(new NewDailyTip($user['id'], 'new daily tip', $message));
-
+                                        Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
                                         Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
 
                                     }
