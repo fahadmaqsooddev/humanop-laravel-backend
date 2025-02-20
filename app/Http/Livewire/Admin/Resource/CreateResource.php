@@ -89,6 +89,7 @@ class CreateResource extends Component
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
+Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true');
                     Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION);
 
                 }

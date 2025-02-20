@@ -224,7 +224,7 @@ return [
             'fillable' => ['title', 'description','code','user_id','is_read', 'text','subscription_type','min_point','max_point','interval_of_life'],
             'hidden' => ['created_at','updated_at']
         ],
-        
+
         'RoleTemplate'=>[
             'table'=>'role_templates',
             'fillable' => ['code','min_point','max_point','role_name'],
@@ -462,7 +462,7 @@ return [
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id','email','link'],
+            'fillable' => ['id','email','link','role'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [
@@ -483,6 +483,11 @@ return [
         'Notification' => [
             'table' => 'notifications',
             'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority'],
+            'hidden' => ['updated_at','deleted_at'],
+        ],
+        'LlmModel' => [
+            'table' => 'llm_models',
+            'fillable' => ['model_name','model_value'],
             'hidden' => ['updated_at','deleted_at'],
         ],
     ]

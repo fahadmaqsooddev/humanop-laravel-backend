@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Setting;
+namespace App\Http\Livewire\B2b\RoleTemplates;
 
 use Livewire\Component;
 use App\Helpers\Helpers;
@@ -294,7 +294,7 @@ public $tagInput = '';
     }
     public function render()
     {
-        return view('livewire.admin.setting.role-template-create-form');
+        return view('livewire.b2b.role-templates.role-template-create-form');
     }
    
 }

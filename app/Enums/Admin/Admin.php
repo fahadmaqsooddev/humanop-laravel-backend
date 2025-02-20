@@ -10,15 +10,19 @@ final class Admin
 
     const IS_CUSTOMER = 2;
 
+    const SUB_ADMIN = 3;
+
+    const IS_PRACTITIONER = 4;
+
+    const IS_B2B = 5;
+
+    const IS_B2U = 6;
+
     const IS_MALE = 0;
 
     const IS_FEMALE = 1;
 
     const IS_BOTH = 2;
-
-    const SUB_ADMIN = 3;
-
-    const IS_PRACTITIONER = 4;
 
     const HAI_CHAT_HIDE = 2;
 
@@ -79,4 +83,8 @@ final class Admin
     const MESSAGE_SEND_NOTIFICATION = 9;
 
     const NEW_MESSAGE_NOTIFICATION = 10;
+
+    const CLIENT_INVITE_ROLE = 1;
+
+    const B2B_INVITE_ROLE = 2;
 }
