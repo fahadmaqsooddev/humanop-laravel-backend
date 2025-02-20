@@ -32,4 +32,8 @@ class AnalyticsModel extends Model
             'llm_model_id' => $modelId,
         ]);
     }
+    public static function getData($model_type=null){
+        $model_id = LlmModel::where('model_value', $model_type)->value('id');
+        return self::where('llm_model_id', $model_id)->get();
+    }
 }
