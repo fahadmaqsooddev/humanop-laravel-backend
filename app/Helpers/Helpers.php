@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Enums\Admin\Admin;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -12,17 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use App\Models\Client\Plan\Plan;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use PhpOffice\PhpWord\Writer\PDF\DomPDF;
-use Smalot\PdfParser\Parser;
 use Spatie\PdfToText\Pdf;
-use Stripe\BaseStripeClient;
-use Stripe\Stripe;
 use Stripe\StripeClient;
 use App\Models\User;
-use App\Services\TwilioServices\TwilioServices;
 use GuzzleHttp\Client;
 
 class Helpers
