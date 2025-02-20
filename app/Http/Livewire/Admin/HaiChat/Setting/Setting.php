@@ -42,12 +42,14 @@ class Setting extends Component
 
         $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
 
-        $model_id = match((int)$this->model_type){
-            1 => 'gpt-4o-mini',
-            2 => 'gpt-4o',
-            3 => 'sonnet',
-            4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
-        };
+        $model_value = LlmModel::singleModelFromValue($this->model_type);
+
+//        $model_id = match((int)$this->model_type){
+//            1 => 'gpt-4o-mini',
+//            2 => 'gpt-4o',
+//            3 => 'sonnet',
+//            4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
+//        };
 
         $body = [
             'temperature' => $this->temperature,
@@ -55,7 +57,7 @@ class Setting extends Component
             'file_name' => $active_embedding_ids,
             'prompt_folder' => $this->bot_name,
             'total_chunks' => $this->chunk,
-            'gpt_model' => $model_id,
+            'gpt_model' => $model_value['id'] ?? null,
         ];
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
