@@ -224,7 +224,7 @@ return [
             'fillable' => ['title', 'description','code','user_id','is_read', 'text','subscription_type','min_point','max_point','interval_of_life'],
             'hidden' => ['created_at','updated_at']
         ],
-        
+
         'RoleTemplate'=>[
             'table'=>'role_templates',
             'fillable' => ['code','min_point','max_point','role_name'],
@@ -485,10 +485,10 @@ return [
             'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority'],
             'hidden' => ['updated_at','deleted_at'],
         ],
-        'KnowledgeBase' => [
-            'table' => 'knowledge_base',
-            'fillable' => ['content','embedding','embedding_id','pine_cone_id'],
-            'hidden' => ['updated_at','created_at']
-        ]
+        'LlmModel' => [
+            'table' => 'llm_models',
+            'fillable' => ['model_name','model_value'],
+            'hidden' => ['updated_at','deleted_at'],
+        ],
     ]
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\Admin\Admin;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -322,14 +323,12 @@ class Helpers
     public static function getVideo($video, $is_original_name = 0, $sourceUrl = null, $embedLink = null)
     {
 
-        if (!empty($sourceUrl))
-        {
+        if (!empty($sourceUrl)) {
             return array('path' => $sourceUrl, 'original_name' => $sourceUrl);
 
         }
 
-        if (!empty($embedLink))
-        {
+        if (!empty($embedLink)) {
             return array('path' => $embedLink, 'original_name' => $embedLink);
 
         }
@@ -415,8 +414,7 @@ class Helpers
 
         $eveningStart = Carbon::createFromTimeString('05:00 PM');
 
-        if (count($stylesAndDrivers) > 2)
-        {
+        if (count($stylesAndDrivers) > 2) {
             if ($currentTime->between($morningStart, $morningEnd)) {
 
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
@@ -430,9 +428,7 @@ class Helpers
                 $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
             }
-        }
-        else
-        {
+        } else {
             if ($currentTime->between($morningStart, $morningEnd)) {
 
                 $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
@@ -510,15 +506,16 @@ class Helpers
 //        }
 //    }
 
-    public static function stringFromPdfOrTextFile($file){
+    public static function stringFromPdfOrTextFile($file)
+    {
 
-        if ($file->extension() === 'txt'){
+        if ($file->extension() === 'txt') {
 
             $text = file_get_contents($file->getRealPath());
 
-            return str_split($text,3000);
+            return str_split($text, 3000);
 
-        }else{
+        } else {
 
             $text = Pdf::getText($file->getRealPath());
 
@@ -532,7 +529,7 @@ class Helpers
 //
 //            $new = preg_replace('/([a-z])([A-Z])/s','$1 $2', $text);
 
-            return str_split($text,3000);
+            return str_split($text, 3000);
 
         }
 
@@ -544,7 +541,7 @@ class Helpers
         $client = new Client();
 
         $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
-            'body' => '{"identity":{"external_id":"'. $userId.'"}}',
+            'body' => '{"identity":{"external_id":"' . $userId . '"}}',
             'headers' => [
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
@@ -590,54 +587,54 @@ class Helpers
     // }
 
     public static function OneSignalApiUsed($userId = null, $heading = null, $message = null, $all = null)
-{
-    $client = new Client();
+    {
+        $client = new Client();
 
-    $headers = [
-        'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
-        'accept' => 'application/json',
-        'content-type' => 'application/json',
-    ];
+        $headers = [
+            'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
+            'accept' => 'application/json',
+            'content-type' => 'application/json',
+        ];
 
-    if ($all === true) {
-        // Send notification to all users
-        $body = json_encode([
-            'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
-            'contents' => ['en' => $message],
-            'headings' => ['en' => $heading],
-            'included_segments' => ['All']
-        ]);
+        if ($all === true) {
+            // Send notification to all users
+            $body = json_encode([
+                'app_id' => Admin::IS_B2U,
+                'contents' => ['en' => $message],
+                'headings' => ['en' => $heading],
+                'included_segments' => ['All']
+            ]);
 
-        $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
-            'body' => $body,
-            'headers' => $headers,
-        ]);
+            $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
+                'body' => $body,
+                'headers' => $headers,
+            ]);
 
-    } else {
-        // Fetch user-specific subscriptions
-        $response = $client->request('GET', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users/by/external_id/' . $userId, [
-            'headers' => $headers,
-        ]);
+        } else {
+            // Fetch user-specific subscriptions
+            $response = $client->request('GET', 'https://api.onesignal.com/apps/'. Admin::IS_B2U .'/users/by/external_id/' . $userId, [
+                'headers' => $headers,
+            ]);
 
-        $response_body = json_decode($response->getBody()->getContents(), true);
+            $response_body = json_decode($response->getBody()->getContents(), true);
 
-        if (!empty($response_body['subscriptions'])) {
-            foreach ($response_body['subscriptions'] as $responseId) {
-                $body = json_encode([
-                    'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
-                    'contents' => ['en' => $message],
-                    'headings' => ['en' => $heading],
-                    'include_player_ids' => [$responseId['id']]
-                ]);
+            if (!empty($response_body['subscriptions'])) {
+                foreach ($response_body['subscriptions'] as $responseId) {
+                    $body = json_encode([
+                        'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
+                        'contents' => ['en' => $message],
+                        'headings' => ['en' => $heading],
+                        'include_player_ids' => [$responseId['id']]
+                    ]);
 
-                $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
-                    'body' => $body,
-                    'headers' => $headers,
-                ]);
+                    $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
+                        'body' => $body,
+                        'headers' => $headers,
+                    ]);
+                }
             }
         }
     }
-}
 
 }
 
