@@ -41,7 +41,7 @@
           
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
-                                    onclick="copyToClipboard('{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
+                                    onclick="copyToClipboard('{{ config('client_url.b2b_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>

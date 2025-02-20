@@ -543,7 +543,8 @@ class Helpers
 
         $client = new Client();
 
-        $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
+        // $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
+        $response = $client->request('POST', 'https://api.onesignal.com/apps/'.config('oneSignal.app_id').'/users', [
             'body' => '{"identity":{"external_id":"'. $userId.'"}}',
             'headers' => [
                 'accept' => 'application/json',
@@ -594,7 +595,8 @@ class Helpers
     $client = new Client();
 
     $headers = [
-        'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
+        // 'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
+        'Authorization' => 'Key ' . config('oneSignal.auth_key'),
         'accept' => 'application/json',
         'content-type' => 'application/json',
     ];
@@ -602,7 +604,8 @@ class Helpers
     if ($all === true) {
         // Send notification to all users
         $body = json_encode([
-            'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
+            // 'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
+            'app_id' => config('oneSignal.app_id'),
             'contents' => ['en' => $message],
             'headings' => ['en' => $heading],
             'included_segments' => ['All']
@@ -615,7 +618,7 @@ class Helpers
 
     } else {
         // Fetch user-specific subscriptions
-        $response = $client->request('GET', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users/by/external_id/' . $userId, [
+        $response = $client->request('GET', 'https://api.onesignal.com/apps/'.config('oneSignal.app_id').'/users/by/external_id/' . $userId, [
             'headers' => $headers,
         ]);
 
@@ -624,7 +627,8 @@ class Helpers
         if (!empty($response_body['subscriptions'])) {
             foreach ($response_body['subscriptions'] as $responseId) {
                 $body = json_encode([
-                    'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
+                    // 'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
+                    'app_id' => config('oneSignal.app_id'),
                     'contents' => ['en' => $message],
                     'headings' => ['en' => $heading],
                     'include_player_ids' => [$responseId['id']]

@@ -191,7 +191,11 @@ class Follow extends Model
 
                 self::create($data);
 
-                $msg='Follow Request is send';
+                // $msg='';
+                $msg = (Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name) 
+                ?? (Helpers::getWebUser()?->first_name . ' ' . Helpers::getWebUser()?->last_name) 
+                . ' has Started Following You';
+            
 
                 event(new FollowRequest($data['follow_id'],'Follow Request',$msg));
                 Helpers::OneSignalApiUsed($data['follow_id'],'Follow Request',$msg);
@@ -203,7 +207,11 @@ class Follow extends Model
 
             self::where('follow_id', $data['follow_id'])->where('user_id', $data['user_id'])->delete();
 
-            $msg='Unfollow Request is send';
+            // $msg='Unfollow Request is send';
+
+            $msg = (Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name) 
+                ?? (Helpers::getWebUser()?->first_name . ' ' . Helpers::getWebUser()?->last_name) 
+                . ' has  Un-Following You';
 
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
             Helpers::OneSignalApiUsed($data['follow_id'],'Un-Follow Request',$msg);
