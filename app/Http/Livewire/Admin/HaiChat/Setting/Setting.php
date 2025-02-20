@@ -6,6 +6,7 @@ use App\Models\Client\Plan\Plan;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
@@ -13,7 +14,7 @@ use Livewire\Component;
 class Setting extends Component
 {
     public $chatSetting, $temperature, $max_token, $chunk, $model_type, $bot_name, $chat_bot_id, $plans, $plan_id, $is_published;
-
+    public $modelTypes;
     public function getSetting()
     {
         $this->chatSetting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
@@ -90,10 +91,16 @@ class Setting extends Component
         return $response_body;
     }
 
+  
+
+
     public function render()
     {
         $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
+
+        $this->modelTypes= LlmModel::GetModels();
+        // dd($this->modelTypes);
         $this->chat_bot_id = $chatBot->id ?? null;
 
         $this->is_published = $chatBot->is_published ?? 0;

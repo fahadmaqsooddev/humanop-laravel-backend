@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models\HAIChai;
+namespace App\Models\HaiChai;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LlmModel extends Model
+class AnalyticsModel extends Model
 {
     use HasFactory;
-
     public function __construct(array $attributes = array())
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -17,17 +16,8 @@ class LlmModel extends Model
         parent::__construct($attributes);
     }
 
-    public static function createModel($data = null)
+    public function llmModel()
     {
-        return self::create($data);
-    }
-
-    public static function GetModels(){
-        return self::all();
-    }
-
-    public function Analytics()
-    {
-        return $this->hasMany(Analytics::class, 'llm_model_id');
+        return $this->belongsTo(LlmModel::class, 'llm_model_id');
     }
 }
