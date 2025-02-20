@@ -91,13 +91,16 @@ class Setting extends Component
         return $response_body;
     }
 
-  
+
 
 
     public function render()
     {
         $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
+        $getHaiSetting = HaiChatSetting::getHaiChatSetting($chatBot['id']);
+
+        $model_value = LlmModel::singleModel($getHaiSetting['model_type']);
 
         $this->modelTypes= LlmModel::GetModels();
         // dd($this->modelTypes);
@@ -112,7 +115,7 @@ class Setting extends Component
         $this->temperature = $this->chatSetting['temperature'] ?? 0.1;
         $this->max_token = $this->chatSetting['max_token'] ?? 500;
         $this->chunk = $this->chatSetting['chunk'] ?? 10;
-        $this->model_type = $this->chatSetting['model_type'] ?? 1;
+        $this->model_type = $model_value ? $model_value['model_value'] : null;
         $this->plan_id = $this->chatSetting['plan_id'] ?? null;
 
         return view('livewire.admin.hai-chat.setting.setting', ['chatSetting' => $this->chatSetting]);

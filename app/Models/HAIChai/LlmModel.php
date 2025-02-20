@@ -23,7 +23,13 @@ class LlmModel extends Model
     }
 
     public static function GetModels(){
+
         return self::all();
+    }
+
+    public static function singleModel($id = null) {
+
+        return self::whereId($id)->first();
     }
 
     public function Analytics()
