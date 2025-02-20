@@ -75,9 +75,9 @@ class Connection extends Model
                 // $msg = 'Connection Request send it';
             
 
-                $msg = (Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name) 
-    ?? (Helpers::getWebUser()?->first_name . ' ' . Helpers::getWebUser()?->last_name) 
-    . ' has Send You a Connection Request';
+    
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name. 
+    ' has Send You a Connection Request';
 
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
@@ -103,9 +103,12 @@ class Connection extends Model
             })->delete();
 
             // $msg = 'Dis-Connect Request send it';
-            $msg = (Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name) 
-    ?? (Helpers::getWebUser()?->first_name . ' ' . Helpers::getWebUser()?->last_name) 
-    . ' has disconnected your request';
+           
+
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name. 
+    ' has disconnected your request';
+
+    
 
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
@@ -134,6 +137,7 @@ class Connection extends Model
                 $friend = User::getSingleUser($data['friend_id']);
                 // $msg = ' Your Connection Request Accepted';
                 $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
+               
                 
 
                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
