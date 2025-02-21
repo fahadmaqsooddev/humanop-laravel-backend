@@ -94,11 +94,8 @@ class CreateResource extends Component
                     event(new NewResource($permission, 'new training & resource', $message));
 
                     foreach ($users as $user) {
-                        $planMapping = [
-                            'Freemium' => 1,
-                            'Core' => 2,
-                            'Premium' => 3
-                        ];
+
+                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
 
                         $userPermission = $planMapping[$user['plan_name']] ?? 4;
 
