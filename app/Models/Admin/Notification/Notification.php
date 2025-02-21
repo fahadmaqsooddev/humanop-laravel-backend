@@ -106,4 +106,9 @@ class Notification extends Model
 
         return $notification->delete();
     }
+
+    public static function notReadNotification()
+    {
+        return self::where('read', 0)->get();
+    }
 }

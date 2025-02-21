@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Enums\Admin\Admin;
+use App\Models\Admin\Notification\Notification;
 use App\Models\Upload\Upload;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -541,8 +542,8 @@ class Helpers
         $client = new Client();
 
         // $response = $client->request('POST', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users', [
-        $response = $client->request('POST', 'https://api.onesignal.com/apps/'.config('oneSignal.app_id').'/users', [
-            'body' => '{"identity":{"external_id":"'. $userId.'"}}',
+        $response = $client->request('POST', 'https://api.onesignal.com/apps/' . config('oneSignal.app_id') . '/users', [
+            'body' => '{"identity":{"external_id":"' . $userId . '"}}',
             'headers' => [
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
@@ -553,87 +554,54 @@ class Helpers
 
     }
 
-    // public static function OneSignalApiUsed($userId = null, $heading = null, $message = null,$all=null)
-    // {
-    //     $client = new Client();
-
-    //     $response = $client->request('GET', 'https://api.onesignal.com/apps/03e1446a-4643-4d93-9d96-823cf1ff8d24/users/by/external_id/' . $userId, [
-    //         'headers' => [
-    //             'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
-    //             'accept' => 'application/json',
-    //         ],
-    //     ]);
-
-    //     $response_body = json_decode($response->getBody()->getContents(), true);
-
-    //     if (!empty($response_body['subscriptions']))
-    //     {
-    //         foreach ($response_body['subscriptions'] as $responseId)
-    //         {
-    //             $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
-    //                 'body' => '{"app_id":"03e1446a-4643-4d93-9d96-823cf1ff8d24","contents":{"en":"' . $message .'"}, "headings":{"en":"' . $heading .'"},"include_player_ids":["' . $responseId['id'] . '"]}',
-    //                 'headers' => [
-    //                     'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
-    //                     'accept' => 'application/json',
-    //                     'content-type' => 'application/json',
-    //                 ],
-    //             ]);
-
-    //             $returnData = json_decode($response->getBody()->getContents(), true);
-
-    //         }
-
-    //     }
-
-    // }
-
     public static function OneSignalApiUsed($userId = null, $heading = null, $message = null, $all = null)
     {
         $client = new Client();
 
-    $headers = [
-        // 'Authorization' => 'Key os_v2_app_apqui2sgingzhhmwqi6pd74nes5prhwtspuuktupl5fxwewqtdcmiimtvf7hcidvmcnhg4pnuikpgd5s7vt2eaydpbdxw6fjsphexma',
-        'Authorization' => 'Key ' . config('oneSignal.auth_key'),
-        'accept' => 'application/json',
-        'content-type' => 'application/json',
-    ];
+        $headers = [
+            'Authorization' => 'Key ' . config('oneSignal.auth_key'),
+            'accept' => 'application/json',
+            'content-type' => 'application/json',
+        ];
 
-    if ($all === true) {
-        // Send notification to all users
-        $body = json_encode([
-            // 'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
-            'app_id' => config('oneSignal.app_id'),
-            'contents' => ['en' => $message],
-            'headings' => ['en' => $heading],
-            'included_segments' => ['All']
-        ]);
+        if ($all === true) {
 
-            $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
+            $body = json_encode([
+                'app_id' => config('oneSignal.app_id'),
+                'contents' => ['en' => $message],
+                'headings' => ['en' => $heading],
+                'included_segments' => ['All']
+            ]);
+
+            $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
                 'body' => $body,
                 'headers' => $headers,
             ]);
 
-    } else {
-        // Fetch user-specific subscriptions
-        $response = $client->request('GET', 'https://api.onesignal.com/apps/'.config('oneSignal.app_id').'/users/by/external_id/' . $userId, [
-            'headers' => $headers,
-        ]);
+        } else {
+            $response = $client->request('GET', 'https://api.onesignal.com/apps/' . config('oneSignal.app_id') . '/users/by/external_id/' . $userId, [
+                'headers' => $headers,
+            ]);
 
             $response_body = json_decode($response->getBody()->getContents(), true);
 
-        if (!empty($response_body['subscriptions'])) {
-            foreach ($response_body['subscriptions'] as $responseId) {
-                $body = json_encode([
-                    // 'app_id' => '03e1446a-4643-4d93-9d96-823cf1ff8d24',
-                    'app_id' => config('oneSignal.app_id'),
-                    'contents' => ['en' => $message],
-                    'headings' => ['en' => $heading],
-                    'include_player_ids' => [$responseId['id']]
-                ]);
+            if (!empty($response_body['subscriptions'])) {
 
-                    $response = $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
+                $notification = Notification::notReadNotification();
+
+                foreach ($response_body['subscriptions'] as $responseId) {
+                    $body = json_encode([
+                        'app_id' => config('oneSignal.app_id'),
+                        'contents' => ['en' => $message],
+                        'headings' => ['en' => $heading],
+                        'include_player_ids' => [$responseId['id']]
+                    ]);
+
+                    $client->request('POST', 'https://api.onesignal.com/notifications?c=push', [
                         'body' => $body,
                         'headers' => $headers,
+                        "ios_badgeType" => "Increase",
+                        "ios_badgeCount" => $notification->count()
                     ]);
                 }
             }

@@ -73,16 +73,15 @@ class Connection extends Model
                 self::create($data);
 
                 // $msg = 'Connection Request send it';
-            
 
-    
-    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name. 
-    ' has Send You a Connection Request';
+
+
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name. ' has Send You a Connection Request';
 
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
-                
-                
+
+
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION);
 
@@ -103,16 +102,16 @@ class Connection extends Model
             })->delete();
 
             // $msg = 'Dis-Connect Request send it';
-           
 
-    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name. 
+
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.
     ' has disconnected your request';
 
-    
+
 
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
-         
+
             Helpers::OneSignalApiUsed($data['friend_id'], 'Dis-Connection Request', $msg);
             Notification::createNotification('connection cancel', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_CANCEL_NOTIFICATION);
 
@@ -137,8 +136,8 @@ class Connection extends Model
                 $friend = User::getSingleUser($data['friend_id']);
                 // $msg = ' Your Connection Request Accepted';
                 $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
-               
-                
+
+
 
                 event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
                 Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
