@@ -3,23 +3,17 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\OpenRouterHelper;
-use App\Models\HAIChai\HaiChatConversation;
 use Livewire\Component;
 use App\Models\HAIChai\LlmModel;
-use App\Models\HAIChai\AnalyticsModel;
-use App\Models\User;
 
 class Comparison extends Component
 {
 
     public $modelTypes = [];
     public $model_value;
- 
- 
     public $selectedModels = [];
     public $val = 2;
     public $maxVal = 4;
-    
     public $message;
     public $modelResponse = [];
 
@@ -30,7 +24,6 @@ class Comparison extends Component
 
     protected $messages = [
         'selectedModels.required' => 'At least one model must be selected.',
-//        'selectedModels.min' => 'At least one model must be selected.',
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query cannot contain more than 2000 characters.',
     ];
@@ -44,9 +37,9 @@ class Comparison extends Component
     }
     public function refreshComponent()
     {
-     
-      $this->model_value = ""; 
-      $this->modelResponse = []; 
+
+      $this->model_value = "";
+      $this->modelResponse = [];
        $this->val = 2;
        $this->selectedModels = [];
     }
@@ -70,8 +63,12 @@ class Comparison extends Component
 
                         if (isset($choice['message']['content'])) {
 
+                            $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
+
+                            $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
+
                             $this->modelResponse[] = [
-                                'model' => $openRouterResponse['model'],
+                                'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
                                 'response' => $choice['message']['content']
                             ];
 
@@ -89,8 +86,6 @@ class Comparison extends Component
     public function render()
     {
         $this->modelTypes = LlmModel::GetModels()->toArray();
-
-      
 
         return view('livewire.admin.hai-chat.setting.comparison');
     }
