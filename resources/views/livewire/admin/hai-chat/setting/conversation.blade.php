@@ -208,9 +208,9 @@
                                                                             <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span>
                                                                             <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
-                                                                    <div class="form-group">
+                                                                    <div class="form-group" wire:ignore>
                                                                         <textarea rows="4" class="form-control text-white mt-2"
-                                                                                  style="background-color: #0f1535"
+                                                                                  style="background-color: #0f1535" id="editor"
                                                                                   wire:model.defer="updated_reply"
                                                                                   placeholder="update answer">
                                                                         </textarea>
@@ -272,6 +272,33 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                CKEDITOR.replace('editor');
+                CKEDITOR.instances.editor.on('change', function () {
+                @this.set('updated_reply', this.getData());
+                });
+            }, 500);
+        });
+
+        document.addEventListener('livewire:load', function () {
+            Livewire.hook('message.processed', (message, component) => {
+                if (CKEDITOR.instances.editor) {
+                    CKEDITOR.instances.editor.destroy();
+                }
+                CKEDITOR.replace('editor');
+                CKEDITOR.instances.editor.on('change', function () {
+                @this.set('updated_reply', this.getData());
+                });
+            });
+        });
+    </script>
+
+
     <script>
       $(".chzn-select").chosen();
       $(".chosen-single").css('background', '#F3DEB4');
