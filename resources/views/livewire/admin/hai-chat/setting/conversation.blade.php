@@ -209,8 +209,8 @@
                                                                             <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group" wire:ignore>
-                                                                        <textarea rows="4" class="form-control text-white mt-2"
-                                                                                  style="background-color: #0f1535" id="editor"
+                                                                        <textarea rows="4" class="form-control text-white mt-2 editor"
+                                                                                  style="background-color: #0f1535"
                                                                                   wire:model.defer="updated_reply"
                                                                                   placeholder="update answer">
                                                                         </textarea>
@@ -273,8 +273,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
+{{-- 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
@@ -296,8 +298,115 @@
                 });
             });
         });
+    </script> --}}
+
+
+    {{-- my --}}
+    <script>
+        function initializeEditors() {
+    document.querySelectorAll('.editor').forEach((element, index) => {
+        // Assign a unique ID if not already assigned
+        if (!element.dataset.ckeditorId) {
+            const uniqueId = 'editor-' + index;
+            element.dataset.ckeditorId = uniqueId;
+            element.setAttribute('id', uniqueId);
+        }
+
+        const editorId = element.dataset.ckeditorId;
+
+        // Destroy existing instance if already initialized
+        if (CKEDITOR.instances[editorId]) {
+            CKEDITOR.instances[editorId].destroy();
+        }
+
+        // Initialize CKEditor
+        CKEDITOR.replace(editorId);
+
+        // Sync CKEditor with Livewire
+        CKEDITOR.instances[editorId].on('change', function () {
+            Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                .set(element.getAttribute('wire:model.defer'), this.getData());
+        });
+    });
+}
+
+// Run when page loads
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        initializeEditors();
+    }, 500);
+});
+
+// Re-initialize CKEditor after Livewire updates the DOM
+document.addEventListener('livewire:load', function () {
+    Livewire.hook('message.processed', (message, component) => {
+        initializeEditors();
+    });
+});
+
     </script>
 
+{{-- 
+<script>
+    function initializeEditors() {
+        document.querySelectorAll('.editor').forEach((element, index) => {
+            // Assign a unique ID if not already assigned
+            if (!element.dataset.ckeditorId) {
+                const uniqueId = 'editor-' + index;
+                element.dataset.ckeditorId = uniqueId;
+                element.setAttribute('id', uniqueId);
+            }
+
+            const editorId = element.dataset.ckeditorId;
+
+            // Destroy existing instance if already initialized
+            if (CKEDITOR.instances[editorId]) {
+                CKEDITOR.instances[editorId].destroy();
+            }
+
+            // Initialize CKEditor with text color and background color options
+            CKEDITOR.replace(editorId, {
+                extraPlugins: 'colorbutton,colordialog',  // Ensure color options are enabled
+                removePlugins: 'elementspath',
+                resize_enabled: false,
+                toolbar: [
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] }, // Add text & background color buttons
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'insert', items: ['Image', 'Link'] },
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'tools', items: ['Maximize', 'Source'] }
+                ]
+            });
+
+            // Sync CKEditor with Livewire
+            CKEDITOR.instances[editorId].on('change', function () {
+                Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                    .set(element.getAttribute('wire:model.defer'), this.getData());
+            });
+        });
+    }
+
+    // Run when page loads
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            initializeEditors();
+        }, 500);
+    });
+
+    // Re-initialize CKEditor after Livewire updates the DOM
+    document.addEventListener('livewire:load', function () {
+        Livewire.hook('message.processed', (message, component) => {
+            initializeEditors();
+        });
+    });
+
+</script>
+ --}}
+
+
+    
 
     <script>
       $(".chzn-select").chosen();
