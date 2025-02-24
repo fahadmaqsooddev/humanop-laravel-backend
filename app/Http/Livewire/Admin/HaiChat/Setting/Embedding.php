@@ -121,6 +121,8 @@ class Embedding extends Component
                     }
                 }
 
+            }else{
+                $this->chunks = [['retrieved_docs' => 'No Data Found']];
             }
 
 //            HaiChaiChunk::checkAndUpdateHaiChunks($aiReply, '',$this->bot_name);
