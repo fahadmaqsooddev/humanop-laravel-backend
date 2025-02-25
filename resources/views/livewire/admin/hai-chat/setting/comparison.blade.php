@@ -14,38 +14,58 @@
                 @include('layouts.message')
                 <div class="col-md-6 ">
                     @if (empty($modelResponse))
-                        @if ($val < $maxVal)
-                            <button wire:click="addMore" class="btn btn-primary mt-3"
-                                    style="background-color:#f2661c; color: white; border-radius: 8px; padding: 10px 20px;">
-                                Add
-                            </button>
-                        @endif
-                    @else
+                    @if ($val < $maxVal)
+                    <button wire:click="addMore" class="btn btn-primary mt-3"
+                            style="background-color:#f2661c; color: white; border-radius: 8px; padding: 10px 20px;">
+                        Add
+                    </button>
+                   @endif
+                   @else
 
-                        <div wire:click="refreshComponent"
-                             style="background-color:#f2661c; color: white; border-radius: 8px;cursor:pointer;width:40px;margin-bottom:10px;">
+                   <div wire:click="refreshComponent" style="background-color:#f2661c; color: white; border-radius: 8px;cursor:pointer;width:40px;margin-bottom:10px;">
                             <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
                         </div>
                     @endif
-
+                    
                 </div>
                 <form wire:submit.prevent="submitForm">
 
                     <div class="row">
                         @if(!empty($modelResponse))
+
+                        {{-- <div class="row d-flex justify-content-end align-items-center">
+                            <div wire:click="refreshComponent" style="background-color:#f2661c;margin-left:20px;border-radius:5px;cursor:pointer;">
+                                <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
+                            </div> --}}
+    
+                         
+                        {{-- </div> --}}
+                        
+
                             @foreach($modelResponse as $response)
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6" style="">
                                     <div class="card bg-dark text-white shadow-sm p-3 mb-3" style="height: 400px;">
-                                        <h4 class="text-bold text-white">
-                                           LLm Model : <span style="margin-left: 27px; color: #f2661c;">{{$response['model']}}</span>
-                                        </h4>
-                                        <div class="card-body" style="height: 330px; overflow-y: auto;">
+                                        <h4 style="margin-left: 27px;color:#f2661c" class="text-bold">{{$response['model']}} Response</h4>
+                                        <div class="card-body">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <p>{{$response['response']}}</p>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
+                                
+<div class="col-md-6">
+    <div class="card bg-dark text-white shadow-sm p-3 mb-3" style="height: 400px;">
+        <h4 style="margin-left: 27px; color: #f2661c;" class="text-bold">
+            {{$response['model']}} Response
+        </h4>
+        <div class="card-body" style="height: 330px; overflow-y: auto;">
+            <div class="d-flex align-items-center justify-content-between">
+                <p>{{$response['response']}}</p>
+            </div>
+        </div>
+    </div>
+</div>
                             @endforeach
                         @else
                             @foreach(array_slice($modelTypes, 0, $val) as $model)
