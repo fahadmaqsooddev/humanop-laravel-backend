@@ -89,7 +89,7 @@
                         <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 14px;">
                          
                             <div style="margin-left: 10px;font-weight: 600;font-size: 20px;margin-top: 5px;margin-bottom:0px;">
-                                <p class="mb-0" style="color: #E05A35;line-height: 20px">Select LLM Model</p>
+                                <p class="mb-0" style="color: #E05A35;line-height: 20px">Select Model</p>
                                 {{-- <p class="mb-0" style="color: #000000;font-size: 14px;font-weight: 400">Online</p> --}}
                             </div>
                         </div>
@@ -101,7 +101,6 @@
                              
                              
                              @foreach($modelTypes as $type)
-                             <option value="">Select LLM Model</option>
      <option value="{{ $type->model_value }}" style="color: black">{{ $type->model_name }}</option>
  @endforeach
                          </select>
@@ -180,7 +179,7 @@
         <th style="color: #f2661c;">Query</th>
         <th style="color: #f2661c;">Prompt Tokens</th>
         <th style="color: #f2661c;">Completion Tokens</th>
-        <th style="color: #f2661c;">Total Tokens</th>
+        <th style="color: #f2661c;">Completion Tokens</th>
     </tr>
     </thead>
     <tbody>
