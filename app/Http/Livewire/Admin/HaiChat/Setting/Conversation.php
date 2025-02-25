@@ -3,17 +3,24 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\OpenRouterHelper;
-use App\Models\HAIChai\AnalyticsModel;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\AssessmentColorCode;
+use App\Models\HAiChai\AnalyticsModel;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\KnowledgeBase\KnowledgeBase;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
