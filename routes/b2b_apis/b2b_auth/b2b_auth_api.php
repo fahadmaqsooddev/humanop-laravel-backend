@@ -14,3 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::post('register-step', 'B2BAuthController@registerStep');
+
+

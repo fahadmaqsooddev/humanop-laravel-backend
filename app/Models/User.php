@@ -1060,4 +1060,26 @@ class User extends Authenticatable implements JWTSubject
         return self::where('is_admin', 2)->get();
     }
 
+
+    public static function createB2BSignup($data = null, $googleId = null, $appleId = null){
+    
+        $user = self::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' =>  Hash::make($data['password']),
+            'is_admin' => Admin::IS_B2B,
+            'google_id' => $googleId,
+            'apple_id' => $appleId,
+            'email_verified_at' => Carbon::now(),
+           'company_name'=>$data['company_name'],
+           'phone'=>$data['phone'],
+            'timezone' => $data['timezone'],
+            'step'=>3,
+            'gender' => ($data['gender'] === 'male') ? 0 : 1,
+        ]);
+
+        return $user;
+    }
+
 }
