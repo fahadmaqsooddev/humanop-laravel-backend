@@ -282,7 +282,7 @@
 {{--                    </div>--}}
 {{--                </div>--}}
                 @livewire('admin.hai-chat.setting.conversation',['name' => $lastSegment])
-                @livewire('admin.hai-chat.setting.analytics',['name' => $lastSegment])
+{{--                @livewire('admin.hai-chat.setting.analytics',['name' => $lastSegment])--}}
                 @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])
 
             </div>
