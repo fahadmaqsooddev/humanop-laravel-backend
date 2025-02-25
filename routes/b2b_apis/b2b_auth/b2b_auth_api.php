@@ -18,4 +18,6 @@ Route::post('b2b-signup', 'B2BAuthController@b2bSignup');
 Route::get('business-strategies', 'B2BAuthController@businessStrategies');
 Route::get('get-business-sub-strategies', 'B2BAuthController@getBusinessSubStrategies');
 
+// Route::post('add-member', 'B2BAuthController@addMember');
+
 

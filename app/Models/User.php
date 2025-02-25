@@ -1075,4 +1075,24 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+
+    public static function addB2BMember($data=null){
+        // dd($data);
+        $user = self::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' =>  Hash::make($data['password']),
+            'phone'=>$data['phone'],
+            'is_admin' => Admin::IS_B2U,
+            'google_id' => $data['google_id'] ?? null,
+            'apple_id' => $data['apple_id'] ?? null,
+            'email_verified_at' => Carbon::now(),
+            'step'=>3,
+            'business_id'=>$data['business_id']
+        ]);
+
+        return $user;
+    }
+
 }

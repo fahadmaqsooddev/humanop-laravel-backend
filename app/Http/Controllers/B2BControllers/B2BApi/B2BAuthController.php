@@ -14,6 +14,7 @@ use App\Models\UserInvite\UserInvite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\RegisterRequest;
+use App\Http\Requests\B2B\AddMemberRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -131,6 +132,94 @@ class B2BAuthController extends Controller
 
         }
     }
+
+
+    // public function addMember(AddMemberRequest $request){
+    //     try{
+
+    //         $user = new User();
+
+    //         $dataArray = $request->only($user->getFillable());
+
+    //         // $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
+    //         $checkeemail = $user->checkEmail($dataArray['email']);
+    //         dd($checkeemail);
+    //         if(!empty($checkeemail)){
+    //             $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+    //              dd($checkDeleteAccount);
+    //             if (!empty($checkDeleteAccount)) {
+    //                 return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+    //             }elseif($checkeemail['business_id'] != null){
+    //                 return Helpers::validationResponse('This email is already associated with a business');
+    //             } else {
+    //                 $checkeemail->update(['business_id' => $request['business_id']]);
+    //                 return Helpers::successResponse('This email is not associated with any business, we add it with you');
+    //             }
+    //         }else{
+    //             $user=$user->addB2BMember($dataArray);
+    //             Helpers::createClientsOnOneSignal($user->id);
+                
+    //             return Helpers::successResponse('User registered successfully', [
+    //                 'authorization' => [
+    //                     // 'user' => $user,
+    //                     'status' => true,
+    //                     'type' => 'bearer',
+    //                     ],
+    //                 ]);
+    //         }
+
+
+    //     }catch (\Exception $exception) {
+
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+
+
+    //     }
+    // }
+
+
+    public function addMember(AddMemberRequest $request)
+    {
+        try {
+            // Get only fillable fields from the request
+            $dataArray = $request->only((new User())->getFillable());
+    
+            // Check if user already exists (including soft deleted users)
+            $checkEmail = User::withTrashed()->where('email', $dataArray['email'])->first();
+    
+            if ($checkEmail) {
+                // If the account is soft deleted, return the "frozen" message
+                if ($checkEmail->trashed()) {
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+                }
+    
+                // Check if already associated with a business
+                if ($checkEmail->business_id) {
+                    return Helpers::validationResponse('This email is already associated with a business.');
+                }
+    
+                // Associate the user with a business
+                $checkEmail->update(['business_id' => $request->business_id]);
+    
+                return Helpers::successResponse('User successfully linked to your business.');
+            }
+    
+            // Register a new user (only if email doesn't exist at all)
+            $user = User::create($dataArray);
+            Helpers::createClientsOnOneSignal($user->id);
+    
+            return Helpers::successResponse('User Linked successfully With Your Business.', [
+                'authorization' => [
+                    'status' => true,
+                    'type' => 'bearer',
+                ],
+            ]);
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+    
+
 
 
 }
