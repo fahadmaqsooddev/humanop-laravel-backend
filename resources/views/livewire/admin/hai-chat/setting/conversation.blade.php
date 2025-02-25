@@ -254,7 +254,7 @@
                     </div>
                     <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
                         <div style="width: 100%">
-                            <input type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
+                            <textarea rows="1" type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px"></textarea>
                         </div>
                         <div style="width: 5%" class="pt-1">
                             <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
@@ -276,7 +276,7 @@
     {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
-{{-- 
+{{--
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
@@ -346,7 +346,7 @@ document.addEventListener('livewire:load', function () {
 
     </script>
 
-{{-- 
+{{--
 <script>
     function initializeEditors() {
         document.querySelectorAll('.editor').forEach((element, index) => {
@@ -406,7 +406,7 @@ document.addEventListener('livewire:load', function () {
  --}}
 
 
-    
+
 
     <script>
       $(".chzn-select").chosen();
@@ -537,6 +537,12 @@ document.addEventListener('livewire:load', function () {
 
             window.livewire.emit('updateUserId', id);
         }
+
+        document.getElementById('userInput').addEventListener('keydown', function (e) {
+            if (e.shiftKey === false && e.key === 'Enter') {
+                $('#submit_btn').click();
+            }
+        });
 
     </script>
 

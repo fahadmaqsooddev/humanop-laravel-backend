@@ -730,7 +730,7 @@ select:focus {
 }
 
 textarea::placeholder{
-    color: white !important;
+    color: black !important;
 }
 
 /*dashboard page media query*/
