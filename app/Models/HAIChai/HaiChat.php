@@ -75,7 +75,7 @@ class HaiChat extends Model
             'user_id' => (Helpers::getWebUser()->id ?? Helpers::getUser()->id),
             'query' => $query,
             'answer' => $reply[0] ?? "",
-            'likedislike' => $reply[1] ?? "",
+            'likedislike' => $reply[1] ?? 3,
             'admin_id' => $admin_id
         ]);
     }
