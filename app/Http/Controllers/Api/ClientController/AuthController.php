@@ -262,13 +262,13 @@ class AuthController extends Controller
 
             $checkUser = User::checkEmail($credentials['email']);
 
-            $userInvite = UserInvite::getSingleInvite($checkUser['email']);
-
             if (empty($checkUser)) {
 
                 return Helpers::validationResponse("These credentials do not match our records.");
 
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
+
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
@@ -280,6 +280,8 @@ class AuthController extends Controller
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
 
             } else if ($checkUser && $checkUser['step'] != 3) {
+
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
