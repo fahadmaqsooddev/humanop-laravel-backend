@@ -79,28 +79,6 @@
         </div>
 
         <div class="row h-100">
-
-        {{--        <!-- Left-side Navigation Tabs -->--}}
-        {{--        <div class="col-md-4 col-12 border-dark">--}}
-        {{--            <ul class="nav nav-tabs flex-column flex-md-row">--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link active" aria-current="page" href="#"--}}
-        {{--                       style="font-size: small;">Active</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link" href="#" style="font-size: small;">Archive</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link" href="#" style="font-size: small;">Unread</a>--}}
-        {{--                </li>--}}
-        {{--                <li class="nav-item">--}}
-        {{--                    <a class="nav-link" href="#" style="font-size: small;">Star</a>--}}
-        {{--                </li>--}}
-        {{--            </ul>--}}
-        {{--        </div>--}}
-
-
-        <!-- Chatbot Conversation Section -->
             <div class="col-md-12 col-12 d-flex flex-column container-fluid"
                  style="height: 85vh;">
                 @include('layouts.message')
@@ -129,22 +107,11 @@
                                      @endforeach
                                     @endif
                                 </select>
-{{--                                <select wire:model="user_id" class="form-control" style="background-color: #F3DEB4;color: #000000;">--}}
-{{--                                    <option value="">Select User</option>--}}
-{{--                                    @if(isset($user_details))--}}
-{{--                                        @foreach($user_details as $user_detail)--}}
-{{--                                            <option value="{{$user_detail['id']}}">{{$user_detail['first_name'] ?? ''}} {{$user_detail['first_name'] ?? ''}}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    @endif--}}
-{{--                                </select>--}}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                             </div>
-                            {{--                        <div class="col-6">--}}
-                            {{--                            <span style="color: #f2661c;" class="text-sm">switching chat...</span>--}}
-                            {{--                        </div>--}}
                         </div>
                     </div>
                 </div>
@@ -245,8 +212,8 @@
                                                                             <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span>
                                                                             <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
-                                                                    <div class="form-group">
-                                                                        <textarea rows="4" class="form-control text-white mt-2"
+                                                                    <div class="form-group" wire:ignore>
+                                                                        <textarea rows="4" class="form-control text-white mt-2 editor"
                                                                                   style="background-color: #0f1535"
                                                                                   wire:model.defer="updated_reply"
                                                                                   placeholder="update answer">
@@ -309,6 +276,142 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
+    <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
+
+{{-- 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                CKEDITOR.replace('editor');
+                CKEDITOR.instances.editor.on('change', function () {
+                @this.set('updated_reply', this.getData());
+                });
+            }, 500);
+        });
+
+        document.addEventListener('livewire:load', function () {
+            Livewire.hook('message.processed', (message, component) => {
+                if (CKEDITOR.instances.editor) {
+                    CKEDITOR.instances.editor.destroy();
+                }
+                CKEDITOR.replace('editor');
+                CKEDITOR.instances.editor.on('change', function () {
+                @this.set('updated_reply', this.getData());
+                });
+            });
+        });
+    </script> --}}
+
+
+    {{-- my --}}
+    <script>
+        function initializeEditors() {
+    document.querySelectorAll('.editor').forEach((element, index) => {
+        // Assign a unique ID if not already assigned
+        if (!element.dataset.ckeditorId) {
+            const uniqueId = 'editor-' + index;
+            element.dataset.ckeditorId = uniqueId;
+            element.setAttribute('id', uniqueId);
+        }
+
+        const editorId = element.dataset.ckeditorId;
+
+        // Destroy existing instance if already initialized
+        if (CKEDITOR.instances[editorId]) {
+            CKEDITOR.instances[editorId].destroy();
+        }
+
+        // Initialize CKEditor
+        CKEDITOR.replace(editorId);
+
+        // Sync CKEditor with Livewire
+        CKEDITOR.instances[editorId].on('change', function () {
+            Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                .set(element.getAttribute('wire:model.defer'), this.getData());
+        });
+    });
+}
+
+// Run when page loads
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        initializeEditors();
+    }, 500);
+});
+
+// Re-initialize CKEditor after Livewire updates the DOM
+document.addEventListener('livewire:load', function () {
+    Livewire.hook('message.processed', (message, component) => {
+        initializeEditors();
+    });
+});
+
+    </script>
+
+{{-- 
+<script>
+    function initializeEditors() {
+        document.querySelectorAll('.editor').forEach((element, index) => {
+            // Assign a unique ID if not already assigned
+            if (!element.dataset.ckeditorId) {
+                const uniqueId = 'editor-' + index;
+                element.dataset.ckeditorId = uniqueId;
+                element.setAttribute('id', uniqueId);
+            }
+
+            const editorId = element.dataset.ckeditorId;
+
+            // Destroy existing instance if already initialized
+            if (CKEDITOR.instances[editorId]) {
+                CKEDITOR.instances[editorId].destroy();
+            }
+
+            // Initialize CKEditor with text color and background color options
+            CKEDITOR.replace(editorId, {
+                extraPlugins: 'colorbutton,colordialog',  // Ensure color options are enabled
+                removePlugins: 'elementspath',
+                resize_enabled: false,
+                toolbar: [
+                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] }, // Add text & background color buttons
+                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
+                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+                    { name: 'insert', items: ['Image', 'Link'] },
+                    { name: 'clipboard', items: ['Undo', 'Redo'] },
+                    { name: 'tools', items: ['Maximize', 'Source'] }
+                ]
+            });
+
+            // Sync CKEditor with Livewire
+            CKEDITOR.instances[editorId].on('change', function () {
+                Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                    .set(element.getAttribute('wire:model.defer'), this.getData());
+            });
+        });
+    }
+
+    // Run when page loads
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            initializeEditors();
+        }, 500);
+    });
+
+    // Re-initialize CKEditor after Livewire updates the DOM
+    document.addEventListener('livewire:load', function () {
+        Livewire.hook('message.processed', (message, component) => {
+            initializeEditors();
+        });
+    });
+
+</script>
+ --}}
+
+
+    
+
     <script>
       $(".chzn-select").chosen();
       $(".chosen-single").css('background', '#F3DEB4');

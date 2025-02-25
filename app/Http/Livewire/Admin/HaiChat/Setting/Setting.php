@@ -6,6 +6,7 @@ use App\Models\Client\Plan\Plan;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
@@ -13,7 +14,7 @@ use Livewire\Component;
 class Setting extends Component
 {
     public $chatSetting, $temperature, $max_token, $chunk, $model_type, $bot_name, $chat_bot_id, $plans, $plan_id, $is_published;
-
+    public $modelTypes;
     public function getSetting()
     {
         $this->chatSetting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
@@ -41,12 +42,14 @@ class Setting extends Component
 
         $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($this->bot_name);
 
-        $model_id = match((int)$this->model_type){
-            1 => 'gpt-4o-mini',
-            2 => 'gpt-4o',
-            3 => 'sonnet',
-            4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
-        };
+        $model_value = LlmModel::singleModelFromValue($this->model_type);
+
+//        $model_id = match((int)$this->model_type){
+//            1 => 'gpt-4o-mini',
+//            2 => 'gpt-4o',
+//            3 => 'sonnet',
+//            4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',
+//        };
 
         $body = [
             'temperature' => $this->temperature,
@@ -54,7 +57,7 @@ class Setting extends Component
             'file_name' => $active_embedding_ids,
             'prompt_folder' => $this->bot_name,
             'total_chunks' => $this->chunk,
-            'gpt_model' => $model_id,
+            'gpt_model' => $model_value['id'] ?? null,
         ];
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
@@ -90,10 +93,19 @@ class Setting extends Component
         return $response_body;
     }
 
+
+
+
     public function render()
     {
         $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
+        $getHaiSetting = HaiChatSetting::getHaiChatSetting($chatBot['id']);
+
+        $model_value = LlmModel::singleModel($getHaiSetting['model_type']);
+
+        $this->modelTypes= LlmModel::GetModels();
+        // dd($this->modelTypes);
         $this->chat_bot_id = $chatBot->id ?? null;
 
         $this->is_published = $chatBot->is_published ?? 0;
@@ -105,7 +117,7 @@ class Setting extends Component
         $this->temperature = $this->chatSetting['temperature'] ?? 0.1;
         $this->max_token = $this->chatSetting['max_token'] ?? 500;
         $this->chunk = $this->chatSetting['chunk'] ?? 10;
-        $this->model_type = $this->chatSetting['model_type'] ?? 1;
+        $this->model_type = $model_value ? $model_value['model_value'] : null;
         $this->plan_id = $this->chatSetting['plan_id'] ?? null;
 
         return view('livewire.admin.hai-chat.setting.setting', ['chatSetting' => $this->chatSetting]);

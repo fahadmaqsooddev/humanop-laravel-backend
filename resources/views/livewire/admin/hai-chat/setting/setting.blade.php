@@ -19,6 +19,9 @@
     </style>
 
 @endpush
+
+
+
 <div class="card card-bg-white-orange-border mt-4" id="setting">
     <div class="card-header">
         <div>
@@ -86,10 +89,12 @@
                                    class="form-label fw-bold text-orange">LLM Models</label>
                             <select class="form-control input-bg"
                                     wire:model.defer="model_type">
-                                <option value="1">gpt-4o-mini</option>
-                                <option value="2">gpt-4o</option>
-                                <option value="4">gpt-4o-fine-tuned</option>
-                                <option value="3">Claude 3.5 Sonnet</option>
+                                
+                                
+                                @foreach($modelTypes as $type)
+                                    <option value="{{ $type->model_value }}"
+                                            style="color: black">{{ $type->model_name }}</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -114,9 +119,10 @@
                             </button>
                             @if($is_published)
 
-                                <button style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey !important; cursor: default;"
-                                        type="button"
-                                        class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
+                                <button
+                                    style="padding: 10px 16px 10px 16px; border-radius: 7px; background-color: grey !important; cursor: default;"
+                                    type="button"
+                                    class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
                                     PUBLISHED
                                 </button>
 

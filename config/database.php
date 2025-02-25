@@ -490,5 +490,10 @@ return [
             'fillable' => ['model_name','model_value'],
             'hidden' => ['updated_at','deleted_at'],
         ],
+        'AnalyticsModel' => [
+            'table' => 'analytics',
+            'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
+            'hidden' => ['updated_at','deleted_at'],
+        ],
     ]
 ];

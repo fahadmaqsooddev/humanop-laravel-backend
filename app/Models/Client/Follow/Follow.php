@@ -210,7 +210,7 @@ class Follow extends Model
             // $msg='Unfollow Request is send';
 
             $msg = Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name
-                . ' has Un-Following You';
+                . ' has Un-Followed You';
 
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
             Helpers::OneSignalApiUsed($data['follow_id'],'Un-Follow Request',$msg);

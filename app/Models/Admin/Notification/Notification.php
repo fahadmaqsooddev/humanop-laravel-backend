@@ -100,6 +100,11 @@ class Notification extends Model
         return self::whereId($notificationId)->update(['read' => 1]);
     }
 
+    public static function notReadNotification()
+    {
+        return self::where('read', 0)->get();
+    }
+
     public static function deleteNotification($id = null)
     {
         $notification = self::whereId($id)->first();

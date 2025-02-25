@@ -4,8 +4,10 @@ namespace App\Http\Livewire\Admin\Resource;
 
 use App\Enums\Admin\Admin;
 use App\Events\Resource\NewResource;
+use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -19,11 +21,12 @@ use App\Models\Admin\Resources\PermissionResource;
 class CreateResource extends Component
 {
     use WithFileUploads;
+
     public $booleanValue = false;
 
-    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name,$link;
+    public $resourceId, $current_category, $resourceSlug, $heading, $description, $update_content, $content, $resource_file, $category_id, $permission = [], $editResourceData, $category_name, $link;
 
-    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory','fileChanged'];
+    protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
 
     protected $rules = [
@@ -58,11 +61,11 @@ class CreateResource extends Component
     }
 
     public function handleFileChange()
-{
+    {
 
         $this->booleanValue = true;
 
-}
+    }
 
     public function CreateResource()
     {
@@ -75,7 +78,7 @@ class CreateResource extends Component
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content,$this->link);
+            $resource = LibraryResource::createResource($this->heading, $upload_id, $this->category_id, $this->description, $this->content, $this->link);
 
             $this->uploadFileToGumlet($this->resource_file, $resource['id']);
 
@@ -84,14 +87,25 @@ class CreateResource extends Component
             if (!empty($resource)) {
 
                 foreach ($this->permission as $permission) {
-
+                    $users = User::getAllClientUser();
+                    $isAllPermission = ($permission == 4);
                     $message = 'Your New Training & Resource';
 
                     event(new NewResource($permission, 'new training & resource', $message));
 
-Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true');
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION);
+                    foreach ($users as $user) {
 
+                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
+
+                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
+
+                        if ($isAllPermission || $userPermission == $permission) {
+                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
+                        }
+                    }
+
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION
+                    );
                 }
 
             }
@@ -119,13 +133,13 @@ Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true
         $this->resource_file = null;
 
     }
+
     public function getResourceFile()
     {
         $this->booleanValue = false;
         $this->link = null;
 
-     }
-
+    }
 
 
     public function deleteResource($id, $slug)
@@ -170,7 +184,7 @@ Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true
         $this->booleanValue = false;
 
 
-        $this->reset(['heading', 'resource_file', 'permission', 'resource_file','link','description','content']);
+        $this->reset(['heading', 'resource_file', 'permission', 'resource_file', 'link', 'description', 'content']);
     }
 
     public function handleRefreshQuery()
@@ -240,7 +254,7 @@ Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true
         // dd($this->resource_file);
         DB::beginTransaction();
 
-        $this->validate(['heading' => 'required', 'category_id' => 'required','link'=>'nullable','description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
+        $this->validate(['heading' => 'required', 'category_id' => 'required', 'link' => 'nullable', 'description' => 'nullable|max:1000', 'update_content' => 'nullable', 'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mpeg,mp3,mp4,wav|max:204800']);
 
         if (!empty($this->resource_file) && in_array($this->resource_file->extension(), ['mp4'])) {
 
@@ -250,7 +264,7 @@ Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
+            $updateResource = LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
 
             tap($updateResource);
 
@@ -261,7 +275,7 @@ Helpers::OneSignalApiUsed($permission, 'new training & resource', $message,'true
 
             $upload_id = $this->uploadFile($this->resource_file);
 
-            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content,$this->link);
+            LibraryResource::updateResource($this->heading, $upload_id, $this->resourceId, $this->category_id, $this->description, $this->update_content, $this->link);
 
         }
 

@@ -21,4 +21,24 @@ class LlmModel extends Model
     {
         return self::create($data);
     }
+
+    public static function GetModels(){
+
+        return self::all();
+    }
+
+    public static function singleModel($id = null) {
+
+        return self::whereId($id)->first();
+    }
+
+    public static function singleModelFromValue($value = null) {
+
+        return self::where('model_value', $value)->first();
+    }
+
+    public function Analytics()
+    {
+        return $this->hasMany(AnalyticsModel::class, 'llm_model_id');
+    }
 }

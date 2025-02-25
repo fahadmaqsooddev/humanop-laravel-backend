@@ -82,7 +82,8 @@ class Connection extends Model
 
             }
 
-        } else if ($data['type'] === 'un-connect') {
+        } 
+        else if ($data['type'] === 'un-connect') {
 
             self::where(function ($q) use ($data) {
 
@@ -121,12 +122,17 @@ class Connection extends Model
 
                 $received_request->update(['status' => 1]);
 
-                $friend = User::getSingleUser($data['friend_id']);
+                // $friend = User::getSingleUser($data['friend_id']);
+                // $msg = ' Your Connection Request Accepted';
+                // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
+                $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
+               
+                
 
-                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name . ' Has Accepted Your Request';
+                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
+                // Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
 
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
-
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
 
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION);
@@ -137,12 +143,14 @@ class Connection extends Model
 
                 $send_request->update(['status' => 1]);
 
-                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name . ' Has Accepted Your Request';
-
+                // $msg = 'Your Connection Request Accepted';
+                // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
+                $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
+                // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
+                // Helpers::OneSignalApiUsed($data['user_id'], ' Connection Request Accept', $msg);
+               
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
-
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
-
                 Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION);
 
             }
