@@ -38,6 +38,10 @@
                 color: black !important;
             }
 
+            textarea::placeholder{
+                color: black !important;
+            }
+
         </style>
 
     @endpush

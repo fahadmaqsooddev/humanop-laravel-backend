@@ -61,10 +61,6 @@
           pointer-events: none;
           opacity: 0.4;
       }
-
-      textarea::placeholder{
-          color: black !important;
-      }
       </style>
     @endpush
 <div class="card card-bg-white-orange-border mt-4" id="conversation">
@@ -313,7 +309,7 @@
     {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
-{{-- 
+{{--
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
@@ -383,7 +379,7 @@ document.addEventListener('livewire:load', function () {
 
     </script>
 
-{{-- 
+{{--
 <script>
     function initializeEditors() {
         document.querySelectorAll('.editor').forEach((element, index) => {
@@ -443,7 +439,7 @@ document.addEventListener('livewire:load', function () {
  --}}
 
 
-    
+
 
     <script>
       $(".chzn-select").chosen();
