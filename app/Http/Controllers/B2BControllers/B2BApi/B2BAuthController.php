@@ -24,23 +24,23 @@ class B2BAuthController extends Controller
 
     protected $auth;
 
-    public function __construct()
+    protected $user;
+
+    public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['loginB2b', 'registerStep', 'businessStrategies', 'getBusinessSubStrategies']);
+        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'getBusinessSubStrategies']);
 
         $this->auth = Auth::guard('api');
+
+        $this->user = $user;
     }
 
-
-    public function registerStep(RegisterRequest $request)
+    public function b2bSignup(RegisterRequest $request)
     {
-
 
         try {
 
-            $user = new User();
-
-            $dataArray = $request->only($user->getFillable());
+            $dataArray = $request->only($this->user->getFillable());
 
             $parts = explode(' ', $request->input('full_name'));
 
@@ -48,36 +48,37 @@ class B2BAuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
-
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
             if (!empty($authorizedUser)) {
 
-                $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+                $checkDeleteAccount = $this->user->checkDeleteEmail($dataArray['email']);
 
                 if (!empty($checkDeleteAccount)) {
+
                     return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
                 }
-                $checkUser = $user->checkEmail($dataArray['email']);
 
-                if (empty($checkUser)) {
+                $checkUser = $this->user->checkEmail($dataArray['email']);
 
-                    $user = $user->createB2BSignup($dataArray, $request['google_id'], $request['apple_id']);
+                if (!empty($checkUser))
+                {
+                    return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
+                }else{
 
-                    Helpers::createClientsOnOneSignal($user->id);
+                    $b2b_user = $this->user->createB2BSignup($dataArray);
 
+                    Helpers::createClientsOnOneSignal($b2b_user['id']);
 
                     return Helpers::successResponse('User registered successfully', [
                         'authorization' => [
-                            // 'user' => $user,
+                             'user' => $b2b_user,
                             'status' => true,
                             'type' => 'bearer',
                         ],
                     ]);
-
                 }
-
 
             } else {
 

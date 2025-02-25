@@ -289,7 +289,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
-    
+
 
     // query
     public function isAdmin()
@@ -1063,24 +1063,14 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public static function createB2BSignup($data = null, $googleId = null, $appleId = null){
-    
-        $user = self::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' =>  Hash::make($data['password']),
-            'is_admin' => Admin::IS_B2B,
-            'google_id' => $googleId,
-            'apple_id' => $appleId,
-            'email_verified_at' => Carbon::now(),
-           'company_name'=>$data['company_name'],
-           'phone'=>$data['phone'],
-            'timezone' => $data['timezone'],
-            'step'=>3,
-            'gender' => ($data['gender'] === 'male') ? 0 : 1,
-            'business_sub_stratergy_id'=>$data['business_sub_stratergy_id'],
-        ]);
+    public static function createB2BSignup($data = null){
+
+        $data['step'] = 3;
+        $data['email_verified_at'] = Carbon::now();
+        $data['status'] = 1;
+        $data['is_admin'] = Admin::IS_B2B;
+
+        $user = self::create($data);
 
         return $user;
     }

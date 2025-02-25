@@ -23,40 +23,40 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-        $required = (request()->input('google_id', null) || request()->input('apple_id', null)) ? 'nullable' : 'required';
-        // $requiredDobAndGender = filter_var(request()->input('is_android', true), FILTER_VALIDATE_BOOLEAN) ? 'required' : 'nullable';
+        $required = (request()->input('google_id') || request()->input('apple_id')) ? 'nullable' : 'required';
+
         return [
-                       'full_name' => 'required|string|max:255',
-                        'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
-                        'password' => $required . '|string|min:6',
-                        'gender' => 'required|in:male,female',
-                        'date_of_birth' => 'required|date',
-                        'phone' => 'required|max:25',
-                        'company_name' => 'required|max:50',
-                        'timezone'=>'required',
-                         'business_sub_stratergy_id'=>'required'
-            
-                    ];
+            'full_name' => 'required|string|max:255',
+//            'email' => $required . '|email|unique:users,email,NULL,id,deleted_at,NULL',
+            'password' => $required . '|string|min:6',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
+            'phone' => 'nullable|string|max:25',
+            'company_name' => 'required|string|max:50',
+            'timezone' => 'required|string',
+            'business_sub_stratergy_id' => 'required|integer'
+        ];
     }
 
     public function messages()
     {
         return [
-//            'full_name.required' => 'Full name is required',
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be an valid email',
-            'email.unique' => 'Email is already been taken',
+//            'email.required' => 'Email is required.',
+//            'email.email' => 'Email must be a valid email address.',
+//            'email.unique' => 'This email has already been taken.',
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
             'gender.required' => 'Gender is required.',
             'gender.in' => 'Gender value must be either male or female.',
             'date_of_birth.required' => 'Date of birth is required.',
             'date_of_birth.date' => 'Date of birth must be a valid date.',
-            'phone.required' => 'Phone number required.',
             'phone.max' => 'Phone number cannot exceed 25 characters.',
+            'company_name.required' => 'Company Name is required.',
             'company_name.max' => 'Company Name cannot exceed 50 characters.',
-            'timezone.required'=>'Timezone is required.',
-            'business_sub_stratergy_id.required'=>'Business Stratergy is required.'
+            'timezone.required' => 'Timezone is required.',
+            'business_sub_stratergy_id.required' => 'Business Strategy is required.',
+            'business_sub_stratergy_id.integer' => 'Business Strategy ID must be an integer.'
         ];
     }
+
 }
