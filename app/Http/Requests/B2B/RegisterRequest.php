@@ -34,6 +34,7 @@ class RegisterRequest extends FormRequest
                         'phone' => 'required|max:25',
                         'company_name' => 'required|max:50',
                         'timezone'=>'required',
+                         'business_sub_stratergy_id'=>'required'
             
                     ];
     }
@@ -55,6 +56,7 @@ class RegisterRequest extends FormRequest
             'phone.max' => 'Phone number cannot exceed 25 characters.',
             'company_name.max' => 'Company Name cannot exceed 50 characters.',
             'timezone.required'=>'Timezone is required.',
+            'business_sub_stratergy_id.required'=>'Business Stratergy is required.'
         ];
     }
 }

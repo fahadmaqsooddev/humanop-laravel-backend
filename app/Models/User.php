@@ -289,6 +289,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
+    
+
     // query
     public function isAdmin()
     {
@@ -1077,6 +1079,7 @@ class User extends Authenticatable implements JWTSubject
             'timezone' => $data['timezone'],
             'step'=>3,
             'gender' => ($data['gender'] === 'male') ? 0 : 1,
+            'business_sub_stratergy_id'=>$data['business_sub_stratergy_id'],
         ]);
 
         return $user;
