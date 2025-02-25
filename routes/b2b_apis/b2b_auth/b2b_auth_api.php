@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('register-step', 'B2BAuthController@registerStep');
+Route::get('business-strategies', 'B2BAuthController@businessStrategies');
+Route::get('get-business-sub-strategies', 'B2BAuthController@getBusinessSubStrategies');
 
 
