@@ -61,6 +61,10 @@
           pointer-events: none;
           opacity: 0.4;
       }
+
+      textarea::placeholder{
+          color: black !important;
+      }
       </style>
     @endpush
 <div class="card card-bg-white-orange-border mt-4" id="conversation">
@@ -287,11 +291,11 @@
                     </div>
                     <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
                         <div style="width: 100%">
-                            <input type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px">
+                            <textarea placeholder="Your message....." rows="1" type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px"></textarea>
                         </div>
                         <div style="width: 5%" class="pt-1">
                             <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
-                                <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25" >
+                                <img src="{{asset('assets\img\icons\mynaui_send-solid.png')}}"  width="25" height="25">
                             </button>
                         </div>
                     </div>
@@ -434,6 +438,12 @@
 
             window.livewire.emit('updateUserId', id);
         }
+
+        document.getElementById('userInput').addEventListener('keydown', function (e) {
+            if (e.shiftKey === false && e.key === 'Enter') {
+                $('#submit_btn').click();
+            }
+        });
 
     </script>
 
