@@ -25,22 +25,24 @@ class AddMemberRequest extends FormRequest
     {
         return [
             'first_name' => 'required|string|max:255',
-            'last_name'=>'required|string|max:255',
-                        'email' => 'required|email',
-                        'password' =>  'required|string|min:6',
-                     'phone'=>'required'     
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+            'phone' => 'required'
         ];
     }
-    public function messages(){
+
+    public function messages()
+    {
         return [
             'first_name.required' => 'First name is required',
             'last_name.required' => 'Last name is required',
             'email.required' => 'Email is required',
             'email.email' => 'Email must be a valid email',
-            
+
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
             'phone.required' => 'Phone number is required'
-        ];  // TODO: Add custom error messages for each validation rule.
+        ];
     }
 }
