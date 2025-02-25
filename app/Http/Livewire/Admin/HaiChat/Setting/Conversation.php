@@ -7,7 +7,7 @@ use App\Helpers\HaiChat\HaiChatHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\AssessmentColorCode;
-use App\Models\HAiChai\AnalyticsModel;
+use App\Models\HaiChai\AnalyticsModel;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -92,7 +92,7 @@ class Conversation extends Component
                 {
 
                     HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
-
+                    
                 }
 
                 AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
