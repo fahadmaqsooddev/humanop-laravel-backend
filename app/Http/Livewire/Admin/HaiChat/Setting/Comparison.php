@@ -14,12 +14,12 @@ class Comparison extends Component
 
     public $modelTypes = [];
     public $model_value;
- 
- 
+    public $user_details;
+    public $user_id;
     public $selectedModels = [];
     public $val = 2;
     public $maxVal = 4;
-    
+    public $user;
     public $message;
     public $modelResponse = [];
 
@@ -41,14 +41,6 @@ class Comparison extends Component
 
             $this->val++;
         }
-    }
-    public function refreshComponent()
-    {
-     
-      $this->model_value = ""; 
-      $this->modelResponse = []; 
-       $this->val = 2;
-       $this->selectedModels = [];
     }
 
     public function submitForm()
@@ -90,7 +82,7 @@ class Comparison extends Component
     {
         $this->modelTypes = LlmModel::GetModels()->toArray();
 
-      
+        $this->user_details = User::getUserDetailByIds();
 
         return view('livewire.admin.hai-chat.setting.comparison');
     }
