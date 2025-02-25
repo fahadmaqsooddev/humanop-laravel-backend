@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\HAIChai;
+namespace App\Models\HaiChai;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
