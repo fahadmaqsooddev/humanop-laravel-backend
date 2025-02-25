@@ -199,16 +199,16 @@ class AssessmentController extends Controller
     public function submitAnswers(AssessmentSubmitRequest $request)
     {
 
-        try {
+//        try {
 
             $message = Assessment::submitQuestionAnswers($request->input('answer_ids'));
 
             return Helpers::successResponse($message);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
 
     }
 
