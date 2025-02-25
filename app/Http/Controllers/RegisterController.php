@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\OpenRouterHelper;
 use App\Helpers\Practitioner\PractitionerHelpers;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Client\Dashboard\ActionPlan;
@@ -337,6 +336,10 @@ class RegisterController extends Controller
             User::emailVerified($user['id']);
 
             Auth::login($user);
+
+//            DailyTip::updateUserDailyTip();
+
+//            ActionPlan::storeUserActionPlan();
 
             return redirect()->to(PractitionerHelpers::makePractitionerUrl('dashboard'));
 

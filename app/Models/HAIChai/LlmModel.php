@@ -28,6 +28,6 @@ class LlmModel extends Model
 
     public function Analytics()
     {
-        return $this->hasMany(AnalyticsModel::class, 'llm_model_id');
+        return $this->hasMany(Analytics::class, 'llm_model_id');
     }
 }

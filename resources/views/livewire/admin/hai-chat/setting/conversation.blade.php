@@ -79,6 +79,28 @@
         </div>
 
         <div class="row h-100">
+
+        {{--        <!-- Left-side Navigation Tabs -->--}}
+        {{--        <div class="col-md-4 col-12 border-dark">--}}
+        {{--            <ul class="nav nav-tabs flex-column flex-md-row">--}}
+        {{--                <li class="nav-item">--}}
+        {{--                    <a class="nav-link active" aria-current="page" href="#"--}}
+        {{--                       style="font-size: small;">Active</a>--}}
+        {{--                </li>--}}
+        {{--                <li class="nav-item">--}}
+        {{--                    <a class="nav-link" href="#" style="font-size: small;">Archive</a>--}}
+        {{--                </li>--}}
+        {{--                <li class="nav-item">--}}
+        {{--                    <a class="nav-link" href="#" style="font-size: small;">Unread</a>--}}
+        {{--                </li>--}}
+        {{--                <li class="nav-item">--}}
+        {{--                    <a class="nav-link" href="#" style="font-size: small;">Star</a>--}}
+        {{--                </li>--}}
+        {{--            </ul>--}}
+        {{--        </div>--}}
+
+
+        <!-- Chatbot Conversation Section -->
             <div class="col-md-12 col-12 d-flex flex-column container-fluid"
                  style="height: 85vh;">
                 @include('layouts.message')
@@ -107,11 +129,22 @@
                                      @endforeach
                                     @endif
                                 </select>
+{{--                                <select wire:model="user_id" class="form-control" style="background-color: #F3DEB4;color: #000000;">--}}
+{{--                                    <option value="">Select User</option>--}}
+{{--                                    @if(isset($user_details))--}}
+{{--                                        @foreach($user_details as $user_detail)--}}
+{{--                                            <option value="{{$user_detail['id']}}">{{$user_detail['first_name'] ?? ''}} {{$user_detail['first_name'] ?? ''}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
+{{--                                </select>--}}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                             </div>
+                            {{--                        <div class="col-6">--}}
+                            {{--                            <span style="color: #f2661c;" class="text-sm">switching chat...</span>--}}
+                            {{--                        </div>--}}
                         </div>
                     </div>
                 </div>

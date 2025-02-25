@@ -21,7 +21,7 @@ class HaiChatConversation extends Model
     public static function getConversation($chatBot = null, $user_id = null)
     {
         $user_id = empty($user_id) ? null : $user_id;
-
+        
         return self::where('chatbot', $chatBot)->where('user_id', $user_id)->get();
     }
 
@@ -34,6 +34,16 @@ class HaiChatConversation extends Model
             'user_id' => $user_id
         ]);
     }
+
+    // public static function updateConversation($chatBot = null, $reply = null)
+    // {
+    //     return self::where('chatbot', $chatBot)->update(['reply' => $reply]);
+    // }
+
+    // public static function deleteOldChat(){
+
+    //     self::whereDate('created_at', '<',Carbon::now()->subDays(30))->delete();
+    // }
 
     public static function singleConversation($id){
 
