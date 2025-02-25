@@ -93,30 +93,35 @@
                                 {{-- <p class="mb-0" style="color: #000000;font-size: 14px;font-weight: 400">Online</p> --}}
                             </div>
                         </div>
-                        <div class="" style="margin-left: 24px;margin-top: 18px;display:flex;align-items:center" >
-                            <div class="w-100" wire:ignore>
-                               
+                        <div class="" style="margin-left: 24px;margin-top: 18px" >
+                            <div class="" wire:ignore>
                         <select class="form-control input-bg"
                                  wire:model="model_value">
                                  
                              
                              
-                                 <option value="">Select LLM Model</option>
                              @foreach($modelTypes as $type)
+                             <option value="">Select LLM Model</option>
      <option value="{{ $type->model_value }}" style="color: black">{{ $type->model_name }}</option>
  @endforeach
                          </select>
                             </div>
-                            <div wire:click="refreshComponent" style="background-color:#f2661c;margin-left:20px;border-radius:5px;cursor:pointer;">
-                                <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>
-                            </div>
                         </div>
-                        
                     </div>
                     <div class="col-4">
                         <div class="d-flex justify-content-end" style="margin-right: 24px;margin-top: 18px" >
                             <div class="d-flex justify-content-end w-50" wire:ignore>
-                            
+                                {{-- <label for="temperature" style="font-size: small;"
+                                class="form-label fw-bold text-orange">LLM Models</label> --}}
+                         {{-- <select class="form-control input-bg"
+                                 wire:model="model_value">
+                                 
+                             
+                             
+                             @foreach($modelTypes as $type)
+     <option value="{{ $type->model_value }}" style="color: black">{{ $type->model_name }}</option>
+ @endforeach
+                         </select> --}}
 
 
                             </div>
@@ -127,15 +132,48 @@
                 <hr style="color: #f2661c;" class="bold">
                 <div class="d-flex flex-column justify-content-between flex-grow-1 p-3" id="chat_container"
                      style="overflow-y: auto; margin-bottom:-10px; ">
+                    <!-- Message Container -->
+                 
+                    {{-- @if(!empty($data))
+    @foreach($data as $item)
+        <div class="row" style="color: #f2661c;">
+            <div class="col-md-3">
+                Query:
+            </div>
+            <div class="col-md-9 text-dark" >
+                {{ $item['query'] ?? 'N/A' }}
+            </div>
 
+            <div class="col-md-3">
+                Prompt Token:
+            </div>
+            <div class="col-md-9 " style="color: black">
+                {{ $item['prompt_token'] ?? 'N/A' }}
+            </div>
 
-    <?php
-    $totalcompletiontokens=0;
-    $totalprompttokens=0;
-    $totalalltokens=0;
-  ?>
+            <div class="col-md-3">
+                Completion Token:
+            </div>
+            <div class="col-md-9 " style="color: black">
+                {{ $item['completion_token'] ?? 'N/A' }}
+            </div>
+
+            <div class="col-md-3">
+                Total Token:
+            </div>
+            <div class="col-md-9 " style="color: black">
+                {{ $item['total_token'] ?? 'N/A' }}
+            </div>
+        </div>
+        <hr>
+    @endforeach
+@else
+    <p>No data available</p>
+@endif --}}
+
+{{-- <div class="table-responsive w-100 pt-4 table-orange-color"> --}}
 <div class="table-responsive w-100 "  style="margin-top:-10px;">
-
+{{-- @if(!empty($data)) --}}
 <table class="table table-flush">
     <thead class="thead-light" style=" margin-top:-10px;">
     <tr class="table-text-color text-dark">
@@ -148,13 +186,6 @@
     <tbody>
         color: #f2661c;
             @foreach($data as $item)
-         
-             @php
-                    $totalcompletiontokens +=  $item['completion_token'];
-                    $totalprompttokens += $item['prompt_token'];
-                    $totalalltokens += $item['total_token'];
-                @endphp
-       
                 <tr>
                     <td style="color: black">{{ $item['query'] ?? 'N/A' }}</td>
                     <td style="color: black">{{ $item['prompt_token'] ?? 'N/A' }}</td>
@@ -174,22 +205,6 @@
 {{-- @endif --}}
 </div>
 
-@if($totalcompletiontokens > 0 && $totalprompttokens > 0 && $totalalltokens > 0)
-<div style="color: black; width:35%;margin-left:auto;margin-top:3rem;">
-    <div style="display: flex;">
-        <span>Total Completion Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalcompletiontokens }}</p> 
-     </div>
-     <div style="display: flex;">
-        <span>Total Prompt Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalprompttokens }}</p> 
-     </div>
-     <div style="display: flex;">
-        <span>Total All Tokens : </span>
-        <p style="padding-left:5px; ">{{ $totalalltokens }}</p> 
-     </div>
-</div>
-@endif
 
                    
                 </div>
