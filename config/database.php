@@ -495,5 +495,15 @@ return [
             'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
             'hidden' => ['updated_at','deleted_at'],
         ],
+        'BusinessStrategies' => [
+            'table' => 'business_strategies',
+            'fillable' => ['name'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'BusinessSubStrategies' => [
+            'table' => 'business_sub_strategies',
+            'fillable' => ['business_strategy_id','name'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

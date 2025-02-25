@@ -6,6 +6,9 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LoginRequest;
+use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
+use App\Models\B2B\BusinessStrategies;
+use App\Models\B2B\BusinessSubStrategies;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Http\Request;
@@ -23,14 +26,15 @@ class B2BAuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['loginB2b','registerStep']);
+        $this->middleware('auth:api')->except(['loginB2b', 'registerStep', 'businessStrategies', 'getBusinessSubStrategies']);
 
         $this->auth = Auth::guard('api');
     }
 
 
-    public function registerStep(RegisterRequest $request){
-      
+    public function registerStep(RegisterRequest $request)
+    {
+
 
         try {
 
@@ -43,7 +47,7 @@ class B2BAuthController extends Controller
             $dataArray['first_name'] = $parts[0] ?? '';
 
             $dataArray['last_name'] = $parts[1] ?? '';
-            
+
 
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
@@ -55,15 +59,15 @@ class B2BAuthController extends Controller
                     return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
                 }
                 $checkUser = $user->checkEmail($dataArray['email']);
-                
+
                 if (empty($checkUser)) {
-                    
-                    $user = $user->createB2BSignup($dataArray, $request['google_id'], $request['apple_id']);                               
-                   
-                    
+
+                    $user = $user->createB2BSignup($dataArray, $request['google_id'], $request['apple_id']);
+
+
                     Helpers::createClientsOnOneSignal($user->id);
 
-                
+
                     return Helpers::successResponse('User registered successfully', [
                         'authorization' => [
                             // 'user' => $user,
@@ -74,7 +78,7 @@ class B2BAuthController extends Controller
 
                 }
 
-                
+
             } else {
 
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
@@ -82,27 +86,50 @@ class B2BAuthController extends Controller
 
         } catch (\Exception $exception) {
 
-           
+            return Helpers::serverErrorResponse($exception->getMessage());
 
-            // return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 
-            
-                \Log::error('Exception in registerStep:', [
-                    'message' => $exception->getMessage(),
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
-                    'trace' => $exception->getTraceAsString(),
-                ]);
-            
-                return Helpers::serverErrorResponse($exception->getMessage());
-           
-            
+    public function businessStrategies()
+    {
+        try {
+
+            $businessStrategies = BusinessStrategies::allBusinessStrategies();
+
+            return Helpers::successResponse('Business Strategies', $businessStrategies);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+
+        }
+    }
+
+    public function getBusinessSubStrategies(getBusinessSubStrategyRequest $request)
+    {
+        try {
+
+            if (!empty($request['business_id'])) {
+
+                $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id']);
+
+                return Helpers::successResponse('Business Sub Strategies', $businessStrategies);
+
+            } else {
+
+                return Helpers::validationResponse('Business Sub Strategies not found');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
 
         }
     }
 
 
-
-
-   
 }
