@@ -72,6 +72,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::prefix('api')->middleware('api')
                 ->namespace($this->B2BApiClientController)
                 ->group(base_path('routes/b2b_apis/b2b_auth/b2b_auth_api.php'));
+                
+            Route::prefix('api')->middleware('api')
+                ->namespace($this->B2BApiClientController)
+                ->group(base_path('routes/b2b_apis/members/members_api.php'));
 
             Route::prefix('api')->middleware('api')
                 ->namespace($this->ApiClientController)

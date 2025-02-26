@@ -289,6 +289,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
+
+
     // query
     public function isAdmin()
     {
@@ -1058,6 +1060,32 @@ class User extends Authenticatable implements JWTSubject
     public static function getAllClientUser()
     {
         return self::where('is_admin', 2)->get();
+    }
+
+
+    public static function createB2BSignup($data = null){
+
+        $data['step'] = 3;
+        $data['email_verified_at'] = Carbon::now();
+        $data['status'] = 1;
+        $data['is_admin'] = Admin::IS_B2B;
+
+        $user = self::create($data);
+
+        return $user;
+    }
+
+
+    public static function addB2BMember($data=null){
+
+        $data['step'] = 3;
+        $data['email_verified_at'] = Carbon::now();
+        $data['status'] = 1;
+        $data['is_admin'] = Admin::IS_B2U;
+
+        $user = self::create($data);
+
+        return $user;
     }
 
 }

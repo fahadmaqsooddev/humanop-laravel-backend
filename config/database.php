@@ -191,7 +191,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token'],
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -489,6 +489,16 @@ return [
             'table' => 'llm_models',
             'fillable' => ['model_name','model_value'],
             'hidden' => ['updated_at','deleted_at'],
-        ]
+        ],
+        'BusinessStrategies' => [
+            'table' => 'business_strategies',
+            'fillable' => ['name'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'BusinessSubStrategies' => [
+            'table' => 'business_sub_strategies',
+            'fillable' => ['business_strategy_id','name'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];
