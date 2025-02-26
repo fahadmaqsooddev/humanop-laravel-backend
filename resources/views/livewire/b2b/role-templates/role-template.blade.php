@@ -17,7 +17,7 @@
                     <td class="text-md font-weight-normal">{{$template['id']}} </td>
                     <td class="text-md font-weight-normal">{{$template['code']}} </td>
                     <td class="text-md font-weight-normal">{{$template['role_name'] ?? ''}} </td>
-                   
+
                     <td>
                         <button class="btn btn-sm text-white" data-bs-toggle="modal"
                                 wire:click="editTemplate({{ $template['id'] }}, `{{ $template['code'] }}`, `{{ $template['title'] }}`, `{{ $template['description'] }}`,`{{$template['role_name']}}`,`{{$template['subscription_type']}}`,`{{$template['min_point']}}`,`{{$template['max_point']}}`)"
@@ -34,7 +34,7 @@
 
             </tbody>
         </table>
-        {{ $dailyTemplates->links() }}
+{{--        {{ $dailyTemplates->links() }}--}}
     </div>
 
     <!-- Coupon Discount -->
