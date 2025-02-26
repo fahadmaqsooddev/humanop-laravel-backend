@@ -1,7 +1,35 @@
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-   .cke_notification_warning{
+
+      .modal-body {
+          max-height: 80vh;
+          overflow-y: auto;
+          padding-right: 20px; /* Adjust padding if needed */
+      }
+
+      /* Custom Scrollbar */
+      .modal-body::-webkit-scrollbar {
+          width: 10px;
+      }
+
+      .modal-body::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+
+      }
+
+      .modal-body::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 10px;
+      }
+
+      .modal-body::-webkit-scrollbar-thumb:hover {
+          background: #555;
+      }
+
+
+      .cke_notification_warning{
     display: none !important;
    }
    .cke_notification_message{
@@ -189,7 +217,7 @@
                                              aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body" style=" border-radius: 9px; overflow-y: auto; max-height: 80vh">
+                                                    <div class="modal-body">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
