@@ -284,18 +284,150 @@
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
     
-
     <script>
-        $(document).on('shown.bs.modal', '.editHaiReplyModal', function () {
-            let modalBody = $(this).find('.modal-body'); // Target modal body
-            if (modalBody.length) {
-                setTimeout(() => {
-                    modalBody[0].scrollIntoView({ behavior: "smooth", block: "center" });
-                }, 200);
+       document.addEventListener('livewire:load', function () {
+    let editorInitialized = {};  // Track initialization by ID
+    
+    function loadScript(src, callback) {
+        if (document.querySelector(`script[src="${src}"]`)) {
+            callback();
+            return;
+        }
+        
+        var script = document.createElement('script');
+        script.src = src;
+        script.onload = callback;
+        document.head.appendChild(script);
+    }
+    
+    // Initial setup
+    initializeEditors();
+    
+    // Listen for custom event when user ID changes
+    window.addEventListener('livewire:load', function() {
+        initializeEditors();
+    });
+    
+    function initializeEditors() {
+        if (typeof CKEDITOR === 'undefined') {
+            loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
+                alert('CKEditor script loaded');
+                setupEditors();
+            });
+        } else {
+            setupEditors();
+        }
+    }
+    
+    function setupEditors() {
+        document.querySelectorAll('.editor').forEach((element, index) => {
+            // Assign a unique ID if not already assigned
+            if (!element.id) {
+                const uniqueId = 'editor-' + index;
+                element.id = uniqueId;
             }
+            
+            const editorId = element.id;
+            
+            // Check if this specific editor was already initialized
+            if (CKEDITOR.instances[editorId]) {
+                CKEDITOR.instances[editorId].destroy();
+            }
+            
+            // Initialize CKEditor
+            CKEDITOR.replace(editorId);
+            editorInitialized[editorId] = true;
+            
+            // Sync CKEditor with Livewire
+            CKEDITOR.instances[editorId].on('change', function() {
+                const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
+                const wireModel = element.getAttribute('wire:model.defer');
+                if (wireId && wireModel) {
+                    Livewire.find(wireId).set(wireModel, this.getData());
+                }
+            });
         });
+    }
+});
+
+// document.addEventListener('livewire:load', function () {
+//     function loadScript(src, callback) {
+//             var script = document.createElement('script');
+//             script.src = src;
+//             script.onload = callback;
+//             document.head.appendChild(script);
+//         }
+
+//     loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
+//         alert('dssddsa');
+//     });
+
+//   alert('dsdsad');
+//   function initializeEditors() {
+//       document.querySelectorAll('.editor').forEach((element, index) => {
+//           // Assign a unique ID if not already assigned
+//           if (!element.dataset.ckeditorId) {
+//               const uniqueId = 'editor-' + index;
+//               element.dataset.ckeditorId = uniqueId;
+//               element.setAttribute('id', uniqueId);
+//           }
+
+//           const editorId = element.dataset.ckeditorId;
+
+//           // If CKEditor is already initialized, destroy it first
+//           if (CKEDITOR.instances[editorId]) {
+//               CKEDITOR.instances[editorId].destroy();
+//               delete CKEDITOR.instances[editorId];
+//           }
+
+//           // Initialize CKEditor
+//           CKEDITOR.replace(editorId);
+
+//           // Sync CKEditor with Livewire
+//           CKEDITOR.instances[editorId].on('change', function () {
+//               Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+//                   .set(element.getAttribute('wire:model.defer'), this.getData());
+//           });
+//       });
+//   }
+
+//   // Run when page loads
+//   document.addEventListener("DOMContentLoaded", function () {
+//       setTimeout(() => {
+//           initializeEditors();
+//       }, 500);
+//   });
+
+//   // Re-initialize CKEditor when Livewire updates (after a short delay)
+// //   document.addEventListener('livewire:load', function () {
+// //       Livewire.hook('message.processed', (message, component) => {
+// //           setTimeout(() => {
+// //               initializeEditors();
+// //           }, 300); // Small delay to ensure new data is loaded
+// //       });
+// //   });
+
+//   // Destroy CKEditor when modal is closed
+//   $(document).on('hidden.bs.modal', '.editHaiReplyModal', function () {
+//       $(this).find('.editor').each(function () {
+//           const editorId = this.dataset.ckeditorId;
+
+//           if (editorId && CKEDITOR.instances[editorId]) {
+//               CKEDITOR.instances[editorId].destroy(); // Destroy CKEditor instance
+//               delete CKEDITOR.instances[editorId]; // Remove reference
+//               this.removeAttribute('id'); // Remove ID
+//               delete this.dataset.ckeditorId; // Remove dataset attribute
+//           }
+//       });
+
+//       console.log("Modal closed, CKEditor destroyed and IDs removed.");
+//   });
+
+// });
+
     </script>
     
+
 
 
 
