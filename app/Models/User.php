@@ -1088,4 +1088,27 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function allBusinessMembers($business_id=null){
+
+      
+
+    $users = self::where('business_id', $business_id)
+
+    // ->with('assessments')
+
+    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
+
+    ->get();
+
+    
+
+    foreach ($users as $user){
+
+        $user->setAppends([]);
+    }
+
+    return $users;
+
+    }
+
 }

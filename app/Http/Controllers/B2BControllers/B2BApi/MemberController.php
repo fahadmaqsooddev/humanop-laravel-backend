@@ -72,4 +72,18 @@ class MemberController extends Controller
 
     }
 
+    public function AllMembers(){
+        try {
+
+            $members = User::allBusinessMembers(Helpers::getUser()['id']);
+            
+            return Helpers::successResponse('All members', $members);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
 }
