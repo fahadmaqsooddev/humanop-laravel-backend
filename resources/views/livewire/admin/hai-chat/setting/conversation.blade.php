@@ -1,6 +1,13 @@
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+   .cke_notification_warning{
+    display: none !important;
+   }
+   .cke_notification_message{
+    display: none !important;
+   }
+   
       #chatDots {
           margin: 32px;
       }
@@ -276,6 +283,10 @@
     {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
+
+    {{-- <script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script> --}}
+
+
 {{--
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -302,7 +313,7 @@
 
 
     {{-- my --}}
-    <script>
+    {{-- <script>
         function initializeEditors() {
     document.querySelectorAll('.editor').forEach((element, index) => {
         // Assign a unique ID if not already assigned
@@ -344,66 +355,52 @@ document.addEventListener('livewire:load', function () {
     });
 });
 
+    </script> --}}
+
+
+    <script>
+        function initializeEditors() {
+            document.querySelectorAll('.editor').forEach((element, index) => {
+                // Assign a unique ID if not already assigned
+                if (!element.dataset.ckeditorId) {
+                    const uniqueId = 'editor-' + index;
+                    element.dataset.ckeditorId = uniqueId;
+                    element.setAttribute('id', uniqueId);
+                }
+    
+                const editorId = element.dataset.ckeditorId;
+    
+                // If CKEditor is already initialized, do nothing
+                if (CKEDITOR.instances[editorId]) {
+                    return;
+                }
+    
+                // Initialize CKEditor (Only if not initialized)
+                CKEDITOR.replace(editorId);
+    
+                // Sync CKEditor with Livewire
+                CKEDITOR.instances[editorId].on('change', function () {
+                    Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                        .set(element.getAttribute('wire:model.defer'), this.getData());
+                });
+            });
+        }
+    
+        // Run when page loads
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                initializeEditors();
+            }, 500);
+        });
+    
+        // Re-initialize CKEditor only if new elements are added (No reload)
+        document.addEventListener('livewire:load', function () {
+            Livewire.hook('message.processed', (message, component) => {
+                initializeEditors(); // Will only initialize new editors, not reinitialize existing ones
+            });
+        });
     </script>
-
-{{--
-<script>
-    function initializeEditors() {
-        document.querySelectorAll('.editor').forEach((element, index) => {
-            // Assign a unique ID if not already assigned
-            if (!element.dataset.ckeditorId) {
-                const uniqueId = 'editor-' + index;
-                element.dataset.ckeditorId = uniqueId;
-                element.setAttribute('id', uniqueId);
-            }
-
-            const editorId = element.dataset.ckeditorId;
-
-            // Destroy existing instance if already initialized
-            if (CKEDITOR.instances[editorId]) {
-                CKEDITOR.instances[editorId].destroy();
-            }
-
-            // Initialize CKEditor with text color and background color options
-            CKEDITOR.replace(editorId, {
-                extraPlugins: 'colorbutton,colordialog',  // Ensure color options are enabled
-                removePlugins: 'elementspath',
-                resize_enabled: false,
-                toolbar: [
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] }, // Add text & background color buttons
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
-                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
-                    { name: 'insert', items: ['Image', 'Link'] },
-                    { name: 'clipboard', items: ['Undo', 'Redo'] },
-                    { name: 'tools', items: ['Maximize', 'Source'] }
-                ]
-            });
-
-            // Sync CKEditor with Livewire
-            CKEDITOR.instances[editorId].on('change', function () {
-                Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
-                    .set(element.getAttribute('wire:model.defer'), this.getData());
-            });
-        });
-    }
-
-    // Run when page loads
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-            initializeEditors();
-        }, 500);
-    });
-
-    // Re-initialize CKEditor after Livewire updates the DOM
-    document.addEventListener('livewire:load', function () {
-        Livewire.hook('message.processed', (message, component) => {
-            initializeEditors();
-        });
-    });
-
-</script>
- --}}
+    
 
 
 
