@@ -35,16 +35,21 @@ class RoleTemplate extends Model
         parent::__construct($attributes);
     }
 
+    public function taskResponsibilities()
+    {
+
+        return $this->hasMany(TaskResponsibilities::class, 'role_template_id', 'id');
+    }
 
     public static function allTemplate()
     {
-        return self::whereNotNull('code')->orderBy('created_at', 'desc');
+        return self::whereNotNull('code')->orderBy('created_at', 'desc')->get();
     }
 
     public static function updateIntentionPlan($data = null, $id = null)
     {
         // dd($data);
-       
+
         if ($data['subscription_type'] == 'Freemium') {
             foreach ($data['code'] as $key => $code) {
                 $data['code'] = $key;
@@ -108,7 +113,7 @@ class RoleTemplate extends Model
     }
 
 
-    
+
     public function tags()
     {
      return $this->hasMany(TaskResponsibilities::class, 'role_template_id');
