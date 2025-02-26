@@ -554,7 +554,7 @@
     $(document).ready(function () {
         $('.editHaiReplyModal').on('hidden.bs.modal', function () {
             // console.log("Hi, the modal is closed!");
-            alert("Hi");
+            // alert("Hi");
         });
     });
 </script>
