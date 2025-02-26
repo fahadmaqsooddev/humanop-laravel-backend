@@ -506,7 +506,7 @@
                   $('#chat_switch_loader').addClass('disabledCard');
                   $('#chat_switch_spinner').removeClass('invisible');
 
-                  console.log(event);
+                  // console.log(event);
 
                   updateUserId(event.target.dataset.optionArrayIndex);
 
@@ -520,7 +520,7 @@
 <script>
     $(document).ready(function () {
         $('.editHaiReplyModal').on('hidden.bs.modal', function () {
-            console.log("Hi, the modal is closed!");
+            // console.log("Hi, the modal is closed!");
             alert("Hi");
         });
     });
