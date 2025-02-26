@@ -262,10 +262,11 @@ class Conversation extends Component
 
     }
 
-    public function editHaiResponse($id){
-
-        $this->convo_id = $id;
-    }
+    public function editHaiResponse($id)
+{
+    $this->convo_id = $id;
+    $this->dispatchBrowserEvent('livewire:load');
+}
 
     public function updateHaiReply(){
 
@@ -293,6 +294,9 @@ class Conversation extends Component
         $this->is_restricted_word ? '' : $this->getChatBotConversation();
 
         $this->emit('scrollToBottom');
+
+        
+        // $this->dispatchBrowserEvent('livewire:load');
 
         return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
 
