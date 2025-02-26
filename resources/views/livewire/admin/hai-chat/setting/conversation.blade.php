@@ -185,7 +185,7 @@
                                         </div>
 
 {{--                                    Edit Hai Reply Modal--}}
-                                        <div wire:ignore.self class="modal fade" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
+                                        <div wire:ignore.self class="modal fade editHaiReplyModal" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
                                              aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
@@ -279,83 +279,28 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
+    
 
-    {{-- <script src="https://cdn.ckeditor.com/4.25.1-lts/full/ckeditor.js"></script> --}}
-
-
-{{--
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(() => {
-                CKEDITOR.replace('editor');
-                CKEDITOR.instances.editor.on('change', function () {
-                @this.set('updated_reply', this.getData());
-                });
-            }, 500);
+        $(document).on('shown.bs.modal', '.editHaiReplyModal', function () {
+            let modalBody = $(this).find('.modal-body'); // Target modal body
+            if (modalBody.length) {
+                setTimeout(() => {
+                    modalBody[0].scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 200);
+            }
         });
-
-        document.addEventListener('livewire:load', function () {
-            Livewire.hook('message.processed', (message, component) => {
-                if (CKEDITOR.instances.editor) {
-                    CKEDITOR.instances.editor.destroy();
-                }
-                CKEDITOR.replace('editor');
-                CKEDITOR.instances.editor.on('change', function () {
-                @this.set('updated_reply', this.getData());
-                });
-            });
-        });
-    </script> --}}
+    </script>
+    
 
 
-    {{-- my --}}
-    {{-- <script>
-        function initializeEditors() {
-    document.querySelectorAll('.editor').forEach((element, index) => {
-        // Assign a unique ID if not already assigned
-        if (!element.dataset.ckeditorId) {
-            const uniqueId = 'editor-' + index;
-            element.dataset.ckeditorId = uniqueId;
-            element.setAttribute('id', uniqueId);
-        }
 
-        const editorId = element.dataset.ckeditorId;
 
-        // Destroy existing instance if already initialized
-        if (CKEDITOR.instances[editorId]) {
-            CKEDITOR.instances[editorId].destroy();
-        }
-
-        // Initialize CKEditor
-        CKEDITOR.replace(editorId);
-
-        // Sync CKEditor with Livewire
-        CKEDITOR.instances[editorId].on('change', function () {
-            Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
-                .set(element.getAttribute('wire:model.defer'), this.getData());
-        });
-    });
-}
-
-// Run when page loads
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-        initializeEditors();
-    }, 500);
-});
-
-// Re-initialize CKEditor after Livewire updates the DOM
-document.addEventListener('livewire:load', function () {
-    Livewire.hook('message.processed', (message, component) => {
-        initializeEditors();
-    });
-});
-
-    </script> --}}
+   
 
 
     <script>
@@ -399,10 +344,12 @@ document.addEventListener('livewire:load', function () {
                 initializeEditors(); // Will only initialize new editors, not reinitialize existing ones
             });
         });
-    </script>
+
     
+    </script>
 
 
+    
 
 
     <script>
@@ -524,6 +471,17 @@ document.addEventListener('livewire:load', function () {
       }
 
     </script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.editHaiReplyModal').on('hidden.bs.modal', function () {
+            console.log("Hi, the modal is closed!");
+            alert("Hi");
+        });
+    });
+</script>
+
 @endpush
 
 @push('js')
@@ -544,3 +502,5 @@ document.addEventListener('livewire:load', function () {
     </script>
 
 @endpush
+
+

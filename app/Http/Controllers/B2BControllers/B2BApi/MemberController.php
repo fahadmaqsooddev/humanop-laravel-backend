@@ -24,13 +24,20 @@ class MemberController extends Controller
     {
 
         try {
+            $user = Helpers::getUser();
+            $limit=$this->user->MembersLimit($user['email']);
 
             $dataArray = $request->only($this->user->getFillable());
 
             $checkDeletedUser = User::checkDeleteEmail($dataArray['email']);
 
             $checkUser = User::checkEmail($dataArray['email']);
+            
+            if($limit==0){
+                return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');  // Maximum limit reached. Please contact your business admin.
+            }else{
 
+            
             if (!empty($checkDeletedUser)) {
 
                 return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
@@ -44,12 +51,13 @@ class MemberController extends Controller
             if ($checkUser && empty($checkUser['business_id'])) {
 
                 $checkUser->update(['business_id' => Helpers::getUser()['id']]);
-
+                User::UpdateMembersLimit($user['email']);
                 return Helpers::successResponse('This member successfully linked to your business.');
 
             }
 
             if (empty($checkUser)) {
+                
                 $createMember = User::addB2BMember($dataArray);
 
                 Helpers::createClientsOnOneSignal($createMember['id']);
@@ -62,6 +70,7 @@ class MemberController extends Controller
 
                 ]);
             }
+        }
 
         } catch (\Exception $exception) {
 
