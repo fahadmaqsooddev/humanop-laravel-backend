@@ -38,14 +38,14 @@ class MemberController extends Controller
 
             if ($checkUser && !empty($checkUser['business_id'])) {
 
-                return Helpers::validationResponse('This email is already associated with a business.');
+                return Helpers::validationResponse('This member is already associated with a business.');
             }
 
             if ($checkUser && empty($checkUser['business_id'])) {
 
-                $checkUser->update(['business_id' => $request['business_id']]);
+                $checkUser->update(['business_id' => Helpers::getUser()['id']]);
 
-                return Helpers::successResponse('User successfully linked to your business.');
+                return Helpers::successResponse('This member successfully linked to your business.');
 
             }
 
@@ -55,7 +55,7 @@ class MemberController extends Controller
 
                 Helpers::createClientsOnOneSignal($createMember['id']);
 
-                return Helpers::successResponse('User Linked successfully With Your Business.', [
+                return Helpers::successResponse('This member Linked successfully With Your Business.', [
                     'authorization' => [
                         'status' => true,
                         'type' => 'bearer',
