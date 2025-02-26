@@ -505,5 +505,10 @@ return [
             'fillable' => ['business_strategy_id','name'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'B2BTaskAndResponsibilities' => [
+            'table' => 'b2b_tasks_responsibilities',
+            'fillable' => ['role_template_id','name','tag1','tag2','tag3'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

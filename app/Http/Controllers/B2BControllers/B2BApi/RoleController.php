@@ -4,19 +4,44 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\B2B\addRoleRequest;
 use App\Http\Requests\B2B\listTasksRequest;
+use App\Models\B2B\B2BTaskAndResponsibilities;
 use App\Models\B2B\RoleTemplate;
 use App\Models\B2B\TaskResponsibilities;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class RoleController extends Controller
 {
-//    protected $user;
+    protected $taskAndResponsibility;
 
-    public function __construct()
+    public function __construct(User $taskAndResponsibility)
     {
 
         $this->middleware('auth:api');
+
+        $this->taskAndResponsibility = $taskAndResponsibility;
+    }
+
+
+    public static function addRole(addRoleRequest $request)
+    {
+
+        try {
+
+            $taskAndResponsibility = new B2BTaskAndResponsibilities();
+
+            $dataArray = $request->only($taskAndResponsibility->getFillable());
+
+            B2BTaskAndResponsibilities::createTaskAndResponsibility($dataArray);
+
+            return Helpers::successResponse('Task and Responsbility created successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
 
     }
 

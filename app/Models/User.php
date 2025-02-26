@@ -94,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check','step','register_from_app', 'email_verified_at']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at']);
     }
 
     // appends
@@ -290,7 +290,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
     // query
     public function isAdmin()
     {
@@ -319,11 +318,13 @@ class User extends Authenticatable implements JWTSubject
 
     public static function allSubAdmin()
     {
-        $subAdmins = self::where('is_admin', 3)->orderBy('id','desc')->get();
+        $subAdmins = self::where('is_admin', 3)->orderBy('id', 'desc')->get();
         return $subAdmins;
     }
-    public static function deleteSubAdmin($id=null){
-        return self::where('id',$id)->forceDelete();
+
+    public static function deleteSubAdmin($id = null)
+    {
+        return self::where('id', $id)->forceDelete();
     }
 
     public static function getSingleUser($id = null)
@@ -762,7 +763,7 @@ class User extends Authenticatable implements JWTSubject
     // }
 
 
-    public static function deletedClients($page, $per_page,$search_name=null,$email=null,$age=null)
+    public static function deletedClients($page, $per_page, $search_name = null, $email = null, $age = null)
     {
         $userId = Helpers::getWebUser()['id'];
 
@@ -780,8 +781,8 @@ class User extends Authenticatable implements JWTSubject
 
         // Filter by email
         if (!empty($email)) {
-        //    $users->where('email', $email);
-        $users->where('email', 'LIKE', "%$email%");
+            //    $users->where('email', $email);
+            $users->where('email', 'LIKE', "%$email%");
         }
 
         if (!empty($age)) {
@@ -794,13 +795,13 @@ class User extends Authenticatable implements JWTSubject
             $users->whereBetween('date_of_birth', [$min_date, $max_date]);
         }
 
-        $users= $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
+        $users = $users->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER])
             ->where('is_permanently_deleted', 0)
             ->onlyTrashed()
-            ->orderBy('deleted_at','desc')
+            ->orderBy('deleted_at', 'desc')
             ->paginate($per_page)->setPath(route('deleted_clients'));
 
-            return $users;
+        return $users;
 
     }
 
@@ -825,8 +826,8 @@ class User extends Authenticatable implements JWTSubject
         // Filter by email
         if (!empty($email)) {
 
-        //    $users->where('email', $email);
-        $users->where('email', 'LIKE', "%$email%");
+            //    $users->where('email', $email);
+            $users->where('email', 'LIKE', "%$email%");
 
 
         }
@@ -1031,22 +1032,22 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public static function getUserDetailByIds(){
+    public static function getUserDetailByIds()
+    {
 
-       $users = self::whereHas('assessments', function ($query){
+        $users = self::whereHas('assessments', function ($query) {
 
-           $query->where('page', 0)
+            $query->where('page', 0)
+                ->orderBy('updated_at', 'desc');
 
-               ->orderBy('updated_at', 'desc');
+        })->select(['id', 'first_name', 'last_name'])->orderBy('first_name')->get();
 
-       })->select(['id','first_name','last_name'])->orderBy('first_name')->get();
+        foreach ($users as $user) {
 
-       foreach ($users as $user){
+            $user->setAppends([]);
+        }
 
-           $user->setAppends([]);
-       }
-
-       return $users;
+        return $users;
 
     }
 
@@ -1063,7 +1064,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public static function createB2BSignup($data = null){
+    public static function createB2BSignup($data = null)
+    {
 
         $data['step'] = 3;
         $data['email_verified_at'] = Carbon::now();
@@ -1076,7 +1078,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public static function addB2BMember($data=null){
+    public static function addB2BMember($data = null)
+    {
 
         $data['step'] = 3;
         $data['email_verified_at'] = Carbon::now();
@@ -1088,26 +1091,14 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function allBusinessMembers($business_id=null){
+    public static function allBusinessMembers($business_id = null)
+    {
 
-      
+        $users = self::where('business_id', $business_id)
+            ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
+            ->get();
 
-    $users = self::where('business_id', $business_id)
-
-    // ->with('assessments')
-
-    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
-
-    ->get();
-
-    
-
-    foreach ($users as $user){
-
-        $user->setAppends([]);
-    }
-
-    return $users;
+        return $users;
 
     }
 

@@ -49,8 +49,7 @@ class MemberController extends Controller
 
             }
 
-            if (empty($checkUser))
-            {
+            if (empty($checkUser)) {
                 $createMember = User::addB2BMember($dataArray);
 
                 Helpers::createClientsOnOneSignal($createMember['id']);
@@ -72,11 +71,12 @@ class MemberController extends Controller
 
     }
 
-    public function AllMembers(){
+    public function AllMembers()
+    {
         try {
 
             $members = User::allBusinessMembers(Helpers::getUser()['id']);
-            
+
             return Helpers::successResponse('All members', $members);
 
         } catch (\Exception $exception) {

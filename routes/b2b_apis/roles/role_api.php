@@ -17,5 +17,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('list-admin-role', 'RoleController@listAdminRole');
     Route::get('list-role-tasks', 'RoleController@listRoleTasks');
+    Route::post('add-role', 'RoleController@addRole');
 
 });
