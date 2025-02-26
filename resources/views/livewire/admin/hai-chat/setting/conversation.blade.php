@@ -7,7 +7,7 @@
    .cke_notification_message{
     display: none !important;
    }
-   
+
       #chatDots {
           margin: 32px;
       }
@@ -189,7 +189,7 @@
                                              aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body" style=" border-radius: 9px">
+                                                    <div class="modal-body" style=" border-radius: 9px; overflow-y: auto; max-height: 80vh">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -280,10 +280,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
-    
+{{--    <script>--}}
+{{--        $(document).ready(function () {--}}
+{{--            $(document).on("shown.bs.modal", ".editHaiReplyModal", function () {--}}
+{{--                console.log('Modal is opened');--}}
+{{--                let modalBody = $(this).find(".modal-body");--}}
+{{--                if (modalBody.length) {--}}
+{{--                    modalBody.css({--}}
+{{--                        "overflow-y": "auto",  // Enable vertical scrolling--}}
+{{--                        "max-height": "80vh"   // Ensure it doesn't exceed viewport height--}}
+{{--                    }).attr("tabindex", "-1").focus();--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+
+{{--    </script>--}}
+
+
 
     <script>
         $(document).on('shown.bs.modal', '.editHaiReplyModal', function () {
@@ -295,12 +311,12 @@
             }
         });
     </script>
-    
 
 
 
 
-   
+
+
 
 
     <script>
@@ -312,17 +328,17 @@
                     element.dataset.ckeditorId = uniqueId;
                     element.setAttribute('id', uniqueId);
                 }
-    
+
                 const editorId = element.dataset.ckeditorId;
-    
+
                 // If CKEditor is already initialized, do nothing
                 if (CKEDITOR.instances[editorId]) {
                     return;
                 }
-    
+
                 // Initialize CKEditor (Only if not initialized)
                 CKEDITOR.replace(editorId);
-    
+
                 // Sync CKEditor with Livewire
                 CKEDITOR.instances[editorId].on('change', function () {
                     Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
@@ -330,14 +346,14 @@
                 });
             });
         }
-    
+
         // Run when page loads
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 initializeEditors();
             }, 500);
         });
-    
+
         // Re-initialize CKEditor only if new elements are added (No reload)
         document.addEventListener('livewire:load', function () {
             Livewire.hook('message.processed', (message, component) => {
@@ -345,11 +361,11 @@
             });
         });
 
-    
+
     </script>
 
 
-    
+
 
 
     <script>
