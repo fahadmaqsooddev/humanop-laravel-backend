@@ -13,7 +13,7 @@ class B2bInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $email, $file, $searched_email;
+    public $email, $file, $searched_email,$members_limit;
     public $selectedItems = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
@@ -65,7 +65,7 @@ class B2bInvite extends Component
                     return;
                 }
                 
-                UserInvite::sendInvite($this->email, $this->file, $this->role);
+                UserInvite::sendInvite($this->email, $this->file, $this->role,$this->members_limit);
             
                 session()->flash('success', "{$this->email} invite link generated successfully.");
             

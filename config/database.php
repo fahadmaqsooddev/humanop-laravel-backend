@@ -462,7 +462,7 @@ return [
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id','email','link','role'],
+            'fillable' => ['id','email','link','role','members_limit'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [
@@ -498,6 +498,11 @@ return [
         'BusinessSubStrategies' => [
             'table' => 'business_sub_strategies',
             'fillable' => ['business_strategy_id','name'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'B2BTaskAndResponsibilities' => [
+            'table' => 'b2b_tasks_responsibilities',
+            'fillable' => ['role_template_id','name','tag1','tag2','tag3'],
             'hidden' => ['updated_at','created_at'],
         ],
     ]

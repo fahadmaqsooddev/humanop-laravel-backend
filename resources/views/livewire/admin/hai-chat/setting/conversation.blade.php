@@ -1,6 +1,41 @@
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha512-yVvxUQV0QESBt1SyZbNJMAwyKvFTLMyXSyBHDO4BG5t7k/Lw34tyqlSDlKIrIENIzCl+RVUNjmCPG+V/GMesRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+
+      .modal-body {
+          max-height: 80vh;
+          overflow-y: auto;
+          padding-right: 20px; /* Adjust padding if needed */
+      }
+
+      /* Custom Scrollbar */
+      .modal-body::-webkit-scrollbar {
+          width: 10px;
+      }
+
+      .modal-body::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+
+      }
+
+      .modal-body::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 10px;
+      }
+
+      .modal-body::-webkit-scrollbar-thumb:hover {
+          background: #555;
+      }
+
+
+      .cke_notification_warning{
+    display: none !important;
+   }
+   .cke_notification_message{
+    display: none !important;
+   }
+
       #chatDots {
           margin: 32px;
       }
@@ -211,11 +246,11 @@
                                         </div>
 
 {{--                                    Edit Hai Reply Modal--}}
-                                        <div wire:ignore.self class="modal fade" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
+                                        <div wire:ignore.self class="modal fade editHaiReplyModal" id="editHaiReplyModal{{ $conversation->id }}" tabindex="-1" role="dialog"
                                              aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body" style=" border-radius: 9px">
+                                                    <div class="modal-body">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -305,138 +340,91 @@
 @push('javascript')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> --}}
     <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script>
 
-{{--
+{{--    <script>--}}
+{{--        $(document).ready(function () {--}}
+{{--            $(document).on("shown.bs.modal", ".editHaiReplyModal", function () {--}}
+{{--                console.log('Modal is opened');--}}
+{{--                let modalBody = $(this).find(".modal-body");--}}
+{{--                if (modalBody.length) {--}}
+{{--                    modalBody.css({--}}
+{{--                        "overflow-y": "auto",  // Enable vertical scrolling--}}
+{{--                        "max-height": "80vh"   // Ensure it doesn't exceed viewport height--}}
+{{--                    }).attr("tabindex", "-1").focus();--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+
+{{--    </script>--}}
+
+
+
     <script>
+        $(document).on('shown.bs.modal', '.editHaiReplyModal', function () {
+            let modalBody = $(this).find('.modal-body'); // Target modal body
+            if (modalBody.length) {
+                setTimeout(() => {
+                    modalBody[0].scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 200);
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+    <script>
+        function initializeEditors() {
+            document.querySelectorAll('.editor').forEach((element, index) => {
+                // Assign a unique ID if not already assigned
+                if (!element.dataset.ckeditorId) {
+                    const uniqueId = 'editor-' + index;
+                    element.dataset.ckeditorId = uniqueId;
+                    element.setAttribute('id', uniqueId);
+                }
+
+                const editorId = element.dataset.ckeditorId;
+
+                // If CKEditor is already initialized, do nothing
+                if (CKEDITOR.instances[editorId]) {
+                    return;
+                }
+
+                // Initialize CKEditor (Only if not initialized)
+                CKEDITOR.replace(editorId);
+
+                // Sync CKEditor with Livewire
+                CKEDITOR.instances[editorId].on('change', function () {
+                    Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
+                        .set(element.getAttribute('wire:model.defer'), this.getData());
+                });
+            });
+        }
+
+        // Run when page loads
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
-                CKEDITOR.replace('editor');
-                CKEDITOR.instances.editor.on('change', function () {
-                @this.set('updated_reply', this.getData());
-                });
+                initializeEditors();
             }, 500);
         });
 
+        // Re-initialize CKEditor only if new elements are added (No reload)
         document.addEventListener('livewire:load', function () {
             Livewire.hook('message.processed', (message, component) => {
-                if (CKEDITOR.instances.editor) {
-                    CKEDITOR.instances.editor.destroy();
-                }
-                CKEDITOR.replace('editor');
-                CKEDITOR.instances.editor.on('change', function () {
-                @this.set('updated_reply', this.getData());
-                });
+                initializeEditors(); // Will only initialize new editors, not reinitialize existing ones
             });
         });
-    </script> --}}
 
-
-    {{-- my --}}
-    <script>
-        function initializeEditors() {
-    document.querySelectorAll('.editor').forEach((element, index) => {
-        // Assign a unique ID if not already assigned
-        if (!element.dataset.ckeditorId) {
-            const uniqueId = 'editor-' + index;
-            element.dataset.ckeditorId = uniqueId;
-            element.setAttribute('id', uniqueId);
-        }
-
-        const editorId = element.dataset.ckeditorId;
-
-        // Destroy existing instance if already initialized
-        if (CKEDITOR.instances[editorId]) {
-            CKEDITOR.instances[editorId].destroy();
-        }
-
-        // Initialize CKEditor
-        CKEDITOR.replace(editorId);
-
-        // Sync CKEditor with Livewire
-        CKEDITOR.instances[editorId].on('change', function () {
-            Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
-                .set(element.getAttribute('wire:model.defer'), this.getData());
-        });
-    });
-}
-
-// Run when page loads
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-        initializeEditors();
-    }, 500);
-});
-
-// Re-initialize CKEditor after Livewire updates the DOM
-document.addEventListener('livewire:load', function () {
-    Livewire.hook('message.processed', (message, component) => {
-        initializeEditors();
-    });
-});
 
     </script>
 
-{{--
-<script>
-    function initializeEditors() {
-        document.querySelectorAll('.editor').forEach((element, index) => {
-            // Assign a unique ID if not already assigned
-            if (!element.dataset.ckeditorId) {
-                const uniqueId = 'editor-' + index;
-                element.dataset.ckeditorId = uniqueId;
-                element.setAttribute('id', uniqueId);
-            }
-
-            const editorId = element.dataset.ckeditorId;
-
-            // Destroy existing instance if already initialized
-            if (CKEDITOR.instances[editorId]) {
-                CKEDITOR.instances[editorId].destroy();
-            }
-
-            // Initialize CKEditor with text color and background color options
-            CKEDITOR.replace(editorId, {
-                extraPlugins: 'colorbutton,colordialog',  // Ensure color options are enabled
-                removePlugins: 'elementspath',
-                resize_enabled: false,
-                toolbar: [
-                    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] }, // Add text & background color buttons
-                    { name: 'paragraph', items: ['NumberedList', 'BulletedList'] },
-                    { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
-                    { name: 'insert', items: ['Image', 'Link'] },
-                    { name: 'clipboard', items: ['Undo', 'Redo'] },
-                    { name: 'tools', items: ['Maximize', 'Source'] }
-                ]
-            });
-
-            // Sync CKEditor with Livewire
-            CKEDITOR.instances[editorId].on('change', function () {
-                Livewire.find(element.closest('[wire\\:id]').getAttribute('wire:id'))
-                    .set(element.getAttribute('wire:model.defer'), this.getData());
-            });
-        });
-    }
-
-    // Run when page loads
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-            initializeEditors();
-        }, 500);
-    });
-
-    // Re-initialize CKEditor after Livewire updates the DOM
-    document.addEventListener('livewire:load', function () {
-        Livewire.hook('message.processed', (message, component) => {
-            initializeEditors();
-        });
-    });
-
-</script>
- --}}
 
 
 
@@ -551,7 +539,7 @@ document.addEventListener('livewire:load', function () {
                   $('#chat_switch_loader').addClass('disabledCard');
                   $('#chat_switch_spinner').removeClass('invisible');
 
-                  console.log(event);
+                  // console.log(event);
 
                   updateUserId(event.target.dataset.optionArrayIndex);
 
@@ -560,6 +548,17 @@ document.addEventListener('livewire:load', function () {
       }
 
     </script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.editHaiReplyModal').on('hidden.bs.modal', function () {
+            // console.log("Hi, the modal is closed!");
+            alert("Hi");
+        });
+    });
+</script>
+
 @endpush
 
 @push('js')
@@ -580,3 +579,5 @@ document.addEventListener('livewire:load', function () {
     </script>
 
 @endpush
+
+

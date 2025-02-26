@@ -39,7 +39,6 @@ class AddMemberRequest extends FormRequest
             'last_name.required' => 'Last name is required',
             'email.required' => 'Email is required',
             'email.email' => 'Email must be a valid email',
-
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
             'phone.required' => 'Phone number is required'

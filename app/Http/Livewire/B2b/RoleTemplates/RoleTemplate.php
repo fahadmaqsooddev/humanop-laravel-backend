@@ -29,7 +29,7 @@ class RoleTemplate extends Component
     public function getTemplate()
     {
         // $this->tips = DailyTipModel::allTips()->paginate($this->perPage);
-        $this->tips = RoleTemplateModel::allTemplate()->paginate($this->perPage);
+        $this->tips = RoleTemplateModel::allTemplate();
 
     }
 
@@ -46,7 +46,7 @@ class RoleTemplate extends Component
     public function deleteTemplate($template_id)
     {
 
-        
+
         RoleTemplateModel::deleteTemplate($template_id);
     }
 
@@ -56,6 +56,6 @@ class RoleTemplate extends Component
         return view('livewire.b2b.role-templates.role-template', ['dailyTemplates' => $this->tips]);
     }
 
-    
-   
+
+
 }
