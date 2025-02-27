@@ -1130,5 +1130,12 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public static function UpdateMember($data=null, $memberId = null){
+        
+     return self::where('id', $memberId)->update($data);
+        
+    }
+
+
 
 }

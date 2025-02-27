@@ -125,9 +125,16 @@ class MemberController extends Controller
     public function EditMember(EditMemberRequest $request){
     
        try {
-        //code...
-       } catch (\Throwable $th) {
-        //throw $th;
+        
+        $dataArray = $request->only($this->user->getFillable());
+        
+        $user=$this->user->UpdateMember($dataArray, $request['member_id']);
+       
+        return Helpers::successResponse('Member updated successfully.');
+        
+       } catch (\Exception $exception) {
+       
+        return Helpers::serverErrorResponse($exception->getMessage());
        }
 
     }
