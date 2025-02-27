@@ -98,9 +98,12 @@ class optimalTraitPushNotification extends Command
 
                     } elseif ($userOptimalTrait['status'] == $status) {
 
-                        UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
+                        if ($userOptimalTrait['status'] != $status)
+                        {
+                            UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
 
-                        Helpers::OneSignalApiUsed($user['id'], 'new optimal trait', $message);
+                            Helpers::OneSignalApiUsed($user['id'], 'new optimal trait', $message);
+                        }
                     }
                 }
             }
