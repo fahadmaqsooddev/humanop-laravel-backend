@@ -505,5 +505,10 @@ return [
             'fillable' => ['role_template_id','name','tag1','tag2','tag3'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'UserOptimalTrait' => [
+            'table' => 'user_optimal_trait',
+            'fillable' => ['user_id','optimal_trait','status'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

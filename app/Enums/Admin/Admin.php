@@ -87,4 +87,10 @@ final class Admin
     const CLIENT_INVITE_ROLE = 1;
 
     const B2B_INVITE_ROLE = 2;
+
+    const MORNING_STATUS = 1;
+
+    const AFTERNOON_STATUS = 2;
+
+    const NIGHT_STATUS = 3;
 }

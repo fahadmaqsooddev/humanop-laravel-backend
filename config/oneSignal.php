@@ -2,13 +2,13 @@
 
 if (env('APP_ENV') == 'local') {
     return [
-        'auth_key'=>'os_v2_app_5ghm3f2cbzcrjfyo4dvxnww24gpeqtodqpnunxniznfd5flt73fb2pzznehmxlwdvhzsqrjmd3w3f23dtmvmzuutgxh62m5uw7hrvza',
-        'app_id'=>'e98ecd97-420e-4514-970e-e0eb76dadae1',
-        
+        'auth_key'=>'os_v2_app_kqjuty3ykndtvgsjew2fufxgtithqlegyuwu6x57ngojv6mnummfwaluxfziikonk25vpjvehop6oqinhxbzrccm2zalfkdeljae7pq',
+        'app_id'=>'541349e3-7853-473a-9a49-25b45a16e69a',
+
     ];
 } elseif (env('APP_ENV') == 'development') {
     return [
-     
+
         'auth_key'=>'os_v2_app_5ghm3f2cbzcrjfyo4dvxnww24gpeqtodqpnunxniznfd5flt73fb2pzznehmxlwdvhzsqrjmd3w3f23dtmvmzuutgxh62m5uw7hrvza',
         'app_id'=>'e98ecd97-420e-4514-970e-e0eb76dadae1',
     ];
