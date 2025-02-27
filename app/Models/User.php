@@ -31,6 +31,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Client\Point\Point;
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
@@ -1080,17 +1081,20 @@ class User extends Authenticatable implements JWTSubject
 
     public static function addB2BMember($data = null)
     {
+        $authUser = Helpers::getUser();
 
         $data['step'] = 3;
         $data['email_verified_at'] = Carbon::now();
         $data['status'] = 1;
         $data['is_admin'] = Admin::IS_B2U;
+        $data['business_id'] = $authUser->id;
+        
 
         $user = self::create($data);
         
         if ($user) {
           
-            $authUser = Helpers::getUser();
+            
 
             self::UpdateMembersLimit($authUser->email);
      
@@ -1106,9 +1110,10 @@ class User extends Authenticatable implements JWTSubject
     ->with(['assessments' => function ($query) {
         $query->select('id', 'user_id'); 
     }])
-    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
+    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','timezone'])
     ->get();
         foreach ($users as $user) {
+            $user->gender = $user->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
             $user->setAppends([]);
         }
     
@@ -1134,6 +1139,13 @@ class User extends Authenticatable implements JWTSubject
         
      return self::where('id', $memberId)->update($data);
         
+    }
+
+    public static function deleteMember($id=null){
+     return self::where('id', $id)->update([
+        'business_id'=>null
+     ]);
+
     }
 
 
