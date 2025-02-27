@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
-use App\Models\Admin\Code\CodeDetail;
 use App\Models\Assessment;
 use App\Models\User;
 use App\Models\UserOptimalTrait;
@@ -25,7 +24,7 @@ class optimalTraitPushNotification extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'this command is used for optimal trait the user in OneSignal';
 
     /**
      * Execute the console command.
