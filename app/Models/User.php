@@ -1087,12 +1087,13 @@ class User extends Authenticatable implements JWTSubject
         $data['is_admin'] = Admin::IS_B2U;
 
         $user = self::create($data);
+        
         if ($user) {
           
             $authUser = Helpers::getUser();
+
             self::UpdateMembersLimit($authUser->email);
-    
-            
+     
         }
 
         return $user;
@@ -1102,18 +1103,29 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $users = self::where('business_id', $business_id)
-            ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
-            ->get();
-
-        return $users;
+    ->with(['assessments' => function ($query) {
+        $query->select('id', 'user_id'); 
+    }])
+    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
+    ->get();
+        foreach ($users as $user) {
+            $user->setAppends([]);
+        }
+    
+    return $users;
+    
 
     }
 
     public static function MembersLimit($email=null){
         return UserInvite::where('email', $email)->value('members_limit');
     }
+
+
     public static function UpdateMembersLimit($email=null){
+
         UserInvite::where('email', $email)
+
                     ->decrement('members_limit', 1);
     }
 

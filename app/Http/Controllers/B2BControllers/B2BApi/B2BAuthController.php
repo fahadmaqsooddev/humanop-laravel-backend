@@ -78,7 +78,7 @@ class B2BAuthController extends Controller
 
                     return Helpers::successResponse('User registered successfully', [
                         'authorization' => [
-                             'user' => $b2b_user,
+                            'user' => $b2b_user,
                             'token' => $token,
                             'status' => true,
                             'type' => 'bearer',

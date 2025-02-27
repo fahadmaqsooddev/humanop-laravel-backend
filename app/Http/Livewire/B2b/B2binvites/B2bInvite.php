@@ -14,6 +14,13 @@ class B2bInvite extends Component
     use WithFileUploads, WithPagination;
 
     public $email, $file, $searched_email,$members_limit;
+
+// my code
+    public $invite_id;
+// public $nmembers_limit;
+
+
+
     public $selectedItems = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
@@ -40,36 +47,53 @@ class B2bInvite extends Component
     { 
         try {
            
-            $this->validate();
             
-            if ($this->email) {
+            if ($this->invite_id) {
+                // Update existing invite
+                $invite = UserInvite::find($this->invite_id);
+                if ($invite) {
+                    $invite->members_limit = $this->members_limit;
+                    $invite->save();
+                  
+                  
+        
+                    session()->flash('success', "Members limit updated successfully.");
+                }
+            }else{
+                $this->validate();
 
-                $user = User::where('email', $this->email)->first();
-            
-                if ($user) {
-                    if (!empty($user->email_verified_at)) {
-                        session()->flash('success', "{$this->email} already has a Registered account.");
+                if ($this->email) {
+
+                    $user = User::where('email', $this->email)->first();
+                
+                    if ($user) {
+                        if (!empty($user->email_verified_at)) {
+                            session()->flash('success', "{$this->email} already has a Registered account.");
+                            return; 
+                        }
+                    }
+                
+                    $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+                    if ($softDeletedUser) {
+                        session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
                         return; 
                     }
-                }
-            
-                $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
-                if ($softDeletedUser) {
-                    session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
-                    return; 
+                    
+                    $uniqueEmail = UserInvite::where('email', $this->email)->first();
+                    if ($uniqueEmail) {
+                        session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
+                        return;
+                    }
+                    
+                    UserInvite::sendInvite($this->email, $this->file, $this->role,$this->members_limit);
+                
+                    session()->flash('success', "{$this->email} invite link generated successfully.");
+                
                 }
                 
-                $uniqueEmail = UserInvite::where('email', $this->email)->first();
-                if ($uniqueEmail) {
-                    session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
-                    return;
-                }
-                
-                UserInvite::sendInvite($this->email, $this->file, $this->role,$this->members_limit);
+
+            } 
             
-                session()->flash('success', "{$this->email} invite link generated successfully.");
-            
-            }
             
             $this->resetForm();
 
@@ -101,12 +125,25 @@ class B2bInvite extends Component
 
     public function resetForm()
     {
-        $this->reset(['email']);
+        $this->reset(['email','members_limit','invite_id']);
     }
 
     public function deleteClientLink($id){
 
        UserInvite::deleteInvite(null, $id);
+    }
+
+
+    // my code
+
+    public function editLimit($id)
+    {
+    $invite = UserInvite::find($id);
+    
+    if ($invite) {
+        $this->invite_id = $invite->id;
+        $this->members_limit = !empty($invite->members_limit)? $invite->members_limit:0;
+    }
     }
 
     public function render()

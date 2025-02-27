@@ -22,6 +22,7 @@
                 <tr class="table-text-color">
                     <th>Email</th>
                     <th>link</th>
+                    <th>Limit</th>
                     <th>Bulk Delete</th>
                     <th>Action</th>
                 </tr>
@@ -32,6 +33,9 @@
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
                         <td class="text-md font-weight-normal">{{ config('client_url.b2b_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
+                        <td class="text-md font-weight-normal text-center">
+                            {{ !empty($invite['members_limit']) ? $invite['members_limit'] : 0 }}
+                        </td>
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
                                 style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
@@ -45,6 +49,14 @@
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
+                            {{-- my code --}}
+                            <button class="btn mb-0 text-white"
+                            data-bs-toggle="modal" data-bs-target="#EditLimitModel"
+                            wire:click="editLimit({{$invite['id']}})"
+                            style="background-color: #ff0000; border-radius: 0px 5px 5px 0px">
+                        Edit Limit
+                    </button>
+                    
                         </td>
                     </tr>
                 @endforeach
@@ -120,6 +132,49 @@
         </div>
     </div>
 
+
+
+    {{-- my code for edit limit --}}
+    <div wire:ignore.self class="modal fade" id="EditLimitModel" tabindex="-1"
+         role="dialog"
+         aria-labelledby="EditLimitModel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" style=" border-radius: 9px">
+                    <div class="card-body pt-0">
+                        <label class="form-label fs-4 text-white">Edit Members Limit</label>
+
+                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                aria-label="Close" id="close-modal-button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        @include('layouts.message')
+                        <form wire:submit.prevent="submitForm">
+                            <div class="card-body">
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            
+                                           
+                                            <label class="text-white mt-4">Members Limit</label>
+                                            <input style="background-color: #0f1534;color: lightgrey !important;"
+                                            class="form-control text-white"
+                                            type="number" wire:model="members_limit" name="members_limit" placeholder="icon name">
+                                            
+                                            <button type="submit" class="btn btn-sm mt-4 float-end text-white"
+                                                    style="background-color: #f2661c ">Update Limit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @push('js')
 
@@ -131,6 +186,7 @@
             Livewire.on('closeModal', () => {
                 // Close the modal
                 $('#inviteLinkSendModel').modal('hide');
+                $('#EditLimitModel').modal('hide');
                 console.log('hello');
 
             });
