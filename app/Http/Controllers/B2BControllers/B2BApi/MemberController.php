@@ -8,6 +8,8 @@ use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\EditMemberRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Enums\Admin\Admin;
 
 class MemberController extends Controller
 {
@@ -101,13 +103,25 @@ class MemberController extends Controller
         try {
 
             $members = User::allBusinessMembers(Helpers::getUser()['id'])
+
            ->map(function ($member) {
+
             $member->status = $member->last_login ? 'on-board' : 'pending';
-            $member->last_login = $member->last_login 
+
+            $member->last_login = $member->last_login
+            
+            
+
             ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') 
+
             : null;
 
+            
+
+
+
             return $member;
+
             });
 
             return Helpers::successResponse('All members', $members);
@@ -137,6 +151,27 @@ class MemberController extends Controller
         return Helpers::serverErrorResponse($exception->getMessage());
        }
 
+    }
+
+    public function DeleteMember(Request $request){
+        try {
+            
+            $user = Helpers::getUser()->id;
+            $data=User::where('id',$request['member_id'])->first();
+            
+            if($data->business_id != $user){
+                return Helpers::validationResponse('You are not authorized to delete this member.');
+            }else{
+                $this->user->deleteMember($request['member_id']);
+            return Helpers::successResponse('Member deleted successfully.');
+
+            }
+
+            
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
 }

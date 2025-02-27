@@ -31,6 +31,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Client\Point\Point;
 
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
@@ -1106,9 +1107,10 @@ class User extends Authenticatable implements JWTSubject
     ->with(['assessments' => function ($query) {
         $query->select('id', 'user_id'); 
     }])
-    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login'])
+    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','timezone'])
     ->get();
         foreach ($users as $user) {
+            $user->gender = $user->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
             $user->setAppends([]);
         }
     
@@ -1134,6 +1136,13 @@ class User extends Authenticatable implements JWTSubject
         
      return self::where('id', $memberId)->update($data);
         
+    }
+
+    public static function deleteMember($id=null){
+     return self::where('id', $id)->update([
+        'business_id'=>null
+     ]);
+
     }
 
 
