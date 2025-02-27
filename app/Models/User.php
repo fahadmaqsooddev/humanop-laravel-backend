@@ -1081,17 +1081,20 @@ class User extends Authenticatable implements JWTSubject
 
     public static function addB2BMember($data = null)
     {
+        $authUser = Helpers::getUser();
 
         $data['step'] = 3;
         $data['email_verified_at'] = Carbon::now();
         $data['status'] = 1;
         $data['is_admin'] = Admin::IS_B2U;
+        $data['business_id'] = $authUser->id;
+        
 
         $user = self::create($data);
         
         if ($user) {
           
-            $authUser = Helpers::getUser();
+            
 
             self::UpdateMembersLimit($authUser->email);
      
