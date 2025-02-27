@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\EditMemberRequest;
 use App\Models\User;
+use Carbon\Carbon;
 
 class MemberController extends Controller
 {
@@ -102,6 +103,10 @@ class MemberController extends Controller
             $members = User::allBusinessMembers(Helpers::getUser()['id'])
            ->map(function ($member) {
             $member->status = $member->last_login ? 'on-board' : 'pending';
+            $member->last_login = $member->last_login 
+            ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') 
+            : null;
+
             return $member;
             });
 
