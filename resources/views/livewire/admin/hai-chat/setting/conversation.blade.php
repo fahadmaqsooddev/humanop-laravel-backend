@@ -273,7 +273,7 @@
 
                                                                             </span>
                                                                             <br>
-                                                                            <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span>
+                                                                            {{-- <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span> --}}
                                                                             <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group" wire:ignore>
@@ -347,6 +347,73 @@
     
     <script>
        document.addEventListener('livewire:load', function () {
+    // let editorInitialized = {};  // Track initialization by ID
+    
+    // function loadScript(src, callback) {
+    //     if (document.querySelector(`script[src="${src}"]`)) {
+    //         callback();
+    //         return;
+    //     }
+        
+    //     var script = document.createElement('script');
+    //     script.src = src;
+    //     script.onload = callback;
+    //     document.head.appendChild(script);
+    // }
+    
+    // // Initial setup
+    // initializeEditors();
+    
+    // // Listen for custom event when user ID changes
+    // window.addEventListener('livewire:load', function() {
+    //     initializeEditors();
+    // });
+    
+    // function initializeEditors() {
+    //     if (typeof CKEDITOR === 'undefined') {
+    //         loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
+              
+    //             setupEditors();
+    //         });
+    //     } else {
+    //         setupEditors();
+    //     }
+    // }
+    
+    // function setupEditors() {
+    //     document.querySelectorAll('.editor').forEach((element, index) => {
+    //         // Assign a unique ID if not already assigned
+    //         if (!element.id) {
+    //             const uniqueId = 'editor-' + index;
+    //             element.id = uniqueId;
+    //         }
+            
+    //         const editorId = element.id;
+            
+    //         // Check if this specific editor was already initialized
+    //         if (CKEDITOR.instances[editorId]) {
+    //             CKEDITOR.instances[editorId].destroy();
+    //         }
+            
+    //         // Initialize CKEditor
+    //         CKEDITOR.replace(editorId);
+    //         editorInitialized[editorId] = true;
+            
+    //         // Sync CKEditor with Livewire
+    //         CKEDITOR.instances[editorId].on('change', function() {
+    //             const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
+    //             const wireModel = element.getAttribute('wire:model.defer');
+    //             if (wireId && wireModel) {
+    //                 Livewire.find(wireId).set(wireModel, this.getData());
+    //             }
+    //         });
+    //     });
+    // }
+
+
+
+
+    document.addEventListener('livewire:load', function () {
     let editorInitialized = {};  // Track initialization by ID
     
     function loadScript(src, callback) {
@@ -364,15 +431,22 @@
     // Initial setup
     initializeEditors();
     
-    // Listen for custom event when user ID changes
-    window.addEventListener('livewire:load', function() {
-        initializeEditors();
+    // Listen for custom event to update editor content
+    window.addEventListener('updateEditorContent', function(event) {
+        const content = event.detail.content;
+        const editorElements = document.querySelectorAll('.editor');
+        
+        editorElements.forEach((element) => {
+            const editorId = element.id;
+            if (CKEDITOR.instances[editorId]) {
+                CKEDITOR.instances[editorId].setData(content);
+            }
+        });
     });
     
     function initializeEditors() {
         if (typeof CKEDITOR === 'undefined') {
             loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
-              
                 setupEditors();
             });
         } else {
@@ -410,6 +484,11 @@
         });
     }
 });
+    
+
+  
+});
+
 
     </script>
 
@@ -446,7 +525,7 @@
       });
 
       window.livewire.on('closeEditHaiReplyModal', function (id){
-
+            
           $('#close-query-edit-modal-' + id).click();
       });
 

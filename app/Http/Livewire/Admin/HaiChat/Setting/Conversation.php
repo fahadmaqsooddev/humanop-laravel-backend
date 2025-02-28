@@ -262,10 +262,23 @@ class Conversation extends Component
 
     }
 
-    public function editHaiResponse($id)
+
+
+public function editHaiResponse($id)
 {
+    $this->reset('updated_reply');
     $this->convo_id = $id;
+    $data = HaiChatConversation::where('id', $this->convo_id)->first();
+    
+    $this->updated_reply = $data['reply'];
+    
+    // First load CKEditor if not already loaded
     $this->dispatchBrowserEvent('livewire:load');
+    
+    // Give a small delay to ensure CKEditor is initialized
+    $this->dispatchBrowserEvent('updateEditorContent', [
+        'content' => $this->updated_reply
+    ]);
 }
 
     public function updateHaiReply(){
