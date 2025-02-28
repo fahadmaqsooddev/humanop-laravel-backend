@@ -17,10 +17,10 @@ class EmbeddingSetting extends Model
         parent::__construct($attributes);
     }
 
-    // public static function getEmbeddingSetting($name = null)
-    // {
-    //     return self::where('embedding', $name)->first();
-    // }
+     public static function getEmbeddingSetting($name = null)
+     {
+         return self::where('embedding', $name)->first();
+     }
 
     // public static function createEmbedding($name = null, $chunk = null)
     // {
