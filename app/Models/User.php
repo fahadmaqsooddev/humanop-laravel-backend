@@ -1088,14 +1088,12 @@ class User extends Authenticatable implements JWTSubject
         $data['status'] = 1;
         $data['is_admin'] = Admin::IS_B2U;
         $data['business_id'] = $authUser->id;
+        $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
         
-
+        
         $user = self::create($data);
         
         if ($user) {
-          
-            
-
             self::UpdateMembersLimit($authUser->email);
      
         }
