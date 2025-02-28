@@ -7,7 +7,7 @@
                    class="table-orange-color search-bar" placeholder="Search Email">
         </div>
     </div>
-    
+
     @if(count($selectedItems) > 0)
     <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
         <button type="button" onclick="deleteBulkLink()"  class="btn btn-danger">All Delete Links</button>
@@ -32,7 +32,7 @@
                 @foreach($invites as $index => $invite)
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
-                        <td class="text-md font-weight-normal">{{ config('client_url.b2b_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
+                        <td class="text-md font-weight-normal">{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }} </td>
                         <td class="text-md font-weight-normal text-center">
                             {{ !empty($invite['members_limit']) ? $invite['members_limit'] : 0 }}
                         </td>
@@ -40,12 +40,12 @@
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
                                 style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                         </td>
-                        
-                       
-          
+
+
+
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
-                                    onclick="copyToClipboard('{{ config('client_url.b2b_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
+                                    onclick="copyToClipboard('{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
@@ -56,13 +56,13 @@
                             style="background-color: #ff0000; border-radius: 0px 5px 5px 0px">
                         Edit Limit
                     </button>
-                    
+
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-           
+
         @else
             <div class="text-center p-5">
 
@@ -117,7 +117,7 @@
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
                                             class="form-control text-white"
                                             type="number" wire:model="members_limit" name="members_limit" placeholder="icon name">
-                                            
+
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Generate Invite
                                             </button>
@@ -154,13 +154,13 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            
-                                           
+
+
                                             <label class="text-white mt-4">Members Limit</label>
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
                                             class="form-control text-white"
                                             type="number" wire:model="members_limit" name="members_limit" placeholder="icon name">
-                                            
+
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Update Limit
                                             </button>
