@@ -151,7 +151,7 @@
                         </button>
                         @include('layouts.message')
                         <form wire:submit.prevent="submitForm">
-                            <div class="card-body">
+                            <div class="card-editLimit(355)body">
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -160,7 +160,7 @@
                                             <label class="text-white mt-4">Members Limit</label>
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
                                                    class="form-control text-white"
-                                                   type="number" wire:model="members_limit" name="members_limit"
+                                                   type="number" wire:model="total_member_limit" name="members_limit"
                                                    placeholder="icon name">
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"

@@ -13,7 +13,7 @@ class B2bInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $email, $file, $searched_email, $members_limit;
+    public $email, $file, $searched_email, $members_limit, $total_member_limit;
 
     public $invite_id;
 
@@ -50,8 +50,8 @@ class B2bInvite extends Component
 
                 if ($invite) {
 
-                    $invite->members_limit = $this->members_limit;
-
+                    $invite->total_member_limit = $this->total_member_limit;
+                    
                     $invite->save();
 
                     session()->flash('success', "Members limit updated successfully.");
@@ -140,7 +140,7 @@ class B2bInvite extends Component
 
         if ($invite) {
             $this->invite_id = $invite->id;
-            $this->members_limit = !empty($invite->members_limit) ? $invite->members_limit : 0;
+            $this->total_member_limit = !empty($invite->total_member_limit) ? $invite->total_member_limit : 0;
         }
     }
 
