@@ -15,7 +15,7 @@ use App\Models\Assessment;
 
 class OpenRouterHelper
 {
-    public static function callOpenRouterApi()
+    public static function callOpenRouterApi($question, $setting, $aiReply)
     {
         $apiKey = "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";
         $siteUrl = "humanop.com"; // Optional
@@ -33,15 +33,15 @@ class OpenRouterHelper
         $data = [
             "model" => "deepseek/deepseek-chat","qwen/qvq-72b-preview","deepseek/deepseek-r1-distill-qwen-1.5b","openai/gpt-3.5-turbo","anthropic/claude-3-haiku","google/gemini-2.0-flash-001",
             "allow_fallbacks" => true,
-            "tokens" => 500,
+            "tokens" => $setting['max_tokens'] ?? 500,
             "messages" => [
                 [
                     "role" => "user",
-                    "content" => "What is Copper-Silver  Alchemy?"
+                    "content" => $question,
                 ],
                 [
                     "role" => "system",
-                    "content" => "People  who  have  a  Copper-Silver  Alchemy  align  with  utility  and  practicality.  In  other  words,  they
+                    "content" => $aiReply['prompt'] ?? "People  who  have  a  Copper-Silver  Alchemy  align  with  utility  and  practicality.  In  other  words,  they
 are  attracted  to  getting  the  most  use  out  of  everything,  whether  it  be  value  or  longevity,  and
 they're  more  aligned  with  the  most  practical  choice  in  the  moment.
 Their  relaxed  nature  will  let  piles  of  things  lay  about  and  accumulate,  and  they  rarely  feel  the

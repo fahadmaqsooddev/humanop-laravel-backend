@@ -79,7 +79,11 @@ class Conversation extends Component
 //                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
 //                }
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi();
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply);
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
@@ -89,7 +93,6 @@ class Conversation extends Component
                 }
 
                 AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
-
 
             }else{
 
@@ -256,12 +259,12 @@ public function editHaiResponse($id)
     $this->reset('updated_reply');
     $this->convo_id = $id;
     $data = HaiChatConversation::where('id', $this->convo_id)->first();
-    
+
     $this->updated_reply = $data['reply'];
-    
+
     // First load CKEditor if not already loaded
     $this->dispatchBrowserEvent('livewire:load');
-    
+
     // Give a small delay to ensure CKEditor is initialized
     $this->dispatchBrowserEvent('updateEditorContent', [
         'content' => $this->updated_reply
@@ -295,7 +298,7 @@ public function editHaiResponse($id)
 
         $this->emit('scrollToBottom');
 
-        
+
         // $this->dispatchBrowserEvent('livewire:load');
 
         return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
