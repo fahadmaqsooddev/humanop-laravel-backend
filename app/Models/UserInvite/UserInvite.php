@@ -6,7 +6,7 @@ use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-
+use App\Enums\Admin\Admin;
 class UserInvite extends Model
 {
     use HasFactory;
@@ -39,8 +39,8 @@ class UserInvite extends Model
 
 
     }
-
-    public static function sendInvite($email = null, $file = null,$role=null,$members_limit=null)
+   
+    public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE,$members_limit=null)
     {
 
         if (!empty($file)) {
