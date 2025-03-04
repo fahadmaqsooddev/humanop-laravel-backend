@@ -20,7 +20,7 @@
                 display: block; /* Visible on smaller screens */
             }
         }
-       
+
     </style>
 
 @endpush
@@ -94,7 +94,7 @@
 
                 @else
 
-                   
+
                 @endif
             @endif
         </div>
@@ -116,7 +116,7 @@
                 <li class="nav-item">
                     <div class="collapse {{ ($parentFolder == 'dashboards' ? ' show' : '') }}" id="dashboardsExamples">
                         <ul class="nav ps-2">
-                           
+
                             {{-- <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}"
                                    href="{{ route('admin_dashboard') }}">
@@ -127,7 +127,7 @@
                                                                         <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li> --}}
-                            @if(Auth::user()->hasRole('super admin'))
+                            @if(Auth::user()->hasRole('super admin', 'sub admin'))
                             <li class="nav-item mylink">
                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                    data-bs-toggle="collapse" aria-expanded="false" href="#adminExamples">
@@ -140,7 +140,7 @@
                                 <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
                                 id="adminExamples">
                                <ul class="nav nav-sm flex-column">
-        
+
 {{-- dashboard --}}
                                 <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}"
@@ -179,7 +179,7 @@
                             @endcan
 
                             {{-- assessments --}}
-                            
+
                             @can('assessments')
 
                             <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
@@ -560,9 +560,9 @@
                                                 <span class="sidenav-normal"> B2B Invites </span>
                                             </a>
                                         </li>
-                                       
-                                      
-                                      
+
+
+
                                     </ul>
                                 </div>
                             </li>
@@ -616,7 +616,7 @@
                                     </a>
                                 </li>
                             @endif
-                            {{-- @can('assessments')
+                             @can('assessments')
 
                                 <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
@@ -629,8 +629,8 @@
                                     </a>
                                 </li>
 
-                            @endcan --}}
-                            {{-- @can('abandonedAssessment')
+                            @endcan
+                             @can('abandonedAssessment')
                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
                                        href="{{ route('admin_abandoned_assessment') }}">
@@ -933,20 +933,20 @@
                                         </ul>
                                     </div>
                                 </li>
-                            @endcan --}}
-                            {{--                            @can('chat')--}}
-                            {{--                                <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">--}}
-                            {{--                                    <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"--}}
-                            {{--                                       href="{{ route('admin_hai_chat') }}">--}}
-                            {{--                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"--}}
-                            {{--                                                                             src="{{URL::asset('assets/icons/Chat.png')}}"></span>--}}
-                            {{--                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"--}}
-                            {{--                                                                          src="{{URL::asset('assets/icons/Chat.png')}}"></span>--}}
-                            {{--                                        <span class="sidenav-normal"> HAI Chat </span>--}}
-                            {{--                                    </a>--}}
-                            {{--                                </li>--}}
-                            {{--                            @endcan--}}
-                            {{-- @can('projects')
+                            @endcan
+                                                        @can('chat')
+                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                                                   href="{{ route('admin_hai_chat') }}">
+                                                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                                                         src="{{URL::asset('assets/icons/Chat.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
+                                                                                                      src="{{URL::asset('assets/icons/Chat.png')}}"></span>
+                                                                    <span class="sidenav-normal"> HAI Chat </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+                             @can('projects')
                                 <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                        href="{{ route('admin_projects') }}">
@@ -958,7 +958,7 @@
                                     </a>
                                 </li>
 
-                            @endcan --}}
+                            @endcan
                             <li class="nav-item {{ (Request::is('settings') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('settings') ? 'active' : '') }}"
                                    href="{{ route('admin_setting') }}">
@@ -1031,7 +1031,7 @@
                     </div>
                 </li>
 
-           
+
             @elseif((\Illuminate\Support\Facades\Auth::user()->is_admin == 2) && (\Illuminate\Support\Facades\Auth::user()->practitioner_id != null))
                 <li class="nav-item">
 

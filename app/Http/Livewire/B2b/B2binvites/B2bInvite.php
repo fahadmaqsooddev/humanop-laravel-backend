@@ -13,18 +13,14 @@ class B2bInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $email, $file, $searched_email,$members_limit;
+    public $email, $file, $searched_email, $members_limit, $total_member_limit;
 
-// my code
     public $invite_id;
-// public $nmembers_limit;
-
-
 
     public $selectedItems = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['deleteClientLink','bulkDelete'];
+    protected $listeners = ['deleteClientLink', 'bulkDelete'];
 
     public $role = Admin::B2B_INVITE_ROLE;
 
@@ -36,7 +32,7 @@ class B2bInvite extends Component
     protected $messages = [
         'email.required_without' => 'The email is required when a file is not provided.',
         'email.email' => 'Please enter a valid email address.',
-        'email.max' => 'The email should not exceed 255 characters.', 
+        'email.max' => 'The email should not exceed 255 characters.',
         'file.required_without' => 'A file is required when an email is not provided.',
         'file.file' => 'The uploaded file must be a valid file.',
         'file.mimes' => 'Only CSV files are allowed.',
@@ -44,57 +40,58 @@ class B2bInvite extends Component
     ];
 
     public function submitForm()
-    { 
+    {
         try {
-           
-            
+
+
             if ($this->invite_id) {
-                // Update existing invite
+
                 $invite = UserInvite::find($this->invite_id);
+
                 if ($invite) {
-                    $invite->members_limit = $this->members_limit;
+
+                    $invite->total_member_limit = $this->total_member_limit;
+                    
                     $invite->save();
-                  
-                  
-        
+
                     session()->flash('success', "Members limit updated successfully.");
                 }
-            }else{
+            } else {
+
                 $this->validate();
 
                 if ($this->email) {
 
                     $user = User::where('email', $this->email)->first();
-                
+
                     if ($user) {
                         if (!empty($user->email_verified_at)) {
                             session()->flash('success', "{$this->email} already has a Registered account.");
-                            return; 
+                            return;
                         }
                     }
-                
+
                     $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
                     if ($softDeletedUser) {
                         session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
-                        return; 
+                        return;
                     }
-                    
+
                     $uniqueEmail = UserInvite::where('email', $this->email)->first();
                     if ($uniqueEmail) {
                         session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
                         return;
                     }
-                    
-                    UserInvite::sendInvite($this->email, $this->file, $this->role,$this->members_limit);
-                
-                    session()->flash('success', "{$this->email} invite link generated successfully.");
-                
-                }
-                
 
-            } 
-            
-            
+                    UserInvite::sendInvite($this->email, $this->file, $this->role, $this->members_limit);
+
+                    session()->flash('success', "{$this->email} invite link generated successfully.");
+
+                }
+
+            }
+
+
             $this->resetForm();
 
             $this->emit('closeModal');
@@ -110,7 +107,7 @@ class B2bInvite extends Component
 
     public function bulkDelete()
     {
-      
+
         UserInvite::whereIn('id', $this->selectedItems)->delete();
 
         $this->selectedItems = [];
@@ -119,18 +116,19 @@ class B2bInvite extends Component
     public function updatedSearchedEmail()
     {
 
-        $this->resetPage(); 
+        $this->resetPage();
 
     }
 
     public function resetForm()
     {
-        $this->reset(['email','members_limit','invite_id']);
+        $this->reset(['email', 'members_limit', 'invite_id']);
     }
 
-    public function deleteClientLink($id){
+    public function deleteClientLink($id)
+    {
 
-       UserInvite::deleteInvite(null, $id);
+        UserInvite::deleteInvite(null, $id);
     }
 
 
@@ -138,22 +136,22 @@ class B2bInvite extends Component
 
     public function editLimit($id)
     {
-    $invite = UserInvite::find($id);
-    
-    if ($invite) {
-        $this->invite_id = $invite->id;
-        $this->members_limit = !empty($invite->members_limit)? $invite->members_limit:0;
-    }
+        $invite = UserInvite::find($id);
+
+        if ($invite) {
+            $this->invite_id = $invite->id;
+            $this->total_member_limit = !empty($invite->total_member_limit) ? $invite->total_member_limit : 0;
+        }
     }
 
     public function render()
     {
 
-        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email,$this->role);
-        
+        $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+
         $invites->withPath(url('/admin/b2b-invites'));
 
         return view('livewire.b2b.b2b-invites.b2b-invite', ['invites' => $invites]);
     }
-    
+
 }

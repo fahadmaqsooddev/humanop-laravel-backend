@@ -6,7 +6,7 @@ use App\Helpers\Helpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-
+use App\Enums\Admin\Admin;
 class UserInvite extends Model
 {
     use HasFactory;
@@ -37,12 +37,12 @@ class UserInvite extends Model
 
         })->orderBy('created_at', 'desc')->paginate($per_page);
 
-       
+
     }
    
-    public static function sendInvite($email = null, $file = null,$role=null,$members_limit=null)
+    public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE,$members_limit=null)
     {
-        
+
         if (!empty($file)) {
 
             if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
@@ -56,12 +56,13 @@ class UserInvite extends Model
                     if (empty($invite)) {
 
                         $link = Str::random(16);
- 
+
                         self::create([
                             'email' => $csvEmail,
                             'link' => $link,
                             'role'=>$role,
                             'members_limit'=>$members_limit,
+                            'total_member_limit'=>$members_limit,
                         ]);
 
                     }
@@ -86,6 +87,7 @@ class UserInvite extends Model
                     'link' => $link,
                     'role'=>$role,
                     'members_limit'=>$members_limit,
+                    'total_member_limit'=>$members_limit,
                 ]);
             }
         }

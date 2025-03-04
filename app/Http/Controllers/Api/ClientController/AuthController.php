@@ -300,9 +300,17 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials, $remember_me);
 
+                   $getUser = User::getSingleUser($checkUser['id']);
+
+                   $getUser->update(['last_login' => Carbon::now()]);
+
                 } else {
 
                     $token = $this->auth->attempt($credentials);
+
+                    $getUser = User::getSingleUser($checkUser['id']);
+
+                    $getUser->update(['last_login' => Carbon::now()]);
 
                 }
 

@@ -462,7 +462,7 @@ return [
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id','email','link','role','members_limit'],
+            'fillable' => ['id','email','link','role','members_limit','total_member_limit'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [

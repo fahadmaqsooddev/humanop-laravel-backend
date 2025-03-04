@@ -9,14 +9,14 @@
     </div>
 
     @if(count($selectedItems) > 0)
-    <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
-        <button type="button" onclick="deleteBulkLink()"  class="btn btn-danger">All Delete Links</button>
-    </div>
-@endif
+        <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+            <button type="button" onclick="deleteBulkLink()" class="btn btn-danger">All Delete Links</button>
+        </div>
+    @endif
 
     <div class="table-responsive w-100 pt-4 table-orange-color">
         @if(count($invites) > 0)
-        @include('layouts.message')
+            @include('layouts.message')
             <table class="table table-flush">
                 <thead class="thead-light">
                 <tr class="table-text-color">
@@ -34,13 +34,12 @@
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
                         <td class="text-md font-weight-normal">{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }} </td>
                         <td class="text-md font-weight-normal text-center">
-                            {{ !empty($invite['members_limit']) ? $invite['members_limit'] : 0 }}
+                            {{ !empty($invite['total_member_limit']) ? $invite['total_member_limit'] : 0 }}
                         </td>
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
-                                style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                                   style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                         </td>
-
 
 
                         <td>
@@ -48,14 +47,16 @@
                                     onclick="copyToClipboard('{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }}','{{$index +1}}')"
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
-                            <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
+                            <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})"
+                                    style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link
+                            </button>
                             {{-- my code --}}
                             <button class="btn mb-0 text-white"
-                            data-bs-toggle="modal" data-bs-target="#EditLimitModel"
-                            wire:click="editLimit({{$invite['id']}})"
-                            style="background-color: #ff0000; border-radius: 0px 5px 5px 0px">
-                        Edit Limit
-                    </button>
+                                    data-bs-toggle="modal" data-bs-target="#EditLimitModel"
+                                    wire:click="editLimit({{$invite['id']}})"
+                                    style="background-color: #ff0000; border-radius: 0px 5px 5px 0px">
+                                Edit Limit
+                            </button>
 
                         </td>
                     </tr>
@@ -115,8 +116,9 @@
                                             @enderror
                                             <label class="text-white mt-4">Members Limit</label>
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
-                                            class="form-control text-white"
-                                            type="number" wire:model="members_limit" name="members_limit" placeholder="icon name">
+                                                   class="form-control text-white"
+                                                   type="number" wire:model="members_limit" name="members_limit"
+                                                   placeholder="icon name">
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Generate Invite
@@ -131,7 +133,6 @@
             </div>
         </div>
     </div>
-
 
 
     {{-- my code for edit limit --}}
@@ -150,7 +151,7 @@
                         </button>
                         @include('layouts.message')
                         <form wire:submit.prevent="submitForm">
-                            <div class="card-body">
+                            <div class="card-editLimit(355)body">
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -158,8 +159,9 @@
 
                                             <label class="text-white mt-4">Members Limit</label>
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
-                                            class="form-control text-white"
-                                            type="number" wire:model="members_limit" name="members_limit" placeholder="icon name">
+                                                   class="form-control text-white"
+                                                   type="number" wire:model="total_member_limit" name="members_limit"
+                                                   placeholder="icon name">
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Update Limit
@@ -235,6 +237,7 @@
                 }
             })
         }
+
         function deleteBulkLink() {
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -259,48 +262,48 @@
 
     </script>
 
-   <script>
+    <script>
 
-       async function copyToClipboard(text,id) {
-           try {
-               // Use the Clipboard API to copy the text
-               await navigator.clipboard.writeText(text);
-               $('#copy_link_'+id).text('Copied!')
-               // Hide the tooltip after 2 seconds
-               setTimeout(() => {
-                   setTimeout(() => {
-                       $('#copy_link_'+id).text('Copy Link')
-                   }, 300);  // Match the fade-out duration
-               }, 2000);
-           } catch (err) {
-               console.error('Failed to copy text: ', err);
-           }
-       }
+        async function copyToClipboard(text, id) {
+            try {
+                // Use the Clipboard API to copy the text
+                await navigator.clipboard.writeText(text);
+                $('#copy_link_' + id).text('Copied!')
+                // Hide the tooltip after 2 seconds
+                setTimeout(() => {
+                    setTimeout(() => {
+                        $('#copy_link_' + id).text('Copy Link')
+                    }, 300);  // Match the fade-out duration
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        }
 
 
-    //    deleteClientLink
-    function deleteClientLink(id) {
+        //    deleteClientLink
+        function deleteClientLink(id) {
 
-const swalWithBootstrapButtonsget = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn bg-gradient-danger m-2',
-        cancelButton: 'btn bg-gradient-secondary m-2',
-    },
-    buttonsStyling: false,
-    background: '#3442b4',
-})
-swalWithBootstrapButtonsget.fire({
-    title: '<span style="color: white;">Are you sure?</span>',
-    html: "<span style='color: white;'>Want to delete this Link</span>",
-    showCancelButton: true,
-    confirmButtonText: 'Delete',
-}).then((result) => {
-    if (result.isConfirmed) {
-        window.livewire.emit('deleteClientLink', id)
-    }
-})
-}
+            const swalWithBootstrapButtonsget = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtonsget.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete this Link</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteClientLink', id)
+                }
+            })
+        }
 
-   </script>
+    </script>
 
 @endpush
