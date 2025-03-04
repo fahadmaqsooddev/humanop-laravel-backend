@@ -30,6 +30,7 @@ class EditMemberRequest extends FormRequest
             'password'=>'required',
             'gender'=> 'required',
             'timezone'=>'required',
+            'date_of_birth' => 'required|date',
             'member_id'=>'required',
 
 
@@ -40,6 +41,7 @@ class EditMemberRequest extends FormRequest
             'first_name.required' => 'First Name is required',
             'last_name.required' => 'Last Name is required',
             'phone.required' => 'Phone is required',
+            'date_of_birth,required'=>'Date of Birth is requitred',
             'password.required' => 'Password is required',
             'gender.required' => 'Gender is required',
             'timezone.required' => 'Timezone is required',
