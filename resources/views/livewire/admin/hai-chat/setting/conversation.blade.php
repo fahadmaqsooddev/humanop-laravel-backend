@@ -20,12 +20,12 @@
       }
 
       .modal-body::-webkit-scrollbar-thumb {
-          background: #888;
+          background: #f2661c;
           border-radius: 10px;
       }
 
       .modal-body::-webkit-scrollbar-thumb:hover {
-          background: #555;
+          background: #f2661c;
       }
 
 
@@ -312,42 +312,42 @@
 
     {{-- <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script> --}}
 
-    
+
     <script>
        document.addEventListener('livewire:load', function () {
     // let editorInitialized = {};  // Track initialization by ID
-    
+
     // function loadScript(src, callback) {
     //     if (document.querySelector(`script[src="${src}"]`)) {
     //         callback();
     //         return;
     //     }
-        
+
     //     var script = document.createElement('script');
     //     script.src = src;
     //     script.onload = callback;
     //     document.head.appendChild(script);
     // }
-    
+
     // // Initial setup
     // initializeEditors();
-    
+
     // // Listen for custom event when user ID changes
     // window.addEventListener('livewire:load', function() {
     //     initializeEditors();
     // });
-    
+
     // function initializeEditors() {
     //     if (typeof CKEDITOR === 'undefined') {
     //         loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
-              
+
     //             setupEditors();
     //         });
     //     } else {
     //         setupEditors();
     //     }
     // }
-    
+
     // function setupEditors() {
     //     document.querySelectorAll('.editor').forEach((element, index) => {
     //         // Assign a unique ID if not already assigned
@@ -355,18 +355,18 @@
     //             const uniqueId = 'editor-' + index;
     //             element.id = uniqueId;
     //         }
-            
+
     //         const editorId = element.id;
-            
+
     //         // Check if this specific editor was already initialized
     //         if (CKEDITOR.instances[editorId]) {
     //             CKEDITOR.instances[editorId].destroy();
     //         }
-            
+
     //         // Initialize CKEditor
     //         CKEDITOR.replace(editorId);
     //         editorInitialized[editorId] = true;
-            
+
     //         // Sync CKEditor with Livewire
     //         CKEDITOR.instances[editorId].on('change', function() {
     //             const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
@@ -383,27 +383,27 @@
 
     document.addEventListener('livewire:load', function () {
     let editorInitialized = {};  // Track initialization by ID
-    
+
     function loadScript(src, callback) {
         if (document.querySelector(`script[src="${src}"]`)) {
             callback();
             return;
         }
-        
+
         var script = document.createElement('script');
         script.src = src;
         script.onload = callback;
         document.head.appendChild(script);
     }
-    
+
     // Initial setup
     initializeEditors();
-    
+
     // Listen for custom event to update editor content
     window.addEventListener('updateEditorContent', function(event) {
         const content = event.detail.content;
         const editorElements = document.querySelectorAll('.editor');
-        
+
         editorElements.forEach((element) => {
             const editorId = element.id;
             if (CKEDITOR.instances[editorId]) {
@@ -411,7 +411,7 @@
             }
         });
     });
-    
+
     function initializeEditors() {
         if (typeof CKEDITOR === 'undefined') {
             loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
@@ -421,7 +421,7 @@
             setupEditors();
         }
     }
-    
+
     function setupEditors() {
         document.querySelectorAll('.editor').forEach((element, index) => {
             // Assign a unique ID if not already assigned
@@ -429,18 +429,18 @@
                 const uniqueId = 'editor-' + index;
                 element.id = uniqueId;
             }
-            
+
             const editorId = element.id;
-            
+
             // Check if this specific editor was already initialized
             if (CKEDITOR.instances[editorId]) {
                 CKEDITOR.instances[editorId].destroy();
             }
-            
+
             // Initialize CKEditor
             CKEDITOR.replace(editorId);
             editorInitialized[editorId] = true;
-            
+
             // Sync CKEditor with Livewire
             CKEDITOR.instances[editorId].on('change', function() {
                 const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
@@ -452,9 +452,9 @@
         });
     }
 });
-    
 
-  
+
+
 });
 
 
@@ -464,7 +464,7 @@
 
 
 
-   
+
 
 
 
@@ -493,7 +493,7 @@
       });
 
       window.livewire.on('closeEditHaiReplyModal', function (id){
-            
+
           $('#close-query-edit-modal-' + id).click();
       });
 
