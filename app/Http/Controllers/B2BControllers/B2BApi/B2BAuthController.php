@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\RegisterRequest;
 use App\Http\Requests\B2B\AddMemberRequest;
+use App\Http\Requests\B2B\UpdateB2bProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -134,6 +135,29 @@ class B2BAuthController extends Controller
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
+        }
+    }
+
+
+    public function ProfileUpdate(UpdateB2bProfile $request){
+        try {
+
+            $request = Helpers::explodeAgeRangeIntoAge($request);
+
+            
+            if ($request) {
+
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
+                $updated_user = User::updateUserProfile($dataArray);
+                return Helpers::successResponse('User updated successfully', $updated_user);
+            } else {
+                return Helpers::forbiddenResponse('Please Filled Data');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
 
