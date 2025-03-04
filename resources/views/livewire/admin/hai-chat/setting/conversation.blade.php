@@ -221,7 +221,6 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label class="form-label fs-4 text-white">Query Answer</label>
                                                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                                                             aria-label="Close" id="close-query-edit-modal-{{$conversation->id}}">
                                                                         <span aria-hidden="true">&times;</span>
@@ -233,15 +232,6 @@
                                                                             <label class="form-label fs-6 text-white">Client Query :</label>
                                                                             <span
                                                                                 style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
-                                                                            <label class="form-label fs-4 text-white">Answer :</label>
-                                                                            <span class="copy-text float-end" >
-                                       <!-- Copy text link -->
-{{--                                        <a class="btn-sm text-white px-3"  style="background-color: #f2661c;" onclick="copyToClipboard(`{{$conversation['reply']}}`,`{{$key}}`, this)"><strong id="copy-text{{$key}}">Copy</strong></a>--}}
-
-                                                                            </span>
-                                                                            <br>
-                                                                            {{-- <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span> --}}
-                                                                            <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group" wire:ignore>
                                                                         <textarea rows="4" class="form-control text-white mt-2 editor"
