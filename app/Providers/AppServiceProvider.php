@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $mailConfig = config('mail_config');
+
+        Model::macro('decodeHtmlEntities', function ($attribute) {
+            $value = $this->{$attribute};
+            return html_entity_decode(stripslashes($value));
+        });
 
         // Dynamically set the mail configuration
         Config::set('mail.from.address', $mailConfig['mail_address']);
