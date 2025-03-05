@@ -35,10 +35,10 @@ class AppServiceProvider extends ServiceProvider
 
         $mailConfig = config('mail_config');
 
-        Model::macro('decodeHtmlEntities', function ($attribute) {
-            $value = $this->{$attribute};
-            return html_entity_decode(stripslashes($value));
-        });
+//        Model::macro('decodeHtmlEntities', function ($attribute) {
+//            $value = $this->{$attribute};
+//            return html_entity_decode(stripslashes($value));
+//        });
 
         // Dynamically set the mail configuration
         Config::set('mail.from.address', $mailConfig['mail_address']);
