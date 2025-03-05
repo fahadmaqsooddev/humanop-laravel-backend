@@ -41,7 +41,8 @@
                                         </h4>
                                         <div class="card-body" style="height: 330px; overflow-y: auto;">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <p>{{ html_entity_decode(stripcslashes($response['response'])) }}</p>
+{{--                                                <p>{{ html_entity_decode(stripcslashes($response['response'])) }}</p>--}}
+                                                <p>{!! html_entity_decode($response['response']) !!}</p>
                                             </div>
                                         </div>
                                     </div>
