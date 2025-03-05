@@ -103,9 +103,11 @@ class MemberController extends Controller
 
             $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'])->map(function ($member) {
 
-                $member->status = $member->last_login ? 'on-board' : 'pending';
-
-                $member->last_login = $member->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
+                $member->users->gender = $member->users->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
+                $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
+                
+                $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
+                
 
                 return $member;
 
