@@ -1116,9 +1116,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function UpdateMembersLimit($email=null){
 
-        UserInvite::where('email', $email)
-
-                    ->decrement('members_limit', 1);
+        UserInvite::where('email', $email)->decrement('members_limit', 1);
     }
 
 

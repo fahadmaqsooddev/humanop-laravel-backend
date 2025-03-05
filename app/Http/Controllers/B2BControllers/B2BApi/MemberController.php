@@ -36,7 +36,7 @@ class MemberController extends Controller
 
             if (empty($limit)) {
 
-                return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
+                return Helpers::validationResponse('You have reached the maximum number of candidates allowed per business.');
 
             } else {
 
@@ -61,11 +61,11 @@ class MemberController extends Controller
 
                         User::UpdateMembersLimit($user['email']);
 
-                        return Helpers::successResponse('This member successfully linked to your business.');
+                        return Helpers::successResponse('This candidate successfully linked to your business.');
 
                     } else {
 
-                        return Helpers::validationResponse('This member is already associated with a business');
+                        return Helpers::validationResponse('This candidate is already associated with a business');
 
                     }
 
@@ -79,9 +79,7 @@ class MemberController extends Controller
 
                     User::UpdateMembersLimit($user['email']);
 
-                    Helpers::createClientsOnOneSignal($createMember['id']);
-
-                    return Helpers::successResponse('This member Linked successfully With Your Business.', [
+                    return Helpers::successResponse('This candidate Linked successfully With Your Business.', [
                         'authorization' => [
                             'status' => true,
                             'type' => 'bearer',
