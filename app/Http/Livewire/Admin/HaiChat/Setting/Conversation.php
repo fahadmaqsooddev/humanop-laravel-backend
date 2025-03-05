@@ -11,6 +11,7 @@ use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -42,6 +43,8 @@ class Conversation extends Component
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
+
+            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
@@ -83,7 +86,7 @@ class Conversation extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply);
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value']);
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {

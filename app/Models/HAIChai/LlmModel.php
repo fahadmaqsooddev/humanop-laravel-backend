@@ -27,6 +27,11 @@ class LlmModel extends Model
         return self::all();
     }
 
+    public static function getSelectedModel($modelId = null)
+    {
+        return self::whereId($modelId)->first();
+    }
+
     public static function singleModel($id = null) {
 
         return self::whereId($id)->first();
