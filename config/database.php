@@ -515,5 +515,10 @@ return [
             'fillable' => ['user_id','optimal_trait','status'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'B2BSupport'=>[
+            'table'=>'b2b_support',
+            'fillable'=>['title','description','image_id'],
+            'hidden'=>['created_at','updated_at'],
+        ]
     ]
 ];

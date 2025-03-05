@@ -9,6 +9,7 @@ use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
 use App\Models\B2B\BusinessStrategies;
 use App\Models\B2B\BusinessSubStrategies;
+use App\Models\B2B\B2BSupport;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Http\Request;
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\RegisterRequest;
 use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\UpdateB2bProfile;
+use App\Http\Requests\B2B\B2BSupportRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Models\Upload\Upload;
 
 
 class B2BAuthController extends Controller
@@ -154,6 +157,24 @@ class B2BAuthController extends Controller
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
 
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function Support(B2BSupportRequest $request){
+        try {
+            
+            $support= new B2BSupport();
+            $dataArray = $request->only($support->getFillable());
+            $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
+            
+            B2BSupport::createSupport($dataArray,$upload_id);
+
+            return Helpers::successResponse('Support Created successfully.');
 
         } catch (\Exception $exception) {
 
