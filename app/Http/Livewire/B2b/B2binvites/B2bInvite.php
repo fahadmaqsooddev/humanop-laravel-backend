@@ -51,7 +51,8 @@ class B2bInvite extends Component
                 if ($invite) {
 
                     $invite->total_member_limit = $this->total_member_limit;
-                    
+                    $invite->members_limit = $this->total_member_limit;
+
                     $invite->save();
 
                     session()->flash('success', "Members limit updated successfully.");

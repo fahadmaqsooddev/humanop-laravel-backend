@@ -20,12 +20,12 @@
       }
 
       .modal-body::-webkit-scrollbar-thumb {
-          background: #888;
+          background: #f2661c;
           border-radius: 10px;
       }
 
       .modal-body::-webkit-scrollbar-thumb:hover {
-          background: #555;
+          background: #f2661c;
       }
 
 
@@ -221,7 +221,6 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label class="form-label fs-4 text-white">Query Answer</label>
                                                                     <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
                                                                             aria-label="Close" id="close-query-edit-modal-{{$conversation->id}}">
                                                                         <span aria-hidden="true">&times;</span>
@@ -233,15 +232,6 @@
                                                                             <label class="form-label fs-6 text-white">Client Query :</label>
                                                                             <span
                                                                                 style="color: #f2661c;font-size: 20px;font-weight: 800;display: flex;">{{$conversation['message'] ?? null}}</span>
-                                                                            <label class="form-label fs-4 text-white">Answer :</label>
-                                                                            <span class="copy-text float-end" >
-                                       <!-- Copy text link -->
-{{--                                        <a class="btn-sm text-white px-3"  style="background-color: #f2661c;" onclick="copyToClipboard(`{{$conversation['reply']}}`,`{{$key}}`, this)"><strong id="copy-text{{$key}}">Copy</strong></a>--}}
-
-                                                                            </span>
-                                                                            <br>
-                                                                            {{-- <span class="mt-2">{!! $conversation['reply'] ?? null !!}</span> --}}
-                                                                            <br>
                                                                             <label class="form-label fs-6 text-white mt-4">Update Answer :</label>
                                                                     <div class="form-group" wire:ignore>
                                                                         <textarea rows="4" class="form-control text-white mt-2 editor"
@@ -312,42 +302,42 @@
 
     {{-- <script src="https://cdn.ckeditor.com/4.20.0/full/ckeditor.js"></script> --}}
 
-    
+
     <script>
        document.addEventListener('livewire:load', function () {
     // let editorInitialized = {};  // Track initialization by ID
-    
+
     // function loadScript(src, callback) {
     //     if (document.querySelector(`script[src="${src}"]`)) {
     //         callback();
     //         return;
     //     }
-        
+
     //     var script = document.createElement('script');
     //     script.src = src;
     //     script.onload = callback;
     //     document.head.appendChild(script);
     // }
-    
+
     // // Initial setup
     // initializeEditors();
-    
+
     // // Listen for custom event when user ID changes
     // window.addEventListener('livewire:load', function() {
     //     initializeEditors();
     // });
-    
+
     // function initializeEditors() {
     //     if (typeof CKEDITOR === 'undefined') {
     //         loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
-              
+
     //             setupEditors();
     //         });
     //     } else {
     //         setupEditors();
     //     }
     // }
-    
+
     // function setupEditors() {
     //     document.querySelectorAll('.editor').forEach((element, index) => {
     //         // Assign a unique ID if not already assigned
@@ -355,18 +345,18 @@
     //             const uniqueId = 'editor-' + index;
     //             element.id = uniqueId;
     //         }
-            
+
     //         const editorId = element.id;
-            
+
     //         // Check if this specific editor was already initialized
     //         if (CKEDITOR.instances[editorId]) {
     //             CKEDITOR.instances[editorId].destroy();
     //         }
-            
+
     //         // Initialize CKEditor
     //         CKEDITOR.replace(editorId);
     //         editorInitialized[editorId] = true;
-            
+
     //         // Sync CKEditor with Livewire
     //         CKEDITOR.instances[editorId].on('change', function() {
     //             const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
@@ -383,27 +373,27 @@
 
     document.addEventListener('livewire:load', function () {
     let editorInitialized = {};  // Track initialization by ID
-    
+
     function loadScript(src, callback) {
         if (document.querySelector(`script[src="${src}"]`)) {
             callback();
             return;
         }
-        
+
         var script = document.createElement('script');
         script.src = src;
         script.onload = callback;
         document.head.appendChild(script);
     }
-    
+
     // Initial setup
     initializeEditors();
-    
+
     // Listen for custom event to update editor content
     window.addEventListener('updateEditorContent', function(event) {
         const content = event.detail.content;
         const editorElements = document.querySelectorAll('.editor');
-        
+
         editorElements.forEach((element) => {
             const editorId = element.id;
             if (CKEDITOR.instances[editorId]) {
@@ -411,7 +401,7 @@
             }
         });
     });
-    
+
     function initializeEditors() {
         if (typeof CKEDITOR === 'undefined') {
             loadScript("https://cdn.ckeditor.com/4.20.0/full/ckeditor.js", function () {
@@ -421,7 +411,7 @@
             setupEditors();
         }
     }
-    
+
     function setupEditors() {
         document.querySelectorAll('.editor').forEach((element, index) => {
             // Assign a unique ID if not already assigned
@@ -429,18 +419,18 @@
                 const uniqueId = 'editor-' + index;
                 element.id = uniqueId;
             }
-            
+
             const editorId = element.id;
-            
+
             // Check if this specific editor was already initialized
             if (CKEDITOR.instances[editorId]) {
                 CKEDITOR.instances[editorId].destroy();
             }
-            
+
             // Initialize CKEditor
             CKEDITOR.replace(editorId);
             editorInitialized[editorId] = true;
-            
+
             // Sync CKEditor with Livewire
             CKEDITOR.instances[editorId].on('change', function() {
                 const wireId = element.closest('[wire\\:id]').getAttribute('wire:id');
@@ -452,9 +442,9 @@
         });
     }
 });
-    
 
-  
+
+
 });
 
 
@@ -464,7 +454,7 @@
 
 
 
-   
+
 
 
 
@@ -493,7 +483,7 @@
       });
 
       window.livewire.on('closeEditHaiReplyModal', function (id){
-            
+
           $('#close-query-edit-modal-' + id).click();
       });
 

@@ -28,7 +28,7 @@ class AddMemberRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'email' => 'required|email',
             'password' => 'required|string|min:6',
-            'phone' => 'required|unique:users,phone',
+//            'phone' => 'nullable|unique:users,phone',
             'gender'=> 'required',
             'timezone'=>'required'
         ];
@@ -43,7 +43,7 @@ class AddMemberRequest extends FormRequest
             'email.email' => 'Email must be a valid email',
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
-            'phone.required' => 'Phone number is required',
+//            'phone.required' => 'Phone number is required',
             'gender.required' => 'Gender is required',
             'timezone.required' => 'Timezone is required'
         ];

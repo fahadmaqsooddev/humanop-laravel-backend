@@ -520,5 +520,10 @@ return [
             'fillable'=>['title','description','image_id'],
             'hidden'=>['created_at','updated_at'],
         ]
+        'B2BBusinessCandidates' => [
+            'table' => 'business_candidates',
+            'fillable' => ['business_id','candidate_id'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

@@ -41,7 +41,7 @@
                                         </h4>
                                         <div class="card-body" style="height: 330px; overflow-y: auto;">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <p>{{$response['response']}}</p>
+                                                <p>{!! $response['response'] !!}</p>
                                             </div>
                                         </div>
                                     </div>
