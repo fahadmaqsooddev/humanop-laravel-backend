@@ -7,6 +7,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
+use App\Http\Requests\B2B\updateB2BProfileRequest;
 use App\Models\B2B\BusinessStrategies;
 use App\Models\B2B\BusinessSubStrategies;
 use App\Models\B2B\B2BSupport;
@@ -142,18 +143,21 @@ class B2BAuthController extends Controller
     }
 
 
-    public function ProfileUpdate(UpdateB2bProfile $request){
+    public function ProfileUpdate(updateB2BProfileRequest $request){
         try {
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
-            
             if ($request) {
 
                 $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone']);
+
                 $updated_user = User::updateUserProfile($dataArray);
+
                 return Helpers::successResponse('User updated successfully', $updated_user);
+
             } else {
+
                 return Helpers::forbiddenResponse('Please Filled Data');
             }
 
@@ -167,11 +171,11 @@ class B2BAuthController extends Controller
 
     public function Support(B2BSupportRequest $request){
         try {
-            
+
             $support= new B2BSupport();
             $dataArray = $request->only($support->getFillable());
             $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
-            
+
             B2BSupport::createSupport($dataArray,$upload_id);
 
             return Helpers::successResponse('Support Created successfully.');
