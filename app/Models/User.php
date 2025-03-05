@@ -1081,24 +1081,13 @@ class User extends Authenticatable implements JWTSubject
 
     public static function addB2BMember($data = null)
     {
-        $authUser = Helpers::getUser();
-
         $data['step'] = 3;
         $data['email_verified_at'] = Carbon::now();
         $data['status'] = 1;
         $data['is_admin'] = Admin::IS_B2U;
-        $data['business_id'] = $authUser->id;
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
-        
-        
-        $user = self::create($data);
-        
-        if ($user) {
-            self::UpdateMembersLimit($authUser->email);
-     
-        }
 
-        return $user;
+        return self::create($data);
     }
 
     public static function allBusinessMembers($business_id = null)
@@ -1106,7 +1095,7 @@ class User extends Authenticatable implements JWTSubject
 
         $users = self::where('business_id', $business_id)
     ->with(['assessments' => function ($query) {
-        $query->select('id', 'user_id'); 
+        $query->select('id', 'user_id');
     }])
     ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','timezone','phone'])
     ->get();
@@ -1114,9 +1103,9 @@ class User extends Authenticatable implements JWTSubject
             $user->gender = $user->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
             $user->setAppends([]);
         }
-    
+
     return $users;
-    
+
 
     }
 
@@ -1136,19 +1125,19 @@ class User extends Authenticatable implements JWTSubject
     public static function UpdateMember($data=null, $memberId = null){
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
      return self::where('id', $memberId)->update($data);
-        
+
     }
 
     public static function deleteMember($id=null){
-       
-    
+
+
      $updated = self::where('id', $id)->update(['business_id' => null]);
 
      $email = Helpers::getUser()->email;
-   
+
      UserInvite::where('email', $email)->increment('members_limit', 1);
-  
-     return $updated; 
+
+     return $updated;
     }
 
 

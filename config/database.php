@@ -515,5 +515,10 @@ return [
             'fillable' => ['user_id','optimal_trait','status'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'B2BBusinessCandidates' => [
+            'table' => 'business_candidates',
+            'fillable' => ['business_id','candidate_id'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\EditMemberRequest;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,67 +29,67 @@ class MemberController extends Controller
     {
 
         try {
-            
+
             $user = Helpers::getUser();
 
-            $limit=$this->user->MembersLimit($user['email']);
-          
-           
-            if(empty($limit)){
+            $limit = $this->user->MembersLimit($user['email']);
 
-                return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');  
+            if (empty($limit)) {
 
+                return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
+
+            } else {
+
+                $dataArray = $request->only($this->user->getFillable());
+
+                $checkDeletedUser = User::checkDeleteEmail($dataArray['email']);
+
+                if (!empty($checkDeletedUser)) {
+
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+                }
+
+                $checkUser = User::checkEmail($dataArray['email']);
+
+                if (!empty($checkUser)) {
+
+                    $checkCandidate = B2BBusinessCandidates::checkBusinessCandidate($user['id'], $checkUser['id']);
+
+                    if ($checkCandidate == false) {
+
+                        B2BBusinessCandidates::registerCandidate($user['id'], $checkUser['id']);
+
+                        User::UpdateMembersLimit($user['email']);
+
+                        return Helpers::successResponse('This member successfully linked to your business.');
+
+                    } else {
+
+                        return Helpers::validationResponse('This member is already associated with a business');
+
+                    }
+
+                }
+
+                if (empty($checkUser)) {
+
+                    $createMember = User::addB2BMember($dataArray);
+
+                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id']);
+
+                    User::UpdateMembersLimit($user['email']);
+
+                    Helpers::createClientsOnOneSignal($createMember['id']);
+
+                    return Helpers::successResponse('This member Linked successfully With Your Business.', [
+                        'authorization' => [
+                            'status' => true,
+                            'type' => 'bearer',
+                        ],
+
+                    ]);
+                }
             }
-
-            else
-
-            {
-
-                  
-            $dataArray = $request->only($this->user->getFillable());
-      
-            $checkDeletedUser = User::checkDeleteEmail($dataArray['email']);
-             
-            
-            if (!empty($checkDeletedUser)) {
-                
-                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-            }
-
-            $checkUser = User::checkEmail($dataArray['email']);
-
-            if ($checkUser && !empty($checkUser['business_id'])) {
-
-                return Helpers::validationResponse('This member is already 
-                associated with a busines');
-
-            }
-
-            if ($checkUser && empty($checkUser['business_id'])) {
-             
-                $checkUser->update(['business_id' => $user['id']]);
-
-                User::UpdateMembersLimit($user['email']);
-                
-                return Helpers::successResponse('This member successfully linked to your business.');
-
-            }
-
-            if (empty($checkUser)) {
-             
-                $createMember = User::addB2BMember($dataArray);
-
-                Helpers::createClientsOnOneSignal($createMember['id']);
-
-                return Helpers::successResponse('This member Linked successfully With Your Business.', [
-                    'authorization' => [
-                        'status' => true,
-                        'type' => 'bearer',
-                    ],
-
-                ]);
-            }
-        }
 
         } catch (\Exception $exception) {
 
@@ -102,25 +103,13 @@ class MemberController extends Controller
     {
         try {
 
-            $members = User::allBusinessMembers(Helpers::getUser()['id'])
+            $members = User::allBusinessMembers(Helpers::getUser()['id'])->map(function ($member) {
 
-           ->map(function ($member) {
+                $member->status = $member->last_login ? 'on-board' : 'pending';
 
-            $member->status = $member->last_login ? 'on-board' : 'pending';
+                $member->last_login = $member->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
 
-            $member->last_login = $member->last_login
-            
-            
-
-            ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') 
-
-            : null;
-
-            
-
-
-
-            return $member;
+                return $member;
 
             });
 
@@ -135,39 +124,39 @@ class MemberController extends Controller
     }
 
 
+    public function EditMember(EditMemberRequest $request)
+    {
 
-    public function EditMember(EditMemberRequest $request){
-    
-       try {
-        
-        $dataArray = $request->only($this->user->getFillable());
-        
-        $user=$this->user->UpdateMember($dataArray, $request['member_id']);
-       
-        return Helpers::successResponse('Member updated successfully.');
-        
-       } catch (\Exception $exception) {
-       
-        return Helpers::serverErrorResponse($exception->getMessage());
-       }
+        try {
+
+            $dataArray = $request->only($this->user->getFillable());
+
+            $user = $this->user->UpdateMember($dataArray, $request['member_id']);
+
+            return Helpers::successResponse('Member updated successfully.');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 
-    public function DeleteMember(Request $request){
+    public function DeleteMember(Request $request)
+    {
         try {
-            
+
             $user = Helpers::getUser()->id;
-            $data=User::where('id',$request['member_id'])->first();
-            
-            if($data->business_id != $user){
+            $data = User::where('id', $request['member_id'])->first();
+
+            if ($data->business_id != $user) {
                 return Helpers::validationResponse('You are not authorized to delete this member.');
-            }else{
+            } else {
                 $this->user->deleteMember($request['member_id']);
-            return Helpers::successResponse('Member deleted successfully.');
+                return Helpers::successResponse('Member deleted successfully.');
 
             }
 
-            
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
