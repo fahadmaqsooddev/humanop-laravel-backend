@@ -139,10 +139,35 @@
 </div>
 
 <div class="col-12">
-    {{$support['description']}}
+    <p id="short-description" style="margin:10px;color:black;">
+        {{ \Illuminate\Support\Str::words($support['description'], 30, '...') }}
+        <br>
+        <a href="javascript:void(0);" class="btn mb-0 text-white" style="background-color: #f2661c; border-radius: 0px 5px 5px 0px;margin-top:1rem" onclick="toggleDescription()">Read More</a>
+    </p>
+    <p id="full-description" style="display: none;margin:10px;color:black;">
+        {{ $support['description'] }}
+        <br>
+        <a href="javascript:void(0);" class="btn mb-0 text-white" style="margin-top:1rem;background-color: #f2661c; border-radius: 0px 5px 5px 0px" onclick="toggleDescription()">Read Less</a>
+    </p>
 </div>
 
             </div>
         </div>
     </div>
+
+
+<script>
+    function toggleDescription() {
+        var shortDesc = document.getElementById("short-description");
+        var fullDesc = document.getElementById("full-description");
+
+        if (shortDesc.style.display === "none") {
+            shortDesc.style.display = "block";
+            fullDesc.style.display = "none";
+        } else {
+            shortDesc.style.display = "none";
+            fullDesc.style.display = "block";
+        }
+    }
+</script>
 @endsection

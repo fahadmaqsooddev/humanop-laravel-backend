@@ -101,7 +101,7 @@ class MemberController extends Controller
     {
         try {
 
-            $members = User::allBusinessMembers(Helpers::getUser()['id'])->map(function ($member) {
+            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'])->map(function ($member) {
 
                 $member->status = $member->last_login ? 'on-board' : 'pending';
 
@@ -111,7 +111,7 @@ class MemberController extends Controller
 
             });
 
-            return Helpers::successResponse('All members', $members);
+            return Helpers::successResponse('All candidates', $members);
 
 
         } catch (\Exception $exception) {
@@ -131,7 +131,7 @@ class MemberController extends Controller
 
             $user = $this->user->UpdateMember($dataArray, $request['member_id']);
 
-            return Helpers::successResponse('Member updated successfully.');
+            return Helpers::successResponse('candidate updated successfully.');
 
         } catch (\Exception $exception) {
 
@@ -148,10 +148,10 @@ class MemberController extends Controller
             $data = User::where('id', $request['member_id'])->first();
 
             if ($data->business_id != $user) {
-                return Helpers::validationResponse('You are not authorized to delete this member.');
+                return Helpers::validationResponse('You are not authorized to delete this candidate.');
             } else {
                 $this->user->deleteMember($request['member_id']);
-                return Helpers::successResponse('Member deleted successfully.');
+                return Helpers::successResponse('candidate deleted successfully.');
 
             }
 
