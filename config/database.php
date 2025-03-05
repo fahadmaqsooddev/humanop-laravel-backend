@@ -519,7 +519,7 @@ return [
             'table'=>'b2b_support',
             'fillable'=>['title','description','image_id'],
             'hidden'=>['created_at','updated_at'],
-        ]
+        ],
         'B2BBusinessCandidates' => [
             'table' => 'business_candidates',
             'fillable' => ['business_id','candidate_id'],
