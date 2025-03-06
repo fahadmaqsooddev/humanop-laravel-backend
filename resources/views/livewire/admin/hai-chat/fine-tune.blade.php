@@ -30,6 +30,7 @@
                 <tr class="table-text-color">
                     <th>Question</th>
                     <th>Answer</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -59,16 +60,31 @@
                             @endif
                         </td>
                         <td>
-                            <button class="btn mb-0 text-white"
-                                    wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
-                                    style="background-color: #f2661c;border-radius: 5px"
-                                    data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">
-                                <i class="fa fa-pencil"></i>
-                            </button>
-                            <button class="btn mb-0 text-white" onclick="deleteQuestionAnswer({{$content['id']}})"
-                                    style="background-color: #ff0000;border-radius: 5px;">
-                                <i class="fa fa-trash"></i>
-                            </button>
+                            @if($content['is_fine_tuned'] === 1)
+                                @if($content['queued_for_fine_tuning'])
+                                    <button wire:click="changeQuestionStatus({{$content['id']}}, 0)" class="btn mb-0 text-white" style="font-size: 10px;background-color: lightgray;border-radius: 5px">
+                                        Added to Queue
+                                    </button>
+                                @else
+                                    <button wire:click="changeQuestionStatus({{$content['id']}}, 1)" class="btn mb-0 text-white" style="font-size: 10px;background-color: #f2661c;border-radius: 5px">
+                                        Add to Queue
+                                    </button>
+                                @endif
+                            @endif
+                        </td>
+                        <td>
+                            @if($content['is_fine_tuned'] === 1)
+                                <button class="btn mb-0 text-white"
+                                        wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
+                                        style="background-color: #f2661c;border-radius: 5px"
+                                        data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn mb-0 text-white" onclick="deleteQuestionAnswer({{$content['id']}})"
+                                        style="background-color: #ff0000;border-radius: 5px;">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            @endif
                         </td>
                     </tr>
 

@@ -517,7 +517,7 @@ return [
         ],
         'FineTuneContent' => [
             'table' => 'fine_tune_content',
-            'fillable' => ['question','answer','is_fine_tuned'],
+            'fillable' => ['question','answer','is_fine_tuned','queued_for_fine_tuning'],
             'hidden' => ['created_at','updated_at'],
         ],
         'B2BSupport'=>[
