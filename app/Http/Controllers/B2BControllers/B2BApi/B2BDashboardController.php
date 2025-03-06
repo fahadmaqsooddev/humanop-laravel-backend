@@ -29,13 +29,13 @@ class B2BDashboardController extends Controller
         try {
 
             $candidate = B2BBusinessCandidates::getBusinessCandidate();
-            
+
             $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
 
-            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '');
+            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
 
             $data = [
-               
+
                 'candidates-name' => isset($candidate['users']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
                 'optimization-plan' => $optimizationPlan ,
                 'core-state' => $coreState ,

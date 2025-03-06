@@ -158,7 +158,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $coreState = Assessment::getCoreState($assessment);
+            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
             return Helpers::successResponse('core stats', $coreState);
 

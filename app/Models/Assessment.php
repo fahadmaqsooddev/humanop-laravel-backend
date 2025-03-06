@@ -1512,10 +1512,10 @@ class Assessment extends Model
             ->get();
     }
 
-    public static function getCoreState($assessment = null)
+    public static function getCoreState($assessment = null, $dateOfBirth = null)
     {
 
-        $interval_of_life = User::getUserAge(Helpers::getUser()->date_of_birth);
+        $interval_of_life = User::getUserAge($dateOfBirth);
 
         $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
@@ -1536,7 +1536,7 @@ class Assessment extends Model
         $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
 
         $data = [
-//            'assessment' => $assessment,
+            'assessment' => $assessment,
             'topThreeStyles' => $topThreeStyles,
             'boundary' => $boundary,
             'topTwoFeatures' => $topTwoFeatures,
