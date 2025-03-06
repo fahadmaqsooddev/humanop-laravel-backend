@@ -2,11 +2,11 @@
 
 namespace App\Models\B2B;
 
+use App\Helpers\Helpers;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 use App\Models\Assessment;
-use App\Enums\Admin\Admin;
 
 class B2BBusinessCandidates extends Model
 {
@@ -20,11 +20,13 @@ class B2BBusinessCandidates extends Model
 
         parent::__construct($attributes);
     }
-    
 
-    public function users(){
+    //    RelationShip
+    public function users()
+    {
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
+
     public function assessments()
     {
         return $this->hasMany(Assessment::class, 'user_id', 'candidate_id');
@@ -43,35 +45,24 @@ class B2BBusinessCandidates extends Model
         ]);
     }
 
-    // public static function allBusinessMembers($business_id = null) {
-        
-    // $query = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone']) ; 
-
-    // if (!is_null($business_id)) {
-    //     $query->where('business_id', $business_id);
-    // }
-
-    // $data = $query->get();
-  
-    
-    // return $data;
-    
-
-    
-    // }
-
-    public static function allBusinessMembers($business_id = null) {
-        
+    public static function allBusinessMembers($business_id = null)
+    {
         return self::with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone',
-            'assessments'=>function($query){
+            'assessments' => function ($query) {
                 $query->select('id', 'user_id');
-            } 
+            }
         ])
-        ->when($business_id, fn($query) => $query->where('business_id', $business_id))
-        ->get();
+            ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+            ->get();
     }
-    
-    
-    
+
+    public static function getBusinessCandidate()
+    {
+        $businessId = Helpers::getUser()['id'];
+
+        return self::where('business_id', $businessId)->whereHas('assessments')->with(['users', 'assessments'])->get();
+
+    }
+
 }
