@@ -49,7 +49,7 @@
                     </a>
                 </td>
                 <td class="text-md font-weight-normal">
-                    <a wire:click="approveAnswer({{$query['id']}})" class=" btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
+                    <a wire:click="approveAnswer({{$query['id']}})" class="btn btn-sm mt-2 mb-0" style="background:#f2661c !important;color:white;font-weight:bolder;border:none;">
                         Approve
                     </a>
                 </td>
