@@ -60,7 +60,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($content['is_fine_tuned'] === 1)
+                            @if($content['is_fine_tuned'] === 1 || $content['is_fine_tuned'] === '1')
                                 @if($content['queued_for_fine_tuning'])
                                     <button wire:click="changeQuestionStatus({{$content['id']}}, 0)" class="btn mb-0 text-white" style="font-size: 10px;background-color: lightgray;border-radius: 5px">
                                         Added to Queue
@@ -73,7 +73,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($content['is_fine_tuned'] === 1)
+                            @if($content['is_fine_tuned'] === 1 || $content['is_fine_tuned'] === '1')
                                 <button class="btn mb-0 text-white"
                                         wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
                                         style="background-color: #f2661c;border-radius: 5px"
