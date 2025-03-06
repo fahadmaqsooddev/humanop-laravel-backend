@@ -30,7 +30,7 @@ class FineTuneContent extends Model
 
     public static function allContent($perPage){
 
-        return self::where('is_fine_tuned', 0)->paginate($perPage);
+        return self::paginate($perPage)->setPath(route('fine_tune'));
 
     }
 
