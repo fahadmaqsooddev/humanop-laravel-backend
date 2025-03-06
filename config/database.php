@@ -519,6 +519,21 @@ return [
             'table' => 'fine_tune_content',
             'fillable' => ['question','answer','is_fine_tuned'],
             'hidden' => ['created_at','updated_at'],
-        ]
+        ],
+        'B2BSupport'=>[
+            'table'=>'b2b_support',
+            'fillable'=>['title','description','image_id'],
+            'hidden'=>['created_at','updated_at'],
+        ],
+        'B2BBusinessCandidates' => [
+            'table' => 'business_candidates',
+            'fillable' => ['business_id','candidate_id'],
+            'hidden' => ['updated_at','created_at'],
+        ],
+        'B2BCandidateStat' => [
+            'table' => 'b2b_candidate_stats',
+            'fillable' => ['business_id','candidate_id','action_plan_id'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

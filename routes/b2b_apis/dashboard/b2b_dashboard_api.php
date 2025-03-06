@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['checkUser']], function () {
-    Route::post('b2b-profile-update','B2BAuthController@ProfileUpdate');
-    Route::post('create-b2b-support','B2BAuthController@Support');
+
+    Route::get('candidate-optimization-and-core-state', 'B2BDashboardController@candidateOptimizationAndCoreState');
 
 });
