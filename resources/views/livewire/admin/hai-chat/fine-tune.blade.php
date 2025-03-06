@@ -13,6 +13,13 @@
                     Add Question
                 </button>
 
+                <button class="btn-sm m-1"
+                        wire:click="downloadQuestions"
+                        style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">
+                    <i class="fa-solid fa-download"></i>
+                    Questions
+                </button>
+
             </div>
         </div>
     </div>

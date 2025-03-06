@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Admin\HaiChat;
 
 use App\Models\Admin\FineTuneContent\FineTuneContent;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -89,5 +91,27 @@ class FineTune extends Component
     public static function changeQuestionStatus($id, $status){
 
         FineTuneContent::whereId($id)->update(['queued_for_fine_tuning' => $status]);
+    }
+
+    public static function downloadQuestions(){
+
+        $questions = FineTuneContent::retrieveAndUpdateQuestions();
+
+        $fileName = 'fine-tuning-content-' . Carbon::now()->format('Y-m-d') . '.jsonl';
+
+        $data = '';
+
+        foreach ($questions as $question){
+
+            $data .= json_encode(["messages" => [['role' => 'user', 'content' => $question['question']],
+                    ['role' => 'assistant','content' => $question['answer']]]]) . "\n";
+
+            $question->update(['is_fine_tuned' => 1]);
+
+        }
+
+        Storage::disk('local')->put($fileName, $data);
+
+        return response()->download(storage_path("app/{$fileName}"))->deleteFileAfterSend(true);
     }
 }

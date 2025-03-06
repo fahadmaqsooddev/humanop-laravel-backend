@@ -30,7 +30,7 @@ class FineTuneContent extends Model
 
     public static function allContent($perPage){
 
-        return self::paginate($perPage)->setPath(route('fine_tune'));
+        return self::latest()->paginate($perPage)->setPath(route('fine_tune'));
 
     }
 
@@ -46,5 +46,12 @@ class FineTuneContent extends Model
 
         self::create($data);
 
+    }
+
+    public static function retrieveAndUpdateQuestions(){
+
+        $questions = self::where('is_fine_tuned', 0)->where('queued_for_fine_tuning', 1)->get();
+
+        return $questions;
     }
 }
