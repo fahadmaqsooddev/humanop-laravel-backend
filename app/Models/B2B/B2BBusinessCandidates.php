@@ -60,34 +60,28 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-    $count = self::where('business_id', Helpers::getUser()['id'])
-->whereHas('assessments')
-->count(); 
+        $count = self::where('business_id', Helpers::getUser()['id'])->whereHas('assessments')->count();
 
+        $randomRecord = null;
 
+        if ($count > 0) {
 
-$randomRecord = null;
+            $randomOffset = mt_rand(0, $count - 1);
 
-if ($count > 0) {
-$randomOffset = mt_rand(0, $count - 1); 
-
-
-$randomRecord = self::where('business_id', Helpers::getUser()['id'])
-
-    ->whereHas('assessments')
-
-    ->with([
-        'users',
-        'assessments' => function ($query) {
-            $query->where('page', 0);
+            $randomRecord = self::where('business_id', Helpers::getUser()['id'])
+                ->whereHas('assessments')
+                ->with([
+                    'users',
+                    'assessments' => function ($query) {
+                        $query->where('page', 0);
+                    }
+                ])
+                ->skip($randomOffset)
+                ->take(1)
+                ->first();
         }
-    ])
-    ->skip($randomOffset) 
-    ->take(1) 
-    ->first();
-}
 
-return $randomRecord;
+        return $randomRecord;
 
     }
 
