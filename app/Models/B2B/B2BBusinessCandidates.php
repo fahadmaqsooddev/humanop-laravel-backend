@@ -61,18 +61,10 @@ class B2BBusinessCandidates extends Model
     {
         $businessId = Helpers::getUser()['id'];
 
-        // return self::where('business_id', $businessId)->whereHas('assessments')
-        // ->with(['users', 'assessments'=>function($query){
-        //     $query->where('page',0);
-        // }])->first();
-        return self::where('business_id', $businessId)
-    ->whereHas('assessments')
-    ->with(['users', 'assessments' => function ($query) {
-        $query->where('page', 0);
-    }])
-    ->inRandomOrder() // Randomly orders the results
-    ->first(); // Picks the first random candidate
-
+        return self::where('business_id', $businessId)->whereHas('assessments')
+        ->with(['users', 'assessments'=>function($query){
+            $query->where('page',0);
+        }])->first();
 
     }
 
