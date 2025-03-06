@@ -28,22 +28,24 @@ class B2BDashboardController extends Controller
     {
         try {
 
-            $candidates = B2BBusinessCandidates::getBusinessCandidate();
+            $candidate = B2BBusinessCandidates::getBusinessCandidate();
+            
+            $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
 
-            $optimizationPlan = ActionPlan::getUserActionPlan($candidates[0]['candidate_id']);
-
-            $coreState = Assessment::getCoreState($candidates[0]['assessments'][0]);
+            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '');
 
             $data = [
-                'candidates-name' => $candidates[0]['users']['first_name'] . ' ' . $candidates[0]['users']['last_name'],
-                'optimization-plan' => $optimizationPlan,
-                'core-state' => $coreState,
+               
+                'candidates-name' => isset($candidate['users']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
+                'optimization-plan' => $optimizationPlan ,
+                'core-state' => $coreState ,
             ];
 
             return Helpers::successResponse('candidates optimization and core state', $data);
 
         } catch (\Exception $exception) {
 
+            return Helpers::serverErrorResponse($exception->getMessage());
 
         }
     }

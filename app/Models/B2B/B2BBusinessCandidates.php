@@ -29,7 +29,7 @@ class B2BBusinessCandidates extends Model
 
     public function assessments()
     {
-        return $this->hasMany(Assessment::class, 'user_id', 'candidate_id');
+        return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
     }
 
     public static function checkBusinessCandidate($businessId = null, $candidateId = null)
@@ -61,7 +61,7 @@ class B2BBusinessCandidates extends Model
     {
         $businessId = Helpers::getUser()['id'];
 
-        return self::where('business_id', $businessId)->whereHas('assessments')->with(['users', 'assessments'])->get();
+        return self::where('business_id', $businessId)->whereHas('assessments')->with(['users', 'assessments'])->first();
 
     }
 
