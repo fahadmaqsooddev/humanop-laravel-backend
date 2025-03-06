@@ -141,6 +141,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/groups', [AdminController::class, 'embeddingGroups'])->name('admin_embedding_groups');
         Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
+        Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {
