@@ -4,6 +4,7 @@ namespace App\Models\HAIChai;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -84,6 +85,9 @@ class QueryAnswer extends Model
             'question' => $answer['question']['query'] ?? null,
             'answer' => $answer->answer ?? null,
         ];
+
+        FineTuneContent::addLisaApprovedQuestionAnswers($body);
+
         $app_env = env('APP_ENV');
 
         $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';

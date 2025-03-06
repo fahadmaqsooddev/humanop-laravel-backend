@@ -515,5 +515,10 @@ return [
             'fillable' => ['user_id','optimal_trait','status'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'FineTuneContent' => [
+            'table' => 'fine_tune_content',
+            'fillable' => ['question','answer','is_fine_tuned'],
+            'hidden' => ['created_at','updated_at'],
+        ]
     ]
 ];
