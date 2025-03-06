@@ -36,7 +36,7 @@ class B2BDashboardController extends Controller
 
             $data = [
 
-                'candidates-name' => isset($candidate['users']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
+                'candidates-name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
                 'optimization-plan' => $optimizationPlan ,
                 'core-state' => $coreState ,
             ];
