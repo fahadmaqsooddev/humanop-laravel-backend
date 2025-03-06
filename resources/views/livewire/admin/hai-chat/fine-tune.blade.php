@@ -12,12 +12,6 @@
                         style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">
                     Add Question
                 </button>
-                <button class="btn-sm m-1"
-{{--                        data-bs-toggle="modal"--}}
-{{--                        data-bs-target="#addQuestionAnswerModel"--}}
-                        style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">
-                    Tune Model
-                </button>
 
             </div>
         </div>
@@ -60,7 +54,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($content['is_fine_tuned'] === 1 || $content['is_fine_tuned'] === '1')
+                            @if($content['is_fine_tuned'] === 0)
                                 @if($content['queued_for_fine_tuning'])
                                     <button wire:click="changeQuestionStatus({{$content['id']}}, 0)" class="btn mb-0 text-white" style="font-size: 10px;background-color: lightgray;border-radius: 5px">
                                         Added to Queue
@@ -73,7 +67,7 @@
                             @endif
                         </td>
                         <td>
-                            @if($content['is_fine_tuned'] === 1 || $content['is_fine_tuned'] === '1')
+                            @if($content['is_fine_tuned'] === 0)
                                 <button class="btn mb-0 text-white"
                                         wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
                                         style="background-color: #f2661c;border-radius: 5px"
