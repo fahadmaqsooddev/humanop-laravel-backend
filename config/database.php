@@ -530,5 +530,10 @@ return [
             'fillable' => ['business_id','candidate_id'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'B2BCandidateStat' => [
+            'table' => 'b2b_candidate_stats',
+            'fillable' => ['business_id','candidate_id','action_plan_id'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

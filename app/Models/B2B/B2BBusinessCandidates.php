@@ -59,13 +59,16 @@ class B2BBusinessCandidates extends Model
 
     public static function getBusinessCandidate()
     {
-        $businessId = Helpers::getUser()['id'];
-
-        return self::where('business_id', $businessId)->whereHas('assessments')
-        ->with(['users', 'assessments'=>function($query){
-            $query->where('page',0);
-        }])->first();
-
+        return self::where('business_id', Helpers::getUser()['id'])
+            ->whereHas('assessments')
+            ->with([
+                'users',
+                'assessments' => function ($query) {
+                    $query->where('page', 0);
+                }
+            ])
+//            ->inRandomOrder()
+            ->first(); // Get only one random record
     }
 
 }
