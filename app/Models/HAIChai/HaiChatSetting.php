@@ -48,13 +48,15 @@ class HaiChatSetting extends Model
 
         $defaultPlanId = Plan::where('name', 'Freemium')->first()->id ?? null;
 
+        $model_id = LlmModel::where('model_value', $model_type)->value('id');
+
         if ($setting){
 
             $setting->update([
                 'temperature' => $temperature,
                 'max_token' => $max_token,
                 'chunk' => $chunk,
-                'model_type' => $model_type,
+                'model_type' => $model_id,
                 'plan_id' => $plan_id ?? $defaultPlanId,
             ]);
 
@@ -64,7 +66,7 @@ class HaiChatSetting extends Model
                 'temperature' => $temperature ?? 0.5,
                 'max_token' => $max_token ?? 500,
                 'chunk' => $chunk ?? 5,
-                'model_type' => $model_type ?? self::GPT_4o_MINI,
+                'model_type' => $model_id ?? 1,
                 'chat_bot_id' => $chat_bot_id,
                 'plan_id' => $plan_id ?? $defaultPlanId,
             ]);

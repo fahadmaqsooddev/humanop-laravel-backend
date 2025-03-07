@@ -21,7 +21,7 @@ class HaiChatConversation extends Model
     public static function getConversation($chatBot = null, $user_id = null)
     {
         $user_id = empty($user_id) ? null : $user_id;
-        
+
         return self::where('chatbot', $chatBot)->where('user_id', $user_id)->get();
     }
 
