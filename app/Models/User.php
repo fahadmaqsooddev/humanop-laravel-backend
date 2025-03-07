@@ -1121,8 +1121,17 @@ class User extends Authenticatable implements JWTSubject
 
 
     public static function UpdateMember($data=null, $memberId = null){
+       
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
-     return self::where('id', $memberId)->update($data);
+        if(!empty($data['password'])){
+            $data['password']=Hash::make($data['password']);
+            return self::where('id', $memberId)->update($data);
+        }else{
+            
+            $userinfo=User::where('id',$memberId)->first();
+            $data['password']=$userinfo['password'];
+            self::where('id', $memberId)->update($data);
+        }
 
     }
 
