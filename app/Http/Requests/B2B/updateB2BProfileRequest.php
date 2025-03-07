@@ -29,7 +29,8 @@ class updateB2BProfileRequest extends FormRequest
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:male,female',
             'timezone' => 'required',
-            'phone' => 'nullable|max:25'
+            'phone' => 'nullable|max:25',
+            'company_name' => 'required|string|max:50',
         ];
     }
 
@@ -43,6 +44,8 @@ class updateB2BProfileRequest extends FormRequest
             'timezone.required' => 'Timezone is required',
             'gender.in' => 'Invalid gender. Gender must be male or female',
             'phone.max' => 'The phone number should not exceed 25 characters.',
+            'company_name.required' => 'Company Name is required.',
+            'company_name.max' => 'Company Name cannot exceed 50 characters.',
 
         ];
     }
