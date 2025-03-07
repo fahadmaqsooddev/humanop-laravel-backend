@@ -554,10 +554,21 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $user_id = Helpers::getUser()->id;
+       
 
         $request['gender'] = $request['gender'] === 'male' ? 0 : 1;
-
+        
+        if (isset($request['password']) && !empty($request['password'])) {
+            $request['password'] = Hash::make($request['password']);
+           
+        } else {
+            $request['password'] = Helpers::getUser()->password;
+            
+        }
+        
         self::whereId($user_id)->update($request);
+        
+
 
         return self::user($user_id);
     }
