@@ -15,6 +15,7 @@
 
                 <button class="btn-sm m-1"
                         wire:click="downloadQuestions"
+                        wire:target="downloadQuestions" wire:loading.attr="disabled"
                         style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">
                     <i class="fa-solid fa-download"></i>
                     Questions
@@ -31,7 +32,7 @@
                 <tr class="table-text-color">
                     <th>Question</th>
                     <th>Answer</th>
-                    <th>Status</th>
+                    <th>Fine Tuned</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -60,17 +61,11 @@
                                 {{ $content['answer'] }}
                             @endif
                         </td>
-                        <td>
-                            @if($content['is_fine_tuned'] === 0)
-                                @if($content['queued_for_fine_tuning'])
-                                    <button wire:click="changeQuestionStatus({{$content['id']}}, 0)" class="btn mb-0 text-white" style="font-size: 10px;background-color: lightgray;border-radius: 5px">
-                                        Added to Queue
-                                    </button>
-                                @else
-                                    <button wire:click="changeQuestionStatus({{$content['id']}}, 1)" class="btn mb-0 text-white" style="font-size: 10px;background-color: #f2661c;border-radius: 5px">
-                                        Add to Queue
-                                    </button>
-                                @endif
+                        <td class="text-center">
+                            @if($content['is_fine_tuned'])
+                                <i class="fa-solid fa-check" style="color: #f2661c;"></i>
+                            @else
+                                <i class="fa-solid fa-xmark"></i>
                             @endif
                         </td>
                         <td>

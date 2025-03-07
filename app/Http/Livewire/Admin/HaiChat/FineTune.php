@@ -88,11 +88,6 @@ class FineTune extends Component
         FineTuneContent::whereId($id)->delete();
     }
 
-    public static function changeQuestionStatus($id, $status){
-
-        FineTuneContent::whereId($id)->update(['queued_for_fine_tuning' => $status]);
-    }
-
     public static function downloadQuestions(){
 
         $questions = FineTuneContent::retrieveAndUpdateQuestions();

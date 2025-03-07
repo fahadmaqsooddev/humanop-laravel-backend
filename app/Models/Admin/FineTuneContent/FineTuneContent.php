@@ -50,7 +50,7 @@ class FineTuneContent extends Model
 
     public static function retrieveAndUpdateQuestions(){
 
-        $questions = self::where('is_fine_tuned', 0)->where('queued_for_fine_tuning', 1)->get();
+        $questions = self::where('is_fine_tuned', 0)->get();
 
         return $questions;
     }
