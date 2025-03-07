@@ -78,7 +78,7 @@ class ChatAiController extends Controller
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
-                $body = ['query' => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer')];
+                $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer')];
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
@@ -89,7 +89,7 @@ class ChatAiController extends Controller
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
-                    HaiChat::createChat($request->input('question'), $choice['message']['content'], null, $request->input('is_repeat_answer'));
+                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
 
                     $reply = [
                         $choice['message']['content'] ?? "",
@@ -100,7 +100,7 @@ class ChatAiController extends Controller
             }else{
 
                 $reply = [
-                    $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                    $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unable to response you about these.',
                     3,
                 ];
             }
