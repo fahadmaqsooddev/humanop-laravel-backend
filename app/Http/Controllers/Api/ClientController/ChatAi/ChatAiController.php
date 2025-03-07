@@ -60,6 +60,8 @@ class ChatAiController extends Controller
 
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
 
+            $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
+            
             if (!$is_restricted_word){
 
 //                $assessments = AssessmentHelper::getAssessments();
