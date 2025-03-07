@@ -10,10 +10,12 @@
                         data-bs-toggle="modal"
                         data-bs-target="#addQuestionAnswerModel"
                         style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">
-                    Add Question
+                    <i class="fa-solid fa-plus"></i>
+                    Question
                 </button>
 
                 <button class="btn-sm m-1"
+                        title="It download questions in jsonl format"
                         wire:click="downloadQuestions"
                         wire:target="downloadQuestions" wire:loading.attr="disabled"
                         style="background:#f2661c;color:white;font-weight:bolder;border-radius: 7px;border: none">

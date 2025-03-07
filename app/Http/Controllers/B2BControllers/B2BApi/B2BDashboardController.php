@@ -53,7 +53,7 @@ class B2BDashboardController extends Controller
 
                 B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
 
-            } elseif (!$isCandidateAvailable) {
+            } elseif (!$isCandidateAvailable && !empty($candidate)) {
 
                 B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
 
