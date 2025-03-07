@@ -673,6 +673,7 @@ class Assessment extends Model
         {
             $data[] =  [
                 'code_number' => $style['code_number'],
+                'code_name' => $style['code'],
                 'public_name' => $style['codeDetails'][0]['public_name'],
                 'description' => $style['codeDetails'][0]['text'],
                 'video_url' => $style['codeDetails'][0]['video_url']
