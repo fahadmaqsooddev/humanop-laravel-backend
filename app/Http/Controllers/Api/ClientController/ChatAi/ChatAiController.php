@@ -84,21 +84,28 @@ class ChatAiController extends Controller
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
 
+                $reply = null;
+
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
                     HaiChat::createChat($request->input('question'), $choice['message']['content'], null, $request->input('is_repeat_answer'));
+
+                    $reply = [
+                        $choice['message']['content'] ?? "",
+                        0
+                    ];
                 }
 
             }else{
 
-                $aiReply = [
+                $reply = [
                     $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
                     3,
                 ];
             }
 
-            return Helpers::successResponse('Answer of asked question', $aiReply);
+            return Helpers::successResponse('Answer of asked question', $reply);
 
         }catch (\Exception $exception){
 
