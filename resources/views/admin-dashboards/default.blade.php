@@ -463,7 +463,7 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="mt-4">
             <div class=" card z-index-2 MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 css-ebtddw">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
