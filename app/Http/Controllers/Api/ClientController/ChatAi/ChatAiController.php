@@ -62,7 +62,7 @@ class ChatAiController extends Controller
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
 
             $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
-            
+
             if (!$is_restricted_word){
 
 //                $assessments = AssessmentHelper::getAssessments();
@@ -85,16 +85,12 @@ class ChatAiController extends Controller
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
-                Log::info(['rag' => $aiReply]);
-
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
 
                 $reply = null;
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
-
-                    Log::info(['router response' => $choice['message']['content']]);
 
                     HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
 
