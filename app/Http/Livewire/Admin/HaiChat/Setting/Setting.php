@@ -8,6 +8,7 @@ use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
 use App\Models\HAIChai\LlmModel;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
@@ -61,6 +62,8 @@ class Setting extends Component
         ];
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
+
+        Log::info(['log' => $aiReply]);
 
         if (isset($aiReply['s3_path'])){
 
