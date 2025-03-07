@@ -530,5 +530,10 @@ return [
             'fillable' => ['business_id','candidate_id','action_plan_id'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'AnalyticsModel' => [
+            'table' => 'analytics',
+            'fillable' => ['llm_model_id','prompt_token','completion_token','total_token','query'],
+            'hidden' => ['updated_at','deleted_at'],
+        ],
     ]
 ];
