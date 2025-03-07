@@ -48,7 +48,7 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessMembers($business_id = null)
     {
         return self::with([
-            'users:id,first_name,last_name,email,gender,last_login,timezone,phone',
+            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth',
             'assessments' => function ($query) {
                 $query->select('id', 'user_id');
             }
