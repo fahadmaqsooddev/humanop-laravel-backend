@@ -63,8 +63,6 @@ class Setting extends Component
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
 
-        Log::info(['log' => $aiReply]);
-
         if (isset($aiReply['s3_path'])){
 
             Chatbot::where('is_published', 1)->update(['is_published' => 0]);
