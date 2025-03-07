@@ -58,7 +58,7 @@ class Comparison extends Component
 
         $this->validate();
 
-        $this->message = '';
+//        $this->message = '';
 
         $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
@@ -92,6 +92,7 @@ class Comparison extends Component
                             $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
 
                             $this->modelResponse[] = [
+                                'question' => $this->message,
                                 'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
                                 'response' => $choice['message']['content']
                             ];

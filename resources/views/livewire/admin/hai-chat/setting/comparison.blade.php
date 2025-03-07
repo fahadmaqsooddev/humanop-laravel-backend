@@ -36,9 +36,12 @@
                             @foreach($modelResponse as $response)
                                 <div class="col-md-6">
                                     <div class="card bg-dark text-white shadow-sm p-3 mb-3" style="height: 400px;">
-                                        <h4 class="text-bold text-white">
+                                        <h5 class="text-bold text-white">
                                            LLm Model : <span style="margin-left: 27px; color: #f2661c;">{{$response['model']}}</span>
-                                        </h4>
+                                        </h5>
+                                        <h5 class="text-bold text-white">
+                                            Question : <span style="margin-left: 27px; color: #f2661c;">{{$response['question']}}</span>
+                                        </h5>
                                         <div class="card-body" style="height: 330px; overflow-y: auto;">
                                             {!! html_entity_decode(html_entity_decode($response['response'])) !!}
                                         </div>
