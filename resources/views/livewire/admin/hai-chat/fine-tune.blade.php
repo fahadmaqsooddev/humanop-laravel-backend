@@ -1,7 +1,7 @@
 <div>
 
-    <div class="p-2">
-        <div class="input-group ms-md-4 pe-md-4 d-flex justify-content-between">
+    <div class="py-2">
+        <div class="input-group d-flex justify-content-between">
             <h3 style="color: #1C365E;font-weight: 700;font-size: 28px;line-height: 16.5px;vertical-align: middle;text-transform: capitalize;">
                 Fine Tune Content
             </h3>
@@ -21,8 +21,8 @@
                         wire:click="downloadQuestions"
                         wire:target="downloadQuestions" wire:loading.attr="disabled"
                         style="background:#F95520;color:white;border-radius: 24px;border: 2px; font-weight: 400;padding: 5px 10px 5px 10px;">
-                    <img src="{{asset('assets/img/icons/download111.svg')}}" width="20">
-                    Questions
+                    <img src="{{asset('assets/img/icons/pushicon.svg')}}" width="20">
+                    Push Fine Tune
                 </button>
 
             </div>
