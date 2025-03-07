@@ -150,7 +150,7 @@ class B2BAuthController extends Controller
 
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','company_name']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','company_name','password']);
 
                 $updated_user = User::updateUserProfile($dataArray);
 
