@@ -1,6 +1,8 @@
+
+
 <div wire:ignore.self class="modal fade" id="ComparisonModal" tabindex="-1" aria-labelledby="ComparisonModal"
      aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog " style="max-width: 93%;">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="d-flex justify-content-between " style="margin-bottom:1rem;">
