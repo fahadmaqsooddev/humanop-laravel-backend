@@ -196,14 +196,21 @@ class DashboardController extends Controller
 
     }
 
-    public function actionPlan()
+    public function actionPlan(Request $request)
     {
 
         try {
 
-            $user = Helpers::getUser();
+            if (!empty($request['user_id']))
+            {
+                $userId = $request['user_id'];
+            }
+            else
+            {
+                $userId = Helpers::getUser()['id'];
+            }
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $assessment = Assessment::getLatestAssessment($userId);
 
             ActionPlan::checkUserActionPlan($assessment);
 
