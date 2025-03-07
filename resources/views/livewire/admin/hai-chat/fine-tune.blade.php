@@ -34,8 +34,8 @@
             <table class="table table-flush">
                 <thead class="thead-light">
                 <tr class="table-text-color" style="color: #1C365E;font-size: 18px;">
-                    <th style="font-weight: 700;">Question</th>
-                    <th style="font-weight: 700;">Answer</th>
+                    <th style="font-weight: 700; padding: 12px 12px;">Question</th>
+                    <th style="font-weight: 700; padding: 12px;">Answer</th>
                     <th style="font-weight: 700; text-align: center;">Fine Tuned</th>
                     <th style="font-weight: 700; text-align: left;">Action</th>
                 </tr>
