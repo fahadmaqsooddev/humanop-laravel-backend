@@ -156,7 +156,7 @@ class CodeDetail extends Model
 
             if ($result && isset($result->public_name)) {
 
-                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url];
+                $codeDetail[] = [$codeKey, $result->public_name, $result->text, $result->video_url, $result->code];
             }
         }
         return $codeDetail;
@@ -304,7 +304,7 @@ class CodeDetail extends Model
     public static function summaryIntro(){
 
         $data= self::where('code','SI')->first();
-       
+
         return [
             'public_name'=>$data->name ??  '',
             'description'=>$data->text ?? '',
@@ -325,7 +325,7 @@ class CodeDetail extends Model
     public static function cycleLife(){
 
         $data=self::where('code','CLI')->first();
-       
+
         return [
             'public_name'=>$data->public_name ??  '',
             'description'=>$data->text ?? '',

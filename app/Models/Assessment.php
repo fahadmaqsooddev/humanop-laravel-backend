@@ -892,11 +892,13 @@ class Assessment extends Model
         // return CodeDetail::getPublicNames($topFeatures);
         $topfeaturesdata= CodeDetail::getPublicNames($topFeatures);
         $newtopfeaturesdata=array_map(function($item){
+
              return [
                 'code_number' => $item[0],
                 'public_name' => $item[1],
-                'description' => $item[2],
-                'video_url' => $item[3]
+                 'description' => $item[2],
+                 'video_url' => $item[3],
+                 'code_name' => $item[4],
                ];
         },$topfeaturesdata);
         return $newtopfeaturesdata;
