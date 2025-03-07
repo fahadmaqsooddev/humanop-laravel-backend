@@ -51,7 +51,7 @@ class B2BSupport extends Model
     }
 
     public static function AllSupport(){
-        return self::with('image')->get();
+        return self::with('image')->orderBy('id','desc')->get();
     }
 
     public static function singleSupport($id){
