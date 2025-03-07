@@ -22,6 +22,7 @@ use App\Models\HAIChai\LlmModel;
 use App\Models\HAIChai\QueryAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatAiController extends Controller
 {
@@ -82,12 +83,16 @@ class ChatAiController extends Controller
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
+                Log::info(['rag' => $aiReply]);
+
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
 
                 $reply = null;
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
+
+                    Log::info(['router response' => $choice['message']['content']]);
 
                     HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
 
