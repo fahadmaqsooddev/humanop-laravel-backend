@@ -13,6 +13,7 @@ use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
 use App\Models\KnowledgeBase\KnowledgeBase;
+use App\Models\HAIChai\LlmModel;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -64,6 +65,8 @@ class Conversation extends Component
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
+            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
+
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
             $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->name, $this->message);
@@ -75,30 +78,34 @@ class Conversation extends Component
                     $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
                 }
 
-                if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
+                // if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+                //     $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+                //     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
-                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
+                // }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+                //     $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+                //     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
-                }elseif(HaiChatSetting::GPT_4o_FINE_TUNED === $setting->model_type){
+                // }elseif(HaiChatSetting::GPT_4o_FINE_TUNED === $setting->model_type){
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+                //     $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
+                //     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-gpt-model', $body);
 
-                }else{
+                // }else{
 
-                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+                //     $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 
-                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
-                }
+                //     $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/llm-model', $body);
+                // }
+
+                
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value']);
 
 //                HaiChatConversation::deleteOldChat();
 

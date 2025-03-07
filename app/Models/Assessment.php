@@ -285,7 +285,7 @@ class Assessment extends Model
             ->unique('user_id')
             ->pluck('user_id');
     }
-    
+
     // public static function getAllUser()
     // {
     //     return self::where('page', 0)
@@ -673,6 +673,7 @@ class Assessment extends Model
         {
             $data[] =  [
                 'code_number' => $style['code_number'],
+                'code_name' => $style['codeDetails'][0]['code'],
                 'public_name' => $style['codeDetails'][0]['public_name'],
                 'description' => $style['codeDetails'][0]['text'],
                 'video_url' => $style['codeDetails'][0]['video_url']
@@ -1510,5 +1511,43 @@ class Assessment extends Model
             ->orderBy('created_at', 'desc')
             ->selection()
             ->get();
+    }
+
+    public static function getCoreState($assessment = null, $dateOfBirth = null)
+    {
+
+        $interval_of_life = User::getUserAge($dateOfBirth);
+
+        $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+
+        $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
+
+        $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
+
+        $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
+
+        $perception_life = CodeDetail::getPerceptionStaticText();
+
+        $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
+
+        $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
+
+        $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
+
+        $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
+
+        $data = [
+            'assessment' => $assessment,
+            'topThreeStyles' => $topThreeStyles,
+            'boundary' => $boundary,
+            'topTwoFeatures' => $topTwoFeatures,
+            'topCommunication' => $topCommunication,
+            'energyPool' => $energyPool,
+            'your_perception' => $perception_life,
+            'perception' => $perception,
+            'interval_of_life' => $interval_of_life
+        ];
+
+        return $data;
     }
 }

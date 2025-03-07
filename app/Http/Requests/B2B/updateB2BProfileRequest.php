@@ -4,7 +4,7 @@ namespace App\Http\Requests\B2B;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddMemberRequest extends FormRequest
+class updateB2BProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,11 @@ class AddMemberRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-//            'phone' => 'nullable|unique:users,phone',
-            'gender'=> 'required',
-            'timezone'=>'required'
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'timezone' => 'required',
+            'phone' => 'nullable|max:25',
+            'company_name' => 'required|string|max:50',
         ];
     }
 
@@ -39,13 +39,14 @@ class AddMemberRequest extends FormRequest
         return [
             'first_name.required' => 'First name is required',
             'last_name.required' => 'Last name is required',
-            'email.required' => 'Email is required',
-            'email.email' => 'Email must be a valid email',
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 6 characters long.',
-//            'phone.required' => 'Phone number is required',
+            'date_of_birth.required' => 'Date of birth is required',
             'gender.required' => 'Gender is required',
-            'timezone.required' => 'Timezone is required'
+            'timezone.required' => 'Timezone is required',
+            'gender.in' => 'Invalid gender. Gender must be male or female',
+            'phone.max' => 'The phone number should not exceed 25 characters.',
+            'company_name.required' => 'Company Name is required.',
+            'company_name.max' => 'Company Name cannot exceed 50 characters.',
+
         ];
     }
 }

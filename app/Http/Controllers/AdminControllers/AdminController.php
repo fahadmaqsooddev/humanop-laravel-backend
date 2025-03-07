@@ -520,4 +520,17 @@ class AdminController extends Controller
 
         }
     }
+
+    public function fineTune(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.fine-tune');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

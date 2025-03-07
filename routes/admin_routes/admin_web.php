@@ -119,6 +119,11 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
+        Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])
+        ->name('admin_b2b_support');
+        Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])
+        ->name('admin_b2b_support_detail');
+    
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
@@ -136,6 +141,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/groups', [AdminController::class, 'embeddingGroups'])->name('admin_embedding_groups');
         Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
+        Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {

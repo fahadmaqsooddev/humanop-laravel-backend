@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController\ChatAi;
 use App\Helpers\Assessments\AssessmentHelper;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Helpers\OpenRouterHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
@@ -14,9 +15,14 @@ use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
+use App\Models\HAIChai\HaiChatActiveEmbedding;
+use App\Models\HAIChai\HaiChatConversation;
+use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
 use App\Models\HAIChai\QueryAnswer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatAiController extends Controller
 {
@@ -47,37 +53,62 @@ class ChatAiController extends Controller
 
             $chat_bot = Chatbot::where('is_published', 1)->first();
 
+            $setting = HaiChatSetting::getHaiChatSetting($chat_bot['id']);
+
+            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
+
+            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($chat_bot['name']);
+
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
+
+            $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
 
             if (!$is_restricted_word){
 
-                $assessments = AssessmentHelper::getAssessments();
+//                $assessments = AssessmentHelper::getAssessments();
+//
+//                $assessmentDetails = Assessment::getAssessment();
 
-                $assessmentDetails = Assessment::getAssessment();
+//                $body = ['question' => $request->input('question'),
+//                    'user_id' => Helpers::getUser()->id,
+//                    'assessment_ids' => $assessments,
+//                    'assessment_details' => $assessmentDetails,
+//                    'is_repeat' => $request->input('is_repeat_answer'),
+//                    'publish_model' => ($chat_bot->publish_path ?? null)];
+//
+//                $app_env = env('APP_ENV');
+//                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
 
-                $body = ['question' => $request->input('question'),
-                    'user_id' => Helpers::getUser()->id,
-                    'assessment_ids' => $assessments,
-                    'assessment_details' => $assessmentDetails,
-                    'is_repeat' => $request->input('is_repeat_answer'),
-                    'publish_model' => ($chat_bot->publish_path ?? null)];
+//                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
-                $app_env = env('APP_ENV');
-                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+                $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer')];
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
-                HaiChat::createChat($request->input('question'), $aiReply);
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
+
+                $reply = null;
+
+                foreach ($openRouterResponse['choices'] as $choice)
+                {
+
+                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+
+                    $reply = [
+                        $choice['message']['content'] ?? "",
+                        0
+                    ];
+                }
 
             }else{
 
-                $aiReply = [
-                    $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unalble to response you about these.',
+                $reply = [
+                    $is_restricted_word ?? 'Your query contains restricted keywords. So, I am unable to response you about these.',
                     3,
                 ];
             }
 
-            return Helpers::successResponse('Answer of asked question', $aiReply);
+            return Helpers::successResponse('Answer of asked question', $reply);
 
         }catch (\Exception $exception){
 

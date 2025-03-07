@@ -8,6 +8,7 @@ use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
 use App\Models\HAIChai\LlmModel;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
@@ -55,7 +56,7 @@ class Setting extends Component
             'file_name' => $active_embedding_ids,
             'prompt_folder' => $this->bot_name,
             'total_chunks' => $this->chunk,
-            'gpt_model' => $model_id,
+            'gpt_model' => $model_value['model_value'] ?? null,
         ];
 
         $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);

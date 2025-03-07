@@ -156,41 +156,11 @@ class DashboardController extends Controller
 
         try {
 
-            $interval_of_life = User::getUserAge(Helpers::getUser()->date_of_birth);
-
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            $topThreeStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
+            $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
-            $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
-
-            $boundary = $assessment != null ? Assessment::getAlchemyDetail($assessment) : null;
-
-            $communication = $assessment != null ? Assessment::getEnergy($assessment) : null;
-
-            $perception_life = CodeDetail::getPerceptionStaticText();
-
-            $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : null;
-
-            $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
-
-            $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
-
-            $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
-
-            $data = [
-                'assessment' => $assessment,
-                'topThreeStyles' => $topThreeStyles,
-                'boundary' => $boundary,
-                'topTwoFeatures' => $topTwoFeatures,
-                'topCommunication' => $topCommunication,
-                'energyPool' => $energyPool,
-                'your_perception' => $perception_life,
-                'perception' => $perception,
-                'interval_of_life' => $interval_of_life
-            ];
-
-            return Helpers::successResponse('core stats', $data);
+            return Helpers::successResponse('core stats', $coreState);
 
         } catch (\Exception $exception) {
 
@@ -226,14 +196,21 @@ class DashboardController extends Controller
 
     }
 
-    public function actionPlan()
+    public function actionPlan(Request $request)
     {
 
         try {
 
-            $user = Helpers::getUser();
+            if (!empty($request['user_id']))
+            {
+                $userId = $request['user_id'];
+            }
+            else
+            {
+                $userId = Helpers::getUser()['id'];
+            }
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $assessment = Assessment::getLatestAssessment($userId);
 
             ActionPlan::checkUserActionPlan($assessment);
 
