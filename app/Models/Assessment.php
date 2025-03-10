@@ -683,6 +683,52 @@ class Assessment extends Model
         return $data;
 
     }
+    // my function 
+    public static function UserTrait($assessment = null)
+    {
+        $getAssessment = self::where('id', $assessment['id'])
+        ->where('page', 0)
+        ->latest()
+        ->first();
+    
+    
+    
+        $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+    
+        $getStyle = [];
+   
+        $assessmentArray = $getAssessment->toArray();
+    
+        foreach ($assessmentArray as $key => $result) {
+        if (in_array($key, $style)) {
+            $getStyle[$key] = $result;
+        }
+        }
+    
+        arsort($getStyle); 
+    
+    
+    // Get public names
+        $styleCodes = CodeDetail::getStylePublicNames($getStyle);
+    
+        $data = [];
+        foreach ($styleCodes as $style) {
+        $codeKey = strtolower($style['code']); 
+    
+        $data[] = [
+        
+            'code_name'    => $style['code'],
+            'public_name'  => $style['public_name'],
+            'code_number'       => $getStyle[$codeKey] 
+        ];
+    }
+    
+    
+  
+    return $data;
+    
+
+    }
 
     public static function getFeatures($assessment = null, $isCode = true)
     {
