@@ -95,17 +95,13 @@
                         </div>
                         <div class="" style="margin-left: 24px;margin-top: 18px;display:flex;align-items:center" >
                             <div class="w-100" wire:ignore>
-                               
-                        <select class="form-control input-bg"
-                                 wire:model="model_value">
-                                 
-                             
-                             
-                                 <option value="">Select LLM Model</option>
-                             @foreach($modelTypes as $type)
-     <option value="{{ $type->model_value }}" style="color: black">{{ $type->model_name }}</option>
- @endforeach
-                         </select>
+                                <select class="form-control input-bg"
+                                        wire:model="model_value">
+                                    <option value="">Select LLM Model</option>
+                                    @foreach($modelTypes as $type)
+                                        <option value="{{ $type->model_value }}" style="color: black">{{ $type->model_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div wire:click="refreshComponent" style="background-color:#f2661c;margin-left:20px;border-radius:5px;cursor:pointer;">
                                 <i class="fa-solid fa-arrows-rotate" style="color: white;padding:10px;"></i>

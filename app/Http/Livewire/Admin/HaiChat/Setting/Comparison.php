@@ -20,6 +20,8 @@ class Comparison extends Component
     public $modelTypes = [];
     public $model_value;
     public $selectedModels = [];
+    public $selectedModel1;
+    public $selectedModel2;
     public $val = 2;
     public $maxVal = 4;
     public $message;
@@ -56,9 +58,14 @@ class Comparison extends Component
     public function submitForm()
     {
 
-        $this->validate();
+        $this->modelResponse = [];
 
-//        $this->message = '';
+        $this->selectedModels = array_merge(
+            (array) $this->selectedModel1,
+            (array) $this->selectedModel2
+        );
+
+        $this->validate();
 
         $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
@@ -106,6 +113,7 @@ class Comparison extends Component
             }
 
         }
+
     }
 
 

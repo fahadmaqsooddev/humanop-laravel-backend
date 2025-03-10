@@ -31,6 +31,7 @@ class updateB2BProfileRequest extends FormRequest
             'timezone' => 'required',
             'phone' => 'nullable|max:25',
             'company_name' => 'required|string|max:50',
+            'password'=>'nullable',
         ];
     }
 
