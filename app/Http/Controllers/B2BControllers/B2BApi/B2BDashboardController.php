@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\B2BCandidateStat;
+use App\Models\B2B\B2BNotes;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\B2B\CreateNotes;
+use App\Http\Requests\B2B\UpdateNotes;
 
 class B2BDashboardController extends Controller
 {
@@ -71,6 +74,43 @@ class B2BDashboardController extends Controller
             return Helpers::successResponse('candidates optimization and core state', $data);
 
         } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
+  
+
+    public function StoreNotes(CreateNotes $request){
+        try {
+
+
+            $dataArray=$request->all();
+            if(!empty($dataArray['note_id'])){
+                $getdata=B2BNotes::singleNote($dataArray['note_id']);
+
+                if($getdata){
+
+                    $result=B2BNotes::UpdateNote($dataArray);
+
+                }
+                else{
+
+                    $result=B2BNotes::CreateNote($dataArray);
+                }
+                
+            }
+            else
+            {
+                $result=B2BNotes::CreateNote($dataArray);
+
+            }
+
+            return Helpers::successResponse('Note Store Successfully');
+
+        }  catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 

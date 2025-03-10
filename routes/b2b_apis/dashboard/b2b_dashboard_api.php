@@ -16,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('candidate-optimization-and-core-state', 'B2BDashboardController@candidateOptimizationAndCoreState');
+    Route::post('note','B2BDashboardController@StoreNotes');
+    
 
 });
