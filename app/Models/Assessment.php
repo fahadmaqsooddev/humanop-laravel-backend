@@ -669,9 +669,8 @@ class Assessment extends Model
         $allStyles = PdfGenerate::createGenerateFile($assessment['id'], $assessment['users']['id'], $stylelCodes, $getStyle);
 
         $data = [];
-        foreach ($allStyles as $style)
-        {
-            $data[] =  [
+        foreach ($allStyles as $style) {
+            $data[] = [
                 'code_number' => $style['code_number'],
                 'code_name' => $style['codeDetails'][0]['code'],
                 'public_name' => $style['codeDetails'][0]['public_name'],
@@ -683,50 +682,42 @@ class Assessment extends Model
         return $data;
 
     }
-    // my function 
-    public static function UserTrait($assessment = null)
+
+    // my function
+    public static function UserTraits($userId = null)
     {
-        $getAssessment = self::where('id', $assessment['id'])
-        ->where('page', 0)
-        ->latest()
-        ->first();
-    
-    
-    
+        $getAssessment = self::getLatestAssessment($userId);
+
         $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
-    
+
         $getStyle = [];
-   
+
         $assessmentArray = $getAssessment->toArray();
-    
+
         foreach ($assessmentArray as $key => $result) {
-        if (in_array($key, $style)) {
-            $getStyle[$key] = $result;
+            if (in_array($key, $style)) {
+                $getStyle[$key] = $result;
+            }
         }
-        }
-    
-        arsort($getStyle); 
-    
-    
-    // Get public names
+
+        arsort($getStyle);
+
+        // Get public names
         $styleCodes = CodeDetail::getStylePublicNames($getStyle);
-    
+
         $data = [];
         foreach ($styleCodes as $style) {
-        $codeKey = strtolower($style['code']); 
-    
-        $data[] = [
-        
-            'code_name'    => $style['code'],
-            'public_name'  => $style['public_name'],
-            'code_number'       => $getStyle[$codeKey] 
-        ];
-    }
-    
-    
-  
-    return $data;
-    
+            $codeKey = strtolower($style['code']);
+
+            $data[] = [
+
+                'code_name' => $style['code'],
+                'public_name' => $style['public_name'],
+                'code_number' => $getStyle[$codeKey]
+            ];
+        }
+
+        return $data;
 
     }
 
@@ -936,17 +927,17 @@ class Assessment extends Model
         }
 
         // return CodeDetail::getPublicNames($topFeatures);
-        $topfeaturesdata= CodeDetail::getPublicNames($topFeatures);
-        $newtopfeaturesdata=array_map(function($item){
+        $topfeaturesdata = CodeDetail::getPublicNames($topFeatures);
+        $newtopfeaturesdata = array_map(function ($item) {
 
-             return [
+            return [
                 'code_number' => $item[0],
                 'public_name' => $item[1],
-                 'description' => $item[2],
-                 'video_url' => $item[3],
-                 'code_name' => $item[4],
-               ];
-        },$topfeaturesdata);
+                'description' => $item[2],
+                'video_url' => $item[3],
+                'code_name' => $item[4],
+            ];
+        }, $topfeaturesdata);
         return $newtopfeaturesdata;
     }
 
@@ -1263,8 +1254,8 @@ class Assessment extends Model
 
 
                 $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
-                            ->where('active', 1)
-                            ->count() / 3) ?? 0;
+                        ->where('active', 1)
+                        ->count() / 3) ?? 0;
 
                 $current_page = $existingAssessment->page + 1;
 
@@ -1498,17 +1489,14 @@ class Assessment extends Model
         $record['pv'] = $pv > 0 ? '+' . $pv : $pv;
         // return $record;
 
-        return $data=[
-         'code_number'=>$record['id'],
-         'public_name'=>$record['public_name'],
-         'description'=>$record['text'],
-         'video'=>$record['video'],
-         'video_url'=>$record['video_url'],
-         'pv'=>$record['pv'],
+        return $data = [
+            'code_number' => $record['id'],
+            'public_name' => $record['public_name'],
+            'description' => $record['text'],
+            'video' => $record['video'],
+            'video_url' => $record['video_url'],
+            'pv' => $record['pv'],
         ];
-
-
-
 
 
     }
