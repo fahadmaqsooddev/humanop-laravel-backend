@@ -1568,6 +1568,8 @@ class Assessment extends Model
 
         $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
 
+        $nextTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['next_two_keys'], $assessment) : [];
+
         $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
 
         $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : null;
@@ -1575,8 +1577,9 @@ class Assessment extends Model
         $data = [
             'assessment' => $assessment,
             'topThreeStyles' => $topThreeStyles,
-            'boundary' => $boundary,
             'topTwoFeatures' => $topTwoFeatures,
+            'tertiaryFeatures' => $nextTwoFeatures[0],
+            'boundary' => $boundary,
             'topCommunication' => $topCommunication,
             'energyPool' => $energyPool,
             'your_perception' => $perception_life,
