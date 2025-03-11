@@ -49,5 +49,10 @@ class B2BNotes extends Model
         return self::whereId($id)->first();
     }
 
+    public static function getNoteFromUserId($userId = null)
+    {
+        return self::where('user_id', $userId)->first();
+    }
+
 
 }

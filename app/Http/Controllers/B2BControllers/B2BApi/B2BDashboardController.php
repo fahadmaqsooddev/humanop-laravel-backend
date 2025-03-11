@@ -12,6 +12,7 @@ use App\Models\B2B\B2BNotes;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\CreateNotes;
 use App\Http\Requests\B2B\UpdateNotes;
@@ -31,7 +32,7 @@ class B2BDashboardController extends Controller
 
     public function candidateOptimizationAndCoreState()
     {
-        try {
+//        try {
 
             $checkCandidateResult = B2BCandidateStat::getResult();
 
@@ -74,11 +75,11 @@ class B2BDashboardController extends Controller
 
             return Helpers::successResponse('candidates optimization and core state', $data);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
+//        } catch (\Exception $exception) {
+//
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//
+//        }
     }
 
 
@@ -109,11 +110,26 @@ class B2BDashboardController extends Controller
         }
     }
 
-
-    public function AllIntentions(){
+    public function getNote(\Illuminate\Http\Request $request)
+    {
         try {
 
-            $data=IntentionOption::allIntentions();
+            $note = B2BNotes::getNoteFromUserId($request['user_id']);
+
+            return Helpers::successResponse('get note', $note);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function AllIntentions()
+    {
+        try {
+
+            $data = IntentionOption::allIntentions();
 
             return Helpers::successResponse('All Intentions', $data);
 
