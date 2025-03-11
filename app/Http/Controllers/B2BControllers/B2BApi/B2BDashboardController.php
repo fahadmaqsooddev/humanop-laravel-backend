@@ -25,14 +25,15 @@ class B2BDashboardController extends Controller
 
     public function __construct(User $user)
     {
-        $this->auth = Auth::guard('api');
+
+        $this->middleware('auth:api')->except(['AllIntentions']);
 
         $this->user = $user;
     }
 
     public function candidateOptimizationAndCoreState()
     {
-//        try {
+        try {
 
             $checkCandidateResult = B2BCandidateStat::getResult();
 
@@ -75,11 +76,11 @@ class B2BDashboardController extends Controller
 
             return Helpers::successResponse('candidates optimization and core state', $data);
 
-//        } catch (\Exception $exception) {
-//
-//            return Helpers::serverErrorResponse($exception->getMessage());
-//
-//        }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
     }
 
 
