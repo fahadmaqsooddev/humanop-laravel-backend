@@ -31,9 +31,10 @@ class B2BCandidateStat extends Model
         return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
     }
 
-    public static function getResult(){
+    public static function getResult($userId = null)
+    {
 
-        return self::where('business_id', Helpers::getUser()['id'])->whereHas('assessments')->with(['users', 'assessments' => function ($query) {
+        return self::where('business_id', $userId)->whereHas('assessments')->with(['users', 'assessments' => function ($query) {
             $query->where('page', 0);
         }])->first();
     }
@@ -49,6 +50,7 @@ class B2BCandidateStat extends Model
 
         return self::create($data);
     }
+
     public static function updateRecord($candidateId = null, $actionPlanId = null)
     {
 

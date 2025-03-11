@@ -30,13 +30,16 @@ class B2BDashboardController extends Controller
         $this->user = $user;
     }
 
-    public function candidateOptimizationAndCoreState()
+    public function candidateOptimizationAndCoreState(\Illuminate\Http\Request $request)
     {
         try {
 
-            $checkCandidateResult = B2BCandidateStat::getResult();
+            $userId =  $request['candidate_id'] ?? Helpers::getUser()['id'];
+
+            $checkCandidateResult = B2BCandidateStat::getResult($userId);
 
             if (!empty($checkCandidateResult)) {
+
                 $isCandidateAvailable = !empty($checkCandidateResult);
 
                 $isRecentUpdate = $isCandidateAvailable && $checkCandidateResult['updated_at'] >= Carbon::now()->subHours(24);
