@@ -25,8 +25,7 @@ class B2BDashboardController extends Controller
 
     public function __construct(User $user)
     {
-
-        $this->middleware('auth:api')->except(['AllIntentions']);
+        $this->auth = Auth::guard('api');
 
         $this->user = $user;
     }
@@ -37,42 +36,53 @@ class B2BDashboardController extends Controller
 
             $checkCandidateResult = B2BCandidateStat::getResult();
 
-            $isCandidateAvailable = !empty($checkCandidateResult);
+            if (!empty($checkCandidateResult)) {
+                $isCandidateAvailable = !empty($checkCandidateResult);
 
-            $isRecentUpdate = $isCandidateAvailable && $checkCandidateResult['updated_at'] >= Carbon::now()->subHours(24);
+                $isRecentUpdate = $isCandidateAvailable && $checkCandidateResult['updated_at'] >= Carbon::now()->subHours(24);
 
-            if ($isRecentUpdate) {
+                if ($isRecentUpdate) {
 
-                $candidate = $checkCandidateResult;
+                    $candidate = $checkCandidateResult;
+
+                } else {
+
+                    $candidate = B2BBusinessCandidates::getBusinessCandidate();
+
+                }
+
+                $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
+
+                $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
+
+                $user_trait = Assessment::UserTraits($candidate['users']['id'] ?? '');
+
+
+                if ($isCandidateAvailable && !$isRecentUpdate) {
+
+                    B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
+
+                } elseif (!$isCandidateAvailable && !empty($candidate)) {
+
+                    B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
+
+                }
+
+                $data = [
+                    'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
+                    'optimization_plan' => $optimizationPlan,
+                    'core_state' => $coreState,
+                    'user_trait' => $user_trait
+                ];
 
             } else {
-
-                $candidate = B2BBusinessCandidates::getBusinessCandidate();
-
+                $data = [
+                    'candidates_name' => null,
+                    'optimization_plan' => null,
+                    'core_state' => null,
+                    'user_trait' => null
+                ];
             }
-
-            $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
-
-            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
-
-            $user_trait = Assessment::UserTraits($candidate['users']['id'] ?? '');
-
-            if ($isCandidateAvailable && !$isRecentUpdate) {
-
-                B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
-
-            } elseif (!$isCandidateAvailable && !empty($candidate)) {
-
-                B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
-
-            }
-
-            $data = [
-                'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
-                'optimization_plan' => $optimizationPlan,
-                'core_state' => $coreState,
-                'user_trait' => $user_trait
-            ];
 
             return Helpers::successResponse('candidates optimization and core state', $data);
 
@@ -118,21 +128,6 @@ class B2BDashboardController extends Controller
             $note = B2BNotes::getNoteFromUserId($request['user_id']);
 
             return Helpers::successResponse('get note', $note);
-
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-    }
-
-    public function AllIntentions()
-    {
-        try {
-
-            $data = IntentionOption::allIntentions();
-
-            return Helpers::successResponse('All Intentions', $data);
 
         } catch (\Exception $exception) {
 

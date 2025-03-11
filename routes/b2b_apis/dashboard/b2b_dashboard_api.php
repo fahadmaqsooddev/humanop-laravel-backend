@@ -19,7 +19,4 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('store-note','B2BDashboardController@StoreNotes');
     Route::get('get-note','B2BDashboardController@getNote');
 
-
 });
-
-Route::get('all-intentions','B2BDashboardController@AllIntentions');

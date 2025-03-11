@@ -11,6 +11,7 @@ use App\Http\Requests\B2B\updateB2BProfileRequest;
 use App\Models\B2B\BusinessStrategies;
 use App\Models\B2B\BusinessSubStrategies;
 use App\Models\B2B\B2BSupport;
+use App\Models\B2B\IntentionOption;
 use App\Models\B2B\SelectIntentionOption;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -36,7 +37,7 @@ class B2BAuthController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'getBusinessSubStrategies']);
+        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'getBusinessSubStrategies', 'AllIntentions']);
 
         $this->auth = Auth::guard('api');
 
@@ -193,6 +194,21 @@ class B2BAuthController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function AllIntentions()
+    {
+        try {
+
+            $data = IntentionOption::allIntentions();
+
+            return Helpers::successResponse('All Intentions', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
