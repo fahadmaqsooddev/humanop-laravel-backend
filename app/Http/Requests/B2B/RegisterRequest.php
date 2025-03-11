@@ -34,16 +34,16 @@ class RegisterRequest extends FormRequest
             'phone' => 'nullable|string|max:25',
             'company_name' => 'required|string|max:50',
             'timezone' => 'required|string',
-            'business_sub_stratergy_id' => 'required|integer'
+            'business_sub_stratergy_id' => 'required|integer',
+            'work_email'=>'required',
+            'intention_option_id'=>'required'
         ];
     }
 
     public function messages()
     {
         return [
-//            'email.required' => 'Email is required.',
-//            'email.email' => 'Email must be a valid email address.',
-//            'email.unique' => 'This email has already been taken.',
+
             'password.required' => 'Password is required.',
             'password.min' => 'Password must be at least 6 characters long.',
             'gender.required' => 'Gender is required.',
@@ -54,6 +54,9 @@ class RegisterRequest extends FormRequest
             'company_name.required' => 'Company Name is required.',
             'company_name.max' => 'Company Name cannot exceed 50 characters.',
             'timezone.required' => 'Timezone is required.',
+            'work_email.required' => 'work email is required.',
+            'work_email.required' => 'work email is required.',
+            'intention_option_id.required' => 'intention option ids  is required.',
             'business_sub_stratergy_id.required' => 'Business Strategy is required.',
             'business_sub_stratergy_id.integer' => 'Business Strategy ID must be an integer.'
         ];

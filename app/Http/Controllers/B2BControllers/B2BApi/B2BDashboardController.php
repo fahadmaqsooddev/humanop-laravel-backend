@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assessment;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\B2B\B2BCandidateStat;
+use App\Models\B2B\IntentionOption;
 use App\Models\B2B\B2BNotes;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
@@ -101,6 +102,18 @@ class B2BDashboardController extends Controller
 
             return Helpers::successResponse('Note Store Successfully');
 
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
+    public function AllIntentions(){
+        try {
+            $data=IntentionOption::allIntentions();
+            return Helpers::successResponse('All Intentions', $data);
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
