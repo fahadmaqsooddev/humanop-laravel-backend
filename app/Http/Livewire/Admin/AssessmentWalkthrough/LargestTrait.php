@@ -35,6 +35,11 @@ class LargestTrait extends Component
        
             $this->code = [];
             $this->code[] = $selectedCode;
+            $result=AssessmentWalkThrough::getData(Admin::LARGEST_TRAIT,$this->code);
+            
+            $this->overview=$result->overview??"";
+            $this->optimal=$result->optimal??"";
+            $this->optimization=$result->optimization??'';
             
     }
 

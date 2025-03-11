@@ -33,8 +33,13 @@ class CoPilotTrait extends Component
     public function selectCode($selectedCode)
     {
        
-            $this->code = [];
-            $this->code[] = $selectedCode;
+        $this->code = [];
+        $this->code[] = $selectedCode;
+        $result=AssessmentWalkThrough::getData(Admin::CO_PILOT_TRAIT,$this->code);
+        
+        $this->overview=$result->overview??"";
+        $this->optimal=$result->optimal??"";
+        $this->optimization=$result->optimization??'';
             
     }
 

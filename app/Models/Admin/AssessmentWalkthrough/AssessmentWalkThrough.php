@@ -37,4 +37,12 @@ class AssessmentWalkThrough extends Model
         return self::create($data);
     }
     }
+
+
+
+    public static function getData($title,$code){
+        return  self::where('code_name', $code[0])
+        ->where('title', $title)
+        ->first();
+    }
 }

@@ -33,9 +33,13 @@ class AlchemyTrait extends Component
     public function selectCode($selectedCode)
     {
        
-            $this->code = [];
-            $this->code[] = $selectedCode;
-            
+        $this->code = [];
+        $this->code[] = $selectedCode;
+        $result=AssessmentWalkThrough::getData(Admin::ALCHEMY_TRAIT,$this->code);
+        
+        $this->overview=$result->overview??"";
+        $this->optimal=$result->optimal??"";
+        $this->optimization=$result->optimization??'';
     }
 
     public function update(){
