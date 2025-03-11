@@ -550,5 +550,10 @@ return [
             'fillable'=>['business_id','intention_option_id'],
             'hidden'=>['updated_at','created_at']
         ],
+        'UserCandidateInvite'=>[
+            'table'=>'user_candidate_invite',
+            'fillable'=>['company_id','invite_link_id'],
+            'hidden'=>['updated_at','created_at']
+        ],
     ]
 ];

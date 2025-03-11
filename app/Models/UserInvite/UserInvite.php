@@ -39,7 +39,7 @@ class UserInvite extends Model
 
 
     }
-   
+
     public static function sendInvite($email = null, $file = null,$role=Admin::CLIENT_INVITE_ROLE,$members_limit=null)
     {
 
@@ -111,5 +111,16 @@ class UserInvite extends Model
     public static function getInviteLinkUsingEmail($email = null)
     {
         return self::where('email', $email)->first();
+    }
+
+    public static function createInvite($email = null, $role=Admin::CLIENT_INVITE_ROLE)
+    {
+        $link = Str::random(16);
+
+        return self::create([
+            'email' => $email,
+            'link' => $link,
+            'role'=>$role
+        ]);
     }
 }
