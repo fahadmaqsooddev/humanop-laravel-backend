@@ -74,12 +74,15 @@ class B2BAuthController extends Controller
                     return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
                 }else{
-                  
-                    
-                    
+
+
+
                     $b2b_user = $this->user->createB2BSignup($dataArray);
+
                     if (!empty($request['intention_option_id'])) {
+
                         SelectIntentionOption::storeUserIntentions($b2b_user['id'], $request['intention_option_id']);
+
                     }
 
                     Helpers::createClientsOnOneSignal($b2b_user['id']);
@@ -106,7 +109,7 @@ class B2BAuthController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-           
+
         }
     }
 

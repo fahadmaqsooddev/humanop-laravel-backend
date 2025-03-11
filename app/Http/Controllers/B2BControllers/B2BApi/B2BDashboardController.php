@@ -112,8 +112,11 @@ class B2BDashboardController extends Controller
 
     public function AllIntentions(){
         try {
+
             $data=IntentionOption::allIntentions();
+
             return Helpers::successResponse('All Intentions', $data);
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IntentionOption extends Model
 {
     use HasFactory;
+
     public function __construct(array $attributes = [])
     {
         $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
@@ -18,7 +19,8 @@ class IntentionOption extends Model
     }
 
 
-    public static function allIntentions(){
+    public static function allIntentions()
+    {
         return self::all();
     }
 

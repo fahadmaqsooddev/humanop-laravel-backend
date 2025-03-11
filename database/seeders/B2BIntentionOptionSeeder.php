@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,20 +16,18 @@ class B2BIntentionOptionSeeder extends Seeder
      */
     public function run()
     {
+
+//        DB::table('b2b_intention_option')->truncate();
+
         $options = [
-            'Grow My Team',
-            'Improve Team Performance',
-            'Improve Team Culture',
-            'Scale Organization',
-            'Conflict Resolution'
+            ['intention_option' => 'Grow My Team', 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['intention_option' => 'Improve Team Performance', 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['intention_option' => 'Improve Team Culture', 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['intention_option' => 'Scale Organization', 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            ['intention_option' => 'Conflict Resolution', 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ];
 
-        foreach ($options as $option) {
-            DB::table('b2b_intention_option')->insert([
-                'intention_option' => $option,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        DB::table('b2b_intention_option')->insert($options);
+
     }
 }

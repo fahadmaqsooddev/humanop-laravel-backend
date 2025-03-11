@@ -20,23 +20,15 @@ class SelectIntentionOption extends Model
 
     public static function storeUserIntentions($userId, $intentionIds)
     {
-        // Decode if it's a JSON string
-        if (is_string($intentionIds)) {
-            $intentionIds = json_decode($intentionIds, true);
-        }
-    
-        
 
         foreach ($intentionIds as $intentionId) {
             self::create([
                 'business_id' => $userId,
-                'intention_option_id' => $intentionId,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'intention_option_id' => $intentionId
             ]);
         }
     }
-    
-    
+
+
 
 }
