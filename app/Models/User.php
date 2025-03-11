@@ -334,6 +334,12 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function getSingleUserFromCompanyName($companyName = null)
+    {
+        return self::where('company_name', $companyName)->first();
+
+    }
+
     public static function getUserAge($date_of_birth = null)
     {
 
