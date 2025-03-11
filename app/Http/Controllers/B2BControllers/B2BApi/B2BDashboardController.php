@@ -52,7 +52,8 @@ class B2BDashboardController extends Controller
             $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
 
             $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
-            $user_trait= Assessment::UserTrait($candidate['assessments'] ?? '');
+
+            $user_trait= Assessment::UserTraits($candidate['users']['id'] ?? '');
 
             if ($isCandidateAvailable && !$isRecentUpdate) {
 
