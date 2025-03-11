@@ -21,25 +21,32 @@ class B2BNotes extends Model
     }
 
     // relation
-
-    public function user(){
-        return $this->hasOne(User::class,'id','user_id');
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public static function CreateNote($data = null)
+    {
 
-    public static function CreateNote($data=null){
-        $data['business_id']=Helpers::getUser()['id'];
-        return self::create($data);
-    }
-    public static function UpdateNote($data=null){
-        
-        return self::where('id',$data['note_id'])->update([
-            'note'=>$data['note']
+        return self::create([
+            'business_id' => Helpers::getUser()['id'],
+            'user_id' => $data['user_id'],
+            'note' => $data['note'],
         ]);
     }
 
-    public static function singleNote($id){
-        return self::where('id',$id)->first();
+    public static function UpdateNote($data = null)
+    {
+
+        return self::where('id', $data['note_id'])->update([
+            'note' => $data['note']
+        ]);
+    }
+
+    public static function singleNote($id = null)
+    {
+        return self::whereId($id)->first();
     }
 
 

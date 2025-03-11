@@ -52,7 +52,7 @@ class B2BDashboardController extends Controller
 
             $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
 
-            $user_trait= Assessment::UserTraits($candidate['users']['id'] ?? '');
+            $user_trait = Assessment::UserTraits($candidate['users']['id'] ?? '');
 
             if ($isCandidateAvailable && !$isRecentUpdate) {
 
@@ -68,7 +68,7 @@ class B2BDashboardController extends Controller
                 'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
                 'optimization_plan' => $optimizationPlan,
                 'core_state' => $coreState,
-                'user_trait'=>$user_trait
+                'user_trait' => $user_trait
             ];
 
             return Helpers::successResponse('candidates optimization and core state', $data);
@@ -81,36 +81,27 @@ class B2BDashboardController extends Controller
     }
 
 
-  
-
-    public function StoreNotes(CreateNotes $request){
+    public function StoreNotes(CreateNotes $request)
+    {
         try {
 
+            $dataArray = $request->only(['user_id', 'note_id', 'note']);
 
-            $dataArray=$request->all();
-            if(!empty($dataArray['note_id'])){
-                $getdata=B2BNotes::singleNote($dataArray['note_id']);
+            $getNote = B2BNotes::singleNote($dataArray['note_id'] ?? null);
 
-                if($getdata){
+            if (!empty($dataArray['note_id']) && !empty($getNote)) {
 
-                    $result=B2BNotes::UpdateNote($dataArray);
+                B2BNotes::UpdateNote($dataArray);
 
-                }
-                else{
+            } else {
 
-                    $result=B2BNotes::CreateNote($dataArray);
-                }
-                
-            }
-            else
-            {
-                $result=B2BNotes::CreateNote($dataArray);
+                B2BNotes::CreateNote($dataArray);
 
             }
 
             return Helpers::successResponse('Note Store Successfully');
 
-        }  catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
