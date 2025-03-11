@@ -93,4 +93,16 @@ final class Admin
     const AFTERNOON_STATUS = 2;
 
     const NIGHT_STATUS = 3;
+
+    const LARGEST_TRAIT = 1;
+
+    const SECOND_TRAIT = 2;
+
+    const THIRD_TRAIT = 3;
+    const PILOT_TRAIT = 4;
+    const CO_PILOT_TRAIT = 5;
+    const ALCHEMY_TRAIT = 6;
+    const COMMUNICATION_TRAIT = 7;
+    const POLARITY_TRAIT = 8;
+
 }

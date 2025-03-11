@@ -550,5 +550,10 @@ return [
             'fillable'=>['business_id','intention_option_id'],
             'hidden'=>['updated_at','created_at']
         ],
+        'AssessmentWalkThrough'=>[
+            'table'=>'assessment_walkthrough',
+            'fillable'=>['code_name','title','overview','optimal','optimization'],
+            'hidden'=>['updated_at','created_at']
+        ],
     ]
 ];
