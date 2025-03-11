@@ -553,6 +553,10 @@ return [
         'UserCandidateInvite'=>[
             'table'=>'user_candidate_invite',
             'fillable'=>['company_id','invite_link_id'],
+        ],
+        'AssessmentWalkThrough'=>[
+            'table'=>'assessment_walkthrough',
+            'fillable'=>['code_name','title','overview','optimal','optimization'],
             'hidden'=>['updated_at','created_at']
         ],
     ]
