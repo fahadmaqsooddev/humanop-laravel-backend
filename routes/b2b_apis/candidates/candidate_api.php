@@ -17,5 +17,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::post('create-invite-link-for-candidate', 'CandidateController@createInviteLinkForCandidate');
     Route::get('all-candidate-invites', 'CandidateController@allCandidates');
+    Route::get('all-candidates','CandidateController@getAllCandidates');
 
 });
