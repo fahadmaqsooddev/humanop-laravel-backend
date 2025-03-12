@@ -280,6 +280,7 @@ class DashboardController extends Controller
             $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
             if (!empty($assessment)) {
+
                 $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
                 $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
@@ -337,7 +338,14 @@ class DashboardController extends Controller
                 $alchemy = $gold . '' . $silver . '' . $copper;
                 $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
 
-                $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
+                if (!empty($alchemyCodeDetail))
+                {
+                    $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
+
+                }else{
+                    $alchemyBoundary = null;
+
+                }
 
                 $getCommunications = $assessment != null ? Assessment::getEnergy($assessment) : null;
 
