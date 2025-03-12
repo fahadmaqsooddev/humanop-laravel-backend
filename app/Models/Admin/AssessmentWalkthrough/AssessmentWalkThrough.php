@@ -45,4 +45,11 @@ class AssessmentWalkThrough extends Model
         ->where('title', $title)
         ->first();
     }
+
+
+    public static function getbyCodeName($value){
+        // dd($value);
+        // return self::where('code_name',$value)->get();
+        return self::where('code_name',$value)->get();
+    }
 }

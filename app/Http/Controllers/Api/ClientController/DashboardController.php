@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
-use App\Enums\Admin\Admin;
-use App\Events\DailyTip\NewDailyTip;
-use App\Helpers\Helpers;
-use App\Helpers\Points\PointHelper;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Code\CodeDetail;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Admin\DailyTip\UserDailyTip;
-use App\Models\Admin\Notification\Notification;
-use App\Models\Admin\Podcast\Podcast;
-use App\Models\Assessment;
-use App\Models\AssessmentColorCode;
-use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\Information\InformationIcon;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
+use App\Models\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Points\PointHelper;
+use App\Models\AssessmentColorCode;
+use App\Events\DailyTip\NewDailyTip;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\Podcast\Podcast;
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Information\InformationIcon;
+use App\Models\Admin\Notification\Notification;
+use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 
 class DashboardController extends Controller
 {
@@ -268,6 +269,154 @@ class DashboardController extends Controller
             } else {
                 return Helpers::notFoundResponse('Assessment not found');
             }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function getWalkThrough(){
+        try {
+
+            $user = Helpers::getUser();
+
+            $assessment = Assessment::getLatestAssessment($user['id']);
+            $coreState = Assessment::getCoreState($assessment ?? '', $user['date_of_birth'] ?? '');
+  
+
+
+
+            // $data = [];
+
+        //     foreach ($coreState as $asses) {
+        //     if (is_array($asses) && count($asses)) {
+        //     foreach ($asses as $nested) {
+        //     if (isset($nested['code_name'])) {
+        //         // $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
+        //         $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
+               
+                
+        //     }
+        //     }
+        //     } elseif (isset($asses['code_name'])) {
+        
+        // $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
+
+        //     }
+        //     }
+
+        //     return Helpers::successResponse('optional trait', $data);
+
+        
+
+
+            
+       
+       
+        $data = [
+            'largest-trait' => [],
+            'second-trait' => [],
+            'third-trait' => [],
+            'pilot-trait' => [],
+            'co-pilot-trait' => [],
+            'alchemy-trait' => [],
+            'communication-trait' => [],
+            'polarity-trait' => [],
+            
+        ];
+        
+        foreach ($coreState as $asses) {
+            if (is_array($asses) && count($asses)) {
+                foreach ($asses as $nested) {
+                    if (isset($nested['code_name'])) {
+                        $results = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
+                        
+                        foreach ($results as $item) {
+                            switch ($item->title) { // Convert to string for safety
+                                case "1":
+                                    $item['title']='largest-trait';
+                                    $data['largest-trait'][] = $item;
+                                    break;
+                                case "2":
+                                    $data['second-trait'][] = $item;
+                                    break;
+                                case "3":
+                                    $data['third-trait'][] = $item;
+                                    break;
+                                case "4":
+                                    $data['pilot-trait'][] = $item;
+                                    break;
+                                case "5":
+                                    $data['co-pilot-trait'][] = $item;
+                                    break;
+                                case "6":
+                                    $data['alchemy-trait'][] = $item;
+                                    break;
+                                case "7":
+                                    $data['communication-trait'][] = $item;
+                                    break;
+                                case "8":
+                                    $data['polarity-trait'][] = $item;
+                                    break;
+                                default:
+                                    $data[] = $item;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            } elseif (isset($asses['code_name'])) {
+                $results = AssessmentWalkThrough::getbyCodeName($asses['code_name']);
+                
+                foreach ($results as $item) {
+                    switch ($item->title) {
+                        case "1":
+                            $data['largest-trait'][] = $item;
+                            break;
+                        case "2":
+                            $data['second-trait'][] = $item;
+                            break;
+                        case "3":
+                            $data['third-trait'][] = $item;
+                            break;
+                        case "4":
+                                $data['pilot-trait'][] = $item;
+                                break;
+                        case "5":
+                                $data['co-pilot-trait'][] = $item;
+                                break;
+                        case "6":
+                                $data['alchemy-trait'][] = $item;
+                                break;
+                        case "7":
+                                $data['communication-trait'][] = $item;
+                                break;
+                        case "8":
+                                $data['polarity-trait'][] = $item;
+                                break;    
+                        default:
+                            $data[] = $item;
+                            break;
+                    }
+                }
+            }
+        }
+
+
+        
+        
+      
+        return Helpers::successResponse('optional trait', $data);
+        
+
+
+
+
+
+         
 
 
         } catch (\Exception $exception) {

@@ -24,4 +24,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('information-icon', 'DashboardController@informationIcon');
     Route::get('optional-trait', 'DashboardController@optionalTrait');
 
+    Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
+
 });
