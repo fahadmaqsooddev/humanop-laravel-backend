@@ -34,68 +34,63 @@ class B2BDashboardController extends Controller
     {
         try {
 
-            $userId =  $request['candidate_id'] ?? Helpers::getUser()['id'];
+            $candidate = B2BBusinessCandidates::getBusinessCandidate();
 
-            $checkCandidateResult = B2BCandidateStat::getResult($userId);
-
-            if (!empty($checkCandidateResult)) {
-
-                $isCandidateAvailable = !empty($checkCandidateResult);
-
-                $isRecentUpdate = $isCandidateAvailable && $checkCandidateResult['updated_at'] >= Carbon::now()->subHours(24);
-
-                if ($isRecentUpdate) {
-
-                    $candidate = $checkCandidateResult;
-
-                } else {
-
-                    $candidate = B2BBusinessCandidates::getBusinessCandidate();
-
-                }
-
-                $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
-
-                $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
-
-                $user_trait = Assessment::UserTraits($candidate['users']['id'] ?? '');
-
-
-                if ($isCandidateAvailable && !$isRecentUpdate) {
-
-                    B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
-
-                } elseif (!$isCandidateAvailable && !empty($candidate)) {
-
-                    B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
-
-                }
-
-                $data = [
-                    'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
-                    'optimization_plan' => $optimizationPlan,
-                    'core_state' => $coreState,
-                    'user_trait' => $user_trait
-                ];
-
-            } else {
-                $data = [
+            if (!$candidate) {
+                return Helpers::successResponse('candidates optimization and core state', [
                     'candidates_name' => null,
                     'optimization_plan' => null,
                     'core_state' => null,
                     'user_trait' => null
-                ];
+                ]);
             }
 
-            return Helpers::successResponse('candidates optimization and core state', $data);
+            $userId = $request->input('candidate_id', Helpers::getUser()['id']);
+
+            $checkCandidateResult = B2BCandidateStat::getResult($userId);
+
+            $isCandidateAvailable = !empty($checkCandidateResult);
+
+            $isRecentUpdate = $isCandidateAvailable && Carbon::parse($checkCandidateResult['updated_at'])->gte(Carbon::now()->subHours(24));
+
+            $candidate = $isRecentUpdate ? $checkCandidateResult : B2BBusinessCandidates::getBusinessCandidate();
+
+            if (!$candidate) {
+                return Helpers::successResponse('candidates optimization and core state', [
+                    'candidates_name' => null,
+                    'optimization_plan' => null,
+                    'core_state' => null,
+                    'user_trait' => null
+                ]);
+            }
+
+            $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
+
+            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
+
+            $userTrait = Assessment::UserTraits($candidate['users']['id'] ?? '');
+
+            if ($isCandidateAvailable) {
+
+                if (!$isRecentUpdate) {
+
+                    B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
+                }
+            } else {
+                B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
+            }
+
+            return Helpers::successResponse('candidates optimization and core state', [
+                'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
+                'optimization_plan' => $optimizationPlan,
+                'core_state' => $coreState,
+                'user_trait' => $userTrait
+            ]);
 
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
-
 
     public function StoreNotes(CreateNotes $request)
     {
