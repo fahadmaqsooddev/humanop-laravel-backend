@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Models\Admin\Alchemy\AlchemyCode;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -36,8 +37,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 
-            if (!empty($assessment))
-            {
+            if (!empty($assessment)) {
                 $userDailyTip = UserDailyTip::getLatestTip();
 
                 if ($userDailyTip) {
@@ -98,9 +98,7 @@ class DashboardController extends Controller
 
                 return Helpers::validationResponse('No new daily tip found.');
 
-            }
-            else
-            {
+            } else {
                 return Helpers::successResponse('No new daily tip found.');
 
             }
@@ -202,12 +200,9 @@ class DashboardController extends Controller
 
         try {
 
-            if (!empty($request['user_id']))
-            {
+            if (!empty($request['user_id'])) {
                 $userId = $request['user_id'];
-            }
-            else
-            {
+            } else {
                 $userId = Helpers::getUser()['id'];
             }
 
@@ -278,145 +273,113 @@ class DashboardController extends Controller
     }
 
 
-    public function getWalkThrough(){
+    public function getWalkThrough()
+    {
         try {
 
-            $user = Helpers::getUser();
+            $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
-            $coreState = Assessment::getCoreState($assessment ?? '', $user['date_of_birth'] ?? '');
-  
+            if (!empty($assessment)) {
+                $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
 
+                $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
 
+                $getStyle = [];
 
-            // $data = [];
-
-        //     foreach ($coreState as $asses) {
-        //     if (is_array($asses) && count($asses)) {
-        //     foreach ($asses as $nested) {
-        //     if (isset($nested['code_name'])) {
-        //         // $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
-        //         $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
-               
-                
-        //     }
-        //     }
-        //     } elseif (isset($asses['code_name'])) {
-        
-        // $data[] = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
-
-        //     }
-        //     }
-
-        //     return Helpers::successResponse('optional trait', $data);
-
-        
-
-
-            
-       
-       
-        $data = [
-            'largest-trait' => [],
-            'second-trait' => [],
-            'third-trait' => [],
-            'pilot-trait' => [],
-            'co-pilot-trait' => [],
-            'alchemy-trait' => [],
-            'communication-trait' => [],
-            'polarity-trait' => [],
-            
-        ];
-        
-        foreach ($coreState as $asses) {
-            if (is_array($asses) && count($asses)) {
-                foreach ($asses as $nested) {
-                    if (isset($nested['code_name'])) {
-                        $results = AssessmentWalkThrough::getbyCodeName($nested['code_name']);
-                        
-                        foreach ($results as $item) {
-                            switch ($item->title) { // Convert to string for safety
-                                case "1":
-                                    $item['title']='largest-trait';
-                                    $data['largest-trait'][] = $item;
-                                    break;
-                                case "2":
-                                    $data['second-trait'][] = $item;
-                                    break;
-                                case "3":
-                                    $data['third-trait'][] = $item;
-                                    break;
-                                case "4":
-                                    $data['pilot-trait'][] = $item;
-                                    break;
-                                case "5":
-                                    $data['co-pilot-trait'][] = $item;
-                                    break;
-                                case "6":
-                                    $data['alchemy-trait'][] = $item;
-                                    break;
-                                case "7":
-                                    $data['communication-trait'][] = $item;
-                                    break;
-                                case "8":
-                                    $data['polarity-trait'][] = $item;
-                                    break;
-                                default:
-                                    $data[] = $item;
-                                    break;
-                            }
-                        }
+                foreach ($getResult as $key => $result) {
+                    if (in_array($key, $style)) {
+                        $getStyle[$key] = $result;
                     }
                 }
-            } elseif (isset($asses['code_name'])) {
-                $results = AssessmentWalkThrough::getbyCodeName($asses['code_name']);
-                
-                foreach ($results as $item) {
-                    switch ($item->title) {
-                        case "1":
-                            $data['largest-trait'][] = $item;
-                            break;
-                        case "2":
-                            $data['second-trait'][] = $item;
-                            break;
-                        case "3":
-                            $data['third-trait'][] = $item;
-                            break;
-                        case "4":
-                                $data['pilot-trait'][] = $item;
-                                break;
-                        case "5":
-                                $data['co-pilot-trait'][] = $item;
-                                break;
-                        case "6":
-                                $data['alchemy-trait'][] = $item;
-                                break;
-                        case "7":
-                                $data['communication-trait'][] = $item;
-                                break;
-                        case "8":
-                                $data['polarity-trait'][] = $item;
-                                break;    
-                        default:
-                            $data[] = $item;
-                            break;
+
+                arsort($getStyle);
+
+                $getTopStyles = array_slice($getStyle, 0, 3, true);
+
+                $traits = [];
+
+                $styleNumber = 1;
+
+                foreach ($getTopStyles as $styleKey => $style) {
+
+                    $traits[] = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
+
+                    $styleNumber += 1;
+                }
+
+
+                $features = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil',];
+
+                $getFeature = [];
+
+                foreach ($getResult as $key => $result) {
+                    if (in_array($key, $features)) {
+                        $getFeature[$key] = $result;
                     }
                 }
+
+                arsort($getFeature);
+
+                $drivers = [];
+
+                $driverNumber = 4;
+
+                foreach ($getFeature as $driverKey => $driver) {
+
+                    $drivers[] = AssessmentWalkThrough::getbyCodeName(strtoupper($driverKey), $driverNumber);
+
+                    $driverNumber += 1;
+                }
+
+                $gold = $assessment['g'];
+                $silver = $assessment['s'];
+                $copper = $assessment['c'];
+                $alchemy = $gold . '' . $silver . '' . $copper;
+                $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
+
+                $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
+
+                $getCommunications = $assessment != null ? Assessment::getEnergy($assessment) : null;
+
+                $communication = AssessmentWalkThrough::getbyCodeName($getCommunications[0], Admin::COMMUNICATION_TRAIT);
+
+                $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+                $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+                $pv = $positive - $negative;
+
+                if ($pv <= -8) {
+                    $polarity_code = 40;
+                } elseif ($pv >= -7 and $pv <= 7) {
+                    $polarity_code = 41;
+                } elseif ($pv >= 8) {
+                    $polarity_code = 42;
+                }
+
+                $record = CodeDetail::whereId($polarity_code)->select(['id', 'code'])->first();
+
+                $polarity = AssessmentWalkThrough::getbyCodeName($record['code'], Admin::POLARITY_TRAIT);
+
+
+                $data = [
+                    'trait' => $traits,
+                    'driver' => $drivers,
+                    'alchemy' => $alchemyBoundary,
+                    'communication' => $communication,
+                    'polarity' => $polarity
+                ];
+
+            }else
+            {
+                $data = [
+                    'trait' => null,
+                    'driver' => null,
+                    'alchemy' => null,
+                    'communication' => null,
+                    'polarity' => null
+                ];
             }
-        }
 
-
-        
-        
-      
-        return Helpers::successResponse('optional trait', $data);
-        
-
-
-
-
-
-         
+            return Helpers::successResponse('optional trait', $data);
 
 
         } catch (\Exception $exception) {
