@@ -56,6 +56,18 @@ class B2BBusinessCandidates extends Model
             ->when($business_id, fn($query) => $query->where('business_id', $business_id))
             ->get();
     }
+    
+    public static function allBusinessCandidates($business_id = null)
+    {
+        return self::with([
+            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+            'assessments' => function ($query) {
+                $query->select('id', 'user_id');
+            }
+        ])
+            ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+            ->get();
+    }
 
     public static function getBusinessCandidate()
     {

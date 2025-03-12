@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             'gender' => 'required|in:male,female',
             'date_of_birth' => 'required|date',
             'phone' => 'nullable|string|max:25',
-            'company_name' => 'required|string|max:50',
+            'company_name' => 'required|string|unique:users,company_name,NULL,id,deleted_at,NULL',
             'timezone' => 'required|string',
             'business_sub_stratergy_id' => 'required|integer',
             'work_email'=>'required',
