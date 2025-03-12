@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
-use App\Helpers\Helpers;
-use App\Http\Controllers\Controller;
-use App\Models\B2B\UserCandidateInvite;
 use App\Models\User;
-use App\Models\UserInvite\UserInvite;
+use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\UserInvite\UserInvite;
+use App\Models\B2B\UserCandidateInvite;
+use App\Models\B2B\B2BBusinessCandidates;
+use Carbon\Carbon;
 
 class CandidateController extends Controller
 {
@@ -88,6 +91,31 @@ class CandidateController extends Controller
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function getAllCandidates(){
+        try {
+
+            $candidates = B2BBusinessCandidates::allBusinessCandidates(Helpers::getUser()['id'])->map(function ($candidate) {
+
+                $candidate->users->gender = $candidate->users->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
+                $candidate->users->status = $candidate->users->last_login ? 'on-board' : 'pending';
+                
+                $candidate->users->last_login = $candidate->users->last_login ? Carbon::parse($candidate->last_login)->format('m/d/Y h:i A') : null;
+                
+
+                return $candidate;
+
+            });
+
+            return Helpers::successResponse('All candidates', $candidates);
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 

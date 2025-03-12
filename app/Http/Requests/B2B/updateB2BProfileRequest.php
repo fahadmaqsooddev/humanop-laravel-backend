@@ -30,7 +30,7 @@ class updateB2BProfileRequest extends FormRequest
             'gender' => 'required|in:male,female',
             'timezone' => 'required',
             'phone' => 'nullable|max:25',
-            'company_name' => 'required|string|max:50',
+            'company_name' => 'required|string|max:50|unique:users,company_name,' . $this->user()->id . ',id,deleted_at,NULL',
             'password'=>'nullable',
         ];
     }
