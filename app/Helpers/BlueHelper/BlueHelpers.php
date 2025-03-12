@@ -27,10 +27,10 @@ class BlueHelpers
                         title: "' . addslashes($title) . '",
                         description: "' . addslashes($description) . '",
                         position: 65535,
-                        customFields:
-                        [
+                        placement: TOP
+                        customFields: [
                            {
-                               customFieldId: "CUSTOM_FIELD_ID_PLATFORM",
+                               customFieldId: "cm3hnhh150fzi1042zm0zcxjs",
                                value: "' . addslashes($platform) . '"
                              }
                         ]
