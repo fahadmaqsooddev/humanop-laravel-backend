@@ -1,12 +1,12 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
-@section('content')
-    @push('css')
-        <link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet" />
-   
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+<link href="{{ URL::asset('assets/css/cropper.min.css') }}" rel="stylesheet" />
 
-    @endpush
+<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
+
+
+@section('content')
+   
     <div class="container-fluid my-3 py-3">
         @include('layouts.message')
         <div class="row mb-5">
@@ -14,42 +14,42 @@
                 <div class="card position-sticky top-1">
                     <ul class="nav  flex-column border-radius-lg p-3">
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".largest-trait">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".largest-trait">
                                 <span class="text-sm custom-text-dark">Largest Trait Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".second-trait">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".second-trait">
                                 <span class="text-sm custom-text-dark">Second Trait Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".third-trait">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".third-trait">
                                 <span class="text-sm custom-text-dark">Third Trait Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".pilot">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".pilot">
                                 <span class="text-sm custom-text-dark">Pilot Driver Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".co-pilot">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".co-pilot">
                                 <span class="text-sm custom-text-dark">Co-pilot Driver Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".alchemy">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".alchemy">
                                 <span class="text-sm custom-text-dark">Alchemy Boundaries Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".communication">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".communication">
                                 <span class="text-sm custom-text-dark">Communication Style Sequence</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link setting-options text-body" href="#walkthrough" data-target=".polarity">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".polarity">
                                 <span class="text-sm custom-text-dark">Polarity and Energy Pool Sequence</span>
                             </a>
                         </li>
@@ -57,8 +57,8 @@
 
 
                         <li class="nav-item">
-                            {{-- <a class="nav-link setting-options text-body" data-scroll="" href="#profile"> --}}
-                            <a class="nav-link setting-options text-body" data-scroll="" href="#walkthrough">
+                          
+                            <a class="nav-link setting-options text-body" href="" data-scroll="" >
                      
                               
                                 <span class="text-sm custom-text-dark">Hai Tautorial Sequence</span>
@@ -74,8 +74,8 @@
                 <div class="card card-bg-white-orange-border mt-4" >
                
 
-                    <div class="trait-container" >
-                        <div class="largest-trait d-none">
+                    <div class="trait-container">
+                        <div class="largest-trait">
                             @livewire('admin.assessment-walkthrough.largest-trait')
                         </div>
                         <div class="second-trait d-none">
@@ -103,85 +103,51 @@
                     
                   
                     @include('layouts.message')
-                    {{-- <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Overview</h6>
-                        <textarea class="form-control  teaxt" id="chatDescription" wire:model="prompt"
-                                  rows="6" placeholder="">
-                                        </textarea>
-                    </div>
-            
-          
-                    <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Highest and Optimal Expression</h6>
-                        <textarea class="form-control  teaxt" id="chatDescription" wire:model="restriction"
-                                  rows="6" placeholder=""></textarea>
-                    </div>
-
-                    <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Optimization Hot Spots And
-Things To Recognize Aa Natural
-Triggers</h6>
-                        <textarea class="form-control teaxt" id="chatDescription" wire:model="restriction"
-                                  rows="6" placeholder=""></textarea>
-                    </div> --}}
-            
-
-                    {{-- <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Overview</h6>
-                        <textarea class="form-control teaxt" id="overview" wire:model="prompt" rows="6" placeholder=""></textarea>
-                    </div>
-                    
-                    <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Highest and Optimal Expression</h6>
-                        <textarea class="form-control teaxt" id="expression" wire:model="restriction" rows="6" placeholder=""></textarea>
-                    </div>
-                    
-                    <div class="card-header">
-                        <h6 class="text-orange setting-form-heading py-2">Optimization Hot Spots And Things To Recognize As Natural Triggers</h6>
-                        <textarea class="form-control teaxt" id="optimization" wire:model="restriction" rows="6" placeholder=""></textarea>
-                    </div>
-            --}}
-{{--             
-                    <div class="card-body d-sm-flex pt-0 justify-content-end">
-                        <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="update"
-                                class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
-                            update
-                            <span wire:loading wire:target="update" style="font-size: 8px;" class="swal2-loader">
-                            </span>
-                        </button>
-                    </div> --}}
+                  
                 </div>
             </div>
           
         @include('layouts/footers/auth/footer')
     </div>
 @endsection
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".nav-link").forEach(link => {
-            link.addEventListener("click", function (e) {
-                e.preventDefault();
 
-                // Get the target class from the `data-target` attribute
-                let targetClass = this.getAttribute("data-target");
+document.addEventListener("DOMContentLoaded", function () {
+    // Get all trait links
+    const traitLinks = document.querySelectorAll(".trait-link");
 
-                // Hide all Livewire component divs
-                document.querySelectorAll(".trait-container > div").forEach(div => {
-                    div.classList.add("d-none");
-                });
+    traitLinks.forEach(function (link) {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
 
-                // Show the selected Livewire component
-                let targetDiv = document.querySelector(targetClass);
-                if (targetDiv) {
-                    targetDiv.classList.remove("d-none");
-                }
+            // Get the target element class from data-target
+            const targetSelector = this.getAttribute("data-target");
+ 
+
+            console.log(targetSelector);
+            
+            // First, hide ALL trait components
+            const allTraitComponents = document.querySelectorAll(".trait-container > div");
+            allTraitComponents.forEach(function (component) {
+                component.classList.add("d-none");
             });
+
+            // Then show ONLY the target component
+            const targetElement = document.querySelector(targetSelector);
+            if (targetElement) {
+                targetElement.classList.remove("d-none");
+            }
         });
     });
-</script>
+});
 
 
-<script type="importmap">
+    </script>
+
+
+{{-- <script type="importmap">
     {
         "imports": {
             "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
@@ -192,7 +158,7 @@ Triggers</h6>
 
 
 
-    </script>
+    </script> --}}
 
     {{-- <script type="module">
         import {
