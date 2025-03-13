@@ -124,13 +124,12 @@ class CandidateController extends Controller
     public function ConvertCandidate(Request $request)
     {
         try {
+            if(!empty($request['candidate_id'])){
 
-            if (!empty($request['candidate_id'])) {
-
-                B2BBusinessCandidates::CandidatetoMember($request->query('candidate_id'));
+                B2BBusinessCandidates::CandidatetoMember($request['candidate_id']);
                 return Helpers::successResponse(' Candidate Change To Member');
-            } else {
-                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }else{
+                return Helpers::validationResponse('Failed to find candidate id');
             }
 
         } catch (\Exception $exception) {
@@ -143,13 +142,14 @@ class CandidateController extends Controller
     public function DeletesingleCandidate(Request $request)
     {
         try {
-            if (!empty($request->query('candidate_id'))) {
+            if(!empty($request['candidate_id'])){
 
-                $candidate = B2BBusinessCandidates::DeletedCandidate($request->query('candidate_id'));
-
+               $candidate= B2BBusinessCandidates::DeletedCandidate($request['candidate_id']);
+               
                 return Helpers::successResponse(' Candidate Deleted Succesfully');
-            } else {
-                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }else{
+               
+                return Helpers::validationResponse('Failed to find candidate id');
             }
 
 
@@ -163,13 +163,13 @@ class CandidateController extends Controller
     public function ArchivesingleCandidate(Request $request)
     {
         try {
-            if (!empty($request->query('candidate_id'))) {
+            if(!empty($request['candidate_id'])){
 
-                $candidate = B2BBusinessCandidates::ArchivedCandidate($request->query('candidate_id'));
+               $candidate= B2BBusinessCandidates::ArchivedCandidate($request['candidate_id']);
 
                 return Helpers::successResponse('  Candidate archive Succesfully');
-            } else {
-                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }else{
+                return Helpers::validationResponse('Failed to find candidate id');
             }
 
 
