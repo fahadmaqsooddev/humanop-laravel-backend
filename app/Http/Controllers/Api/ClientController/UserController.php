@@ -299,7 +299,21 @@ class UserController extends Controller
 
             Feedback::storeClientFeedback($dataArray);
 
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform']);
+            $platforms = [
+                'web' => ['cm3hnhmow0g081042bdeu1m60'],
+                'admin' => ['cm5masszb049qtox1epuk1rvg'],
+                'app' => ['cm3hnhsl30g0b104247sal6oc', 'cm3hnhy8m0g0i1042ci6zijgj']
+            ];
+
+            $selectedPlatform = $platforms[$request['platform']] ?? $platforms['Other'];
+
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $selectedPlatform);
+
+//            if (isset($response['errors'])) {
+//                dd($response['errors']); // Debugging errors
+//            } else {
+//                dd($response['data']['createTodo']); // Output the created record
+//            }
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 

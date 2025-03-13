@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class BlueHelpers
 {
 
-    public static function createBlueRecord($title, $description, $platform)
+    public static function createBlueRecord($title, $description, array $platforms)
     {
         $apiUrl = 'https://api.blue.cc/graphql';
 
@@ -18,6 +18,8 @@ class BlueHelpers
             'X-Bloo-Company-ID' => 'humanop',
             'X-Bloo-Project-ID' => 'cm2kkgox801y52lukch5g2yxs',
         ];
+
+        $platformsString = implode(',', $platforms);
 
         $query = '
             mutation CreateRecord {
@@ -31,7 +33,7 @@ class BlueHelpers
                         customFields: [
                            {
                                customFieldId: "cm3hnhh150fzi1042zm0zcxjs",
-                               value: "' . addslashes($platform) . '"
+                               value: "' . addslashes($platformsString) . '"
                              }
                         ]
                     }
