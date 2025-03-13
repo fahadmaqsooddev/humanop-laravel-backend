@@ -57,7 +57,7 @@ class MemberController extends Controller
 
                     if ($checkCandidate == false) {
 
-                        B2BBusinessCandidates::registerCandidate($user['id'], $checkUser['id']);
+                        B2BBusinessCandidates::registerCandidate($user['id'], $checkUser['id'], 0);
 
                         User::UpdateMembersLimit($user['email']);
 

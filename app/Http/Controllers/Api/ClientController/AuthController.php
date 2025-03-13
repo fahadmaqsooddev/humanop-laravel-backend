@@ -81,7 +81,7 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id']);
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], 1);
                     }
 
                     if (!empty($request['register_from_app'])) {

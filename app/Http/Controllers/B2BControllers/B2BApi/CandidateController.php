@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -10,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\B2B\B2BBusinessCandidates;
-use Carbon\Carbon;
+use App\Http\Requests\B2B\CandidatetoMember;
 
 class CandidateController extends Controller
 {
@@ -121,13 +122,27 @@ class CandidateController extends Controller
     }
 
 
-    public function ConvertCandidate(Request $request)
-    {
+    public function ConvertCandidate(CandidatetoMember $request){
         try {
-            if(!empty($request['candidate_id'])){
 
-                B2BBusinessCandidates::CandidatetoMember($request['candidate_id']);
-                return Helpers::successResponse(' Candidate Change To Member');
+            $data= $request['candidate_id'];
+            if($data){
+                $status = B2BBusinessCandidates::getInfo($request['candidate_id']);
+                if($status){
+                    return Helpers::validationResponse('This candidate is  already deleted');
+                }else{
+                    $checkrole=B2BBusinessCandidates::checkRole($request['candidate_id']);
+                    if($checkrole){
+                        return Helpers::validationResponse('This candidate is  already converted to member');
+                    }else{
+                        $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
+                        if($changerole){
+                            return Helpers::successResponse(' Candidate Change To Member');
+                        }else{
+                            return Helpers::validationResponse('Not Link With Your Business');
+                        }
+                    }
+                }
             }else{
                 return Helpers::validationResponse('Failed to find candidate id');
             }
@@ -139,17 +154,35 @@ class CandidateController extends Controller
         }
     }
 
-    public function DeletesingleCandidate(Request $request)
-    {
-        try {
-            if(!empty($request['candidate_id'])){
 
-               $candidate= B2BBusinessCandidates::DeletedCandidate($request['candidate_id']);
-               
-                return Helpers::successResponse(' Candidate Deleted Succesfully');
-            }else{
-               
-                return Helpers::validationResponse('Failed to find candidate id');
+    public function DeletesingleCandidate(Request $request){
+        try {
+
+            if (!empty($request['candidate_id'])) {
+
+                $status = B2BBusinessCandidates::getInfo($request['candidate_id']);
+            
+                if ($status) {
+
+                    return Helpers::validationResponse('This Candidate is already deleted from your business.');
+
+                } else {
+
+                    $candidate = B2BBusinessCandidates::DeletedCandidate($request['candidate_id']);
+            
+                    if ($candidate) {
+
+                        return Helpers::successResponse('Candidate deleted successfully.');
+
+                    } else {
+
+                        return Helpers::validationResponse('Failed to delete the candidate.');
+                    }
+                }
+            
+            } else {
+
+                return Helpers::validationResponse('Failed to find candidate ID.');
             }
 
 
@@ -160,15 +193,46 @@ class CandidateController extends Controller
         }
     }
 
-    public function ArchivesingleCandidate(Request $request)
-    {
+    public function ArchivesingleCandidate(Request $request){
+
         try {
+
             if(!empty($request['candidate_id'])){
+               
+                $status = B2BBusinessCandidates::getInfo($request['candidate_id']);
 
-               $candidate= B2BBusinessCandidates::ArchivedCandidate($request['candidate_id']);
+                if ($status) {
 
-                return Helpers::successResponse('  Candidate archive Succesfully');
-            }else{
+                    return Helpers::validationResponse('This Candidate is already deleted with your business.');
+
+                } 
+                else {
+
+                    $archive=B2BBusinessCandidates::checkconsideration($request['candidate_id']);
+
+                    if($archive){
+                        
+                        return Helpers::validationResponse('This Candidate is already archived.');
+
+                    }else{
+
+                        $candidate= B2BBusinessCandidates::ArchivedCandidate($request['candidate_id']);
+            
+                        if ($candidate) {
+
+                            return Helpers::successResponse('Candidate archive successfully.');
+
+                        } else {
+                            
+                            return Helpers::validationResponse('Failed to archive the candidate.');
+                        }
+                    }
+                   
+                }
+          
+            }
+            else
+            {
                 return Helpers::validationResponse('Failed to find candidate id');
             }
 
