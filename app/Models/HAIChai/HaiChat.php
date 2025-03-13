@@ -113,7 +113,7 @@ class HaiChat extends Model
 
             } else {
 
-                HaiChat::updateChat($chat['id'], 0);
+                HaiChat::updateChat($chat['id'], 1);
             }
 
         }
