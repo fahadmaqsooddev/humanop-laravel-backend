@@ -522,7 +522,7 @@ return [
         ],
         'B2BBusinessCandidates' => [
             'table' => 'business_candidates',
-            'fillable' => ['business_id','candidate_id'],
+            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role'],
             'hidden' => ['updated_at','created_at'],
         ],
         'B2BCandidateStat' => [
@@ -540,7 +540,7 @@ return [
             'fillable'=>['business_id','user_id','note'],
             'hidden'=>['updated_at','created_at']
         ],
-        'IntentionOption'=>[
+        'B2BIntentionOption'=>[
             'table'=>'b2b_intention_option',
             'fillable'=>['intention_option'],
             'hidden'=>['updated_at','created_at']

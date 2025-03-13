@@ -33,60 +33,75 @@ class B2BDashboardController extends Controller
     public function candidateOptimizationAndCoreState(\Illuminate\Http\Request $request)
     {
         try {
+            if (!empty($request['candidate_id'])) {
+                $checkCandidateAndMember = User::getSingleUser($request['candidate_id']);
 
-            $candidate = B2BBusinessCandidates::getBusinessCandidate();
+                if ($checkCandidateAndMember) {
+                    $getAssessment = Assessment::getLatestAssessment($checkCandidateAndMember['id']);
 
-            if (!$candidate) {
-                return Helpers::successResponse('candidates optimization and core state', [
-                    'candidates_name' => null,
-                    'optimization_plan' => null,
-                    'core_state' => null,
-                    'user_trait' => null
-                ]);
-            }
+                    if (!empty($getAssessment)) {
+                        $optimizationPlan = ActionPlan::getUserActionPlan($checkCandidateAndMember['id']);
+                        $coreState = Assessment::getCoreState($getAssessment, $checkCandidateAndMember['date_of_birth']);
+                        $userTrait = Assessment::UserTraits($checkCandidateAndMember['id']);
 
-            $userId = $request->input('candidate_id', Helpers::getUser()['id']);
-
-            $checkCandidateResult = B2BCandidateStat::getResult($userId);
-
-            $isCandidateAvailable = !empty($checkCandidateResult);
-
-            $isRecentUpdate = $isCandidateAvailable && Carbon::parse($checkCandidateResult['updated_at'])->gte(Carbon::now()->subHours(24));
-
-            $candidate = $isRecentUpdate ? $checkCandidateResult : B2BBusinessCandidates::getBusinessCandidate();
-
-            if (!$candidate) {
-                return Helpers::successResponse('candidates optimization and core state', [
-                    'candidates_name' => null,
-                    'optimization_plan' => null,
-                    'core_state' => null,
-                    'user_trait' => null
-                ]);
-            }
-
-            $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id'] ?? '');
-
-            $coreState = Assessment::getCoreState($candidate['assessments'] ?? '', $candidate['users']['date_of_birth'] ?? '');
-
-            $userTrait = Assessment::UserTraits($candidate['users']['id'] ?? '');
-
-            if ($isCandidateAvailable) {
-
-                if (!$isRecentUpdate) {
-
-                    B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
+                        return Helpers::successResponse('candidates optimization and core state', [
+                            'candidates_name' => $checkCandidateAndMember['first_name'] . ' ' . $checkCandidateAndMember['last_name'],
+                            'optimization_plan' => $optimizationPlan,
+                            'core_state' => $coreState,
+                            'user_trait' => $userTrait
+                        ]);
+                    }
                 }
             } else {
-                B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
+                $candidate = B2BBusinessCandidates::getBusinessCandidate();
+
+                if (!$candidate) {
+                    return Helpers::successResponse('candidates optimization and core state', [
+                        'candidates_name' => null,
+                        'optimization_plan' => null,
+                        'core_state' => null,
+                        'user_trait' => null
+                    ]);
+                }
+
+                $userId = $request->input('candidate_id', Helpers::getUser()['id']);
+                $checkCandidateResult = B2BCandidateStat::getResult($userId);
+
+                $isCandidateAvailable = !empty($checkCandidateResult);
+                $isRecentUpdate = $isCandidateAvailable && Carbon::parse($checkCandidateResult['updated_at'])->gte(Carbon::now()->subHours(24));
+
+                if (!$isRecentUpdate) {
+                    $candidate = B2BBusinessCandidates::getBusinessCandidate();
+                }
+
+                if (!$candidate) {
+                    return Helpers::successResponse('candidates optimization and core state', [
+                        'candidates_name' => null,
+                        'optimization_plan' => null,
+                        'core_state' => null,
+                        'user_trait' => null
+                    ]);
+                }
+
+                $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id']);
+                $coreState = Assessment::getCoreState($candidate['assessments'], $candidate['users']['date_of_birth']);
+                $userTrait = Assessment::UserTraits($candidate['users']['id']);
+
+                if ($isCandidateAvailable) {
+                    if (!$isRecentUpdate) {
+                        B2BCandidateStat::updateRecord($candidate['candidate_id'], $optimizationPlan['id']);
+                    }
+                } else {
+                    B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
+                }
+
+                return Helpers::successResponse('candidates optimization and core state', [
+                    'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
+                    'optimization_plan' => $optimizationPlan,
+                    'core_state' => $coreState,
+                    'user_trait' => $userTrait
+                ]);
             }
-
-            return Helpers::successResponse('candidates optimization and core state', [
-                'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
-                'optimization_plan' => $optimizationPlan,
-                'core_state' => $coreState,
-                'user_trait' => $userTrait
-            ]);
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }

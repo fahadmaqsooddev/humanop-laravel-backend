@@ -57,12 +57,13 @@
                         </td>
                         <td class="text-md">
                             @if(strlen($content['answer']) > 45)
-                                {{substr($content['answer'], 0, 42)}}
+                                {!! substr($content['answer'], 0, 42) !!}
                                 &nbsp;<span style="color: #f2661c; cursor: pointer; font-size: 11px;"
                                             data-bs-toggle="modal" data-bs-target="#viewQuestionAnswerModel_{{$content['id']}}">
                                     Read More</span>
                             @else
-                                {{ $content['answer'] }}
+{{--                                {{ strip_tags($content['answer']) }}--}}
+                                {!! $content['answer']  !!}
                             @endif
                         </td>
                         <td class="text-center">
@@ -106,7 +107,7 @@
                                         </button>
                                         <div>
                                             <h4 style="color: #f2661c;">{{$content['question']}}</h4>
-                                            <p style="color: white;">{{$content['answer']}}</p>
+                                            <div style="color: white !important;">{!! $content['answer']  !!}</div>
                                         </div>
                                     </div>
                                 </div>
