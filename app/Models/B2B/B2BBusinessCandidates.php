@@ -55,7 +55,7 @@ class B2BBusinessCandidates extends Model
     {
 
         return self::whereHas('users', function ($query) {
-            $query->whereIn('is_admin', [Admin::IS_B2U, Admin::IS_CUSTOMER]);
+            $query->where('is_admin', Admin::IS_B2U);
         })
         ->with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
