@@ -71,11 +71,11 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="card card-bg-white-orange-border mt-4" >
+                <div class="card card-bg-white-orange-border mt-4 trait-container" >
                
 
-                    <div class="trait-container">
-                        <div class="largest-trait">
+                    <div class="largest-trait">
+                        <div class="largest-trait ">
                             @livewire('admin.assessment-walkthrough.largest-trait')
                         </div>
                         <div class="second-trait d-none">
@@ -145,129 +145,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     </script>
-
-
-{{-- <script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-        }
-    }
-
-
-
-
-    </script> --}}
-
-    {{-- <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Paragraph,
-            Bold,
-            Italic,
-            Font,
-            List,
-            Link,
-            AutoLink
-        } from 'ckeditor5';
-
-        // Function to initialize CKEditor for a specific textarea by ID
-        let editorInstance;
-        const editorElement = document.getElementById('editor');
-        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
-            ClassicEditor
-                .create(editorElement, {
-                    plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                    toolbar: [
-                        'undo', 'redo', '|', 'bold', 'italic', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
-                    ]
-                })
-                .then(editor => {
-                    editor.model.document.on('change:data', () => {
-                    @this.set('select_code.text', editor.getData());
-                    })
-                    Livewire.on('contentUpdated', content => {
-                        editor.setData(content); // Set new content into CKEditor
-                    });
-                    editorInstance = editor;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-        }
-        $('.createForm').on('click', function () {
-            if (editorInstance) {
-                editorInstance.setData('');
-            }
-        });
-
-       
-    </script> --}}
-
-
-
-    {{-- livewire wla  --}}
-    {{-- <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-            }
-        }
-        </script>
-        
-        <script type="module">
-            import {
-                ClassicEditor,
-                Essentials,
-                Paragraph,
-                Bold,
-                Italic,
-                Font,
-                List,
-                Link,
-                AutoLink
-            } from 'ckeditor5';
-        
-            // Function to initialize CKEditor for multiple textareas
-            function initializeEditor(id, livewireProperty) {
-                const editorElement = document.getElementById(id);
-                if (editorElement && !editorElement.classList.contains('ck-editor')) {
-                    ClassicEditor
-                        .create(editorElement, {
-                            plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                            toolbar: [
-                                'undo', 'redo', '|', 'bold', 'italic', '|',
-                                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                                'bulletedList', 'numberedList', 'link'
-                            ]
-                        })
-                        .then(editor => {
-                            editor.model.document.on('change:data', () => {
-                                @this.set(livewireProperty, editor.getData()); // Sync with Livewire model
-                            });
-                            Livewire.on('contentUpdated', content => {
-                                editor.setData(content); // Set updated content
-                            });
-                        })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                }
-            }
-        
-            // Initialize CKEditor for all 3 textareas
-            document.addEventListener("DOMContentLoaded", function () {
-                initializeEditor('overview', 'prompt');
-                initializeEditor('expression', 'restriction');
-                initializeEditor('optimization', 'restriction');
-            });
-        
-        </script> --}}
-
 

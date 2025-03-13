@@ -105,4 +105,7 @@ final class Admin
     const COMMUNICATION_TRAIT = 7;
     const POLARITY_TRAIT = 8;
 
+    const IN_FUTURE=1;
+    const NOT_IN_FUTURE=0;
+
 }

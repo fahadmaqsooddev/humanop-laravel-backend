@@ -13,8 +13,8 @@ class B2bInvite extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $email, $file, $searched_email, $members_limit, $total_member_limit;
-
+    public $email, $file, $searched_email,  $total_member_limit;
+public $members_limit=10;
     public $invite_id;
 
     public $selectedItems = [];

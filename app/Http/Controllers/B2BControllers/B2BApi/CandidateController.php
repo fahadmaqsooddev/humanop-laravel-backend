@@ -119,4 +119,102 @@ class CandidateController extends Controller
         }
     }
 
+
+    public function ConvertCandidate(Request $request){
+        try {
+            if(!empty($request->query('candidate_id'))){
+
+               B2BBusinessCandidates::CandidatetoMember($request->query('candidate_id'));
+                return Helpers::successResponse(' Candidate Change To Member');
+            }else{
+                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }
+            
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function DeletesingleCandidate(Request $request){
+        try {
+            if(!empty($request->query('candidate_id'))){
+
+               $candidate= B2BBusinessCandidates::DeletedCandidate($request->query('candidate_id'));
+               
+                return Helpers::successResponse(' Candidate Deleted Succesfully');
+            }else{
+                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }
+            
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function ArchivesingleCandidate(Request $request){
+        try {
+            if(!empty($request->query('candidate_id'))){
+
+               $candidate= B2BBusinessCandidates::ArchivedCandidate($request->query('candidate_id'));
+
+                return Helpers::successResponse('  Candidate archive Succesfully');
+            }else{
+                return Helpers::serverErrorResponse("Failed to find candidate id");
+            }
+            
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
+    public function AllArchiveCandidates(Request $request){
+        try {
+           
+
+               $archivecandidates= B2BBusinessCandidates::AllArchivedCandidates( Helpers::getUser()['id']);
+
+                return Helpers::successResponse('Archive Candidates',$archivecandidates);
+            
+            
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
+    public function AllDeletedCandidates(Request $request){
+        try {
+           
+
+               $deletedcandidates= B2BBusinessCandidates::AlldeletedCandidates( Helpers::getUser()['id']);
+
+                return Helpers::successResponse('Deleted Candidates',$deletedcandidates);
+            
+            
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
 }

@@ -114,11 +114,11 @@
                                             @error('file')
                                             <span class="text-sm text-danger">{{$message}}</span>
                                             @enderror
-                                            <label class="text-white mt-4">Members Limit</label>
-                                            <input style="background-color: #0f1534;color: lightgrey !important;"
+                                            {{-- <label class="text-white mt-4">Members Limit</label> --}}
+                                            {{-- <input style="background-color: #0f1534;color: lightgrey !important;"
                                                    class="form-control text-white"
                                                    type="number" wire:model="members_limit" name="members_limit"
-                                                   placeholder="icon name">
+                                                   placeholder="icon name"> --}}
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Generate Invite

@@ -72,7 +72,8 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessCandidates($business_id = null)
     {
         return self::whereHas('users',function($query){
-            $query->where('is_admin',Admin::IS_CUSTOMER);
+            $query->where('is_admin',Admin::IS_CUSTOMER)->where('archive_consideration',Admin::NOT_ARCHIVED)
+            ->where('is_permanently_deleted',0);
         })
         ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
         'assessments:id,user_id'
@@ -110,4 +111,51 @@ class B2BBusinessCandidates extends Model
 
     }
 
+
+    public static function CandidatetoMember($userid){
+
+       return  User::where('id',$userid)->update([
+            'is_admin'=>6
+        ]);
+    }
+
+    public static function DeletedCandidate($userid){
+
+       return  User::where('id',$userid)->update([
+            'is_permanently_deleted'=>1
+        ]);
+    }
+
+    
+    public static function ArchivedCandidate($userid){
+
+       return  User::where('id',$userid)->update([
+            'future_consideration'=>Admin::IN_FUTURE
+        ]);
+    }
+
+
+
+    public static function AllArchivedCandidates($business_id){
+     
+        return self::whereHas('users',function($query){
+            $query->where('is_admin',Admin::IS_CUSTOMER)->where('future_consideration',Admin::IN_FUTURE);
+        })
+        ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
+        ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+        ->get();
+       
+    }
+
+
+    public static function AlldeletedCandidates($business_id){
+     
+        return self::whereHas('users',function($query){
+            $query->where('is_admin',Admin::IS_CUSTOMER)->where('is_permanently_deleted',1);
+        })
+        ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
+        ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+        ->get();
+       
+    }
 }
