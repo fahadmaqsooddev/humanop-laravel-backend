@@ -28,6 +28,11 @@ class B2BBusinessCandidates extends Model
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
 
+    public function companies()
+    {
+        return $this->belongsTo(User::class, 'business_id', 'id');
+    }
+
     public function assessments()
     {
         return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
@@ -48,7 +53,7 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null)
     {
-       
+
         // return self::with([
         //     'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
         //     'assessments' => function ($query) {
@@ -66,9 +71,9 @@ class B2BBusinessCandidates extends Model
         ])
         ->when($business_id, fn($query) => $query->where('business_id', $business_id))
         ->get();
-    
+
     }
-    
+
     public static function allBusinessCandidates($business_id = null)
     {
         return self::whereHas('users',function($query){
@@ -80,7 +85,7 @@ class B2BBusinessCandidates extends Model
         ])
         ->when($business_id, fn($query) => $query->where('business_id', $business_id))
         ->get();
-        
+
     }
 
     public static function getBusinessCandidate()
@@ -111,6 +116,14 @@ class B2BBusinessCandidates extends Model
 
     }
 
+    public static function getCandidateBusiness()
+    {
+
+        return self::where('candidate_id', Helpers::getUser()['id'])->with('companies', function ($query){
+            $query->select('id', 'company_name');
+        })->get();
+
+    }
 
     public static function CandidatetoMember($userid){
 
@@ -126,7 +139,7 @@ class B2BBusinessCandidates extends Model
         ]);
     }
 
-    
+
     public static function ArchivedCandidate($userid){
 
        return  User::where('id',$userid)->update([
@@ -137,25 +150,25 @@ class B2BBusinessCandidates extends Model
 
 
     public static function AllArchivedCandidates($business_id){
-     
+
         return self::whereHas('users',function($query){
             $query->where('is_admin',Admin::IS_CUSTOMER)->where('future_consideration',Admin::IN_FUTURE);
         })
         ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
         ->when($business_id, fn($query) => $query->where('business_id', $business_id))
         ->get();
-       
+
     }
 
 
     public static function AlldeletedCandidates($business_id){
-     
+
         return self::whereHas('users',function($query){
             $query->where('is_admin',Admin::IS_CUSTOMER)->where('is_permanently_deleted',1);
         })
         ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
         ->when($business_id, fn($query) => $query->where('business_id', $business_id))
         ->get();
-       
+
     }
 }
