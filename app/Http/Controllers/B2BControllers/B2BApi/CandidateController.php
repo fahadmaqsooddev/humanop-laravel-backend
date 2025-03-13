@@ -81,9 +81,9 @@ class CandidateController extends Controller
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
                 $candidateInvites[] = [
-                    'invite_link'   => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
-                    'email'         => $email,
-                    'company_name'  => $companyName
+                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
+                    'email' => $email,
+                    'company_name' => $companyName
                 ];
             }
 
@@ -94,16 +94,17 @@ class CandidateController extends Controller
         }
     }
 
-    public function getAllCandidates(){
+    public function getAllCandidates()
+    {
         try {
 
             $candidates = B2BBusinessCandidates::allBusinessCandidates(Helpers::getUser()['id'])->map(function ($candidate) {
 
-                $candidate->users->gender = $candidate->users->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
+                $candidate->users->gender = $candidate->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
                 $candidate->users->status = $candidate->users->last_login ? 'on-board' : 'pending';
-                
+
                 $candidate->users->last_login = $candidate->users->last_login ? Carbon::parse($candidate->last_login)->format('m/d/Y h:i A') : null;
-                
+
 
                 return $candidate;
 
@@ -120,17 +121,17 @@ class CandidateController extends Controller
     }
 
 
-    public function ConvertCandidate(Request $request){
+    public function ConvertCandidate(Request $request)
+    {
         try {
-            if(!empty($request->query('candidate_id'))){
 
-               B2BBusinessCandidates::CandidatetoMember($request->query('candidate_id'));
+            if (!empty($request['candidate_id'])) {
+
+                B2BBusinessCandidates::CandidatetoMember($request->query('candidate_id'));
                 return Helpers::successResponse(' Candidate Change To Member');
-            }else{
+            } else {
                 return Helpers::serverErrorResponse("Failed to find candidate id");
             }
-            
-
 
         } catch (\Exception $exception) {
 
@@ -139,17 +140,17 @@ class CandidateController extends Controller
         }
     }
 
-    public function DeletesingleCandidate(Request $request){
+    public function DeletesingleCandidate(Request $request)
+    {
         try {
-            if(!empty($request->query('candidate_id'))){
+            if (!empty($request->query('candidate_id'))) {
 
-               $candidate= B2BBusinessCandidates::DeletedCandidate($request->query('candidate_id'));
-               
+                $candidate = B2BBusinessCandidates::DeletedCandidate($request->query('candidate_id'));
+
                 return Helpers::successResponse(' Candidate Deleted Succesfully');
-            }else{
+            } else {
                 return Helpers::serverErrorResponse("Failed to find candidate id");
             }
-            
 
 
         } catch (\Exception $exception) {
@@ -159,17 +160,17 @@ class CandidateController extends Controller
         }
     }
 
-    public function ArchivesingleCandidate(Request $request){
+    public function ArchivesingleCandidate(Request $request)
+    {
         try {
-            if(!empty($request->query('candidate_id'))){
+            if (!empty($request->query('candidate_id'))) {
 
-               $candidate= B2BBusinessCandidates::ArchivedCandidate($request->query('candidate_id'));
+                $candidate = B2BBusinessCandidates::ArchivedCandidate($request->query('candidate_id'));
 
                 return Helpers::successResponse('  Candidate archive Succesfully');
-            }else{
+            } else {
                 return Helpers::serverErrorResponse("Failed to find candidate id");
             }
-            
 
 
         } catch (\Exception $exception) {
@@ -180,15 +181,14 @@ class CandidateController extends Controller
     }
 
 
-    public function AllArchiveCandidates(Request $request){
+    public function AllArchiveCandidates(Request $request)
+    {
         try {
-           
 
-               $archivecandidates= B2BBusinessCandidates::AllArchivedCandidates( Helpers::getUser()['id']);
 
-                return Helpers::successResponse('Archive Candidates',$archivecandidates);
-            
-            
+            $archivecandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id']);
+
+            return Helpers::successResponse('Archive Candidates', $archivecandidates);
 
 
         } catch (\Exception $exception) {
@@ -199,15 +199,14 @@ class CandidateController extends Controller
     }
 
 
-    public function AllDeletedCandidates(Request $request){
+    public function AllDeletedCandidates(Request $request)
+    {
         try {
-           
 
-               $deletedcandidates= B2BBusinessCandidates::AlldeletedCandidates( Helpers::getUser()['id']);
 
-                return Helpers::successResponse('Deleted Candidates',$deletedcandidates);
-            
-            
+            $deletedcandidates = B2BBusinessCandidates::AlldeletedCandidates(Helpers::getUser()['id']);
+
+            return Helpers::successResponse('Deleted Candidates', $deletedcandidates);
 
 
         } catch (\Exception $exception) {

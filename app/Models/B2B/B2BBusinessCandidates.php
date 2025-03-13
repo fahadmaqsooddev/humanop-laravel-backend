@@ -54,16 +54,8 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessMembers($business_id = null)
     {
 
-        // return self::with([
-        //     'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
-        //     'assessments' => function ($query) {
-        //         $query->select('id', 'user_id');
-        //     }
-        // ])
-
-
         return self::whereHas('users', function ($query) {
-            $query->where('is_admin', Admin::IS_B2U);
+            $query->whereIn('is_admin', [Admin::IS_B2U, Admin::IS_CUSTOMER]);
         })
         ->with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
@@ -127,9 +119,7 @@ class B2BBusinessCandidates extends Model
 
     public static function CandidatetoMember($userid){
 
-       return  User::where('id',$userid)->update([
-            'is_admin'=>6
-        ]);
+       return  User::where('id',$userid)->update(['is_admin'=> Admin::IS_B2U]);
     }
 
     public static function DeletedCandidate($userid){
