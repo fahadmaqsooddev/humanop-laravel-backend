@@ -38,7 +38,7 @@ class Prompt extends Component
     public function update(){
         try {
             $this->validate();
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction]);
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction]);
           if($aiReply > 0) {
 
               $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);

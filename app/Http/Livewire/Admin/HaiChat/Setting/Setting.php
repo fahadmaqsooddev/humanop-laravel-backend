@@ -58,10 +58,10 @@ class Setting extends Component
             'file_name' => $active_embedding_ids,
             'prompt_folder' => $this->bot_name,
             'total_chunks' => $this->chunk,
-            'gpt_model' => $model_value['model_value'] ?? null,
+            'gpt_model' => $model_value['model_value'] ?? 1,
         ];
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', $body);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/save-llm-params', $body);
 
         if (isset($aiReply['s3_path'])){
 

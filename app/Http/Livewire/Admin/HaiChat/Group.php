@@ -77,7 +77,7 @@ class Group extends Component
                 ];
             }
             // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.88.172.210:8000/upload_embedding', [
                 'multipart' => $multipart
             ]);
             if(!empty($aiReply['request_id'])){
@@ -187,7 +187,7 @@ class Group extends Component
     {
         $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
 
         if ($aiReply == 1)
         {

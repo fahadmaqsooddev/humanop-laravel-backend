@@ -62,7 +62,7 @@ class Embedding extends Component
                 ];
             }
             // Send the request
-            $aiReply = $this->sendRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
+            $aiReply = $this->sendRequestFromGuzzle('POST', 'http://54.88.172.210:8000/upload_embedding', [
                 'multipart' => $multipart
             ]);
             if(!empty($aiReply['request_id'])){
@@ -99,7 +99,7 @@ class Embedding extends Component
 
             $chatSetting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
-            $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
+            $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
 
             $i = 0;
 
@@ -179,7 +179,7 @@ class Embedding extends Component
         if($this->request_id && $this->bot_name){
             $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
             if($activeEmbedding){
-                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/check-embeddings', ['folder_n' => $this->request_id]);
                  if($aiReply){
                      if($aiReply['exists']){
                          HaiChatActiveEmbedding::deleteActiveEmbedding($this->request_id);
@@ -187,7 +187,7 @@ class Embedding extends Component
                      }
                  }
             }else{
-                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/check-embeddings', ['folder_n' => $this->request_id]);
                 if($aiReply){
                     if($aiReply['exists']) {
                         HaiChatActiveEmbedding::createActiveEmbedding($this->bot_name, $this->request_id);

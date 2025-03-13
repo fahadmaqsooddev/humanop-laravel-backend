@@ -216,6 +216,7 @@
                                         <div class="rounded " style="max-width: 70%;">
                                             <div class="bg-primary text-white  p-2"
                                                  style="max-width: 100%; font-size:small;background-color: #F7F5F4 !important;color:#000000 !important;border-radius: 0px 10px 10px 10px !important">
+{{--                                                {!! html_entity_decode(html_entity_decode($conversation['reply'])) !!}--}}
                                                 {!! $conversation['reply'] !!}
                                             </div>
                                             <div class="row" style="width: 100%;">
