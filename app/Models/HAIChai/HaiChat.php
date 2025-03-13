@@ -75,7 +75,7 @@ class HaiChat extends Model
             'user_id' => (Helpers::getWebUser()->id ?? Helpers::getUser()->id),
             'query' => $query,
             'answer' => $reply ?? "",
-            'likedislike' => $likeDisLike ?? "",
+            'likedislike' => 0,
             'admin_id' => $admin_id
         ]);
     }
@@ -92,6 +92,18 @@ class HaiChat extends Model
         if ($type === 'like'){
 
             HaiChat::updateChat($chat['id'], 2);
+
+            $query = ClientQuery::create([
+                'user_id' => Helpers::getUser()->id,
+                'query' => $chat->query,
+                'response' => 1,
+                'chat_id' => $chat->id,
+            ]);
+
+            QueryAnswer::create([
+                'query_id' => $query->id,
+                'answer' => $chat->answer,
+            ]);
 
         }elseif ($type === 'dislike'){
 
