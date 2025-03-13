@@ -430,6 +430,7 @@ class UserController extends Controller
         try {
 
             $intention_option = IntentionOption::getOptions();
+
             return Helpers::successResponse('success', $intention_option);
 
         } catch (\Exception $exception) {

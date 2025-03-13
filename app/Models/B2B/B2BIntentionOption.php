@@ -5,7 +5,7 @@ namespace App\Models\B2B;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IntentionOption extends Model
+class B2BIntentionOption extends Model
 {
     use HasFactory;
 
@@ -23,5 +23,4 @@ class IntentionOption extends Model
     {
         return self::all();
     }
-
 }
