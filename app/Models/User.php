@@ -95,7 +95,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at','company_name']);
     }
 
     // appends
@@ -334,6 +334,12 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function getSingleUserFromCompanyName($companyName = null)
+    {
+        return self::where('company_name', $companyName)->first();
+
+    }
+
     public static function getUserAge($date_of_birth = null)
     {
 
@@ -554,20 +560,20 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $user_id = Helpers::getUser()->id;
-       
+
 
         $request['gender'] = $request['gender'] === 'male' ? 0 : 1;
-        
+
         if (isset($request['password']) && !empty($request['password'])) {
             $request['password'] = Hash::make($request['password']);
-           
+
         } else {
             $request['password'] = Helpers::getUser()->password;
-            
+
         }
-        
+
         self::whereId($user_id)->update($request);
-        
+
 
 
         return self::user($user_id);
@@ -1132,13 +1138,13 @@ class User extends Authenticatable implements JWTSubject
 
 
     public static function UpdateMember($data=null, $memberId = null){
-       
+
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
         if(!empty($data['password'])){
             $data['password']=Hash::make($data['password']);
             return self::where('id', $memberId)->update($data);
         }else{
-            
+
             $userinfo=User::where('id',$memberId)->first();
             $data['password']=$userinfo['password'];
             self::where('id', $memberId)->update($data);

@@ -15,6 +15,7 @@ use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
@@ -75,6 +76,13 @@ class AuthController extends Controller
                 if (empty($checkUser)) {
 
                     $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
+
+                    if (!empty($request['company_name'])) {
+
+                        $data = User::getSingleUserFromCompanyName($request['company_name']);
+
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id']);
+                    }
 
                     if (!empty($request['register_from_app'])) {
                         $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
@@ -141,6 +149,14 @@ class AuthController extends Controller
                         $checkLastStep = User::checkLastStep($checkUser['email']);
 
                         if ($checkLastStep && $checkLastStep['step'] == 3) {
+
+//                            if (!empty($request['company_name'])) {
+//
+//                                $data = User::getSingleUserFromCompanyName($request['company_name']);
+//
+//                                B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id']);
+//
+//                            }
 
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
@@ -300,9 +316,9 @@ class AuthController extends Controller
 
                     $token = $this->auth->attempt($credentials, $remember_me);
 
-                   $getUser = User::getSingleUser($checkUser['id']);
+                    $getUser = User::getSingleUser($checkUser['id']);
 
-                   $getUser->update(['last_login' => Carbon::now()]);
+                    $getUser->update(['last_login' => Carbon::now()]);
 
                 } else {
 

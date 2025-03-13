@@ -2,11 +2,12 @@
 
 namespace App\Models\B2B;
 
-use App\Helpers\Helpers;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
 use App\Models\Assessment;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class B2BBusinessCandidates extends Model
 {
@@ -47,14 +48,38 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null)
     {
-        return self::with([
+       
+        // return self::with([
+        //     'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+        //     'assessments' => function ($query) {
+        //         $query->select('id', 'user_id');
+        //     }
+        // ])
+
+
+        return self::whereHas('users', function ($query) {
+            $query->where('is_admin', Admin::IS_B2U);
+        })
+        ->with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
-            'assessments' => function ($query) {
-                $query->select('id', 'user_id');
-            }
+            'assessments:id,user_id'
         ])
-            ->when($business_id, fn($query) => $query->where('business_id', $business_id))
-            ->get();
+        ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+        ->get();
+    
+    }
+    
+    public static function allBusinessCandidates($business_id = null)
+    {
+        return self::whereHas('users',function($query){
+            $query->where('is_admin',Admin::IS_CUSTOMER);
+        })
+        ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+        'assessments:id,user_id'
+        ])
+        ->when($business_id, fn($query) => $query->where('business_id', $business_id))
+        ->get();
+        
     }
 
     public static function getBusinessCandidate()

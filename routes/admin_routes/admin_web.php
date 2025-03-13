@@ -125,6 +125,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         ->name('admin_b2b_support_detail');
     
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
+        Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
         Route::get('/all-daily-tips', [DailyTipController::class, 'allDailyTip'])->name('admin_all_daily_tip');
         Route::get('/all-optimization-plan', [OptimizationPlanController::class, 'allOptimizationPlan'])->name('admin_all_optimization_plan');

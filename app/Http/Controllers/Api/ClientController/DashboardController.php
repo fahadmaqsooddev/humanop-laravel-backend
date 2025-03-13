@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
-use App\Enums\Admin\Admin;
-use App\Events\DailyTip\NewDailyTip;
-use App\Helpers\Helpers;
-use App\Helpers\Points\PointHelper;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\Code\CodeDetail;
-use App\Models\Admin\DailyTip\DailyTip;
-use App\Models\Admin\DailyTip\UserDailyTip;
-use App\Models\Admin\Notification\Notification;
-use App\Models\Admin\Podcast\Podcast;
-use App\Models\Assessment;
-use App\Models\AssessmentColorCode;
-use App\Models\Client\Dashboard\ActionPlan;
-use App\Models\Information\InformationIcon;
-use App\Models\User;
+use App\Models\Admin\Alchemy\AlchemyCode;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
+use App\Models\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Points\PointHelper;
+use App\Models\AssessmentColorCode;
+use App\Events\DailyTip\NewDailyTip;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Code\CodeDetail;
+use App\Models\Admin\Podcast\Podcast;
+use App\Models\Admin\DailyTip\DailyTip;
+use App\Models\Admin\DailyTip\UserDailyTip;
+use App\Models\Client\Dashboard\ActionPlan;
+use App\Models\Information\InformationIcon;
+use App\Models\Admin\Notification\Notification;
+use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
 
 class DashboardController extends Controller
 {
@@ -35,8 +37,7 @@ class DashboardController extends Controller
 
             $assessment = Assessment::getLatestAssessment($user['id']);
 
-            if (!empty($assessment))
-            {
+            if (!empty($assessment)) {
                 $userDailyTip = UserDailyTip::getLatestTip();
 
                 if ($userDailyTip) {
@@ -97,9 +98,7 @@ class DashboardController extends Controller
 
                 return Helpers::validationResponse('No new daily tip found.');
 
-            }
-            else
-            {
+            } else {
                 return Helpers::successResponse('No new daily tip found.');
 
             }
@@ -201,12 +200,9 @@ class DashboardController extends Controller
 
         try {
 
-            if (!empty($request['user_id']))
-            {
+            if (!empty($request['user_id'])) {
                 $userId = $request['user_id'];
-            }
-            else
-            {
+            } else {
                 $userId = Helpers::getUser()['id'];
             }
 
@@ -268,6 +264,130 @@ class DashboardController extends Controller
             } else {
                 return Helpers::notFoundResponse('Assessment not found');
             }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function getWalkThrough()
+    {
+        try {
+
+            $assessment = Assessment::getLatestAssessment(Helpers::getUser()['id']);
+
+            if (!empty($assessment)) {
+
+                $getResult = AssessmentColorCode::getHighlightCodeColor($assessment['id']);
+
+                $style = ['sa', 'ma', 'jo', 'lu', 'ven', 'mer', 'so'];
+
+                $getStyle = [];
+
+                foreach ($getResult as $key => $result) {
+                    if (in_array($key, $style)) {
+                        $getStyle[$key] = $result;
+                    }
+                }
+
+                arsort($getStyle);
+
+                $getTopStyles = array_slice($getStyle, 0, 3, true);
+
+                $traits = [];
+
+                $styleNumber = 1;
+
+                foreach ($getTopStyles as $styleKey => $style) {
+
+                    $traits[] = AssessmentWalkThrough::getbyCodeName(strtoupper($styleKey), $styleNumber);
+
+                    $styleNumber += 1;
+                }
+
+
+                $features = ['de', 'dom', 'fe', 'gre', 'lun', 'nai', 'ne', 'pow', 'sp', 'tra', 'van', 'wil',];
+
+                $getFeature = [];
+
+                foreach ($getResult as $key => $result) {
+                    if (in_array($key, $features)) {
+                        $getFeature[$key] = $result;
+                    }
+                }
+
+                arsort($getFeature);
+
+                $drivers = [];
+
+                $driverNumber = 4;
+
+                foreach ($getFeature as $driverKey => $driver) {
+
+                    $drivers[] = AssessmentWalkThrough::getbyCodeName(strtoupper($driverKey), $driverNumber);
+
+                    $driverNumber += 1;
+                }
+
+                $gold = $assessment['g'];
+                $silver = $assessment['s'];
+                $copper = $assessment['c'];
+                $alchemy = $gold . '' . $silver . '' . $copper;
+                $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
+
+                if (!empty($alchemyCodeDetail))
+                {
+                    $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
+
+                }else{
+                    $alchemyBoundary = null;
+
+                }
+
+                $getCommunications = $assessment != null ? Assessment::getEnergy($assessment) : null;
+
+                $communication = AssessmentWalkThrough::getbyCodeName($getCommunications[0], Admin::COMMUNICATION_TRAIT);
+
+                $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+                $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+                $pv = $positive - $negative;
+
+                if ($pv <= -8) {
+                    $polarity_code = 40;
+                } elseif ($pv >= -7 and $pv <= 7) {
+                    $polarity_code = 41;
+                } elseif ($pv >= 8) {
+                    $polarity_code = 42;
+                }
+
+                $record = CodeDetail::whereId($polarity_code)->select(['id', 'code'])->first();
+
+                $polarity = AssessmentWalkThrough::getbyCodeName($record['code'], Admin::POLARITY_TRAIT);
+
+
+                $data = [
+                    'trait' => $traits,
+                    'driver' => $drivers,
+                    'alchemy' => $alchemyBoundary,
+                    'communication' => $communication,
+                    'polarity' => $polarity
+                ];
+
+            }else
+            {
+                $data = [
+                    'trait' => null,
+                    'driver' => null,
+                    'alchemy' => null,
+                    'communication' => null,
+                    'polarity' => null
+                ];
+            }
+
+            return Helpers::successResponse('optional trait', $data);
 
 
         } catch (\Exception $exception) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\ClientController;
 
 use App\Enums\Admin\Admin;
+use App\Helpers\BlueHelper\BlueHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChangePasswordRequest;
@@ -297,6 +298,8 @@ class UserController extends Controller
             $dataArray['user_id'] = Helpers::getUser()->id;
 
             Feedback::storeClientFeedback($dataArray);
+
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform']);
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
