@@ -113,7 +113,7 @@ class MemberController extends Controller
 
             });
 
-            return Helpers::successResponse('All candidates', $members);
+            return Helpers::successResponse('All Team members', $members);
 
 
         } catch (\Exception $exception) {
