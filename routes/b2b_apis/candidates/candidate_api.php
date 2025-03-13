@@ -18,5 +18,11 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('create-invite-link-for-candidate', 'CandidateController@createInviteLinkForCandidate');
     Route::get('all-candidate-invites', 'CandidateController@allCandidates');
     Route::get('all-candidates','CandidateController@getAllCandidates');
+    
+    Route::get('candidate-to-member','CandidateController@ConvertCandidate');
+    Route::get('delete-candidate','CandidateController@DeletesingleCandidate');
+    Route::get('future-consideration-candidate','CandidateController@ArchivesingleCandidate');
+    Route::get('all-future-consideration-candidates','CandidateController@AllArchiveCandidates');
+    Route::get('all-deleted-candidates','CandidateController@AllDeletedCandidates');
 
 });
