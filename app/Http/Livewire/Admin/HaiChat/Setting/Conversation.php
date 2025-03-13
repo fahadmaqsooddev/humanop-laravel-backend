@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\OpenRouterHelper;
+use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\HAIChai\AnalyticsModel;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
@@ -183,6 +184,8 @@ class Conversation extends Component
                 'answer' => $conversation->reply ?? null,
             ];
 
+            FineTuneContent::addLisaApprovedQuestionAnswers($body);
+
             $app_env = env('APP_ENV');
 
             $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
@@ -195,63 +198,81 @@ class Conversation extends Component
 
     public function dislikeReply($id){
 
-        $last_convo = HaiChatConversation::where('chatbot', $this->name)
+//        $last_convo = HaiChatConversation::where('chatbot', $this->name)
+//
+//            ->where('user_id', $this->user_id)
+//
+//            ->latest()->skip(1)->take(1)->get();
+//
+//        $convo = HaiChatConversation::whereId($id)->first();
+//
+//        $is_liked = $last_convo[0]->is_liked ?? null;
+//
+//        if ($is_liked === 1){
+//
+//            $convo->update(['is_liked' => 0]);
+//
+//            $this->message = $convo->message;
+//
+//            $this->emit('submitQuery');
+//
+//            $this->disliked = 1;
+//
+//        }elseif ($is_liked === 0){ // second dislike
+//
+//            // update Client Query
+//
+////            \App\Models\HAIChai\ClientQuery::createQuery($this->user_id, $convo->message, null, $convo->id);
+//
+////            session()->flash('admin_conversation', 'Query submitted to Admin');
+//
+//            $convo->update(['is_liked' => 2]);
+//
+//        }elseif ($is_liked === 2){ // when last message query send to Lisa. Then 2nd dislike functionality repeats
+//
+//            if ($is_liked === 2 && $convo->is_liked === 2){
+//
+//                // do nothing
+//            }else{
+//
+//                $convo->update(['is_liked' => 0]);
+//
+//                $this->message = $convo->message;
+//
+//                $this->emit('submitQuery');
+//
+//                $this->disliked = 1;
+//
+//            }
+//
+//        }else{
+//
+//            $convo->update(['is_liked' => 0]);
+//
+//            $this->message = $convo->message;
+//
+//            $this->emit('submitQuery');
+//
+//            $this->disliked = 1;
+//        }
 
-            ->where('user_id', $this->user_id)
-
-            ->latest()->skip(1)->take(1)->get();
+//        $last_convo = HaiChatConversation::where('chatbot', $this->name)
+//
+//            ->where('user_id', $this->user_id)
+//
+//            ->latest()->skip(1)->take(1)->get();
 
         $convo = HaiChatConversation::whereId($id)->first();
 
-        $is_liked = $last_convo[0]->is_liked ?? null;
+//        $is_liked = $last_convo[0]->is_liked ?? null;
 
-        if ($is_liked === 1){
+        $convo->update(['is_liked' => 2]);
 
-            $convo->update(['is_liked' => 0]);
+        $this->message = $convo->message;
 
-            $this->message = $convo->message;
+        $this->emit('submitQuery');
 
-            $this->emit('submitQuery');
-
-            $this->disliked = 1;
-
-        }elseif ($is_liked === 0){
-
-            // update Client Query
-
-            \App\Models\HAIChai\ClientQuery::createQuery($this->user_id, $convo->message, null, $convo->id);
-
-            session()->flash('admin_conversation', 'Query submitted to Admin');
-
-            $convo->update(['is_liked' => 2]);
-
-        }elseif ($is_liked === 2){ // when last message query send to Lisa. Then 2nd dislike functionality repeats
-
-            if ($is_liked === 2 && $convo->is_liked === 2){
-
-                // do nothing
-            }else{
-
-                $convo->update(['is_liked' => 0]);
-
-                $this->message = $convo->message;
-
-                $this->emit('submitQuery');
-
-                $this->disliked = 1;
-
-            }
-
-        }else{
-
-            $convo->update(['is_liked' => 0]);
-
-            $this->message = $convo->message;
-
-            $this->emit('submitQuery');
-
-            $this->disliked = 1;
-        }
+        $this->disliked = 1;
 
     }
 
@@ -270,16 +291,30 @@ public function editHaiResponse($id)
 
     // Give a small delay to ensure CKEditor is initialized
     $this->dispatchBrowserEvent('updateEditorContent', [
-        'content' => $this->updated_reply
+        'content' => $this->updated_reply,
+        'id' => $id
     ]);
 }
 
     public function updateHaiReply(){
 
-        $this->validate(['updated_reply' => 'required|max:100000'],
-            ['updated_reply.required' => 'Reply is required']);
+//        $this->validate(['updated_reply' => 'required|max:100000'],
+//            ['updated_reply.required' => 'Reply is required']);
 
-        HaiChatConversation::whereId($this->convo_id)->update(['reply' => $this->updated_reply]);
+        $conversation = HaiChatConversation::whereId($this->convo_id)->first();
+
+        if ($conversation){
+
+            $conversation->update(['reply' => $this->updated_reply]);
+
+            $data = [
+                'question' => $conversation->message,
+                'answer' => $conversation->reply,
+            ];
+
+            FineTuneContent::addLisaApprovedQuestionAnswers($data);
+
+        }
 
         $conversation_id = $this->convo_id;
 

@@ -28,7 +28,6 @@
           background: #f2661c;
       }
 
-
       .cke_notification_warning{
     display: none !important;
    }
@@ -186,17 +185,22 @@
                                                 {!! $conversation['reply'] !!}
                                             </div>
                                             <div class="row" style="width: 100%;">
-                                                <div class="col-10">
+                                                <div class="col-9">
                                                     <p class="text-start" style="color: #58534C;font-size: 14px"> {{\Carbon\Carbon::parse($conversation['created_at'] ?? null)->diffForHumans()}}</p>
                                                 </div>
                                                 @if(isset($conversation->id))
-                                                    <div class="col-2">
+                                                    <div class="col-3">
 
                                                         <div class="rating d-flex mb-2">
                                                             <!-- Thumbs up -->
                                                             <div wire:loading.class="active" wire:target="likeReply" class="like grow {{$conversation['is_liked'] === 1 ? 'active' : ''}}"
                                                                  wire:click="likeReply({{$conversation['id'] ?? null}})">
                                                                 <i class="fa fa-thumbs-up fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
+                                                            </div>
+                                                            <!-- Thumbs down -->
+                                                            <div wire:loading.class="active" wire:target="dislikeReply" class="like grow {{$conversation['is_liked'] === 2 ? 'active' : ''}}"
+                                                                 wire:click="dislikeReply({{$conversation['id'] ?? null}})">
+                                                                <i class="fa fa-thumbs-down fa-2x" style="font-size: x-large;" aria-hidden="true"></i>
                                                             </div>
                                                             <!-- Edit Response -->
                                                             <div class="dislike" wire:click="editHaiResponse({{$conversation['id']}})"
@@ -217,7 +221,7 @@
                                              aria-labelledby="editHaiReplyModal{{ $conversation->id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-body">
+                                                    <div class="modal-body" id="edit-modal-body">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
@@ -392,7 +396,18 @@
     // Listen for custom event to update editor content
     window.addEventListener('updateEditorContent', function(event) {
         const content = event.detail.content;
+        // const modalId = event.detail.id;
         const editorElements = document.querySelectorAll('.editor');
+
+        const editHaiModal = document.querySelector("#edit-modal-body");
+
+        editHaiModal.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            editHaiModal.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30,
+            });
+        }, { passive: true });
 
         editorElements.forEach((element) => {
             const editorId = element.id;
@@ -532,14 +547,14 @@
               scrollToBottom();
           }, 500);
 
-          const descriptionContainer = document.querySelector('#chat_container');
-          descriptionContainer.addEventListener('wheel', (event) => {
-              event.preventDefault();
-
-              descriptionContainer.scrollBy({
-                  top: event.deltaY < 0 ? -30 : 30,
-              });
-          });
+          // const descriptionContainer = document.querySelector('#chat_container');
+          // descriptionContainer.addEventListener('wheel', (event) => {
+          //     event.preventDefault();
+          //
+          //     descriptionContainer.scrollBy({
+          //         top: event.deltaY < 0 ? -30 : 30,
+          //     });
+          // });
       });
 
       $('.chosen-single').click(function (){
