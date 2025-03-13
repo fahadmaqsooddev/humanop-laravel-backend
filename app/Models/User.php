@@ -1165,5 +1165,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public static function allCompanies()
+    {
+        return self::where('is_admin', Admin::IS_B2B)->get(['id','company_name']);
+    }
 
 }
