@@ -72,7 +72,7 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessCandidates($business_id = null)
     {
         return self::whereHas('users',function($query){
-            $query->where('is_admin',Admin::IS_CUSTOMER)->where('archive_consideration',Admin::NOT_ARCHIVED)
+            $query->where('is_admin',Admin::IS_CUSTOMER)->where('future_consideration',Admin::NOT_IN_FUTURE)
             ->where('is_permanently_deleted',0);
         })
         ->with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
