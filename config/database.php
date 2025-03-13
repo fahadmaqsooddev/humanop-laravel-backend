@@ -313,7 +313,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment','user_id','approve','rating'],
+            'fillable' => ['comment','user_id','approve','rating','title','platform'],
             'hidden' => ['updated_at','created_at'],
         ],
         'Connection' => [
@@ -540,7 +540,7 @@ return [
             'fillable'=>['business_id','user_id','note'],
             'hidden'=>['updated_at','created_at']
         ],
-        'IntentionOption'=>[
+        'B2BIntentionOption'=>[
             'table'=>'b2b_intention_option',
             'fillable'=>['intention_option'],
             'hidden'=>['updated_at','created_at']

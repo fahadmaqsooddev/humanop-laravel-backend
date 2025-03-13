@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\AssessmentWalkthrough;
 
+use App\Models\Admin\Code\CodeDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,10 +31,10 @@ class AssessmentWalkThrough extends Model
     ->first();
 
     if ($check) {
-       
-        return $check->update($data); 
+
+        return $check->update($data);
     } else {
-      
+
         return self::create($data);
     }
     }
@@ -47,9 +48,20 @@ class AssessmentWalkThrough extends Model
     }
 
 
-    public static function getbyCodeName($value){
-        // dd($value);
-        // return self::where('code_name',$value)->get();
-        return self::where('code_name',$value)->get();
+    public static function getbyCodeName($codeName = null, $number = null)
+    {
+
+        $codeDetail = CodeDetail::getSinglePublicName($codeName);
+
+        $walkThroughDetail =  self::where('code_name',$codeName)->where('title', $number)->first();
+
+        return [
+            'public_name' => $codeDetail['public_name'],
+            'code_name' => $walkThroughDetail['code_name'],
+            'overview' => $walkThroughDetail['overview'],
+            'optimal' => $walkThroughDetail['optimal'],
+            'optimization' => $walkThroughDetail['optimization'],
+        ];
+
     }
 }
