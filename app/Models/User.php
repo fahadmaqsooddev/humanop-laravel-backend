@@ -155,6 +155,7 @@ class User extends Authenticatable implements JWTSubject
     public function getCheckCompanyAttribute()
     {
 
+        return $this->id;
         $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
 
         return $dataShareWithBusiness;
