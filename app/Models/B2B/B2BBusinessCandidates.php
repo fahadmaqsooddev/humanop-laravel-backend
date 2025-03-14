@@ -211,7 +211,7 @@ class B2BBusinessCandidates extends Model
 
     public static function checkCandidateCompany($candidateId = null)
     {
-        return self::where('candidate_id', $candidateId)->where('share_data', Admin::NOT_SHARED_DATA)->get();
+        return self::where('candidate_id', $candidateId)->where('share_data', Admin::NOT_SHARED_DATA)->first();
     }
 
     public static function ShareDataWithBusiness($businessId = null, $candidateId = null)
@@ -249,6 +249,6 @@ class B2BBusinessCandidates extends Model
 
     public static function checkShare($userid){
         return self::where('business_id', Helpers::getUser()['id'])
-        ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first(); 
+        ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first();
     }
 }
