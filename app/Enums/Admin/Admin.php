@@ -99,15 +99,26 @@ final class Admin
     const SECOND_TRAIT = 2;
 
     const THIRD_TRAIT = 3;
+
     const PILOT_TRAIT = 4;
+
     const CO_PILOT_TRAIT = 5;
+
     const ALCHEMY_TRAIT = 6;
+
     const COMMUNICATION_TRAIT = 7;
+
     const POLARITY_TRAIT = 8;
 
-    const IN_FUTURE=1;
-    const NOT_IN_FUTURE=0;
-    const IS_CANDIDATE=1;
-    const IS_TEAM_MEMBER=0;
+    const IN_FUTURE = 1;
 
+    const NOT_IN_FUTURE = 0;
+
+    const IS_CANDIDATE = 1;
+
+    const IS_TEAM_MEMBER = 0;
+
+    const SHARED_DATA = 1;
+
+    const NOT_SHARED_DATA = 0;
 }
