@@ -31,14 +31,16 @@ class CandidateController extends Controller
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
+            
 
             if ($checkInviteLink) {
-
+                
+                
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
                 if ($checkCompany) {
 
-                    return Helpers::successResponse("{$email} already has an invite link. Please create an account.");
+                    return Helpers::successResponse("{$email} already has an invite link with your business. Please create an account.");
 
                 } else {
 
@@ -47,7 +49,9 @@ class CandidateController extends Controller
                     return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
             }
+            
 
+       
             $newInvite = UserInvite::createInvite($email);
 
             if ($newInvite) {
