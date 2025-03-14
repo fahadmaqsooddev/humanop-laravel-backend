@@ -55,6 +55,7 @@ class B2BDashboardController extends Controller
                     }
                 }
             } else {
+                
                 $candidate = B2BBusinessCandidates::getBusinessCandidate();
 
                 if (!$candidate) {
@@ -74,6 +75,7 @@ class B2BDashboardController extends Controller
                 $isRecentUpdate = $isCandidateAvailable && Carbon::parse($checkCandidateResult['updated_at'])->gte(Carbon::now()->subHours(24));
 
                 if (!$isRecentUpdate) {
+
                     $candidate = B2BBusinessCandidates::getBusinessCandidate();
                 }
 

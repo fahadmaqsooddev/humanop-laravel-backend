@@ -98,7 +98,7 @@ class B2BBusinessCandidates extends Model
 
             $randomOffset = mt_rand(0, $count - 1);
 
-            $randomRecord = self::where('business_id', Helpers::getUser()['id'])
+            $randomRecord = self::where('business_id', Helpers::getUser()['id'])->where('share_data',Admin::SHARED_DATA)
                 ->whereHas('assessments')
                 ->with([
                     'users',
