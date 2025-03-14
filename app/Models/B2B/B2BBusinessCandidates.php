@@ -199,4 +199,28 @@ class B2BBusinessCandidates extends Model
     {
         return self::where('candidate_id', $candidateId)->where('share_data', Admin::NOT_SHARED_DATA)->get();
     }
+
+    public static function ShareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if (!empty($checkBusinessCandidate)) {
+
+            if ($checkBusinessCandidate['share_data'] == 0) {
+                return $checkBusinessCandidate->update(['share_data' => 1]);
+            } else {
+                return $checkBusinessCandidate->update(['share_data' => 0]);
+            }
+
+            return $checkBusinessCandidate;
+
+        }
+
+    }
+
+    public static function allCompaniesInfo()
+    {
+        return self::all();
+    }
 }

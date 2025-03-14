@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\ClientController;
 
+use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Models\Admin\Alchemy\AlchemyCode;
+use App\Models\B2B\B2BBusinessCandidates;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -338,11 +340,10 @@ class DashboardController extends Controller
                 $alchemy = $gold . '' . $silver . '' . $copper;
                 $alchemyCodeDetail = AlchemyCode::getCodeDeatil($alchemy);
 
-                if (!empty($alchemyCodeDetail))
-                {
+                if (!empty($alchemyCodeDetail)) {
                     $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
 
-                }else{
+                } else {
                     $alchemyBoundary = null;
 
                 }
@@ -376,8 +377,7 @@ class DashboardController extends Controller
                     'polarity' => $polarity
                 ];
 
-            }else
-            {
+            } else {
                 $data = [
                     'trait' => null,
                     'driver' => null,
@@ -395,4 +395,28 @@ class DashboardController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+    public function sharedData(ShareDataRequest $request)
+    {
+        try {
+
+            $userId = Helpers::getUser()['id'];
+
+            foreach ($request['business_id'] as $businessId) {
+
+                if (B2BBusinessCandidates::checkBusinessCandidate($businessId, $userId)) {
+
+                    B2BBusinessCandidates::ShareDataWithBusiness($businessId, $userId);
+
+                }
+
+            }
+
+            return Helpers::successResponse('Data Shared Successfully');
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
 }
