@@ -399,15 +399,15 @@
         // const modalId = event.detail.id;
         const editorElements = document.querySelectorAll('.editor');
 
-        const editHaiModal = document.querySelector("#edit-modal-body");
+        // const editHaiModal = document.querySelector("#edit-modal-body");
 
-        editHaiModal.addEventListener('wheel', (event) => {
-            event.preventDefault();
-
-            editHaiModal.scrollBy({
-                top: event.deltaY < 0 ? -30 : 30,
-            });
-        }, { passive: true });
+        // editHaiModal.addEventListener('wheel', (event) => {
+        //     event.preventDefault();
+        //
+        //     editHaiModal.scrollBy({
+        //         top: event.deltaY < 0 ? -30 : 30,
+        //     });
+        // }, { passive: true });
 
         editorElements.forEach((element) => {
             const editorId = element.id;
@@ -547,14 +547,14 @@
               scrollToBottom();
           }, 500);
 
-          // const descriptionContainer = document.querySelector('#chat_container');
-          // descriptionContainer.addEventListener('wheel', (event) => {
-          //     event.preventDefault();
-          //
-          //     descriptionContainer.scrollBy({
-          //         top: event.deltaY < 0 ? -30 : 30,
-          //     });
-          // });
+          const descriptionContainer = document.querySelector('#chat_container');
+          descriptionContainer.addEventListener('wheel', (event) => {
+              event.preventDefault();
+
+              descriptionContainer.scrollBy({
+                  top: event.deltaY < 0 ? -30 : 30,
+              });
+          });
       });
 
       $('.chosen-single').click(function (){

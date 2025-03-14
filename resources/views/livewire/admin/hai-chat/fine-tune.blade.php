@@ -202,14 +202,14 @@
                                                 <label class="text-white">Question</label>
                                                 <input style="background-color: #0f1534;color: lightgrey !important"
                                                        class="form-control text-white"
-                                                       type="text" wire:model="updateQuestion" placeholder="Enter question">
+                                                       type="text" wire:model.debounce.1000="updateQuestion" placeholder="Enter question">
                                             </div>
 
                                             <div class="p-1">
                                                 <label for="textarea" class="text-white">Answer</label>
                                                 <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"
                                                           class="form-control text-white"
-                                                          type="text" wire:model="updateAnswer" placeholder="Enter question's answer">
+                                                          type="text" wire:model.debounce.1000="updateAnswer" placeholder="Enter question's answer">
                                                 </textarea>
                                             </div>
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
