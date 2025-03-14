@@ -181,7 +181,7 @@ class Conversation extends Component
 
             $body = [
                 'question' => $conversation->message ?? null,
-                'answer' => $conversation->reply ?? null,
+                'answer' => strip_tags($conversation->reply ?? null),
             ];
 
             FineTuneContent::addLisaApprovedQuestionAnswers($body);
@@ -309,7 +309,7 @@ public function editHaiResponse($id)
 
             $data = [
                 'question' => $conversation->message,
-                'answer' => $conversation->reply,
+                'answer' => strip_tags($conversation->reply),
             ];
 
             FineTuneContent::addLisaApprovedQuestionAnswers($data);
