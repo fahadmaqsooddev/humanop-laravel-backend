@@ -81,7 +81,7 @@ class AuthController extends Controller
 
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], 1);
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::SHARED_DATA);
                     }
 
                     if (!empty($request['register_from_app'])) {
@@ -129,7 +129,6 @@ class AuthController extends Controller
 
                         }
 
-
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
                         $this->sendEmailVerification($emailData, $checkUser['email'], 'Verify Your Email Address');
@@ -150,13 +149,13 @@ class AuthController extends Controller
 
                         if ($checkLastStep && $checkLastStep['step'] == 3) {
 
-//                            if (!empty($request['company_name'])) {
-//
-//                                $data = User::getSingleUserFromCompanyName($request['company_name']);
-//
-//                                B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id']);
-//
-//                            }
+                            if (!empty($request['company_name'])) {
+
+                                $data = User::getSingleUserFromCompanyName($request['company_name']);
+
+                                B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id'], Admin::IS_CANDIDATE, Admin::SHARED_DATA);
+
+                            }
 
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 

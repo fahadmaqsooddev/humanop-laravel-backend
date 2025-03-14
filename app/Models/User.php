@@ -159,11 +159,12 @@ class User extends Authenticatable implements JWTSubject
 
         if (!empty($dataShareWithBusiness))
         {
-            return Admin::SHARED_DATA;
+            return  Admin::SHARED_DATA;
         }
         else{
-            return Admin::NOT_SHARED_DATA;
+            return  Admin::NOT_SHARED_DATA;
         }
+
     }
 
     public function getIsFollowAttribute()

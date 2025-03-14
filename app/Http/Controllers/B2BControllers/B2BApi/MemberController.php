@@ -98,17 +98,17 @@ class MemberController extends Controller
 
     }
 
-    public function AllMembers()
+    public function AllMembers(Request $request)
     {
         try {
 
-            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'])->map(function ($member) {
+            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'], $request['search_name'])->map(function ($member) {
 
                 $member->users->gender = $member->users->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
                 $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
-                
+
                 $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
-                
+
 
                 return $member;
 
@@ -165,7 +165,7 @@ class MemberController extends Controller
     }
 
 
-    
+
     public function ConvertMember(MembertoCandidate $request){
         try {
 
@@ -176,7 +176,7 @@ class MemberController extends Controller
                     return Helpers::validationResponse('This member is  already deleted');
                 }else{
                     $checkrole=B2BBusinessCandidates::checkRole($request['member_id']);
-                
+
                     if($checkrole){
                         $changerole=B2BBusinessCandidates::newchangeRole($request['member_id']);
 
@@ -190,7 +190,7 @@ class MemberController extends Controller
 
                         }
 
-                        
+
 
                     }else{
                         return Helpers::validationResponse('Already Converted to member');
