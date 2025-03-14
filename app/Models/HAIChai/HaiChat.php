@@ -102,7 +102,7 @@ class HaiChat extends Model
 
             QueryAnswer::create([
                 'query_id' => $query->id,
-                'answer' => $chat->answer,
+                'answer' => strip_tags($chat->answer),
             ]);
 
         }elseif ($type === 'dislike'){
