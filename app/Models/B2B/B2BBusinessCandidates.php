@@ -229,10 +229,18 @@ class B2BBusinessCandidates extends Model
     {
         return self::all();
     }
+
+
     public static function newchangeRole($userid){
         return self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)->update([
             'role'=>Admin::IS_CANDIDATE
         ]); 
+    }
+
+
+    public static function checkShare($userid){
+        return self::where('business_id', Helpers::getUser()['id'])
+        ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first(); 
     }
 }
