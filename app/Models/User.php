@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
@@ -13,21 +14,18 @@ use App\Models\Client\StoryView\StoryView;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Cashier\Billable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Client\Point\Point;
 
@@ -37,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
     protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-        , 'age_group', 'plan_name', 'optional_trait'];
+        , 'age_group', 'plan_name', 'optional_trait', 'check_company'];
 
     public function __construct(array $attributes = array())
     {
@@ -95,7 +93,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at','company_name']);
+        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name']);
     }
 
     // appends
@@ -152,6 +150,20 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return Helpers::getImage($this->image_id, $profilePic);
+    }
+
+    public function getCheckCompanyAttribute()
+    {
+
+        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
+
+        if (!empty($dataShareWithBusiness))
+        {
+            return Admin::SHARED_DATA;
+        }
+        else{
+            return Admin::NOT_SHARED_DATA;
+        }
     }
 
     public function getIsFollowAttribute()
@@ -573,7 +585,6 @@ class User extends Authenticatable implements JWTSubject
         }
 
         self::whereId($user_id)->update($request);
-
 
 
         return self::user($user_id);
@@ -1111,63 +1122,67 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $users = self::where('business_id', $business_id)
-    ->with(['assessments' => function ($query) {
-        $query->select('id', 'user_id');
-    }])
-    ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','timezone','phone'])
-    ->get();
+            ->with(['assessments' => function ($query) {
+                $query->select('id', 'user_id');
+            }])
+            ->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'timezone', 'phone'])
+            ->get();
         foreach ($users as $user) {
-            $user->gender = $user->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
+            $user->gender = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
             $user->setAppends([]);
         }
 
-    return $users;
+        return $users;
 
 
     }
 
-    public static function MembersLimit($email=null){
+    public static function MembersLimit($email = null)
+    {
         return UserInvite::where('email', $email)->value('members_limit');
     }
 
 
-    public static function UpdateMembersLimit($email=null){
+    public static function UpdateMembersLimit($email = null)
+    {
 
         UserInvite::where('email', $email)->decrement('members_limit', 1);
     }
 
 
-    public static function UpdateMember($data=null, $memberId = null){
+    public static function UpdateMember($data = null, $memberId = null)
+    {
 
         $data['gender'] = $data['gender'] === 'male' ? 0 : 1;
-        if(!empty($data['password'])){
-            $data['password']=Hash::make($data['password']);
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
             return self::where('id', $memberId)->update($data);
-        }else{
+        } else {
 
-            $userinfo=User::where('id',$memberId)->first();
-            $data['password']=$userinfo['password'];
+            $userinfo = User::where('id', $memberId)->first();
+            $data['password'] = $userinfo['password'];
             self::where('id', $memberId)->update($data);
         }
 
     }
 
-    public static function deleteMember($id=null){
+    public static function deleteMember($id = null)
+    {
 
 
-     $updated = self::where('id', $id)->update(['business_id' => null]);
+        $updated = self::where('id', $id)->update(['business_id' => null]);
 
-     $email = Helpers::getUser()->email;
+        $email = Helpers::getUser()->email;
 
-     UserInvite::where('email', $email)->increment('members_limit', 1);
+        UserInvite::where('email', $email)->increment('members_limit', 1);
 
-     return $updated;
+        return $updated;
     }
 
 
     public static function allCompanies()
     {
-        return self::where('is_admin', Admin::IS_B2B)->get(['id','company_name']);
+        return self::where('is_admin', Admin::IS_B2B)->get(['id', 'company_name']);
     }
 
 }
