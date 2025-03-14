@@ -75,7 +75,7 @@ class MemberController extends Controller
 
                     $createMember = User::addB2BMember($dataArray);
 
-                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id']);
+                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id'],0);
 
                     User::UpdateMembersLimit($user['email']);
 
