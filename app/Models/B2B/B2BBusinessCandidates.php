@@ -98,7 +98,7 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $count = self::where('business_id', Helpers::getUser()['id'])->whereHas('assessments')->count();
+        $count = self::where('business_id', Helpers::getUser()['id'])->where('share_data',Admin::SHARED_DATA)->whereHas('assessments')->count();
 
         $randomRecord = null;
 
@@ -237,10 +237,18 @@ class B2BBusinessCandidates extends Model
     {
         return self::all();
     }
+
+
     public static function newchangeRole($userid){
         return self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)->update([
             'role'=>Admin::IS_CANDIDATE
         ]);
+    }
+
+
+    public static function checkShare($userid){
+        return self::where('business_id', Helpers::getUser()['id'])
+        ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first(); 
     }
 }
