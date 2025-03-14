@@ -43,12 +43,14 @@ class B2BDashboardController extends Controller
                         $optimizationPlan = ActionPlan::getUserActionPlan($checkCandidateAndMember['id']);
                         $coreState = Assessment::getCoreState($getAssessment, $checkCandidateAndMember['date_of_birth']);
                         $userTrait = Assessment::UserTraits($checkCandidateAndMember['id']);
-
+                        $userNote=B2BNotes::getNoteFromUserId($checkCandidateAndMember['id']);
                         return Helpers::successResponse('candidates optimization and core state', [
                             'candidates_name' => $checkCandidateAndMember['first_name'] . ' ' . $checkCandidateAndMember['last_name'],
                             'optimization_plan' => $optimizationPlan,
                             'core_state' => $coreState,
-                            'user_trait' => $userTrait
+                            'user_trait' => $userTrait,
+                            'user_note'=> $userNote ?? ''
+                            
                         ]);
                     }
                 }
@@ -60,7 +62,8 @@ class B2BDashboardController extends Controller
                         'candidates_name' => null,
                         'optimization_plan' => null,
                         'core_state' => null,
-                        'user_trait' => null
+                        'user_trait' => null,
+                        'user_note'=> null
                     ]);
                 }
 
@@ -79,7 +82,8 @@ class B2BDashboardController extends Controller
                         'candidates_name' => null,
                         'optimization_plan' => null,
                         'core_state' => null,
-                        'user_trait' => null
+                        'user_trait' => null,
+                        'user_note'=> null
                     ]);
                 }
 
@@ -94,12 +98,14 @@ class B2BDashboardController extends Controller
                 } else {
                     B2BCandidateStat::createRecord($candidate['candidate_id'], $optimizationPlan['id']);
                 }
-
+                $userNote=B2BNotes::getNoteFromUserId($candidate['users']['id']);
                 return Helpers::successResponse('candidates optimization and core state', [
                     'candidates_name' => isset($candidate['assessments']) ? ($candidate['users']['first_name'] . ' ' . $candidate['users']['last_name']) : '',
                     'optimization_plan' => $optimizationPlan,
                     'core_state' => $coreState,
-                    'user_trait' => $userTrait
+                    'user_trait' => $userTrait,
+                    'user_note'=> $userNote ?? ''
+
                 ]);
             }
         } catch (\Exception $exception) {

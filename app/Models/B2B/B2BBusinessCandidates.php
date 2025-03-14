@@ -61,7 +61,13 @@ class B2BBusinessCandidates extends Model
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
             'assessments:id,user_id'
         ])
-        ->when($business_id, fn($query) => $query->where('business_id', $business_id)->where('role',Admin::IS_TEAM_MEMBER))
+        // ->when($business_id, fn($query) => $query->where('business_id', $business_id)->where('role',Admin::IS_TEAM_MEMBER))
+        ->when($business_id, function($query, $business_id) {
+            $query->where('business_id', $business_id)
+                  ->where('is_permanently_deleted', 0)
+                  ->where('role',Admin::IS_TEAM_MEMBER)
+                  ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        })
         ->get();
 
     }
@@ -176,6 +182,7 @@ class B2BBusinessCandidates extends Model
     }
 
     public static function checkRole($userid){
+        // dd($userid);
         return self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)
         ->where('role', Admin::IS_TEAM_MEMBER)
@@ -186,6 +193,12 @@ class B2BBusinessCandidates extends Model
         return self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)->update([
             'role'=>Admin::IS_TEAM_MEMBER
+        ]); 
+    }
+    public static function newchangeRole($userid){
+        return self::where('business_id', Helpers::getUser()['id'])
+        ->where('candidate_id', $userid)->update([
+            'role'=>Admin::IS_CANDIDATE
         ]); 
     }
 }

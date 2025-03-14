@@ -19,5 +19,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('add-member', 'MemberController@addMember');
     Route::get('all-members','MemberController@AllMembers');
     Route::delete('delete-member','MemberController@DeleteMember');
+    Route::post('member-to-candidate','MemberController@ConvertMember');
 
 });

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\EditMemberRequest;
-use App\Models\B2B\B2BBusinessCandidates;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Enums\Admin\Admin;
+use App\Http\Requests\B2B\MembertoCandidate;
 
 class MemberController extends Controller
 {
@@ -160,6 +161,49 @@ class MemberController extends Controller
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    
+    public function ConvertMember(MembertoCandidate $request){
+        try {
+
+            $data= $request['member_id'];
+            if($data){
+                $status = B2BBusinessCandidates::getInfo($request['member_id']);
+                if($status){
+                    return Helpers::validationResponse('This member is  already deleted');
+                }else{
+                    $checkrole=B2BBusinessCandidates::checkRole($request['member_id']);
+                
+                    if($checkrole){
+                        $changerole=B2BBusinessCandidates::newchangeRole($request['member_id']);
+
+                        if($changerole){
+
+                            return Helpers::successResponse(' Member  Change To Candidate');
+
+                        }else{
+
+                            return Helpers::validationResponse('Not Link With Your Business');
+
+                        }
+
+                        
+
+                    }else{
+                        return Helpers::validationResponse('Already Converted to member');
+                    }
+                }
+            }else{
+                return Helpers::validationResponse('Failed to find member id');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
