@@ -156,14 +156,16 @@ class User extends Authenticatable implements JWTSubject
     {
 
         $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
-        
-        if ($dataShareWithBusiness != null)
-        {
-            return  Admin::SHARED_DATA;
-        }
-        else{
-            return  Admin::NOT_SHARED_DATA;
-        }
+
+        return $dataShareWithBusiness;
+
+//        if ($dataShareWithBusiness != null)
+//        {
+//            return  Admin::SHARED_DATA;
+//        }
+//        else{
+//            return  Admin::NOT_SHARED_DATA;
+//        }
 
     }
 
