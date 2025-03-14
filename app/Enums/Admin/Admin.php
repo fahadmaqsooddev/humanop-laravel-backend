@@ -107,5 +107,7 @@ final class Admin
 
     const IN_FUTURE=1;
     const NOT_IN_FUTURE=0;
+    const IS_CANDIDATE=1;
+    const IS_TEAM_MEMBER=0;
 
 }

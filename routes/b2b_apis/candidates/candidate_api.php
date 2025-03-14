@@ -19,7 +19,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-candidate-invites', 'CandidateController@allCandidates');
     Route::get('all-candidates','CandidateController@getAllCandidates');
     
-    Route::get('candidate-to-member','CandidateController@ConvertCandidate');
+    Route::post('candidate-to-member','CandidateController@ConvertCandidate');
     Route::get('delete-candidate','CandidateController@DeletesingleCandidate');
     Route::get('future-consideration-candidate','CandidateController@ArchivesingleCandidate');
     Route::get('all-future-consideration-candidates','CandidateController@AllArchiveCandidates');
