@@ -26,4 +26,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
 
+    Route::post('shared-data','DashboardController@sharedData');
+
 });

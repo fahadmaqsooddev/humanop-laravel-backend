@@ -439,9 +439,9 @@
             event.preventDefault();
 
             editHaiModal.scrollBy({
-                top: event.deltaY < 0 ? -30 : 30,
+                top: event.deltaY < 0 ? -30 : 30
             });
-        }, { passive: true });
+        }, { passive: false });
 
         editorElements.forEach((element) => {
             const editorId = element.id;
@@ -581,14 +581,14 @@
               scrollToBottom();
           }, 500);
 
-          // const descriptionContainer = document.querySelector('#chat_container');
-          // descriptionContainer.addEventListener('wheel', (event) => {
-          //     event.preventDefault();
-          //
-          //     descriptionContainer.scrollBy({
-          //         top: event.deltaY < 0 ? -30 : 30,
-          //     });
-          // });
+          const descriptionContainer = document.querySelector('#chat_container');
+          descriptionContainer.addEventListener('wheel', (event) => {
+              event.preventDefault();
+
+              descriptionContainer.scrollBy({
+                  top: event.deltaY < 0 ? -30 : 30
+              });
+          }, {passive: true});
       });
 
       $('.chosen-single').click(function (){

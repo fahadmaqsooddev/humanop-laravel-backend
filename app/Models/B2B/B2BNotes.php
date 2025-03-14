@@ -51,7 +51,7 @@ class B2BNotes extends Model
 
     public static function getNoteFromUserId($userId = null)
     {
-        return self::where('user_id', $userId)->first();
+        return self::where('business_id',Helpers::getUser()['id'])->where('user_id', $userId)->first();
     }
 
 

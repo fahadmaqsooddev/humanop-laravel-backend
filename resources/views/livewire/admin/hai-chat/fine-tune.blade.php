@@ -78,9 +78,9 @@
                         <td style="padding: 12px 24px;">
                             @if($content['is_fine_tuned'] === 0)
                                 <button class="mb-0 text-white"
-                                        wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
-                                        style="background-color: transparent;border:none;"
-                                        data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">
+                                        wire:click="updateQuestionAnswer(`{{$content['id']}}`,`{{$content['question']}}`,`{{$content['answer']}}`)"
+                                        style="background-color: transparent;border:none;">
+{{--                                        data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">--}}
                                     <i class="fa fa-pencil" style="color: #1C365E; font-weight: 600;"></i>
                                 </button>
                                 <button class="mb-0 text-white" onclick="deleteQuestionAnswer({{$content['id']}})"
@@ -275,6 +275,11 @@
             setTimeout(function () {
                 $('#close-add-modal-button').click();
             }, 1000);
+        });
+
+        window.Livewire.on('openEditModal', function () {
+
+            $('#editQuestionAnswerModel').modal('toggle');
         });
 
     </script>

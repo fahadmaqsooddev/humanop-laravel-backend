@@ -83,7 +83,7 @@ class QueryAnswer extends Model
 
         $body = [
             'question' => $answer['question']['query'] ?? null,
-            'answer' => $answer->answer ?? null,
+            'answer' => strip_tags($answer->answer ?? null),
         ];
 
         FineTuneContent::addLisaApprovedQuestionAnswers($body);
