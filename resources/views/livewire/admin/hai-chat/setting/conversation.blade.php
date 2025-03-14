@@ -399,15 +399,15 @@
         // const modalId = event.detail.id;
         const editorElements = document.querySelectorAll('.editor');
 
-        // const editHaiModal = document.querySelector("#edit-modal-body");
+        const editHaiModal = document.querySelector("#edit-modal-body");
 
-        // editHaiModal.addEventListener('wheel', (event) => {
-        //     event.preventDefault();
-        //
-        //     editHaiModal.scrollBy({
-        //         top: event.deltaY < 0 ? -30 : 30,
-        //     });
-        // }, { passive: true });
+        editHaiModal.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            editHaiModal.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30
+            });
+        }, { passive: false });
 
         editorElements.forEach((element) => {
             const editorId = element.id;
@@ -552,9 +552,9 @@
               event.preventDefault();
 
               descriptionContainer.scrollBy({
-                  top: event.deltaY < 0 ? -30 : 30,
+                  top: event.deltaY < 0 ? -30 : 30
               });
-          });
+          }, {passive: true});
       });
 
       $('.chosen-single').click(function (){
