@@ -79,9 +79,9 @@ class B2BDashboardController extends Controller
                 }
                
             } else {
-                
+            
                 $candidate = B2BBusinessCandidates::getBusinessCandidate();
-
+              
                 if (!$candidate) {
                     return Helpers::successResponse('candidates optimization and core state', [
                         'candidates_name' => null,
