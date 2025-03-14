@@ -37,8 +37,8 @@ class B2BDashboardController extends Controller
         try {
             if (!empty($request['candidate_id'])) {
                 $chekShareStatus=B2BBusinessCandidates::checkShare($request['candidate_id']);
+                $checkCandidateAndMember = User::getSingleUser($request['candidate_id']);
                 if($chekShareStatus){
-                    $checkCandidateAndMember = User::getSingleUser($request['candidate_id']);
                     if ($checkCandidateAndMember) {
                         $getAssessment = Assessment::getLatestAssessment($checkCandidateAndMember['id']);
     
@@ -60,7 +60,7 @@ class B2BDashboardController extends Controller
                         }
                         else{
                             return Helpers::successResponse('candidates optimization and core state', [
-                                'candidates_name' => null,
+                                'candidates_name' => $checkCandidateAndMember['first_name'] . ' ' . $checkCandidateAndMember['last_name'],
                                 'optimization_plan' => null,
                                 'core_state' => null,
                                 'user_trait' => null,
@@ -70,7 +70,7 @@ class B2BDashboardController extends Controller
                     }
                 }else{
                     return Helpers::successResponse('candidates optimization and core state', [
-                        'candidates_name' => null,
+                        'candidates_name' => $checkCandidateAndMember['first_name'] . ' ' . $checkCandidateAndMember['last_name'],
                         'optimization_plan' => null,
                         'core_state' => null,
                         'user_trait' => null,
