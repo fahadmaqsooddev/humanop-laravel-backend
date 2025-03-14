@@ -78,9 +78,9 @@
                         <td style="padding: 12px 24px;">
                             @if($content['is_fine_tuned'] === 0)
                                 <button class="mb-0 text-white"
-                                        wire:click='updateQuestionAnswer("{{$content['id']}}","{{$content['question']}}", "{{$content['answer']}}")'
-                                        style="background-color: transparent;border:none;"
-                                        data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">
+                                        wire:click="updateQuestionAnswer(`{{$content['id']}}`,`{{$content['question']}}`,`{{$content['answer']}}`)"
+                                        style="background-color: transparent;border:none;">
+{{--                                        data-bs-toggle="modal" data-bs-target="#editQuestionAnswerModel">--}}
                                     <i class="fa fa-pencil" style="color: #1C365E; font-weight: 600;"></i>
                                 </button>
                                 <button class="mb-0 text-white" onclick="deleteQuestionAnswer({{$content['id']}})"
@@ -202,14 +202,14 @@
                                                 <label class="text-white">Question</label>
                                                 <input style="background-color: #0f1534;color: lightgrey !important"
                                                        class="form-control text-white"
-                                                       type="text" wire:model.debounce.1000="updateQuestion" placeholder="Enter question">
+                                                       type="text" wire:model="updateQuestion" placeholder="Enter question">
                                             </div>
 
                                             <div class="p-1">
                                                 <label for="textarea" class="text-white">Answer</label>
                                                 <textarea id="textarea" rows="3" style="background-color: #0f1534;color: lightgrey !important"
                                                           class="form-control text-white"
-                                                          type="text" wire:model.debounce.1000="updateAnswer" placeholder="Enter question's answer">
+                                                          type="text" wire:model="updateAnswer" placeholder="Enter question's answer">
                                                 </textarea>
                                             </div>
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
@@ -275,6 +275,11 @@
             setTimeout(function () {
                 $('#close-add-modal-button').click();
             }, 1000);
+        });
+
+        window.Livewire.on('openEditModal', function () {
+
+            $('#editQuestionAnswerModel').modal('toggle');
         });
 
     </script>

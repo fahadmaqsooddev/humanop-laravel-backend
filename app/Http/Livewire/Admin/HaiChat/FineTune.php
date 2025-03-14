@@ -60,6 +60,8 @@ class FineTune extends Component
         $this->updateQuestion = $question;
 
         $this->updateAnswer = $answer;
+
+        $this->emit('openEditModal');
     }
 
     public function editFineTuneContent(){
