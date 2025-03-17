@@ -64,7 +64,7 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
         return self::with([
-            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
             'assessments:id,user_id'
         ])
             ->when($search_name, function ($query) use ($search_name) {
@@ -85,7 +85,7 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessCandidates($business_id = null)
     {
-        return self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+        $data= self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
             'assessments:id,user_id'
         ])
             ->when($business_id, function ($query, $business_id) {
@@ -95,6 +95,8 @@ class B2BBusinessCandidates extends Model
                     ->where('future_consideration', Admin::NOT_IN_FUTURE);
             })
             ->get();
+            
+        return $data;
 
     }
 

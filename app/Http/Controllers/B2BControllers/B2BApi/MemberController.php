@@ -108,12 +108,17 @@ class MemberController extends Controller
                 $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
 
                 $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
-
+             
+            
+                $member->users->user_created_at = Carbon::parse($member->users->created_at)->format('m/d/Y h:i A');
+                   
+                unset($member->users->created_at);
+                
 
                 return $member;
 
             });
-
+   
             return Helpers::successResponse('All Team members', $members);
 
 
@@ -199,6 +204,8 @@ class MemberController extends Controller
                             return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
                         }
                        
+
+
                     }else{
                         return Helpers::validationResponse('Already Converted to member');
                     }
