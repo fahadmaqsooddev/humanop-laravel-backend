@@ -49,8 +49,7 @@ class B2BBusinessCandidates extends Model
 
         $checkData = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
-        if (empty($checkData))
-        {
+        if (empty($checkData)) {
             return self::create([
 
                 'business_id' => $businessId,
@@ -103,29 +102,25 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $count = self::where('business_id', Helpers::getUser()['id'])->whereHas('assessments')->count();
+        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->whereHas('assessments');
 
-        $randomRecord = null;
+        $count = $baseQuery->count();
 
-        if ($count > 0) {
-
-            $randomOffset = mt_rand(0, $count - 1);
-
-            $randomRecord = self::where('business_id', Helpers::getUser()['id'])->where('share_data',Admin::SHARED_DATA)
-                ->whereHas('assessments')
-                ->with([
-                    'users',
-                    'assessments' => function ($query) {
-                        $query->where('page', 0);
-                    }
-                ])
-                ->skip($randomOffset)
-                ->take(1)
-                ->first();
+        if ($count === 0) {
+            return null;
         }
 
-        return $randomRecord;
+        $randomOffset = mt_rand(0, $count - 1);
 
+        return $baseQuery->with([
+            'users',
+            'assessments' => function ($query) {
+                $query->where('page', 0);
+            }
+        ])
+            ->skip($randomOffset)
+            ->take(1)
+            ->first();
     }
 
     public static function getCandidateBusiness()
@@ -208,12 +203,12 @@ class B2BBusinessCandidates extends Model
 
     public static function changeRole($userid)
     {
-        $data= self::where('business_id', Helpers::getUser()['id'])
+        $data = self::where('business_id', Helpers::getUser()['id'])
             ->where('candidate_id', $userid)->update([
                 'role' => Admin::IS_TEAM_MEMBER
             ]);
         UserInvite::where('email', Helpers::getUser()['email'])->decrement('members_limit', 1);
-            return $data;
+        return $data;
     }
 
     public static function checkCandidateCompany($candidateId = null)
@@ -246,31 +241,31 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function newchangeRole($userid){
+    public static function newchangeRole($userid)
+    {
 
-        $data= self::where('business_id', Helpers::getUser()['id'])
-        ->where('candidate_id', $userid)->update([
-            'role'=>Admin::IS_CANDIDATE
-        ]);
+        $data = self::where('business_id', Helpers::getUser()['id'])
+            ->where('candidate_id', $userid)->update([
+                'role' => Admin::IS_CANDIDATE
+            ]);
 
         UserInvite::where('email', Helpers::getUser()['email'])->increment('members_limit', 1);
         return $data;
     }
 
 
-    public static function checkShare($userid){
-        return self::where('business_id', Helpers::getUser()['id'])
-        ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first();
+    public static function checkShare($userid)
+    {
+        return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
     }
 
 
-    public static function CheckLimit($email=null){
-      return UserInvite::where('email',$email)->select(['members_limit','total_member_limit'])->first();
-     
-      
+    public static function CheckLimit($email = null)
+    {
+        return UserInvite::where('email', $email)->select(['members_limit', 'total_member_limit'])->first();
+
+
     }
 
-   
 
-    
 }
