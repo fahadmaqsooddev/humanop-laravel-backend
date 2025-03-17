@@ -178,20 +178,27 @@ class MemberController extends Controller
                     $checkrole=B2BBusinessCandidates::checkRole($request['member_id']);
 
                     if($checkrole){
-                        $changerole=B2BBusinessCandidates::newchangeRole($request['member_id']);
+                        $checklimit=B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
 
-                        if($changerole){
+                        if($checklimit['members_limit'] < $checklimit['total_member_limit']){
 
-                            return Helpers::successResponse(' Member  Change To Candidate');
+                            $changerole=B2BBusinessCandidates::newchangeRole($request['member_id']);
 
-                        }else{
-
-                            return Helpers::validationResponse('Not Link With Your Business');
-
+                            if($changerole){
+    
+                                return Helpers::successResponse(' Member  Change To Candidate');
+    
+                            }else{
+    
+                                return Helpers::validationResponse('Not Link With Your Business');
+    
+                            }
+                            
+                        } else {
+                            
+                            return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
                         }
-
-
-
+                       
                     }else{
                         return Helpers::validationResponse('Already Converted to member');
                     }

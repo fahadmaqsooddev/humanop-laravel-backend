@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\Assessment;
+use App\Models\UserInvite\UserInvite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -75,7 +76,9 @@ class B2BBusinessCandidates extends Model
             })
             ->when($business_id, function ($query) use ($business_id) {
                 $query->where('business_id', $business_id)
-                    ->where('role', Admin::IS_TEAM_MEMBER);
+                    ->where('role', Admin::IS_TEAM_MEMBER)
+                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
+                    ->where('is_permanently_deleted', 0);
             })
             ->get();
     }
@@ -203,10 +206,12 @@ class B2BBusinessCandidates extends Model
 
     public static function changeRole($userid)
     {
-        return self::where('business_id', Helpers::getUser()['id'])
+        $data= self::where('business_id', Helpers::getUser()['id'])
             ->where('candidate_id', $userid)->update([
                 'role' => Admin::IS_TEAM_MEMBER
             ]);
+        UserInvite::where('email', Helpers::getUser()['email'])->decrement('members_limit', 1);
+            return $data;
     }
 
     public static function checkCandidateCompany($candidateId = null)
@@ -240,10 +245,14 @@ class B2BBusinessCandidates extends Model
 
 
     public static function newchangeRole($userid){
-        return self::where('business_id', Helpers::getUser()['id'])
+
+        $data= self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)->update([
             'role'=>Admin::IS_CANDIDATE
         ]);
+
+        UserInvite::where('email', Helpers::getUser()['email'])->increment('members_limit', 1);
+        return $data;
     }
 
 
@@ -251,4 +260,15 @@ class B2BBusinessCandidates extends Model
         return self::where('business_id', Helpers::getUser()['id'])
         ->where('candidate_id', $userid)->where('share_data',Admin::SHARED_DATA)->first();
     }
+
+
+    public static function CheckLimit($email=null){
+      return UserInvite::where('email',$email)->select(['members_limit','total_member_limit'])->first();
+     
+      
+    }
+
+   
+
+    
 }

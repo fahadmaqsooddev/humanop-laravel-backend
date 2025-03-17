@@ -139,12 +139,20 @@ class CandidateController extends Controller
                     if($checkrole){
                         return Helpers::validationResponse('This candidate is  already converted to member');
                     }else{
-                        $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
-                        if($changerole){
-                            return Helpers::successResponse(' Candidate Change To Member');
+                        
+                        $checklimit=B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
+                       
+                        if($checklimit['members_limit'] > 0 && $checklimit['members_limit'] <= $checklimit['total_member_limit']){
+                            $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
+                            if($changerole){
+                                return Helpers::successResponse(' Candidate Change To Member');
+                            }else{
+                                return Helpers::validationResponse('Not Link With Your Business');
+                            }
                         }else{
-                            return Helpers::validationResponse('Not Link With Your Business');
+                            return Helpers::validationResponse('Your Business has reached the maximum number of members');
                         }
+
                     }
                 }
             }else{
