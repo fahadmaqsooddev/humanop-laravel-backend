@@ -1,12 +1,15 @@
+@push('css')
 <style>
-.no-select {
-    user-select: none; 
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    
-}
-</style>
+    .no-select {
+        user-select: none; 
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        
+    }
+    </style>
+@endpush
+
 <div>
 
     <div class="p-2">

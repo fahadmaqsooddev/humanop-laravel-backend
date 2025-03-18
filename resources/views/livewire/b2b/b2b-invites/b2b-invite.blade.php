@@ -1,3 +1,4 @@
+@push('css')
 <style>
     .no-select{
         user-select: none; 
@@ -7,6 +8,8 @@
         
     }
     </style>
+    
+@endpush
 <div>
 
     <div class="p-2">
