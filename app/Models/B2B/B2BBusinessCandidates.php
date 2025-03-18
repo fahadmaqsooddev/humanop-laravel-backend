@@ -256,7 +256,13 @@ class B2BBusinessCandidates extends Model
 
     public static function checkShare($userid)
     {
-        return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
+        $data= self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
+        
+        if ($data && $data->users) {
+            $data->users->gender = $data->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
+        }
+        
+        return $data;
     }
 
 
