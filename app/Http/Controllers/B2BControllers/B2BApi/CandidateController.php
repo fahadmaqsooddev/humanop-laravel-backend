@@ -109,9 +109,12 @@ class CandidateController extends Controller
                 $candidate->users->status = $candidate->users->last_login ? 'on-board' : 'pending';
 
                 $candidate->users->last_login = $candidate->users->last_login ? Carbon::parse($candidate->last_login)->format('m/d/Y h:i A') : null;
-                $candidate->users->user_created_at = Carbon::parse($candidate->users->created_at)->format('m/d/Y h:i A');
-                   
-                unset($candidate->users->created_at);
+
+                if (!empty($candidate->users->invites) && isset($candidate->users->invites['send_invite_time'])) {
+                    
+                    $candidate->users->invites->send_invite_time = $candidate->users->invites->send_invite_time ? Carbon::parse($candidate->send_invite_time)->format('m/d/Y h:i A') : null;
+                
+                }
 
                 return $candidate;
 

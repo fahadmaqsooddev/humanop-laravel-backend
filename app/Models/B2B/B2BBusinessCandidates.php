@@ -29,6 +29,8 @@ class B2BBusinessCandidates extends Model
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
 
+  
+
     public function companies()
     {
         return $this->belongsTo(User::class, 'business_id', 'id');
@@ -63,7 +65,12 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
         return self::with([
-            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
+            'users' => function ($query) {
+                $query->select('id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'timezone', 'phone', 'date_of_birth', 'company_name', 'created_at')
+                    ->with(['invites' => function ($inviteQuery) {
+                        $inviteQuery->select('id', 'email', 'send_invite_time'); // Add required fields from user_invites
+                    }]);
+            },
             'assessments:id,user_id'
         ])
             ->when($search_name, function ($query) use ($search_name) {
@@ -84,16 +91,34 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessCandidates($business_id = null)
     {
-        $data= self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
+        // $data= self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
+        //     'assessments:id,user_id'
+        // ])
+        //     ->when($business_id, function ($query, $business_id) {
+        //         $query->where('business_id', $business_id)
+        //             ->where('is_permanently_deleted', 0)
+        //             ->where('role', Admin::IS_CANDIDATE)
+        //             ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        //     })
+        //     ->get();
+
+        $data = self::with([
+            'users' => function ($query) {
+                $query->select('id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'timezone', 'phone', 'date_of_birth', 'company_name', 'created_at')
+                    ->with(['invites' => function ($inviteQuery) {
+                        $inviteQuery->select('id', 'email', 'send_invite_time'); // Add required fields from user_invites
+                    }]);
+            },
             'assessments:id,user_id'
         ])
-            ->when($business_id, function ($query, $business_id) {
-                $query->where('business_id', $business_id)
-                    ->where('is_permanently_deleted', 0)
-                    ->where('role', Admin::IS_CANDIDATE)
-                    ->where('future_consideration', Admin::NOT_IN_FUTURE);
-            })
-            ->get();
+        ->when($business_id, function ($query, $business_id) {
+            $query->where('business_id', $business_id)
+                ->where('is_permanently_deleted', 0)
+                ->where('role', Admin::IS_CANDIDATE)
+                ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        })
+        ->get();
+    
             
         return $data;
 

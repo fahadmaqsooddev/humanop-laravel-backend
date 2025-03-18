@@ -191,8 +191,8 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','created_at'],
-            'hidden' => ['updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email'],
+            'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
             'table' => 'pages',
@@ -462,7 +462,7 @@ return [
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id','email','link','role','members_limit','total_member_limit'],
+            'fillable' => ['id','email','link','role','members_limit','total_member_limit','send_invite_time'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [

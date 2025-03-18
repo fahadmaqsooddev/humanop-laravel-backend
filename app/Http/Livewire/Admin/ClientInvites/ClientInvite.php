@@ -19,7 +19,7 @@ class ClientInvite extends Component
 
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['deleteClientLink', 'bulkDelete'];
+    protected $listeners = ['deleteClientLink', 'bulkDelete','copyClipboard'];
 
     protected $rules = [
         // 'email' => 'nullable|email|max:255|unique:user_invites,email,NULL,id,deleted_at,NULL|required_without:file',
@@ -106,6 +106,11 @@ class ClientInvite extends Component
     {
 
         UserInvite::deleteInvite(null, $id);
+    }
+
+    public function copyClipboard($id){
+
+        UserInvite::sendInviteTime($id);
     }
 
     public function render()

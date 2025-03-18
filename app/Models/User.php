@@ -218,6 +218,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     // relations
+
+    public function invites()
+    {
+        return $this->hasOne(UserInvite::class, 'email', 'email');
+    }
     public function stories()
     {
 

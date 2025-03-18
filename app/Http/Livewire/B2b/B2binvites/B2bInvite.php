@@ -20,7 +20,7 @@ public $members_limit=10;
     public $selectedItems = [];
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['deleteClientLink', 'bulkDelete'];
+    protected $listeners = ['deleteClientLink', 'bulkDelete','copyLink'];
 
     public $role = Admin::B2B_INVITE_ROLE;
 
@@ -130,6 +130,13 @@ public $members_limit=10;
     {
 
         UserInvite::deleteInvite(null, $id);
+    }
+
+
+    public function copyLink($id)
+    {
+      
+        UserInvite::sendInviteTime($id);
     }
 
 
