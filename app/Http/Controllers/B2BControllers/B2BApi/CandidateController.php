@@ -12,6 +12,9 @@ use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Http\Requests\B2B\CandidatetoMember;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
+use Illuminate\Support\Facades\URL;
 
 class CandidateController extends Controller
 {
@@ -46,6 +49,13 @@ class CandidateController extends Controller
 
                     UserCandidateInvite::createUserInvite($checkInviteLink->id);
 
+                    $linke=UserInvite::where('email',$email)->first();
+                    $url = config('client_url.client_dashboard_url') . '/signup?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+
+                    $emailData = $this->prepareEmailData($url);
+
+                    $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+
                     return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
             }
@@ -57,6 +67,11 @@ class CandidateController extends Controller
             if ($newInvite) {
 
                 UserCandidateInvite::createUserInvite($newInvite->id);
+                $linke=UserInvite::where('email',$email)->first();
+                $url = config('client_url.client_dashboard_url') . '/signup?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $emailData = $this->prepareEmailData($url);
+
+                $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
 
                 return Helpers::successResponse("{$email} invite link generated successfully.");
 
@@ -298,6 +313,31 @@ class CandidateController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+    }
+
+
+
+
+    private function prepareEmailData($url = null,)
+    {
+        return [
+            '{$link}' => $url,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
     }
 
 }
