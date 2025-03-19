@@ -108,12 +108,13 @@ class MemberController extends Controller
                 $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
 
                 $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
+                $member->user_created_at=$member->created_at ? Carbon::parse($member->created_at)->format('m/d/Y h:i A') : null;
+                unset($member->created_at);
                 
+                // if (!empty($member->users->invites) && isset($member->users->invites['send_invite_time'])) {
+                //     $member->users->invites->send_invite_time = $member->users->invites->send_invite_time ? Carbon::parse($member->send_invite_time)->format('m/d/Y h:i A') : null;
                 
-                if (!empty($member->users->invites) && isset($member->users->invites['send_invite_time'])) {
-                    $member->users->invites->send_invite_time = $member->users->invites->send_invite_time ? Carbon::parse($member->send_invite_time)->format('m/d/Y h:i A') : null;
-                
-                }
+                // }
 
                 
                    

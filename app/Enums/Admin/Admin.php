@@ -110,6 +110,8 @@ final class Admin
 
     const POLARITY_TRAIT = 8;
 
+    const ENERGYPOOL_TRAIT = 9;
+
     const IN_FUTURE = 1;
 
     const NOT_IN_FUTURE = 0;
