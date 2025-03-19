@@ -436,5 +436,39 @@ class DashboardController extends Controller
         }
     }
 
+    public function CheckShareData(Request $request){
+    
+
+        try {
+
+            if(!empty($request['company_name'])){
+                $checkData=B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
+                if(!empty($checkData)){
+
+                    if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
+                        return response()->json([
+                            'Shared_data'=>Admin::NOT_SHARED_DATA,
+                            'company_name'=>$request['company_name']
+                        ]);
+                    }
+
+                    return response()->json([
+                        'Shared_data'=>Admin::SHARED_DATA,
+                        'company_name'=>$request['company_name']
+                    ]);
+                  
+
+                }else{
+                    return Helpers::validationResponse('Data not found.');
+                }
+            }else{
+                return Helpers::validationResponse('Company name not found.');
+            }
+          
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 
 }

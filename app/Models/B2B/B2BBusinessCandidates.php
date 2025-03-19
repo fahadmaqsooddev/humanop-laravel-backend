@@ -28,6 +28,10 @@ class B2BBusinessCandidates extends Model
     {
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
+    public function busers()
+    {
+        return $this->belongsTo(User::class, 'business_id', 'id');
+    }
 
   
 
@@ -301,6 +305,22 @@ class B2BBusinessCandidates extends Model
     {
         return UserInvite::where('email', $email)->select(['members_limit', 'total_member_limit'])->first();
 
+
+    }
+
+    public static function checkShareDataDetail($company){
+        
+        return self::where('candidate_id', Helpers::getUser()['id'])
+        ->whereHas('busers',function($query) use($company){
+            $query->where('company_name', $company);
+        })
+        ->first();
+        
+
+    
+       
+
+        
 
     }
 

@@ -50,7 +50,8 @@ class CandidateController extends Controller
                     UserCandidateInvite::createUserInvite($checkInviteLink->id);
 
                     $linke=UserInvite::where('email',$email)->first();
-                    $url = config('client_url.client_dashboard_url') . '/signup?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                    
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
 
                     $emailData = $this->prepareEmailData($url);
 
@@ -68,7 +69,7 @@ class CandidateController extends Controller
 
                 UserCandidateInvite::createUserInvite($newInvite->id);
                 $linke=UserInvite::where('email',$email)->first();
-                $url = config('client_url.client_dashboard_url') . '/signup?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
                 $emailData = $this->prepareEmailData($url);
 
                 $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
