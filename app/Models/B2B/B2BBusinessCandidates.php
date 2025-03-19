@@ -133,7 +133,7 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->whereHas('assessments');
+        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role',Admin::IS_TEAM_MEMBER)->whereHas('assessments');
 
         $count = $baseQuery->count();
 
