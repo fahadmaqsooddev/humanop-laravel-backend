@@ -2,6 +2,8 @@
 
 namespace App\Models\B2B;
 
+use App\Events\B2B\NotSharedDataWithBusiness;
+use App\Events\B2B\SharedDataWithBusiness;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -33,7 +35,6 @@ class B2BBusinessCandidates extends Model
         return $this->belongsTo(User::class, 'business_id', 'id');
     }
 
-  
 
     public function companies()
     {
@@ -45,9 +46,9 @@ class B2BBusinessCandidates extends Model
         return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
     }
 
-    public static function checkBusinessCandidate($businessId = null, $candidateId = null)
+    public static function checkBusinessCandidate($companyId = null, $candidateId = null)
     {
-        return self::where('business_id', $businessId)->where('candidate_id', $candidateId)->exists();
+        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
     public static function registerCandidate($businessId = null, $candidateId = null, $role = null, $sharedData = null)
@@ -101,10 +102,10 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessCandidates($business_id = null)
     {
-        $data= self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
+        $data = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
             'assessments:id,user_id'
         ])
-            ->when($business_id, function ($query, $business_id){
+            ->when($business_id, function ($query, $business_id) {
                 $query->where('business_id', $business_id)
                     ->where('is_permanently_deleted', 0)
                     ->where('role', Admin::IS_CANDIDATE)
@@ -128,8 +129,8 @@ class B2BBusinessCandidates extends Model
         //         ->where('future_consideration', Admin::NOT_IN_FUTURE);
         // })
         // ->get();
-    
-            
+
+
         return $data;
 
     }
@@ -137,7 +138,7 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role',Admin::IS_TEAM_MEMBER)->whereHas('assessments');
+        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)->whereHas('assessments');
 
         $count = $baseQuery->count();
 
@@ -253,20 +254,11 @@ class B2BBusinessCandidates extends Model
 
     public static function ShareDataWithBusiness($businessId = null, $candidateId = null)
     {
+        $candidate = Helpers::getUser();
 
-        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
-        if (!empty($checkBusinessCandidate)) {
-
-            if ($checkBusinessCandidate['share_data'] == 0) {
-                return $checkBusinessCandidate->update(['share_data' => 1]);
-            } else {
-                return $checkBusinessCandidate->update(['share_data' => 0]);
-            }
-
-            return $checkBusinessCandidate;
-
-        }
+        event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
 
     }
 
@@ -291,12 +283,12 @@ class B2BBusinessCandidates extends Model
 
     public static function checkShare($userid)
     {
-        $data= self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
-        
+        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
+
         if ($data && $data->users) {
             $data->users->gender = $data->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
         }
-        
+
         return $data;
     }
 

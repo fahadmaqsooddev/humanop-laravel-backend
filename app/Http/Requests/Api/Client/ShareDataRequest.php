@@ -24,14 +24,14 @@ class ShareDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'business_id' => 'required',
+            'company_name' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'business_id.required' => 'Company ID is required.',
+            'company_name.required' => 'Company Name is required.',
         ];
     }
 }
