@@ -353,8 +353,12 @@ class DashboardController extends Controller
                 $communication = AssessmentWalkThrough::getbyCodeName($getCommunications[0], Admin::COMMUNICATION_TRAIT);
 
                 $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
                 $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
                 $pv = $positive - $negative;
+
+                $ep = $positive + $negative;
 
                 if ($pv <= -8) {
                     $polarity_code = 40;
@@ -364,17 +368,31 @@ class DashboardController extends Controller
                     $polarity_code = 42;
                 }
 
+                if ($ep < 25) {
+                    $energy_code = 21;
+                } elseif ($ep >= 25 and $ep <= 30) {
+                    $energy_code = 18;
+                } elseif ($ep >= 31 and $ep <= 35) {
+                    $energy_code = 20;
+                } elseif ($ep >= 36) {
+                    $energy_code = 16;
+                }
+
                 $record = CodeDetail::whereId($polarity_code)->select(['id', 'code'])->first();
+
+                $energyRecord = CodeDetail::whereId($energy_code)->select(['id', 'code'])->first();
 
                 $polarity = AssessmentWalkThrough::getbyCodeName($record['code'], Admin::POLARITY_TRAIT);
 
+                $energyPool = AssessmentWalkThrough::getbyCodeName($energyRecord['code'], Admin::ENERGY_POOL_TRAIT);
 
                 $data = [
                     'trait' => $traits,
                     'driver' => $drivers,
                     'alchemy' => $alchemyBoundary,
                     'communication' => $communication,
-                    'polarity' => $polarity
+                    'polarity' => $polarity,
+                    'energyPool' => $energyPool
                 ];
 
             } else {

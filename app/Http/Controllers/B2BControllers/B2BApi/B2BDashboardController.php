@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
-use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\checkCnadidateRequest;
@@ -14,7 +13,6 @@ use App\Models\B2B\B2BNotes;
 use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\CreateNotes;
 use App\Http\Requests\B2B\UpdateNotes;
@@ -31,7 +29,6 @@ class B2BDashboardController extends Controller
 
         $this->user = $user;
     }
-
 
     public function candidateOptimizationAndCoreState(\Illuminate\Http\Request $request)
     {
