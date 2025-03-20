@@ -123,4 +123,8 @@ final class Admin
     const SHARED_DATA = 1;
 
     const NOT_SHARED_DATA = 0;
+
+    const B2B_NOTIFICATION=1;
+    
+    const B2C_NOTIFICATION=0;
 }

@@ -2,14 +2,15 @@
 
 namespace App\Models\B2B;
 
-use App\Events\B2B\NotSharedDataWithBusiness;
-use App\Events\B2B\SharedDataWithBusiness;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
 use App\Models\Assessment;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\B2B\SharedDataWithBusiness;
+use App\Events\B2B\NotSharedDataWithBusiness;
+use App\Models\Admin\Notification\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class B2BBusinessCandidates extends Model
@@ -270,6 +271,8 @@ class B2BBusinessCandidates extends Model
             if ($checkBusinessCandidate['share_data'] == 1) {
 
                 event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
+                // event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
+                Notification::createNotification('Share Data',  "$candidateName shared their data with your company", $user['device_token'], $businessId, 1,'',Admin::B2B_NOTIFICATION);
             }
 
             return $checkBusinessCandidate;
@@ -285,7 +288,7 @@ class B2BBusinessCandidates extends Model
         $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
         event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
-
+        Notification::createNotification('Share Data',  "$candidateName shared their data with your company", $user['device_token'], $candidate['id'], 1,'',Admin::B2B_NOTIFICATION);
     }
 
     public static function allCompaniesInfo()

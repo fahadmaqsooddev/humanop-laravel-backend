@@ -35,7 +35,7 @@ class NotSharedDataWithBusiness implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('not-share-data.' . $this->companyId);
+        return new Channel('push-notification.' . $this->companyId);
     }
 
     public function broadcastAs()

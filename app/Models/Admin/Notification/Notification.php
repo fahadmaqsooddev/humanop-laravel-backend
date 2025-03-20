@@ -2,11 +2,12 @@
 
 namespace App\Models\Admin\Notification;
 
-use App\Helpers\Helpers;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
+use App\Helpers\Helpers;
+use App\Enums\Admin\Admin;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Notification extends Model
 {
@@ -34,12 +35,26 @@ class Notification extends Model
 
         return self::where('user_id', $user['id'])
             ->where('permission', $userPermission)
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
+    }
+    
+    public static function allB2BNotification()
+    {
+        $user = Helpers::getUser();
+
+        $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
+
+        return self::where('user_id', $user['id'])
+            ->where('permission', $userPermission)
+            ->where('role', Admin::B2B_NOTIFICATION)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }
 
 
-    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null)
+    public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null,$role=null)
     {
         self::create([
             'user_id' => $userId,
