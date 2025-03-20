@@ -259,7 +259,9 @@ class B2BBusinessCandidates extends Model
         if (!empty($checkBusinessCandidate)) {
 
             if ($checkBusinessCandidate['share_data'] == 0) {
+
                 return $checkBusinessCandidate->update(['share_data' => 1]);
+                
             } else {
                 return $checkBusinessCandidate->update(['share_data' => 0]);
             }
@@ -308,20 +310,14 @@ class B2BBusinessCandidates extends Model
 
     }
 
-    public static function checkShareDataDetail($company){
+    public static function checkShareDataDetail($company=null,$candidateid=null){
         
-        return self::where('candidate_id', Helpers::getUser()['id'])
+        return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
         ->whereHas('busers',function($query) use($company){
             $query->where('company_name', $company);
         })
         ->first();
-        
-
     
-       
-
-        
-
     }
 
 

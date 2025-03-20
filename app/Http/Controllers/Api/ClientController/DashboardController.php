@@ -418,18 +418,19 @@ class DashboardController extends Controller
         try {
 
             $userId = Helpers::getUser()['id'];
+            $data=B2BBusinessCandidates::checkShareDataDetail($request['company_name'],$request['candidate_id']);
+            
+            if($data){
 
-            foreach ($request['business_id'] as $businessId) {
-
-                if (B2BBusinessCandidates::checkBusinessCandidate($businessId, $userId)) {
-
-                    B2BBusinessCandidates::ShareDataWithBusiness($businessId, $userId);
-
-                }
-
+                B2BBusinessCandidates::ShareDataWithBusiness($data['business_id'], $request['candidate_id']);
+                return Helpers::successResponse('Data Shared Successfully');
+            }else{
+                return Helpers::validationResponse('Data not found.');   
             }
+           
 
-            return Helpers::successResponse('Data Shared Successfully');
+
+        
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -446,16 +447,22 @@ class DashboardController extends Controller
                 if(!empty($checkData)){
 
                     if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
-                        return response()->json([
+                     
+                        $data = [
                             'Shared_data'=>Admin::NOT_SHARED_DATA,
                             'company_name'=>$request['company_name']
-                        ]);
+                        ];
+    
+                        return Helpers::successResponse('Check Shared Data', $data);
+
                     }
 
-                    return response()->json([
+                    $data = [
                         'Shared_data'=>Admin::SHARED_DATA,
                         'company_name'=>$request['company_name']
-                    ]);
+                    ];
+
+                    return Helpers::successResponse('Check Shared Data', $data);
                   
 
                 }else{
