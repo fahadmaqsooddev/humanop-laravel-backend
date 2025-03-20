@@ -28,34 +28,34 @@ class EnergyPool extends Component
         'overview.required' => 'overview is required.',
         'optimal.required' => 'optimal is required.',
         'optimization.required' => 'optimization is required.',
-       
+
     ];
 
 
     public function selectCode($selectedCode)
     {
-       
+
         $this->code = [];
         $this->code[] = $selectedCode;
-        $result=AssessmentWalkThrough::getData(Admin::ENERGYPOOL_TRAIT,$this->code);
-        
+        $result=AssessmentWalkThrough::getData(Admin::ENERGY_POOL_TRAIT, $this->code);
+
         $this->overview=$result->overview??"";
         $this->optimal=$result->optimal??"";
         $this->optimization=$result->optimization??'';
-            
+
     }
 
     public function update(){
         try {
             $this->validate();
-            $result=AssessmentWalkThrough::storeData($this->overview,$this->code,$this->optimal,$this->optimization,Admin::ENERGYPOOL_TRAIT);
-            
+            $result=AssessmentWalkThrough::storeData($this->overview,$this->code,$this->optimal,$this->optimization,Admin::ENERGY_POOL_TRAIT);
+
             if ($result) {
                 session()->flash('success', 'Data has been saved successfully.');
             } else {
                 session()->flash('error', 'Failed to save data.');
             }
-            $this->resetForm(); 
+            $this->resetForm();
 
         }catch (ValidationException $exception){
 
