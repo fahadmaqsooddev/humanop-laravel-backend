@@ -104,7 +104,7 @@ class CreateResource extends Component
                         }
                     }
 
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION,Admin::B2C_NOTIFICATION
                     );
                 }
 

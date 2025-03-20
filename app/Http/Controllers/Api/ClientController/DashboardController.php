@@ -84,7 +84,7 @@ class DashboardController extends Controller
 
                             Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
@@ -481,7 +481,9 @@ class DashboardController extends Controller
     public function notSharedData(ShareDataRequest $request)
     {
         try {
+            
 
+            
             $userId = Helpers::getUser()['id'];
 
             if ($request['company_name']) {

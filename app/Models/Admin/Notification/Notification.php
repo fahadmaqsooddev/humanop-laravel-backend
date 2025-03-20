@@ -56,13 +56,14 @@ class Notification extends Model
 
     public static function createNotification($type, $message, $deviceToken = null, $userId = null, $permission = null, $priority = null,$role=null)
     {
-        self::create([
+       self::create([
             'user_id' => $userId,
             'type' => $type,
             'message' => $message,
             'device_token' => $deviceToken,
             'permission' => $permission,
             'notification_priority' => $priority,
+            'role' => $role,
         ]);
 
         if ($deviceToken) {

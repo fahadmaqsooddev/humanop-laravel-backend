@@ -49,7 +49,9 @@ class B2BBusinessCandidates extends Model
     }
 
     public static function checkBusinessCandidate($companyId = null, $candidateId = null)
+
     {
+      
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
@@ -271,8 +273,8 @@ class B2BBusinessCandidates extends Model
             if ($checkBusinessCandidate['share_data'] == 1) {
 
                 event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
-                // event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
-                Notification::createNotification('Share Data',  "$candidateName shared their data with your company", $user['device_token'], $businessId, 1,'',Admin::B2B_NOTIFICATION);
+               
+                Notification::createNotification('Share Data',  "$candidateName shared their data with your company",'', $businessId, 0,Admin::B2B_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
             }
 
             return $checkBusinessCandidate;
@@ -283,12 +285,14 @@ class B2BBusinessCandidates extends Model
 
     public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
     {
+       
         $candidate = Helpers::getUser();
 
         $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
         event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
-        Notification::createNotification('Share Data',  "$candidateName shared their data with your company", $user['device_token'], $candidate['id'], 1,'',Admin::B2B_NOTIFICATION);
+
+        Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
     }
 
     public static function allCompaniesInfo()
