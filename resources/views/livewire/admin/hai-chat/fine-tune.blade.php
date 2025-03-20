@@ -3,7 +3,7 @@
     <div class="py-2">
         <div class="input-group d-flex justify-content-between">
             <h3 style="color: #1C365E;font-weight: 700;font-size: 28px;line-height: 16.5px;vertical-align: middle;text-transform: capitalize;">
-                Fine Tune Content
+                Advance
             </h3>
 
             <div>

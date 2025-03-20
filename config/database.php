@@ -442,7 +442,7 @@ return [
         ],
         'HaiChatSetting' => [
             'table' => 'hai_chat_setting',
-            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id'],
+            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id','persona_text'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatConversation' => [

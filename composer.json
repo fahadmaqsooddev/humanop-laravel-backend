@@ -16,6 +16,7 @@
         "laravel/sanctum": "^2.15",
         "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.6",
+        "league/flysystem-aws-s3-v3": "^3.29",
         "livewire/livewire": "^2.12",
         "php-open-source-saver/jwt-auth": "^2.1",
         "pusher/pusher-php-server": "^7.2",

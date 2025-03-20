@@ -106,7 +106,7 @@
             <span class="sr-only">
                 Loading...
         </span>
-        </div>
+    </div>
 
         <div class="row h-100">
             <div class="col-md-12 col-12 d-flex flex-column container-fluid"

@@ -25,18 +25,22 @@ class Comparison extends Component
     public $val = 2;
     public $maxVal = 4;
     public $message;
+    public $chatBots = [];
+    public $chat_bot_id;
 
     public $modelResponse = [];
 
     protected $rules = [
         'message' => 'required|max:2000',
         'selectedModels' => 'required',
+        'chat_bot_id' => 'required',
     ];
 
     protected $messages = [
         'selectedModels.required' => 'At least one model must be selected.',
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query cannot contain more than 2000 characters.',
+        'chat_bot_id' => 'Select chat-bot first.'
     ];
 
     public function addMore()
@@ -67,9 +71,9 @@ class Comparison extends Component
 
         $this->validate();
 
-        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
+//        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
 
-        $setting = HaiChatSetting::getHaiChatSetting($chatBot['id']);
+        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
         $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
 
@@ -114,6 +118,8 @@ class Comparison extends Component
 
         }
 
+        $this->reset('message');
+
     }
 
 
@@ -141,6 +147,8 @@ class Comparison extends Component
     public function render()
     {
         $this->modelTypes = LlmModel::GetModels()->toArray();
+
+        $this->chatBots = Chatbot::select(['id','name'])->get();
 
         return view('livewire.admin.hai-chat.setting.comparison');
     }
