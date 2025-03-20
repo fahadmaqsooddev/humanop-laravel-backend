@@ -8,6 +8,9 @@ use App\Enums\Admin\Admin;
 use App\Models\Assessment;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\B2B\SharedDataWithBusiness;
+use App\Events\B2B\NotSharedDataWithBusiness;
+use App\Models\Admin\Notification\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class B2BBusinessCandidates extends Model
@@ -29,7 +32,11 @@ class B2BBusinessCandidates extends Model
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
 
-  
+    public function busers()
+    {
+        return $this->belongsTo(User::class, 'business_id', 'id');
+    }
+
 
     public function companies()
     {
@@ -41,9 +48,11 @@ class B2BBusinessCandidates extends Model
         return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
     }
 
-    public static function checkBusinessCandidate($businessId = null, $candidateId = null)
+    public static function checkBusinessCandidate($companyId = null, $candidateId = null)
+
     {
-        return self::where('business_id', $businessId)->where('candidate_id', $candidateId)->exists();
+      
+        return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
     public static function registerCandidate($businessId = null, $candidateId = null, $role = null, $sharedData = null)
@@ -97,10 +106,10 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessCandidates($business_id = null)
     {
-        $data= self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
+        $data = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
             'assessments:id,user_id'
         ])
-            ->when($business_id, function ($query, $business_id){
+            ->when($business_id, function ($query, $business_id) {
                 $query->where('business_id', $business_id)
                     ->where('is_permanently_deleted', 0)
                     ->where('role', Admin::IS_CANDIDATE)
@@ -124,8 +133,8 @@ class B2BBusinessCandidates extends Model
         //         ->where('future_consideration', Admin::NOT_IN_FUTURE);
         // })
         // ->get();
-    
-            
+
+
         return $data;
 
     }
@@ -133,7 +142,7 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role',Admin::IS_TEAM_MEMBER)->whereHas('assessments');
+        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)->whereHas('assessments');
 
         $count = $baseQuery->count();
 
@@ -247,23 +256,43 @@ class B2BBusinessCandidates extends Model
         return self::where('candidate_id', $candidateId)->where('share_data', Admin::NOT_SHARED_DATA)->first();
     }
 
-    public static function ShareDataWithBusiness($businessId = null, $candidateId = null)
+    public static function shareDataWithBusiness($businessId = null, $candidateId = null)
     {
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
         $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
-        if (!empty($checkBusinessCandidate)) {
+        if ($checkBusinessCandidate) {
 
-            if ($checkBusinessCandidate['share_data'] == 0) {
-                return $checkBusinessCandidate->update(['share_data' => 1]);
-            } else {
-                return $checkBusinessCandidate->update(['share_data' => 0]);
+            $newShareStatus = $checkBusinessCandidate->share_data == 0 ? 1 : 0;
+
+            $checkBusinessCandidate->update(['share_data' => $newShareStatus]);
+
+            if ($checkBusinessCandidate['share_data'] == 1) {
+
+                event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
+               
+                Notification::createNotification('Share Data',  "$candidateName shared their data with your company",'', $businessId, 0,Admin::B2B_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
             }
 
             return $checkBusinessCandidate;
-
         }
 
+        return null; // Explicitly return null if no record is found
+    }
+
+    public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+       
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
+
+        Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
     }
 
     public static function allCompaniesInfo()
@@ -287,12 +316,12 @@ class B2BBusinessCandidates extends Model
 
     public static function checkShare($userid)
     {
-        $data= self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
-        
+        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
+
         if ($data && $data->users) {
             $data->users->gender = $data->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
         }
-        
+
         return $data;
     }
 
@@ -302,6 +331,16 @@ class B2BBusinessCandidates extends Model
         return UserInvite::where('email', $email)->select(['members_limit', 'total_member_limit'])->first();
 
 
+    }
+
+    public static function checkShareDataDetail($company=null,$candidateid=null){
+        
+        return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
+        ->whereHas('busers',function($query) use($company){
+            $query->where('company_name', $company);
+        })
+        ->first();
+    
     }
 
 

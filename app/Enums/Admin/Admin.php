@@ -84,6 +84,10 @@ final class Admin
 
     const NEW_MESSAGE_NOTIFICATION = 10;
 
+    const B2B_SHARE_DATA_NOTIFICATION = 11;
+    
+    const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
+
     const CLIENT_INVITE_ROLE = 1;
 
     const B2B_INVITE_ROLE = 2;
@@ -123,4 +127,8 @@ final class Admin
     const SHARED_DATA = 1;
 
     const NOT_SHARED_DATA = 0;
+
+    const B2B_NOTIFICATION=1;
+    
+    const B2C_NOTIFICATION=0;
 }

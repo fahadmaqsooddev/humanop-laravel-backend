@@ -84,7 +84,7 @@ class DashboardController extends Controller
 
                             Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
@@ -413,23 +413,92 @@ class DashboardController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
     public function sharedData(ShareDataRequest $request)
     {
         try {
 
             $userId = Helpers::getUser()['id'];
+            $data=B2BBusinessCandidates::checkShareDataDetail($request['company_name'],$request['candidate_id']);
+            
+            if($data){
 
-            foreach ($request['business_id'] as $businessId) {
+                B2BBusinessCandidates::ShareDataWithBusiness($data['business_id'], $request['candidate_id']);
+                return Helpers::successResponse('Data Shared Successfully');
+            }else{
+                return Helpers::validationResponse('Data not found.');   
+            }
+           
 
-                if (B2BBusinessCandidates::checkBusinessCandidate($businessId, $userId)) {
 
-                    B2BBusinessCandidates::ShareDataWithBusiness($businessId, $userId);
+        
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function CheckShareData(Request $request)
+    {
+
+        try {
+
+            if (!empty($request['company_name'])) {
+                $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
+                if (!empty($checkData)) {
+
+                    if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
+                     
+                        $data = [
+                            'Shared_data'=>Admin::NOT_SHARED_DATA,
+                            'company_name'=>$request['company_name']
+                        ];
+    
+                        return Helpers::successResponse('Check Shared Data', $data);
+
+                    }
+
+                    $data = [
+                        'Shared_data'=>Admin::SHARED_DATA,
+                        'company_name'=>$request['company_name']
+                    ];
+
+                    return Helpers::successResponse('Check Shared Data', $data);
+                  
+
+
+                } else {
+                    return Helpers::validationResponse('Data not found.');
+                }
+            } else {
+                return Helpers::validationResponse('Company name not found.');
+            }
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function notSharedData(ShareDataRequest $request)
+    {
+        try {
+            
+
+            
+            $userId = Helpers::getUser()['id'];
+
+            if ($request['company_name']) {
+
+                $company = User::getSingleUserFromCompanyName($request['company_name']);
+
+                if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
+
+                    B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
 
                 }
 
             }
 
-            return Helpers::successResponse('Data Shared Successfully');
+            return Helpers::successResponse('Data Not Shared');
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());

@@ -35,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
     protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-        , 'age_group', 'plan_name', 'optional_trait', 'check_company'];
+        , 'age_group', 'plan_name', 'optional_trait'];
 
     public function __construct(array $attributes = array())
     {
@@ -152,20 +152,20 @@ class User extends Authenticatable implements JWTSubject
         return Helpers::getImage($this->image_id, $profilePic);
     }
 
-    public function getCheckCompanyAttribute()
-    {
-
-        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
-
-        if (!empty($dataShareWithBusiness))
-        {
-            return  Admin::SHARED_DATA;
-        }
-        else{
-            return  Admin::NOT_SHARED_DATA;
-        }
-
-    }
+//    public function getCheckCompanyAttribute()
+//    {
+//
+//        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
+//
+//        if (!empty($dataShareWithBusiness))
+//        {
+//            return  Admin::SHARED_DATA;
+//        }
+//        else{
+//            return  Admin::NOT_SHARED_DATA;
+//        }
+//
+//    }
 
     public function getIsFollowAttribute()
     {
