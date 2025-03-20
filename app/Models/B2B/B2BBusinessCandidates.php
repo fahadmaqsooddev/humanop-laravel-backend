@@ -30,6 +30,7 @@ class B2BBusinessCandidates extends Model
     {
         return $this->belongsTo(User::class, 'candidate_id', 'id');
     }
+
     public function busers()
     {
         return $this->belongsTo(User::class, 'business_id', 'id');
@@ -252,7 +253,32 @@ class B2BBusinessCandidates extends Model
         return self::where('candidate_id', $candidateId)->where('share_data', Admin::NOT_SHARED_DATA)->first();
     }
 
-    public static function ShareDataWithBusiness($businessId = null, $candidateId = null)
+    public static function shareDataWithBusiness($businessId = null, $candidateId = null)
+    {
+        $candidate = Helpers::getUser();
+
+        $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
+
+        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+
+        if ($checkBusinessCandidate) {
+
+            $newShareStatus = $checkBusinessCandidate->share_data == 0 ? 1 : 0;
+
+            $checkBusinessCandidate->update(['share_data' => $newShareStatus]);
+
+            if ($checkBusinessCandidate['share_data'] == 1) {
+
+                event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
+            }
+
+            return $checkBusinessCandidate;
+        }
+
+        return null; // Explicitly return null if no record is found
+    }
+
+    public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
     {
         $candidate = Helpers::getUser();
 
@@ -300,19 +326,15 @@ class B2BBusinessCandidates extends Model
 
     }
 
-    public static function checkShareDataDetail($company){
-        
+    public static function checkShareDataDetail($company)
+    {
+
         return self::where('candidate_id', Helpers::getUser()['id'])
-        ->whereHas('busers',function($query) use($company){
-            $query->where('company_name', $company);
-        })
-        ->first();
-        
+            ->whereHas('busers', function ($query) use ($company) {
+                $query->where('company_name', $company);
+            })
+            ->first();
 
-    
-       
-
-        
 
     }
 

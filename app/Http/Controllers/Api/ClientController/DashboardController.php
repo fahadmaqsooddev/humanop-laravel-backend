@@ -426,7 +426,7 @@ class DashboardController extends Controller
 
                 if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
 
-                    B2BBusinessCandidates::ShareDataWithBusiness($company['id'], $userId);
+                    B2BBusinessCandidates::shareDataWithBusiness($company['id'], $userId);
 
                 }
 
@@ -484,7 +484,7 @@ class DashboardController extends Controller
 
                 if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
 
-                    B2BBusinessCandidates::ShareDataWithBusiness($company['id'], $userId);
+                    B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
 
                 }
 
