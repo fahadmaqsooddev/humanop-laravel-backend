@@ -3,6 +3,7 @@
 namespace App\Http\Requests\B2B;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class updateB2BProfileRequest extends FormRequest
 {
@@ -32,7 +33,12 @@ class updateB2BProfileRequest extends FormRequest
             'gender' => 'required|in:male,female',
             'timezone' => 'required',
             'phone' => 'nullable|max:25',
-            'company_name' => 'required|string|max:50|unique:users,company_name,' . $this->user()->id,
+            'company_name' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('users', 'company_name')->ignore($this->user()->id, 'id'),
+            ],
             'password'=>'nullable',
         ];
     }

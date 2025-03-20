@@ -496,7 +496,7 @@ class DashboardController extends Controller
 
             }
 
-            return Helpers::successResponse('Data Shared Successfully');
+            return Helpers::successResponse('Data Not Shared');
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
