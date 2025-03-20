@@ -44,10 +44,10 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+            'key' => "AKIASBLHPXE7KK57YW4M",
+            'secret' => "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",
+            'region' => "us-east-1",
+            'bucket' => "laravel-s3-management",
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
