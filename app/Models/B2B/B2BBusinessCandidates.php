@@ -51,7 +51,7 @@ class B2BBusinessCandidates extends Model
     public static function checkBusinessCandidate($companyId = null, $candidateId = null)
 
     {
-      
+
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
@@ -273,7 +273,7 @@ class B2BBusinessCandidates extends Model
             if ($checkBusinessCandidate['share_data'] == 1) {
 
                 event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
-               
+
                 Notification::createNotification('Share Data',  "$candidateName shared their data with your company",'', $businessId, 0,Admin::B2B_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
             }
 
@@ -285,7 +285,7 @@ class B2BBusinessCandidates extends Model
 
     public static function notShareDataWithBusiness($businessId = null, $candidateId = null)
     {
-       
+
         $candidate = Helpers::getUser();
 
         $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
@@ -316,7 +316,7 @@ class B2BBusinessCandidates extends Model
 
     public static function checkShare($userid)
     {
-        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->where('share_data', Admin::SHARED_DATA)->with('users')->first();
+        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->with('users')->first();
 
         if ($data && $data->users) {
             $data->users->gender = $data->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
@@ -334,13 +334,13 @@ class B2BBusinessCandidates extends Model
     }
 
     public static function checkShareDataDetail($company=null,$candidateid=null){
-        
+
         return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
         ->whereHas('busers',function($query) use($company){
             $query->where('company_name', $company);
         })
         ->first();
-    
+
     }
 
 

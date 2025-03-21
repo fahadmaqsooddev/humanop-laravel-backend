@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\checkCnadidateRequest;
@@ -37,7 +38,7 @@ class B2BDashboardController extends Controller
 
                 $checkShareStatus = B2BBusinessCandidates::checkShare($request['candidate_id']);
 
-                if (!empty($checkShareStatus) && !empty($checkShareStatus['users'])) {
+                if (!empty($checkShareStatus) && !empty($checkShareStatus['users']) && $checkShareStatus['share_data'] == Admin::SHARED_DATA) {
                     $userId = $checkShareStatus['users']['id'];
 
                     $getAssessment = Assessment::getLatestAssessment($userId);
@@ -60,13 +61,23 @@ class B2BDashboardController extends Controller
                     else
                     {
                         return Helpers::successResponse('candidates optimization and core state', [
-                            'candidates_name' => null,
+                            'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
                             'optimization_plan' => null,
                             'core_state' => null,
                             'user_trait' => null,
                             'user_note' => null
                         ]);
                     }
+                }
+                else
+                {
+                    return Helpers::successResponse('candidates optimization and core state', [
+                        'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
+                        'optimization_plan' => null,
+                        'core_state' => null,
+                        'user_trait' => null,
+                        'user_note' => null
+                    ]);
                 }
             }
 
