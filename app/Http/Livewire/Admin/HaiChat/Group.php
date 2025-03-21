@@ -202,7 +202,7 @@ class Group extends Component
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
 
-            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "txt");
+            Storage::disk('s3')->delete($subFolder . $embedding->request_id . ".txt");
 
             GroupEmbedding::deleteGroupEmbeddings($id);
 
