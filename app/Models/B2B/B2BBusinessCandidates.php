@@ -343,5 +343,26 @@ class B2BBusinessCandidates extends Model
 
     }
 
+    public static function AllLoginUserCompanies($candidateid=null){
+
+        return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
+        ->where('share_data',Admin::NOT_SHARED_DATA)
+
+        ->with('busers')
+        ->get();
+
+    }
+
+
+    public static function AllCompaniescheckShareDataDetail($companies = [],$candidateid=null){
+
+        return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
+        ->whereHas('busers', function ($query) use ($companies) {
+            $query->whereIn('company_name', $companies); 
+        })
+        ->get();
+
+    }
+
 
 }
