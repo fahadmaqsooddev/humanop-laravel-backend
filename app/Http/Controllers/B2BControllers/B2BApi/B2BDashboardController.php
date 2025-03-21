@@ -41,18 +41,32 @@ class B2BDashboardController extends Controller
                     $userId = $checkShareStatus['users']['id'];
 
                     $getAssessment = Assessment::getLatestAssessment($userId);
-                    $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
-                    $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
-                    $userTrait = Assessment::UserTraits($userId);
-                    $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
 
-                    return Helpers::successResponse('candidates optimization and core state', [
-                        'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
-                        'optimization_plan' => $optimizationPlan,
-                        'core_state' => $coreState,
-                        'user_trait' => $userTrait,
-                        'user_note' => $userNote
-                    ]);
+                    if (!empty($getAssessment))
+                    {
+                        $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
+                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
+                        $userTrait = Assessment::UserTraits($userId);
+                        $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
+
+                        return Helpers::successResponse('candidates optimization and core state', [
+                            'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
+                            'optimization_plan' => $optimizationPlan,
+                            'core_state' => $coreState,
+                            'user_trait' => $userTrait,
+                            'user_note' => $userNote
+                        ]);
+                    }
+                    else
+                    {
+                        return Helpers::successResponse('candidates optimization and core state', [
+                            'candidates_name' => null,
+                            'optimization_plan' => null,
+                            'core_state' => null,
+                            'user_trait' => null,
+                            'user_note' => null
+                        ]);
+                    }
                 }
             }
 
