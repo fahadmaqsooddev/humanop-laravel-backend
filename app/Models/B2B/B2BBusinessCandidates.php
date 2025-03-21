@@ -49,7 +49,6 @@ class B2BBusinessCandidates extends Model
     }
 
     public static function checkBusinessCandidate($companyId = null, $candidateId = null)
-
     {
 
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
@@ -142,7 +141,10 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)->whereHas('assessments');
+        $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)->whereHas('assessments',function($query){
+            $query->where('page', 0);
+        });
+
 
         $count = $baseQuery->count();
 
@@ -154,10 +156,7 @@ class B2BBusinessCandidates extends Model
 
         return $baseQuery->with([
             'users',
-            'assessments' => function ($query) {
-                $query->where('page', 0);
-            }
-        ])
+            'assessments'])
             ->skip($randomOffset)
             ->take(1)
             ->first();
@@ -290,9 +289,16 @@ class B2BBusinessCandidates extends Model
 
         $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
-        event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
+//        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+//
+//        if ($checkBusinessCandidate) {
+//
+//            $checkBusinessCandidate->update(['share_data' => 2]);
 
-        Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
+            event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
+
+            Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
+//        }
     }
 
     public static function allCompaniesInfo()
@@ -358,7 +364,7 @@ class B2BBusinessCandidates extends Model
 
         return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
         ->whereHas('busers', function ($query) use ($companies) {
-            $query->whereIn('company_name', $companies); 
+            $query->whereIn('company_name', $companies);
         })
         ->get();
 

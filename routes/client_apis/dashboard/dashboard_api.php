@@ -28,6 +28,6 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::post('shared-data','DashboardController@sharedData');
     Route::get('check-shared-data','DashboardController@CheckShareData');
-    Route::get('not-shared-data','DashboardController@notSharedData');
+    Route::post('not-shared-data','DashboardController@notSharedData');
 
 });
