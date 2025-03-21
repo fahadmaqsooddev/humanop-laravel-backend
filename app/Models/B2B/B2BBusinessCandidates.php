@@ -289,16 +289,16 @@ class B2BBusinessCandidates extends Model
 
         $candidateName = $candidate['first_name'] . ' ' . $candidate['last_name'];
 
-        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
-
-        if ($checkBusinessCandidate) {
-
-            $checkBusinessCandidate->update(['share_data' => 2]);
+//        $checkBusinessCandidate = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
+//
+//        if ($checkBusinessCandidate) {
+//
+//            $checkBusinessCandidate->update(['share_data' => 2]);
 
             event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
 
             Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
-        }
+//        }
     }
 
     public static function allCompaniesInfo()
