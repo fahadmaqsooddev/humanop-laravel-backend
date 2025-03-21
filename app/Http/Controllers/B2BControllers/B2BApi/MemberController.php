@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -12,6 +14,9 @@ use App\Models\B2B\B2BBusinessCandidates;
 use App\Http\Requests\B2B\AddMemberRequest;
 use App\Http\Requests\B2B\EditMemberRequest;
 use App\Http\Requests\B2B\MembertoCandidate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class MemberController extends Controller
 {
@@ -62,11 +67,23 @@ class MemberController extends Controller
 
                         User::UpdateMembersLimit($user['email']);
 
-                        return Helpers::successResponse('This candidate successfully linked to your business.');
+                        $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
+
+                        $emailData = $this->prepareEmailData($checkUser, $url);
+
+                        $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
+
+                        return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
 
                     } else {
 
-                        return Helpers::validationResponse('This candidate is already associated with a business');
+                        $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
+
+                        $emailData = $this->prepareEmailData($checkUser, $url);
+
+                        $this->sendEmailVerification($emailData, $checkUser['email'], 'b2b-login-link');
+
+                        return Helpers::successResponse('This candidate is already associated with a business. Check your email and continue with login.');
 
                     }
 
@@ -76,17 +93,17 @@ class MemberController extends Controller
 
                     $createMember = User::addB2BMember($dataArray);
 
-                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id'],0);
+                    B2BBusinessCandidates::registerCandidate($user['id'], $createMember['id'], 0, Admin::NOT_SHARED_DATA);
 
                     User::UpdateMembersLimit($user['email']);
 
-                    return Helpers::successResponse('This candidate Linked successfully With Your Business.', [
-                        'authorization' => [
-                            'status' => true,
-                            'type' => 'bearer',
-                        ],
+                    $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
 
-                    ]);
+                    $emailData = $this->prepareEmailData($createMember, $url);
+
+                    $this->sendEmailVerification($emailData, $createMember['email'], 'b2b-login-link');
+
+                    return Helpers::successResponse('This candidate has been successfully linked to your business. Check your email and continue with login.');
                 }
             }
 
@@ -104,27 +121,17 @@ class MemberController extends Controller
 
             $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'], $request['search_name'])->map(function ($member) {
 
-                $member->users->gender = $member->users->gender ==  Admin::IS_MALE ? 'Male' : 'Female';
+                $member->users->gender = $member->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
                 $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
 
                 $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
-                $member->user_created_at=$member->created_at ? Carbon::parse($member->created_at)->format('m/d/Y h:i A') : null;
+                $member->user_created_at = $member->created_at ? Carbon::parse($member->created_at)->format('m/d/Y h:i A') : null;
                 unset($member->created_at);
-                
-                // if (!empty($member->users->invites) && isset($member->users->invites['send_invite_time'])) {
-                //     $member->users->invites->send_invite_time = $member->users->invites->send_invite_time ? Carbon::parse($member->send_invite_time)->format('m/d/Y h:i A') : null;
-                
-                // }
-
-                
-                   
-               
-                
 
                 return $member;
 
             });
-   
+
             return Helpers::successResponse('All Team members', $members);
 
 
@@ -135,6 +142,30 @@ class MemberController extends Controller
         }
     }
 
+    private function prepareEmailData($user = null, $url = null, $codeNumber = null)
+    {
+        return [
+            '{$userName}' => $user['first_name'] . ' ' . $user['last_name'],
+            '{$link}' => $url,
+            '{$email}' => $user['email'],
+            '{$password}' => Session::get('user_password'),
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
+    }
 
     public function EditMember(EditMemberRequest $request)
     {
@@ -176,47 +207,46 @@ class MemberController extends Controller
     }
 
 
-
-    public function ConvertMember(MembertoCandidate $request){
+    public function ConvertMember(MembertoCandidate $request)
+    {
         try {
 
-            $data= $request['member_id'];
-            if($data){
+            $data = $request['member_id'];
+            if ($data) {
                 $status = B2BBusinessCandidates::getInfo($request['member_id']);
-                if($status){
+                if ($status) {
                     return Helpers::validationResponse('This member is  already deleted');
-                }else{
-                    $checkrole=B2BBusinessCandidates::checkRole($request['member_id']);
+                } else {
+                    $checkrole = B2BBusinessCandidates::checkRole($request['member_id']);
 
-                    if($checkrole){
-                        $checklimit=B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
+                    if ($checkrole) {
+                        $checklimit = B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
 
-                        if($checklimit['members_limit'] < $checklimit['total_member_limit']){
+                        if ($checklimit['members_limit'] < $checklimit['total_member_limit']) {
 
-                            $changerole=B2BBusinessCandidates::newchangeRole($request['member_id']);
+                            $changerole = B2BBusinessCandidates::newchangeRole($request['member_id']);
 
-                            if($changerole){
-    
+                            if ($changerole) {
+
                                 return Helpers::successResponse(' Member  Change To Candidate');
-    
-                            }else{
-    
+
+                            } else {
+
                                 return Helpers::validationResponse('Not Link With Your Business');
-    
+
                             }
-                            
+
                         } else {
-                            
+
                             return Helpers::validationResponse('You have reached the maximum number of members allowed per business.');
                         }
-                       
 
 
-                    }else{
+                    } else {
                         return Helpers::validationResponse('Already Converted to member');
                     }
                 }
-            }else{
+            } else {
                 return Helpers::validationResponse('Failed to find member id');
             }
 
