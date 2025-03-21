@@ -67,7 +67,7 @@ class MemberController extends Controller
 
                         User::UpdateMembersLimit($user['email']);
 
-                        $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
+                        $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
@@ -77,7 +77,7 @@ class MemberController extends Controller
 
                     } else {
 
-                        $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
+                        $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
                         $emailData = $this->prepareEmailData($checkUser, $url);
 
@@ -97,7 +97,7 @@ class MemberController extends Controller
 
                     User::UpdateMembersLimit($user['email']);
 
-                    $url = config('client_url.client_dashboard_url') . '/login' . '&company_name=' . Helpers::getUser()['company_name'];
+                    $url = config('client_url.client_dashboard_url') . '/login' . '?company_name=' . Helpers::getUser()['company_name'];
 
                     $emailData = $this->prepareEmailData($createMember, $url);
 
