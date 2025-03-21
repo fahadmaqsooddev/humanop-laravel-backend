@@ -419,11 +419,13 @@ class DashboardController extends Controller
         try {
 
             $userId = Helpers::getUser()['id'];
-            $data=B2BBusinessCandidates::checkShareDataDetail($request['company_name'],$request['candidate_id']);
-            
-            if($data){
-
-                B2BBusinessCandidates::ShareDataWithBusiness($data['business_id'], $request['candidate_id']);
+           
+            $data=B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'],$request['candidate_id']);
+          
+            if(!empty($data)){
+                    foreach($data as $shared){
+                        B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+                    }
                 return Helpers::successResponse('Data Shared Successfully');
             }else{
                 return Helpers::validationResponse('Data not found.');   
@@ -445,8 +447,8 @@ class DashboardController extends Controller
 
             if (!empty($request['company_name'])) {
                 $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
+              
                 if (!empty($checkData)) {
-
                     if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
                      
                         $data = [
@@ -471,7 +473,22 @@ class DashboardController extends Controller
                     return Helpers::validationResponse('Data not found.');
                 }
             } else {
-                return Helpers::validationResponse('Company name not found.');
+
+                $companies = B2BBusinessCandidates::AllLoginUserCompanies();
+
+                $data=[];
+
+                foreach ($companies as $company) {
+
+                    $data[] = [ 
+                        'company_name' => $company->busers->company_name ?? 'N/A', 
+                        'share_data' => $company->share_data ?? 'N/A'
+                    ];
+                }
+
+               
+          
+                return Helpers::successResponse('All Share Data',$data);
             }
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());

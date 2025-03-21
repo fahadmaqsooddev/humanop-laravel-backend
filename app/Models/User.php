@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -84,9 +85,10 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-        //        if (str_contains(request()->path(), 'api')){
+        Session::put('user_password', $value);
+
         $this->attributes['password'] = Hash::make($value);
-        //        }
+
     }
 
     // scope
