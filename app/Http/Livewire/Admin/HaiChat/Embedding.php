@@ -24,16 +24,18 @@ class Embedding extends Component
     {
         $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        if ($embedding)
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+
+        if ($aiReply)
         {
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV");
 
-            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
-
-            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
+//
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
 
             GroupEmbedding::deleteGroupEmbeddings($id);
 
@@ -45,26 +47,26 @@ class Embedding extends Component
 
     }
 
-//    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-//    {
-//
-//        $authorization = Request::header('Authorization');
-//
-//        $queryArray = [
-//            'headers' => ['Authorization' => $authorization],
-//            'json' => $body
-//        ];
-//
-//        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-//
-//        $route = $route_name;
-//
-//        $response = $client->request($method, $route, $queryArray);
-//
-//        $response_body = json_decode($response->getBody()->getContents(), true);
-//
-//        return $response_body;
-//    }
+    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+
+        $authorization = Request::header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $route = $route_name;
+
+        $response = $client->request($method, $route, $queryArray);
+
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
 
     public function getEmbeddings()
     {
@@ -87,91 +89,96 @@ class Embedding extends Component
                 ]
             );
 
-            $file = $this->embedding;
+//            $file = $this->embedding;
+//
+//            $fileId = Str::uuid();
+//
+//            $embedding = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+//
+//            $filename = $fileId . '.' . $file->getClientOriginalExtension();
+//
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+//
+//            $path = $subFolder ? $subFolder . $filename : $filename;
+//
+//            Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+//
+//            $embeddingPath = $subFolder . $fileId . '-embd.txt';
+//
+//            Storage::disk('s3')->put($embeddingPath, json_encode($embedding));
+//
+//            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
+//
+//            if($embedding){
+//
+//                GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
+//
+//                session()->flash('embedding_success', "Embedding created successfully.");
+//
+//                $this->emit('closeCreateEmbeddingModal');
+//
+//                $this->reset('embedding_name');
+//
+//                $this->fileInputId++; // this is just for remove placeholder for file input field
+//
+//                $this->embedding = null;
+//
+//            }else{
+//
+//                session()->flash('embedding_error', "Something went wrong.");
+//            }
 
-            $fileId = Str::uuid();
+            // Get the real path of the uploaded file
+            $filePath = $this->embedding->getRealPath();
 
-            $embedding = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+            // Prepare the multipart data for sending
+            $multipart = [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ]
+            ];
 
-            $filename = $fileId . '.' . $file->getClientOriginalExtension();
-
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
-
-            $path = $subFolder ? $subFolder . $filename : $filename;
-
-            Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
-
-            $embeddingPath = $subFolder . $fileId . '-embd.txt';
-
-            Storage::disk('s3')->put($embeddingPath, json_encode($embedding));
-
-            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
-
-            if($embedding){
-
-                GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
-
-                session()->flash('embedding_success', "Embedding created successfully.");
-
-                $this->emit('closeCreateEmbeddingModal');
-
-                $this->reset('embedding_name');
-
-                $this->fileInputId++; // this is just for remove placeholder for file input field
-
-                $this->embedding = null;
-
-            }else{
-
-                session()->flash('embedding_error', "Something went wrong.");
+            // Include other form data like 'name' (if provided)
+            if ($this->embedding_name) {
+                $multipart[] = [
+                    'name'     => 'name',
+                    'contents' => $this->embedding_name
+                ];
             }
 
-//            // Get the real path of the uploaded file
-//            $filePath = $this->embedding->getRealPath();
-//
-//            // Prepare the multipart data for sending
-//            $multipart = [
-//                [
-//                    'name'     => 'file', // Field name expected by the server
-//                    'contents' => file_get_contents($filePath), // File contents
-//                    'filename' => basename($filePath) // Optional: the file name
-//                ]
-//            ];
-//
-//            // Include other form data like 'name' (if provided)
-//            if ($this->embedding_name) {
-//                $multipart[] = [
-//                    'name'     => 'name',
-//                    'contents' => $this->embedding_name
-//                ];
-//            }
-//            // Send the request
-//            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
-//                'multipart' => $multipart
-//            ]);
-//            if(!empty($aiReply['request_id'])){
-//
-//                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
-//
-//                if($embedding){
-//
-//                    GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
-//
-//                    session()->flash('embedding_success', "Embedding created successfully.");
-//
-//                    $this->emit('closeCreateEmbeddingModal');
-//
-//                    $this->reset('embedding_name','group_ids');
-//
-//                    $this->fileInputId++; // this is just for remove placeholder for file input field
-//
-//                    $this->embedding = null;
-//
-//                }else{
-//
-//                    session()->flash('embedding_error', "Something went wrong.");
-//                }
-//            }
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            // Send the request
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
+                'multipart' => $multipart,
+                'loc' => $subFolder
+            ]);
+
+            if(!empty($aiReply['request_id'])){
+
+                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
+
+                if($embedding){
+
+                    GroupEmbedding::addOrUpdateEmbeddingIds([$this->group_id], $embedding->id);
+
+                    session()->flash('embedding_success', "Embedding created successfully.");
+
+                    $this->emit('closeCreateEmbeddingModal');
+
+                    $this->reset('embedding_name','group_ids');
+
+                    $this->fileInputId++; // this is just for remove placeholder for file input field
+
+                    $this->embedding = null;
+
+                }else{
+
+                    session()->flash('embedding_error', "Something went wrong.");
+                }
+            }
         }catch (\Illuminate\Validation\ValidationException $exception){
 
             session()->flash('embedding_errors', $exception->validator->errors()->getMessages());
@@ -184,29 +191,29 @@ class Embedding extends Component
         $this->emit('closeAlert');
     }
 
-//    public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
-//    {
-//        $authorization = Request::header('Authorization');
-//
-//        // Prepare the query array with headers and multipart data
-//        $queryArray = [
-//            'headers' => [
-//                'Authorization' => $authorization, // Authorization header
-//            ],
-//            'multipart' => $body['multipart'] // Send multipart data
-//        ];
-//
-//        // Initialize Guzzle client
-//        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-//
-//        // Send the request
-//        $response = $client->request($method, $route_name, $queryArray);
-//
-//        // Get and decode the response body
-//        $response_body = json_decode($response->getBody()->getContents(), true);
-//
-//        return $response_body;
-//    }
+    public function sendCreateRequestFromGuzzle($method = null, $route_name = null, $body = [])
+    {
+        $authorization = Request::header('Authorization');
+
+        // Prepare the query array with headers and multipart data
+        $queryArray = [
+            'headers' => [
+                'Authorization' => $authorization, // Authorization header
+            ],
+            'multipart' => $body['multipart'] // Send multipart data
+        ];
+
+        // Initialize Guzzle client
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        // Send the request
+        $response = $client->request($method, $route_name, $queryArray);
+
+        // Get and decode the response body
+        $response_body = json_decode($response->getBody()->getContents(), true);
+
+        return $response_body;
+    }
 
     public function editEmbedding($id){
 
