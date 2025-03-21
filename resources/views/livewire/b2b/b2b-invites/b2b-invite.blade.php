@@ -174,7 +174,9 @@
                                             <input style="background-color: #0f1534;color: lightgrey !important;"
                                                    class="form-control text-white"
                                                    type="number" wire:model="total_member_limit" name="members_limit"
-                                                   placeholder="icon name">
+                                                   placeholder="icon name"
+                                                   min="0"
+                                                   oninput="this.value = Math.max(this.value, 0)">
 
                                             <button type="submit" class="btn btn-sm mt-4 float-end text-white"
                                                     style="background-color: #f2661c ">Update Limit
