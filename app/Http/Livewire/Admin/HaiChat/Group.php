@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -64,6 +65,8 @@ class Group extends Component
 
             $fileId = Str::uuid();
 
+            $embedding = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+
             $filename = $fileId . '.' . $file->getClientOriginalExtension();
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
@@ -71,6 +74,10 @@ class Group extends Component
             $path = $subFolder ? $subFolder . $filename : $filename;
 
             Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+
+            $embeddingPath = $subFolder . $fileId . '-embd.txt';
+
+            Storage::disk('s3')->put($embeddingPath, json_encode($embedding));
 
             $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
 
@@ -184,7 +191,9 @@ class Group extends Component
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
 
-            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "txt");
+            Storage::disk('s3')->delete($subFolder . $embedding->request_id . ".txt");
+
+            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
 
             GroupEmbedding::deleteGroupEmbeddings($id);
 
