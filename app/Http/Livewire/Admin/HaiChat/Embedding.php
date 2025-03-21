@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
@@ -14,7 +15,7 @@ use Livewire\WithFileUploads;
 class Embedding extends Component
 {
     public $name,$embedding, $group_id, $fileInputId, $group_ids, $groups, $embedding_name,
-        $updateId, $updateEmbeddingName, $updateEmbeddingText;
+        $updateId, $updateEmbeddingName, $updateEmbeddingText, $is_upload_production = false;
     use WithFileUploads;
 
     protected $listeners = ['deleteEmbedding'];
@@ -23,7 +24,7 @@ class Embedding extends Component
     {
         $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
 
         if ($embedding)
         {
@@ -95,6 +96,24 @@ class Embedding extends Component
             $path = $subFolder ? $subFolder . $filename : $filename;
 
             Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+
+            if ($this->is_upload_production){
+
+                $productionFile = "production/" . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                Storage::disk('s3')->put($productionFile, file_get_contents($file->getRealPath()));
+
+                $body = [
+                    'embedding_name' => $this->embedding_name,
+                    'request_id' => $fileId,
+                ];
+
+                $url = "https://beta.humanoptech.com/api/add-embedding-from-staging";
+
+                GuzzleHelpers::sendRequestFromGuzzle('POST',$url, $body);
+
+            }
+
 
             $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
 

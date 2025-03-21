@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -26,7 +27,7 @@ class Group extends Component
 
         $is_group = true, $showEmbDropdownMenu = false, $dropDownEmbeddings = [], $embedding_search,
 
-        $selectedGroups = [], $selectedEmbeddings = [];
+        $selectedGroups = [], $selectedEmbeddings = [], $is_upload_production = false;
 
     protected $rules = [
         'embedding_name' => 'required|max:50',
@@ -71,6 +72,23 @@ class Group extends Component
             $path = $subFolder ? $subFolder . $filename : $filename;
 
             Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+
+            if ($this->is_upload_production){
+
+                $productionFile = "production/" . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+                Storage::disk('s3')->put($productionFile, file_get_contents($file->getRealPath()));
+
+                $body = [
+                    'embedding_name' => $this->embedding_name,
+                    'request_id' => $fileId,
+                ];
+
+                $url = "https://beta.humanoptech.com/api/add-embedding-from-staging";
+
+                GuzzleHelpers::sendRequestFromGuzzle('POST',$url, $body);
+
+            }
 
             $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
 
