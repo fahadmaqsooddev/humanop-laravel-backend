@@ -38,7 +38,7 @@ class OpenRouterHelper
             "messages" => [
                 [
                     "role" => "user",
-                    "content" => $question,
+                    "content" => $setting['persona_text'] . "\n\n User: " . $question,
                 ],
                 [
                     "role" => "system",
