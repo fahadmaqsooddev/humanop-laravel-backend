@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
+use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
@@ -283,6 +284,8 @@ class Embedding extends Component
 
         $this->showDropdownMenu = false;
 
+        $this->showGroupDropdownMenu = false;
+
 //        dd($this->embeddings);
 
 //        $this->embeddings = array_merge($this->active_embeddings->toArray());
@@ -341,6 +344,51 @@ class Embedding extends Component
         $this->active_embeddings = array_chunk($activeEmbeddings, ceil(count($activeEmbeddings) / 2));
 
         $this->emit('showActiveEmbeddingsModal');
+
+    }
+
+    public function selectOrDeSelectAllEmbeddingsOfGroup($group_id){
+
+        $groups = GroupEmbedding::where('group_id', $group_id)
+
+            ->with('embedding')
+
+            ->get();
+
+        $embedding_ids = $groups->pluck('embedding_id');
+
+        $request_ids = HaiChatActiveEmbedding::where('chat_bot', $this->bot_name)->whereHas('embeddings', function ($query) use ($embedding_ids){
+
+            $query->whereIn('id', $embedding_ids);
+
+        })->pluck('request_id');
+
+        if (count($request_ids) > 0){
+
+            HaiChatActiveEmbedding::where('chat_bot', $this->bot_name)
+
+                ->whereIn('request_id', $request_ids)->delete();
+
+        }else{
+
+            foreach ($groups as $group){
+
+                if (isset($group['embedding']['request_id'])){
+
+                    $request_id = $group['embedding']['request_id'];
+
+                    HaiChatActiveEmbedding::create([
+                        'chat_bot' => $this->bot_name,
+                        'request_id' => $request_id
+                    ]);
+
+                }
+
+            }
+
+        }
+
+        $this->showGroupDropdownMenu = true;
 
     }
 
