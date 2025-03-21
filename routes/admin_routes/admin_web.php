@@ -123,7 +123,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         ->name('admin_b2b_support');
         Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])
         ->name('admin_b2b_support_detail');
-    
+
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
         Route::get('/all-intention-plans', [IntentionPlanController::class, 'allIntentionPlan'])->name('admin_all_intention_plan');
@@ -143,6 +143,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
         Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
+        Route::get('/hai-chat-persona', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
+        Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {

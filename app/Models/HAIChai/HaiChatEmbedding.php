@@ -127,4 +127,9 @@ class HaiChatEmbedding extends Model
             ->get();
     }
 
+    public static function updateEmbedding($id, $name){
+
+        self::whereId($id)->update(['name' => $name]);
+    }
+
 }

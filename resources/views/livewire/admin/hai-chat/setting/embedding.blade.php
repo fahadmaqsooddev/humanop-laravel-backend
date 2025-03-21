@@ -60,11 +60,11 @@
                                                 <ul style="list-style: none; padding-top: 5px; padding-left: inherit;">
                                                     @foreach($groups as $key => $group)
                                                         <li>
-                                                            <div class="form-check" wire:click="updateGroupId('{{$group['id']}}', '{{$group['name']}}')">
-                                                                <input class="form-check-input" type="checkbox" id="checkboxGroup{{$key}}" {{($group['is_active_group'] ? 'checked' : '')}} onclick="return false;">
-                                                                <label class="form-check-label" for="checkboxGroup{{$key}}">
+                                                            <div class="form-check">
+                                                                <input wire:click="selectOrDeSelectAllEmbeddingsOfGroup({{$group['id']}})" class="form-check-input" type="checkbox" id="checkboxGroup{{$key}}" {{($group['is_active_group'] ? 'checked' : '')}}>
+                                                                <div class="form-check-label" for="checkboxGroup{{$key}}" wire:click="updateGroupId('{{$group['id']}}', '{{$group['name']}}')">
                                                                     {{$group->name}}
-                                                                </label>
+                                                                </div>
                                                             </div>
                                                         </li>
                                                     @endforeach

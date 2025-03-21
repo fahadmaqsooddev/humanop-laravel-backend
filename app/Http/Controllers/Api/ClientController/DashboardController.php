@@ -84,7 +84,7 @@ class DashboardController extends Controller
 
                             Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
@@ -353,8 +353,12 @@ class DashboardController extends Controller
                 $communication = AssessmentWalkThrough::getbyCodeName($getCommunications[0], Admin::COMMUNICATION_TRAIT);
 
                 $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+
                 $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+
                 $pv = $positive - $negative;
+
+                $ep = $positive + $negative;
 
                 if ($pv <= -8) {
                     $polarity_code = 40;
@@ -364,17 +368,31 @@ class DashboardController extends Controller
                     $polarity_code = 42;
                 }
 
+                if ($ep < 25) {
+                    $energy_code = 21;
+                } elseif ($ep >= 25 and $ep <= 30) {
+                    $energy_code = 18;
+                } elseif ($ep >= 31 and $ep <= 35) {
+                    $energy_code = 20;
+                } elseif ($ep >= 36) {
+                    $energy_code = 16;
+                }
+
                 $record = CodeDetail::whereId($polarity_code)->select(['id', 'code'])->first();
+
+                $energyRecord = CodeDetail::whereId($energy_code)->select(['id', 'code'])->first();
 
                 $polarity = AssessmentWalkThrough::getbyCodeName($record['code'], Admin::POLARITY_TRAIT);
 
+                $energyPool = AssessmentWalkThrough::getbyCodeName($energyRecord['code'], Admin::ENERGY_POOL_TRAIT);
 
                 $data = [
                     'trait' => $traits,
                     'driver' => $drivers,
                     'alchemy' => $alchemyBoundary,
                     'communication' => $communication,
-                    'polarity' => $polarity
+                    'polarity' => $polarity,
+                    'energyPool' => $energyPool
                 ];
 
             } else {
@@ -395,23 +413,109 @@ class DashboardController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+
     public function sharedData(ShareDataRequest $request)
     {
         try {
 
             $userId = Helpers::getUser()['id'];
+           
+            $data=B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'],$request['candidate_id']);
+          
+            if(!empty($data)){
+                    foreach($data as $shared){
+                        B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+                    }
+                return Helpers::successResponse('Data Shared Successfully');
+            }else{
+                return Helpers::validationResponse('Data not found.');   
+            }
+           
 
-            foreach ($request['business_id'] as $businessId) {
 
-                if (B2BBusinessCandidates::checkBusinessCandidate($businessId, $userId)) {
+        
 
-                    B2BBusinessCandidates::ShareDataWithBusiness($businessId, $userId);
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function CheckShareData(Request $request)
+    {
+
+        try {
+
+            if (!empty($request['company_name'])) {
+                $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
+              
+                if (!empty($checkData)) {
+                    if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
+                     
+                        $data = [
+                            'Shared_data'=>Admin::NOT_SHARED_DATA,
+                            'company_name'=>$request['company_name']
+                        ];
+    
+                        return Helpers::successResponse('Check Shared Data', $data);
+
+                    }
+
+                    $data = [
+                        'Shared_data'=>Admin::SHARED_DATA,
+                        'company_name'=>$request['company_name']
+                    ];
+
+                    return Helpers::successResponse('Check Shared Data', $data);
+                  
+
+
+                } else {
+                    return Helpers::validationResponse('Data not found.');
+                }
+            } else {
+
+                $companies = B2BBusinessCandidates::AllLoginUserCompanies();
+
+                $data=[];
+
+                foreach ($companies as $company) {
+
+                    $data[] = [ 
+                        'company_name' => $company->busers->company_name ?? 'N/A', 
+                        'share_data' => $company->share_data ?? 'N/A'
+                    ];
+                }
+
+               
+          
+                return Helpers::successResponse('All Share Data',$data);
+            }
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function notSharedData(ShareDataRequest $request)
+    {
+        try {
+            
+
+            
+            $userId = Helpers::getUser()['id'];
+
+            if ($request['company_name']) {
+
+                $company = User::getSingleUserFromCompanyName($request['company_name']);
+
+                if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
+
+                    B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
 
                 }
 
             }
 
-            return Helpers::successResponse('Data Shared Successfully');
+            return Helpers::successResponse('Data Not Shared');
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());

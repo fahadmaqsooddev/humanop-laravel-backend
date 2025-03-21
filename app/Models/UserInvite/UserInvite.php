@@ -2,11 +2,13 @@
 
 namespace App\Models\UserInvite;
 
+use Carbon\Carbon;
 use App\Helpers\Helpers;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use App\Enums\Admin\Admin;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class UserInvite extends Model
 {
     use HasFactory;
@@ -122,5 +124,19 @@ class UserInvite extends Model
             'link' => $link,
             'role'=>$role
         ]);
+    }
+
+
+
+
+    public static function sendInviteTime($id=null){
+       
+        $invite = self::find($id);
+        if ($invite && empty($invite->send_invite_time)) { 
+            $invite->update([
+                'send_invite_time' => Carbon::now()
+            ]);
+        }
+       
     }
 }

@@ -12,6 +12,9 @@ use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Http\Requests\B2B\CandidatetoMember;
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
+use Illuminate\Support\Facades\URL;
 
 class CandidateController extends Controller
 {
@@ -46,6 +49,14 @@ class CandidateController extends Controller
 
                     UserCandidateInvite::createUserInvite($checkInviteLink->id);
 
+                    $linke=UserInvite::where('email',$email)->first();
+                    
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+
+                    $emailData = $this->prepareEmailData($url);
+
+                    $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
+
                     return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
             }
@@ -57,6 +68,11 @@ class CandidateController extends Controller
             if ($newInvite) {
 
                 UserCandidateInvite::createUserInvite($newInvite->id);
+                $linke=UserInvite::where('email',$email)->first();
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $emailData = $this->prepareEmailData($url);
+
+                $this->sendEmailVerification($emailData, $email, 'b2b-signup-link');
 
                 return Helpers::successResponse("{$email} invite link generated successfully.");
 
@@ -110,6 +126,14 @@ class CandidateController extends Controller
 
                 $candidate->users->last_login = $candidate->users->last_login ? Carbon::parse($candidate->last_login)->format('m/d/Y h:i A') : null;
 
+                $candidate->user_created_at=$candidate->created_at ? Carbon::parse($candidate->created_at)->format('m/d/Y h:i A') : null;
+                unset($candidate->created_at);
+                
+                // if (!empty($candidate->users->invites) && isset($candidate->users->invites['send_invite_time'])) {
+                    
+                //     $candidate->users->invites->send_invite_time = $candidate->users->invites->send_invite_time ? Carbon::parse($candidate->send_invite_time)->format('m/d/Y h:i A') : null;
+                
+                // }
 
                 return $candidate;
 
@@ -139,12 +163,20 @@ class CandidateController extends Controller
                     if($checkrole){
                         return Helpers::validationResponse('This candidate is  already converted to member');
                     }else{
-                        $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
-                        if($changerole){
-                            return Helpers::successResponse(' Candidate Change To Member');
+                        
+                        $checklimit=B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
+                       
+                        if($checklimit['members_limit'] > 0 && $checklimit['members_limit'] <= $checklimit['total_member_limit']){
+                            $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
+                            if($changerole){
+                                return Helpers::successResponse(' Candidate Change To Member');
+                            }else{
+                                return Helpers::validationResponse('Not Link With Your Business');
+                            }
                         }else{
-                            return Helpers::validationResponse('Not Link With Your Business');
+                            return Helpers::validationResponse('Your Business has reached the maximum number of members');
                         }
+
                     }
                 }
             }else{
@@ -282,6 +314,31 @@ class CandidateController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+    }
+
+
+
+
+    private function prepareEmailData($url = null,)
+    {
+        return [
+            '{$link}' => $url,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function sendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
     }
 
 }

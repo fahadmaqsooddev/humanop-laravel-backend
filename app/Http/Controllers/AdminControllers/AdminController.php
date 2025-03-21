@@ -533,4 +533,30 @@ class AdminController extends Controller
         }
 
     }
+
+    public function haiChatPersona(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.persona');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function haiChatComparison(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.comparison');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

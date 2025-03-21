@@ -23,6 +23,11 @@ class HaiChatActiveEmbedding extends Model
         return $this->belongsTo(HaiChatEmbedding::class, 'request_id', 'request_id');
     }
 
+    public function embeddings(){
+
+        return $this->hasMany(HaiChatEmbedding::class,'request_id','request_id');
+    }
+
     public static function createActiveEmbedding($bot_name = null, $request_id = null)
     {
         return self::create([

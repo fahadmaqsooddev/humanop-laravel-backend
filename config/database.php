@@ -442,7 +442,7 @@ return [
         ],
         'HaiChatSetting' => [
             'table' => 'hai_chat_setting',
-            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id'],
+            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id','persona_text'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatConversation' => [
@@ -462,7 +462,7 @@ return [
         ],
         'UserInvite' => [
             'table' => 'user_invites',
-            'fillable' => ['id','email','link','role','members_limit','total_member_limit'],
+            'fillable' => ['id','email','link','role','members_limit','total_member_limit','send_invite_time'],
             'hidden' => ['created_at','updated_at'],
         ],
         'EmbeddingGroup' => [
@@ -482,7 +482,7 @@ return [
         ],
         'Notification' => [
             'table' => 'notifications',
-            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority'],
+            'fillable' => ['type','message','read','created_at','user_id','device_token','permission','notification_priority','role'],
             'hidden' => ['updated_at','deleted_at'],
         ],
         'LlmModel' => [

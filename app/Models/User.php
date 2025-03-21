@@ -20,6 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable, Billable, HasRoles, SoftDeletes;
 
     protected $appends = ['point', 'photo_url', 'user_picture_url', 'is_follow', 'connection_status', 'feedback_submitted'
-        , 'age_group', 'plan_name', 'optional_trait', 'check_company'];
+        , 'age_group', 'plan_name', 'optional_trait'];
 
     public function __construct(array $attributes = array())
     {
@@ -84,9 +85,10 @@ class User extends Authenticatable implements JWTSubject
     // mutator
     public function setPasswordAttribute($value)
     {
-        //        if (str_contains(request()->path(), 'api')){
+        Session::put('user_password', $value);
+
         $this->attributes['password'] = Hash::make($value);
-        //        }
+
     }
 
     // scope
@@ -152,20 +154,20 @@ class User extends Authenticatable implements JWTSubject
         return Helpers::getImage($this->image_id, $profilePic);
     }
 
-    public function getCheckCompanyAttribute()
-    {
-
-        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
-
-        if (!empty($dataShareWithBusiness))
-        {
-            return  Admin::SHARED_DATA;
-        }
-        else{
-            return  Admin::NOT_SHARED_DATA;
-        }
-
-    }
+//    public function getCheckCompanyAttribute()
+//    {
+//
+//        $dataShareWithBusiness = B2BBusinessCandidates::checkCandidateCompany($this->id);
+//
+//        if (!empty($dataShareWithBusiness))
+//        {
+//            return  Admin::SHARED_DATA;
+//        }
+//        else{
+//            return  Admin::NOT_SHARED_DATA;
+//        }
+//
+//    }
 
     public function getIsFollowAttribute()
     {
@@ -218,6 +220,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     // relations
+
+    public function invites()
+    {
+        return $this->hasOne(UserInvite::class, 'email', 'email');
+    }
     public function stories()
     {
 

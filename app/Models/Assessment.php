@@ -723,6 +723,21 @@ class Assessment extends Model
 
     public static function getFeatures($assessment = null, $isCode = true)
     {
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row_sa = $assessment['sa'] * $second_row_sa;
+        $third_row_ma = $assessment['ma'] * $second_row_ma;
+        $third_row_jo = $assessment['jo'] * $second_row_jo;
+        $third_row_lu = $assessment['lu'] * $second_row_lu;
+        $third_row_ven = $assessment['ven'] * $second_row_ven;
+        $third_row_mer = $assessment['mer'] * $second_row_mer;
+        $third_row_so = 0;
+
         $features = [
             'de' => $assessment['de'],
             'dom' => $assessment['dom'],
@@ -775,9 +790,9 @@ class Assessment extends Model
         foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
-                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30)) {
                         $filtered_keys[$key] = $value;
-                    } elseif (($assessment['de'] > 2 && $assessment['ma'] < 5) && ($assessment['sa'] < 5 || $assessment['jo'] < 5)) {
+                    } elseif (($assessment['de'] > 2 && $assessment['ma'] < 5 && $third_row_ma < 30)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -803,9 +818,9 @@ class Assessment extends Model
                     }
                     break;
                 case 'lun':
-                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4 && $third_row_lu > 30) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5) && ($assessment['ven'] < 5 || $assessment['jo'] < 5)) {
+                    } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5 && $third_row_lu < 30)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -831,11 +846,9 @@ class Assessment extends Model
                     }
                     break;
                 case 'sp':
-                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4  && $third_row_jo > 30) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
-                    } elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
+                    } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5 && $third_row_jo < 30)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -1330,7 +1343,7 @@ class Assessment extends Model
 
                                         event(new NewDailyTip($user['id'], 'new daily tip', $message));
                                         Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
-                                        Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION);
+                                        Notification::createNotification('Daily Tip', $message, $deviceToken, $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
                                     }
                                 }

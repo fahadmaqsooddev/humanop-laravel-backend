@@ -192,14 +192,14 @@ class Follow extends Model
                 self::create($data);
 
                 // $msg='';
-                $msg = Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name. 
+                $msg = Helpers::getUser()?->first_name . ' ' . Helpers::getUser()?->last_name.
                  ' has Started Following You';
 
-            
+
 
                 event(new FollowRequest($data['follow_id'],'Follow Request',$msg));
                 Helpers::OneSignalApiUsed($data['follow_id'],'Follow Request',$msg);
-                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::FOLLOW_REQUEST_NOTIFICATION);
+                Notification::createNotification('follow request', $msg, null, $data['follow_id'], 1, Admin::FOLLOW_REQUEST_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
             }
 
@@ -213,8 +213,10 @@ class Follow extends Model
                 . ' has Un-Followed You';
 
             event(new UnFollowRequest($data['follow_id'],'Un-Follow Request',$msg));
+
             Helpers::OneSignalApiUsed($data['follow_id'],'Un-Follow Request',$msg);
-            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::UN_FOLLOW_REQUEST_NOTIFICATION);
+
+            Notification::createNotification('un follow request', $msg, null, $data['follow_id'], 1, Admin::UN_FOLLOW_REQUEST_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
         }
 

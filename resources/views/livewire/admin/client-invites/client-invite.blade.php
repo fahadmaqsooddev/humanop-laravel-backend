@@ -1,3 +1,15 @@
+@push('css')
+<style>
+    .no-select {
+        user-select: none; 
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        
+    }
+    </style>
+@endpush
+
 <div>
 
     <div class="p-2">
@@ -31,7 +43,7 @@
                 @foreach($invites as $index => $invite)
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
-                        <td class="text-md font-weight-normal">{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
+                        <td class="text-md font-weight-normal no-select">{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }} </td>
                         <td class="text-center">
                             <input type="checkbox" wire:model="selectedItems" value="{{ $invite->id }}"
                                 style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
@@ -41,7 +53,8 @@
           
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
-                                    onclick="copyToClipboard('{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}')"
+                                    onclick="copyToClipboard('{{ config('client_url.client_dashboard_url') .'/register?link=' . $invite['link'] }}','{{$index +1}}','{{ $invite['id'] }}')"
+                                  
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})" style="background-color: #ff0000;border-radius: 0px 5px 5px 0px">Delete Link</button>
@@ -135,12 +148,14 @@
 
     <script>
 
-        async function copyToClipboard(text, id) {
+        async function copyToClipboard(text, id,ide) {
             try {
                 // Use the Clipboard API to copy the text
                 await navigator.clipboard.writeText(text);
                 $('#copy_link_' + id).text('Copied!')
                 // Hide the tooltip after 2 seconds
+                Livewire.emit('copyClipboard',ide);
+         
                 setTimeout(() => {
                     setTimeout(() => {
                         $('#copy_link_' + id).text('Copy Link')
@@ -200,12 +215,14 @@
 
    <script>
 
-       async function copyToClipboard(text,id) {
+       async function copyToClipboard(text,id,ide) {
            try {
                // Use the Clipboard API to copy the text
                await navigator.clipboard.writeText(text);
                $('#copy_link_'+id).text('Copied!')
                // Hide the tooltip after 2 seconds
+               Livewire.emit('copyClipboard',ide);
+              
                setTimeout(() => {
                    setTimeout(() => {
                        $('#copy_link_'+id).text('Copy Link')

@@ -137,7 +137,7 @@ class Assessment extends Component
 
             Helpers::OneSignalApiUsed($user['id'], $heading, $message);
 
-            Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION);
+            Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION,Admin::B2C_NOTIFICATION);
         }
 
         session()->flash('success', "Reset Assessment updated successfully");

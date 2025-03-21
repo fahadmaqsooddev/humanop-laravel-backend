@@ -50,7 +50,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link trait-link setting-options text-body" href=""  data-target=".polarity">
-                                <span class="text-sm custom-text-dark">Polarity and Energy Pool Sequence</span>
+                                <span class="text-sm custom-text-dark">Polarity  Sequence</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link trait-link setting-options text-body" href=""  data-target=".energypool">
+                                <span class="text-sm custom-text-dark">Energy Pool Sequence</span>
                             </a>
                         </li>
                         
@@ -98,6 +103,9 @@
                         </div>
                         <div class="polarity d-none">
                             @livewire('admin.assessment-walkthrough.polarity-trait')
+                        </div>
+                        <div class="energypool d-none">
+                            @livewire('admin.assessment-walkthrough.energy-pool')
                         </div>
                     </div>
                     

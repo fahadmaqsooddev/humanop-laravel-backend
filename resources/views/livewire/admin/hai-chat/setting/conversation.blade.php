@@ -106,7 +106,7 @@
             <span class="sr-only">
                 Loading...
         </span>
-        </div>
+    </div>
 
         <div class="row h-100">
 
