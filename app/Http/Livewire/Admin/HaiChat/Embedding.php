@@ -26,7 +26,7 @@ class Embedding extends Component
 
         $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
 
         if ($aiReply)
         {
@@ -148,12 +148,9 @@ class Embedding extends Component
                 ];
             }
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
-
             // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
-                'multipart' => $multipart,
-                'loc' => $subFolder
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://44.201.128.253:8000/upload_embedding', [
+                'multipart' => $multipart
             ]);
 
             if(!empty($aiReply['request_id'])){
@@ -200,11 +197,15 @@ class Embedding extends Component
             'headers' => [
                 'Authorization' => $authorization, // Authorization header
             ],
-            'multipart' => $body['multipart'] // Send multipart data
+            'multipart' => $body['multipart']
         ];
 
         // Initialize Guzzle client
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        $route_name = $route_name . "?loc=" . $subFolder;
 
         // Send the request
         $response = $client->request($method, $route_name, $queryArray);
@@ -225,18 +226,27 @@ class Embedding extends Component
 
             $this->updateEmbeddingName = $embedding->name ?? null;
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? "dev" : env("APP_ENV");
 
-            $exists = Storage::disk('s3')->exists($subFolder . $embedding->request_id . '/' . $embedding->request_id . ".txt");
+            $body = ["request_id" => $embedding->request_id, "loc" => $subFolder];
 
-            if ($exists){
+            $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/get_file_text',$body);
 
-                $this->updateEmbeddingText = Storage::disk('s3')->get($subFolder . $embedding->request_id . ".txt");
+            if(isset($aiReply['text_content'])){
 
-            }else{
-
-                $this->updateEmbeddingText = null;
+                $this->updateEmbeddingText = $aiReply['text_content'];
             }
+
+//            $exists = Storage::disk('s3')->exists($subFolder . $embedding->request_id . '/' . $embedding->request_id . ".txt");
+//
+//            if ($exists){
+//
+//                $this->updateEmbeddingText = Storage::disk('s3')->get($subFolder . $embedding->request_id . ".txt");
+//
+//            }else{
+//
+//                $this->updateEmbeddingText = null;
+//            }
 
             $this->emit('openEditModal');
         }
@@ -260,11 +270,23 @@ class Embedding extends Component
 
             $embedding = HaiChatEmbedding::whereId($this->updateId)->first();
 
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = ['loc' => $subFolder, 'request_id' => $embedding->request_id, 'text' => $this->updateEmbeddingText];
+
+            $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/update_embedding',$body);
+
+            HaiChatEmbedding::updateEmbedding($this->updateId, $this->updateEmbeddingName);
+
+            session()->flash('embedding_success', "Embedding updated successfully.");
+
+            $this->emit('closeEditEmbeddingModal');
+
 //            $embeddingVector = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
 
-            $filename = $embedding->request_id . ".txt";
+//            $filename = $embedding->request_id . ".txt";
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
 
 //            $path = $subFolder ? $subFolder . $filename : $filename;
 
@@ -273,12 +295,6 @@ class Embedding extends Component
 //            $embeddingPath = $subFolder . $embedding->request_id . '/' . $embedding->request_id . '.txt';
 //
 //            Storage::disk('s3')->put($embeddingPath, json_encode($embeddingVector));
-
-            HaiChatEmbedding::updateEmbedding($this->updateId, $this->updateEmbeddingName);
-
-            session()->flash('embedding_success', "Embedding updated successfully.");
-
-            $this->emit('closeEditEmbeddingModal');
 
 //            $this->reset('updateEmbeddingName','updateEmbeddingText');
 

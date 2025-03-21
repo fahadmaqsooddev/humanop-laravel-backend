@@ -244,19 +244,19 @@ class OldConversation extends Component
 //
 //                    $body = ['query' => $this->message, 'temperature' => $this->chatBot['temperature'], 'max_tokens' => $['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/llm-gpt-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-gpt-model', $body);
 //
 //                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/llm-gpt-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-gpt-model', $body);
 //
 //                }else{
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/llm-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 //                }
 
 //                HaiChatConversation::deleteOldChat();
@@ -367,7 +367,7 @@ class OldConversation extends Component
 
 //            $app_env = env('APP_ENV');
 //
-//            $url = $app_env === 'staging' ? 'http://54.88.172.210:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
+//            $url = $app_env === 'staging' ? 'http://44.201.128.253:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
 //
 //            GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 

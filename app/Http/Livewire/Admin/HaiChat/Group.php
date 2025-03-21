@@ -123,9 +123,8 @@ class Group extends Component
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
             // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
-                'multipart' => $multipart,
-                'loc' => $subFolder
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://44.201.128.253:8000/upload_embedding', [
+                'multipart' => $multipart
             ]);
 
             if ($this->is_upload_production){
@@ -198,6 +197,10 @@ class Group extends Component
         // Initialize Guzzle client
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        $route_name = $route_name . "?loc=" . $subFolder;
+
         // Send the request
         $response = $client->request($method, $route_name, $queryArray);
 
@@ -255,7 +258,7 @@ class Group extends Component
 
         $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
 
         if ($aiReply)
         {
