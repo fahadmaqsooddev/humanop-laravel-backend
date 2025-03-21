@@ -51,6 +51,7 @@ class Setting extends Component
 //        };
 
         $model_value = LlmModel::singleModelFromValue($this->model_type);
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
         $body = [
             'temperature' => $this->temperature,
@@ -58,10 +59,11 @@ class Setting extends Component
             'file_name' => $active_embedding_ids,
             'prompt_folder' => $this->bot_name,
             'total_chunks' => $this->chunk,
-            'gpt_model' => $model_value['model_value'] ?? 1,
+            'gpt_model' => $model_value['model_value'] ?? null,
+            'loc' => $subFolder
         ];
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/save-llm-params', $body);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/save-llm-params', $body);
 
         if (isset($aiReply['s3_path'])){
 

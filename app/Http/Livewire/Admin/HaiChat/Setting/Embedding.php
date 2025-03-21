@@ -100,7 +100,9 @@ class Embedding extends Component
 
             $chatSetting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
-            $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk']]);
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $aiReply = $this->sendSearchEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding['file_name'], 'total_chunks' => $chatSetting['chunk'], 'loc' => $subFolder]);
 
             $i = 0;
 
@@ -178,9 +180,10 @@ class Embedding extends Component
         $this->request_id = $request_id;
 
         if($this->request_id && $this->bot_name){
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
             $activeEmbedding = HaiChatActiveEmbedding::singleActiveEmbedding($this->request_id, $this->bot_name);
             if($activeEmbedding){
-                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id, 'loc' => $subFolder]);
                  if($aiReply){
                      if($aiReply['exists']){
                          HaiChatActiveEmbedding::deleteActiveEmbedding($this->request_id);
@@ -188,7 +191,7 @@ class Embedding extends Component
                      }
                  }
             }else{
-                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://54.88.172.210:8000/check-embeddings', ['folder_n' => $this->request_id]);
+                $aiReply = $this->sendEmbeddingRequestFromGuzzle('post', 'http://18.234.162.68:8000/check-embeddings', ['folder_n' => $this->request_id, 'loc' => $subFolder]);
                 if($aiReply){
                     if($aiReply['exists']) {
                         HaiChatActiveEmbedding::createActiveEmbedding($this->bot_name, $this->request_id);

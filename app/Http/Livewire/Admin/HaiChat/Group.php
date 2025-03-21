@@ -61,17 +61,72 @@ class Group extends Component
 
             $this->validate();
 
-            $file = $this->embedding;
+//            $file = $this->embedding;
+//
+//            $fileId = Str::uuid();
+//
+//            $embedding = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+//
+//            $filename = $fileId . '.' . $file->getClientOriginalExtension();
+//
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV") . '/';
+//
+//            $path = $subFolder ? $subFolder . $filename : $filename;
+//
+//            Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+//
+//            $embeddingPath = $subFolder . $fileId . '-embd.txt';
+//
+//            Storage::disk('s3')->put($embeddingPath, json_encode($embedding));
+//
+//            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
+//
+//            if($embedding){
+//
+//                GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
+//
+//                session()->flash('embedding_success', "Embedding created successfully.");
+//
+//                $this->emit('closeCreateEmbeddingModal');
+//
+//                $this->reset('embedding_name','group_ids');
+//
+//                $this->fileInputId++; // this is just for remove placeholder for file input field
+//
+//                $this->embedding = null;
+//
+//            }else{
+//
+//                session()->flash('embedding_error', "Something went wrong.");
+//            }
 
-            $fileId = Str::uuid();
+            // Get the real path of the uploaded file
+            $filePath = $this->embedding->getRealPath();
 
-            $filename = $fileId . '.' . $file->getClientOriginalExtension();
+            // Prepare the multipart data for sending
+            $multipart = [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ]
+            ];
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+            // Include other form data like 'name' (if provided)
+            if ($this->embedding_name) {
+                $multipart[] = [
+                    'name'     => 'name',
+                    'contents' => $this->embedding_name
+                ];
+            }
 
-            $path = $subFolder ? $subFolder . $filename : $filename;
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-            Storage::disk('s3')->put($path, file_get_contents($file->getRealPath()));
+            // Send the request
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://18.234.162.68:8000/upload_embedding', [
+                'multipart' => $multipart,
+                'loc' => $subFolder
+            ]);
 
             if ($this->is_upload_production){
 
@@ -92,23 +147,26 @@ class Group extends Component
 
             $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
 
-            if($embedding){
+                $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
 
-                GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
+                if($embedding){
 
-                session()->flash('embedding_success', "Embedding created successfully.");
+                    GroupEmbedding::addOrUpdateEmbeddingIds($this->group_ids, $embedding->id);
 
-                $this->emit('closeCreateEmbeddingModal');
+                    session()->flash('embedding_success', "Embedding created successfully.");
 
-                $this->reset('embedding_name','group_ids');
+                    $this->emit('closeCreateEmbeddingModal');
 
-                $this->fileInputId++; // this is just for remove placeholder for file input field
+                    $this->reset('embedding_name','group_ids');
 
-                $this->embedding = null;
+                    $this->fileInputId++; // this is just for remove placeholder for file input field
 
-            }else{
+                    $this->embedding = null;
 
-                session()->flash('embedding_error', "Something went wrong.");
+                }else{
+
+                    session()->flash('embedding_error', "Something went wrong.");
+                }
             }
 
         }catch (\Illuminate\Validation\ValidationException $exception){
@@ -195,14 +253,18 @@ class Group extends Component
     {
         $embedding = HaiChatEmbedding::singleEmbedding($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/delete_embeddings', ['folder_n' => $embedding['request_id']]);
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        if ($embedding)
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+
+        if ($aiReply)
         {
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
-
-            Storage::disk('s3')->delete($subFolder . $embedding->request_id . ".txt");
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
+//
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . ".txt");
+//
+//            Storage::disk('s3')->delete($subFolder . $embedding->request_id . "-embd.txt");
 
             GroupEmbedding::deleteGroupEmbeddings($id);
 

@@ -29,7 +29,9 @@ class SearchEmbedding extends Component
 
             $setting = EmbeddingSetting::getEmbeddingSetting($this->name);
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.88.172.210:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2]);
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2, 'loc' => $subFolder]);
 
             $i = 0;
 

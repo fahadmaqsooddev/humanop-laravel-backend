@@ -507,33 +507,10 @@ class Helpers
 //        }
 //    }
 
-    public static function stringFromPdfOrTextFile($file)
+    public static function stringFromPdfOrTextFile($text)
     {
 
-        if ($file->extension() === 'txt') {
-
-            $text = file_get_contents($file->getRealPath());
-
-            return str_split($text, 3000);
-
-        } else {
-
-            $text = Pdf::getText($file->getRealPath());
-
-//            $parser = new Parser();
-//
-//            $pdf = $parser->parseFile($file->getRealPath());
-//
-//            $text = $pdf->getText();
-//
-//            $text = preg_replace('/\s+/', ' ', trim($text));
-//
-//            $new = preg_replace('/([a-z])([A-Z])/s','$1 $2', $text);
-
-            return str_split($text, 3000);
-
-        }
-
+        return str_split($text, 5000);
     }
 
     public static function createClientsOnOneSignal($userId = null)
