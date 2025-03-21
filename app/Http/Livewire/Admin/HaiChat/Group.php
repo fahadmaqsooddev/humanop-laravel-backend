@@ -166,7 +166,6 @@ class Group extends Component
 
                     session()->flash('embedding_error', "Something went wrong.");
                 }
-            }
 
         }catch (\Illuminate\Validation\ValidationException $exception){
 

@@ -183,14 +183,14 @@
 
                             </div>
 
-                            <div class="py-3">
-                                <input type="checkbox"
-                                       wire:model.defer="is_upload_production"
-                                       style="background: #F4ECE0;">
-                                <label class="py-2" style="font-weight: 600;font-size: 19px;line-height: 100%;color: white;">
-                                    Want to upload on production.
-                                </label>
-                            </div>
+{{--                            <div class="py-3">--}}
+{{--                                <input type="checkbox"--}}
+{{--                                       wire:model.defer="is_upload_production"--}}
+{{--                                       style="background: #F4ECE0;">--}}
+{{--                                <label class="py-2" style="font-weight: 600;font-size: 19px;line-height: 100%;color: white;">--}}
+{{--                                    Want to upload on production.--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
 
                             <div class="py-4 d-flex justify-content-center">
                                 <button class="m-1"
