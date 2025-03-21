@@ -77,7 +77,7 @@ class ChatAiController extends Controller
 //                    'publish_model' => ($chat_bot->publish_path ?? null)];
 //
 //                $app_env = env('APP_ENV');
-//                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+//                $url = $app_env === 'staging' ? 'http://44.201.128.253:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
