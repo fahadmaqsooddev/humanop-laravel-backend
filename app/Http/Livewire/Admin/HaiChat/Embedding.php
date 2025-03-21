@@ -227,7 +227,7 @@ class Embedding extends Component
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
 
-            $exists = Storage::disk('s3')->exists($subFolder . $embedding->request_id . ".txt");
+            $exists = Storage::disk('s3')->exists($subFolder . $embedding->request_id . '/' . $embedding->request_id . ".txt");
 
             if ($exists){
 
@@ -260,19 +260,19 @@ class Embedding extends Component
 
             $embedding = HaiChatEmbedding::whereId($this->updateId)->first();
 
-            $embeddingVector = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
+//            $embeddingVector = GuzzleHelpers::createOpenAiEmbedding($this->embedding);
 
             $filename = $embedding->request_id . ".txt";
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev/' : env("APP_ENV") . '/';
 
-            $path = $subFolder ? $subFolder . $filename : $filename;
+//            $path = $subFolder ? $subFolder . $filename : $filename;
 
-            Storage::disk('s3')->put($path, $this->updateEmbeddingText);
+//            Storage::disk('s3')->put($path, $this->updateEmbeddingText);
 
-            $embeddingPath = $subFolder . $embedding->request_id . '-embd.txt';
-
-            Storage::disk('s3')->put($embeddingPath, json_encode($embeddingVector));
+//            $embeddingPath = $subFolder . $embedding->request_id . '/' . $embedding->request_id . '.txt';
+//
+//            Storage::disk('s3')->put($embeddingPath, json_encode($embeddingVector));
 
             HaiChatEmbedding::updateEmbedding($this->updateId, $this->updateEmbeddingName);
 
