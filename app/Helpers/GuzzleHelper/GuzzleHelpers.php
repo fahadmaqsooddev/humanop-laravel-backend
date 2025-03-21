@@ -64,7 +64,7 @@ class GuzzleHelpers
 
                 }
 
-                return $embeddingVector['embedding'];
+                return $embeddingArray;
 
             }
 
