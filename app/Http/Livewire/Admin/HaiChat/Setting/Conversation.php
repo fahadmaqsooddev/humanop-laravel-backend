@@ -95,6 +95,8 @@ class Conversation extends Component
 
                 $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 
+                dd($body, $aiReply);
+
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value']);
 
                 foreach ($openRouterResponse['choices'] as $choice)
