@@ -380,9 +380,9 @@ class AdminController extends Controller
             if (empty($id))
             {
                 $userId = Helpers::getWebUser()['id'];
-
                 $assessment = Assessment::singleAssessmentFromId($id);
                 $created_at = Carbon::parse($assessment['updated_at'])->format('F j, Y');
+
             }else
             {
                 $assessment = Assessment::singleAssessmentFromId($id);
@@ -390,8 +390,8 @@ class AdminController extends Controller
             }
 
 
-            $user_age = User::getSingleUser($assessment['user_id'])->date_of_birth;
-            $age = Carbon::parse($user_age)->age;
+            $get_user = User::getSingleUser($assessment['user_id']);
+            $age = Carbon::parse($get_user['date_of_birth'])->age;
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];
@@ -401,6 +401,8 @@ class AdminController extends Controller
             $perception = $assessment != null ? Assessment::getPreceptionReportDetail($assessment) : [];
             $topCommunication = $communication != null ? CodeDetail::getCommunicationDetail($communication, $assessment) : [];
             $energyPool = $assessment != null ? Assessment::getEnergyPoolPublicName($assessment) : [];
+
+            ActionPlan::storeUserActionPlan($assessment, $get_user);
 
             $actionPlan = ActionPlan::getUserActionPlan($assessment['users'] ? $assessment['users']['id'] : '');
 
