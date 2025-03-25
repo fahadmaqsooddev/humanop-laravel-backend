@@ -298,7 +298,7 @@ class ActionPlan extends Model
             (
 
                 ($assessmentDetails['firstRow']['ma'] < 5 && $assessmentDetails['firstRow']['lu'] < 5) &&
-                ((!in_array('ma', $bridge)) && (!in_array('lu', $bridge))) &&
+                ((!in_array('ma', $bridge) && $assessmentDetails['thirdRow']['ma'] > 30) && (!in_array('lu', $bridge) && $assessmentDetails['thirdRow']['lu'] > 30)) &&
                 ($assessmentDetails['secondRow']['ma'] < 30 && $assessmentDetails['secondRow']['lu'] < 30)
             )
             {
@@ -311,7 +311,7 @@ class ActionPlan extends Model
             elseif (
 
                 ($assessmentDetails['firstRow']['sa'] < 5 && $assessmentDetails['firstRow']['ven'] < 5) &&
-                ((!in_array('sa', $bridge) && $assessmentDetails['thirdRow']['sa'] >= 30) || (!in_array('ven', $bridge)  && $assessmentDetails['thirdRow']['ven'] >= 30)) &&
+                ((!in_array('sa', $bridge) && $assessmentDetails['thirdRow']['sa'] > 30) && (!in_array('ven', $bridge)  && $assessmentDetails['thirdRow']['ven'] > 30)) &&
                 ($assessmentDetails['secondRow']['sa'] < 30 && $assessmentDetails['secondRow']['ven'] < 30)
             )
             {
