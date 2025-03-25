@@ -275,7 +275,7 @@ class ActionPlan extends Model
             }
             elseif (
                 ($assessmentDetails['firstRow']['jo'] < 5 && $assessmentDetails['firstRow']['mer'] < 5 && $assessmentDetails['firstRow']['so'] < 5) &&
-                ((!in_array('jo', $bridge) && $assessmentDetails['thirdRow']['jo'] >= 30) || (!in_array('mer', $bridge) && $assessmentDetails['thirdRow']['mer'] >= 30)) &&
+                ((!in_array('jo', $bridge) && $assessmentDetails['thirdRow']['jo'] >= 30) && (!in_array('mer', $bridge) && $assessmentDetails['thirdRow']['mer'] >= 30)) &&
                 ($assessmentDetails['secondRow']['jo'] < 30 && $assessmentDetails['secondRow']['mer'] < 30 && $assessmentDetails['secondRow']['so'] < 30)
             )
             {
