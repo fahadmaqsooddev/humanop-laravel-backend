@@ -52,6 +52,7 @@ class UserCandidateInvite extends Model
 
     public static function allCandidateInvites()
     {
-        return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks', 'user'])->get();
+        return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks', 'user'])
+        ->orderby('id','desc')->get();
     }
 }
