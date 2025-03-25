@@ -77,11 +77,13 @@ class ChatAiController extends Controller
 //                    'publish_model' => ($chat_bot->publish_path ?? null)];
 //
 //                $app_env = env('APP_ENV');
-//                $url = $app_env === 'staging' ? 'http://18.234.162.68:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+//                $url = $app_env === 'staging' ? 'http://44.201.128.253:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
-                $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer')];
+                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+                $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder];
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
 

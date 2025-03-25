@@ -820,7 +820,7 @@ class Assessment extends Model
                 case 'lun':
                     if (($assessment['lun'] > 2 && $assessment['lu'] > 4 && $third_row_lu > 30) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5 && $third_row_lu < 30)) {
+                    } elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5 && $assessment['jo'] < 5 && $assessment['ven'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -848,7 +848,7 @@ class Assessment extends Model
                 case 'sp':
                     if (($assessment['sp'] > 2 && $assessment['jo'] > 4  && $third_row_jo > 30) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
                         $filtered_keys[$key] = $value;
-                    } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5 && $third_row_jo < 30)) {
+                    } elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5 && $assessment['lu'] < 5 && $assessment['ma'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;

@@ -33,7 +33,7 @@ class HaiChat extends Component
 
             $this->validate();
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/create-chatbot', ['vendor_n' => $this->name]);
+            $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/create-chatbot', ['vendor_n' => $this->name]);
 
             $chatbot = Chatbot::createChat($aiReply, $this->description);
 
@@ -66,7 +66,7 @@ class HaiChat extends Component
     {
         $chat = Chatbot::singleChat($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/delete-folder', ['folder_n' => $chat['name']]);
+        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete-folder', ['folder_n' => $chat['name']]);
 
         if ($aiReply == 1)
         {
@@ -139,7 +139,7 @@ class HaiChat extends Component
 
             if ($chatBot){
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/create-chatbot', ['vendor_n' => $this->name]);
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/create-chatbot', ['vendor_n' => $this->name]);
 
                 $newChatBot = Chatbot::createChat($aiReply, $this->description ?? $chatBot->description);
 

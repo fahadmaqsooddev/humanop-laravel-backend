@@ -45,7 +45,7 @@ class Publish extends Component
 
                 $gpt_model = match ($chatSetting['model_type']) {1 => 'gpt-4o-mini', 2 => 'gpt-4o', 3 => 'sonnet', 4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',};
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://18.234.162.68:8000/save-llm-params', ['temperature' => $chatSetting['temperature'],'max_tokens' => $chatSetting['max_token'],'file_name' => $file_name, 'prompt_folder' => $this->bot_name, 'total_chunks' => $chatSetting['chunk'], 'gpt_model' => $gpt_model]);
+                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/save-llm-params', ['temperature' => $chatSetting['temperature'],'max_tokens' => $chatSetting['max_token'],'file_name' => $file_name, 'prompt_folder' => $this->bot_name, 'total_chunks' => $chatSetting['chunk'], 'gpt_model' => $gpt_model]);
 
                 if ($aiReply['status'] == 'success')
                 {

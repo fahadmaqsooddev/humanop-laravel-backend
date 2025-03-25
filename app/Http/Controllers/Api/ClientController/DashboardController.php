@@ -419,21 +419,21 @@ class DashboardController extends Controller
         try {
 
             $userId = Helpers::getUser()['id'];
-           
+
             $data=B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'],$request['candidate_id']);
-          
+
             if(!empty($data)){
                     foreach($data as $shared){
                         B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
                     }
                 return Helpers::successResponse('Data Shared Successfully');
             }else{
-                return Helpers::validationResponse('Data not found.');   
+                return Helpers::validationResponse('Data not found.');
             }
-           
 
 
-        
+
+
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -447,15 +447,15 @@ class DashboardController extends Controller
 
             if (!empty($request['company_name'])) {
                 $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
-              
+
                 if (!empty($checkData)) {
                     if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
-                     
+
                         $data = [
                             'Shared_data'=>Admin::NOT_SHARED_DATA,
                             'company_name'=>$request['company_name']
                         ];
-    
+
                         return Helpers::successResponse('Check Shared Data', $data);
 
                     }
@@ -466,7 +466,7 @@ class DashboardController extends Controller
                     ];
 
                     return Helpers::successResponse('Check Shared Data', $data);
-                  
+
 
 
                 } else {
@@ -480,14 +480,14 @@ class DashboardController extends Controller
 
                 foreach ($companies as $company) {
 
-                    $data[] = [ 
-                        'company_name' => $company->busers->company_name ?? 'N/A', 
+                    $data[] = [
+                        'company_name' => $company->busers->company_name ?? 'N/A',
                         'share_data' => $company->share_data ?? 'N/A'
                     ];
                 }
 
-               
-          
+
+
                 return Helpers::successResponse('All Share Data',$data);
             }
         } catch (\Exception $exception) {
@@ -498,18 +498,22 @@ class DashboardController extends Controller
     public function notSharedData(ShareDataRequest $request)
     {
         try {
-            
 
-            
+
+
             $userId = Helpers::getUser()['id'];
 
             if ($request['company_name']) {
 
-                $company = User::getSingleUserFromCompanyName($request['company_name']);
+                foreach ($request['company_name'] as $companyName) {
 
-                if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
+                    $company = User::getSingleUserFromCompanyName($companyName);
 
-                    B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
+                    if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
+
+                        B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
+
+                    }
 
                 }
 
