@@ -25,7 +25,7 @@ public $members_limit=10;
     public $role = Admin::B2B_INVITE_ROLE;
 
     protected $rules = [
-        'email' => 'nullable|email|max:255|required_without:file',
+        'email' => 'nullable|email|max:255|required_without:file|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
         'file' => 'nullable|file|mimes:csv,txt|max:10240|required_without:email',
     ];
 

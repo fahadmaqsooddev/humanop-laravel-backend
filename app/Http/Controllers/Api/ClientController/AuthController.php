@@ -157,6 +157,8 @@ class AuthController extends Controller
 
                             }
 
+                            DB::commit();
+
                             return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
                         } else {
