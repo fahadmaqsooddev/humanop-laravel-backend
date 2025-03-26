@@ -135,7 +135,7 @@
                         if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif (($grid['de'] > 2 && $grid['ma'] < 5 && $third_row_ma < 30)) {
+                        elseif (($grid['de'] > 2 && $grid['ma'] < 5 && $grid['sa'] < 5 && $grid['jo'] < 5)) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
@@ -167,7 +167,7 @@
                         if (($grid['lun'] > 2 && $grid['lu'] > 4 && $third_row_lu > 30) || ($grid['lun'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif (($grid['lun'] > 2 && $grid['lu'] < 5 && $grid['jo'] && $grid['ven'])) {
+                        elseif (($grid['lun'] > 2 && $grid['lu'] < 5 && $grid['jo'] < 5 && $grid['ven'] < 5)) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
@@ -199,7 +199,7 @@
                         if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif ($grid['sp'] > 2 && $grid['jo'] < 5) {
+                        elseif ($grid['sp'] > 2 && $grid['jo'] < 5 && $grid['ma'] < 5 && $grid['lu'] < 5) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
