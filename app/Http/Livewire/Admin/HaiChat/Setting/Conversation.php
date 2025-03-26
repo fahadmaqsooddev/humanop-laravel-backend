@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\Helpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\HAIChai\AnalyticsModel;
@@ -62,32 +63,34 @@ class Conversation extends Component
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-gpt-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
 //
 //                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-gpt-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
 //
 //                }elseif(HaiChatSetting::GPT_4o_FINE_TUNED === $setting->model_type){
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-gpt-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
 //
 //                }else{
 //
 //                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
 //
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
+//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 //                }
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
                 $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder];
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+
+//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value']);
 
@@ -188,11 +191,11 @@ class Conversation extends Component
 
             FineTuneContent::addLisaApprovedQuestionAnswers($body);
 
-            $app_env = env('APP_ENV');
+//            $app_env = env('APP_ENV');
+//
+//            $url = $app_env === 'staging' ? 'http://54.227.7.149:8000/qa_bucket' : 'http://54.227.7.149:8000/qa_bucket';
 
-            $url = $app_env === 'staging' ? 'http://44.201.128.253:8000/qa_bucket' : 'http://44.201.128.253:8000/qa_bucket';
-
-            GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
+            GuzzleHelpers::sendRequestFromGuzzle('post', 'qa_bucket', $body);
 
         }
 

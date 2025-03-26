@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Assessment;
 use App\Models\HAIChai\Chatbot;
@@ -86,9 +87,13 @@ class Comparison extends Component
 
             foreach ($this->selectedModels as $llmModel) {
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->bot_name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
+                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->bot_name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder];
+
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+
+//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel);
 

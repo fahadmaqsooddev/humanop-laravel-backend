@@ -112,18 +112,18 @@ class Group extends Component
                 ]
             ];
 
-            // Include other form data like 'name' (if provided)
-            if ($this->embedding_name) {
-                $multipart[] = [
-                    'name'     => 'name',
-                    'contents' => $this->embedding_name
-                ];
-            }
+//            // Include other form data like 'name' (if provided)
+//            if ($this->embedding_name) {
+//                $multipart[] = [
+//                    'name'     => 'name',
+//                    'contents' => "dev"
+//                ];
+//            }
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
             // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://44.201.128.253:8000/upload_embedding', [
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
                 'multipart' => $multipart
             ]);
 
@@ -169,20 +169,31 @@ class Group extends Component
     {
         $authorization = Request::header('Authorization');
 
+        $filePath = $this->embedding->getRealPath();
+
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
         // Prepare the query array with headers and multipart data
         $queryArray = [
             'headers' => [
                 'Authorization' => $authorization, // Authorization header
             ],
-            'multipart' => $body['multipart'] // Send multipart data
+//            'multipart' => $body['multipart'] // Send multipart data
+            'multipart' => [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ],
+                [
+                    'name' => "loc",
+                    'contents' => $subFolder
+                ]
+            ]
         ];
 
         // Initialize Guzzle client
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
-
-        $route_name = $route_name . "?loc=" . $subFolder;
 
         // Send the request
         $response = $client->request($method, $route_name, $queryArray);
@@ -241,7 +252,11 @@ class Group extends Component
 
         $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+        $body = ['folder_n' => $embedding['request_id'], 'loc' => $subFolder];
+
+        $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'delete_embeddings', $body);
+
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
 
         if ($aiReply)
         {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\EmbeddingSetting;
 use App\Models\HAIChai\HaiChaiChunk;
 use App\Models\HAIChai\HaiChatEmbedding;
@@ -31,7 +32,11 @@ class SearchEmbedding extends Component
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2, 'loc' => $subFolder]);
+            $body = ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2, 'loc' => $subFolder];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'search_embeddings', $body);
+
+//            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/search_embeddings', ['query' => $this->query, 'file_name' => $embedding, 'total_chunks' => $setting['chunk'] ?? 2, 'loc' => $subFolder]);
 
             $i = 0;
 

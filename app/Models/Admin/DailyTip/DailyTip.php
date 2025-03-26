@@ -189,7 +189,7 @@ class DailyTip extends Model
 //
 //        $body = ['assessment_url' => $url, 'assessment_details' => $assessmentDetails, 'status' => ($plan['name'] ?? "Freemium"),'code' => 0];
 //
-//        $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/daily_tip',$body);
+//        $daily_tip = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/daily_tip',$body);
 //
 //        $tip = self::where('user_id', $user->id)->first();
 //

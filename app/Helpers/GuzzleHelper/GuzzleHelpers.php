@@ -21,15 +21,22 @@ class GuzzleHelpers
 
     public static function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
     {
+
         $authorization = \request()->header('Authorization');
+
         $queryArray = [
             'headers' => ['Authorization' => $authorization],
             'json' => $body
         ];
+
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
-        $route = $route_name;
+
+        $route = config('chat.dev_api_urls') . $route_name;
+
         $response = $client->request($method, $route, $queryArray);
+
         $response_body = json_decode($response->getBody()->getContents(), true);
+
         return $response_body;
     }
 

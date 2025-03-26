@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatPublish;
@@ -45,7 +46,13 @@ class Publish extends Component
 
                 $gpt_model = match ($chatSetting['model_type']) {1 => 'gpt-4o-mini', 2 => 'gpt-4o', 3 => 'sonnet', 4 => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu',};
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/save-llm-params', ['temperature' => $chatSetting['temperature'],'max_tokens' => $chatSetting['max_token'],'file_name' => $file_name, 'prompt_folder' => $this->bot_name, 'total_chunks' => $chatSetting['chunk'], 'gpt_model' => $gpt_model]);
+                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+                $body = ['temperature' => $chatSetting['temperature'],'max_tokens' => $chatSetting['max_token'],'file_name' => $file_name, 'prompt_folder' => $this->bot_name, 'total_chunks' => $chatSetting['chunk'], 'gpt_model' => $gpt_model, 'loc' => $subFolder];
+
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/save-llm-params', ['temperature' => $chatSetting['temperature'],'max_tokens' => $chatSetting['max_token'],'file_name' => $file_name, 'prompt_folder' => $this->bot_name, 'total_chunks' => $chatSetting['chunk'], 'gpt_model' => $gpt_model, 'loc' => $subFolder]);
 
                 if ($aiReply['status'] == 'success')
                 {

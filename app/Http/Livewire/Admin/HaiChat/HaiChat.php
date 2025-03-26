@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
@@ -33,7 +34,13 @@ class HaiChat extends Component
 
             $this->validate();
 
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/create-chatbot', ['vendor_n' => $this->name]);
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = ['vendor_n' => $this->name, 'loc' => $subFolder];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'create-chatbot', $body);
+
+//            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/create-chatbot', ['vendor_n' => $this->name, 'loc' => $subFolder]);
 
             $chatbot = Chatbot::createChat($aiReply, $this->description);
 
@@ -66,7 +73,13 @@ class HaiChat extends Component
     {
         $chat = Chatbot::singleChat($id);
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete-folder', ['folder_n' => $chat['name']]);
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        $body = ['folder_n' => $chat['name'], 'loc' => $subFolder];
+
+        $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'delete-folder', $body);
+
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/delete-folder', ['folder_n' => $chat['name'], 'loc' => $subFolder]);
 
         if ($aiReply == 1)
         {
@@ -139,7 +152,13 @@ class HaiChat extends Component
 
             if ($chatBot){
 
-                $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/create-chatbot', ['vendor_n' => $this->name]);
+                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+                $body = ['vendor_n' => $this->name, 'loc' => $subFolder];
+
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'create-chatbot', $body);
+
+//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/create-chatbot', ['vendor_n' => $this->name, 'loc' => $subFolder]);
 
                 $newChatBot = Chatbot::createChat($aiReply, $this->description ?? $chatBot->description);
 
