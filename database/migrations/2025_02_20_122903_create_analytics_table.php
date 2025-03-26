@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('completion_token')->nullable();
             $table->integer('total_token')->nullable();
             $table->string('query')->nullable();
-            
-            $table->foreign('llm_model_id')->references('id')->on('llm_models')->onDelete('cascade');
+
+//            $table->foreign('llm_model_id')->references('id')->on('llm_models')->onDelete('cascade');
             $table->timestamps();
         });
     }
