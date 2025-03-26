@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\Client\Plan\Plan;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -63,7 +64,9 @@ class Setting extends Component
             'loc' => $subFolder
         ];
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/save-llm-params', $body);
+        $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/save-llm-params', $body);
 
         if (isset($aiReply['s3_path'])){
 

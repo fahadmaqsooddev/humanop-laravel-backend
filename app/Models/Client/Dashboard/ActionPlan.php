@@ -55,7 +55,7 @@ class ActionPlan extends Model
 //
 //                    $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
 //
-//                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
+//                    $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/90day_plan', $body);
 //
 ////                    $data = [
 ////                        '<h3>Coming Soon !</h3>',
@@ -77,7 +77,7 @@ class ActionPlan extends Model
 //
 //                $body = ['grid' => $assessmentDetails ?? null, 'plan' => $plan];
 //
-//                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/90day_plan', $body);
+//                $data = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/90day_plan', $body);
 //
 ////                $data = [
 ////                    '<h3>Coming Soon !</h3>',

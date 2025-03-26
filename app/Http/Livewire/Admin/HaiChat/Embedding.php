@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\Helpers;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use GuzzleHttp\Client;
@@ -26,7 +27,11 @@ class Embedding extends Component
 
         $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-        $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
+        $body = ['folder_n' => $embedding['request_id'], 'loc' => $subFolder];
+
+        $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'delete_embeddings', $body);
+
+//        $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/delete_embeddings', ['folder_n' => $embedding['request_id'], 'loc' => $subFolder]);
 
         if ($aiReply)
         {
@@ -149,7 +154,7 @@ class Embedding extends Component
             }
 
             // Send the request
-            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://44.201.128.253:8000/upload_embedding', [
+            $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
                 'multipart' => $multipart
             ]);
 
@@ -192,20 +197,34 @@ class Embedding extends Component
     {
         $authorization = Request::header('Authorization');
 
+        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+        $filePath = $this->embedding->getRealPath();
+
         // Prepare the query array with headers and multipart data
         $queryArray = [
             'headers' => [
                 'Authorization' => $authorization, // Authorization header
             ],
-            'multipart' => $body['multipart']
+            'multipart' => [
+                [
+                    'name'     => 'file', // Field name expected by the server
+                    'contents' => file_get_contents($filePath), // File contents
+                    'filename' => basename($filePath) // Optional: the file name
+                ],
+                [
+                    'name' => "loc",
+                    'contents' => $subFolder
+                ]
+            ]
         ];
 
         // Initialize Guzzle client
         $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
-
-        $route_name = $route_name . "?loc=" . $subFolder;
+//        $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//
+//        $route_name = $route_name . "?loc=" . $subFolder;
 
         // Send the request
         $response = $client->request($method, $route_name, $queryArray);
@@ -230,7 +249,9 @@ class Embedding extends Component
 
             $body = ["request_id" => $embedding->request_id, "loc" => $subFolder];
 
-            $aiReply = $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/get_file_text',$body);
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'get_file_text', $body);
+
+//            $aiReply = $this->sendRequestFromGuzzle('post','http://54.227.7.149:8000/get_file_text',$body);
 
             if(isset($aiReply['text_content'])){
 
@@ -274,7 +295,9 @@ class Embedding extends Component
 
             $body = ['loc' => $subFolder, 'request_id' => $embedding->request_id, 'text' => $this->updateEmbeddingText];
 
-            $this->sendRequestFromGuzzle('post','http://44.201.128.253:8000/update_embedding',$body);
+            GuzzleHelpers::sendRequestFromGuzzle('post', 'update_embedding', $body);
+
+//            $this->sendRequestFromGuzzle('post','http://54.227.7.149:8000/update_embedding',$body);
 
             HaiChatEmbedding::updateEmbedding($this->updateId, $this->updateEmbeddingName);
 

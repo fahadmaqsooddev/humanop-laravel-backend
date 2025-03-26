@@ -77,7 +77,7 @@ class ChatAiController extends Controller
 //                    'publish_model' => ($chat_bot->publish_path ?? null)];
 //
 //                $app_env = env('APP_ENV');
-//                $url = $app_env === 'staging' ? 'http://44.201.128.253:8000/publish_llm-data' : 'http://44.201.128.253:8000/publish_llm-data';
+//                $url = $app_env === 'staging' ? 'http://54.227.7.149:8000/publish_llm-data' : 'http://54.227.7.149:8000/publish_llm-data';
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
@@ -85,7 +85,7 @@ class ChatAiController extends Controller
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder];
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/llm-model', $body);
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
 

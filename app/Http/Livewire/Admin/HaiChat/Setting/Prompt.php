@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
 use Illuminate\Support\Facades\Request;
@@ -38,7 +39,15 @@ class Prompt extends Component
     public function update(){
         try {
             $this->validate();
-            $aiReply = $this->sendRequestFromGuzzle('post', 'http://44.201.128.253:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction]);
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction, 'loc' => $subFolder];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'update-prompt', $body);
+
+//            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/update-prompt', ['vendor_name' => $this->name,'base_data' => $this->prompt,'restriction_data' => $this->restriction, 'loc' => $subFolder]);
+
           if($aiReply > 0) {
 
               $prompt = ChatPrompt::createUpdatePrompt($this->name, $this->prompt, $this->restriction);
