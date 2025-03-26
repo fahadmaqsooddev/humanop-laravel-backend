@@ -120,31 +120,31 @@ class Group extends Component
 //                ];
 //            }
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
             // Send the request
             $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://44.201.128.253:8000/upload_embedding', [
                 'multipart' => $multipart
             ]);
 
-            if ($this->is_upload_production){
+//            if ($this->is_upload_production){
+//
+//                $productionFile = "production/" . Str::uuid() . '.' . $file->getClientOriginalExtension();
+//
+//                Storage::disk('s3')->put($productionFile, file_get_contents($file->getRealPath()));
+//
+//                $body = [
+//                    'embedding_name' => $this->embedding_name,
+//                    'request_id' => $fileId,
+//                ];
+//
+//                $url = "https://beta.humanoptech.com/api/add-embedding-from-staging";
+//
+//                GuzzleHelpers::sendRequestFromGuzzle('POST',$url, $body);
+//
+//            }
 
-                $productionFile = "production/" . Str::uuid() . '.' . $file->getClientOriginalExtension();
-
-                Storage::disk('s3')->put($productionFile, file_get_contents($file->getRealPath()));
-
-                $body = [
-                    'embedding_name' => $this->embedding_name,
-                    'request_id' => $fileId,
-                ];
-
-                $url = "https://beta.humanoptech.com/api/add-embedding-from-staging";
-
-                GuzzleHelpers::sendRequestFromGuzzle('POST',$url, $body);
-
-            }
-
-            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
+//            $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$fileId);
 
                 $embedding = HaiChatEmbedding::createEmbedding($this->embedding_name,$aiReply['request_id']);
 
