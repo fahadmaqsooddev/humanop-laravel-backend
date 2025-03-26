@@ -135,7 +135,7 @@
                         if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif (($grid['de'] > 2 && $grid['ma'] < 5 && $grid['sa'] < 5 && $grid['jo'] < 5)) {
+                        elseif (($grid['de'] > 2 && $grid['ma'] < 5 && $third_row_ma < 30)) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
