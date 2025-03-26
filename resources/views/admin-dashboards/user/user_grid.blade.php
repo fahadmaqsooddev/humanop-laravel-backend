@@ -232,6 +232,7 @@
 
             $redKeys = array_keys($filtered_keys_red);
 
+            dd($filtered_keys_red);
             if (count($filtered_keys) < 2) {
 
                 // Get the matching keys and their values from $third_row_feature
