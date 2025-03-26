@@ -159,7 +159,7 @@
                         if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['so'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif (($grid['gre'] > 2 && $grid['jo'] < 6 && $grid['mer'] < 5) && ($grid['gre'] > 2 && $grid['ma'] < 5 && $grid['lu'] < 5) && ($grid['gre'] > 2 && $grid['ven'] < 5 && $grid['so'] < 5)) {
+                        elseif (($grid['gre'] > 2 && $grid['jo'] < 6 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ma'] < 5 || $grid['lu'] < 5)) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['so'] < 5))) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
