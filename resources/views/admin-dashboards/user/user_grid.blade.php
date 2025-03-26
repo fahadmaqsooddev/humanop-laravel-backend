@@ -196,10 +196,10 @@
                         }
                         break;
                     case 'sp':
-                        if (($grid['sp'] > 2 && $grid['jo'] > 4 && $third_row_jo > 30) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
+                        if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30)) {
                             $filtered_keys[$key] = $value;
                         }
-                        elseif (($grid['sp'] > 2 && $grid['jo'] < 5 && $grid['lu'] < 5 && $grid['ma'] < 5)) {
+                        elseif ($grid['sp'] > 2 && $grid['jo'] < 5 && $grid['lu'] < 5 && $grid['ma'] < 5) {
                             $filtered_keys_red[$key] = $value;
                         }
                         break;
