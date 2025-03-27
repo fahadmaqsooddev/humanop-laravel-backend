@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['checkUser']], function () {
 
     Route::get('all-notification', 'NotificationController@notifications');
+    // Route::get('all-notification-messages', 'NotificationController@allNotificatioMessages');
     Route::post('read-notification', 'NotificationController@readNotification');
     Route::delete('delete-notification', 'NotificationController@deleteNotification');
 

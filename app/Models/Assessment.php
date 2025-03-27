@@ -814,7 +814,7 @@ class Assessment extends Model
                     }
                     break;
                 case 'gre':
-                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['so'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
                         $filtered_keys[$key] = $value;
                     }
                     elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['so'] < 5))) {
@@ -845,6 +845,7 @@ class Assessment extends Model
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
+
                 case 'pow':
                     if (($assessment['pow'] > 2 && ($assessment['jo'] > 4 || $assessment['mer'] > 4)) || ($assessment['pow'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['pow'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
                         $filtered_keys[$key] = $value;
@@ -858,9 +859,6 @@ class Assessment extends Model
                         $filtered_keys[$key] = $value;
                     }
                     elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
-                    }
-                    elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;

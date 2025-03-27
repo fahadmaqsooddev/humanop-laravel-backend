@@ -35,6 +35,19 @@ class NotificationController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
+    // public function allNotificatioMessages()
+    // {
+    //     try {
+
+    //         $messages = Notification::allNotificationsMessages();
+
+    //         return Helpers::successResponse('All Messages', $messages);
+
+    //     } catch (\Exception $exception) {
+
+    //         return Helpers::serverErrorResponse($exception->getMessage());
+    //     }
+    // }
 
     public function readNotification(NotificationRequest $request)
     {
