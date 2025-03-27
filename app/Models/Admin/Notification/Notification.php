@@ -36,6 +36,22 @@ class Notification extends Model
         return self::where('user_id', $user['id'])
             ->where('permission', $userPermission)
             ->where('role', Admin::B2C_NOTIFICATION)
+            ->where('notification_priority', '!=', Admin::MESSAGE_SEND_NOTIFICATION) 
+            ->where('notification_priority', '!=', Admin::NEW_MESSAGE_NOTIFICATION) 
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
+    }
+    public static function allNotificationsMessages()
+    {
+        $user = Helpers::getUser();
+
+        $userPermission = match ($user['plan_name'] ?? '') {'Freemium' => 1, 'Core' => 2, 'Premium' => 3, default => 4,};
+
+        return self::where('user_id', $user['id'])
+            ->where('permission', $userPermission)
+            ->where('role', Admin::B2C_NOTIFICATION)
+            ->where('notification_priority', Admin::MESSAGE_SEND_NOTIFICATION) 
+            ->where('notification_priority', Admin::NEW_MESSAGE_NOTIFICATION) 
             ->orderBy('created_at', 'desc')
             ->get(['id', 'type', 'message', 'created_at', 'read', 'notification_priority']);
     }
