@@ -130,105 +130,105 @@
             $filtered_keys_red = [];
 
             foreach ($features as $key => $value) {
-                switch ($key) {
-                    case 'de':
-                        if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4 && $third_row_ma > 30)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['de'] > 2 && $grid['ma'] < 5 && $third_row_ma < 30)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'dom':
-                        if (($grid['dom'] > 2 && ($grid['sa'] > 4 || $grid['ma'] > 4)) || ($grid['dom'] > 2 && $grid['ma'] > 4 && $grid['mer'] > 4) || ($grid['dom'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) && ($grid['ma'] < 5 || $grid['mer'] < 5 || $grid['sa'] < 5 || $grid['jo'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'fe':
-                        if (($grid['fe'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['fe'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4) || ($grid['fe'] > 2 && $grid['jo'] > 4 && $grid['ven'] > 4) || ($grid['fe'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) && ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'gre':
-                        if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['so'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['gre'] > 2 && $grid['jo'] < 6 && $grid['mer'] < 5) && ($grid['gre'] > 2 && $grid['ma'] < 5 && $grid['lu'] < 5) && ($grid['gre'] > 2 && $grid['ven'] < 5 && $grid['so'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'lun':
-                        if (($grid['lun'] > 2 && $grid['lu'] > 4 && $third_row_lu > 30) || ($grid['lun'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['lun'] > 2 && $grid['lu'] < 5 && $grid['jo'] && $grid['ven'])) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'nai':
-                        if (($grid['nai'] > 2 && $grid['so'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['nai'] > 2 && $grid['so'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'ne':
-                        if (($grid['ne'] > 2 && ($grid['sa'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['ne'] > 2 && $grid['ma'] > 4 && $grid['mer'] > 4) || ($grid['ne'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4) || ($grid['ne'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif(($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) && ($grid['ne'] < 5 || $grid['ma'] < 5 || $grid['mer'] < 5 || $grid['ven'] < 5 || $grid['jo'] < 5 || $grid['lu'] < 5)){
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'pow':
-                        if (($grid['pow'] > 2 && ($grid['jo'] > 4 || $grid['mer'] > 4)) || ($grid['pow'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['pow'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['ven'] < 5 || $grid['sa'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'sp':
-                        if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4 && $third_row_jo > 30)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif ($grid['sp'] > 2 && $grid['jo'] < 5 && $grid['lu'] < 5 && $grid['ma'] < 5) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'tra':
-                        if (($grid['tra'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4)) || ($grid['tra'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['tra'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'van':
-                        if (($grid['van'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4 || $grid['mer'] > 4 || $grid['so'] > 4)) || ($grid['van'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['van'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4) || ($grid['van'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5 || $grid['ven'] < 5 || $grid['sa'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                    case 'wil':
-                        if (($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) || ($grid['wil'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4) || ($grid['wil'] > 2 && $grid['jo'] > 4 && $grid['ven'] > 4)) {
-                            $filtered_keys[$key] = $value;
-                        }
-                        elseif (($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) && ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5)) {
-                            $filtered_keys_red[$key] = $value;
-                        }
-                        break;
-                }
+            switch ($key) {
+                case 'de':
+                    if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['de'] > 2 && $grid['ma'] < 5) && ($grid['sa'] < 5 || $grid['jo'] < 5 )) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'dom':
+                    if (($grid['dom'] > 2 && ($grid['sa'] > 4 || $grid['ma'] > 4)) || ($grid['dom'] > 2 && $grid['ma'] > 4 && $grid['mer'] > 4) || ($grid['dom'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['dom'] > 2 && ($grid['sa'] < 5 && $grid['ma'] < 5)) && ($grid['ma'] < 5 || $grid['mer'] < 5 || $grid['sa'] < 5 || $grid['jo'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'fe':
+                    if (($grid['fe'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['fe'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4) || ($grid['fe'] > 2 && $grid['jo'] > 4 && $grid['ven'] > 4) || ($grid['fe'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['fe'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) && ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'gre':
+                    if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ma'] < 5 || $grid['lu'] < 5)) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'lun':
+                    if (($grid['lun'] > 2 && $grid['lu'] > 4) || ($grid['lun'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['lun'] > 2 && $grid['lu'] < 5) && ($grid['ven'] < 5 || $grid['jo'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'nai':
+                    if (($grid['nai'] > 2 && $grid['so'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['nai'] > 2 && $grid['so'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'ne':
+                    if (($grid['ne'] > 2 && ($grid['sa'] > 4 || $grid['lu'] > 4 || $grid['ven'] > 4)) || ($grid['ne'] > 2 && $grid['ma'] > 4 && $grid['mer'] > 4) || ($grid['ne'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4) || ($grid['ne'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif(($grid['ne'] > 2 && ($grid['sa'] < 5 && $grid['lu'] < 5 && $grid['ven'] < 5)) && ($grid['ne'] < 5 || $grid['ma'] < 5 || $grid['mer'] < 5 || $grid['ven'] < 5 || $grid['jo'] < 5 || $grid['lu'] < 5)){
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'pow':
+                    if (($grid['pow'] > 2 && ($grid['jo'] > 4 || $grid['mer'] > 4)) || ($grid['pow'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['pow'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['pow'] > 2 && ($grid['jo'] < 5 && $grid['mer'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['ven'] < 5 || $grid['sa'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'sp':
+                    if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['sp'] > 2 && $grid['jo'] < 5) && ($grid['ma'] < 5 || $grid['lu'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'tra':
+                    if (($grid['tra'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4)) || ($grid['tra'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['tra'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['tra'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'van':
+                    if (($grid['van'] > 2 && ($grid['jo'] > 4 || $grid['ven'] > 4 || $grid['mer'] > 4 || $grid['so'] > 4)) || ($grid['van'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4) || ($grid['van'] > 2 && $grid['lu'] > 4 && $grid['mer'] > 4) || ($grid['van'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['van'] > 2 && ($grid['jo'] < 5 && $grid['ven'] < 5 && $grid['mer'] < 5 && $grid['so'] < 5)) && ($grid['ma'] < 5 || $grid['lu'] < 5 || $grid['mer'] < 5 || $grid['ven'] < 5 || $grid['sa'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
+                case 'wil':
+                    if (($grid['wil'] > 2 && ($grid['ma'] > 4 || $grid['lu'] > 4)) || ($grid['wil'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4) || ($grid['wil'] > 2 && $grid['jo'] > 4 && $grid['ven'] > 4)) {
+                        $filtered_keys[$key] = $value;
+                    }
+                    elseif (($grid['wil'] > 2 && ($grid['ma'] < 5 && $grid['lu'] < 5)) && ($grid['sa'] < 5 || $grid['jo'] < 5 || $grid['ven'] < 5)) {
+                        $filtered_keys_red[$key] = $value;
+                    }
+                    break;
             }
+        }
 
             $redKeys = array_keys($filtered_keys_red);
 
