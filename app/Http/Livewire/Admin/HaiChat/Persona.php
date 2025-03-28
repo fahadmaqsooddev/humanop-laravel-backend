@@ -16,8 +16,8 @@ class Persona extends Component
         'persona_text' => 'required|max:10000',
         'persona_name' => 'required|max:50',
 //        'chat_bot_id' => 'required',
-        'human_op_app' => 'nullable|in:0,6',
-        'maestro_app' => 'nullable|in:0,3'
+        'human_op_app' => 'nullable',
+        'maestro_app' => 'nullable'
     ];
 
     public function updateOrSave(){
