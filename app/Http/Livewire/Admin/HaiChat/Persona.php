@@ -5,33 +5,57 @@ namespace App\Http\Livewire\Admin\HaiChat;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatSetting;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Persona extends Component
 {
-    public $chatBots, $chat_bot_id, $persona_text = null;
+    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app;
 
-    public function updatedChatBotId($value){
+    protected $rules = [
+        'persona_text' => 'required|max:10000',
+        'persona_name' => 'required|max:50',
+//        'chat_bot_id' => 'required',
+        'human_op_app' => 'nullable|in:0,6',
+        'maestro_app' => 'nullable|in:0,3'
+    ];
 
-        $this->persona_text = HaiChatSetting::where('chat_bot_id',$value)->first()->persona_text ?? null;
-    }
+    public function updateOrSave(){
 
-    public function savePersona(){
+        try {
 
-        HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->update(['persona_text' => (!empty($this->persona_text) ? $this->persona_text : null)]);
+            $this->validate();
 
-        $this->emit('successMessage');
+            HaiChatSetting::updatePersonaConfigurations($this->chat_bot_id, $this->persona_text, $this->persona_name, $this->human_op_app, $this->maestro_app);
+
+            session()->flash('success', "Persona Updated");
+
+        }catch (ValidationException $validationException){
+
+            session()->flash('errors', $validationException->validator->errors()->getMessages());
+
+        } catch (\Exception $exception){
+
+            session()->flash('error', $exception->getMessage());
+        }
+
     }
 
     public function render()
     {
-        $this->chatBots = Chatbot::get();
+//        $this->chatBots = Chatbot::get();
 
-        if (!$this->chat_bot_id){
+        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
-            $this->updatedChatBotId($this->chatBots[0]['id'] ?? null);
+        if ($this->chat_bot_id){
 
-            $this->chat_bot_id = $this->chatBots[0]['id'] ?? null;
+            $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+
+            $this->persona_text = $setting['persona_text'];
+            $this->persona_name = $setting['persona_name'];
+            $this->human_op_app = $setting['human_op_app'];
+            $this->maestro_app = $setting['maestro_app'];
+
         }
 
         return view('livewire.admin.hai-chat.persona');

@@ -39,7 +39,7 @@ class Group extends Component
     protected $messages = [
         'embedding_name.required' => 'The Name field is required.', // Corrected message to use proper text
         'embedding.required' => 'The Embedding field is required.', // Corrected message to use proper text
-        'embedding.mimes' => 'The Embedding must be a file of type: txt, pdf.', // Added message for mime type validation
+        'embedding.mimes' => 'The Embedding must be a file of type: txt.', // Added message for mime type validation
         'group_ids.required' => 'Group id are required',
     ];
 
