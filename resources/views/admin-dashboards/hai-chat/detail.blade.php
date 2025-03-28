@@ -227,6 +227,7 @@
                                 <span class="text-sm custom-text-dark">Analytics</span>
                             </a>
                         </li>
+
                         <li class="nav-item pt-2">
                             <a class="nav-link setting-options text-body" data-scroll="" href="#setting">
                                 <div class="icon me-2">
@@ -253,6 +254,7 @@
                                 <span class="text-sm custom-text-dark">Settings</span>
                             </a>
                         </li>
+
                         {{-- comparison --}}
 {{--                        <li class="nav-item pt-2">--}}
 {{--                            <a class="nav-link text-body setting-options" data-scroll=""  data-bs-toggle="modal" data-bs-target="#ComparisonModal">--}}
@@ -292,6 +294,7 @@
                 $lastSegment = array_pop($urlParts);
             @endphp
             <div class="col-lg-9 mt-lg-0 mt-4">
+                @livewire('admin.hai-chat.persona',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])
 
