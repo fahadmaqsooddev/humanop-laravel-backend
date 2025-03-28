@@ -423,7 +423,7 @@ class AuthController extends Controller
 
             }
 
-            return Helpers::validationResponse('Email does not exists');
+            return Helpers::validationResponse('Email does not exists. Please signup first.');
 
         } catch (Exception $exception) {
 
