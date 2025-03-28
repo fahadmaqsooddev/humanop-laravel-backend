@@ -25,7 +25,7 @@ class BlueHelpers
                     input: {
                         todoListId: "cm3hnnh510g781042xyy6z5ns",
                         title: "' . addslashes($title) . '",
-                        description: "' . addslashes($description) . ' from '. addslashes($userEmail) .'",
+                        description: "' . addslashes($description) . ' from Email Address:  '. addslashes($userEmail) .'",
                         position: 65535,
                         placement: TOP
                         customFields: [
