@@ -19,7 +19,7 @@
 @endpush
 <div>
 
-    <div class="card card-bg-white-orange-border mt-4" id="persona">
+    <div class="card card-bg-white-orange-border" id="persona">
         @include('layouts.message')
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
@@ -44,7 +44,7 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH HUMANOP APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model="human_op_app">
+            <select class="form-control input-bg" id="chatDescription" wire:model.defer="human_op_app">
                 <option value="">NONE</option>
                 <option value="1">FREEMIUM HAi</option>
                 <option value="2">CORE HAi</option>
@@ -57,7 +57,7 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model="maestro_app">
+            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
                 <option value="">NONE</option>
                 <option value="1">GENERAL MAESTRO HAi</option>
                 <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>
