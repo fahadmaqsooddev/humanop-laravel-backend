@@ -23,12 +23,12 @@
         @include('layouts.message')
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
-            <input type="text" class="form-control input-bg" id="chatDescription" wire:model="persona_name" placeholder="Enter name of persona">
+            <input type="text" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
         </div>
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Text of Persona</h5>
-            <textarea type="text" rows="6" class="form-control input-bg" id="chatDescription" wire:model="persona_text" placeholder="Enter text of persona">
+            <textarea type="text" rows="6" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_text" placeholder="Enter text of persona">
             </textarea>
         </div>
 
