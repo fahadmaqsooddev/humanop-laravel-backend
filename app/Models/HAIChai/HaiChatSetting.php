@@ -88,4 +88,20 @@ class HaiChatSetting extends Model
 
         }
     }
+
+    public static function updatePersonaConfigurations($chat_bot_id, $persona_text, $persona_name, $human_op_app, $maestro_app){
+
+        $haiSetting = self::getHaiChatSetting($chat_bot_id);
+
+        if ($haiSetting){
+
+            $haiSetting->update([
+                'persona_text' => $persona_text,
+                'persona_name' => $persona_name,
+                'human_op_app' => $human_op_app,
+                'maestro_app' => $maestro_app
+            ]);
+        }
+
+    }
 }
