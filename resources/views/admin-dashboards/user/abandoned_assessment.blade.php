@@ -24,7 +24,7 @@
                             <th>Name</th>
                             <th>Date & Time</th>
                             <th>Practitioner</th>
-                            <th>Project</th>
+{{--                            <th>Project</th>--}}
                             <th>Email</th>
                             <th>Assessment Status</th>
                         </tr>
@@ -34,8 +34,8 @@
                             <tr class="table-text-color">
                                 <td class="text-md font-weight-normal">{{$assessment['users'] ? $assessment['users']['first_name'].' '.$assessment['users']['last_name'] : ""}} </td>
                                 <td class="text-md font-weight-normal">{{\Carbon\Carbon::parse($assessment['users']['signup_date'] ?? null)->format('Y/m/d')}}</td>
-                                <td class="text-md font-weight-normal">Null</td>
-                                <td class="text-md font-weight-normal">Null</td>
+                                <td class="text-md font-weight-normal">N/A</td>
+{{--                                <td class="text-md font-weight-normal">Null</td>--}}
                                 <td class="text-md font-weight-normal">{{$assessment['users']['email'] ?? ""}}</td>
                                 <td class="text-md font-weight-normal">Incomplete</td>
                             </tr>
