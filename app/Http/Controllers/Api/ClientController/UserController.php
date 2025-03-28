@@ -301,11 +301,11 @@ class UserController extends Controller
 
             $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
 
-            if (isset($response['errors'])) {
-                dd($response['errors']); // Debugging errors
-            } else {
-                dd($response['data']['createTodo']); // Output the created record
-            }
+//            if (isset($response['errors'])) {
+//                dd($response['errors']); // Debugging errors
+//            } else {
+//                dd($response['data']['createTodo']); // Output the created record
+//            }
 
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
 
