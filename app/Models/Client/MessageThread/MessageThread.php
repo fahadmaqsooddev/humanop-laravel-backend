@@ -108,7 +108,9 @@ class MessageThread extends Model
 
          })->where(function ($q) use ($logged_in_user_id){
 
-            $q->where('sender_id', $logged_in_user_id);
+            $q->where('sender_id', $logged_in_user_id)
+
+                ->orWhere('receiver_id', $logged_in_user_id);
 
         })
             ->orderBy('updated_at', 'DESC')
