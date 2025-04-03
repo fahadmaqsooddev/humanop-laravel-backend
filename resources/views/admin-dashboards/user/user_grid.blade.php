@@ -167,7 +167,7 @@
                     if (($grid['lun'] > 2 && $grid['lu'] > 4) || ($grid['lun'] > 2 && $grid['ven'] > 4 && $grid['jo'] > 4 && $third_row_lu > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($grid['lun'] > 2 && $grid['lu'] < 5) && ($grid['ven'] < 5 || $grid['jo'] < 5)) {
+                    elseif (($grid['lun'] > 2 && $grid['lu'] < 5 && $third_row_lu < 30) && ($grid['ven'] < 5 || $grid['jo'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
