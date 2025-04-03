@@ -1179,12 +1179,12 @@ class Assessment extends Model
 
     }
 
-    public static function submitQuestionAnswers($answer_ids = [])
+    public static function submitQuestionAnswers($answer_ids = [], $currentPage = null)
     {
 
         $multipleAnswersArray = [];
-
         $codeA = [];
+        $codeArray = [];
 
         if (!empty($answer_ids)) {
 
@@ -1234,8 +1234,6 @@ class Assessment extends Model
 
         $userId = Helpers::getUser()->id;
 
-        $codeArray = [];
-
         foreach ($codeA as $code => $value) {
 
             $lowercaseCode = strtolower($code);
@@ -1253,14 +1251,14 @@ class Assessment extends Model
 
         if ($existingAssessment) {
 
+            if ($currentPage < $existingAssessment['page']) {
 
-            if ($existingAssessment['app_page'] < $existingAssessment['page']) {
-
-                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
+//                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
 
                 return 'You have already submitted these questions. Please start with the new set of questions.';
 
-            } else {
+            }
+            else {
 
                 $oldResult = $existingAssessment->toArray();
 
@@ -1278,17 +1276,14 @@ class Assessment extends Model
                     }
                 }
 
-
-                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
-                        ->where('active', 1)
-                        ->count() / 3) ?? 0;
+                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
 
                 $current_page = $existingAssessment->page + 1;
 
                 if ($totalPages == $current_page) {
 
                     $resultArray['page'] = 0;
-                    $resultArray['app_page'] = 0;
+//                    $resultArray['app_page'] = 0;
 
                     $existingAssessment->update($resultArray);
 
@@ -1336,9 +1331,7 @@ class Assessment extends Model
 
                                     if ($newDailyTip) {
 
-                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
-                                            ->latest()
-                                            ->first();
+                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
 
                                         $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
