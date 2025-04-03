@@ -48,8 +48,8 @@ class HaiChatSetting extends Model
 
         $defaultPlanId = Plan::where('name', 'Freemium')->first()->id ?? null;
         $model_id = LlmModel::where('model_value', $model_type)->value('id');
-        
-        
+
+
 
         if ($setting){
 
@@ -88,5 +88,21 @@ class HaiChatSetting extends Model
             $newChatBot->save();
 
         }
+    }
+
+    public static function updatePersonaConfigurations($chat_bot_id, $persona_text, $persona_name, $human_op_app, $maestro_app){
+
+        $haiSetting = self::getHaiChatSetting($chat_bot_id);
+
+        if ($haiSetting){
+
+            $haiSetting->update([
+                'persona_text' => $persona_text,
+                'persona_name' => $persona_name,
+                'human_op_app' => $human_op_app,
+                'maestro_app' => $maestro_app
+            ]);
+        }
+
     }
 }

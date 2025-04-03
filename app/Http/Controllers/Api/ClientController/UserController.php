@@ -299,15 +299,7 @@ class UserController extends Controller
 
             Feedback::storeClientFeedback($dataArray);
 
-            $platforms = [
-                'web' => ['cm3hnhmow0g081042bdeu1m60'],
-                'admin' => ['cm5masszb049qtox1epuk1rvg'],
-                'app' => ['cm3hnhsl30g0b104247sal6oc', 'cm3hnhy8m0g0i1042ci6zijgj']
-            ];
-
-            $selectedPlatform = $platforms[$request['platform']] ?? $platforms['Other'];
-
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $selectedPlatform);
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
 
 //            if (isset($response['errors'])) {
 //                dd($response['errors']); // Debugging errors

@@ -441,7 +441,8 @@ class AuthController extends Controller
                 return Helpers::successResponse('User loggedIn successfully', $data);
             }
 
-            return Helpers::validationResponse('Email does not exists Please Signup First');
+            return Helpers::validationResponse('Email does not exists. Please signup first.');
+
         } catch (Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

@@ -25,16 +25,16 @@ switch (env('APP_ENV')) {
 
 };
 
-switch (env('B2B_DEV')) {
-    case 'local':
-    case 'development':
-        $pusher_app_id = 1960430;
-        $pusher_app_key = 'a80894fc40705b88a39d';
-        $pusher_app_secret = 'a6148737cfc962b74ad9';
-        $pusher_app_cluster = 'ap2';
-        break;
-
-};
+//switch (env('B2B_DEV')) {
+//    case 'local':
+//    case 'development':
+//        $pusher_app_id = 1960430;
+//        $pusher_app_key = 'a80894fc40705b88a39d';
+//        $pusher_app_secret = 'a6148737cfc962b74ad9';
+//        $pusher_app_cluster = 'ap2';
+//        break;
+//
+//};
 
 return [
 

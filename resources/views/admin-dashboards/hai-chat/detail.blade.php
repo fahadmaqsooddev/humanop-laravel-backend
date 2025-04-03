@@ -290,6 +290,7 @@
                 $lastSegment = array_pop($urlParts);
             @endphp
             <div class="col-lg-9 mt-lg-0 mt-4">
+                @livewire('admin.hai-chat.persona',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])
                 @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])
 
