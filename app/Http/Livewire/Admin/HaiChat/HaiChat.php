@@ -15,7 +15,7 @@ use Livewire\Component;
 
 class HaiChat extends Component
 {
-    public $chats, $name, $description, $chatBot, $copyChatBotId;
+    public $chats, $name, $description, $chatBot, $copyChatBotId, $search_brain;
     protected $listeners = ['deleteChatbot'];
     protected $rules = [
         'name' => 'required|max:30',
@@ -26,6 +26,11 @@ class HaiChat extends Component
         'name.required' => 'Name is required',
         'description.required' => 'Information is required',
     ];
+
+    public function updatedSearchBrain($value){
+
+        $this->search_brain = $value;
+    }
 
     public function submitForm()
     {
@@ -122,7 +127,7 @@ class HaiChat extends Component
 
     public function getChats()
     {
-        $this->chats = Chatbot::allChats();
+        $this->chats = Chatbot::allChats($this->search_brain);
     }
 
     public function showModalChatBotDetail($id){

@@ -27,7 +27,7 @@ class Conversation extends Component
 
     public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
 
-        $editConversation = null, $updated_reply = null, $convo_id, $is_pine_cone = false;
+        $editConversation = null, $updated_reply = null, $convo_id;
 
     protected $listeners = ['updateUserId','updateChatBotId'];
 

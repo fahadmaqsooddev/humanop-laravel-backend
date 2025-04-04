@@ -59,9 +59,17 @@ class Chatbot extends Model
         ]);
     }
 
-    public static function allChats()
+    public static function allChats($brainName = null)
     {
-        return self::orderBy('created_at', 'desc')->with('setting.plan')->get(['id', 'name', 'description','is_published']);
+        return self::when($brainName, function ($query, $name){
+
+            $query->where('name', 'like', "%$name%");
+
+        })->orderBy('created_at', 'desc')
+
+            ->with('setting.plan')
+
+            ->get(['id', 'name', 'description','is_published']);
     }
 
     public static function singleChat($id = null)
