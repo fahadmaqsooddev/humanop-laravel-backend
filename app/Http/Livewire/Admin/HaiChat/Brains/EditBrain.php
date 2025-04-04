@@ -78,6 +78,8 @@ class EditBrain extends Component
 
                 session()->flash('success','Brain created successfully');
 
+                return redirect()->route('admin_hai_chat');
+
 //            }else{
 //
 //                DB::rollBack();
