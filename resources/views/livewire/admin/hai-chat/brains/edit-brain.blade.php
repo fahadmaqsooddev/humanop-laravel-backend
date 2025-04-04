@@ -12,40 +12,52 @@
         }
 
         .card-bg-white-orange-border{
-            background-color: white !important;
-            /*background-image: linear-gradient(#F3DEBA, #F3DEBA), linear-gradient(90deg, rgb(146, 11, 11), orange, yellow, rgb(22, 200, 22), rgb(0, 238, 255), rgb(26, 58, 222), rgb(4, 19, 113));*/
-            border: 2px solid #d26622 !important;
+            background-color: #F4E3C7 !important;
+            /*border: 2px solid #d26622 !important;*/
         }
 
         .input-bg{
-            color: black !important;
-            border: 1px solid black !important;
+            background-color: #F4ECE0 !important;
+            color: #F95520 !important;
+            border-radius: 40px !important;
+            border: none !important;
         }
 
         .input-bg::placeholder{
-            color: black !important;
+            color: #F95520 !important;
         }
 
         .cluster-buttons{
-            background-color: transparent;
-            border-radius: 20px;
-            border: 1px solid black;
+            background-color: #F95520 !important;
+            color: #F4ECE0;
             padding: 5px 10px;
+            border-radius: 32px;
+            border-width: 2px;
+            border: none;
         }
 
         .configurations-drop-down{
-            border: 2px solid black;
+            /*border: 2px solid black;*/
             min-width: 250px;
-            background-color: transparent;
-            border-radius: 20px;
+            /*background-color: transparent;*/
+            /*border-radius: 20px;*/
             text-align: center;
-            color: black !important;
+            /*color: black !important;*/
+
+            background-color: #F4ECE0 !important;
+            color: #F95520 !important;
+            border-radius: 40px !important;
+            border: none !important;
         }
 
         .cluster-table-rows{
             padding: 5px;
             border-radius: 10px;
             border: 1px solid black;
+        }
+
+        h5, h4, h6{
+            color: #F95520 !important;
         }
 
     </style>
@@ -86,7 +98,7 @@
                         <div class="row">
 
                             <div class="col-5">
-                                <input type="text" class="cluster-buttons text-center w-100"
+                                <input type="text" class="input-bg text-center w-100"
                                        placeholder="Keyword Search" wire:model="search_clusters">
                             </div>
                             <div class="col-4">
@@ -148,7 +160,7 @@
                         <div class="row">
 
                             <div class="col-5">
-                                <input type="text" class="cluster-buttons text-center w-100"
+                                <input type="text" class="input-bg text-center w-100"
                                        placeholder="Keyword Search" wire:model="search_connected_clusters">
                             </div>
                             <div class="col-5">
