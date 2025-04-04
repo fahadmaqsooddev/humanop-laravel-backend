@@ -33,24 +33,24 @@ class MemberController extends Controller
         $this->user = $user;
     }
 
-    
+
     public function createInviteLinkForMember(Request $request)
     {
         try {
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
-            
+
 
             if ($checkInviteLink) {
-                
-                
+
+
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
                 if ($checkCompany && $checkInviteLink['role']==Admin::B2B_INVITE_ROLE) {
 
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
-                    
+
                 }else if ($checkCompany && $checkInviteLink['role']==Admin::B2B_MEMBER_INVITE_ROLE){
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
 
@@ -60,7 +60,7 @@ class MemberController extends Controller
                     UserCandidateInvite::createUserInvite($checkInviteLink->id);
 
                     $linke=UserInvite::where('email',$email)->first();
-                    
+
                     $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
 
                     $emailData = $this->myprepareEmailData($url);
@@ -70,9 +70,9 @@ class MemberController extends Controller
                     return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
             }
-            
 
-       
+
+
             $newInvite = UserInvite::createInvite($email,3);
 
             if ($newInvite) {
@@ -96,6 +96,33 @@ class MemberController extends Controller
 
         }
 
+    }
+
+    public static function allMemberInvites()
+    {
+        try {
+            $invites = UserCandidateInvite::allMemberInvites();
+
+            $memberInvites = [];
+
+            foreach ($invites as $invite) {
+
+                $companyName = $invite['user']['company_name'] ?? 'N/A';
+                $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
+                $email = $invite['inviteLinks']['email'] ?? 'N/A';
+
+                $memberInvites[] = [
+                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
+                    'email' => $email,
+                    'company_name' => $companyName
+                ];
+            }
+
+            return Helpers::successResponse("All candidate invites.", $memberInvites);
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
     }
 
     public function addMember(AddMemberRequest $request)
@@ -346,6 +373,6 @@ class MemberController extends Controller
         );
     }
 
-    
+
 
 }

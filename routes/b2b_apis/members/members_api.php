@@ -20,5 +20,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-members','MemberController@AllMembers');
     Route::delete('delete-member','MemberController@DeleteMember');
     Route::post('member-to-candidate','MemberController@ConvertMember');
+    Route::get('all-member-invites', 'MemberController@allMemberInvites');
+
 
 });

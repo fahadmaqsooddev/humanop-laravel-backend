@@ -36,7 +36,7 @@ class UserCandidateInvite extends Model
 
     public static function getSingleInvite($inviteId)
     {
-        
+
         return self::where('company_id', Helpers::getUser()['id'])
         ->where('invite_link_id',$inviteId)
         ->first();
@@ -52,7 +52,24 @@ class UserCandidateInvite extends Model
 
     public static function allCandidateInvites()
     {
-        return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks', 'user'])
-        ->orderby('id','desc')->get();
+        return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks' => function ($query) {
+                    $query->where('role', 2);
+                },
+                'user'
+            ])
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
+
+    public static function allMemberInvites()
+    {
+        return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks' => function ($query) {
+            $query->where('role', 3);
+        },
+            'user'
+        ])
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }
