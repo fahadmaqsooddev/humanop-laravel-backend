@@ -9,17 +9,17 @@ if (env('APP_ENV') == 'local') {
 } elseif (env('APP_ENV') == 'development') {
     return [
         'client_dashboard_url' => 'https://dev.humanop.com',
-        'b2b_dashboard_url' => 'maestro.humanop.com',
+        'b2b_dashboard_url' => 'https://human-op-b2b.vercel.app',
     ];
 } elseif (env('APP_ENV') == 'staging') {
     return [
         'client_dashboard_url' => 'https://staging.humanop.com',
-        'b2b_dashboard_url' => 'maestro.humanop.com',
+        'b2b_dashboard_url' => 'https://human-op-b2b.vercel.app',
     ];
 } elseif (env('APP_ENV') == 'production') {
     return [
         'client_dashboard_url' => 'https://beta.humanop.com',
-        'b2b_dashboard_url' => 'maestro.humanop.com',
+        'b2b_dashboard_url' => 'https://human-op-b2b.vercel.app',
     ];
 }
 
