@@ -45,9 +45,9 @@
         </style>
 
     @endpush
-    <div class="container-fluid my-3 py-3">
+    <div class="container-fluid my-1 py-1">
         @include('layouts.message')
-        <div class="row mb-5">
+        <div class="row">
             <div class="col-lg-3">
                 <div class="card position-sticky top-1">
                     <ul class="nav rainbow-border-user-nav-btn flex-column border-radius-lg p-3">
@@ -289,15 +289,15 @@
                     </ul>
                 </div>
             </div>
-            @php
-                $urlParts = explode('/', request()->url());
-                $lastSegment = array_pop($urlParts);
-            @endphp
+{{--            @php--}}
+{{--                $urlParts = explode('/', request()->url());--}}
+{{--                $lastSegment = array_pop($urlParts);--}}
+{{--            @endphp--}}
             <div class="col-lg-9 mt-lg-0 mt-4">
-{{--                @livewire('admin.hai-chat.persona',['name' => $lastSegment])--}}
-                @livewire('admin.hai-chat.persona')
-                @livewire('admin.hai-chat.setting.prompt')
-{{--                @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])--}}
+                @livewire('admin.hai-chat.persona',['name' => $name])
+{{--                @livewire('admin.hai-chat.persona')--}}
+{{--                @livewire('admin.hai-chat.setting.prompt')--}}
+                @livewire('admin.hai-chat.setting.prompt',['name' => $name])
 {{--                @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])--}}
 
 {{--                <div class="card setting-box-background mt-4" id="capture">--}}
@@ -351,15 +351,15 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                @livewire('admin.hai-chat.setting.conversation')
-{{--                @livewire('admin.hai-chat.setting.conversation',['name' => $lastSegment])--}}
+{{--                @livewire('admin.hai-chat.setting.conversation')--}}
+                @livewire('admin.hai-chat.setting.conversation',['name' => $name])
 {{--                @livewire('admin.hai-chat.setting.analytics',['name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.comparison', ['bot_name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])--}}
 
             </div>
         </div>
-        @include('layouts/footers/auth/footer')
+{{--        @include('layouts/footers/auth/footer')--}}
     </div>
 @endsection
 

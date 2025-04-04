@@ -20,6 +20,12 @@ class Persona extends Component
         'maestro_app' => 'nullable'
     ];
 
+    public function mount($name){
+
+        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+
+    }
+
     public function updateOrSave(){
 
         try {

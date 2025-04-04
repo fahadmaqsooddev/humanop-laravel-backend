@@ -27,7 +27,7 @@ class Conversation extends Component
 
     public $message, $name, $conversations,$user_details,$user_id, $is_restricted_word = false, $disliked = 0,
 
-        $editConversation = null, $updated_reply = null, $convo_id, $is_pine_cone = false;
+        $editConversation = null, $updated_reply = null, $convo_id;
 
     protected $listeners = ['updateUserId','updateChatBotId'];
 
@@ -42,11 +42,11 @@ class Conversation extends Component
         'name.required' => 'Select chat-bot first',
     ];
 
-//    public function mount(){
-//
-//
-//
-//    }
+    public function mount($name){
+
+        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+
+    }
 
     public function updateChatBotId($value){
 
@@ -373,6 +373,12 @@ public function editHaiResponse($id)
     public function render()
     {
         // $this->dispatchBrowserEvent('livewire:load');
+
+        $this->user_details = User::getUserDetailByIds();
+
+        $this->is_restricted_word ? '' : $this->getChatBotConversation();
+
+        $this->emit('scrollToBottom');
 
         return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
 

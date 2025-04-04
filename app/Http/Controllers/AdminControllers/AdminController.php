@@ -536,11 +536,11 @@ class AdminController extends Controller
 
     }
 
-    public function haiChatPersona(){
+    public function haiChatPersona($name = null){
 
         try {
 
-            return view('admin-dashboards.hai-chat.detail');
+            return view('admin-dashboards.hai-chat.detail', compact('name'));
 
         }catch (\Exception $exception){
 

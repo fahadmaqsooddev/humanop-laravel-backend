@@ -103,7 +103,7 @@ class AuthController extends Controller
 
             $dataArray['last_name'] = $parts[1] ?? '';
 
-            // $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
+            $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
             // if (!empty($authorizedUser)) {
 
@@ -117,13 +117,19 @@ class AuthController extends Controller
 
             if (empty($checkUser)) {
 
+            
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
                 if (!empty($request['company_name'])) {
 
                     $data = User::getSingleUserFromCompanyName($request['company_name']);
-
+                    if($authorizedUser['role']==Admin::B2B_INVITE_ROLE){
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                    }else if($authorizedUser['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                    }
                     B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+
                 }
 
                 if (!empty($request['register_from_app'])) {
@@ -187,8 +193,13 @@ class AuthController extends Controller
                         if (!empty($request['company_name'])) {
 
                             $data = User::getSingleUserFromCompanyName($request['company_name']);
-
-                            B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                            if($authorizedUser['role']==Admin::B2B_INVITE_ROLE){
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                            }else if($authorizedUser['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                            }
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                            // B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
                         }
 
                         DB::commit();

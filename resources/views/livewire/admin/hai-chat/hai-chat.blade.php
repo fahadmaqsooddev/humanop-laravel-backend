@@ -14,23 +14,44 @@
         .new-orange-button:hover{
             color: white;
         }
+
+        .input-bg{
+            background-color: #F3DEBA !important;
+            color: #F95520 !important;
+            border-radius: 40px !important;
+            border: none !important;
+            text-align: center;
+            width: 300px !important;
+        }
+
+        .input-bg::placeholder{
+            color: #F95520 !important;
+        }
     </style>
 
 @endpush
 <div>
     <div class="d-flex justify-content-end">
-        <a href="{{route('admin_create_brain')}}"
-{{--            data-bs-toggle="modal" data-bs-target="#createChatModal"--}}
-{{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Chatbot
-        </a>
+
+        <div class="d-flex justify-content-between gap-2">
+
+            <input wire:model="search_brain" type="text" placeholder="Search brain" class="input-bg">
+
+            <a href="{{route('admin_create_brain')}}"
+               {{--            data-bs-toggle="modal" data-bs-target="#createChatModal"--}}
+               {{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
+               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Chatbot
+            </a>
+
+        </div>
     </div>
 
     <!-- Chatbot Cards Container -->
     <div id="chatbotCardsContainer" class="mt-3 row p-3">
         <!-- Example Card -->
         @foreach($chats as $chat)
-            <div class="mt-3 col-md-6 col-sm-12 col-lg-6 " style="padding-right: 5px;">
+
+            <div class="mt-3 col-12" style="padding-right: 5px;">
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
                     <div class="d-flex flex-column gap-3 chat-card">
                         <div class="d-flex justify-content-between">
@@ -39,9 +60,22 @@
                                         class="bi bi-robot"></i> {{ $chat['name'] }}
                                 </h5>
                             </a>
-                            @if($chat->is_published)
-                                <p class="badge" style="border: 2px solid #f2661c; color: #f2661c;">Connected</p>
-                            @endif
+
+                            <div>
+
+                                @if($chat['setting']['persona_name'] ?? false)
+                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
+                                @else
+                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
+                                @endif
+
+                                @if($chat['is_published'] === 1)
+                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>
+                                @else
+                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>
+                                @endif
+
+                            </div>
 
                         </div>
                         @if(strlen($chat['description']) > 50)

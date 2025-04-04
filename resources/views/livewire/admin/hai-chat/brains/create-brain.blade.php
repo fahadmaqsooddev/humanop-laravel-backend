@@ -7,10 +7,6 @@
             color: #0f1534 !important;
         }
 
-        input::placeholder {
-            color: black !important;
-        }
-
         .card-bg-white-orange-border{
             background-color: #F4E3C7 !important;
             /*border: 2px solid #d26622 !important;*/
@@ -48,8 +44,7 @@
 
         .cluster-table-rows{
             padding: 5px;
-            border-radius: 10px;
-            border: 1px solid black;
+            border: 1px solid #F95520;
         }
 
         h5, h4, h6, .text-color-orange{

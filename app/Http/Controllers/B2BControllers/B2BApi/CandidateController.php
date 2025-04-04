@@ -41,11 +41,15 @@ class CandidateController extends Controller
                 
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
-                if ($checkCompany) {
+                if ($checkCompany &&$checkInviteLink['role']==Admin::B2B_INVITE_ROLE) {
+                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
+                    
+                }else if ($checkCompany &&$checkInviteLink['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+                    return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
 
-                    return Helpers::successResponse("{$email} already has an invite link with your business. Please create an account.");
+                }
 
-                } else {
+                else {
 
                     UserCandidateInvite::createUserInvite($checkInviteLink->id);
 
@@ -63,7 +67,7 @@ class CandidateController extends Controller
             
 
        
-            $newInvite = UserInvite::createInvite($email);
+            $newInvite = UserInvite::createInvite($email,2);
 
             if ($newInvite) {
 

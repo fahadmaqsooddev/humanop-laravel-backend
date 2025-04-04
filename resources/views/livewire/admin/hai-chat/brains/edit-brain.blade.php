@@ -48,8 +48,7 @@
 
         .cluster-table-rows{
             padding: 5px;
-            border-radius: 10px;
-            border: 1px solid black;
+            border: 1px solid #F95520;
         }
 
         h5, h4, h6, .text-color-orange{

@@ -115,8 +115,9 @@ class UserInvite extends Model
         return self::where('email', $email)->first();
     }
 
-    public static function createInvite($email = null, $role=Admin::CLIENT_INVITE_ROLE)
+    public static function createInvite($email = null, $role=null)
     {
+        // dd($role);
         $link = Str::random(16);
 
         return self::create([
