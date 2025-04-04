@@ -10,6 +10,7 @@ use App\Models\HAIChai\AnalyticsModel;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
@@ -28,20 +29,48 @@ class Conversation extends Component
 
         $editConversation = null, $updated_reply = null, $convo_id, $is_pine_cone = false;
 
-    protected $listeners = ['updateUserId'];
+    protected $listeners = ['updateUserId','updateChatBotId'];
 
     protected $rules = [
         'message' => 'required|max:2000',
+        'name' => 'required',
     ];
 
     protected $messages = [
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query does not contain more than 2000 characters',
+        'name.required' => 'Select chat-bot first',
     ];
+
+    public function updateChatBotId($value){
+
+        $this->chat_bot_id = $value;
+
+        if ($this->chat_bot_id){
+
+            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+
+            if ($chatBotName){
+
+                $this->name = $chatBotName;
+
+                $this->user_details = User::getUserDetailByIds();
+
+                $this->is_restricted_word ? '' : $this->getChatBotConversation();
+
+                $this->emit('scrollToBottom');
+
+            }
+
+        }
+
+    }
 
     public function submitForm()
     {
         try {
+
+            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -337,14 +366,6 @@ public function editHaiResponse($id)
 
     public function render()
     {
-
-        $this->user_details = User::getUserDetailByIds();
-
-        $this->is_restricted_word ? '' : $this->getChatBotConversation();
-
-        $this->emit('scrollToBottom');
-
-
         // $this->dispatchBrowserEvent('livewire:load');
 
         return view('livewire.admin.hai-chat.setting.conversation', ['conversation' => $this->conversations]);
