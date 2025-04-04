@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Admin\Admin;
+use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -1257,14 +1258,14 @@ class Assessment extends Model
 
         if ($existingAssessment) {
 
-            if ($currentPage < $existingAssessment['page']) {
-
-//                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
-
-                return 'You have already submitted these questions. Please start with the new set of questions.';
-
-            }
-            else {
+//            if ($currentPage < $existingAssessment['page']) {
+//
+////                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
+//
+//                return 'You have already submitted these questions. Please start with the new set of questions.';
+//
+//            }
+//            else {
 
                 $oldResult = $existingAssessment->toArray();
 
@@ -1289,9 +1290,10 @@ class Assessment extends Model
                 if ($totalPages == $current_page) {
 
                     $resultArray['page'] = 0;
-//                    $resultArray['app_page'] = 0;
 
                     $existingAssessment->update($resultArray);
+
+                    event(new SubmitAssessment(Helpers::getUser()['id'], 0));
 
                     $latestAssessment = Assessment::getLatestAssessment($userId);
 
@@ -1373,12 +1375,14 @@ class Assessment extends Model
                         $message = "Congratulations on finishing your assessment!";
                     }
 
-                } else {
+                }
+                else {
 
                     $resultArray['page'] = $current_page;
-                    $resultArray['app_page'] = $current_page;
 
                     $existingAssessment->update($resultArray);
+
+                    event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
 
                 }
 
@@ -1388,7 +1392,7 @@ class Assessment extends Model
 
                 AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
-            }
+//            }
 
         }
 
