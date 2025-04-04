@@ -156,10 +156,16 @@
                     }
                     break;
                 case 'gre':
-                    if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
+//                    if (($grid['gre'] > 2 && ($grid['jo'] > 6 || $grid['mer'] > 4 )) || ($grid['gre'] > 2 && $grid['ven'] > 4 && $grid['sa'] > 4) || ($grid['gre'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4)) {
+//                        $filtered_keys[$key] = $value;
+//                    }
+                    if ($grid['gre'] > 2 && ($grid['jo'] > 7 || $grid['mer'] > 4 )) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ma'] < 5 || $grid['lu'] < 5)) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
+//                    elseif (($grid['gre'] > 2 && $grid['jo'] < 7 && $grid['mer'] < 5) && ($grid['gre'] > 2 && ($grid['ma'] < 5 || $grid['lu'] < 5)) && ($grid['gre'] > 2 && ($grid['ven'] < 5 || $grid['sa'] < 5))) {
+//                        $filtered_keys_red[$key] = $value;
+//                    }
+                    elseif (($grid['gre'] > 2 && $grid['jo'] < 8 && $grid['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
