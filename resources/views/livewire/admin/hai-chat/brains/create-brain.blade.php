@@ -7,10 +7,6 @@
             color: #0f1534 !important;
         }
 
-        input::placeholder {
-            color: black !important;
-        }
-
         .card-bg-white-orange-border{
             background-color: #F4E3C7 !important;
             /*border: 2px solid #d26622 !important;*/
