@@ -37,13 +37,9 @@
         }
 
         .configurations-drop-down{
-            /*border: 2px solid black;*/
             min-width: 250px;
-            /*background-color: transparent;*/
-            /*border-radius: 20px;*/
             text-align: center;
-            /*color: black !important;*/
-
+            padding: 7px;
             background-color: #F4ECE0 !important;
             color: #F95520 !important;
             border-radius: 40px !important;
@@ -56,7 +52,7 @@
             border: 1px solid black;
         }
 
-        h5, h4, h6{
+        h5, h4, h6, .text-color-orange{
             color: #F95520 !important;
         }
 
@@ -101,8 +97,9 @@
                                 <input type="text" class="input-bg text-center w-100"
                                        placeholder="Keyword Search" wire:model="search_clusters">
                             </div>
-                            <div class="col-4">
-                                <button class="cluster-buttons">Add selected knowledge cluster to brain</button>
+                            <div class="col-5">
+                                <button wire:click="addAllClustersToActiveClusters"
+                                    class="cluster-buttons">Add selected knowledge cluster to brain</button>
                             </div>
 
                         </div>
@@ -114,7 +111,7 @@
                         @if(count($groups) === 0)
 
                             <div class="text-center text-color-dark">
-                                <p>No cluster found</p>
+                                <p class="text-color-orange">No cluster found</p>
                             </div>
 
                         @else
@@ -128,7 +125,7 @@
 
                                         <tr class="text-color-dark mt-1 cluster-table-rows">
                                             <td class="pt-3">
-                                                <input type="checkbox">
+                                                <input wire:click="selectCluster({{$group->id}})" type="checkbox">
                                             </td>
                                             <td>
                                                 {{$group->name}}
@@ -164,7 +161,8 @@
                                        placeholder="Keyword Search" wire:model="search_connected_clusters">
                             </div>
                             <div class="col-5">
-                                <button class="cluster-buttons">Remove selected knowledge cluster to brain</button>
+                                <button wire:click="removeAllSelectedClusters"
+                                    class="cluster-buttons">Remove selected knowledge cluster to brain</button>
                             </div>
 
                         </div>
@@ -176,7 +174,7 @@
                         @if(count($connectedGroups) === 0)
 
                             <div class="text-center text-color-dark">
-                                <p>No active cluster found</p>
+                                <p class="text-color-orange">No active cluster found</p>
                             </div>
 
                         @else
@@ -189,7 +187,7 @@
 
                                     <tr class="text-color-dark mt-1 cluster-table-rows">
                                         <td class="pt-3">
-                                            <input type="checkbox">
+                                            <input wire:click="selectClusterForRemove({{$group->id}})" type="checkbox">
                                         </td>
                                         <td>
                                             {{$group->name}}

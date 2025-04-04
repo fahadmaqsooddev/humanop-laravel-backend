@@ -37,17 +37,13 @@
         }
 
         .configurations-drop-down{
-            /*border: 2px solid black;*/
             min-width: 250px;
-            /*background-color: transparent;*/
-            /*border-radius: 20px;*/
             text-align: center;
-            /*color: black !important;*/
-
             background-color: #F4ECE0 !important;
             color: #F95520 !important;
             border-radius: 40px !important;
             border: none !important;
+            padding: 7px;
         }
 
         .cluster-table-rows{
@@ -56,7 +52,7 @@
             border: 1px solid black;
         }
 
-        h5, h4, h6{
+        h5, h4, h6, .text-color-orange{
             color: #F95520 !important;
         }
 
@@ -101,7 +97,7 @@
                                 <input type="text" class="input-bg text-center w-100"
                                        placeholder="Keyword Search" wire:model="search_clusters">
                             </div>
-                            <div class="col-4">
+                            <div class="col-5">
                                 <button wire:click="addAllClustersToActiveClusters"
                                     class="cluster-buttons">Add selected knowledge cluster to brain</button>
                             </div>
@@ -115,7 +111,7 @@
                         @if(count($groups) === 0)
 
                             <div class="text-center text-color-dark">
-                                <p>No cluster found</p>
+                                <p class="text-color-orange">No cluster found</p>
                             </div>
 
                         @else
@@ -178,7 +174,7 @@
                         @if(count($connectedGroups) === 0)
 
                             <div class="text-center text-color-dark">
-                                <p>No active cluster found</p>
+                                <p class="text-color-orange">No active cluster found</p>
                             </div>
 
                         @else

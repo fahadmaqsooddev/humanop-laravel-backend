@@ -92,7 +92,7 @@ class GroupEmbedding extends Model
 
                 if (isset($group['embedding']['request_id'])){
 
-                    HaiChatActiveEmbedding::createActiveEmbedding($botName, $group['embedding']['request_id']);
+                    HaiChatActiveEmbedding::removeActiveEmbedding($botName, $group['embedding']['request_id']);
                 }
 
             }

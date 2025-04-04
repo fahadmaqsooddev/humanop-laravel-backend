@@ -17,7 +17,8 @@ class EditBrain extends Component
 
     public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks;
 
-    public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [];
+    public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
+        $selectedClusters = [], $selectClustersForRemoval = [];
 
     protected $rules = [
 //        'name' => 'required|max:30',
@@ -61,13 +62,13 @@ class EditBrain extends Component
 
             $this->validate();
 
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//
+//            $body = ['vendor_n' => $this->name, 'loc' => $subFolder];
+//
+//            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'create-chatbot', $body);
 
-            $body = ['vendor_n' => $this->name, 'loc' => $subFolder];
-
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'create-chatbot', $body);
-
-            if ($aiReply){
+//            if ($aiReply){
 
                 Chatbot::updateChatBot($this->chat_bot_id, $this->description);
 
@@ -77,12 +78,12 @@ class EditBrain extends Component
 
                 session()->flash('success','Brain created successfully');
 
-            }else{
-
-                DB::rollBack();
-
-                session()->flash('error', "Something went wrong while creating chat-bot on S3.");
-            }
+//            }else{
+//
+//                DB::rollBack();
+//
+//                session()->flash('error', "Something went wrong while creating chat-bot on S3.");
+//            }
 
         }catch (ValidationException $exception){
 
@@ -119,6 +120,51 @@ class EditBrain extends Component
             }
 
         }
+
+    }
+
+    public function selectCluster($group_id){
+
+        if (!array_search($group_id, $this->selectedClusters)){
+
+            array_push($this->selectedClusters, $group_id);
+        }
+
+    }
+
+    public function addAllClustersToActiveClusters(){
+
+        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+
+//        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
+
+    }
+
+    public function selectClusterForRemove($group_id){
+
+        if (!array_search($group_id, $this->selectClustersForRemoval)){
+
+            array_push($this->selectClustersForRemoval, $group_id);
+        }
+
+    }
+
+    public function removeAllSelectedClusters(){
+
+        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+
+//        foreach ($this->selectClustersForRemoval as $group_id){
+//
+//            $search = array_search($group_id, $this->activeGroupIds);
+//
+//            if ($search >= 0){
+//
+//                unset($this->activeGroupIds[$search]);
+//            }
+//
+//        }
+
+        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
     }
 
