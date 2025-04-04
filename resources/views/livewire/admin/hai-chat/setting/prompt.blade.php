@@ -23,7 +23,7 @@
         @include('layouts.message')
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-2">Base Prompt</h5>
-            <textarea class="form-control input-bg" id="chatDescription" wire:model="prompt"
+            <textarea class="form-control input-bg" id="chatDescription" wire:model.defer="prompt"
                       rows="6" placeholder="Enter chat prompt">
                             </textarea>
         </div>
@@ -33,7 +33,7 @@
 {{--        </div>--}}
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-2">LLM Restrictions</h5>
-            <textarea class="form-control input-bg" id="chatDescription" wire:model="restriction"
+            <textarea class="form-control input-bg" id="chatDescription" wire:model.defer="restriction"
                       rows="6" placeholder="Enter chat restrictions"></textarea>
         </div>
 
@@ -95,7 +95,7 @@
             @endforeach
 
             <div class="pt-2">
-                <input class="form-control input-bg" wire:model="keyword"
+                <input class="form-control input-bg" wire:model.defer="keyword"
                        rows="10" placeholder="Enter chat keyword restrictions"
                        wire:keydown.enter="createKeyword">
                 <span class="text-sm" style="padding-top: 1px; color: #67748e;">Type and press ENTER to save keyword</span>
