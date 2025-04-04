@@ -17,7 +17,9 @@ class CreateBrain extends Component
 
     public $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks;
 
-    public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [];
+    public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
+
+        $selectedClusters = [], $selectClustersForRemoval = [];
 
     protected $rules = [
         'name' => 'required|max:30',
@@ -121,6 +123,49 @@ class CreateBrain extends Component
 
             session()->flash('error', $exception->getMessage());
         }
+
+    }
+
+    public function selectCluster($group_id){
+
+        if (!array_search($group_id, $this->selectedClusters)){
+
+            array_push($this->selectedClusters, $group_id);
+        }
+
+    }
+
+    public function addAllClustersToActiveClusters(){
+
+        $this->activeGroupIds = array_merge($this->selectedClusters);
+
+        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
+
+    }
+
+    public function selectClusterForRemove($group_id){
+
+        if (!array_search($group_id, $this->selectClustersForRemoval)){
+
+            array_push($this->selectClustersForRemoval, $group_id);
+        }
+
+    }
+
+    public function removeAllSelectedClusters(){
+
+        foreach ($this->selectClustersForRemoval as $group_id){
+
+            $search = array_search($group_id, $this->activeGroupIds);
+
+            if ($search >= 0){
+
+                unset($this->activeGroupIds[$search]);
+            }
+
+        }
+
+        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
     }
 

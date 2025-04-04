@@ -89,7 +89,8 @@
                                        placeholder="Keyword Search" wire:model="search_clusters">
                             </div>
                             <div class="col-4">
-                                <button class="cluster-buttons">Add selected knowledge cluster to brain</button>
+                                <button wire:click="addAllClustersToActiveClusters"
+                                    class="cluster-buttons">Add selected knowledge cluster to brain</button>
                             </div>
 
                         </div>
@@ -115,7 +116,7 @@
 
                                         <tr class="text-color-dark mt-1 cluster-table-rows">
                                             <td class="pt-3">
-                                                <input type="checkbox">
+                                                <input wire:click="selectCluster({{$group->id}})" type="checkbox">
                                             </td>
                                             <td>
                                                 {{$group->name}}
@@ -151,7 +152,8 @@
                                        placeholder="Keyword Search" wire:model="search_connected_clusters">
                             </div>
                             <div class="col-5">
-                                <button class="cluster-buttons">Remove selected knowledge cluster to brain</button>
+                                <button wire:click="removeAllSelectedClusters"
+                                    class="cluster-buttons">Remove selected knowledge cluster to brain</button>
                             </div>
 
                         </div>
@@ -176,7 +178,7 @@
 
                                     <tr class="text-color-dark mt-1 cluster-table-rows">
                                         <td class="pt-3">
-                                            <input type="checkbox">
+                                            <input wire:click="selectClusterForRemove({{$group->id}})" type="checkbox">
                                         </td>
                                         <td>
                                             {{$group->name}}
