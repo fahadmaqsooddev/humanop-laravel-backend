@@ -61,7 +61,9 @@
                                 </h5>
                             </a>
                             @if($chat['setting']['persona_name'] ?? false)
-                                <p class="badge" style="border: 2px solid #f2661c; color: #f2661c;">Connected to {{$chat['setting']['persona_name']}}</p>
+                                <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
+                            @else
+                                <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
                             @endif
 
                         </div>

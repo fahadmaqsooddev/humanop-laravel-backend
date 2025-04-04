@@ -143,7 +143,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/embeddings/{id}', [AdminController::class, 'embeddings'])->name('admin_embedding');
         Route::get('/embedding-detail/{name}', [AdminController::class, 'embeddingDetail'])->name('admin_embedding_detail');
         Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
-        Route::get('/hai-chat-persona', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
+        Route::get('/hai-chat-persona/{name?}', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
         Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
         Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
         Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');

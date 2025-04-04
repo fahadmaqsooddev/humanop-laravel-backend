@@ -28,6 +28,7 @@ class CreateBrain extends Component
         'max_tokens' => 'required',
         'llm_model_id' => 'required',
         'chunks' => 'required',
+        'activeGroupIds' => 'required|array',
     ];
 
     public function addToCluster($group_id){

@@ -290,10 +290,10 @@
 {{--                $lastSegment = array_pop($urlParts);--}}
 {{--            @endphp--}}
             <div class="col-lg-9 mt-lg-0 mt-4">
-{{--                @livewire('admin.hai-chat.persona',['name' => $lastSegment])--}}
-                @livewire('admin.hai-chat.persona')
-                @livewire('admin.hai-chat.setting.prompt')
-{{--                @livewire('admin.hai-chat.setting.prompt',['name' => $lastSegment])--}}
+                @livewire('admin.hai-chat.persona',['name' => $name])
+{{--                @livewire('admin.hai-chat.persona')--}}
+{{--                @livewire('admin.hai-chat.setting.prompt')--}}
+                @livewire('admin.hai-chat.setting.prompt',['name' => $name])
 {{--                @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])--}}
 
 {{--                <div class="card setting-box-background mt-4" id="capture">--}}
@@ -347,8 +347,8 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                </div>--}}
-                @livewire('admin.hai-chat.setting.conversation')
-{{--                @livewire('admin.hai-chat.setting.conversation',['name' => $lastSegment])--}}
+{{--                @livewire('admin.hai-chat.setting.conversation')--}}
+                @livewire('admin.hai-chat.setting.conversation',['name' => $name])
 {{--                @livewire('admin.hai-chat.setting.analytics',['name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.comparison', ['bot_name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])--}}

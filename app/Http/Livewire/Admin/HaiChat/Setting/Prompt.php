@@ -12,8 +12,7 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
 {
-    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null;
-    public $name;
+    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null, $name;
     protected $rules = [
         'name' => 'required',
         'prompt' => 'required|max:5100',
@@ -29,6 +28,12 @@ class Prompt extends Component
     ];
 
     public $listeners = ['updateChatBotId'];
+
+    public function mount($name){
+
+        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+
+    }
 
     public function updateChatBotId($value){
 
@@ -60,7 +65,9 @@ class Prompt extends Component
     }
 
     public function update(){
+
         try {
+
             $this->validate();
 
             $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
@@ -222,7 +229,7 @@ class Prompt extends Component
 
         }else{
 
-            $this->reset();
+            $this->reset('prompt','restriction','keyword','keywords','keyword_restriction_message','chat_bot_id');
         }
 
         return view('livewire.admin.hai-chat.setting.prompt');
