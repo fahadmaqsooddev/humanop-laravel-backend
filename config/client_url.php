@@ -19,7 +19,7 @@ if (env('APP_ENV') == 'local') {
 } elseif (env('APP_ENV') == 'production') {
     return [
         'client_dashboard_url' => 'https://beta.humanop.com',
-        'b2b_dashboard_url' => 'https://b2b-fc5n.vercel.app',
+        'b2b_dashboard_url' => 'https://human-op-b2b.vercel.app',
     ];
 }
 

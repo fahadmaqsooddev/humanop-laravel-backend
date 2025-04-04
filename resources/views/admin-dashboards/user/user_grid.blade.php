@@ -132,7 +132,7 @@
             foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
-                    if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4)) {
+                    if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4 && $grid['ma'] > 30)) {
                         $filtered_keys[$key] = $value;
                     }
                     elseif (($grid['de'] > 2 && $grid['ma'] < 5) && ($grid['sa'] < 5 || $grid['jo'] < 5 )) {
@@ -202,7 +202,7 @@
                     }
                     break;
                 case 'sp':
-                    if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4 && $grid['jo'] > 4)) {
+                    if (($grid['sp'] > 2 && $grid['jo'] > 4) || ($grid['sp'] > 2 && $grid['ma'] > 4 && $grid['lu'] > 4 && $grid['jo'] > 30)) {
                         $filtered_keys[$key] = $value;
                     }
                     elseif (($grid['sp'] > 2 && $grid['jo'] < 5) && ($grid['ma'] < 5 || $grid['lu'] < 5)) {
