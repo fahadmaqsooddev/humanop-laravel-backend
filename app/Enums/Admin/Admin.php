@@ -92,6 +92,8 @@ final class Admin
 
     const B2B_INVITE_ROLE = 2;
 
+    const B2B_MEMBER_INVITE_ROLE = 3;
+
     const MORNING_STATUS = 1;
 
     const AFTERNOON_STATUS = 2;
