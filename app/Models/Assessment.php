@@ -1186,7 +1186,7 @@ class Assessment extends Model
 
     }
 
-    public static function submitQuestionAnswers($answer_ids = [], $currentPage = null)
+    public static function submitQuestionAnswers($answer_ids = [])
     {
 
         $multipleAnswersArray = [];
