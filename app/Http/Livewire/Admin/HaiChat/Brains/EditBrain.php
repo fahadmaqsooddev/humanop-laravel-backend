@@ -76,7 +76,7 @@ class EditBrain extends Component
 
                 DB::commit();
 
-                session()->flash('success','Brain created successfully');
+                session()->flash('success','Brain updated');
 
                 return redirect()->route('admin_hai_chat');
 
