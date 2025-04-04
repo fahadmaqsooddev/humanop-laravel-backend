@@ -85,4 +85,9 @@ class HaiChatActiveEmbedding extends Model
 
         }
     }
+
+    public static function removeActiveEmbedding($bot_name = null, $request_id = null)
+    {
+        return self::where('chat_bot', $bot_name)->where('request_id', $request_id)->delete();
+    }
 }

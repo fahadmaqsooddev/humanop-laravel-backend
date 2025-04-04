@@ -19,7 +19,8 @@
 @endpush
 <div>
     <div class="d-flex justify-content-end">
-        <a data-bs-toggle="modal" data-bs-target="#createChatModal"
+        <a href="{{route('admin_create_brain')}}"
+{{--            data-bs-toggle="modal" data-bs-target="#createChatModal"--}}
 {{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
            class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Chatbot
         </a>
@@ -33,7 +34,7 @@
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
                     <div class="d-flex flex-column gap-3 chat-card">
                         <div class="d-flex justify-content-between">
-                            <a href="{{route('admin_hai_chat_detail', $chat['name'])}}">
+                            <a href="{{route('admin_edit_brain', $chat['id'])}}">
                                 <h5 style="color: #f2661c" class="text-decoration-none"><i
                                         class="bi bi-robot"></i> {{ $chat['name'] }}
                                 </h5>

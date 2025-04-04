@@ -540,7 +540,7 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.persona');
+            return view('admin-dashboards.hai-chat.detail');
 
         }catch (\Exception $exception){
 
@@ -554,6 +554,32 @@ class AdminController extends Controller
         try {
 
             return view('admin-dashboards.hai-chat.comparison');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function createBrain(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.brains.create-brain');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function editBrain($id){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.brains.edit-brain', compact('id'));
 
         }catch (\Exception $exception){
 

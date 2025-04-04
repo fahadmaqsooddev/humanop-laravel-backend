@@ -145,6 +145,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/fine-tune', [AdminController::class,'fineTune'])->name('fine_tune');
         Route::get('/hai-chat-persona', [AdminController::class,'haiChatPersona'])->name('admin_hai_chat_persona');
         Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
+        Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
+        Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {

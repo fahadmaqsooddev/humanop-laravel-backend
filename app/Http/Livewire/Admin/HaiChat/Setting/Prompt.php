@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
 use Illuminate\Support\Facades\Request;
@@ -11,7 +12,7 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 class Prompt extends Component
 {
-    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message;
+    public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null;
     public $name;
     protected $rules = [
         'name' => 'required',
@@ -20,22 +21,44 @@ class Prompt extends Component
     ];
 
     protected $messages = [
-        'name.required' => 'Something went during updating prompt.',
+        'name.required' => 'Select chat-bot first',
         'prompt.required' => 'Prompt is required.',
         'restriction.required' => 'LLM Restriction is required.',
         'restriction.max' => 'LLM Restriction characters limit are 10000.',
         'prompt.max' => 'Prompt characters limit are 10000.',
     ];
 
-    public function mount($name)
-    {
-        $this->name = $name;
-        $detail= ChatPrompt::singlePromptByName($this->name);
-        if($detail){
-            $this->prompt = $detail['prompt'];
-            $this->restriction = $detail['restriction'];
+    public $listeners = ['updateChatBotId'];
+
+    public function updateChatBotId($value){
+
+        $this->chat_bot_id = $value;
+
+        if ($this->chat_bot_id){
+
+            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+
+            if ($chatBotName){
+
+                $this->name = $chatBotName;
+
+                $detail = ChatPrompt::singlePromptByName($chatBotName);
+
+                if($detail){
+
+                    $this->prompt = $detail['prompt'];
+                    $this->restriction = $detail['restriction'];
+
+                }
+
+                $this->keywords = ChatbotKeyword::chatbotKeywords($chatBotName);
+
+            }
+
         }
+
     }
+
     public function update(){
         try {
             $this->validate();
@@ -106,12 +129,14 @@ class Prompt extends Component
                 [
                     'keyword_restriction_message' => 'required|max:180',
                     'keyword' => 'required|max:180',
+                    'name' => 'required'
                 ],
                 [
                     'keyword_restriction_message.required' => 'Keyword restriction message is required.',
                     'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.',
                     'keyword.required' => 'Keyword is required.',
-                    'keyword.max' => 'Keyword character limit is 180.'
+                    'keyword.max' => 'Keyword character limit is 180.',
+                    'name.required' => 'Select chat-bot first',
                 ]);
 
             if ($this->keyword){
@@ -143,10 +168,11 @@ class Prompt extends Component
         try {
 
             $this->validate(
-                ['keyword_restriction_message' => 'required|max:180'],
+                ['keyword_restriction_message' => 'required|max:180','name' => 'required'],
                 [
                     'keyword_restriction_message.required' => 'Keyword restriction message is required.',
-                    'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.'
+                    'keyword_restriction_message.max' => 'Keyword restriction message character limit is 180.',
+                    'name.required' => 'Select chat-bot first',
                 ]);
 
             ChatPrompt::createUpdatePrompt($this->name,$this->prompt, $this->restriction, $this->keyword_restriction_message);
@@ -173,7 +199,31 @@ class Prompt extends Component
     public function render()
     {
 
-        $this->keywords = ChatbotKeyword::chatbotKeywords($this->name);
+        if ($this->chat_bot_id){
+
+            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+
+            if ($chatBotName){
+
+                $this->name = $chatBotName;
+
+                $detail = ChatPrompt::singlePromptByName($chatBotName);
+
+                if($detail){
+
+                    $this->prompt = $detail['prompt'];
+                    $this->restriction = $detail['restriction'];
+
+                }
+
+                $this->keywords = ChatbotKeyword::chatbotKeywords($chatBotName);
+
+            }
+
+        }else{
+
+            $this->reset();
+        }
 
         return view('livewire.admin.hai-chat.setting.prompt');
     }
