@@ -42,7 +42,7 @@ class HaiChat extends Component
 
 //            $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/create-chatbot', ['vendor_n' => $this->name, 'loc' => $subFolder]);
 
-            $chatbot = Chatbot::createChat($aiReply, $this->description);
+            $chatbot = Chatbot::createChatBot($aiReply, $this->description);
 
             HaiChatSetting::updateHaiChatSetting(null,null,null,null,$chatbot->id);
 

@@ -42,14 +42,11 @@ class HaiChatSetting extends Model
         return $setting;
     }
 
-    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_type = null, $chat_bot_id = null, $plan_id = null)
+    public static function updateHaiChatSetting($temperature = null, $max_token = null, $chunk = null, $model_id = null, $chat_bot_id = null, $plan_id = null)
     {
         $setting = self::where('chat_bot_id', $chat_bot_id)->first();
 
         $defaultPlanId = Plan::where('name', 'Freemium')->first()->id ?? null;
-        $model_id = LlmModel::where('model_value', $model_type)->value('id');
-
-
 
         if ($setting){
 

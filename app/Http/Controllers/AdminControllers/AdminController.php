@@ -561,4 +561,30 @@ class AdminController extends Controller
         }
 
     }
+
+    public function createBrain(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.brains.create-brain');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function editBrain($id){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.brains.edit-brain', compact('id'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

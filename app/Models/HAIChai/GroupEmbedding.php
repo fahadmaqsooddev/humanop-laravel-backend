@@ -77,14 +77,57 @@ class GroupEmbedding extends Model
         self::where('embedding_id', $embedding_id)->delete();
     }
 
-    // public static function groupEmbeddingsIds($group_id = null){
-
-    //     return self::where('group_id', $group_id)->pluck('embedding_id');
-
-    // }
-
     public static function embeddingGroups($embedding_id = null){
 
         return self::where('embedding_id', $embedding_id)->pluck('group_id')->toArray();
+    }
+
+    public static function connectAllGroupEmbeddings($group_ids = [], $botName = null){
+
+        foreach ($group_ids as $group_id){
+
+            $groups = self::has('embedding')->where('group_id', $group_id)->with('embedding')->get();
+
+            foreach ($groups as $group){
+
+                if (isset($group['embedding']['request_id'])){
+
+                    HaiChatActiveEmbedding::createActiveEmbedding($botName, $group['embedding']['request_id']);
+                }
+
+            }
+
+        }
+
+    }
+
+    public static function connectGroupEmbeddings($group_id = null, $botName = null){
+
+        $groups = self::has('embedding')->where('group_id', $group_id)->with('embedding')->get();
+
+        foreach ($groups as $group){
+
+            if (isset($group['embedding']['request_id'])){
+
+                HaiChatActiveEmbedding::createActiveEmbedding($botName, $group['embedding']['request_id']);
+            }
+
+        }
+
+    }
+
+    public static function removeGroupEmbeddings($group_id = null, $botName = null){
+
+        $groups = self::has('embedding')->where('group_id', $group_id)->with('embedding')->get();
+
+        foreach ($groups as $group){
+
+            if (isset($group['embedding']['request_id'])){
+
+                HaiChatActiveEmbedding::removeActiveEmbedding($botName, $group['embedding']['request_id']);
+            }
+
+        }
+
     }
 }
