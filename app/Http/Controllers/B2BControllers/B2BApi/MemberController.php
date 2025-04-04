@@ -17,6 +17,8 @@ use App\Http\Requests\B2B\MembertoCandidate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use App\Models\UserInvite\UserInvite;
+use App\Models\B2B\UserCandidateInvite;
 
 class MemberController extends Controller
 {
@@ -29,6 +31,71 @@ class MemberController extends Controller
         $this->middleware('auth:api');
 
         $this->user = $user;
+    }
+
+    
+    public function createInviteLinkForMember(Request $request)
+    {
+        try {
+            $email = $request->input('email');
+
+            $checkInviteLink = UserInvite::getSingleInvite($email);
+            
+
+            if ($checkInviteLink) {
+                
+                
+                $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
+
+                if ($checkCompany && $checkInviteLink['role']==Admin::B2B_INVITE_ROLE) {
+
+                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
+                    
+                }else if ($checkCompany && $checkInviteLink['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+                    return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
+
+                }
+                 else {
+
+                    UserCandidateInvite::createUserInvite($checkInviteLink->id);
+
+                    $linke=UserInvite::where('email',$email)->first();
+                    
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+
+                    $emailData = $this->myprepareEmailData($url);
+
+                    $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
+
+                    return Helpers::successResponse("{$email} invite link generated successfully.");
+                }
+            }
+            
+
+       
+            $newInvite = UserInvite::createInvite($email,3);
+
+            if ($newInvite) {
+
+                UserCandidateInvite::createUserInvite($newInvite->id);
+                $linke=UserInvite::where('email',$email)->first();
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $emailData = $this->myprepareEmailData($url);
+
+                $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
+
+                return Helpers::successResponse("{$email} invite link generated successfully.");
+
+            }
+
+            return Helpers::serverErrorResponse("Failed to generate invite link for {$email}.");
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
     public function addMember(AddMemberRequest $request)
@@ -256,5 +323,29 @@ class MemberController extends Controller
 
         }
     }
+
+    private function myprepareEmailData($url = null,)
+    {
+        return [
+            '{$link}' => $url,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function mysendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
+    }
+
+    
 
 }
