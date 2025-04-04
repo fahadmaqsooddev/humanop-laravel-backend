@@ -60,11 +60,22 @@
                                         class="bi bi-robot"></i> {{ $chat['name'] }}
                                 </h5>
                             </a>
-                            @if($chat['setting']['persona_name'] ?? false)
-                                <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
-                            @else
-                                <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
-                            @endif
+
+                            <div>
+
+                                @if($chat['setting']['persona_name'] ?? false)
+                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
+                                @else
+                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
+                                @endif
+
+                                @if($chat['is_published'] === 1)
+                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>
+                                @else
+                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>
+                                @endif
+
+                            </div>
 
                         </div>
                         @if(strlen($chat['description']) > 50)

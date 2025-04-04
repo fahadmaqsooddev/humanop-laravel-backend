@@ -8,6 +8,7 @@ use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\HAIChai\LlmModel;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
@@ -189,6 +190,51 @@ class HaiChat extends Component
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
+
+    }
+
+    public function publishChatBot($chat_bot_id){
+
+        $chatBot = Chatbot::whereId($chat_bot_id)->first();
+
+        if ($chatBot){
+
+            $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
+
+            if(!$settings){
+
+                HaiChatSetting::updateHaiChatSetting(0.5, 500, 1, null, $chat_bot_id);
+
+                $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
+            }
+
+            $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($chatBot->name);
+
+            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = [
+                'temperature' => $settings['temperature'],
+                'max_tokens' => $settings['max_token'],
+                'file_name' => $active_embedding_ids,
+                'prompt_folder' => $chatBot['name'],
+                'total_chunks' => $settings['chunk'],
+                'gpt_model' => $model_value['model_value'] ?? null,
+                'loc' => $subFolder
+            ];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+            if (isset($aiReply['s3_path'])){
+
+                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+
+                Chatbot::where('name', $chatBot['name'])->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+            }
+
+        }
+
 
     }
 
