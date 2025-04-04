@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Admin\Admin;
+use App\Events\Assessment\SubmitAssessment;
 use App\Events\DailyTip\NewDailyTip;
 use App\Helpers\Helpers;
 use App\Models\Admin\DailyTip\DailyTip;
@@ -814,10 +815,16 @@ class Assessment extends Model
                     }
                     break;
                 case 'gre':
-                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+//                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+//                        $filtered_keys[$key] = $value;
+//                    }
+                    if ($assessment['gre'] > 2 && ($assessment['jo'] > 7 || $assessment['mer'] > 4 )) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['so'] < 5))) {
+//                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['so'] < 5))) {
+//                        $filtered_keys_red[$key] = $value;
+//                    }
+                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 8 && $assessment['mer'] < 5)) {
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
@@ -1183,8 +1190,8 @@ class Assessment extends Model
     {
 
         $multipleAnswersArray = [];
-
         $codeA = [];
+        $codeArray = [];
 
         if (!empty($answer_ids)) {
 
@@ -1234,8 +1241,6 @@ class Assessment extends Model
 
         $userId = Helpers::getUser()->id;
 
-        $codeArray = [];
-
         foreach ($codeA as $code => $value) {
 
             $lowercaseCode = strtolower($code);
@@ -1253,14 +1258,14 @@ class Assessment extends Model
 
         if ($existingAssessment) {
 
-
-            if ($existingAssessment['app_page'] < $existingAssessment['page']) {
-
-                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
-
-                return 'You have already submitted these questions. Please start with the new set of questions.';
-
-            } else {
+//            if ($currentPage < $existingAssessment['page']) {
+//
+////                $existingAssessment->update(['app_page' => $existingAssessment['page']]);
+//
+//                return 'You have already submitted these questions. Please start with the new set of questions.';
+//
+//            }
+//            else {
 
                 $oldResult = $existingAssessment->toArray();
 
@@ -1278,19 +1283,17 @@ class Assessment extends Model
                     }
                 }
 
-
-                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])
-                        ->where('active', 1)
-                        ->count() / 3) ?? 0;
+                $totalPages = ceil(Question::whereNull('question_id')->whereIn('gender', [Helpers::getUser()->gender, 2])->where('active', 1)->count() / 3) ?? 0;
 
                 $current_page = $existingAssessment->page + 1;
 
                 if ($totalPages == $current_page) {
 
                     $resultArray['page'] = 0;
-                    $resultArray['app_page'] = 0;
 
                     $existingAssessment->update($resultArray);
+
+                    event(new SubmitAssessment(Helpers::getUser()['id'], 0));
 
                     $latestAssessment = Assessment::getLatestAssessment($userId);
 
@@ -1336,9 +1339,7 @@ class Assessment extends Model
 
                                     if ($newDailyTip) {
 
-                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])
-                                            ->latest()
-                                            ->first();
+                                        $latestTip = UserDailyTip::where('user_id', $user['id'])->where('daily_tip_id', $newDailyTip['id'])->latest()->first();
 
                                         $alreadyExist = $latestTip && $latestTip->created_at >= Carbon::now()->subDays(365);
 
@@ -1374,12 +1375,14 @@ class Assessment extends Model
                         $message = "Congratulations on finishing your assessment!";
                     }
 
-                } else {
+                }
+                else {
 
                     $resultArray['page'] = $current_page;
-                    $resultArray['app_page'] = $current_page;
 
                     $existingAssessment->update($resultArray);
+
+                    event(new SubmitAssessment(Helpers::getUser()['id'], $current_page + 1));
 
                 }
 
@@ -1389,7 +1392,7 @@ class Assessment extends Model
 
                 AssessmentColorCode::createFeaturesCodeAndColor($existingAssessment);
 
-            }
+//            }
 
         }
 
