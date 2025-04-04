@@ -15,7 +15,7 @@ use Livewire\Component;
 class CreateBrain extends Component
 {
 
-    public $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks;
+    public $name, $description, $search_clusters, $search_connected_clusters, $temperature = 0.5, $max_tokens = 250, $llm_model_id, $chunks = 1;
 
     public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
 
@@ -28,6 +28,7 @@ class CreateBrain extends Component
         'max_tokens' => 'required',
         'llm_model_id' => 'required',
         'chunks' => 'required',
+        'activeGroupIds' => 'required|array',
     ];
 
     public function addToCluster($group_id){
