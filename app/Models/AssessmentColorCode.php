@@ -191,6 +191,21 @@ class AssessmentColorCode extends Model
     public static function createFeaturesCodeAndColor($assessment = null)
     {
 
+        $second_row_sa = $assessment['sa'] + $assessment['ma'] + $assessment['mer'];
+        $second_row_ma = $assessment['sa'] + $assessment['ma'] + $assessment['jo'];
+        $second_row_jo = $assessment['ma'] + $assessment['jo'] + $assessment['lu'];
+        $second_row_lu = $assessment['jo'] + $assessment['lu'] + $assessment['ven'];
+        $second_row_ven = $assessment['lu'] + $assessment['ven'] + $assessment['mer'];
+        $second_row_mer = $assessment['ven'] + $assessment['mer'] + $assessment['sa'];
+
+        $third_row_sa = $assessment['sa'] * $second_row_sa;
+        $third_row_ma = $assessment['ma'] * $second_row_ma;
+        $third_row_jo = $assessment['jo'] * $second_row_jo;
+        $third_row_lu = $assessment['lu'] * $second_row_lu;
+        $third_row_ven = $assessment['ven'] * $second_row_ven;
+        $third_row_mer = $assessment['mer'] * $second_row_mer;
+        $third_row_so = 0;
+
         $features = [
             'de' => $assessment['de'],
             'dom' => $assessment['dom'],
@@ -258,11 +273,17 @@ class AssessmentColorCode extends Model
         foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
-                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['de'] > 2 && $assessment['ma'] < 5) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 )) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['de'] > 2 && $assessment['ma'] < 5)) {
+                        if ($third_row_ma > 30){
+                            if ($assessment['sa'] < 5 || $assessment['jo'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_ma < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'dom':
@@ -285,7 +306,7 @@ class AssessmentColorCode extends Model
 //                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 6 || $assessment['mer'] > 4 )) || ($assessment['gre'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4) || ($assessment['gre'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
 //                        $filtered_keys[$key] = $value;
 //                    }
-                    if (($assessment['gre'] > 2 && ($assessment['jo'] > 7 || $assessment['mer'] > 4 ))) {
+                    if ($assessment['gre'] > 2 && ($assessment['jo'] > 7 || $assessment['mer'] > 4 )) {
                         $filtered_keys[$key] = $value;
                     }
 //                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
@@ -296,11 +317,17 @@ class AssessmentColorCode extends Model
                     }
                     break;
                 case 'lun':
-                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4 && $third_row_lu > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5) && ($assessment['ven'] < 5 || $assessment['jo'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5)) {
+                        if ($third_row_lu > 30){
+                            if ($assessment['ven'] < 5 || $assessment['jo'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_lu < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'nai':
@@ -328,14 +355,17 @@ class AssessmentColorCode extends Model
                     }
                     break;
                 case 'sp':
-                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row_sp > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
-                    }
-                    elseif (($assessment['tra'] > 2 && ($assessment['jo'] < 5 && $assessment['ven'] < 5)) && ($assessment['ma'] < 5 || $assessment['lu'] < 5 || $assessment['mer'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5)) {
+                        if ($third_row_jo > 30){
+                            if ($assessment['ma'] < 5 || $assessment['lu'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_jo < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'tra':
@@ -355,7 +385,7 @@ class AssessmentColorCode extends Model
                     }
                     break;
                 case 'wil':
-                    if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4)) {
+                    if (($assessment['wil'] > 2 && ($assessment['ma'] > 4 || $assessment['lu'] > 4)) || ($assessment['wil'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30) || ($assessment['wil'] > 2 && $assessment['jo'] > 4 && $assessment['ven'] > 4 && $third_row_lu > 30)) {
                         $filtered_keys[$key] = $value;
                     }
                     elseif (($assessment['wil'] > 2 && ($assessment['ma'] < 5 && $assessment['lu'] < 5)) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 || $assessment['ven'] < 5)) {

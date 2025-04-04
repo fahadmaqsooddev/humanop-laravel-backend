@@ -20,6 +20,17 @@
 
     <div class="card card-bg-white-orange-border" id="persona">
         @include('layouts.message')
+
+        <div class="card-header">
+            <h5 class="text-orange setting-form-heading py-0">CONNECTED BRAIN FOR THIS PERSONA</h5>
+            <select class="form-control input-bg" id="chatDescription" wire:model="chat_bot_id">
+                <option value="">NONE</option>
+                @foreach($chatBots as $chatBot)
+                    <option value="{{$chatBot->id}}">{{$chatBot->name}}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
             <input type="text" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
@@ -27,19 +38,8 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Text of Persona</h5>
-            <textarea type="text" rows="6" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_text" placeholder="Enter text of persona">
-            </textarea>
+            <textarea type="text" rows="6" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_text" placeholder="Enter text of persona"></textarea>
         </div>
-
-{{--        <div class="card-header">--}}
-{{--            <h5 class="text-orange setting-form-heading py-0">CONNECTED BRAIN FOR THIS PERSONA</h5>--}}
-{{--            <select class="form-control input-bg" id="chatDescription" wire:model="chat_bot_id">--}}
-{{--                <option>NONE</option>--}}
-{{--                @foreach($chatBots as $chatBot)--}}
-{{--                    <option value="{{$chatBot->id}}">{{$chatBot->name}}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--        </div>--}}
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH HUMANOP APP?</h5>

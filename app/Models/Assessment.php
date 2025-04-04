@@ -791,11 +791,17 @@ class Assessment extends Model
         foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
-                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['de'] > 2 && $assessment['ma'] > 4) || ($assessment['de'] > 2 && $assessment['sa'] > 4 && $assessment['jo'] > 4 && $third_row_ma > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['de'] > 2 && $assessment['ma'] < 5) && ($assessment['sa'] < 5 || $assessment['jo'] < 5 )) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['de'] > 2 && $assessment['ma'] < 5)) {
+                        if ($third_row_ma > 30){
+                            if ($assessment['sa'] < 5 || $assessment['jo'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_ma < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'dom':
@@ -821,7 +827,7 @@ class Assessment extends Model
                     if ($assessment['gre'] > 2 && ($assessment['jo'] > 7 || $assessment['mer'] > 4 )) {
                         $filtered_keys[$key] = $value;
                     }
-//                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['so'] < 5))) {
+//                    elseif (($assessment['gre'] > 2 && $assessment['jo'] < 7 && $assessment['mer'] < 5) && ($assessment['gre'] > 2 && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) && ($assessment['gre'] > 2 && ($assessment['ven'] < 5 || $assessment['sa'] < 5))) {
 //                        $filtered_keys_red[$key] = $value;
 //                    }
                     elseif (($assessment['gre'] > 2 && $assessment['jo'] < 8 && $assessment['mer'] < 5)) {
@@ -829,11 +835,17 @@ class Assessment extends Model
                     }
                     break;
                 case 'lun':
-                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4)) {
+                    if (($assessment['lun'] > 2 && $assessment['lu'] > 4) || ($assessment['lun'] > 2 && $assessment['ven'] > 4 && $assessment['jo'] > 4 && $third_row_lu > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5) && ($assessment['ven'] < 5 || $assessment['jo'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['lun'] > 2 && $assessment['lu'] < 5)) {
+                        if ($third_row_lu > 30){
+                            if ($assessment['ven'] < 5 || $assessment['jo'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_lu < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'nai':
@@ -852,7 +864,6 @@ class Assessment extends Model
                         $filtered_keys_red[$key] = $value;
                     }
                     break;
-
                 case 'pow':
                     if (($assessment['pow'] > 2 && ($assessment['jo'] > 4 || $assessment['mer'] > 4)) || ($assessment['pow'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4) || ($assessment['pow'] > 2 && $assessment['ven'] > 4 && $assessment['sa'] > 4)) {
                         $filtered_keys[$key] = $value;
@@ -862,11 +873,17 @@ class Assessment extends Model
                     }
                     break;
                 case 'sp':
-                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4)) {
+                    if (($assessment['sp'] > 2 && $assessment['jo'] > 4) || ($assessment['sp'] > 2 && $assessment['ma'] > 4 && $assessment['lu'] > 4 && $third_row_jo > 30)) {
                         $filtered_keys[$key] = $value;
                     }
-                    elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5) && ($assessment['ma'] < 5 || $assessment['lu'] < 5)) {
-                        $filtered_keys_red[$key] = $value;
+                    elseif (($assessment['sp'] > 2 && $assessment['jo'] < 5)) {
+                        if ($third_row_jo > 30){
+                            if ($assessment['ma'] < 5 || $assessment['lu'] < 5){
+                                $filtered_keys_red[$key] = $value;
+                            }
+                        }elseif ($third_row_jo < 30){
+                            $filtered_keys_red[$key] = $value;
+                        }
                     }
                     break;
                 case 'tra':

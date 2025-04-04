@@ -51,7 +51,7 @@ class Chatbot extends Model
 
 
     // Queries
-    public static function createChat($name = null, $description = null)
+    public static function createChatBot($name = null, $description = null)
     {
         return self::create([
             'name' => $name,
@@ -71,14 +71,17 @@ class Chatbot extends Model
 
     public static function getChatFromVendorName($vendor_name = null)
     {
-
         return self::where('name', $vendor_name)->first();
     }
 
     public static function deleteChat($id = null)
     {
         return self::whereId($id)->delete();
+    }
 
+    public static function updateChatBot($chat_bot_id = null, $description = null){
+
+        self::whereId($chat_bot_id)->update(['description' => $description]);
 
     }
 }

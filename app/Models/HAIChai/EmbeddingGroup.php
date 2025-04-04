@@ -43,9 +43,15 @@ class EmbeddingGroup extends Model
         return self::all();
     }
 
-    public static function activeGroups(){
+    public static function activeGroups($chatBotName = null, $name = null){
 
-        return self::where(function ($query){
+        request()->merge(['chat_bot' => $chatBotName]);
+
+        return self::when($name, function ($query, $name){
+
+            $query->where('name', "like", "%$name%");
+
+        })->where(function ($query){
 
             return $query->has('embeddings.embedding.activeEmbedding');
 
@@ -76,6 +82,22 @@ class EmbeddingGroup extends Model
 
         return self::whereIn('id', $group_ids)->get()->pluck('name')->toArray();
 
+    }
+
+    public static function nonActiveGroups($chatBotName = null, $name = null){
+
+        request()->merge(['chat_bot' => $chatBotName]);
+
+        return self::when($name, function ($query, $name){
+
+            $query->where('name', "like", "%$name%");
+        })
+
+            ->where(function ($query){
+
+            return $query->whereDoesntHave('embeddings.embedding.activeEmbedding');
+
+        })->get();
     }
 
 }
