@@ -66,10 +66,8 @@ class MessageController extends Controller
 
                 $heading = $senderUserName . " send you a message";
 
-                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading))->broadcastVia('b2c_pusher');;
-
+                event(new MessageSent($request->input('receiver_id'), $request->input('message'), $message->created_at, $heading));
                 Helpers::OneSignalApiUsed($request->input('receiver_id'), $heading, $request->input('message'));
-
                 Notification::createNotification('message sent', $heading, null, $request->input('receiver_id'), 1, Admin::MESSAGE_SEND_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
                 event(new NewMessage(Helpers::getUser()->id,$request->input('receiver_id'),$request->input('message'),$message['created_at']));

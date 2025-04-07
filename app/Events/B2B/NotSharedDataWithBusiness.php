@@ -33,13 +33,6 @@ class NotSharedDataWithBusiness implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-
-    public function broadcastVia()
-    {
-        return ['b2b_pusher'];
-    }
-
-
     public function broadcastOn()
     {
         return new Channel('push-notification.' . $this->companyId);
