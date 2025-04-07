@@ -14,7 +14,6 @@ switch (env('APP_ENV')) {
         $pusher_app_key = 'a5dee527655617511cab';
         $pusher_app_secret = '767124ac1947a6374245';
         $pusher_app_cluster = 'ap2';
-
         break;
 
     case 'production':
@@ -22,21 +21,20 @@ switch (env('APP_ENV')) {
         $pusher_app_key = 'ca4a9d174db56bc7fd87';
         $pusher_app_secret = '463171c2c1221a92d435';
         $pusher_app_cluster = 'ap2';
-
-        break;
-
-};
-
-switch (env('B2B_DEV')) {
-    case 'local':
-    case 'development':
-        $pusher_app_id = 1960430;
-        $pusher_app_key = 'a80894fc40705b88a39d';
-        $pusher_app_secret = 'a6148737cfc962b74ad9';
-        $pusher_app_cluster = 'ap2';
-        break;
+ break;
 
 };
+
+//switch (env('B2B_DEV')) {
+//    case 'local':
+//    case 'development':
+//        $pusher_app_id = 1960430;
+//        $pusher_app_key = 'a80894fc40705b88a39d';
+//        $pusher_app_secret = 'a6148737cfc962b74ad9';
+//        $pusher_app_cluster = 'ap2';
+//        break;
+//
+//};
 
 return [
 
