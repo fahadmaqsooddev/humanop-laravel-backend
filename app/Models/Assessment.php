@@ -799,7 +799,7 @@ class Assessment extends Model
                             if ($assessment['sa'] < 5 || $assessment['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_ma < 30){
+                        }elseif ($third_row_ma <= 30){
                             $filtered_keys_red[$key] = $value;
                         }
                     }
@@ -843,7 +843,7 @@ class Assessment extends Model
                             if ($assessment['ven'] < 5 || $assessment['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_lu < 30){
+                        }elseif ($third_row_lu <= 30){
                             $filtered_keys_red[$key] = $value;
                         }
                     }
@@ -881,7 +881,7 @@ class Assessment extends Model
                             if ($assessment['ma'] < 5 || $assessment['lu'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_jo < 30){
+                        }elseif ($third_row_jo <= 30){
                             $filtered_keys_red[$key] = $value;
                         }
                     }

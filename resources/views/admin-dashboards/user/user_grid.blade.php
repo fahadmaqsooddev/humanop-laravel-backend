@@ -141,7 +141,7 @@ foreach ($features as $key => $value) {
                             if ($grid['sa'] < 5 || $grid['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_ma < 30){
+                        }elseif ($third_row_ma <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }
@@ -185,7 +185,7 @@ foreach ($features as $key => $value) {
                             if ($grid['ven'] < 5 || $grid['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_lu < 30){
+                        }elseif ($third_row_lu <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }
