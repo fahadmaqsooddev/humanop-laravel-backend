@@ -72,7 +72,7 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
-       
+
         return self::with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
             'assessments:id,user_id'
@@ -110,7 +110,7 @@ class B2BBusinessCandidates extends Model
             ->orderBy('id','desc')
             ->get();
 
-       
+
 
 
         return $data;
@@ -120,16 +120,16 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-       
+
         $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)
         ->whereHas('assessments',function($query){
             $query->whereNotNull('page')->where('page', 0);
         });
- 
+
 
         $count = $baseQuery->count();
-        
-        
+
+
 
         if ($count === 0) {
             return null;
@@ -280,7 +280,7 @@ class B2BBusinessCandidates extends Model
 //
 //            $checkBusinessCandidate->update(['share_data' => 2]);
 
-            event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
+            event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"))->broadcastVia('b2b_pusher');;
 
             Notification::createNotification('Not Share Data',  "$candidateName not shared their data with your company", '', $businessId, 0,Admin::B2B_NOT_SHARE_DATA_NOTIFICATION,Admin::B2B_NOTIFICATION);
 //        }

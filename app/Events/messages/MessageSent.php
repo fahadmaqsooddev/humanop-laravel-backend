@@ -39,6 +39,10 @@ class MessageSent implements ShouldBroadcast
      * @return \Illuminate\Broadcasting\Channel|array
      */
 
+    public function broadcastVia()
+    {
+        return ['b2c_pusher']; // or just 'pusher' for default
+    }
     public function broadcastOn()
     {
         return new Channel('push-notification.' . $this->friendId);
