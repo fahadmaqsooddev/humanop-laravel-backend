@@ -130,7 +130,7 @@
             $filtered_keys = [];
             $filtered_keys_red = [];
 
-foreach ($features as $key => $value) {
+            foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
                     if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4  && $third_row_ma > 30)) {
