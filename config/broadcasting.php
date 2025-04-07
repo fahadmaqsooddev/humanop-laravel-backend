@@ -66,7 +66,7 @@ return [
 
     'connections' => [
 
-        'pusher_b2c' => [
+        'pusher' => [
             'driver' => 'pusher',
             'key' => $pusher_app_key,
             'secret' => $pusher_app_secret,
