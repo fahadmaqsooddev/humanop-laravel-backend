@@ -223,7 +223,7 @@ foreach ($features as $key => $value) {
                             if ($grid['ma'] < 5 || $grid['lu'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_jo < 30){
+                        }elseif ($third_row_jo <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }
