@@ -32,7 +32,7 @@ class Feedback extends Model
     public static function storeClientFeedback($data = null)
     {
 
-        self::create($data);
+       return self::create($data);
     }
 
     public static function getSingleFeedback($feedbackId = null)
