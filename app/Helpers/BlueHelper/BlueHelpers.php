@@ -20,15 +20,14 @@ class BlueHelpers
         ];
 
         $profileLink = is_array($url) && isset($url['url']) ? $url['url'] : 'N/A';
-
+        $fullDescription = addslashes($description) . ' from Email Address: ' . addslashes($userEmail) . '<br>'.'image: ' . addslashes($profileLink);
         $query = '
             mutation CreateRecord {
                 createTodo(
                     input: {
                         todoListId: "cm3hnnh510g781042xyy6z5ns",
                         title: "' . addslashes($title) . '",
-                        description: "' . addslashes($description) . ' from Email Address:  '. addslashes($userEmail) .'
-                         profile link: '. addslashes($profileLink) .'",
+                          description: "' . $fullDescription . '",
                         position: 65535,
                         placement: TOP
                         customFields: [
@@ -47,6 +46,7 @@ class BlueHelpers
         ';
 
         $response = Http::withHeaders($headers)->post($apiUrl, ['query' => $query]);
+        
 
         return $response->json();
     }
