@@ -72,10 +72,10 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
-       
+
         return self::with([
             'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
-            'assessments:id,user_id'
+            'assessments:id,user_id,page'
         ])
             ->when($search_name, function ($query) use ($search_name) {
                 $query->whereHas('users', function ($q) use ($search_name) {
@@ -99,7 +99,7 @@ class B2BBusinessCandidates extends Model
     public static function allBusinessCandidates($business_id = null)
     {
         $data = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
-            'assessments:id,user_id'
+            'assessments:id,user_id,page'
         ])
             ->when($business_id, function ($query, $business_id) {
                 $query->where('business_id', $business_id)
@@ -110,7 +110,7 @@ class B2BBusinessCandidates extends Model
             ->orderBy('id','desc')
             ->get();
 
-       
+
 
 
         return $data;
@@ -120,16 +120,16 @@ class B2BBusinessCandidates extends Model
     public static function getBusinessCandidate()
     {
 
-       
+
         $baseQuery = self::where('business_id', Helpers::getUser()['id'])->where('share_data', Admin::SHARED_DATA)->where('role', Admin::IS_TEAM_MEMBER)
         ->whereHas('assessments',function($query){
             $query->whereNotNull('page')->where('page', 0);
         });
- 
+
 
         $count = $baseQuery->count();
-        
-        
+
+
 
         if ($count === 0) {
             return null;
