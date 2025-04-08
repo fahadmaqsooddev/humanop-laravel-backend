@@ -312,13 +312,13 @@ class UserController extends Controller
 
             }
             else{
-                
+
                 $url=''; 
             }
         
               
             // $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'],$url, $request['platform'], Helpers::getUser()['email']);
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'],$url);
 
 //            if (isset($response['errors'])) {
 //                dd($response['errors']); // Debugging errors
