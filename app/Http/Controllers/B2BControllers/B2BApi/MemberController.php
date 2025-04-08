@@ -101,6 +101,7 @@ class MemberController extends Controller
     public static function allMemberInvites()
     {
         try {
+            
             $invites = UserCandidateInvite::allMemberInvites();
 
             $memberInvites = [];
@@ -118,7 +119,7 @@ class MemberController extends Controller
                 ];
             }
 
-            return Helpers::successResponse("All candidate invites.", $memberInvites);
+            return Helpers::successResponse("All Member invites.", $memberInvites);
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
