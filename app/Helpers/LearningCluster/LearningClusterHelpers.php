@@ -4,6 +4,7 @@ namespace App\Helpers\LearningCluster;
 
 
 
+use App\Models\HAIChai\Chatbot;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use function OpenAI\ValueObjects\Transporter\data;
@@ -31,14 +32,27 @@ class LearningClusterHelpers
 
     public static function updateLearningCluster($brain_name, $question, $answer, $action){
 
-        $content = self::getLearningCluster($brain_name);
+        $brain_name = Chatbot::where('name', $brain_name)->first()->brain_name ?? null;
 
-        $dateTime = Carbon::now()->format('Y-m-d H:i:s');
+        if ($brain_name){
 
-        $new_content = $content . "\nQuestion: " . $question . "\nAnswer: " . $answer .
+            $content = self::getLearningCluster($brain_name);
 
-            "\nDate Time: " . $dateTime . "\nAction: " . $action ."\n";
+            $dateTime = Carbon::now()->format('Y-m-d H:i:s');
 
-        self::addContentToLearningCluster($brain_name, $new_content);
+            $new_content = $content . "\nQuestion: " . $question . "\nAnswer: " . $answer .
+
+                "\nDate Time: " . $dateTime . "\nAction: " . $action ."\n";
+
+            self::addContentToLearningCluster($brain_name, $new_content);
+
+        }
+    }
+
+    public static function deleteLearningClusterFile($brain_name){
+
+        $file_name = $brain_name . "_LEARNING_CLUSTER.txt";
+
+        Storage::disk('local')->delete('/learning_clusters/' . $file_name);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Helpers\LearningCluster\LearningClusterHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -91,6 +92,8 @@ class HaiChat extends Component
         {
 
             Chatbot::deleteChat($id);
+
+            LearningClusterHelpers::deleteLearningClusterFile($chat->brain_name);
 
             session()->flash('success', "Chatbot deleted successfully.");
 
