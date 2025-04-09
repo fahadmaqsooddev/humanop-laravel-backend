@@ -23,6 +23,11 @@
         @include('layouts.message')
 
         <div class="card-header">
+            <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
+            <input type="text" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
+        </div>
+
+        <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECTED BRAIN FOR THIS PERSONA</h5>
             <select class="form-control input-bg" id="chatDescription" wire:model="chat_bot_id">
                 <option value="">NONE</option>
@@ -33,37 +38,31 @@
         </div>
 
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
-            <input type="text" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
-        </div>
-
-        <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-0">Text of Persona</h5>
-            <textarea type="text" rows="6" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_text" placeholder="Enter text of persona"></textarea>
-        </div>
-
-        <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH HUMANOP APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model.defer="human_op_app">
-                <option value="">NONE</option>
-                <option value="1">FREEMIUM HAi</option>
-                <option value="2">CORE HAi</option>
-                <option value="3">PREMIUM HAi</option>
-                <option value="4">FREEMIUM "HELP!" HAi</option>
-                <option value="5">CORE "HELP!" HAi</option>
-                <option value="6">PREMIUM "HELP!" HAi</option>
+            <select class="form-control input-bg" id="human_app" wire:model.defer="human_op_app" onchange="alreadyExistsHumanApp(this)">
+                @if(empty($chat_bot_id))
+                    <option value="">SELECT BRAIN FIRST</option>
+                @else
+                    <option value="">NONE</option>
+                    <option value="1">FREEMIUM HAi</option>
+                    <option value="2">CORE HAi</option>
+                    <option value="3">PREMIUM HAi</option>
+                    <option value="4">FREEMIUM "HELP!" HAi</option>
+                    <option value="5">CORE "HELP!" HAi</option>
+                    <option value="6">PREMIUM "HELP!" HAi</option>
+                @endif
             </select>
         </div>
 
-        <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
-                <option value="">NONE</option>
-                <option value="1">GENERAL MAESTRO HAi</option>
-                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>
-                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>
-            </select>
-        </div>
+{{--        <div class="card-header">--}}
+{{--            <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>--}}
+{{--            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">--}}
+{{--                <option value="">NONE</option>--}}
+{{--                <option value="1">GENERAL MAESTRO HAi</option>--}}
+{{--                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>--}}
+{{--                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>--}}
+{{--            </select>--}}
+{{--        </div>--}}
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">
             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateOrSave"
@@ -79,6 +78,7 @@
 
 @push('javascript')
 
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
     <script>
 
         window.livewire.on('hideAlerts', function (){
@@ -92,7 +92,43 @@
 
             }, 5000);
 
-        })
+        });
+
+        connected_human_apps = [];
+
+        function alreadyExistsHumanApp(event){
+
+            connected_human_app = {{json_encode(array_values($connected_human_apps))}};
+
+            if(connected_human_app.includes(parseInt(event.value))){
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn bg-gradient-primary m-2',
+                        cancelButton: 'btn bg-gradient-secondary m-2',
+                    },
+                    buttonsStyling: false,
+                    background: '#3442b4',
+                })
+                swalWithBootstrapButtons.fire({
+                    // title: '<span style="color: white;">Are you sure?</span>',
+                    html: "<span style='color: white;'>This Connection already has another Persona attached to it.  Would you like to replace it with this Persona?</span>",
+                    showCancelButton: true,
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        window.livewire.emit('updateChatBotHumanApp', event.value);
+
+                    }else {
+
+                        document.getElementById('human_app').value = "";
+                    }
+                })
+            }
+
+        }
 
     </script>
 

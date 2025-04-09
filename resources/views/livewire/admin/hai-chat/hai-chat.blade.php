@@ -35,12 +35,12 @@
 
         <div class="d-flex justify-content-between gap-2">
 
-            <input wire:model="search_brain" type="text" placeholder="Search brain" class="input-bg">
+            <input wire:model="search_brain" type="text" placeholder="Search brain database" class="input-bg">
 
             <a href="{{route('admin_create_brain')}}"
                {{--            data-bs-toggle="modal" data-bs-target="#createChatModal"--}}
                {{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Chatbot
+               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create New Brain
             </a>
 
         </div>
@@ -53,52 +53,95 @@
 
             <div class="mt-3 col-12" style="padding-right: 5px;">
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
-                    <div class="d-flex flex-column gap-3 chat-card">
-                        <div class="d-flex justify-content-between">
-                            <a href="{{route('admin_edit_brain', $chat['id'])}}">
-                                <h5 style="color: #f2661c" class="text-decoration-none"><i
-                                        class="bi bi-robot"></i> {{ $chat['name'] }}
+
+                    <div class="d-flex justify-content-between w-100">
+                        <a href="{{route('admin_edit_brain', $chat['id'])}}" class="w-80">
+                            <div class="py-2">
+                                <h5 style="color: #f2661c" class="text-decoration-none">
+                                    <i class="bi bi-robot"></i>
+                                    {{ $chat['name'] }}
                                 </h5>
-                            </a>
+                            </div>
+                            <div class="py-2">
+                                @if(strlen($chat['description']) > 100)
 
-                            <div>
+                                    <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
 
+                                @else
+                                    <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
+                                @endif
+                            </div>
+                        </a>
+                        <div>
+                            <div class="py-2">
                                 @if($chat['setting']['persona_name'] ?? false)
                                     <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
                                 @else
                                     <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
                                 @endif
-
-                                @if($chat['is_published'] === 1)
-                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>
-                                @else
-                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>
-                                @endif
-
                             </div>
-
-                        </div>
-                        @if(strlen($chat['description']) > 50)
-
-                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>
-
-                        @else
-                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>
-                        @endif
-                        <div class="d-flex justify-content-end">
-{{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
-{{--                                than a minute</p>--}}
-                            <div class="d-flex gap-2">
-                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"
-                                        data-bs-toggle="modal" data-bs-target="#copyChatBot"
-                                wire:click="copyChatBot({{$chat->id}})">
-                                    <i class="fa-solid fa-copy"></i></button>
-                                <button  onclick="deleteChatBot({{ $chat['id'] }})"
-                                        class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
-                                    <i class="fa-solid fa-trash"></i></button>
+                            <div class="d-flex justify-content-end py-4">
+                                {{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
+                                {{--                                than a minute</p>--}}
+                                <div class="d-flex gap-2">
+                                    <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"
+                                            data-bs-toggle="modal" data-bs-target="#copyChatBot"
+                                            wire:click="copyChatBot({{$chat->id}})">
+                                        <i class="fa-solid fa-copy"></i></button>
+                                    <button  onclick="deleteChatBot({{ $chat['id'] }})"
+                                             class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">
+                                        <i class="fa-solid fa-trash"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+{{--                    <div class="d-flex flex-column gap-3 chat-card">--}}
+{{--                        <div class="d-flex justify-content-between">--}}
+{{--                            <a href="{{route('admin_edit_brain', $chat['id'])}}">--}}
+{{--                                <h5 style="color: #f2661c" class="text-decoration-none"><i--}}
+{{--                                        class="bi bi-robot"></i> {{ $chat['name'] }}--}}
+{{--                                </h5>--}}
+{{--                            </a>--}}
+
+{{--                            <div>--}}
+
+{{--                                @if($chat['setting']['persona_name'] ?? false)--}}
+{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>--}}
+{{--                                @else--}}
+{{--                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>--}}
+{{--                                @endif--}}
+
+{{--                                @if($chat['is_published'] === 1)--}}
+{{--                                    <a style="border: 2px solid #f2661c; color: white; background-color: #f2661c;border-radius: 10px; padding: 7px;">Published</a>--}}
+{{--                                @else--}}
+{{--                                    <a wire:click="publishChatBot({{$chat->id}})" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;cursor: pointer;">Publish</a>--}}
+{{--                                @endif--}}
+
+{{--                            </div>--}}
+
+{{--                        </div>--}}
+{{--                        @if(strlen($chat['description']) > 50)--}}
+
+{{--                            <p class="card-text" style="color: black">{{ substr($chat['description'], 0, 50) }}  <span wire:click="showModalChatBotDetail({{$chat['id']}})" data-toggle="modal" data-target="#chatBotDetailModal" style="color: #f2661c; cursor: pointer;"><b>read more...</b></span></p>--}}
+
+{{--                        @else--}}
+{{--                            <p class="card-text " style="color: black">{{ $chat['description'] }}</p>--}}
+{{--                        @endif--}}
+{{--                        <div class="d-flex justify-content-end">--}}
+{{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
+{{--                                than a minute</p>--}}
+{{--                            <div class="d-flex gap-2">--}}
+{{--                                <button class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button navButtonResponsive"--}}
+{{--                                        data-bs-toggle="modal" data-bs-target="#copyChatBot"--}}
+{{--                                wire:click="copyChatBot({{$chat->id}})">--}}
+{{--                                    <i class="fa-solid fa-copy"></i></button>--}}
+{{--                                <button  onclick="deleteChatBot({{ $chat['id'] }})"--}}
+{{--                                        class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">--}}
+{{--                                    <i class="fa-solid fa-trash"></i></button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         @endforeach
@@ -112,7 +155,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
-                        <h5 class="modal-title text-white" id="createChatModalLabel">Create New ChatBot</h5>
+                        <h5 class="modal-title text-white" id="createChatModalLabel">Create New Brain</h5>
                         <button type="button" class="close modal-close-btn new-orange-button" id="createChatModal"
                                 data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -124,12 +167,12 @@
                         <div class="pt-0">
                             <div class="row mt-2">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Chatbot Name</label>
+                                    <label class="form-label text-white">Brain Name</label>
                                     <div class="form-group">
                                         <input style="background-color: #0f1534;color: lightgrey !important"
                                                class="form-control text-white"
                                                type="text" name="limit"
-                                               placeholder="Enter chotbot name"
+                                               placeholder="Enter brain name"
                                                wire:model="name">
                                         @error('name')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -139,12 +182,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Chatbot description</label>
+                                    <label class="form-label text-white">Brain description</label>
                                     <div class="form-group">
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
                                                       rows="5" cols="5"
                                                       name="description"
-                                                      placeholder="Enter chatbot description"
+                                                      placeholder="Enter brain description"
                                                       wire:model="description"></textarea>
                                         @error('information')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -192,7 +235,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="d-flex justify-content-between">
-                        <h5 class="modal-title text-white" id="copyChatBot">Copy Chat Bot</h5>
+                        <h5 class="modal-title text-white" id="copyChatBot">Create a Duplicate Brain</h5>
                         <button type="button" class="close modal-close-btn new-orange-button" id="copyChatBotCloseButton"
                                 data-bs-dismiss="modal"
                                 aria-label="Close">
@@ -204,12 +247,12 @@
                         <div class="pt-0">
                             <div class="row mt-2">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Chatbot Name</label>
+                                    <label class="form-label text-white">Name of Duplicate Brain</label>
                                     <div class="form-group">
                                         <input style="background-color: #0f1534;color: lightgrey !important"
                                                class="form-control text-white"
                                                type="text" name="limit"
-                                               placeholder="Enter duplicate chotbot name"
+                                               placeholder="Enter duplicate brain name"
                                                wire:model="name">
                                         @error('name')
                                             <span class="text-sm text-danger">{{$message}}</span>
@@ -219,12 +262,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Chatbot description</label>
+                                    <label class="form-label text-white">Description of Duplicate Brain</label>
                                     <div class="form-group">
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
                                                       rows="5" cols="5"
                                                       name="description"
-                                                      placeholder="Enter duplicate chatbot description"
+                                                      placeholder="Enter duplicate brain description"
                                                       wire:model="description"></textarea>
                                         @error('information')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -266,7 +309,7 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete Chat bot</span>",
+                html: "<span style='color: white;'>Want to delete Brain</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
