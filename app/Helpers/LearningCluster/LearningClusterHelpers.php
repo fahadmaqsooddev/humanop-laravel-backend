@@ -12,7 +12,7 @@ use function OpenAI\ValueObjects\Transporter\data;
 class LearningClusterHelpers
 {
 
-    public static function addContentToLearningCluster($brain_name, $content = null){
+    public static function addContentToLearningCluster($brain_name, $content = ""){
 
         $file_name = $brain_name . "_LEARNING_CLUSTER.txt";
 
