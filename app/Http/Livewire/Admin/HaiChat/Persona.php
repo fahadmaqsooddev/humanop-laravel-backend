@@ -10,14 +10,15 @@ use Livewire\Component;
 
 class Persona extends Component
 {
-    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app;
+    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app, $connected_human_apps = [];
+
+    protected $listeners = ['updateChatBotHumanApp'];
 
     protected $rules = [
-        'persona_text' => 'required|max:10000',
         'persona_name' => 'required|max:50',
         'chat_bot_id' => 'required',
         'human_op_app' => 'nullable',
-        'maestro_app' => 'nullable'
+//        'maestro_app' => 'nullable'
     ];
 
     public function mount($name){
@@ -67,9 +68,18 @@ class Persona extends Component
 
     }
 
+    public function updateChatBotHumanApp($human_app){
+
+        $this->human_op_app = $human_app;
+
+        HaiChatSetting::where('human_op_app', $human_app)->update(['human_op_app' => 0]);
+    }
+
     public function render()
     {
         $this->chatBots = Chatbot::get();
+
+        $this->connected_human_apps = HaiChatSetting::pluck('human_op_app')->unique()->toArray();
 
 //        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 

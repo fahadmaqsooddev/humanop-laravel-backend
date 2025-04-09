@@ -22,24 +22,16 @@
     <div class="card card-bg-white-orange-border mt-4" id="prompt">
         @include('layouts.message')
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-2">Base Prompt</h5>
+            <h5 class="text-orange setting-form-heading py-2">BASE PROMPT (Defining The Personality)</h5>
             <textarea class="form-control input-bg" id="chatDescription" wire:model.defer="prompt"
-                      rows="6" placeholder="Enter chat prompt">
-                            </textarea>
+                      rows="6" placeholder="Enter base prompt"></textarea>
         </div>
 
-{{--        <div class="card-body d-sm-flex pt-0">--}}
-{{--                        --}}
-{{--        </div>--}}
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-2">LLM Restrictions</h5>
+            <h5 class="text-orange setting-form-heading py-2"> LLM RESTRICTIONS (Guardrails of Expression)</h5>
             <textarea class="form-control input-bg" id="chatDescription" wire:model.defer="restriction"
-                      rows="6" placeholder="Enter chat restrictions"></textarea>
+                      rows="6" placeholder="Enter llm restrictions"></textarea>
         </div>
-
-{{--        <div class="card-body d-sm-flex pt-0">--}}
-{{--                        --}}
-{{--        </div>--}}
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">
             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="update"

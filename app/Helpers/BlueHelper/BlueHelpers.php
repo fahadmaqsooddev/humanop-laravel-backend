@@ -19,8 +19,18 @@ class BlueHelpers
             'X-Bloo-Project-ID' => 'cm2kkgox801y52lukch5g2yxs',
         ];
 
-        $profileLink = is_array($url) && isset($url['url']) ? $url['url'] : 'N/A';
-        $fullDescription = addslashes($description) . ' from Email Address: ' . addslashes($userEmail) . '<br>'.'image: ' . addslashes($profileLink);
+//        $profileLink = is_array($url) && isset($url['url']) ? $url['url'] : '  ';
+//        $fullDescription = addslashes($description) . ' from Email Address: ' . addslashes($userEmail) . '<br>'.'image: ' . addslashes($profileLink);
+
+
+        $profileLink = is_array($url) && isset($url['url']) ? $url['url'] : '';
+
+        $fullDescription = addslashes($description) . ' from Email Address: ' . addslashes($userEmail);
+
+        if (!empty($profileLink)) {
+            $fullDescription .= '<br>image: ' . addslashes($profileLink);
+        }
+
         $query = '
             mutation CreateRecord {
                 createTodo(
