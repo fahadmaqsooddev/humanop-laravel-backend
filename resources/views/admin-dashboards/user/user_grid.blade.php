@@ -130,7 +130,7 @@
             $filtered_keys = [];
             $filtered_keys_red = [];
 
-foreach ($features as $key => $value) {
+            foreach ($features as $key => $value) {
             switch ($key) {
                 case 'de':
                     if (($grid['de'] > 2 && $grid['ma'] > 4) || ($grid['de'] > 2 && $grid['sa'] > 4 && $grid['jo'] > 4  && $third_row_ma > 30)) {
@@ -141,7 +141,7 @@ foreach ($features as $key => $value) {
                             if ($grid['sa'] < 5 || $grid['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_ma < 30){
+                        }elseif ($third_row_ma <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }
@@ -185,7 +185,7 @@ foreach ($features as $key => $value) {
                             if ($grid['ven'] < 5 || $grid['jo'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_lu < 30){
+                        }elseif ($third_row_lu <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }
@@ -223,7 +223,7 @@ foreach ($features as $key => $value) {
                             if ($grid['ma'] < 5 || $grid['lu'] < 5){
                                 $filtered_keys_red[$key] = $value;
                             }
-                        }elseif ($third_row_jo < 30){
+                        }elseif ($third_row_jo <= 30){
                                 $filtered_keys_red[$key] = $value;
                         }
                     }

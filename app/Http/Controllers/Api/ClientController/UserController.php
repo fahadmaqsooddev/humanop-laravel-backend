@@ -297,17 +297,37 @@ class UserController extends Controller
 
             $dataArray['user_id'] = Helpers::getUser()->id;
 
-            Feedback::storeClientFeedback($dataArray);
+            if(!empty($request->hasfile('image'))){
 
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
+                $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
 
-//            if (isset($response['errors'])) {
-//                dd($response['errors']); // Debugging errors
-//            } else {
-//                dd($response['data']['createTodo']); // Output the created record
-//            }
+                $dataArray['image_id']=$upload_id;
+            }
 
+             $result= Feedback::storeClientFeedback($dataArray);
+
+            if(!empty($result['image_id'])){
+
+                $url=Helpers::getImage($result['image_id']);
+
+            }
+            else{
+
+                $url=''; 
+            }
+        
+              
+            // $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'],$url);
+            
+        
+           if (isset($response['errors'])) {
+               return Helpers::validationResponse($response['errors']);
+           } else {
+            //    dd($response['data']['createTodo']); // Output the created record
             return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
+           }
+
 
         } catch (\Exception $exception) {
 

@@ -78,10 +78,10 @@ class AuthController extends Controller
                 } else {
                     return Helpers::validationResponse('In Valid token');
                 }
-           
+
         } catch (\Exception $exception) {
 
-           
+
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -117,7 +117,7 @@ class AuthController extends Controller
 
             if (empty($checkUser)) {
 
-            
+
                 $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
 
                 if (!empty($request['company_name'])) {
@@ -694,11 +694,11 @@ class AuthController extends Controller
 
             $authToken = $this->auth->login($user);
 
-            // $userInvite = UserInvite::getSingleInvite($user['email']);
+             $userInvite = UserInvite::getSingleInvite($user['email']);
 
             $data = [
                 'user' => $user,
-                // 'user_invite' => $userInvite['link'],
+                 'user_invite' => $userInvite['link'],
                 'authorization' => [
                     'token' => $authToken,
                     'type' => 'bearer',

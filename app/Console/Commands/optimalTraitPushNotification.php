@@ -87,7 +87,7 @@ class optimalTraitPushNotification extends Command
 
                     }
 
-                    $message = 'Your New ' . $optionalTrait . ' Optimal Trait';
+                    $message = 'Your ' . $optionalTrait . ' Optimal Trait';
 
                     if (empty($userOptimalTrait)) {
 

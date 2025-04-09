@@ -313,7 +313,7 @@ return [
         ],
         'Feedback' => [
             'table' => 'feedbacks',
-            'fillable' => ['comment','user_id','approve','rating','title','platform'],
+            'fillable' => ['comment','user_id','approve','rating','title','platform','image_id'],
             'hidden' => ['updated_at','created_at'],
         ],
         'Connection' => [

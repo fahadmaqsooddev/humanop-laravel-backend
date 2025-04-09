@@ -134,9 +134,17 @@ class B2BDashboardController extends Controller
                 'user_trait' => $userTrait,
                 'user_note' => $userNote
             ]);
-        } catch (\Exception $exception) {
-            return Helpers::serverErrorResponse($exception->getMessage());
+   }catch (\Exception $exception) {
+            return Helpers::serverErrorResponse(
+                'Error: ' . $exception->getMessage() .
+                ' | Line: ' . $exception->getLine() .
+                ' | File: ' . $exception->getFile()
+            );
         }
+
+// catch (\Exception $exception) {
+//            return Helpers::serverErrorResponse($exception->getMessage());
+//        }
     }
 
     public function StoreNotes(CreateNotes $request)
