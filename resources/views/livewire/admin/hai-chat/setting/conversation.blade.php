@@ -115,14 +115,15 @@
 
                 <div class="row">
                     <div class="col-6">
-                        <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 14px;">
-                            <div>
-                                <img src="{{asset('assets\img\icons\assessment_intro_icon.png')}}" class="bg-white" width="50" height="50" style="border-radius: 25px;">
-                            </div>
-                            <div style="margin-left: 10px;font-weight: 600;font-size: 20px;margin-top: 5px">
-                                <p class="mb-0" style="color: #E05A35;line-height: 20px">Assistant</p>
-                                <p class="mb-0" style="color: #000000;font-size: 14px;font-weight: 400">Online</p>
-                            </div>
+                        <div class="d-flex justify-content-start" style="margin-left: 24px;margin-top: 20px;">
+                            <h5 class="bold custom-text-dark">PERSONA TESTING SANDBOX</h5>
+{{--                            <div>--}}
+{{--                                <img src="{{asset('assets\img\icons\assessment_intro_icon.png')}}" class="bg-white" width="50" height="50" style="border-radius: 25px;">--}}
+{{--                            </div>--}}
+{{--                            <div style="margin-left: 10px;font-weight: 600;font-size: 20px;margin-top: 5px">--}}
+{{--                                <p class="mb-0" style="color: #E05A35;line-height: 20px">Assistant</p>--}}
+{{--                                <p class="mb-0" style="color: #000000;font-size: 14px;font-weight: 400">Online</p>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                     <div class="col-6">
