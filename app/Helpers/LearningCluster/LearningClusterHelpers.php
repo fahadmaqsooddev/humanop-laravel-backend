@@ -6,6 +6,7 @@ namespace App\Helpers\LearningCluster;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use function OpenAI\ValueObjects\Transporter\data;
 
 class LearningClusterHelpers
 {
@@ -14,7 +15,7 @@ class LearningClusterHelpers
 
         $file_name = $brain_name . "_LEARNING_CLUSTER.txt";
 
-        Storage::disk('local')->put('/learning_clusters/' . $file_name, "");
+        Storage::disk('local')->put('/learning_clusters/' . $file_name, $content);
 
     }
 
@@ -34,9 +35,9 @@ class LearningClusterHelpers
 
         $dateTime = Carbon::now()->format('Y-m-d H:i:s');
 
-        $new_content = $content . "\n" . "Question: " . $question . "\nAnswer: " . $answer .
+        $new_content = $content . "\nQuestion: " . $question . "\nAnswer: " . $answer .
 
-            "\nDate Time: " . $dateTime . "\n Action: " . $action;
+            "\nDate Time: " . $dateTime . "\nAction: " . $action ."\n";
 
         self::addContentToLearningCluster($brain_name, $new_content);
     }

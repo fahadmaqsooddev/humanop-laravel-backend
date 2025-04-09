@@ -47,6 +47,8 @@ class Conversation extends Component
 
         $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
 
+        $this->name = $name;
+
     }
 
     public function updateChatBotId($value){
