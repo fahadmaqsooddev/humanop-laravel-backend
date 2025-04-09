@@ -144,7 +144,7 @@ class CreateBrain extends Component
 
     public function addAllClustersToActiveClusters(){
 
-        $this->activeGroupIds = array_merge($this->selectedClusters);
+        $this->activeGroupIds = array_merge($this->selectedClusters, $this->activeGroupIds);
 
         $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
