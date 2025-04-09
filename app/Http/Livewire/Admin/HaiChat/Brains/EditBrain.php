@@ -165,7 +165,7 @@ class EditBrain extends Component
 
     public function removeAllSelectedClusters(){
 
-        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
 
 //        foreach ($this->selectClustersForRemoval as $group_id){
 //

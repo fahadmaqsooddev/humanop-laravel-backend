@@ -205,7 +205,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 p-2 text-white create-new-brain-btn">
+                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 p-2 px-3 text-white create-new-brain-btn">
                                 CREATE NEW BRAIN
                             </button>
                         </div>

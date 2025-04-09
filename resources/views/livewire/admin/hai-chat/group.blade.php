@@ -318,7 +318,7 @@
                                     <div class="form-group mt-4">
                                         <label class="form-label fs-4 text-white">Name</label>
                                         <input style="background-color: #0f1534;" class="form-control text-white"
-                                               wire:model.defer="name" placeholder="Enter group name" type="text">
+                                               wire:model.defer="name" placeholder="Enter cluster name" type="text">
                                     </div>
 
                                     <div class="form-group mt-4">
