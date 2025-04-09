@@ -13,6 +13,7 @@ use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Models\Assessment;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\ClientQuery;
 use App\Models\HAIChai\HaiChat;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -55,6 +56,8 @@ class ChatAiController extends Controller
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot['id']);
 
+            $prompts = ChatPrompt::where('name',$chat_bot->name)->first();
+
             $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
             $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($chat_bot['name']);
@@ -87,7 +90,7 @@ class ChatAiController extends Controller
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value']);
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
                 $reply = null;
 

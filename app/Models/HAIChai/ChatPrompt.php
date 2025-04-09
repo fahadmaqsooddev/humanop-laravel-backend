@@ -38,4 +38,18 @@ class ChatPrompt extends Model
      {
          return self::where('name',$name)->first();
      }
+
+     public static function duplicatingChatBot($chat_bot_name, $new_chat_bot_name){
+
+        $chatbot = self::where('name', $chat_bot_name)->first();
+
+        if ($chatbot){
+
+            $duplicateChatBot = $chatbot->replicate();
+            $duplicateChatBot->name = $new_chat_bot_name;
+            $duplicateChatBot->save();
+
+        }
+
+     }
 }

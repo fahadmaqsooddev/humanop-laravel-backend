@@ -39,7 +39,7 @@
         <div class="px-1">
             <a data-bs-toggle="modal" data-bs-target="#createGroup"
 {{--               style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Group
+           class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create Cluster
             </a>
         </div>
     </div>
@@ -53,7 +53,7 @@
                     <button class="connectionBtn new-orange-button me-2 mt-2 mt-md-0 updateBtn {{(session('embedding_deleted') ? '' : 'active')}}" id="home-tab" data-bs-toggle="tab"
                             data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                             wire:click="changeIsGroup(true)"
-                            aria-selected="true">Groups</button>
+                            aria-selected="true">Clusters</button>
                 </div>
 
                 <div class="nav-item connectionDev" role="presentation">
@@ -85,7 +85,7 @@
                 <div class="tab-pane fade pt-3 {{ (!$is_group || session('embedding_deleted') ? '' : 'show active') }}" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
 
                     @empty($groups[0])
-                        <p class="text-white">No group found</p>
+                        <p class="text-white">No cluster found</p>
                     @endempty
 
                     <div class="row pt-2">
@@ -139,7 +139,7 @@
                                                 <div class="col-11 mt-3">
                                                     <a wire:click="setEmbeddingId({{$embedding->id}})" data-bs-toggle="modal" data-bs-target="#addEmbeddingToGroups"
                                                         class="btn-sm new-orange-button">
-                                                        Add to groups
+                                                        Add to clusters
                                                     </a>
                                                 </div>
 
@@ -234,7 +234,7 @@
                                     </div>
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Groups</label>
+                                        <label class="form-label fs-4 text-white">Clusters</label>
                                         <div class="dropdown w-100">
                                             <button class="dropdown-toggle multi-select-button {{($showGroupDropdownMenu ? 'show' : '')}}"
                                                     style="background-color: #0f1534; color: white;{{(count($selectedGroups) > 0 ? 'text-align:left;' : '')}}" type="button"
@@ -246,7 +246,7 @@
                                                         </span>
                                                     @endforeach
                                                 @else
-                                                    Select Group
+                                                    Select Cluster
                                                 @endif
                                             </button>
                                             <div class="dropdown-menu w-100 {{$showGroupDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton1">
@@ -277,7 +277,7 @@
                                                         </div>
                                                     @else
                                                         <div class="text-center">
-                                                            <span>No groups</span>
+                                                            <span>No clusters</span>
                                                         </div>
                                                     @endif
 
@@ -309,7 +309,7 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Create Group</label>
+                                    <label class="form-label fs-4 text-white">Create Cluster</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="group-close-modal-button" style="padding: 1px 10px 1px 10px;">
                                         <span aria-hidden="true">&times;</span>
@@ -411,7 +411,7 @@
                         <div class="card-body w-100">
                             <div class="row w-100">
                                 <div class="col-12">
-                                    <label class="form-label fs-4 text-white">Add embedding into groups</label>
+                                    <label class="form-label fs-4 text-white">Add embedding into clusters</label>
                                     <button type="button" class="close modal-close-btn new-orange-button" data-bs-dismiss="modal"
                                             aria-label="Close" id="embedding-group-close-modal-button"
                                             style="padding: 1px 10px 1px 10px;">
@@ -453,7 +453,7 @@
                                     {{--                                    End Alert error--}}
 
                                     <div class="form-group mt-4">
-                                        <label class="form-label fs-4 text-white">Groups</label>
+                                        <label class="form-label fs-4 text-white">Clusters</label>
 {{--                                        <select wire:model.defer="group_ids" class="form-control" id="select2" multiple style="background-color: #0f1534; color: white;">--}}
 {{--                                            <option value="">Select Group</option>--}}
 {{--                                            @foreach($groups as $group)--}}
@@ -472,7 +472,7 @@
                                                         </span>
                                                     @endforeach
                                                 @else
-                                                    Select Group
+                                                    Select Cluster
                                                 @endif
                                             </button>
                                             <div class="dropdown-menu w-100 {{$showGroupDropdownMenu ? 'show' : ''}}" aria-labelledby="dropdownMenuButton3">
@@ -503,7 +503,7 @@
                                                         </div>
                                                     @else
                                                         <div class="text-center">
-                                                            <span>No groups</span>
+                                                            <span>No clusters</span>
                                                         </div>
                                                     @endif
 

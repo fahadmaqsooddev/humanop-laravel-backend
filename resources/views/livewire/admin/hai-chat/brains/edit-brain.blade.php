@@ -74,8 +74,8 @@
 
                 <div class="py-2">
                     <h5>Name of Brain</h5>
-                    <input type="text" class="form-control input-bg" readonly
-                           placeholder="Enter name of brain" wire:model.defer="name">
+                    <input type="text" class="form-control input-bg"
+                           placeholder="Enter name of brain" wire:model.defer="brain_name">
                 </div>
 
                 <div class="py-2">

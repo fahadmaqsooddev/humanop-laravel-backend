@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Assessment;
 use App\Models\HAIChai\Chatbot;
+use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
@@ -95,7 +96,9 @@ class Comparison extends Component
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel);
+                $prompts = ChatPrompt::where('name',$this->bot_name)->first();
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel, $prompts['prompt'] ?? null);
 
                 if (!empty($openRouterResponse['choices'])) {
 

@@ -26,7 +26,7 @@
 
                 <div id="content w-100">
 
-                    @livewire('admin.hai-chat.brains.create-brain')
+                    @livewire('admin.hai-chat.brains.create-brain', ["name" => $name, "description" => $description])
 
 
                 </div>

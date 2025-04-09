@@ -19,7 +19,7 @@ class HaiChat extends Component
     public $chats, $name, $description, $chatBot, $copyChatBotId, $search_brain;
     protected $listeners = ['deleteChatbot'];
     protected $rules = [
-        'name' => 'required|max:30',
+        'name' => 'required|max:30|unique:chatbot,brain_name,NULL,id,deleted_at,NULL',
         'description' => 'required|max:2000',
     ];
 
@@ -166,7 +166,7 @@ class HaiChat extends Component
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/create-chatbot', ['vendor_n' => $this->name, 'loc' => $subFolder]);
 
-                $newChatBot = Chatbot::createChat($aiReply, $this->description ?? $chatBot->description);
+                $newChatBot = Chatbot::createChatBot($aiReply, $this->description ?? $chatBot->description, $this->name);
 
                 ChatPrompt::duplicatingChatBot($chatBot->name, $aiReply);
 
@@ -193,48 +193,67 @@ class HaiChat extends Component
 
     }
 
-    public function publishChatBot($chat_bot_id){
+//    public function publishChatBot($chat_bot_id){
+//
+//        $chatBot = Chatbot::whereId($chat_bot_id)->first();
+//
+//        if ($chatBot){
+//
+//            $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
+//
+//            if(!$settings){
+//
+//                HaiChatSetting::updateHaiChatSetting(0.5, 500, 1, null, $chat_bot_id);
+//
+//                $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
+//            }
+//
+//            $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($chatBot->name);
+//
+//            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+//
+//            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+//
+//            $body = [
+//                'temperature' => $settings['temperature'],
+//                'max_tokens' => $settings['max_token'],
+//                'file_name' => $active_embedding_ids,
+//                'prompt_folder' => $chatBot['name'],
+//                'total_chunks' => $settings['chunk'],
+//                'gpt_model' => $model_value['model_value'] ?? null,
+//                'loc' => $subFolder
+//            ];
+//
+//            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+//
+//            if (isset($aiReply['s3_path'])){
+//
+//                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+//
+//                Chatbot::where('name', $chatBot['name'])->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+//            }
+//
+//        }
+//
+//
+//    }
 
-        $chatBot = Chatbot::whereId($chat_bot_id)->first();
+    public function redirectToCreateBrainInterface(){
 
-        if ($chatBot){
+        try {
 
-            $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
+            $this->validate();
 
-            if(!$settings){
+            return redirect()->route('admin_create_brain')->with(['name' => $this->name, 'description' => $this->description]);
 
-                HaiChatSetting::updateHaiChatSetting(0.5, 500, 1, null, $chat_bot_id);
+        }catch (ValidationException $exception){
 
-                $settings = HaiChatSetting::where('chat_bot_id', $chat_bot_id)->first();
-            }
+            session()->flash('errors', $exception->validator->errors()->getMessages());
 
-            $active_embedding_ids = HaiChatActiveEmbedding::allRequestIds($chatBot->name);
+        }catch (\Exception $exception){
 
-            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
-
-            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
-
-            $body = [
-                'temperature' => $settings['temperature'],
-                'max_tokens' => $settings['max_token'],
-                'file_name' => $active_embedding_ids,
-                'prompt_folder' => $chatBot['name'],
-                'total_chunks' => $settings['chunk'],
-                'gpt_model' => $model_value['model_value'] ?? null,
-                'loc' => $subFolder
-            ];
-
-            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
-
-            if (isset($aiReply['s3_path'])){
-
-                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
-
-                Chatbot::where('name', $chatBot['name'])->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
-            }
-
+            return Helpers::serverErrorResponse($exception->getMessage());
         }
-
 
     }
 

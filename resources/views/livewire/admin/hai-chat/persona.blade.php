@@ -32,7 +32,7 @@
             <select class="form-control input-bg" id="chatDescription" wire:model="chat_bot_id">
                 <option value="">NONE</option>
                 @foreach($chatBots as $chatBot)
-                    <option value="{{$chatBot->id}}">{{$chatBot->name}}</option>
+                    <option value="{{$chatBot->id}}">{{$chatBot->brain_name ?? $chatBot->name}}</option>
                 @endforeach
             </select>
         </div>
