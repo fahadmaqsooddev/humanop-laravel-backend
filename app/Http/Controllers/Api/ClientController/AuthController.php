@@ -370,6 +370,14 @@ class AuthController extends Controller
 
                     $user = Helpers::getUser();
 
+                    if($request['company_name']){
+                        $data = User::getSingleUserFromCompanyName($request['company_name']);
+                        if(!empty($data)){
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                        }
+
+                    }
+
                     Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     Helpers::createClientsOnOneSignal($user['id']);
