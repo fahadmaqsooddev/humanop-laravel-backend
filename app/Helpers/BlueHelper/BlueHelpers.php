@@ -25,7 +25,7 @@ class BlueHelpers
             mutation CreateRecord {
                 createTodo(
                     input: {
-                        todoListId: "cm3hnnh510g781042xyy6z5ns",
+                        todoListId: "cm8t4dqaf12k7sf2l7sldqzfl",
                         title: "' . addslashes($title) . '",
                           description: "' . $fullDescription . '",
                         position: 65535,
@@ -46,7 +46,7 @@ class BlueHelpers
         ';
 
         $response = Http::withHeaders($headers)->post($apiUrl, ['query' => $query]);
-        
+
 
         return $response->json();
     }
