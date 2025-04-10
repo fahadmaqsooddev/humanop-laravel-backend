@@ -157,10 +157,13 @@ class UserController extends Controller
         try {
 
             $user = Helpers::getUser();
+
             if (!empty($user['google_id'] || !empty($user['apple_id']))) {
+
                 User::updateUserPassword($request->input('new_password'));
 
                 return Helpers::successResponse('Password successfully updated');
+
             } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
                 if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
@@ -175,7 +178,9 @@ class UserController extends Controller
                 }
 
             } else {
+
                 return Helpers::validationResponse('Current Password is incorrect');
+
             }
 
         } catch (\Exception $exception) {

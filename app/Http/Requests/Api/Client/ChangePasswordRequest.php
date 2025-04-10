@@ -25,6 +25,7 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         $user=Helpers::getUser();
+
         $required= (!empty($user->google_id)|| !empty($user->apple_id)) ? 'nullable':'required';
 
         return [
@@ -34,8 +35,6 @@ class ChangePasswordRequest extends FormRequest
                 'confirmed',
                 'min:6',
                 'max:22'
-                // 'regex:/[!@#$%^&*(),.?":{}|<>]/', // At least one special character
-                // 'regex:/[0-9].*[0-9]/',           // At least two numbers
             ],
         ];
     }
@@ -47,7 +46,6 @@ class ChangePasswordRequest extends FormRequest
             'new_password.required' => 'The new password is required.',
             'new_password.min' => 'The new password should be at least 6 characters long.',
             'new_password.max' => 'The new password should be at less then or equal to 22 characters long.',
-            // 'new_password.regex' => 'The new password should contain at least one special character and two numbers.',
             'new_password.different' => 'The new password must be different from the current password.',
         ];
     }
