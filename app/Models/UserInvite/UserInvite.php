@@ -59,7 +59,7 @@ class UserInvite extends Model
 
                         $link = Str::random(16);
 
-                        self::create([
+                       return self::create([
                             'email' => $csvEmail,
                             'link' => $link,
                             'role'=>$role,
@@ -131,13 +131,13 @@ class UserInvite extends Model
 
 
     public static function sendInviteTime($id=null){
-       
+
         $invite = self::find($id);
-        if ($invite && empty($invite->send_invite_time)) { 
+        if ($invite && empty($invite->send_invite_time)) {
             $invite->update([
                 'send_invite_time' => Carbon::now()
             ]);
         }
-       
+
     }
 }
