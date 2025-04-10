@@ -9,12 +9,12 @@ if (env('APP_ENV') == 'local') {
 } elseif (env('APP_ENV') == 'development') {
     return [
         'client_dashboard_url' => 'https://dev.humanop.com',
-        'b2b_dashboard_url' => 'https://maestro-dev.humanop.com',
+        'b2b_dashboard_url' => 'https://dev.maestro.humanop.com',
     ];
 } elseif (env('APP_ENV') == 'staging') {
     return [
         'client_dashboard_url' => 'https://staging.humanop.com',
-        'b2b_dashboard_url' => 'https://maestro-staging.humanop.com',
+        'b2b_dashboard_url' => 'https://staging.maestro.humanop.com',
     ];
 } elseif (env('APP_ENV') == 'production') {
     return [
