@@ -27,6 +27,17 @@
         .input-bg::placeholder{
             color: #F95520 !important;
         }
+
+        textarea::placeholder{
+            color: #F95520 !important;
+        }
+
+        .create-new-brain-btn{
+            background-color: #F95520 !important;
+            border-radius: 40px !important;
+            border: none !important;
+            text-align: center;
+        }
     </style>
 
 @endpush
@@ -37,10 +48,9 @@
 
             <input wire:model="search_brain" type="text" placeholder="Search brain database" class="input-bg">
 
-            <a href="{{route('admin_create_brain')}}"
-               {{--            data-bs-toggle="modal" data-bs-target="#createChatModal"--}}
-               {{--           style="padding: 10px 16px 10px 16px; border-radius: 7px;"--}}
-               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button">Create New Brain
+            <a data-bs-toggle="modal" data-bs-target="#createChatModal"
+                style="padding: 10px 16px 10px 16px; border-radius: 7px;"
+               class="btn-sm-2 btn-md-3 btn-lg-5 new-orange-button create-new-brain-btn">Create New Brain
             </a>
 
         </div>
@@ -59,7 +69,7 @@
                             <div class="py-2">
                                 <h5 style="color: #f2661c" class="text-decoration-none">
                                     <i class="bi bi-robot"></i>
-                                    {{ $chat['name'] }}
+                                    {{ $chat['brain_name'] ?? $chat['name'] }}
                                 </h5>
                             </div>
                             <div class="py-2">
@@ -163,16 +173,16 @@
                         </button>
                     </div>
                     @include('layouts.message')
-                    <form wire:submit.prevent="submitForm">
+                    <form wire:submit.prevent="redirectToCreateBrainInterface">
                         <div class="pt-0">
                             <div class="row mt-2">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Brain Name</label>
+                                    <label class="form-label text-white">Name of Brain</label>
                                     <div class="form-group">
                                         <input style="background-color: #0f1534;color: lightgrey !important"
                                                class="form-control text-white"
                                                type="text" name="limit"
-                                               placeholder="Enter brain name"
+                                               placeholder="Enter name of brain"
                                                wire:model="name">
                                         @error('name')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -182,12 +192,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label text-white">Brain description</label>
+                                    <label class="form-label text-white">Description of Brain</label>
                                     <div class="form-group">
                                             <textarea style="background-color: #0f1534;" class="form-control text-white"
                                                       rows="5" cols="5"
                                                       name="description"
-                                                      placeholder="Enter brain description"
+                                                      placeholder="Enter description of brain"
                                                       wire:model="description"></textarea>
                                         @error('information')
                                         <span class="text-sm text-danger">{{$message}}</span>
@@ -195,8 +205,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 text-white new-orange-button">
-                                create a chatbot
+                            <button type="submit" class="btn-sm-2 float-end mt-6 mb-0 p-2 px-3 text-white create-new-brain-btn">
+                                CREATE NEW BRAIN
                             </button>
                         </div>
                     </form>

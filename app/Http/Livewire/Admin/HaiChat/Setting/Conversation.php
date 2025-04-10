@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
+use App\Helpers\LearningCluster\LearningClusterHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\HAIChai\AnalyticsModel;
@@ -46,6 +47,8 @@ class Conversation extends Component
 
         $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
 
+        $this->name = $name;
+
     }
 
     public function updateChatBotId($value){
@@ -79,6 +82,8 @@ class Conversation extends Component
             $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+
+            $prompts = ChatPrompt::where('name',$this->name)->first();
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
@@ -130,7 +135,7 @@ class Conversation extends Component
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value']);
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
@@ -229,6 +234,8 @@ class Conversation extends Component
 
             FineTuneContent::addLisaApprovedQuestionAnswers($body);
 
+            LearningClusterHelpers::updateLearningCluster($this->name, $body['question'],$body['answer'],'Like');
+
 //            $app_env = env('APP_ENV');
 //
 //            $url = $app_env === 'staging' ? 'http://54.227.7.149:8000/qa_bucket' : 'http://54.227.7.149:8000/qa_bucket';
@@ -317,6 +324,8 @@ class Conversation extends Component
 
         $this->disliked = 1;
 
+        LearningClusterHelpers::updateLearningCluster($this->name, $convo->message, $convo->reply,'Dislike');
+
     }
 
 
@@ -356,6 +365,8 @@ public function editHaiResponse($id)
             ];
 
             FineTuneContent::addLisaApprovedQuestionAnswers($data);
+
+            LearningClusterHelpers::updateLearningCluster($this->name, $data['question'],$data['answer'],'Edited');
 
         }
 

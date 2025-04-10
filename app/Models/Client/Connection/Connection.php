@@ -71,9 +71,16 @@ class Connection extends Model
 
                 self::create($data);
 
-                $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name . ' has Send You a Connection Request';
+                // $msg = 'Connection Request send it';
+
+
+
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.
+    ' has Send You a Connection Request';
+
 
                 event(new ConnectionRequest($data['friend_id'], 'Connection Request', $msg));
+
 
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request', $msg);
                 Notification::createNotification('connection request', $msg, $friend['device_token'], $friend['id'], 1, Admin::CONNECTION_REQUEST_NOTIFICATION,Admin::B2C_NOTIFICATION);
@@ -82,7 +89,7 @@ class Connection extends Model
 
             }
 
-        } 
+        }
         else if ($data['type'] === 'un-connect') {
 
             self::where(function ($q) use ($data) {
@@ -95,8 +102,14 @@ class Connection extends Model
 
             })->delete();
 
-            $msg = Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name .
-                ' has disconnected your request';
+            // $msg = 'Dis-Connect Request send it';
+
+
+    $msg= Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.
+    ' has disconnected your request';
+
+
+
 
             event(new UnconnectRequest($data['friend_id'], 'Dis-Connection Request', $msg));
 
@@ -108,7 +121,7 @@ class Connection extends Model
             $received_request = self::where('user_id', $data['friend_id'])->where('friend_id', $data['user_id'])->first();
 
             $send_request = self::where('user_id', $data['user_id'])->where('friend_id', $data['friend_id'])->first();
-
+//dd($send_request);
             $user = Helpers::getUser();
 
             if ($received_request && !$send_request) {
@@ -125,8 +138,8 @@ class Connection extends Model
                 // $msg = ' Your Connection Request Accepted';
                 // $msg =  $friend['first_name'].' '.$friend['last_name'].' Has Accepted Your Request';
                 $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
-               
-                
+
+
 
                 // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
                 // Helpers::OneSignalApiUsed($data['user_id'], 'Connection Request Accept', $msg);
@@ -134,7 +147,7 @@ class Connection extends Model
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
 
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
             } elseif ($received_request && $send_request) {
 
@@ -147,10 +160,10 @@ class Connection extends Model
                 $msg =   Helpers::getUser()->first_name . ' ' . Helpers::getUser()?->last_name.' Has Accepted Your Request';
                 // event(new RequestAccept($data['user_id'], 'Connection Request Accept', $msg));
                 // Helpers::OneSignalApiUsed($data['user_id'], ' Connection Request Accept', $msg);
-               
+
                 event(new RequestAccept($data['friend_id'], 'Connection Request Accept', $msg));
                 Helpers::OneSignalApiUsed($data['friend_id'], 'Connection Request Accept', $msg);
-                Notification::createNotification('connection accept', $msg, $user['device_token'], $user['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                Notification::createNotification('connection accept', $msg, $user['device_token'],  $friend['id'], 1, Admin::CONNECTION_ACCEPT_NOTIFICATION,Admin::B2C_NOTIFICATION);
 
             }
 

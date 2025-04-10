@@ -23,7 +23,7 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">Name of Persona</h5>
-            <input type="text" class="form-control input-bg" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
+            <input type="text" class="form-control input-bg change-input-form" id="chatDescription" wire:model.defer="persona_name" placeholder="Enter name of persona">
         </div>
 
         <div class="card-header">
@@ -31,14 +31,14 @@
             <select class="form-control input-bg" id="chatDescription" wire:model="chat_bot_id">
                 <option value="">NONE</option>
                 @foreach($chatBots as $chatBot)
-                    <option value="{{$chatBot->id}}">{{$chatBot->name}}</option>
+                    <option value="{{$chatBot->id}}">{{$chatBot->brain_name ?? $chatBot->name}}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH HUMANOP APP?</h5>
-            <select class="form-control input-bg" id="human_app" wire:model.defer="human_op_app" onchange="alreadyExistsHumanApp(this)">
+            <select class="form-control input-bg change-input-form" id="human_app" wire:model.defer="human_op_app" onchange="alreadyExistsHumanApp(this)">
                 @if(empty($chat_bot_id))
                     <option value="">SELECT BRAIN FIRST</option>
                 @else
@@ -65,7 +65,7 @@
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">
             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateOrSave"
-                    class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive">
+                    class="mt-4 btn-sm-1 btn-md-3 btn-lg-5 float-end new-orange-button navButtonResponsive update-button">
                 update
                 <span wire:loading wire:target="updateOrSave" style="font-size: 8px;" class="swal2-loader">
                 </span>

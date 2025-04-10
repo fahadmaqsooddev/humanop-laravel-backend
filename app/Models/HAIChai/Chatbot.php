@@ -51,11 +51,12 @@ class Chatbot extends Model
 
 
     // Queries
-    public static function createChatBot($name = null, $description = null)
+    public static function createChatBot($name = null, $description = null, $brain_name = null)
     {
         return self::create([
             'name' => $name,
             'description' => $description,
+            'brain_name' => $brain_name
         ]);
     }
 
@@ -69,7 +70,9 @@ class Chatbot extends Model
 
             ->with('setting.plan')
 
-            ->get(['id', 'name', 'description','is_published']);
+            ->select(['id', 'name', 'description','is_published','brain_name'])
+
+            ->get();
     }
 
     public static function singleChat($id = null)
@@ -87,9 +90,9 @@ class Chatbot extends Model
         return self::whereId($id)->delete();
     }
 
-    public static function updateChatBot($chat_bot_id = null, $description = null){
+    public static function updateChatBot($chat_bot_id = null, $description = null, $brain_name = null){
 
-        self::whereId($chat_bot_id)->update(['description' => $description]);
+        self::whereId($chat_bot_id)->update(['description' => $description, 'brain_name' => $brain_name]);
 
     }
 }

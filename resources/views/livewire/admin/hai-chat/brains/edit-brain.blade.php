@@ -48,7 +48,7 @@
 
         .cluster-table-rows{
             padding: 5px;
-            border: 1px solid #F95520;
+            /*border: 1px solid #F95520;*/
         }
 
         h5, h4, h6, .text-color-orange{
@@ -74,8 +74,8 @@
 
                 <div class="py-2">
                     <h5>Name of Brain</h5>
-                    <input type="text" class="form-control input-bg" readonly
-                           placeholder="Enter name of brain" wire:model.defer="name">
+                    <input type="text" class="form-control input-bg"
+                           placeholder="Enter name of brain" wire:model.defer="brain_name">
                 </div>
 
                 <div class="py-2">
@@ -92,11 +92,11 @@
 
                         <div class="row">
 
-                            <div class="col-5">
-                                <input type="text" class="input-bg text-center w-100"
+                            <div class="col-8">
+                                <input type="text" class="input-bg px-3 py-1 w-100"
                                        placeholder="Keyword Search" wire:model="search_clusters">
                             </div>
-                            <div class="col-5">
+                            <div class="col-4">
                                 <button wire:click="addAllClustersToActiveClusters"
                                     class="cluster-buttons">Add selected knowledge cluster to brain</button>
                             </div>
@@ -115,35 +115,40 @@
 
                         @else
 
-                            <table class="table">
-                                <tbody>
+                            <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 
-                                @foreach($groups as $group)
+                                <table class="table">
+                                    <tbody>
 
-                                    @if(array_search($group->id, $activeGroupIds) === false)
+                                    @foreach($groups as $group)
 
-                                        <tr class="text-color-dark mt-1 cluster-table-rows">
-                                            <td class="pt-3">
-                                                <input wire:click="selectCluster({{$group->id}})" type="checkbox">
-                                            </td>
-                                            <td>
-                                                {{$group->name}}
-                                            </td>
-                                            <td>
-                                                <button wire:click="addToCluster({{$group->id}})" class="cluster-buttons">ADD CLUSTER</button>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-content-center">
-                                                    <a href="{{route('admin_embedding', ['id' => $group->id])}}" class="cluster-buttons">VIEW/EDIT CLUSTER</a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @if(array_search($group->id, $activeGroupIds) === false)
 
-                                    @endif
+                                            <tr class="text-color-dark mt-1 cluster-table-rows">
+                                                <td class="pt-3">
+                                                    <input wire:click="selectCluster({{$group->id}})" type="checkbox">
+                                                </td>
+                                                <td>
+                                                    {{$group->name}}
+                                                </td>
+                                                <td>
+                                                    <button wire:click="addToCluster({{$group->id}})" class="cluster-buttons">ADD CLUSTER</button>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-content-center">
+                                                        <a href="{{route('admin_embedding', ['id' => $group->id])}}" class="cluster-buttons">VIEW/EDIT CLUSTER</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
 
-                                @endforeach
-                                </tbody>
-                            </table>
+                                        @endif
+
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+
                         @endif
                     </div>
                 </div>
@@ -155,8 +160,8 @@
 
                         <div class="row">
 
-                            <div class="col-5">
-                                <input type="text" class="input-bg text-center w-100"
+                            <div class="col-7">
+                                <input type="text" class="input-bg py-1 px-3 w-100"
                                        placeholder="Keyword Search" wire:model="search_connected_clusters">
                             </div>
                             <div class="col-5">
@@ -178,34 +183,39 @@
 
                         @else
 
-                            <table class="table">
-                                <tbody>
-                                @foreach($connectedGroups as $group)
+                            <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 
-                                    {{--                                @if(array_search($group->id, $activeGroupIds) !== false)--}}
+                                <table class="table">
+                                    <tbody>
+                                    @foreach($connectedGroups as $group)
 
-                                    <tr class="text-color-dark mt-1 cluster-table-rows">
-                                        <td class="pt-3">
-                                            <input wire:click="selectClusterForRemove({{$group->id}})" type="checkbox">
-                                        </td>
-                                        <td>
-                                            {{$group->name}}
-                                        </td>
-                                        <td>
-                                            <button wire:click="removeFromCluster({{$group->id}})" class="cluster-buttons">REMOVE CLUSTER</button>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-content-center">
-                                                <a href="{{route('admin_embedding', ['id' => $group->id])}}" class="cluster-buttons">VIEW/EDIT CLUSTER</a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        {{--                                @if(array_search($group->id, $activeGroupIds) !== false)--}}
 
-                                    {{--                                @endif--}}
+                                        <tr class="text-color-dark mt-1 cluster-table-rows">
+                                            <td class="pt-3">
+                                                <input wire:click="selectClusterForRemove({{$group->id}})" type="checkbox">
+                                            </td>
+                                            <td>
+                                                {{$group->name}}
+                                            </td>
+                                            <td>
+                                                <button wire:click="removeFromCluster({{$group->id}})" class="cluster-buttons">REMOVE CLUSTER</button>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-content-center">
+                                                    <a href="{{route('admin_embedding', ['id' => $group->id])}}" class="cluster-buttons">VIEW/EDIT CLUSTER</a>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                @endforeach
-                                </tbody>
-                            </table>
+                                        {{--                                @endif--}}
+
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+
                         @endif
                     </div>
                 </div>

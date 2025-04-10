@@ -15,19 +15,30 @@ use Livewire\Component;
 class EditBrain extends Component
 {
 
-    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks;
+    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name;
 
     public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
         $selectedClusters = [], $selectClustersForRemoval = [];
 
-    protected $rules = [
-//        'name' => 'required|max:30',
-        'description' => 'required|max:1000',
-        'temperature' => 'required',
-        'max_tokens' => 'required',
-        'llm_model_id' => 'required',
-        'chunks' => 'required',
-    ];
+    public function rules(){
+
+        return [
+            'brain_name' => 'required|max:50|unique:chatbot,brain_name,'. $this->chat_bot_id .',id,deleted_at,NULL',
+            'description' => 'required|max:1000',
+            'temperature' => 'required',
+            'max_tokens' => 'required',
+            'llm_model_id' => 'required',
+            'chunks' => 'required',
+        ];
+    }
+
+    protected function getMessages()
+    {
+        return [
+            'brain_name.required' => 'Brain name is required.',
+            'brain_name.unique' => 'Brain name already exists. Try another one.',
+        ];
+    }
 
     public function addToCluster($group_id){
 
@@ -70,7 +81,7 @@ class EditBrain extends Component
 
 //            if ($aiReply){
 
-                Chatbot::updateChatBot($this->chat_bot_id, $this->description);
+                Chatbot::updateChatBot($this->chat_bot_id, $this->description, $this->brain_name);
 
                 HaiChatSetting::updateHaiChatSetting($this->temperature, $this->max_tokens, $this->chunks, $this->llm_model_id,$this->chat_bot_id);
 
@@ -110,6 +121,7 @@ class EditBrain extends Component
 
             $this->name = $chatBotDetail['name'];
             $this->description = $chatBotDetail['description'];
+            $this->brain_name = $chatBotDetail['brain_name'];
 
             $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
 
@@ -153,7 +165,7 @@ class EditBrain extends Component
 
     public function removeAllSelectedClusters(){
 
-        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
 
 //        foreach ($this->selectClustersForRemoval as $group_id){
 //

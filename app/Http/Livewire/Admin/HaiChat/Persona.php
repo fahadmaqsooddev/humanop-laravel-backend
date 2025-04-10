@@ -25,6 +25,17 @@ class Persona extends Component
 
         $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
 
+//        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+//
+//        if ($setting){
+//
+//            $this->persona_text = $setting['persona_text'];
+//            $this->persona_name = $setting['persona_name'];
+//            $this->human_op_app = $setting['human_op_app'];
+//            $this->maestro_app = $setting['maestro_app'];
+//
+//        }
+
     }
 
     public function updateOrSave(){
@@ -83,7 +94,7 @@ class Persona extends Component
 
 //        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
-        if ($this->chat_bot_id){
+        if ($this->chat_bot_id && empty($this->human_op_app)){
 
             $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
@@ -91,7 +102,6 @@ class Persona extends Component
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
             $this->maestro_app = $setting['maestro_app'];
-            
         }
 
         return view('livewire.admin.hai-chat.persona');

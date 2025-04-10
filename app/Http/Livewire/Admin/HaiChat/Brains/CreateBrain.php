@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Admin\HaiChat\Brains;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Helpers\Helpers;
+use App\Helpers\LearningCluster\LearningClusterHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -22,7 +24,7 @@ class CreateBrain extends Component
         $selectedClusters = [], $selectClustersForRemoval = [];
 
     protected $rules = [
-        'name' => 'required|max:30',
+        'name' => 'required|max:50|unique:chatbot,brain_name,NULL,id,deleted_at,NULL',
         'description' => 'required|max:1000',
         'temperature' => 'required',
         'max_tokens' => 'required',
@@ -85,7 +87,9 @@ class CreateBrain extends Component
 
             if ($aiReply){
 
-                $chatBot = Chatbot::createChatBot($aiReply, $this->description);
+                $chatBot = Chatbot::createChatBot($aiReply, $this->description, $this->name);
+
+                LearningClusterHelpers::addContentToLearningCluster($this->name);
 
                 if (count($this->activeGroupIds) > 0){
 
@@ -140,7 +144,7 @@ class CreateBrain extends Component
 
     public function addAllClustersToActiveClusters(){
 
-        $this->activeGroupIds = array_merge($this->selectedClusters);
+        $this->activeGroupIds = array_merge($this->selectedClusters, $this->activeGroupIds);
 
         $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 

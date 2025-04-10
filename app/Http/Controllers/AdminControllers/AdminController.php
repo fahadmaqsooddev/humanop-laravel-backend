@@ -562,11 +562,14 @@ class AdminController extends Controller
 
     }
 
-    public function createBrain(){
+    public function createBrain(Request $request){
 
         try {
 
-            return view('admin-dashboards.hai-chat.brains.create-brain');
+            $name = $request->session()->get('name',null);
+            $description = $request->session()->get('description', null);
+
+            return view('admin-dashboards.hai-chat.brains.create-brain', compact('name','description'));
 
         }catch (\Exception $exception){
 

@@ -156,7 +156,15 @@ class UserController extends Controller
 
         try {
 
-            if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
+            $user = Helpers::getUser();
+
+            if (!empty($user['google_id'] || !empty($user['apple_id']))) {
+
+                User::updateUserPassword($request->input('new_password'));
+
+                return Helpers::successResponse('Password successfully updated');
+
+            } else if (Hash::check($request->input('current_password'), Helpers::getUser()->password)) {
 
                 if (!Hash::check($request->input('new_password'), Helpers::getUser()->password)) {
 
@@ -172,6 +180,7 @@ class UserController extends Controller
             } else {
 
                 return Helpers::validationResponse('Current Password is incorrect');
+
             }
 
         } catch (\Exception $exception) {
@@ -297,36 +306,35 @@ class UserController extends Controller
 
             $dataArray['user_id'] = Helpers::getUser()->id;
 
-            if(!empty($request->hasfile('image'))){
+            if (!empty($request->hasfile('image'))) {
 
                 $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
 
-                $dataArray['image_id']=$upload_id;
+                $dataArray['image_id'] = $upload_id;
             }
 
-             $result= Feedback::storeClientFeedback($dataArray);
+            $result = Feedback::storeClientFeedback($dataArray);
 
-            if(!empty($result['image_id'])){
+            if (!empty($result['image_id'])) {
 
-                $url=Helpers::getImage($result['image_id']);
+                $url = Helpers::getImage($result['image_id']);
 
+            } else {
+
+                $url = '';
             }
-            else{
 
-                $url=''; 
-            }
-        
-              
+
             // $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email']);
-            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'],$url);
-            
-        
-           if (isset($response['errors'])) {
-               return Helpers::validationResponse($response['errors']);
-           } else {
-            //    dd($response['data']['createTodo']); // Output the created record
-            return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
-           }
+            $response = BlueHelpers::createBlueRecord($request['title'], $request['comment'], $request['platform'], Helpers::getUser()['email'], $url);
+
+
+            if (isset($response['errors'])) {
+                return Helpers::validationResponse($response['errors']);
+            } else {
+                //    dd($response['data']['createTodo']); // Output the created record
+                return Helpers::successResponse('Thank you for your feedback! We have given you a point as a token of our appreciation!');
+            }
 
 
         } catch (\Exception $exception) {
@@ -476,12 +484,12 @@ class UserController extends Controller
 
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
-            if(empty($assessment)){
+            if (empty($assessment)) {
                 return Helpers::validationResponse('Assessment Not Found');
             }
 
-            $user_name =Helpers::getUser()->first_name.' ' .Helpers::getUser()->last_name;
-            $gender =Helpers::getUser()->gender == 0 ?'(M)':'(F)';
+            $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+            $gender = Helpers::getUser()->gender == 0 ? '(M)' : '(F)';
 
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 
@@ -512,31 +520,31 @@ class UserController extends Controller
             $intro_perceptionlife = CodeDetail::perceptionLife();
 
             $style_position = AssessmentColorCode::getStylePosition($assessment->id);
-        $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
-        $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
-        $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
+            $feature_position = AssessmentColorCode::getFeaturePosition($assessment->id);
+            $positive = $assessment['sa'] + $assessment['jo'] + $assessment['ven'] + $assessment['so'];
+            $negative = $assessment['ma'] + $assessment['lu'] + $assessment['mer'];
 
-        $ep = $positive + $negative;
-        $pv = $positive - $negative;
+            $ep = $positive + $negative;
+            $pv = $positive - $negative;
 
             $data = [
-                'user_name'=>$user_name,
+                'user_name' => $user_name,
                 'user_age' => $user_age,
-                'gender'=>$gender,
-                'summary_intro'=>$summary_static,
-                'main_result_into'=>$main_result,
-                'intro_cycle_life'=>$cycle_life,
-                'traits_intro'=>$trait_intro,
+                'gender' => $gender,
+                'summary_intro' => $summary_static,
+                'main_result_into' => $main_result,
+                'intro_cycle_life' => $cycle_life,
+                'traits_intro' => $trait_intro,
                 'all_styles' => $allStyles,
-                'motivation_introduction'=>$motivation_intro,
+                'motivation_introduction' => $motivation_intro,
                 'top_features' => $topTwoFeatures,
-                'intro_boundaries'=>$intro_boundaries,
+                'intro_boundaries' => $intro_boundaries,
                 'boundary' => $boundary,
                 'intro_perception' => $perception_life,
                 'perception' => $perception,
-                'intro_communication'=>$intro_communication,
+                'intro_communication' => $intro_communication,
                 'top_communication' => $topCommunication,
-                'intro_energypool'=>$intro_energypool,
+                'intro_energypool' => $intro_energypool,
                 'energy_pool' => $energyPool,
                 'style_position' => $style_position,
                 'feature_position' => $feature_position,
@@ -544,7 +552,7 @@ class UserController extends Controller
                 'negative' => $negative,
                 'pv' => $pv,
                 'ep' => $ep,
-                'footer'=> config('pdffooter'),
+                'footer' => config('pdffooter'),
                 'completed_date' => Carbon::parse($assessment['updated_at'])->format('F j, Y')
             ];
 

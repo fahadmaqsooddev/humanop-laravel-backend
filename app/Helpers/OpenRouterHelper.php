@@ -15,7 +15,7 @@ use App\Models\Assessment;
 
 class OpenRouterHelper
 {
-    public static function callOpenRouterApi($question, $setting, $aiReply, $llmModel)
+    public static function callOpenRouterApi($question, $setting, $aiReply, $llmModel, $prompt)
     {
         $apiKey = "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";
         $siteUrl = "humanop.com"; // Optional
@@ -38,7 +38,7 @@ class OpenRouterHelper
             "messages" => [
                 [
                     "role" => "user",
-                    "content" => $setting['persona_text'] . "\n\n User: " . $question,
+                    "content" => $prompt . "\n\n User: " . $question,
                 ],
                 [
                     "role" => "system",

@@ -26,7 +26,7 @@
 
                 <div id="content w-100">
 
-                    @livewire('admin.hai-chat.brains.create-brain')
+                    @livewire('admin.hai-chat.brains.create-brain', ["name" => $name, "description" => $description])
 
 
                 </div>
@@ -35,4 +35,36 @@
         </main>
         @include('layouts/footers/auth/footer')
     </div>
+
+    <script>
+
+        let isFormChanged = false;
+
+        // Example: Set this to true when user modifies a form
+        document.querySelectorAll(".change-input-form").forEach((el) => {
+
+            el.addEventListener("change", () => {
+                isFormChanged = true;
+            });
+
+        });
+
+        // Prompt before leaving
+        window.addEventListener("beforeunload", (event) => {
+            if (isFormChanged) {
+                event.preventDefault(); // Some browsers require this
+                event.returnValue = ""; // Required for most browsers to trigger prompt
+                // Chrome shows a generic prompt; custom messages are ignored for security reasons
+            }
+        });
+
+        document.querySelectorAll(".update-button").forEach((el) => {
+
+            el.addEventListener("click", () => {
+                isFormChanged = false; // prevent the unload prompt
+            });
+
+        });
+
+    </script>
 @endsection

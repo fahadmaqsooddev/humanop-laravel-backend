@@ -92,7 +92,7 @@ class GroupEmbedding extends Model
 
                 if (isset($group['embedding']['request_id'])){
 
-                    HaiChatActiveEmbedding::removeActiveEmbedding($botName, $group['embedding']['request_id']);
+                    HaiChatActiveEmbedding::createActiveEmbedding($botName, $group['embedding']['request_id']);
                 }
 
             }
@@ -125,6 +125,25 @@ class GroupEmbedding extends Model
             if (isset($group['embedding']['request_id'])){
 
                 HaiChatActiveEmbedding::removeActiveEmbedding($botName, $group['embedding']['request_id']);
+            }
+
+        }
+
+    }
+
+    public static function removeAllGroupEmbeddings($group_ids = [], $botName = null){
+
+        foreach ($group_ids as $group_id){
+
+            $groups = self::has('embedding')->where('group_id', $group_id)->with('embedding')->get();
+
+            foreach ($groups as $group){
+
+                if (isset($group['embedding']['request_id'])){
+
+                    HaiChatActiveEmbedding::removeActiveEmbedding($botName, $group['embedding']['request_id']);
+                }
+
             }
 
         }
