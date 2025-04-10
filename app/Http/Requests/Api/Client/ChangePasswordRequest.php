@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Client;
 
+use App\Helpers\Helpers;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChangePasswordRequest extends FormRequest
@@ -23,8 +24,11 @@ class ChangePasswordRequest extends FormRequest
      */
     public function rules()
     {
+        $user=Helpers::getUser();
+        $required= (!empty($user->google_id)|| !empty($user->apple_id)) ? 'nullable':'required';
+
         return [
-            'current_password' => 'required',
+            'current_password' => $required,
             'new_password' => [
                 'required',
                 'confirmed',
