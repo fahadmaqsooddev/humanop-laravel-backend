@@ -232,7 +232,7 @@ class B2BAuthController extends Controller
                     if ($uniqueEmail) {
 
                         return Helpers::successResponse('Invite Link Have Please Create Acccount', [
-                            'url' => config('client_url.b2b_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
+                            'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
                             'existing_account' => false,
                         ]);
 
@@ -250,7 +250,7 @@ class B2BAuthController extends Controller
                     if (!empty($data)) {
 
                         return Helpers::successResponse('signup Link for Maestro HumanOp', [
-                            'url' => config('client_url.b2b_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
+                            'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
                         ]);
 
                     } else {
