@@ -90,7 +90,7 @@ public $members_limit=10;
                     $data=UserInvite::sendInvite($this->email, $this->file, $this->role, $this->members_limit);
 
 
-                    $url = config('client_url.b2b_dashboard_url') . '/signup?link=' . $data['link'];
+                    $url = config('client_url.b2b_dashboard_url') . '/check-email?b2b-signup-link=' . $data['link'];
 
                     $emailData = $this->myprepareEmailData($url);
 
