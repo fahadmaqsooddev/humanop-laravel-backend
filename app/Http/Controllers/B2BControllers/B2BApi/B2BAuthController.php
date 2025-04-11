@@ -4,6 +4,7 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\B2B\B2BRegisterfirstStep;
 use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
 use App\Http\Requests\B2B\updateB2BProfileRequest;
 use App\Models\B2B\B2BIntentionOption;
@@ -18,6 +19,7 @@ use App\Http\Requests\B2B\RegisterRequest;
 use App\Http\Requests\B2B\B2BSupportRequest;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
+use function Symfony\Component\Translation\t;
 
 class B2BAuthController extends Controller
 {
@@ -28,7 +30,7 @@ class B2BAuthController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
+        $this->middleware('auth:api')->except(['b2bSignup','b2bRegisterFirstStep', 'businessStrategies', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
 
         $this->auth = Auth::guard('api');
 
@@ -214,8 +216,8 @@ class B2BAuthController extends Controller
                 if (!empty($data)) {
 
                     return Helpers::successResponse('B2B Already Have Account ', [
-                        'b2b-signup-step' => $data['b2b_step'],
-                        'existing-account' => true,
+                        'b2b_signup_step' => $data['b2b_step'],
+                        'existing_account' => true,
                     ]);
 
                 } else {
@@ -226,7 +228,7 @@ class B2BAuthController extends Controller
 
                         return Helpers::successResponse('Invite Link Have Please Create Acccount', [
                             'url' => config('client_url.b2b_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
-                            'existing-account' => false,
+                            'existing_account' => false,
                         ]);
 
                     } else {
@@ -262,6 +264,27 @@ class B2BAuthController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+    }
+
+
+    public function  b2bRegisterFirstStep(B2BRegisterfirstStep  $request)
+    {
+        try {
+            $data=$request->only(['email']);
+           $data= User::updateWorkEmail($request['user_id'],$request['email']);
+           
+           if($data){
+               return  Helpers::successResponse('Work email stored succefully',[
+
+               ]);
+           }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
     }
 
 }
