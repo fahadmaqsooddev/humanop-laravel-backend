@@ -28,4 +28,10 @@ class BusinessStrategies extends Model
     {
         return self::get();
     }
+
+
+    public static function  storeStratergy($stratergy=null)
+    {
+        return self::create($stratergy);
+    }
 }
