@@ -32,7 +32,7 @@ class B2BAuthController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['b2bSignup','b2bRegisterFirstStep', 'businessStrategies', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
+        $this->middleware('auth:api')->except(['b2bSignup','b2bRegisterFirstStep','b2bRegisterSecondStep', 'businessStrategies','b2bRegisterLastStep', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
 
         $this->auth = Auth::guard('api');
 
@@ -276,7 +276,9 @@ class B2BAuthController extends Controller
     {
         try {
             $data=$request->only(['email']);
-           $data= User::updateWorkEmail($data['user_id'],$data['email']);
+
+           $data= User::updateWorkEmail($request['user_id'],$data['email']);
+
 
            if($data){
                $result=User::getSingleUser($request['user_id']);
@@ -303,17 +305,24 @@ class B2BAuthController extends Controller
 
         try {
 
-            $data=$request->only(['company_name','business_sub_stratergy_id']);
+            $data=$request->only(['company_name']);
+            if(!empty($request['business_stratergy_name']) && !empty($request['business_sub_stratergy_name'])){
+                $storeStrategy=BusinessStrategies::storeStratergy($request['business_stratergy_name']);
+                $storeSubStrategy=BusinessSubStrategies::storeSubStratergy($storeStrategy['id'],$request['business_sub_stratergy_name']);
+                $data= User::updateCompany($request['user_id'],$data['company_name'],$storeSubStrategy['id']);
+            }else{
+                $data= User::updateCompany($request['user_id'],$data['company_name'],$request['business_sub_stratergy_id']);
 
-            $data= User::updateCompany($data['user_id'],$data['company_name'],$data['business_sub_stratergy_id']);
+            }
+
             if($data){
                 $result=User::getSingleUser($request['user_id']);
-                return  Helpers::successResponse('Company name stored succefully',[
+                return  Helpers::successResponse('Company name stored successfully',[
                     'user_id'=>$result['id'],
                     'b2b_step'=>$result['b2b_step']
                 ]);
             }else{
-                return Helpers::validationResponse('An error occured');
+                return Helpers::validationResponse('An error occurred');
             }
 
 
@@ -328,14 +337,36 @@ class B2BAuthController extends Controller
     public function b2bRegisterLastStep(B2BRegisterLastStep $request){
         try{
 
-            $data=$request->only(['intention_option_id','team_department']);
-            $data=User::updateTeam($data['user_id'],$data['team_department'],$data['intention_option_id']);
+            $data=$request->only(['team_department']);
+            $data=User::updateTeam($request['user_id'],$data['team_department']);
 
             if (!empty($request['intention_option_id'])) {
-
-                SelectIntentionOption::storeUserIntentions($data['user_id'], $request['intention_option_id']);
-
+                SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
+                    }
+            else{
+                $result=B2BIntentionOption::createIntention($request['intention_option_name']);
+                SelectIntentionOption::storeUserIntentions($request['user_id'], $result['intention_option_id']);
             }
+
+
+                if ($data) {
+                    $getUser = User::getSingleUser($request['user_id']);
+                    $token = $this->auth->login($getUser);
+
+                    $data = [
+                        'user' => $getUser,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ],
+                    ];
+
+                    return Helpers::successResponse('User logged in successfully', $data);
+
+                }
+
+
+
         }catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

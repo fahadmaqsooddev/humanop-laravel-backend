@@ -27,7 +27,7 @@ class B2BRegisterLastStep extends FormRequest
             //
             'user_id'=>'required|integer',
             'team_department'=>'required',
-            'intention_option_id'=>'required',
+//            'intention_option_id'=>'required',
         ];
     }
 
@@ -35,7 +35,7 @@ class B2BRegisterLastStep extends FormRequest
         return [
             'user_id.required'=>'User Id is Required',
             'team_department.required' => 'Team Department is required.',
-            'intention_option_id.required' => 'Intention Option is required.',
+//            'intention_option_id.required' => 'Intention Option is required.',
         ];
     }
 }

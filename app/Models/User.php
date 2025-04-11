@@ -381,12 +381,11 @@ class User extends Authenticatable implements JWTSubject
        'b2b_step'=>2,
    ]);
     }
-    public static  function  updateTeam($id=null,$team=null,$intentionid=null)
+    public static  function  updateTeam($id=null,$team=null)
     {
    return self::where('id',$id)->update([
-       'company_name'=>$company,
-       'business_sub_stratergy_id'=>$businesstrategyid,
-       'b2b_step'=>2,
+       'team_department'=>$team,
+       'b2b_step'=>3,
    ]);
     }
     public static function getUserAge($date_of_birth = null)
