@@ -365,6 +365,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+
     public static  function  updateWorkEmail($id=null,$email=null)
     {
    return self::where('id',$id)->update([
@@ -372,7 +373,22 @@ class User extends Authenticatable implements JWTSubject
        'b2b_step'=>1,
    ]);
     }
-
+    public static  function  updateCompany($id=null,$company=null,$businesstrategyid=null)
+    {
+   return self::where('id',$id)->update([
+       'company_name'=>$company,
+       'business_sub_stratergy_id'=>$businesstrategyid,
+       'b2b_step'=>2,
+   ]);
+    }
+    public static  function  updateTeam($id=null,$team=null,$intentionid=null)
+    {
+   return self::where('id',$id)->update([
+       'company_name'=>$company,
+       'business_sub_stratergy_id'=>$businesstrategyid,
+       'b2b_step'=>2,
+   ]);
+    }
     public static function getUserAge($date_of_birth = null)
     {
 
