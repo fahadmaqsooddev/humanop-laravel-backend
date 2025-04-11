@@ -5,6 +5,8 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\B2BRegisterfirstStep;
+use App\Http\Requests\B2B\B2BRegisterLastStep;
+use App\Http\Requests\B2B\B2BRegisterSecondStep;
 use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
 use App\Http\Requests\B2B\updateB2BProfileRequest;
 use App\Models\B2B\B2BIntentionOption;
@@ -216,6 +218,7 @@ class B2BAuthController extends Controller
                 if (!empty($data)) {
 
                     return Helpers::successResponse('B2B Already Have Account ', [
+                        'user_id'=>$data['id'],
                         'user_name'=>$data['first_name']. ''. $data['last_name'],
                         'email'=>$data['email'],
                         'b2b_signup_step' => $data['b2b_step'],
@@ -294,9 +297,50 @@ class B2BAuthController extends Controller
     }
 
 
-    public  function b2bRegisterSecondStep()
+    public  function b2bRegisterSecondStep(B2BRegisterSecondStep $request)
     {
 
+
+        try {
+
+            $data=$request->only(['company_name','business_sub_stratergy_id']);
+
+            $data= User::updateCompany($data['user_id'],$data['company_name'],$data['business_sub_stratergy_id']);
+            if($data){
+                $result=User::getSingleUser($request['user_id']);
+                return  Helpers::successResponse('Company name stored succefully',[
+                    'user_id'=>$result['id'],
+                    'b2b_step'=>$result['b2b_step']
+                ]);
+            }else{
+                return Helpers::validationResponse('An error occured');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
+    public function b2bRegisterLastStep(B2BRegisterLastStep $request){
+        try{
+
+            $data=$request->only(['intention_option_id','team_department']);
+            $data=User::updateTeam($data['user_id'],$data['team_department'],$data['intention_option_id']);
+
+            if (!empty($request['intention_option_id'])) {
+
+                SelectIntentionOption::storeUserIntentions($data['user_id'], $request['intention_option_id']);
+
+            }
+        }catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
     }
 
 }

@@ -23,5 +23,7 @@ Route::get('all-intentions','B2BAuthController@AllIntentions');
 Route::get('b2b-account-check','B2BAuthController@b2bAccountCheck');
 
 Route::post('b2b-register-first-step','B2BAuthController@b2bRegisterFirstStep');
+Route::post('b2b-register-second-step','B2BAuthController@b2bRegisterSecondStep');
+Route::post('b2b-register-last-step','B2BAuthController@b2bRegisterLastStep');
 
 
