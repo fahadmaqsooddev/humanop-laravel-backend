@@ -365,6 +365,14 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static  function  updateWorkEmail($id=null,$email=null)
+    {
+   return self::where('id',$id)->update([
+       'work_email'=>$email,
+       'b2b_step'=>1,
+   ]);
+    }
+
     public static function getUserAge($date_of_birth = null)
     {
 
