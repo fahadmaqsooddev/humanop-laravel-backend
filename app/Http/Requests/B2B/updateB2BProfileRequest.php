@@ -24,8 +24,7 @@ class updateB2BProfileRequest extends FormRequest
      */
     public function rules()
     {
-  
-       
+
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -33,12 +32,12 @@ class updateB2BProfileRequest extends FormRequest
             'gender' => 'required|in:male,female',
             'timezone' => 'required',
             'phone' => 'nullable|max:25',
-            'company_name' => [
-                'required',
-                'string',
-                'max:50',
-                Rule::unique('users', 'company_name')->ignore($this->user()->id, 'id'),
-            ],
+//            'company_name' => [
+//                'required',
+//                'string',
+//                'max:50',
+//                Rule::unique('users', 'company_name')->ignore($this->user()->id),
+//            ],
             'password'=>'nullable',
         ];
     }
@@ -53,8 +52,8 @@ class updateB2BProfileRequest extends FormRequest
             'timezone.required' => 'Timezone is required',
             'gender.in' => 'Invalid gender. Gender must be male or female',
             'phone.max' => 'The phone number should not exceed 25 characters.',
-            'company_name.required' => 'Company Name is required.',
-            'company_name.max' => 'Company Name cannot exceed 50 characters.',
+//            'company_name.required' => 'Company Name is required.',
+//            'company_name.max' => 'Company Name cannot exceed 50 characters.',
 
         ];
     }

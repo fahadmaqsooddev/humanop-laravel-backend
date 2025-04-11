@@ -15,10 +15,9 @@ use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\B2B\RegisterRequest;
-use App\Http\Requests\B2B\UpdateB2bProfile;
 use App\Http\Requests\B2B\B2BSupportRequest;
 use App\Models\Upload\Upload;
-
+use Illuminate\Http\Request;
 
 class B2BAuthController extends Controller
 {
@@ -29,7 +28,7 @@ class B2BAuthController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'getBusinessSubStrategies', 'AllIntentions']);
+        $this->middleware('auth:api')->except(['b2bSignup', 'businessStrategies', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
 
         $this->auth = Auth::guard('api');
 
@@ -62,12 +61,10 @@ class B2BAuthController extends Controller
 
                 $checkUser = $this->user->checkEmail($dataArray['email']);
 
-                if (!empty($checkUser))
-                {
+                if (!empty($checkUser)) {
                     return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
 
-                }else{
-
+                } else {
 
 
                     $b2b_user = $this->user->createB2BSignup($dataArray);
@@ -146,14 +143,15 @@ class B2BAuthController extends Controller
     }
 
 
-    public function ProfileUpdate(updateB2BProfileRequest $request){
+    public function ProfileUpdate(updateB2BProfileRequest $request)
+    {
         try {
 
             $request = Helpers::explodeAgeRangeIntoAge($request);
 
             if ($request) {
 
-                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone','company_name','password']);
+                $dataArray = $request->only(['first_name', 'last_name', 'phone', 'date_of_birth', 'gender', 'timezone', 'company_name', 'password']);
 
                 $updated_user = User::updateUserProfile($dataArray);
 
@@ -172,14 +170,15 @@ class B2BAuthController extends Controller
     }
 
 
-    public function Support(B2BSupportRequest $request){
+    public function Support(B2BSupportRequest $request)
+    {
         try {
 
-            $support= new B2BSupport();
+            $support = new B2BSupport();
             $dataArray = $request->only($support->getFillable());
             $upload_id = Upload::uploadFile($request->image, 200, 200, 'base64Image', 'png', true);
 
-            B2BSupport::createSupport($dataArray,$upload_id);
+            B2BSupport::createSupport($dataArray, $upload_id);
 
             return Helpers::successResponse('Support Created successfully.');
 
@@ -196,6 +195,67 @@ class B2BAuthController extends Controller
             $data = B2BIntentionOption::allIntentions();
 
             return Helpers::successResponse('All Intentions', $data);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function b2bAccountCheck(Request $request)
+    {
+        try {
+
+            if (!empty($request['email'])) {
+
+                $data = User::checkB2BEmail($request['email']);
+
+                if (!empty($data)) {
+
+                    return Helpers::successResponse('B2B Already Have Account ', [
+                        'b2b-signup-step' => $data['b2b_step'],
+                        'existing-account' => true,
+                    ]);
+
+                } else {
+
+                    $uniqueEmail = UserInvite::where('email', $request['email'])->first();
+
+                    if ($uniqueEmail) {
+
+                        return Helpers::successResponse('Invite Link Have Please Create Acccount', [
+                            'url' => config('client_url.b2b_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
+                            'existing-account' => false,
+                        ]);
+
+                    } else {
+                        return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+                    }
+
+                }
+            } else {
+
+                if (!empty($request['invite_link'])) {
+
+                    $data = UserInvite::getInviteLink($request['invite_link']);
+
+                    if (!empty($data)) {
+
+                        return Helpers::successResponse('signup Link for Maestro HumanOp', [
+                            'url' => config('client_url.b2b_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
+                        ]);
+
+                    } else {
+                        return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+                    }
+
+                } else {
+                    return Helpers::validationResponse('Invite Link Is Required');
+                }
+
+            }
+
 
         } catch (\Exception $exception) {
 

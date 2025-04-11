@@ -20,4 +20,6 @@ Route::get('get-business-sub-strategies', 'B2BAuthController@getBusinessSubStrat
 
 Route::get('all-intentions','B2BAuthController@AllIntentions');
 
+Route::get('b2b-account-check','B2BAuthController@b2bAccountCheck');
+
 

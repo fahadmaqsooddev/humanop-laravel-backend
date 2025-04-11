@@ -49,38 +49,37 @@ class AuthController extends Controller
     public function checkUserDetail(CheckCandidate $request)
     {
         try {
-                $dataresult = $request->only(['token', 'company_name']);
+            $dataresult = $request->only(['token', 'company_name']);
 
 
-                $invite = UserInvite::where('link', $dataresult['token'])->first();
+            $invite = UserInvite::where('link', $dataresult['token'])->first();
 
-                if (!empty($invite)) {
+            if (!empty($invite)) {
 
-                    $data = User::checkEmail($invite['email']);
+                $data = User::checkEmail($invite['email']);
 
-                    if (!empty($data)) {
-                        $url = config('client_url.client_dashboard_url') . '/login?company_name='. $dataresult['company_name'];
-                        return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
-                            'url' => $url,
-                            'company_name' => $dataresult['company_name'],
-                            'excisting_candidate' => true,
+                if (!empty($data)) {
+                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataresult['company_name'];
+                    return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
+                        'url' => $url,
+                        'company_name' => $dataresult['company_name'],
+                        'excisting_candidate' => true,
 
 
-                        ]);
-                    } else {
-                        $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataresult['token'] . '&company_name=' . $dataresult['company_name'];
-                        return Helpers::successResponse('Candidate Does not have an Account', [
-                            'url' => $url,
-                            'company_name' => $dataresult['company_name'],
-                            'excisting_candidate' => false,
-                        ]);
-                    }
+                    ]);
                 } else {
-                    return Helpers::validationResponse('In Valid token');
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataresult['token'] . '&company_name=' . $dataresult['company_name'];
+                    return Helpers::successResponse('Candidate Does not have an Account', [
+                        'url' => $url,
+                        'company_name' => $dataresult['company_name'],
+                        'excisting_candidate' => false,
+                    ]);
                 }
+            } else {
+                return Helpers::validationResponse('In Valid token');
+            }
 
         } catch (\Exception $exception) {
-
 
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -105,125 +104,130 @@ class AuthController extends Controller
 
             $authorizedUser = UserInvite::getSingleInvite($dataArray['email']);
 
-            // if (!empty($authorizedUser)) {
+            if (!empty($authorizedUser)) {
 
-            $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
+                $checkDeleteAccount = $user->checkDeleteEmail($dataArray['email']);
 
-            if (!empty($checkDeleteAccount)) {
-                return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
-            }
+                if (!empty($checkDeleteAccount)) {
+                    return Helpers::validationResponse('Your account associated with this email has been frozen. Please contact our technical support team for assistance.');
+                }
 
-            $checkUser = $user->checkEmail($dataArray['email']);
+                $checkUser = $user->checkEmail($dataArray['email']);
 
-            if (empty($checkUser)) {
+                if (empty($checkUser)) {
+//dd($request['email']);
+                    if ($request['b2b_invite'] == 1) {
 
-
-                $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id']);
-
-                if (!empty($request['company_name'])) {
-
-                    $data = User::getSingleUserFromCompanyName($request['company_name']);
-                    if($authorizedUser['role']==Admin::B2B_INVITE_ROLE){
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
-                    }else if($authorizedUser['role']==Admin::B2B_MEMBER_INVITE_ROLE){
-                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], true);
+                    } else {
+                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false);
                     }
-                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
 
-                }
 
-                if (!empty($request['register_from_app'])) {
-                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
-                } else {
-                    $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
-                }
-                $user->setAppends([]);
+                    if (!empty($request['company_name'])) {
 
-                if (empty($request['google_id']) && empty($request['apple_id'])) {
+                        $data = User::getSingleUserFromCompanyName($request['company_name']);
+                        if ($authorizedUser['role'] == Admin::B2B_INVITE_ROLE) {
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                        } else if ($authorizedUser['role'] == Admin::B2B_MEMBER_INVITE_ROLE) {
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                        }
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
 
-                    $emailData = $this->prepareEmailData($user, $url);
-
-                    $this->sendEmailVerification($emailData, $user['email'], 'Verify Your Email Address');
-                }
-
-                Helpers::createCustomerAndSubscriptionOnStripe($user);
-
-                Helpers::createClientsOnOneSignal($user['id']);
-
-                DB::commit();
-
-                return Helpers::successResponse('User registered successfully', [
-                    'authorization' => [
-                        'user' => $user,
-                        'status' => true,
-                        'type' => 'bearer',
-                    ],
-                ]);
-            } else {
-
-                $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
-
-                if (empty($checkEmailVerified)) {
+                    }
 
                     if (!empty($request['register_from_app'])) {
-                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'];
                     } else {
-                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
+                        $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $user['email_verify_token'] . '&app=azklmwosdf';
+                    }
+                    $user->setAppends([]);
+
+                    if (empty($request['google_id']) && empty($request['apple_id'])) {
+
+                        $emailData = $this->prepareEmailData($user, $url);
+
+                        $this->sendEmailVerification($emailData, $user['email'], 'Verify Your Email Address');
                     }
 
-                    $emailData = $this->prepareEmailData($checkUser, $url);
+                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
-                    $this->sendEmailVerification($emailData, $checkUser['email'], 'Verify Your Email Address');
+                    Helpers::createClientsOnOneSignal($user['id']);
 
-                    $checkUser->setAppends([]);
+                    DB::commit();
 
-                    return Helpers::successResponse('Your email is not verified. Verification email sent.', [
+                    return Helpers::successResponse('User registered successfully', [
                         'authorization' => [
-                            'user' => $checkUser,
+                            'user' => $user,
                             'status' => true,
                             'type' => 'bearer',
                         ],
                     ]);
                 } else {
 
-                    $checkLastStep = User::checkLastStep($checkUser['email']);
+                    $checkEmailVerified = User::checkEmailVerified($checkUser['email']);
 
-                    if ($checkLastStep && $checkLastStep['step'] == 3) {
+                    if (empty($checkEmailVerified)) {
 
-                        if (!empty($request['company_name'])) {
-
-                            $data = User::getSingleUserFromCompanyName($request['company_name']);
-                            if($authorizedUser['role']==Admin::B2B_INVITE_ROLE){
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
-                            }else if($authorizedUser['role']==Admin::B2B_MEMBER_INVITE_ROLE){
-                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
-                            }
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
-                            // B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                        if (!empty($request['register_from_app'])) {
+                            $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'];
+                        } else {
+                            $url = config('client_url.client_dashboard_url') . '/email-verified?token=' . $checkUser['email_verify_token'] . '&app=azklmwosdf';
                         }
 
-                        DB::commit();
+                        $emailData = $this->prepareEmailData($checkUser, $url);
 
-                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
-                    } else {
+                        $this->sendEmailVerification($emailData, $checkUser['email'], 'Verify Your Email Address');
 
-                        $checkLastStep->setAppends([]);
+                        $checkUser->setAppends([]);
 
-                        return Helpers::successResponse('kindly complete your last step', [
-
+                        return Helpers::successResponse('Your email is not verified. Verification email sent.', [
                             'authorization' => [
-                                'user' => $checkLastStep,
+                                'user' => $checkUser,
                                 'status' => true,
                                 'type' => 'bearer',
                             ],
                         ]);
+                    } else {
+
+                        $checkLastStep = User::checkLastStep($checkUser['email']);
+
+                        if ($checkLastStep && $checkLastStep['step'] == 3) {
+
+                            if (!empty($request['company_name'])) {
+
+                                $data = User::getSingleUserFromCompanyName($request['company_name']);
+                                if ($authorizedUser['role'] == Admin::B2B_INVITE_ROLE) {
+                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                                } else if ($authorizedUser['role'] == Admin::B2B_MEMBER_INVITE_ROLE) {
+                                    B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                                }
+                                B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                                // B2BBusinessCandidates::registerCandidate($data['id'], $checkLastStep['id'], Admin::IS_CANDIDATE, Admin::NOT_SHARED_DATA);
+                            }
+
+                            DB::commit();
+
+                            return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
+                        } else {
+
+                            $checkLastStep->setAppends([]);
+
+                            return Helpers::successResponse('kindly complete your last step', [
+
+                                'authorization' => [
+                                    'user' => $checkLastStep,
+                                    'status' => true,
+                                    'type' => 'bearer',
+                                ],
+                            ]);
+                        }
                     }
                 }
-            }
-            // } else {
+            } else {
 
-            //     return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
-            // }
+                return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+            }
 
         } catch (\Exception $exception) {
 
@@ -277,24 +281,37 @@ class AuthController extends Controller
 
                 $getUser['app_intro_check'] = ($getUser['app_intro_check'] === Admin::INTRO_CHECK_UN_READ ? true : false);
 
-                $token = $this->auth->login($getUser);
+                if ($getUser['is_admin'] == Admin::IS_B2B) {
 
-                $data = [
-                    'user' => $getUser,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ],
-                ];
+                    $getUser->setAppends([]);
 
-                return Helpers::successResponse('User logged in successfully', $data);
+                    $data = [
+                        'user' => $getUser,
+                        'b2b_create_Account' => true,
+                    ];
+
+                    return Helpers::successResponse('Complete Your maestro Signup Process', $data);
+
+                } else {
+
+                    $token = $this->auth->login($getUser);
+
+                    $data = [
+                        'user' => $getUser,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ],
+                    ];
+
+                    return Helpers::successResponse('User logged in successfully', $data);
+                }
+
             }
 
-            // If user not found
+            return Helpers::validationResponse('User not found');
 
-            return Helpers::errorResponse('User not found');
         } catch (\Exception $exception) {
-            // Handle exceptions
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
@@ -370,9 +387,9 @@ class AuthController extends Controller
 
                     $user = Helpers::getUser();
 
-                    if($request['company_name']){
+                    if ($request['company_name']) {
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
-                        if(!empty($data)){
+                        if (!empty($data)) {
                             B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
                         }
 
@@ -702,11 +719,11 @@ class AuthController extends Controller
 
             $authToken = $this->auth->login($user);
 
-             $userInvite = UserInvite::getSingleInvite($user['email']);
+            $userInvite = UserInvite::getSingleInvite($user['email']);
 
             $data = [
                 'user' => $user,
-                 'user_invite' => $userInvite['link'],
+                'user_invite' => $userInvite['link'],
                 'authorization' => [
                     'token' => $authToken,
                     'type' => 'bearer',
