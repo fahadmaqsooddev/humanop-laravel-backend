@@ -216,6 +216,8 @@ class B2BAuthController extends Controller
                 if (!empty($data)) {
 
                     return Helpers::successResponse('B2B Already Have Account ', [
+                        'user_name'=>$data['first_name']. ''. $data['last_name'],
+                        'email'=>$data['email'],
                         'b2b_signup_step' => $data['b2b_step'],
                         'existing_account' => true,
                     ]);
@@ -271,12 +273,16 @@ class B2BAuthController extends Controller
     {
         try {
             $data=$request->only(['email']);
-           $data= User::updateWorkEmail($request['user_id'],$request['email']);
-           
-           if($data){
-               return  Helpers::successResponse('Work email stored succefully',[
+           $data= User::updateWorkEmail($data['user_id'],$data['email']);
 
+           if($data){
+               $result=User::getSingleUser($request['user_id']);
+               return  Helpers::successResponse('Work email stored succefully',[
+               'user_id'=>$result['id'],
+                   'b2b_step'=>$result['b2b_step']
                ]);
+           }else{
+               return Helpers::validationResponse('Work email not stored succefully');
            }
 
         } catch (\Exception $exception) {
@@ -284,6 +290,12 @@ class B2BAuthController extends Controller
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
+
+    }
+
+
+    public  function b2bRegisterSecondStep()
+    {
 
     }
 
