@@ -321,6 +321,8 @@ class AuthController extends Controller
 
         try {
 
+            DB::beginTransaction();
+
             $credentials = $request->only(['email', 'password']);
 
             $checkDeletedUser = User::checkDeleteEmail($credentials['email']);
@@ -388,7 +390,9 @@ class AuthController extends Controller
                     $user = Helpers::getUser();
 
                     if ($request['company_name']) {
+
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
+
                         if (!empty($data)) {
                             B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
                         }
@@ -412,13 +416,19 @@ class AuthController extends Controller
                         ]
                     ];
 
+                    DB::commit();
+
                     return Helpers::successResponse('User loggedIn successfully', $data);
                 } else {
+
+                    DB::rollBack();
 
                     return Helpers::unauthResponse('Wrong Password');
                 }
             }
         } catch (\Exception $exception) {
+
+            DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
