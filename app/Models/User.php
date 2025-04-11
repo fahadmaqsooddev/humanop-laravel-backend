@@ -95,7 +95,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeSelection($query)
     {
-        return $query->select(['id', 'first_name', 'last_name', 'gender', 'email', 'phone', 'is_admin', 'is_feedback', 'image_id', 'date_of_birth', 'hai_chat', 'referral_code', 'timezone', 'two_way_auth', 'intro_check', 'app_intro_check', 'step', 'register_from_app', 'email_verified_at', 'company_name']);
+        return $query->select(['id', 'first_name', 'last_name',
+            'gender', 'email', 'phone', 'is_admin', 'is_feedback',
+            'image_id', 'date_of_birth', 'hai_chat', 'referral_code',
+            'timezone', 'two_way_auth', 'intro_check', 'app_intro_check',
+            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step']);
     }
 
     // appends
@@ -225,6 +229,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(UserInvite::class, 'email', 'email');
     }
+
     public function stories()
     {
 
@@ -360,6 +365,29 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+
+    public static  function  updateWorkEmail($id=null,$email=null)
+    {
+   return self::where('id',$id)->update([
+       'work_email'=>$email,
+       'b2b_step'=>1,
+   ]);
+    }
+    public static  function  updateCompany($id=null,$company=null,$businesstrategyid=null)
+    {
+   return self::where('id',$id)->update([
+       'company_name'=>$company,
+       'business_sub_stratergy_id'=>$businesstrategyid,
+       'b2b_step'=>2,
+   ]);
+    }
+    public static  function  updateTeam($id=null,$team=null)
+    {
+   return self::where('id',$id)->update([
+       'team_department'=>$team,
+       'b2b_step'=>3,
+   ]);
+    }
     public static function getUserAge($date_of_birth = null)
     {
 
@@ -552,12 +580,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function createFirstStep($data = null, $googleId = null, $appleId = null)
+    public static function createFirstStep($data = null, $googleId = null, $appleId = null, $is_admin = null)
     {
 
         $data['step'] = 1;
 
-        $data['is_admin'] = Admin::IS_CUSTOMER;
+        $data['is_admin'] = !empty($is_admin) ? Admin::IS_B2B : Admin::IS_CUSTOMER;
 
         $data['status'] = 1;
 
@@ -1010,9 +1038,15 @@ class User extends Authenticatable implements JWTSubject
         return self::where('email', $userEmail)->first();
     }
 
+
     public static function checkEmail($userEmail = null)
     {
         return self::where('email', $userEmail)->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B, Admin::IS_B2U])->first();
+    }
+
+    public static function checkB2BEmail($userEmail = null)
+    {
+        return self::where('email', $userEmail)->whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B])->first();
     }
 
     public static function checkDeleteEmail($userEmail = null)

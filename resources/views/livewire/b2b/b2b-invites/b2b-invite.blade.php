@@ -1,14 +1,14 @@
 @push('css')
 <style>
     .no-select{
-        user-select: none; 
+        user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        
+
     }
     </style>
-    
+
 @endpush
 <div>
 
@@ -44,7 +44,7 @@
                 @foreach($invites as $index => $invite)
                     <tr class="table-text-color">
                         <td class="text-md font-weight-normal">{{$invite['email']}} </td>
-                        <td class="text-md font-weight-normal no-select">{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }} </td>
+                        <td class="text-md font-weight-normal no-select">{{ config('client_url.b2b_dashboard_url') .'/check-email?b2b-signup-link=' . $invite['link'] }} </td>
                         <td class="text-md font-weight-normal text-center">
                             {{ !empty($invite['total_member_limit']) ? $invite['total_member_limit'] : 0 }}
                         </td>
@@ -57,7 +57,7 @@
                         <td>
                             <button class="btn mb-0 text-white" id="copy_link_{{$index+1}}"
                                     onclick="copyToClipboard('{{ config('client_url.b2b_dashboard_url') .'/signup?link=' . $invite['link'] }}','{{$index +1}}','{{$invite['id']}}')"
-     
+
                                     style="background-color: #f2661c;border-radius: 0px 5px 5px 0px">Copy Link
                             </button>
                             <button class="btn mb-0 text-white" onclick="deleteClientLink({{$invite['id']}})"

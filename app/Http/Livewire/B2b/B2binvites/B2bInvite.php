@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\B2b\B2binvites;
 
+use App\Models\Email\Email;
+use App\Models\Email\EmailTemplate;
 use Livewire\Component;
 use App\Models\UserInvite\UserInvite;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use App\Enums\Admin\Admin;
+use Illuminate\Support\Facades\URL;
 
 class B2bInvite extends Component
 {
@@ -84,7 +87,15 @@ public $members_limit=10;
                         return;
                     }
 
-                    UserInvite::sendInvite($this->email, $this->file, $this->role, $this->members_limit);
+                    $data=UserInvite::sendInvite($this->email, $this->file, $this->role, $this->members_limit);
+
+
+                    $url = config('client_url.b2b_dashboard_url') . '/check-email?b2b-signup-link=' . $data['link'];
+
+                    $emailData = $this->myprepareEmailData($url);
+
+                    $this->mysendEmailVerification($emailData, $this->email, 'b2b-maestro-signup');
+
 
                     session()->flash('success', "{$this->email} invite link generated successfully.");
 
@@ -104,6 +115,30 @@ public $members_limit=10;
         }
 
     }
+
+
+    private function myprepareEmailData($url = null)
+    {
+        return [
+            '{$link}' => $url,
+            '{$logo}' => URL::asset('assets/logos/HumanOp Logo.png'),
+            '{$service}' => url('/term-of-service'),
+            '{$privacy}' => url('/privacy-policy'),
+        ];
+    }
+
+    private function mysendEmailVerification($emailData, $recipientEmail, $name)
+    {
+        $emailTemplate = EmailTemplate::getTemplate($emailData, $name);
+
+        Email::sendEmailVerification(
+            ['content' => $emailTemplate],
+            $recipientEmail,
+            'emails.Email_Template',
+            $name
+        );
+    }
+
 
 
     public function bulkDelete()
@@ -135,7 +170,7 @@ public $members_limit=10;
 
     public function copyLink($id)
     {
-      
+
         UserInvite::sendInviteTime($id);
     }
 
