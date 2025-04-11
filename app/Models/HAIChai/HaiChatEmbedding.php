@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,10 +31,26 @@ class HaiChatEmbedding extends Model
         return $this->hasOne(HaiChatActiveEmbedding::class,'request_id','request_id')->where('chat_bot', request()->input('chat_bot'));
     }
 
+    public function groups(){
+
+        return $this->hasMany(GroupEmbedding::class,'embedding_id','id');
+    }
+
     // Appends
     public function getIsActiveEmbeddingAttribute(){
 
         return $this->activeEmbedding()->exists();
+    }
+
+    // accessor
+    public function getCreatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+
+    public function getUpdatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
     }
 
 
@@ -129,7 +146,34 @@ class HaiChatEmbedding extends Model
 
     public static function updateEmbedding($id, $name){
 
-        self::whereId($id)->update(['name' => $name]);
+        self::whereId($id)->update(['name' => $name, 'ready_for_training' => 1]);
+    }
+
+    public static function allUniversalEmbeddings($searchEmbedding = null, $cluster_id = null){
+
+        return self::when($searchEmbedding, function ($query, $search){
+
+            $query->where('name', 'like', "%$search%");
+
+        })->when($cluster_id, function ($query, $group_id){
+
+            $query->whereHas('groups', function ($q) use ($group_id){
+
+                $q->where('group_id', $group_id);
+
+            });
+
+        })
+
+            ->with('groups.group:id,name')
+
+            ->get();
+
+    }
+
+    public static function updateEmbeddingTrainingFlag($id){
+
+        self::whereId($id)->update(['ready_for_training' => 1]);
     }
 
 }

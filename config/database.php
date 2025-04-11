@@ -432,8 +432,8 @@ return [
         ],
         'HaiChatEmbedding' => [
             'table' => 'hai_chat_embeddings',
-            'fillable' => ['name','request_id'],
-            'hidden' => ['created_at','updated_at'],
+            'fillable' => ['name','request_id','created_at','updated_at','ready_for_training'],
+            'hidden' => [],
         ],
         'HaiChatActiveEmbedding' => [
             'table' => 'hai_chat_active_embeddings',
@@ -467,8 +467,8 @@ return [
         ],
         'EmbeddingGroup' => [
             'table' => 'embedding_groups',
-            'fillable' => ['id','name'],
-            'hidden' => ['created_at','updated_at','deleted_at'],
+            'fillable' => ['id','name','created_at','updated_at'],
+            'hidden' => ['deleted_at'],
         ],
         'ChatbotKeyword' => [
             'table' => 'chatbot_keywords',
@@ -559,5 +559,10 @@ return [
             'fillable'=>['code_name','title','overview','optimal','optimization'],
             'hidden'=>['updated_at','created_at']
         ],
+        'TrainingFile' => [
+            'table' => 'training_files',
+            'fillable' => ['name','file_name'],
+            'hidden' => ['created_at','updated_at'],
+        ]
     ]
 ];

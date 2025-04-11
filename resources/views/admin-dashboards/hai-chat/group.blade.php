@@ -1,84 +1,80 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 <style>
-    .modal-close-btn {
-        background: #f2661c;
-        border: none;
-        color: white;
-        font-weight: bold;
-        font-size: x-large;
-        float: right;
-        border-radius: 3px;
-        padding: 0px 10px 1px 10px;
+
+    .text-color-dark {
+        color: #0f1534 !important;
     }
 
-    input::placeholder {
-        color: white !important;
+    .card-bg-white-orange-border{
+        background-color: #F4E3C7 !important;
+        /*border: 2px solid #d26622 !important;*/
     }
 
-    /* Custom styles */
-    body div {
-        font-size: small;
+    .input-bg{
+        background-color: #F4ECE0 !important;
+        color: #F95520 !important;
+        border-radius: 20px !important;
+        border: none !important;
+        padding: 5px;
     }
 
-    input {
-        font-size: small;
+    .input-bg::placeholder{
+        color: #F95520 !important;
     }
 
-    .card {
-        border: 1px solid #e0e0e0;
+    .cluster-buttons{
+        background-color: #F95520 !important;
+        color: #F4ECE0;
+        padding: 5px 10px;
         border-radius: 8px;
+        border-width: 2px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
     }
 
-    .card-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .configurations-drop-down{
+        min-width: 250px;
+        text-align: center;
+        background-color: #F4ECE0 !important;
+        color: #F95520 !important;
+        border-radius: 40px !important;
+        border: none !important;
+        padding: 7px;
     }
 
-    h5 i {
-        margin-right: 8px;
+    .cluster-table-rows{
+        padding: 5px;
+        /*border: 1px solid #F95520;*/
     }
 
-    .text-muted i {
-        margin-right: 4px;
+    h5, h4, h6, .text-color-orange{
+        color: #F95520 !important;
     }
 
-    button.btn-outline-secondary i,
-    button.btn-outline-danger i {
-        font-size: 1.2rem;
-    }
-
-    .sidebar {
-        height: 100vh;
-        padding-top: 20px;
-    }
-
-    .nav-link {
-        font-size: 1.1rem;
-    }
-
-    .content-page {
-        padding: 20px;
-    }
-
-    .content-page h2 {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    .embedding-card {
-        width: 100%;
+    .cluster-badge{
+        border-radius: 5px;
+        background-color:#F4E3C7 !important;
+        color: #F95520 !important;
     }
 
 </style>
 @section('content')
     <div class="container-fluid mt-4">
-        @livewire('admin.hai-chat.group')
-    </div>
 
-{{--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>--}}
+        <div class="row">
+
+            <div class="card card-bg-white-orange-border mt-4" id="prompt">
+
+                @livewire('admin.hai-chat.knowledge.new-embedding')
+
+                @livewire('admin.hai-chat.knowledge.universal-embedding')
+
+                @livewire('admin.hai-chat.knowledge.cluster')
+
+            </div>
+        </div>
+    </div>
 
 @endsection
 

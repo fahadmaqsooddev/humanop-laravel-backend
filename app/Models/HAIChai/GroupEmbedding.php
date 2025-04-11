@@ -28,6 +28,11 @@ class GroupEmbedding extends Model
         return $this->belongsToMany(HaiChatEmbedding::class,'hai_chat_active_embeddings','request_id','request_id','embedding_id','id');
     }
 
+    public function group(){
+
+        return $this->belongsTo(EmbeddingGroup::class,'group_id','id');
+    }
+
 
     // Queries
     public static function addOrUpdateGroupIds($embedding_ids = [], $group_id = null){

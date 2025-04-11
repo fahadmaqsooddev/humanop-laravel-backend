@@ -496,13 +496,13 @@
         });
 
         // Prompt before leaving
-        window.addEventListener("beforeunload", (event) => {
-            if (isFormChanged) {
-                event.preventDefault(); // Some browsers require this
-                event.returnValue = ""; // Required for most browsers to trigger prompt
-                // Chrome shows a generic prompt; custom messages are ignored for security reasons
-            }
-        });
+        // window.addEventListener("beforeunload", (event) => {
+        //     if (isFormChanged) {
+        //         event.preventDefault(); // Some browsers require this
+        //         event.returnValue = ""; // Required for most browsers to trigger prompt
+        //         // Chrome shows a generic prompt; custom messages are ignored for security reasons
+        //     }
+        // });
 
     </script>
 @endpush
