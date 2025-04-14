@@ -309,12 +309,12 @@ class B2BAuthController extends Controller
                 $storeStrategy = BusinessStrategies::storeStratergy($request['business_stratergy_name']);
 
                 $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_stratergy_name']);
-
                 $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
 
             } else {
 
-                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub_stratergy_id']);
+
+                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-stratergy_id']);
 
             }
 
@@ -352,12 +352,13 @@ class B2BAuthController extends Controller
 
                 SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
 
-            } else {
+            } else if(!empty($request['intention_option_name'])) {
 
                 $result = B2BIntentionOption::createIntention($request['intention_option_name']);
+                SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
 
-                SelectIntentionOption::storeUserIntentions($request['user_id'], $result['intention_option_id']);
-
+            }else{
+                return  Helpers::validationResponse('Intention Option Is Required');
             }
 
             if ($data) {

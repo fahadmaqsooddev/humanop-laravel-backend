@@ -117,7 +117,7 @@ class AuthController extends Controller
                 if (empty($checkUser)) {
 //dd($request['email']);
                     if ($request['b2b_invite'] == 1) {
-
+//dd(1);
                         $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], true);
                     } else {
                         $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false);

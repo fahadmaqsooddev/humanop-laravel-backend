@@ -28,7 +28,7 @@ class BusinessSubStrategies extends Model
     {
         return self::create([
             'business_strategy_id' => $stratergyid,
-            'business_sub_stratergy_id' => $substratergy,
+            'name' => $substratergy,
         ]);
     }
 }
