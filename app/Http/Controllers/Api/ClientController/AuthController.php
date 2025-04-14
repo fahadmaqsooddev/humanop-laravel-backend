@@ -40,7 +40,7 @@ class AuthController extends Controller
     public function checkUserDetail(CheckCandidate $request)
     {
         try {
-            $dataResult = $request->only(['token', 'company_name']);
+            $dataResult = $request->only(['token', 'company_name','prefer']);
 
             $invite = UserInvite::where('link', $dataResult['token'])->first();
 
