@@ -34,27 +34,27 @@ class CandidateController extends Controller
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
-            
+
 
             if ($checkInviteLink) {
-                
-                
+
+
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
-                if ($checkCompany &&$checkInviteLink['role']==Admin::B2B_INVITE_ROLE) {
+                if ($checkCompany &&$checkCompany['role']==Admin::IS_CANDIDATE) {
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
-                    
-                }else if ($checkCompany &&$checkInviteLink['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+
+                }else if ($checkCompany &&$checkCompany['role']==Admin::IS_TEAM_MEMBER){
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
 
                 }
 
                 else {
 
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id);
+                    UserCandidateInvite::createUserInvite($checkInviteLink->id,1);
 
                     $linke=UserInvite::where('email',$email)->first();
-                    
+
                     $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
 
                     $emailData = $this->prepareEmailData($url);
@@ -64,14 +64,14 @@ class CandidateController extends Controller
                     return Helpers::successResponse("{$email} invite link generated successfully.");
                 }
             }
-            
 
-       
-            $newInvite = UserInvite::createInvite($email,2);
+
+
+            $newInvite = UserInvite::createInvite($email);
 
             if ($newInvite) {
 
-                UserCandidateInvite::createUserInvite($newInvite->id);
+                UserCandidateInvite::createUserInvite($newInvite->id,1);
                 $linke=UserInvite::where('email',$email)->first();
                 $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
                 $emailData = $this->prepareEmailData($url);
@@ -132,11 +132,11 @@ class CandidateController extends Controller
 
                 $candidate->user_created_at=$candidate->created_at ? Carbon::parse($candidate->created_at)->format('m/d/Y h:i A') : null;
                 unset($candidate->created_at);
-                
+
                 // if (!empty($candidate->users->invites) && isset($candidate->users->invites['send_invite_time'])) {
-                    
+
                 //     $candidate->users->invites->send_invite_time = $candidate->users->invites->send_invite_time ? Carbon::parse($candidate->send_invite_time)->format('m/d/Y h:i A') : null;
-                
+
                 // }
 
                 return $candidate;
@@ -167,9 +167,9 @@ class CandidateController extends Controller
                     if($checkrole){
                         return Helpers::validationResponse('This candidate is  already converted to member');
                     }else{
-                        
+
                         $checklimit=B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
-                       
+
                         if($checklimit['members_limit'] > 0 && $checklimit['members_limit'] <= $checklimit['total_member_limit']){
                             $changerole=B2BBusinessCandidates::changeRole($request['candidate_id']);
                             if($changerole){
@@ -201,7 +201,7 @@ class CandidateController extends Controller
             if (!empty($request['candidate_id'])) {
 
                 $status = B2BBusinessCandidates::getInfo($request['candidate_id']);
-            
+
                 if ($status) {
 
                     return Helpers::validationResponse('This Candidate is already deleted from your business.');
@@ -209,7 +209,7 @@ class CandidateController extends Controller
                 } else {
 
                     $candidate = B2BBusinessCandidates::DeletedCandidate($request['candidate_id']);
-            
+
                     if ($candidate) {
 
                         return Helpers::successResponse('Candidate deleted successfully.');
@@ -219,7 +219,7 @@ class CandidateController extends Controller
                         return Helpers::validationResponse('Failed to delete the candidate.');
                     }
                 }
-            
+
             } else {
 
                 return Helpers::validationResponse('Failed to find candidate ID.');
@@ -238,38 +238,38 @@ class CandidateController extends Controller
         try {
 
             if(!empty($request['candidate_id'])){
-               
+
                 $status = B2BBusinessCandidates::getInfo($request['candidate_id']);
 
                 if ($status) {
 
                     return Helpers::validationResponse('This Candidate is already deleted with your business.');
 
-                } 
+                }
                 else {
 
                     $archive=B2BBusinessCandidates::checkconsideration($request['candidate_id']);
 
                     if($archive){
-                        
+
                         return Helpers::validationResponse('This Candidate is already archived.');
 
                     }else{
 
                         $candidate= B2BBusinessCandidates::ArchivedCandidate($request['candidate_id']);
-            
+
                         if ($candidate) {
 
                             return Helpers::successResponse('Candidate archive successfully.');
 
                         } else {
-                            
+
                             return Helpers::validationResponse('Failed to archive the candidate.');
                         }
                     }
-                   
+
                 }
-          
+
             }
             else
             {
