@@ -55,7 +55,7 @@ class CandidateController extends Controller
 
                     $linke=UserInvite::where('email',$email)->first();
 
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] '&prefer=2';
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=2';
 
                     $emailData = $this->prepareEmailData($url);
 
