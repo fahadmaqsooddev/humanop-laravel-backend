@@ -49,7 +49,7 @@ class AuthController extends Controller
                 $data = User::checkEmail($invite['email']);
 
                 if (!empty($data)) {
-                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'];
+                    $url = config('client_url.client_dashboard_url') . '/login?company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
                     return Helpers::successResponse('An account with this email already exists. Please log in to continue.', [
                         'url' => $url,
                         'company_name' => $dataResult['company_name'],
@@ -58,7 +58,7 @@ class AuthController extends Controller
 
                     ]);
                 } else {
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'];
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $dataResult['token'] . '&company_name=' . $dataResult['company_name'] . '&prefer=' . $dataResult['prefer'];
                     return Helpers::successResponse('Candidate Does not have an Account', [
                         'url' => $url,
                         'company_name' => $dataResult['company_name'],
@@ -348,28 +348,28 @@ class AuthController extends Controller
                 return Helpers::validationResponse("These credentials do not match our records.");
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
-                // $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
                     'registration_step' => $checkUser['step'],
-                    // 'user_invite' => $userInvite['link']
+                     'user_invite' => $userInvite['link']
 
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
             } else if ($checkUser && $checkUser['step'] != 3) {
 
-                // $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
                     'registration_step' => $checkUser['step'],
-                    // 'user_invite' => $userInvite['link']
+                     'user_invite' => $userInvite['link']
 
                 ];
 
@@ -403,7 +403,7 @@ class AuthController extends Controller
                         $data = User::getSingleUserFromCompanyName($request['company_name']);
 
                         if (!empty($data)) {
-                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], Admin::IS_TEAM_MEMBER, Admin::NOT_SHARED_DATA);
+                            B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
                         }
 
                     }
