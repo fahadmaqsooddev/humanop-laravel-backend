@@ -357,7 +357,9 @@ class B2BAuthController extends Controller
                 $result = B2BIntentionOption::createIntention($request['intention_option_name']);
                 SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
 
-            }else{
+            }
+            else{
+
                 return  Helpers::validationResponse('Intention Option Is Required');
             }
 

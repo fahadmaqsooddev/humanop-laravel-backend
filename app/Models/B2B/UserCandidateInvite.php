@@ -2,6 +2,7 @@
 
 namespace App\Models\B2B;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -42,11 +43,20 @@ class UserCandidateInvite extends Model
         ->first();
     }
 
-    public static function createUserInvite($linkId = null)
+//    public static function createUserInvite($linkId = null)
+//    {
+//        return self::create([
+//            'company_id' => Helpers::getUser()['id'],
+//            'invite_link_id' => $linkId,
+//        ]);
+//    }
+
+    public static function createUserInvite($linkId = null,$role=null)
     {
         return self::create([
             'company_id' => Helpers::getUser()['id'],
             'invite_link_id' => $linkId,
+            'role' => $role,
         ]);
     }
 
@@ -62,13 +72,11 @@ class UserCandidateInvite extends Model
 
 
         return self::where('company_id', Helpers::getUser()['id'])
-    ->whereHas('inviteLinks', function ($query) {
-        $query->where('role', 2);
-    })
+            ->where('role', Admin::IS_CANDIDATE)
+
+    ->whereHas('inviteLinks')
     ->with([
-        'inviteLinks' => function ($query) {
-            $query->where('role', 2);
-        },
+        'inviteLinks',
         'user'
     ])
     ->orderBy('id', 'desc')
@@ -89,17 +97,14 @@ class UserCandidateInvite extends Model
         // ->get();
 
         return self::where('company_id', Helpers::getUser()['id'])
-        ->whereHas('inviteLinks', function ($query) {
-            $query->where('role', 3);
-        })
+            ->where('role', Admin::IS_TEAM_MEMBER)
+        ->whereHas('inviteLinks')
         ->with([
-            'inviteLinks' => function ($query) {
-                $query->where('role', 3);
-            },
+            'inviteLinks',
             'user'
         ])
         ->orderBy('id', 'desc')
         ->get();
-    
+
     }
 }
