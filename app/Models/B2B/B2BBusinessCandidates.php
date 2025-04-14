@@ -64,7 +64,7 @@ class B2BBusinessCandidates extends Model
 
                 'business_id' => $businessId,
                 'candidate_id' => $candidateId,
-                'role' => $role == 0 ? Admin::IS_TEAM_MEMBER : Admin::IS_CANDIDATE,
+                'role' => $role,
                 'share_data' => $sharedData,
             ]);
         }
