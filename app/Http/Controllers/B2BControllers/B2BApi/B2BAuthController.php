@@ -309,10 +309,10 @@ class B2BAuthController extends Controller
                 $storeStrategy = BusinessStrategies::storeStratergy($request['business_stratergy_name']);
 
                 $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_stratergy_name']);
+
                 $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
 
             } else {
-
 
                 $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-stratergy_id']);
 
@@ -355,6 +355,7 @@ class B2BAuthController extends Controller
             } else if(!empty($request['intention_option_name'])) {
 
                 $result = B2BIntentionOption::createIntention($request['intention_option_name']);
+
                 SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
 
             }else{

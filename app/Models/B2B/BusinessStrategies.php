@@ -30,10 +30,9 @@ class BusinessStrategies extends Model
     }
 
 
-    public static function  storeStratergy($stratergy=null)
+    public static function storeStratergy($stratergy = null)
     {
 
-        return self::create([
-'name'=>$stratergy,        ]);
+        return self::create(['name' => $stratergy]);
     }
 }
