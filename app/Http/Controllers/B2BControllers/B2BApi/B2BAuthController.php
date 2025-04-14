@@ -4,6 +4,7 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\B2B\B2BCompanyNameRequest;
 use App\Http\Requests\B2B\B2BRegisterfirstStep;
 use App\Http\Requests\B2B\B2BRegisterLastStep;
 use App\Http\Requests\B2B\B2BRegisterSecondStep;
@@ -339,7 +340,6 @@ class B2BAuthController extends Controller
         }
     }
 
-
     public function b2bRegisterLastStep(B2BRegisterLastStep $request)
     {
         try {
@@ -385,4 +385,18 @@ class B2BAuthController extends Controller
         }
     }
 
+    public function addCompanyName(B2BCompanyNameRequest $request)
+    {
+        try {
+
+            User::addB2BCompanyName(Helpers::getUser()['id'], $request['company_name']);
+
+            return Helpers::successResponse('Company name stored successfully');
+
+        }catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
 }
