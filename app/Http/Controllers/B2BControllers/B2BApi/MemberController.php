@@ -61,7 +61,7 @@ class MemberController extends Controller
 
                     $linke=UserInvite::where('email',$email)->first();
 
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
 
                     $emailData = $this->myprepareEmailData($url);
 
@@ -79,7 +79,7 @@ class MemberController extends Controller
 
                 UserCandidateInvite::createUserInvite($newInvite->id,0);
                 $linke=UserInvite::where('email',$email)->first();
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
                 $emailData = $this->myprepareEmailData($url);
 
                 $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
