@@ -64,7 +64,7 @@ class B2BBusinessCandidates extends Model
 
                 'business_id' => $businessId,
                 'candidate_id' => $candidateId,
-                'role' => $role,
+                'role' => $role == 1 ? 0 : 1,
                 'share_data' => $sharedData,
             ]);
         }
