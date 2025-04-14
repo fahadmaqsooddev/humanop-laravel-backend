@@ -754,11 +754,24 @@ class AuthController extends Controller
 
             $inviteLink = UserInvite::getInviteLink($request['invite_link']);
 
+            $getUser = User::checkEmail($inviteLink['email']);
+
+            $data = [
+                'user_id' => $getUser['id'],
+                'user_email' => $getUser['email'],
+                'user_name' => $getUser['first_name'] . ' ' . $getUser['last_name'],
+            ];
+
             if (!empty($inviteLink)) {
-                return Helpers::successResponse('User Invite link email', $inviteLink['email']);
+
+                return Helpers::successResponse('User Invite link email', $data);
+
             } else {
+
                 return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
+
             }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
