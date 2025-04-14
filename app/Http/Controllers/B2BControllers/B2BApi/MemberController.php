@@ -113,7 +113,7 @@ class MemberController extends Controller
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
                 $memberInvites[] = [
-                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
+                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
                     'email' => $email,
                     'company_name' => $companyName
                 ];

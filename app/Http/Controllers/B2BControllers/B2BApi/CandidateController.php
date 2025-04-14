@@ -106,7 +106,7 @@ class CandidateController extends Controller
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
                 $candidateInvites[] = [
-                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
+                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=2',
                     'email' => $email,
                     'company_name' => $companyName
                 ];
