@@ -304,17 +304,17 @@ class B2BAuthController extends Controller
 
             $data = $request->only(['company_name']);
 
-            if (!empty($request['business_stratergy_name']) && !empty($request['business_sub_stratergy_name'])) {
+            if (!empty($request['business_strategy_name']) && !empty($request['business_sub_strategy_name'])) {
 
-                $storeStrategy = BusinessStrategies::storeStratergy($request['business_stratergy_name']);
+                $storeStrategy = BusinessStrategies::storeStratergy($request['business_strategy_name']);
 
-                $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_stratergy_name']);
+                $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_strategy_name']);
 
                 $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
 
             } else {
 
-                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-stratergy_id']);
+                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-strategy_id']);
 
             }
 
