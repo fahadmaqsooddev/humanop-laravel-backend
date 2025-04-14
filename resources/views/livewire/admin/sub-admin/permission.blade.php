@@ -28,7 +28,7 @@
                     @endforeach
                 </div>
                 <div class="col-sm-4 col-6 w-50" style="padding-left: 27px">
-                    @foreach(['cms', 'chat', 'projects','deletedClient'] as $permissionName)
+                    @foreach(['cms', 'chat', 'projects','assessments', 'abandonedAssessment'] as $permissionName)
                         <input type="checkbox" class="form-check-input" wire:model="permission" value="{{$permissionName}}" >
                         <label class="form-check-label text-white">{{ ucfirst($permissionName) }}</label>
                         <br>
