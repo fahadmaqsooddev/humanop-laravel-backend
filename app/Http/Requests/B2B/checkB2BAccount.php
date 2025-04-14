@@ -4,7 +4,7 @@ namespace App\Http\Requests\B2B;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class B2BRegisterLastStep extends FormRequest
+class checkB2BAccount extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +23,18 @@ class B2BRegisterLastStep extends FormRequest
      */
     public function rules()
     {
+        $required = (request()->input('email', null)) ? 'nullable' : 'required';
+
         return [
-            'user_id'=>'required|integer',
-            'team_department'=>'required',
-//            'intention_option_id'=>'required',
+            'email' => 'nullable',
+            'invite_link' => $required,
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'user_id.required'=>'User Id is Required',
-            'team_department.required' => 'Team Department is required.',
-//            'intention_option_id.required' => 'Intention Option is required.',
+            'invite_link.required' => 'Invite Link is required',
         ];
     }
 }

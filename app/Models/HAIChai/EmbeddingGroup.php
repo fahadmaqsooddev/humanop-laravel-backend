@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +20,19 @@ class EmbeddingGroup extends Model
     }
 
     protected $appends = ['is_active_group'];
+
+    // accessor
+    public function getCreatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
+
+    }
+
+    public function getUpdatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
+
+    }
 
     // Relations
     public function embeddings(){
@@ -98,6 +112,17 @@ class EmbeddingGroup extends Model
             return $query->whereDoesntHave('embeddings.embedding.activeEmbedding');
 
         })->get();
+    }
+
+    public static function allClusters($searchCluster = null, $brain_id = null){
+
+        return self::when($searchCluster, function ($query, $search){
+
+            $query->where('name', 'like', "%$search%");
+
+        })
+
+            ->get();
     }
 
 }
