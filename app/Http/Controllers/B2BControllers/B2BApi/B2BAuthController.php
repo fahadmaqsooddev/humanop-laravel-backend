@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\B2B\B2BRegisterfirstStep;
 use App\Http\Requests\B2B\B2BRegisterLastStep;
 use App\Http\Requests\B2B\B2BRegisterSecondStep;
+use App\Http\Requests\B2B\checkB2BAccount;
 use App\Http\Requests\B2B\getBusinessSubStrategyRequest;
 use App\Http\Requests\B2B\updateB2BProfileRequest;
 use App\Models\B2B\B2BIntentionOption;
@@ -32,7 +33,7 @@ class B2BAuthController extends Controller
 
     public function __construct(User $user)
     {
-        $this->middleware('auth:api')->except(['b2bSignup','b2bRegisterFirstStep','b2bRegisterSecondStep', 'businessStrategies','b2bRegisterLastStep', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
+        $this->middleware('auth:api')->except(['b2bSignup', 'b2bRegisterFirstStep', 'b2bRegisterSecondStep', 'businessStrategies', 'b2bRegisterLastStep', 'b2bAccountCheck', 'getBusinessSubStrategies', 'AllIntentions']);
 
         $this->auth = Auth::guard('api');
 
@@ -207,7 +208,7 @@ class B2BAuthController extends Controller
         }
     }
 
-    public function b2bAccountCheck(Request $request)
+    public function b2bAccountCheck(checkB2BAccount $request)
     {
         try {
 
@@ -218,10 +219,11 @@ class B2BAuthController extends Controller
                 if (!empty($data)) {
 
                     return Helpers::successResponse('B2B Already Have Account ', [
-                        'user_id'=>$data['id'],
-                        'user_name'=>$data['first_name']. ''. $data['last_name'],
-                        'email'=>$data['email'],
+                        'user_id' => $data['id'],
+                        'user_name' => $data['first_name'] . '' . $data['last_name'],
+                        'email' => $data['email'],
                         'b2b_signup_step' => $data['b2b_step'],
+                        'b2c_signup_step' => $data['step'],
                         'existing_account' => true,
                     ]);
 
@@ -231,7 +233,7 @@ class B2BAuthController extends Controller
 
                     if ($uniqueEmail) {
 
-                        return Helpers::successResponse('Invite Link Have Please Create Acccount', [
+                        return Helpers::successResponse('Invite Link Have Please Create Account', [
                             'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $uniqueEmail['link'],
                             'existing_account' => false,
                         ]);
@@ -243,22 +245,16 @@ class B2BAuthController extends Controller
                 }
             } else {
 
-                if (!empty($request['invite_link'])) {
+                $data = UserInvite::getInviteLink($request['invite_link']);
 
-                    $data = UserInvite::getInviteLink($request['invite_link']);
+                if (!empty($data)) {
 
-                    if (!empty($data)) {
-
-                        return Helpers::successResponse('signup Link for Maestro HumanOp', [
-                            'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
-                        ]);
-
-                    } else {
-                        return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
-                    }
+                    return Helpers::successResponse('signup Link for Maestro HumanOp', [
+                        'url' => config('client_url.client_dashboard_url') . '/register?b2b-signup-link=' . $request['invite_link'],
+                    ]);
 
                 } else {
-                    return Helpers::validationResponse('Invite Link Is Required');
+                    return Helpers::validationResponse('You are not recognized. Please check the invite link or contact support.');
                 }
 
             }
@@ -271,60 +267,70 @@ class B2BAuthController extends Controller
         }
     }
 
-
-    public function  b2bRegisterFirstStep(B2BRegisterfirstStep  $request)
+    public function b2bRegisterFirstStep(B2BRegisterfirstStep $request)
     {
         try {
-            $data=$request->only(['email']);
+            $data = $request->only(['email']);
 
-           $data= User::updateWorkEmail($request['user_id'],$data['email']);
+            $updateB2B = User::updateWorkEmail($request['user_id'], $data['email']);
 
+            if ($updateB2B) {
 
-           if($data){
-               $result=User::getSingleUser($request['user_id']);
-               return  Helpers::successResponse('Work email stored succefully',[
-               'user_id'=>$result['id'],
-                   'b2b_step'=>$result['b2b_step']
-               ]);
-           }else{
-               return Helpers::validationResponse('Work email not stored succefully');
-           }
+                $result = User::getSingleUser($request['user_id']);
 
-        } catch (\Exception $exception) {
-
-            return Helpers::serverErrorResponse($exception->getMessage());
-
-        }
-
-    }
-
-
-    public  function b2bRegisterSecondStep(B2BRegisterSecondStep $request)
-    {
-
-
-        try {
-
-            $data=$request->only(['company_name']);
-            if(!empty($request['business_stratergy_name']) && !empty($request['business_sub_stratergy_name'])){
-                $storeStrategy=BusinessStrategies::storeStratergy($request['business_stratergy_name']);
-                $storeSubStrategy=BusinessSubStrategies::storeSubStratergy($storeStrategy['id'],$request['business_sub_stratergy_name']);
-                $data= User::updateCompany($request['user_id'],$data['company_name'],$storeSubStrategy['id']);
-            }else{
-                $data= User::updateCompany($request['user_id'],$data['company_name'],$request['business_sub_stratergy_id']);
-
-            }
-
-            if($data){
-                $result=User::getSingleUser($request['user_id']);
-                return  Helpers::successResponse('Company name stored successfully',[
-                    'user_id'=>$result['id'],
-                    'b2b_step'=>$result['b2b_step']
+                return Helpers::successResponse('Work email stored succefully', [
+                    'user_id' => $result['id'],
+                    'b2b_step' => $result['b2b_step']
                 ]);
-            }else{
-                return Helpers::validationResponse('An error occurred');
+
+            } else {
+                return Helpers::validationResponse('Work email not stored succefully');
             }
 
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
+
+    public function b2bRegisterSecondStep(B2BRegisterSecondStep $request)
+    {
+
+
+        try {
+
+            $data = $request->only(['company_name']);
+
+            if (!empty($request['business_stratergy_name']) && !empty($request['business_sub_stratergy_name'])) {
+
+                $storeStrategy = BusinessStrategies::storeStratergy($request['business_stratergy_name']);
+
+                $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_stratergy_name']);
+
+                $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
+
+            } else {
+
+                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub_stratergy_id']);
+
+            }
+
+            if ($data) {
+
+                $result = User::getSingleUser($request['user_id']);
+
+                return Helpers::successResponse('Company name stored successfully', [
+                    'user_id' => $result['id'],
+                    'b2b_step' => $result['b2b_step']
+                ]);
+
+            } else {
+
+                return Helpers::validationResponse('An error occurred');
+
+            }
 
         } catch (\Exception $exception) {
 
@@ -334,40 +340,45 @@ class B2BAuthController extends Controller
     }
 
 
-    public function b2bRegisterLastStep(B2BRegisterLastStep $request){
-        try{
+    public function b2bRegisterLastStep(B2BRegisterLastStep $request)
+    {
+        try {
 
-            $data=$request->only(['team_department']);
-            $data=User::updateTeam($request['user_id'],$data['team_department']);
+            $data = $request->only(['team_department']);
+
+            $data = User::updateTeam($request['user_id'], $data['team_department']);
 
             if (!empty($request['intention_option_id'])) {
+
                 SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
-                    }
-            else{
-                $result=B2BIntentionOption::createIntention($request['intention_option_name']);
+
+            } else {
+
+                $result = B2BIntentionOption::createIntention($request['intention_option_name']);
+
                 SelectIntentionOption::storeUserIntentions($request['user_id'], $result['intention_option_id']);
+
             }
 
+            if ($data) {
 
-                if ($data) {
-                    $getUser = User::getSingleUser($request['user_id']);
-                    $token = $this->auth->login($getUser);
+                $getUser = User::getSingleUser($request['user_id']);
 
-                    $data = [
-                        'user' => $getUser,
-                        'authorization' => [
-                            'token' => $token,
-                            'type' => 'bearer',
-                        ],
-                    ];
+                $token = $this->auth->login($getUser);
 
-                    return Helpers::successResponse('User logged in successfully', $data);
+                $data = [
+                    'user' => $getUser,
+                    'authorization' => [
+                        'token' => $token,
+                        'type' => 'bearer',
+                    ],
+                ];
 
-                }
+                return Helpers::successResponse('User logged in successfully', $data);
 
+            }
 
-
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
