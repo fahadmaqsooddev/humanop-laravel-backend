@@ -754,15 +754,14 @@ class AuthController extends Controller
 
             $inviteLink = UserInvite::getInviteLink($request['invite_link']);
 
-
             if (!empty($inviteLink)) {
 
                 $getUser = User::checkEmail($inviteLink['email']);
 
                 $data = [
-                    'user_id' => $getUser['id'],
-                    'user_email' => $getUser['email'],
-                    'user_name' => $getUser['first_name'] . ' ' . $getUser['last_name'],
+                    'user_id' => $getUser ? $getUser['id'] : null,
+                    'user_email' => $inviteLink['email'],
+                    'user_name' => $getUser ? $getUser['first_name'] . ' ' . $getUser['last_name'] : null,
                 ];
 
                 return Helpers::successResponse('User Invite link email', $data);
