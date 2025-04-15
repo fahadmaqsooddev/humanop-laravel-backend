@@ -115,7 +115,7 @@
                                         <label>Select all</label>
                                     </div>
                                     <select class="configurations-drop-down" wire:model="current_bulk_option">
-                                        <option value="">Bulk Options</option>
+                                        <option value="0">Bulk Options</option>
                                         <option value="1">Remove from Cluster</option>
                                     </select>
 
@@ -205,7 +205,7 @@
                                         <label>Select all</label>
                                     </div>
                                     <select class="configurations-drop-down" wire:model="bulk_option">
-                                        <option value="">Bulk Options</option>
+                                        <option value="0">Bulk Options</option>
                                         <option value="1">Add to Cluster</option>
                                     </select>
 
@@ -300,7 +300,7 @@
                                         <label>Select all</label>
                                     </div>
                                     <select class="configurations-drop-down" wire:model="connected_bulk_option">
-                                        <option value="">Bulk Options</option>
+                                        <option value="0">Bulk Options</option>
                                         <option value="1">Remove from Cluster</option>
                                     </select>
 
