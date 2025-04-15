@@ -274,20 +274,28 @@ class B2BAuthController extends Controller
         try {
             $data = $request->only(['email']);
 
-            $updateB2B = User::updateWorkEmail($request['user_id'], $data['email']);
+            $result = User::getSingleUser($request['user_id']);
 
-            if ($updateB2B) {
+            if(!empty($result) && $result['b2b_step']==3){
+                return Helpers::validationResponse('Already Have an Account Please Login');
+            }else{
+                $updateB2B = User::updateWorkEmail($request['user_id'], $data['email']);
 
-                $result = User::getSingleUser($request['user_id']);
+                if ($updateB2B) {
 
-                return Helpers::successResponse('Work email stored succefully', [
-                    'user_id' => $result['id'],
-                    'b2b_step' => $result['b2b_step']
-                ]);
+                    $result = User::getSingleUser($request['user_id']);
 
-            } else {
-                return Helpers::validationResponse('Work email not stored succefully');
+                    return Helpers::successResponse('Work email stored succefully', [
+                        'user_id' => $result['id'],
+                        'b2b_step' => $result['b2b_step']
+                    ]);
+
+                } else {
+                    return Helpers::validationResponse('Work email not stored succefully');
+                }
+
             }
+
 
         } catch (\Exception $exception) {
 
@@ -302,36 +310,43 @@ class B2BAuthController extends Controller
 
 
         try {
-
             $data = $request->only(['company_name']);
 
-            if (!empty($request['business_strategy_name']) && !empty($request['business_sub_strategy_name'])) {
-
-                $storeStrategy = BusinessStrategies::storeStratergy($request['business_strategy_name']);
-
-                $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_strategy_name']);
-
-                $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
-
-            } else {
-
-                $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-strategy_id']);
-
+            $result = User::getSingleUser($request['user_id']);
+            if(!empty($result) && $result['b2b_step']==3){
+                return Helpers::validationResponse('Already Have an Account Please Login');
             }
+            else{
 
-            if ($data) {
+                if (!empty($request['business_strategy_name']) && !empty($request['business_sub_strategy_name'])) {
 
-                $result = User::getSingleUser($request['user_id']);
+                    $storeStrategy = BusinessStrategies::storeStratergy($request['business_strategy_name']);
 
-                return Helpers::successResponse('Company name stored successfully', [
-                    'user_id' => $result['id'],
-                    'company_name'=>$result['company_name'],
-                    'b2b_step' => $result['b2b_step']
-                ]);
+                    $storeSubStrategy = BusinessSubStrategies::storeSubStratergy($storeStrategy['id'], $request['business_sub_strategy_name']);
 
-            } else {
+                    $data = User::updateCompany($request['user_id'], $data['company_name'], $storeSubStrategy['id']);
 
-                return Helpers::validationResponse('An error occurred');
+                } else {
+
+                    $data = User::updateCompany($request['user_id'], $data['company_name'], $request['business_sub-strategy_id']);
+
+                }
+
+                if ($data) {
+
+                    $result = User::getSingleUser($request['user_id']);
+
+                    return Helpers::successResponse('Company name stored successfully', [
+                        'user_id' => $result['id'],
+                        'company_name'=>$result['company_name'],
+                        'b2b_step' => $result['b2b_step']
+                    ]);
+
+                } else {
+
+                    return Helpers::validationResponse('An error occurred');
+
+                }
 
             }
 
@@ -345,42 +360,48 @@ class B2BAuthController extends Controller
     public function b2bRegisterLastStep(B2BRegisterLastStep $request)
     {
         try {
-
-            $data = $request->only(['team_department']);
-
-            $data = User::updateTeam($request['user_id'], $data['team_department']);
-
-            if (!empty($request['intention_option_id'])) {
-
-                SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
-
-            } else if(!empty($request['intention_option_name'])) {
-
-                $result = B2BIntentionOption::createIntention($request['intention_option_name']);
-
-                SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
-
+            $result = User::getSingleUser($request['user_id']);
+            if(!empty($result) && $result['b2b_step']==3){
+                return Helpers::validationResponse('Already Have an Account Please Login');
             }
             else{
+                $data = $request->only(['team_department']);
 
-                return  Helpers::validationResponse('Intention Option Is Required');
-            }
+                $data = User::updateTeam($request['user_id'], $data['team_department']);
 
-            if ($data) {
+                if (!empty($request['intention_option_id'])) {
 
-                $getUser = User::getSingleUser($request['user_id']);
+                    SelectIntentionOption::storeUserIntentions($request['user_id'], $request['intention_option_id']);
 
-                $token = $this->auth->login($getUser);
+                } else if(!empty($request['intention_option_name'])) {
 
-                $data = [
-                    'user' => $getUser,
-                    'authorization' => [
-                        'token' => $token,
-                        'type' => 'bearer',
-                    ],
-                ];
+                    $result = B2BIntentionOption::createIntention($request['intention_option_name']);
 
-                return Helpers::successResponse('User logged in successfully', $data);
+                    SelectIntentionOption::storeUserIntentions($request['user_id'], $result['id']);
+
+                }
+                else{
+
+                    return  Helpers::validationResponse('Intention Option Is Required');
+                }
+
+                if ($data) {
+
+                    $getUser = User::getSingleUser($request['user_id']);
+
+                    $token = $this->auth->login($getUser);
+
+                    $data = [
+                        'user' => $getUser,
+                        'authorization' => [
+                            'token' => $token,
+                            'type' => 'bearer',
+                        ],
+                    ];
+
+                    return Helpers::successResponse('User logged in successfully', $data);
+
+                }
 
             }
 
