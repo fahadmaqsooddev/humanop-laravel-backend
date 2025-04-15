@@ -219,7 +219,7 @@ class B2BAuthController extends Controller
 
                 if (!empty($data)) {
 
-                    return Helpers::successResponse('B2B Already Have Account ', [
+                    return Helpers::successResponse('An account with this email already exists.', [
                         'user_id' => $data['id'],
                         'user_name' => $data['first_name'] . '' . $data['last_name'],
                         'email' => $data['email'],
