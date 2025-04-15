@@ -2,6 +2,8 @@
 
 namespace App\Models\HAIChai;
 
+use App\Models\Assessment;
+use App\Models\AssessmentColorCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +24,12 @@ class BrainCluster extends Model
     public function brain(){
 
         return $this->belongsTo(Chatbot::class,'chat_bot_id','id');
+    }
+
+    public function activeEmbeddings(){
+
+        return $this->hasManyThrough(HaiChatEmbedding::class,GroupEmbedding::class,'group_id','id','cluster_id','embedding_id');
+
     }
 
     // query
@@ -53,6 +61,20 @@ class BrainCluster extends Model
         }
 
 
+    }
+
+    public static function connectedClusterEmbeddingIds($chat_bot_id){
+
+        $request_ids = self::where('chat_bot_id',$chat_bot_id)->with('activeEmbeddings')->get()->flatMap(function ($item) {
+            return $item->activeEmbeddings->pluck('request_id');
+        })
+            ->unique()
+            ->values()
+            ->toArray();
+
+        return [
+            'file_name' => $request_ids
+        ];
     }
 
 

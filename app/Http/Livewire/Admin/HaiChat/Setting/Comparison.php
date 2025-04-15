@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Setting;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Assessment;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
@@ -77,7 +78,9 @@ class Comparison extends Component
 
         $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
-        $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
+        $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+
+//        $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
 
         if ($this->user_id){
 

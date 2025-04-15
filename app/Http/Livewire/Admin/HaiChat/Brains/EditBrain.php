@@ -12,11 +12,12 @@ use App\Models\HAIChai\LlmModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use function Symfony\Component\String\s;
 
 class EditBrain extends Component
 {
 
-    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name;
+    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name, $is_published = 0;
 
     public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
         $selectedClusters = [], $selectClustersForRemoval = [];
@@ -128,6 +129,7 @@ class EditBrain extends Component
             $this->name = $chatBotDetail['name'];
             $this->description = $chatBotDetail['description'];
             $this->brain_name = $chatBotDetail['brain_name'];
+            $this->is_published = $chatBotDetail['is_published'];
 
             $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
 
@@ -192,8 +194,51 @@ class EditBrain extends Component
 
     }
 
+    public function publishChatBot(){
+
+        $active_embedding_ids = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+
+        $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
+
+        if ($settings){
+
+            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = [
+                'temperature' => $settings['temperature'],
+                'max_tokens' => $settings['max_token'],
+                'file_name' => $active_embedding_ids['file_name'],
+                'prompt_folder' => $this->name,
+                'total_chunks' => $settings['chunk'],
+                'gpt_model' => $model_value['model_value'] ?? null,
+                'loc' => $subFolder
+            ];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+            if (isset($aiReply['s3_path'])){
+
+                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+
+                Chatbot::where('name', $this->bot_name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+
+                session()->flash('success', 'Chatbot published');
+
+            }else{
+
+                session()->flash('error', 'Something went wrong.');
+            }
+
+        }
+
+    }
+
     public function render()
     {
+
+        BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
         $this->chatBotDetail();
 

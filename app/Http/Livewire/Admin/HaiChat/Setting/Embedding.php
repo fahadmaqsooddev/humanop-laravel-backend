@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Setting;
 
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -94,9 +95,11 @@ class Embedding extends Component
 
             $this->validate(['query' => 'required'],['query.required' => 'Query is required']);
 
-            $embedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
+//            $embedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->bot_name)->id ?? null;
+
+            $embedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
 
             $chatSetting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
