@@ -76,7 +76,7 @@
 <div>
 
     <div class="row">
-        <h5 class="text-bolder text-center">EDIT KNOWLEDGE CLUSTER</h5>
+        <h5 class="text-bolder">EDIT KNOWLEDGE CLUSTER</h5>
     </div>
 
     <div class="row">

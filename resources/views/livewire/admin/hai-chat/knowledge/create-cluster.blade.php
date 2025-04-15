@@ -76,7 +76,7 @@
 <div>
 
     <div class="row">
-        <h5 class="text-bolder text-center"> CREATE NEW KNOWLEDGE CLUSTER</h5>
+        <h5 class="text-bolder"> CREATE NEW KNOWLEDGE CLUSTER</h5>
     </div>
 
     <div class="row">
