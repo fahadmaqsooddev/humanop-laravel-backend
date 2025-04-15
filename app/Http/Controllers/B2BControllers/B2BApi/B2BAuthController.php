@@ -225,6 +225,7 @@ class B2BAuthController extends Controller
                         'email' => $data['email'],
                         'b2b_signup_step' => $data['b2b_step'],
                         'b2c_signup_step' => $data['step'],
+                        'company_name'=>$data['company_name'] ?? null,
                         'existing_account' => true,
                     ]);
 
