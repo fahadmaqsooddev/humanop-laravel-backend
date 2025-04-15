@@ -158,7 +158,14 @@ class UniversalEmbedding extends Component
 
     public function selectAllEmbeddings(){
 
-        $this->selectedEmbeddings = collect($this->embeddings)->pluck('id')->toArray();
+        if (count($this->selectedEmbeddings) === count($this->embeddings)){
+
+            $this->reset('selectedEmbeddings');
+
+        }else{
+
+            $this->selectedEmbeddings = collect($this->embeddings)->pluck('id')->toArray();
+        }
     }
 
     public function selectIndividualEmbedding($embedding_id){
