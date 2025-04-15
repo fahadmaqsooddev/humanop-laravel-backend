@@ -40,6 +40,11 @@ class EmbeddingGroup extends Model
         return $this->hasMany(GroupEmbedding::class,'group_id','id');
     }
 
+    public function connectedClusters(){
+
+        return $this->hasMany(BrainCluster::class,'cluster_id','id');
+    }
+
 
     public function getIsActiveGroupAttribute(){
 
@@ -57,17 +62,16 @@ class EmbeddingGroup extends Model
         return self::all();
     }
 
-    public static function activeGroups($chatBotName = null, $name = null){
-
-        request()->merge(['chat_bot' => $chatBotName]);
+    public static function activeGroups($chat_bot_id = null, $name = null){
 
         return self::when($name, function ($query, $name){
 
             $query->where('name', "like", "%$name%");
 
-        })->where(function ($query){
+        })
+            ->whereHas('connectedClusters', function ($query) use($chat_bot_id){
 
-            return $query->has('embeddings.embedding.activeEmbedding');
+                $query->where('chat_bot_id', $chat_bot_id);
 
         })->get();
     }
@@ -98,18 +102,15 @@ class EmbeddingGroup extends Model
 
     }
 
-    public static function nonActiveGroups($chatBotName = null, $name = null){
-
-        request()->merge(['chat_bot' => $chatBotName]);
+    public static function nonActiveGroups($chat_bot_id = null, $name = null){
 
         return self::when($name, function ($query, $name){
 
             $query->where('name', "like", "%$name%");
         })
+            ->whereDoesntHave('connectedClusters', function ($query) use ($chat_bot_id){
 
-            ->where(function ($query){
-
-            return $query->whereDoesntHave('embeddings.embedding.activeEmbedding');
+                $query->where('chat_bot_id', $chat_bot_id);
 
         })->get();
     }
@@ -120,7 +121,21 @@ class EmbeddingGroup extends Model
 
             $query->where('name', 'like', "%$search%");
 
+        })->when($brain_id, function ($query, $brain_id){
+
+            $query->whereHas('connectedClusters', function ($q) use ($brain_id){
+
+                $q->where('chat_bot_id', $brain_id);
+
+            });
+
         })
+
+            ->with('connectedClusters', function ($query){
+
+                $query->has('brain')->with('brain');
+
+            })
 
             ->get();
     }

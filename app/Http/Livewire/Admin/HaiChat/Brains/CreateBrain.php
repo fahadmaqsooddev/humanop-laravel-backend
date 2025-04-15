@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Brains;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\LearningCluster\LearningClusterHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -93,7 +94,9 @@ class CreateBrain extends Component
 
                 if (count($this->activeGroupIds) > 0){
 
-                    GroupEmbedding::connectAllGroupEmbeddings($this->activeGroupIds, $aiReply);
+//                    GroupEmbedding::connectAllGroupEmbeddings($this->activeGroupIds, $aiReply);
+
+                    BrainCluster::addClustersWithBrain($this->activeGroupIds, $chatBot['id']);
 
                 }
 

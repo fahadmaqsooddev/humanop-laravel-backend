@@ -93,22 +93,22 @@
                         <div class="d-flex justify-content-between">
 
                             <div>
-                                <input type="checkbox">
+                                <input type="checkbox" wire:click="selectAllClusters">
                                 <label>Select all</label>
                             </div>
-                            <select class="configurations-drop-down">
-                                <option>Bulk Options</option>
-                                <option>Train/Re-Train</option>
-                                <option>Delete</option>
+                            <select class="configurations-drop-down" wire:model="bulk_option">
+                                <option value="">Bulk Options</option>
+                                <option value="1">Train/Re-Train</option>
+                                <option value="2">Delete</option>
                             </select>
 
-                            <input type="text" placeholder="Keyword Filter" style="width: 250px;" class="input-bg text-center">
+                            <input type="text" wire:model="search_clusters" placeholder="Keyword Filter" style="width: 250px;" class="input-bg text-center">
 
-                            <select class="configurations-drop-down">
-                                <option>Cluster Filter</option>
-                                <option>Train/Re-Train</option>
-                                <option>Export</option>
-                                <option>Delete</option>
+                            <select class="configurations-drop-down" wire:model="brain_id">
+                                <option>Brain Filter</option>
+                                @foreach($brains as $brain)
+                                    <option value="{{$brain['id']}}">{{$brain['brain_name'] ?? $brain['name']}}</option>
+                                @endforeach
                             </select>
 
                         </div>
@@ -123,6 +123,12 @@
 
                         <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 
+                            @if(count($clusters) === 0)
+                                <div class="text-center">
+                                    <p style="color: #F95520;">No clusters found</p>
+                                </div>
+                            @endif
+
                             <table class="table">
                                 <tbody>
 
@@ -131,23 +137,27 @@
                                     <tr class="text-color-dark mt-1 cluster-table-rows">
                                         <td class="pt-3" style="font-size: 12px;">
                                             <div style="padding: 2px;">
-                                                <input type="checkbox">
+                                                <input type="checkbox" wire:click="selectIndividualCluster({{$cluster['id']}})" {{in_array($cluster['id'],$selectedClusters) ? 'checked' : '' }}>
                                                 <span>
                                         {{$cluster['name']}} [{{$cluster['created_at']}}] [{{$cluster['updated_at']}}]
                                     </span>
                                             </div>
-                                            <p style="font-size: 13px;">Description</p>
+                                            <p style="font-size: 13px;">{{$cluster['description']}}</p>
                                         </td>
                                         <td>
-                                            <span class="badge cluster-badge">BRAIN 1</span>
-                                            <span class="badge cluster-badge">BRAIN 2</span>
-                                            <span class="badge cluster-badge">BRAIN 3</span>
+
+                                            @foreach($cluster['connectedClusters'] as $brain)
+
+                                                <span class="badge cluster-badge">{{$brain['brain']['brain_name'] ?? $brain['brain']['name'] }}</span>
+
+                                            @endforeach
+
                                         </td>
                                         <td class="float-end">
                                             <a style="margin-right: 2px;padding: 1px 8px;" href="{{route('admin_edit_cluster', ['id' => $cluster['id']])}}" class="cluster-buttons-a">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <button wire:click="" class="cluster-buttons">
+                                            <button class="cluster-buttons" style="background-color: darkgray !important;">
                                                 <i class="fa-solid fa-arrows-rotate"></i>
                                             </button>
                                             <button onclick="deleteCluster({{$cluster['id']}})" class="cluster-buttons">

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Brains;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -40,14 +41,19 @@ class EditBrain extends Component
         ];
     }
 
-    public function addToCluster($group_id){
+    public function addToCluster($cluster_id){
 
-        GroupEmbedding::connectGroupEmbeddings($group_id, $this->name);
+//        GroupEmbedding::connectGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::addClusterWithBrain($cluster_id, $this->chat_bot_id);
+
     }
 
-    public function removeFromCluster($group_id){
+    public function removeFromCluster($cluster_id){
 
-        GroupEmbedding::removeGroupEmbeddings($group_id, $this->name);
+//        GroupEmbedding::removeGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::removeClusterFromBrain($cluster_id, $this->chat_bot_id);
 
     }
 
@@ -55,14 +61,14 @@ class EditBrain extends Component
 
         $this->searching = true;
 
-        $this->groups = EmbeddingGroup::nonActiveGroups($this->name, $value);
+        $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id, $value);
     }
 
     public function updatedSearchConnectedClusters($value){
 
         $this->searching = true;
 
-        $this->connectedGroups = EmbeddingGroup::activeGroups($this->name, $value);
+        $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id, $value);
     }
 
     public function updateBrain(){
@@ -148,7 +154,9 @@ class EditBrain extends Component
 
     public function addAllClustersToActiveClusters(){
 
-        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+//        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+
+        BrainCluster::addClustersWithBrain($this->selectedClusters, $this->chat_bot_id);
 
 //        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
@@ -165,7 +173,9 @@ class EditBrain extends Component
 
     public function removeAllSelectedClusters(){
 
-        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
+        BrainCluster::removeClusterFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
+
+//        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
 
 //        foreach ($this->selectClustersForRemoval as $group_id){
 //
@@ -195,9 +205,9 @@ class EditBrain extends Component
 
         }else{
 
-            $this->groups = EmbeddingGroup::nonActiveGroups($this->name);
+            $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id);
 
-            $this->connectedGroups = EmbeddingGroup::activeGroups($this->name);
+            $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id);
         }
 
         return view('livewire.admin.hai-chat.brains.edit-brain');

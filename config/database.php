@@ -563,6 +563,11 @@ return [
             'table' => 'training_files',
             'fillable' => ['name','file_name'],
             'hidden' => ['created_at','updated_at'],
+        ],
+        'BrainCluster' => [
+            'table' => 'brain_clusters',
+            'fillable' => ['chat_bot_id','cluster_id'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];
