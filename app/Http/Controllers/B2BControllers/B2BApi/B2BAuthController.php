@@ -219,23 +219,15 @@ class B2BAuthController extends Controller
 
                 if (!empty($data)) {
 
-                    if ($data['b2b_step'] == 3)
-                    {
-                        return Helpers::validationResponse('An account with this email already exists. Please log in to continue.');
-
-                    }
-                    else{
-
-                        return Helpers::successResponse('An account with this email already exists.', [
-                            'user_id' => $data['id'],
-                            'user_name' => $data['first_name'] . '' . $data['last_name'],
-                            'email' => $data['email'],
-                            'b2b_signup_step' => $data['b2b_step'],
-                            'b2c_signup_step' => $data['step'],
-                            'company_name'=>$data['company_name'] ?? null,
-                            'existing_account' => true,
-                        ]);
-                    }
+                    return Helpers::successResponse('An account with this email already exists.', [
+                        'user_id' => $data['id'],
+                        'user_name' => $data['first_name'] . '' . $data['last_name'],
+                        'email' => $data['email'],
+                        'b2b_signup_step' => $data['b2b_step'],
+                        'b2c_signup_step' => $data['step'],
+                        'company_name'=>$data['company_name'] ?? null,
+                        'existing_account' => true,
+                    ]);
 
                 } else {
 
