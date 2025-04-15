@@ -7,41 +7,65 @@ use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
-class UniversalEmbedding extends Component
+class CreateCluster extends Component
 {
 
-    protected $listeners = ['deleteEmbedding', '$refresh'];
+    public $embeddings = [], $selectedEmbeddings = [], $selectedKnowledgeSourceIds = [], $selectedKnowledgeSource = [], $selectedConnectedEmbeddings = [];
 
-    public $embeddings = [], $clusters = [], $selectedEmbeddings = [];
+    public $name, $description, $search_embedding, $bulk_option, $connected_bulk_option, $updateEmbeddingText;
 
-    public $search_embedding, $cluster_id, $updateId, $updateEmbeddingName, $updateEmbeddingText, $bulk_option;
+    protected $rules = [
+        'name' => 'required|max:50',
+        'description' => 'required|max:200'
+    ];
 
     public function updatedBulkOption(int $value){
 
-        if ($value === 1){ // Retrain
+        if ($value === 1){ // Add to Cluster
 
-            $this->retrainBulkEmbedding();
+            foreach ($this->selectedEmbeddings as $embedding){
 
-        }elseif ($value === 2){ // Export
+                array_push($this->selectedKnowledgeSourceIds,$embedding);
 
+            }
 
+            $this->reset('selectedEmbeddings');
 
-        }elseif ($value === 3){ // Delete
-
-            $this->deleteBulkEmbeddings();
         }
+    }
+
+    public function updatedConnectedBulkOption(int $value){
+
+        if ($value === 1){ // Remove from Cluster
+
+            foreach ($this->selectedConnectedEmbeddings as $embedding){
+
+                $search = array_search($embedding, $this->selectedKnowledgeSourceIds);
+
+                if ($search !== false){
+
+                    unset($this->selectedKnowledgeSourceIds[$search]);
+                }
+
+            }
+
+            $this->reset('selectedConnectedEmbeddings');
+
+        }
+
     }
 
     public function render()
     {
 
-        $this->embeddings = HaiChatEmbedding::allUniversalEmbeddings($this->search_embedding, $this->cluster_id);
+        $this->embeddings = HaiChatEmbedding::allEmbeddingsForCreateCluster($this->search_embedding, $this->selectedKnowledgeSourceIds);
 
-        $this->clusters = EmbeddingGroup::all();
+        $this->selectedKnowledgeSource = HaiChatEmbedding::whereIn('id', $this->selectedKnowledgeSourceIds)->get();
 
-        return view('livewire.admin.hai-chat.knowledge.universal-embedding');
+        return view('livewire.admin.hai-chat.knowledge.create-cluster');
     }
 
     public function deleteEmbedding($embedding_id){
@@ -158,7 +182,14 @@ class UniversalEmbedding extends Component
 
     public function selectAllEmbeddings(){
 
-        $this->selectedEmbeddings = collect($this->embeddings)->pluck('id')->toArray();
+        if (count($this->embeddings) === count($this->selectedEmbeddings)){
+
+            $this->reset('selectedEmbeddings');
+
+        }else{
+
+            $this->selectedEmbeddings = collect($this->embeddings)->pluck('id')->toArray();
+        }
     }
 
     public function selectIndividualEmbedding($embedding_id){
@@ -176,29 +207,67 @@ class UniversalEmbedding extends Component
 
     }
 
-    public function retrainBulkEmbedding(){
+    public function addToSelectedEmbeddings(){
 
-        $embeddings = HaiChatEmbedding::whereIn('id',$this->selectedEmbeddings)->where('ready_for_training', 1)->get();
+        $this->selectedKnowledgeSourceIds = array_merge($this->selectedEmbeddings,$this->selectedKnowledgeSourceIds);
 
-        foreach ($embeddings as $embedding){
+        $this->selectedKnowledgeSource = HaiChatEmbedding::whereIn('id', $this->selectedKnowledgeSourceIds)->get();
 
-            $this->reTrainFile($embedding['id']);
-        }
-
-        $this->reset('selectedEmbeddings','bulk_option');
+        $this->reset('selectedEmbeddings');
 
     }
 
-    public function deleteBulkEmbeddings(){
+    public function selectConnectedEmbeddings(){
 
-        $embeddings = HaiChatEmbedding::whereIn('id',$this->selectedEmbeddings)->get();
+        if (count($this->selectedKnowledgeSource) === count($this->selectedConnectedEmbeddings)){
 
-        foreach ($embeddings as $embedding){
+            $this->reset('selectedConnectedEmbeddings');
 
-            $this->deleteEmbedding($embedding['id']);
+        }else{
+
+            $this->selectedConnectedEmbeddings = collect($this->selectedKnowledgeSource)->pluck('id')->toArray();
+        }
+    }
+
+    public function selectConnectedIndividualEmbedding($embedding_id){
+
+        $search = array_search($embedding_id, $this->selectedConnectedEmbeddings);
+
+        if ($search !== false){
+
+            unset($this->selectedConnectedEmbeddings[$search]);
+
+        }else{
+
+            array_push($this->selectedConnectedEmbeddings,$embedding_id);
         }
 
-        $this->reset('selectedEmbeddings', 'bulk_option');
+    }
+
+    public function createCluster(){
+
+        try {
+
+            $this->validate();
+
+            $group = EmbeddingGroup::createEmbeddingGroup($this->name, $this->description);
+
+            if ($group){
+
+                GroupEmbedding::addOrUpdateGroupIds($this->selectedKnowledgeSourceIds, $group->id);
+            }
+
+            return redirect()->route('admin_embedding_groups')->with('Cluster created.');
+
+        }catch (ValidationException $validationException){
+
+            session()->flash('errors', $validationException->validator->errors()->getMessages());
+
+        }catch (\Exception $exception){
+
+            session()->flash('error', $exception->getMessage());
+        }
+
 
     }
 }

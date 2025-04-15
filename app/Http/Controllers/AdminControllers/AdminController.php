@@ -590,4 +590,30 @@ class AdminController extends Controller
         }
 
     }
+
+    public function createCluster(){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.clusters.create-cluster');
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
+
+    public function editCluster($id){
+
+        try {
+
+            return view('admin-dashboards.hai-chat.clusters.edit-cluster', compact('id'));
+
+        }catch (\Exception $exception){
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+
+    }
 }

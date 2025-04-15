@@ -1,8 +1,15 @@
 <div>
     <div class="px-4">
 
-        <div wire:loading.flex wire:target="editEmbedding" class="spinner-border custom-text-dark" id="chat_switch_spinner" role="status"
+        <div wire:loading.flex wire:target="editEmbedding" wire:target="bulk_option" class="spinner-border custom-text-dark" id="chat_switch_spinner" role="status"
              style="width: 30px; height: 30px;top: 55%; left: 35%;position: absolute;">
+                <span class="sr-only">
+                    Loading...
+                </span>
+        </div>
+
+        <div wire:loading.flex wire:target="bulk_option" class="spinner-border custom-text-dark" id="chat_switch_spinner" role="status"
+             style="width: 30px; height: 30px;top: 47%; left: 35%;position: absolute;">
                 <span class="sr-only">
                     Loading...
                 </span>
@@ -21,14 +28,14 @@
                         <div class="d-flex justify-content-between">
 
                             <div>
-                                <input type="checkbox">
+                                <input type="checkbox" wire:click="selectAllEmbeddings">
                                 <label>Select all</label>
                             </div>
-                            <select class="configurations-drop-down">
-                                <option>Bulk Options</option>
-                                <option>Train/Re-Train</option>
-                                <option>Export</option>
-                                <option>Delete</option>
+                            <select class="configurations-drop-down" wire:model="bulk_option">
+                                <option value="">Bulk Options</option>
+                                <option value="1">Train/Re-Train</option>
+                                <option value="2">Export</option>
+                                <option value="3">Delete</option>
                             </select>
 
                             <input type="text" wire:model="search_embedding" placeholder="Keyword Filter" style="width: 250px;" class="input-bg text-center">
@@ -65,7 +72,7 @@
 
                                     <tr class="text-color-dark mt-1 cluster-table-rows">
                                         <td class="pt-3" style="font-size: 12px;">
-                                            <input type="checkbox">
+                                            <input type="checkbox" wire:click="selectIndividualEmbedding({{$embedding->id}})" {{in_array($embedding['id'], $selectedEmbeddings) ? 'checked' : ''}}>
                                             <span>
                                                     {{$embedding['name']}} [{{$embedding['created_at']}}] [{{$embedding['updated_at']}}]
                                                 </span>

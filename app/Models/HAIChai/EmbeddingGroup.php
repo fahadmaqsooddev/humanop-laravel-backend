@@ -47,9 +47,9 @@ class EmbeddingGroup extends Model
     }
 
     // Queries
-    public static function createEmbeddingGroup($name){
+    public static function createEmbeddingGroup($name, $description){
 
-        return self::create(['name' => $name]);
+        return self::create(['name' => $name, 'description' => $description]);
     }
 
     public static function allGroups(){
@@ -123,6 +123,12 @@ class EmbeddingGroup extends Model
         })
 
             ->get();
+    }
+
+    public static function updateEmbeddingGroup($cluster_id = null, $name = null, $description = null){
+
+        self::whereId($cluster_id)->update(['name' => $name, 'description' => $description]);
+
     }
 
 }

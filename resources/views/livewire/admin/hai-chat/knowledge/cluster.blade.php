@@ -32,6 +32,15 @@
             border: none;
         }
 
+        .cluster-buttons-a{
+            background-color: #F95520 !important;
+            color: #F4ECE0;
+            /*padding: 5px 10px;*/
+            border-radius: 8px;
+            border-width: 2px;
+            border: none;
+        }
+
         .configurations-drop-down{
             min-width: 250px;
             text-align: center;
@@ -57,6 +66,10 @@
             color: #F95520 !important;
         }
 
+        .cluster-buttons-a:hover{
+            color: white;
+        }
+
     </style>
 
 @endpush
@@ -68,7 +81,7 @@
 
             <div class="d-flex justify-content-between col-11">
                 <h4>KNOWLEDGE CLUSTER MANAGEMENT</h4>
-                <button class="cluster-buttons">CREAT NEW CLUSTER</button>
+                <a href="{{route('admin_create_cluster')}}" class="cluster-buttons">CREAT NEW CLUSTER</a>
             </div>
 
             <div class="py-3">
@@ -131,9 +144,9 @@
                                             <span class="badge cluster-badge">BRAIN 3</span>
                                         </td>
                                         <td class="float-end">
-                                            <button wire:click="" class="cluster-buttons">
+                                            <a style="margin-right: 2px;padding: 1px 8px;" href="{{route('admin_edit_cluster', ['id' => $cluster['id']])}}" class="cluster-buttons-a">
                                                 <i class="fa-solid fa-pen-to-square"></i>
-                                            </button>
+                                            </a>
                                             <button wire:click="" class="cluster-buttons">
                                                 <i class="fa-solid fa-arrows-rotate"></i>
                                             </button>

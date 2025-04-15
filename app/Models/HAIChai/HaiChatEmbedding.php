@@ -176,4 +176,30 @@ class HaiChatEmbedding extends Model
         self::whereId($id)->update(['ready_for_training' => 1]);
     }
 
+    public static function allEmbeddingsForCreateCluster($searchEmbedding = null, $embedding_ids = [], $group_id = null){
+
+        return self::when($searchEmbedding, function ($query, $search){
+
+            $query->where('name', 'like', "%$search%");
+
+        })->when($group_id, function ($query){
+
+            $query->whereDoesntHave('groups');
+
+        })->whereNotIn('id', $embedding_ids)
+
+            ->get();
+
+    }
+
+    public static function queuedEmbeddings($embedding_ids, $searchEmbedding){
+
+        return self::when($searchEmbedding, function ($query, $search){
+
+            $query->where('name', 'like', "%$search%");
+
+        })->whereIn('id', $embedding_ids)->get();
+
+    }
+
 }

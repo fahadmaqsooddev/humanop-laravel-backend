@@ -467,7 +467,7 @@ return [
         ],
         'EmbeddingGroup' => [
             'table' => 'embedding_groups',
-            'fillable' => ['id','name','created_at','updated_at'],
+            'fillable' => ['id','name','created_at','updated_at','description'],
             'hidden' => ['deleted_at'],
         ],
         'ChatbotKeyword' => [
