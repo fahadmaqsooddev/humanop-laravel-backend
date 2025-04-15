@@ -222,10 +222,10 @@ class EditBrain extends Component
 
                 Chatbot::where('is_published', 1)->update(['is_published' => 0]);
 
-                Chatbot::where('name', $this->bot_name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+                Chatbot::where('name', $this->name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
 
                 session()->flash('success', 'Chatbot published');
-
+                
             }else{
 
                 session()->flash('error', 'Something went wrong.');
