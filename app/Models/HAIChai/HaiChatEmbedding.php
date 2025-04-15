@@ -182,9 +182,13 @@ class HaiChatEmbedding extends Model
 
             $query->where('name', 'like', "%$search%");
 
-        })->when($group_id, function ($query){
+        })->when($group_id, function ($query) use ($group_id){
 
-            $query->whereDoesntHave('groups');
+            $query->whereDoesntHave('groups', function ($query) use ($group_id){
+
+                $query->where('group_id', $group_id);
+
+            });
 
         })->whereNotIn('id', $embedding_ids)
 

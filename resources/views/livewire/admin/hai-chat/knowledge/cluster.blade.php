@@ -163,9 +163,21 @@
                                             <a style="margin-right: 2px;padding: 1px 8px;" href="{{route('admin_edit_cluster', ['id' => $cluster['id']])}}" class="cluster-buttons-a">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <button class="cluster-buttons" style="background-color: darkgray !important;">
-                                                <i class="fa-solid fa-arrows-rotate"></i>
-                                            </button>
+
+                                            @if($cluster['is_ready_for_training'])
+
+                                                <button class="cluster-buttons" wire:click="reTrainClusterEmbeddings({{$cluster['id']}})">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </button>
+
+                                            @else
+
+                                                <button class="cluster-buttons" style="background-color: darkgray !important;">
+                                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                                </button>
+
+                                            @endif
+
                                             <button onclick="deleteCluster({{$cluster['id']}})" class="cluster-buttons">
                                                 <i class="fas fa-trash"></i>
                                             </button>

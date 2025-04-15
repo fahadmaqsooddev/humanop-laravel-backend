@@ -19,7 +19,7 @@ class EmbeddingGroup extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['is_active_group'];
+    protected $appends = ['is_ready_for_training'];
 
     // accessor
     public function getCreatedAtAttribute($value){
@@ -46,9 +46,13 @@ class EmbeddingGroup extends Model
     }
 
 
-    public function getIsActiveGroupAttribute(){
+    public function getIsReadyForTrainingAttribute(){
 
-        return $this->embeddings()->has('embedding.activeEmbedding')->exists();
+        return $this->embeddings()->whereHas('embedding', function ($query){
+
+            $query->where('ready_for_training', 1);
+
+        })->exists();
     }
 
     // Queries

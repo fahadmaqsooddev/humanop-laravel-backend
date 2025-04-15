@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Admin\HaiChat\Knowledge;
 
+use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
+use App\Models\HAIChai\HaiChatEmbedding;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class Cluster extends Component
@@ -39,6 +42,11 @@ class Cluster extends Component
 
         if ($value == 1) { // retrain
 
+            foreach ($this->selectedClusters as $cluster){
+
+                $this->reTrainClusterEmbeddings($cluster);
+
+            }
 
         }elseif ($value == 2){ // delete
 
@@ -81,6 +89,30 @@ class Cluster extends Component
         foreach ($this->selectedClusters as $cluster_id){
 
             $this->deleteCluster($cluster_id);
+
+        }
+
+    }
+
+    public function reTrainClusterEmbeddings($cluster_id){
+
+        $embeddings = HaiChatEmbedding::whereHas('group', function ($query)use ($cluster_id){
+
+            $query->where('group_id', $cluster_id);
+
+        })->where('ready_for_training', 1)->get();
+
+        foreach ($embeddings as $embedding){
+
+            $embedding_text = Storage::disk('local')->get('training_files/' . "retrain-embedding-" . $embedding->id . '.txt');
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = ['loc' => $subFolder, 'request_id' => $embedding->request_id, 'text' => $embedding_text];
+
+            GuzzleHelpers::sendRequestFromGuzzle('post', 'update_embedding', $body);
+
+            $embedding->update(['ready_for_training' => 0]);
 
         }
 
