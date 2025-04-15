@@ -44,7 +44,7 @@
 
                 <div class="row py-3">
 
-                    <div class="col-10" style="max-height: 400px; overflow-y: scroll;" id="fileTrainingQueue">
+                    <div class="col-10" style="max-height: 200px; overflow-y: scroll;" id="fileTrainingQueue">
 
                         <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 

@@ -115,7 +115,7 @@
                                     </div>
                                     <select class="configurations-drop-down" wire:model="bulk_option">
                                         <option value="0">Bulk Options</option>
-                                        <option value="1">Add to Cluster</option>
+                                        <option value="1">Add to Queue</option>
                                     </select>
 
                                     <input type="text" wire:model="search_embedding" placeholder="Keyword Filter" style="width: 400px;" class="input-bg text-center">
@@ -210,7 +210,7 @@
                                     </div>
                                     <select class="configurations-drop-down" wire:model="connected_bulk_option">
                                         <option value="0">Bulk Options</option>
-                                        <option value="1">Remove from Cluster</option>
+                                        <option value="1">Remove from Queue</option>
                                     </select>
 
                                     <input type="text" wire:model="search_embedding" placeholder="Keyword Filter" style="width: 400px;" class="input-bg text-center">
