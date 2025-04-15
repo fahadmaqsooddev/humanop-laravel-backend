@@ -22,6 +22,11 @@ class CreateCluster extends Component
         'description' => 'required|max:200'
     ];
 
+    protected $messages = [
+        'name.required' => 'Cluster name is required.',
+        'description.required' => 'Cluster description is required.'
+    ];
+
     public function updatedBulkOption(int $value){
 
         if ($value === 1){ // Add to Cluster

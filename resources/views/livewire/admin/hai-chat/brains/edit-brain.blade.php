@@ -68,7 +68,6 @@
     <div class="row">
 
         <div class="card card-bg-white-orange-border mt-4" id="prompt">
-            @include('layouts.message')
 
             <div class="py-5 px-4">
 
@@ -297,6 +296,9 @@
 
                 </button>
             </div>
+
+            @include('layouts.message')
+
         </div>
 
     </div>

@@ -12,14 +12,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class NewEmbedding extends Component
 {
 
-    public $file_text, $allFiles = [], $edit_file_id, $edited_name = null;
+    use WithFileUploads;
+
+    public $file_text, $allFiles = [], $edit_file_id, $edited_name = null, $uploadedFile = null;
 
     protected $rules = [
-        'file_text' => 'required',
+        'file_text' => 'required_without:uploadedFile',
+        'uploadedFile' => 'nullable|mimes:txt',
     ];
 
     protected $messages = [
@@ -39,6 +43,13 @@ class NewEmbedding extends Component
         try {
 
             $this->validate();
+
+            if ($this->uploadedFile){
+
+                $filePath = $this->uploadedFile->getRealPath();
+
+                $this->file_text = file_get_contents($filePath);
+            }
 
             $file_name = Str::random(10);
 

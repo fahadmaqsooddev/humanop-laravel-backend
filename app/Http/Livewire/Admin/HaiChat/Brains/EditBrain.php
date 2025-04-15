@@ -30,9 +30,21 @@ class EditBrain extends Component
             'temperature' => 'required',
             'max_tokens' => 'required',
             'llm_model_id' => 'required',
-            'chunks' => 'required',
+            'chunks' => 'required'
         ];
     }
+
+    protected $messages = [
+        'name.required' => 'Brain name is required',
+        'name.unique' => 'Brain with this name already exists.',
+        'description.required' => 'Brain description is required',
+        'temperature.required' => 'Temperature are required',
+        'max_token.required' => 'Max tokens are required',
+        'llm_model_id.required' => 'Select a LLM Model',
+        'chunks.required' => 'Chunks are required',
+        'activeGroupIds.required' => 'Attach at-least one cluster',
+
+    ];
 
     protected function getMessages()
     {
@@ -225,7 +237,7 @@ class EditBrain extends Component
                 Chatbot::where('name', $this->name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
 
                 session()->flash('success', 'Chatbot published');
-                
+
             }else{
 
                 session()->flash('error', 'Something went wrong.');

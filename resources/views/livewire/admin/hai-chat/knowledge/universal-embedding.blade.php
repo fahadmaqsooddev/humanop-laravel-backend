@@ -80,7 +80,9 @@
                                         <td>
                                             @foreach($embedding['groups'] as $group)
                                                 @if(!empty($group['group']))
-                                                    <span class="badge cluster-badge">{{$group['group']['name']}}</span>
+                                                    <a href="{{route('admin_edit_cluster', ['id' => $group['group']['id']])}}">
+                                                        <span class="badge cluster-badge">{{$group['group']['name']}}</span>
+                                                    </a>
                                                 @endif
                                             @endforeach
                                         </td>

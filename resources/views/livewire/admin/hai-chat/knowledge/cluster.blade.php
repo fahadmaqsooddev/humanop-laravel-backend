@@ -70,6 +70,10 @@
             color: white;
         }
 
+        a:hover{
+            color: white !important;
+        }
+
     </style>
 
 @endpush
@@ -81,7 +85,7 @@
 
             <div class="d-flex justify-content-between col-11">
                 <h4>KNOWLEDGE CLUSTER MANAGEMENT</h4>
-                <a href="{{route('admin_create_cluster')}}" class="cluster-buttons">CREAT NEW CLUSTER</a>
+                <a href="{{route('admin_create_cluster')}}" style="margin-top: 5px;" class="cluster-buttons">CREAT NEW CLUSTER</a>
             </div>
 
             <div class="py-3">
@@ -148,7 +152,9 @@
 
                                             @foreach($cluster['connectedClusters'] as $brain)
 
-                                                <span class="badge cluster-badge">{{$brain['brain']['brain_name'] ?? $brain['brain']['name'] }}</span>
+                                                <a href="{{route('admin_edit_brain', ['id' => $brain['brain']['id']])}}">
+                                                    <span class="badge cluster-badge">{{$brain['brain']['brain_name'] ?? $brain['brain']['name'] }}</span>
+                                                </a>
 
                                             @endforeach
 

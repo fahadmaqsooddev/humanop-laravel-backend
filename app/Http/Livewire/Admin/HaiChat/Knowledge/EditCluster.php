@@ -24,6 +24,11 @@ class EditCluster extends Component
         'description' => 'required|max:200'
     ];
 
+    protected $messages = [
+        'name.required' => 'Cluster name is required.',
+        'description.required' => 'Cluster description is required.'
+    ];
+
     protected $listeners = ['deleteCurrentEmbedding','deleteEmbedding'];
 
     public function updatedBulkOption(int $value){

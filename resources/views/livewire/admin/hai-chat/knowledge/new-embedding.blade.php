@@ -20,17 +20,31 @@
                         <textarea class="input-bg w-100" rows="5" wire:model="file_text"
                                   placeholder="Enter website URL, sitemap, YouTube video link, drag & drop files,click to pick files or enter plain text."></textarea>
                     </div>
-                    <div class="col-2 d-flex align-items-end">
-                        <button class="cluster-buttons" wire:click="addToTrainingQueue">
-                            Add to Training Queue
-                        </button>
+                    <div class="col-2">
+
+                        <div class="pt-1">
+
+                            <input type="file" wire:model="uploadedFile" style="color: black;">
+                            <span style="color: black;" wire:loading.flex wire:target="uploadedFile">Uploading ...</span>
+
+                        </div>
+
+                        <div class="d-flex align-items-end" style="height: 75%;">
+
+                            <button class="cluster-buttons" wire:click="addToTrainingQueue">
+                                Add to Training Queue
+                            </button>
+
+                        </div>
+
+{{--                        <input type="file" wire:model="">--}}
                     </div>
 
                 </div>
 
                 <div class="row py-3">
 
-                    <div class="col-10">
+                    <div class="col-10" style="max-height: 400px; overflow-y: scroll;" id="fileTrainingQueue">
 
                         <div style="background-color: #F4ECE0; padding: 10px; border-radius: 20px;">
 
@@ -100,3 +114,20 @@
 
     </div>
 </div>
+
+@push('js')
+
+    <script>
+
+        const fileTrainingQueue = document.querySelector('#fileTrainingQueue');
+        fileTrainingQueue.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            fileTrainingQueue.scrollBy({
+                top: event.deltaY < 0 ? -30 : 30,
+            });
+        });
+
+    </script>
+
+@endpush

@@ -34,6 +34,18 @@ class CreateBrain extends Component
         'activeGroupIds' => 'required|array',
     ];
 
+    protected $messages = [
+        'name.required' => 'Brain name is required',
+        'name.unique' => 'Brain with this name already exists.',
+        'description.required' => 'Brain description is required',
+        'temperature.required' => 'Temperature are required',
+        'max_token.required' => 'Max tokens are required',
+        'llm_model_id.required' => 'Select a LLM Model',
+        'chunks.required' => 'Chunks are required',
+        'activeGroupIds.required' => 'Attach at-least one cluster',
+
+    ];
+
     public function addToCluster($group_id){
 
         if (!array_search($group_id, $this->activeGroupIds)){
