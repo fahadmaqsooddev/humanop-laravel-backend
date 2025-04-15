@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,7 +19,20 @@ class EmbeddingGroup extends Model
         parent::__construct($attributes);
     }
 
-    protected $appends = ['is_active_group'];
+    protected $appends = ['is_ready_for_training'];
+
+    // accessor
+    public function getCreatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
+
+    }
+
+    public function getUpdatedAtAttribute($value){
+
+        return Carbon::parse($value)->format('Y-m-d');
+
+    }
 
     // Relations
     public function embeddings(){
@@ -26,16 +40,25 @@ class EmbeddingGroup extends Model
         return $this->hasMany(GroupEmbedding::class,'group_id','id');
     }
 
+    public function connectedClusters(){
 
-    public function getIsActiveGroupAttribute(){
+        return $this->hasMany(BrainCluster::class,'cluster_id','id');
+    }
 
-        return $this->embeddings()->has('embedding.activeEmbedding')->exists();
+
+    public function getIsReadyForTrainingAttribute(){
+
+        return $this->embeddings()->whereHas('embedding', function ($query){
+
+            $query->where('ready_for_training', 1);
+
+        })->exists();
     }
 
     // Queries
-    public static function createEmbeddingGroup($name){
+    public static function createEmbeddingGroup($name, $description){
 
-        return self::create(['name' => $name]);
+        return self::create(['name' => $name, 'description' => $description]);
     }
 
     public static function allGroups(){
@@ -43,17 +66,16 @@ class EmbeddingGroup extends Model
         return self::all();
     }
 
-    public static function activeGroups($chatBotName = null, $name = null){
-
-        request()->merge(['chat_bot' => $chatBotName]);
+    public static function activeGroups($chat_bot_id = null, $name = null){
 
         return self::when($name, function ($query, $name){
 
             $query->where('name', "like", "%$name%");
 
-        })->where(function ($query){
+        })
+            ->whereHas('connectedClusters', function ($query) use($chat_bot_id){
 
-            return $query->has('embeddings.embedding.activeEmbedding');
+                $query->where('chat_bot_id', $chat_bot_id);
 
         })->get();
     }
@@ -84,20 +106,48 @@ class EmbeddingGroup extends Model
 
     }
 
-    public static function nonActiveGroups($chatBotName = null, $name = null){
-
-        request()->merge(['chat_bot' => $chatBotName]);
+    public static function nonActiveGroups($chat_bot_id = null, $name = null){
 
         return self::when($name, function ($query, $name){
 
             $query->where('name', "like", "%$name%");
         })
+            ->whereDoesntHave('connectedClusters', function ($query) use ($chat_bot_id){
 
-            ->where(function ($query){
-
-            return $query->whereDoesntHave('embeddings.embedding.activeEmbedding');
+                $query->where('chat_bot_id', $chat_bot_id);
 
         })->get();
+    }
+
+    public static function allClusters($searchCluster = null, $brain_id = null){
+
+        return self::when($searchCluster, function ($query, $search){
+
+            $query->where('name', 'like', "%$search%");
+
+        })->when($brain_id, function ($query, $brain_id){
+
+            $query->whereHas('connectedClusters', function ($q) use ($brain_id){
+
+                $q->where('chat_bot_id', $brain_id);
+
+            });
+
+        })
+
+            ->with('connectedClusters', function ($query){
+
+                $query->has('brain')->with('brain');
+
+            })
+
+            ->get();
+    }
+
+    public static function updateEmbeddingGroup($cluster_id = null, $name = null, $description = null){
+
+        self::whereId($cluster_id)->update(['name' => $name, 'description' => $description]);
+
     }
 
 }

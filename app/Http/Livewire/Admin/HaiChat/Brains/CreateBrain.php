@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\HaiChat\Brains;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\LearningCluster\LearningClusterHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -31,6 +32,18 @@ class CreateBrain extends Component
         'llm_model_id' => 'required',
         'chunks' => 'required',
         'activeGroupIds' => 'required|array',
+    ];
+
+    protected $messages = [
+        'name.required' => 'Brain name is required',
+        'name.unique' => 'Brain with this name already exists.',
+        'description.required' => 'Brain description is required',
+        'temperature.required' => 'Temperature are required',
+        'max_token.required' => 'Max tokens are required',
+        'llm_model_id.required' => 'Select a LLM Model',
+        'chunks.required' => 'Chunks are required',
+        'activeGroupIds.required' => 'Attach at-least one cluster',
+
     ];
 
     public function addToCluster($group_id){
@@ -93,7 +106,9 @@ class CreateBrain extends Component
 
                 if (count($this->activeGroupIds) > 0){
 
-                    GroupEmbedding::connectAllGroupEmbeddings($this->activeGroupIds, $aiReply);
+//                    GroupEmbedding::connectAllGroupEmbeddings($this->activeGroupIds, $aiReply);
+
+                    BrainCluster::addClustersWithBrain($this->activeGroupIds, $chatBot['id']);
 
                 }
 

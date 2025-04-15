@@ -68,7 +68,6 @@
     <div class="row">
 
         <div class="card card-bg-white-orange-border mt-4" id="prompt">
-            @include('layouts.message')
 
             <div class="py-5 px-4">
 
@@ -266,6 +265,29 @@
 
 
             <div class="card-body d-sm-flex pt-0 justify-content-end">
+
+                @if($is_published)
+
+                    <button class="float-end cluster-buttons py-1 px-3" style="background-color: gray !important;">
+
+                        <span>Published</span>
+
+                    </button>
+
+                @else
+
+                    <button wire:click="publishChatBot" class="float-end cluster-buttons py-1 px-3">
+
+                        <span wire:loading.remove wire:target="publishChatBot">Publish</span>
+
+                        <span wire:loading wire:target="publishChatBot">Publishing...</span>
+
+                    </button>
+
+                @endif
+
+                &nbsp;
+
                 <button wire:click="updateBrain" class="float-end cluster-buttons py-1 px-3">
 
                     <span wire:loading.remove wire:target="updateBrain">Update</span>
@@ -274,6 +296,9 @@
 
                 </button>
             </div>
+
+            @include('layouts.message')
+
         </div>
 
     </div>

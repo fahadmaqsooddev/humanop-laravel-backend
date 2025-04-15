@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\HaiChat\Brains;
 
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
@@ -11,11 +12,12 @@ use App\Models\HAIChai\LlmModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use function Symfony\Component\String\s;
 
 class EditBrain extends Component
 {
 
-    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name;
+    public $chat_bot_id, $name, $description, $search_clusters, $search_connected_clusters, $temperature, $max_tokens, $llm_model_id, $chunks, $brain_name, $is_published = 0;
 
     public $llmModels = [], $groups = [], $activeGroupIds = [], $searching = false, $connectedGroups = [],
         $selectedClusters = [], $selectClustersForRemoval = [];
@@ -28,9 +30,21 @@ class EditBrain extends Component
             'temperature' => 'required',
             'max_tokens' => 'required',
             'llm_model_id' => 'required',
-            'chunks' => 'required',
+            'chunks' => 'required'
         ];
     }
+
+    protected $messages = [
+        'name.required' => 'Brain name is required',
+        'name.unique' => 'Brain with this name already exists.',
+        'description.required' => 'Brain description is required',
+        'temperature.required' => 'Temperature are required',
+        'max_token.required' => 'Max tokens are required',
+        'llm_model_id.required' => 'Select a LLM Model',
+        'chunks.required' => 'Chunks are required',
+        'activeGroupIds.required' => 'Attach at-least one cluster',
+
+    ];
 
     protected function getMessages()
     {
@@ -40,14 +54,19 @@ class EditBrain extends Component
         ];
     }
 
-    public function addToCluster($group_id){
+    public function addToCluster($cluster_id){
 
-        GroupEmbedding::connectGroupEmbeddings($group_id, $this->name);
+//        GroupEmbedding::connectGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::addClusterWithBrain($cluster_id, $this->chat_bot_id);
+
     }
 
-    public function removeFromCluster($group_id){
+    public function removeFromCluster($cluster_id){
 
-        GroupEmbedding::removeGroupEmbeddings($group_id, $this->name);
+//        GroupEmbedding::removeGroupEmbeddings($group_id, $this->name);
+
+        BrainCluster::removeClusterFromBrain($cluster_id, $this->chat_bot_id);
 
     }
 
@@ -55,14 +74,14 @@ class EditBrain extends Component
 
         $this->searching = true;
 
-        $this->groups = EmbeddingGroup::nonActiveGroups($this->name, $value);
+        $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id, $value);
     }
 
     public function updatedSearchConnectedClusters($value){
 
         $this->searching = true;
 
-        $this->connectedGroups = EmbeddingGroup::activeGroups($this->name, $value);
+        $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id, $value);
     }
 
     public function updateBrain(){
@@ -122,6 +141,7 @@ class EditBrain extends Component
             $this->name = $chatBotDetail['name'];
             $this->description = $chatBotDetail['description'];
             $this->brain_name = $chatBotDetail['brain_name'];
+            $this->is_published = $chatBotDetail['is_published'];
 
             $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
 
@@ -148,7 +168,9 @@ class EditBrain extends Component
 
     public function addAllClustersToActiveClusters(){
 
-        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+//        GroupEmbedding::connectAllGroupEmbeddings($this->selectedClusters, $this->name);
+
+        BrainCluster::addClustersWithBrain($this->selectedClusters, $this->chat_bot_id);
 
 //        $this->connectedGroups = EmbeddingGroup::whereIn('id', $this->activeGroupIds)->get();
 
@@ -165,7 +187,9 @@ class EditBrain extends Component
 
     public function removeAllSelectedClusters(){
 
-        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
+        BrainCluster::removeClusterFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
+
+//        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
 
 //        foreach ($this->selectClustersForRemoval as $group_id){
 //
@@ -182,8 +206,51 @@ class EditBrain extends Component
 
     }
 
+    public function publishChatBot(){
+
+        $active_embedding_ids = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+
+        $settings = HaiChatSetting::where('chat_bot_id', $this->chat_bot_id)->first();
+
+        if ($settings){
+
+            $model_value = LlmModel::singleModelFromValue($settings['model_type']);
+
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+
+            $body = [
+                'temperature' => $settings['temperature'],
+                'max_tokens' => $settings['max_token'],
+                'file_name' => $active_embedding_ids['file_name'],
+                'prompt_folder' => $this->name,
+                'total_chunks' => $settings['chunk'],
+                'gpt_model' => $model_value['model_value'] ?? null,
+                'loc' => $subFolder
+            ];
+
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'save-llm-params', $body);
+
+            if (isset($aiReply['s3_path'])){
+
+                Chatbot::where('is_published', 1)->update(['is_published' => 0]);
+
+                Chatbot::where('name', $this->name)->update(['publish_path' => $aiReply['s3_path'], 'is_published' => 1]);
+
+                session()->flash('success', 'Chatbot published');
+
+            }else{
+
+                session()->flash('error', 'Something went wrong.');
+            }
+
+        }
+
+    }
+
     public function render()
     {
+
+        BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
         $this->chatBotDetail();
 
@@ -195,9 +262,9 @@ class EditBrain extends Component
 
         }else{
 
-            $this->groups = EmbeddingGroup::nonActiveGroups($this->name);
+            $this->groups = EmbeddingGroup::nonActiveGroups($this->chat_bot_id);
 
-            $this->connectedGroups = EmbeddingGroup::activeGroups($this->name);
+            $this->connectedGroups = EmbeddingGroup::activeGroups($this->chat_bot_id);
         }
 
         return view('livewire.admin.hai-chat.brains.edit-brain');

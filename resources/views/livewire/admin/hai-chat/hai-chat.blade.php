@@ -85,7 +85,7 @@
                         <div>
                             <div class="py-2">
                                 @if($chat['setting']['persona_name'] ?? false)
-                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{$chat['setting']['persona_name']}}</a>
+                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
                                 @else
                                     <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
                                 @endif

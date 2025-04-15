@@ -25,13 +25,15 @@ class CheckCandidate extends FormRequest
     {
         return [
             'token'=>'required',
-            'company_name'=>'required'
+            'company_name'=>'required',
+            'prefer' => 'required'
         ];
     }
     public function messages(){
         return[
             'token.required'=>'Token is required',
             'company_name.required'=>'Company name is required',
+            'prefer.required'=>'Prefer is required',
         ];
     }
 }

@@ -147,6 +147,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/hai-chat-comparison', [AdminController::class,'haiChatComparison'])->name('admin_hai_chat_comparison');
         Route::get('/create-brain', [AdminController::class,'createBrain'])->name('admin_create_brain');
         Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
+        Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
+        Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {

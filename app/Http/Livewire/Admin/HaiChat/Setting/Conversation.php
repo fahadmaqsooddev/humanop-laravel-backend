@@ -8,6 +8,7 @@ use App\Helpers\LearningCluster\LearningClusterHelpers;
 use App\Helpers\OpenRouterHelper;
 use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\HAIChai\AnalyticsModel;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\Assessment;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -89,7 +90,9 @@ class Conversation extends Component
 
             $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
-            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
+            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
+
+//            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
 
             $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->name, $this->message);
 

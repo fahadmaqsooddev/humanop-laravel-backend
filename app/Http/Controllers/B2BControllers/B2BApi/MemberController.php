@@ -47,21 +47,21 @@ class MemberController extends Controller
 
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
-                if ($checkCompany && $checkInviteLink['role']==Admin::B2B_INVITE_ROLE) {
+                if ($checkCompany && $checkCompany['role']==Admin::IS_CANDIDATE) {
 
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
 
-                }else if ($checkCompany && $checkInviteLink['role']==Admin::B2B_MEMBER_INVITE_ROLE){
+                }else if ($checkCompany && $checkCompany['role']==Admin::IS_TEAM_MEMBER){
                     return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
 
                 }
                  else {
 
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id);
+                    UserCandidateInvite::createUserInvite($checkInviteLink->id,0);
 
                     $linke=UserInvite::where('email',$email)->first();
 
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
 
                     $emailData = $this->myprepareEmailData($url);
 
@@ -73,13 +73,13 @@ class MemberController extends Controller
 
 
 
-            $newInvite = UserInvite::createInvite($email,3);
+            $newInvite = UserInvite::createInvite($email);
 
             if ($newInvite) {
 
-                UserCandidateInvite::createUserInvite($newInvite->id);
+                UserCandidateInvite::createUserInvite($newInvite->id,0);
                 $linke=UserInvite::where('email',$email)->first();
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'];
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
                 $emailData = $this->myprepareEmailData($url);
 
                 $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
@@ -101,7 +101,7 @@ class MemberController extends Controller
     public static function allMemberInvites()
     {
         try {
-            
+
             $invites = UserCandidateInvite::allMemberInvites();
 
             $memberInvites = [];
@@ -113,7 +113,7 @@ class MemberController extends Controller
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
                 $memberInvites[] = [
-                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName,
+                    'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
                     'email' => $email,
                     'company_name' => $companyName
                 ];

@@ -11,6 +11,7 @@ use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
 use App\Models\Assessment;
+use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
@@ -60,7 +61,9 @@ class ChatAiController extends Controller
 
             $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
-            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($chat_bot['name']);
+//            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($chat_bot['name']);
+
+            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot['id']);
 
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
 
