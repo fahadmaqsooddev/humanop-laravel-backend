@@ -551,8 +551,8 @@ return [
             'hidden'=>['updated_at','created_at']
         ],
         'UserCandidateInvite'=>[
-            'table'=>'user_candidate_invite',
-            'fillable'=>['company_id','invite_link_id'],
+            'table'=>'b2b_users_invites',
+            'fillable'=>['company_id','invite_link_id','role'],
         ],
         'AssessmentWalkThrough'=>[
             'table'=>'assessment_walkthrough',

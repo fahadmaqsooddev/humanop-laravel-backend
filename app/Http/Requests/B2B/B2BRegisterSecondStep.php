@@ -26,7 +26,7 @@ class B2BRegisterSecondStep extends FormRequest
         return [
             'user_id'=>'required',
             'company_name' => 'required|string|unique:users,company_name,NULL,id,deleted_at,NULL',
-            'business_sub_stratergy_id' => 'required|integer',
+//            'business_sub_stratergy_id' => 'required|integer',
         ];
     }
 
@@ -34,8 +34,8 @@ class B2BRegisterSecondStep extends FormRequest
     {
         return [
             'user_id.required'=>'User Id IS Required',
-            'business_sub_stratergy_id.required' => 'Business Strategy is required.',
-            'business_sub_stratergy_id.integer' => 'Business Strategy ID must be an integer.',
+//            'business_sub_stratergy_id.required' => 'Business Strategy is required.',
+//            'business_sub_stratergy_id.integer' => 'Business Strategy ID must be an integer.',
              'company_name.required' => 'Company Name is required.',
             'company_name.max' => 'Company Name cannot exceed 50 characters.',
         ];

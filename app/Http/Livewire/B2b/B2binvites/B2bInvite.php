@@ -54,6 +54,7 @@ public $members_limit=10;
                 if ($invite) {
 
                     $invite->total_member_limit = $this->total_member_limit;
+
                     $invite->members_limit = $this->total_member_limit;
 
                     $invite->save();
@@ -76,12 +77,14 @@ public $members_limit=10;
                     }
 
                     $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+
                     if ($softDeletedUser) {
                         session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
                         return;
                     }
 
                     $uniqueEmail = UserInvite::where('email', $this->email)->first();
+
                     if ($uniqueEmail) {
                         session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
                         return;
@@ -96,13 +99,11 @@ public $members_limit=10;
 
                     $this->mysendEmailVerification($emailData, $this->email, 'b2b-maestro-signup');
 
-
                     session()->flash('success', "{$this->email} invite link generated successfully.");
 
                 }
 
             }
-
 
             $this->resetForm();
 
@@ -115,7 +116,6 @@ public $members_limit=10;
         }
 
     }
-
 
     private function myprepareEmailData($url = null)
     {
@@ -138,8 +138,6 @@ public $members_limit=10;
             $name
         );
     }
-
-
 
     public function bulkDelete()
     {
@@ -173,7 +171,6 @@ public $members_limit=10;
 
         UserInvite::sendInviteTime($id);
     }
-
 
     // my code
 

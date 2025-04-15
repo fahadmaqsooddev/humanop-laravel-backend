@@ -2,6 +2,7 @@
 
 namespace App\Models\B2B;
 
+use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
@@ -38,68 +39,40 @@ class UserCandidateInvite extends Model
     {
 
         return self::where('company_id', Helpers::getUser()['id'])
-        ->where('invite_link_id',$inviteId)
-        ->first();
+            ->where('invite_link_id', $inviteId)
+            ->first();
     }
 
-    public static function createUserInvite($linkId = null)
+    public static function createUserInvite($linkId = null, $role = null)
     {
         return self::create([
             'company_id' => Helpers::getUser()['id'],
             'invite_link_id' => $linkId,
+            'role' => $role,
         ]);
     }
 
     public static function allCandidateInvites()
     {
-        // return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks' => function ($query) {
-        //             $query->where('role', 2);
-        //         },
-        //         'user'
-        //     ])
-        //     ->orderBy('id', 'desc')
-        //     ->get();
 
-
-        return self::where('company_id', Helpers::getUser()['id'])
-    ->whereHas('inviteLinks', function ($query) {
-        $query->where('role', 2);
-    })
-    ->with([
-        'inviteLinks' => function ($query) {
-            $query->where('role', 2);
-        },
-        'user'
-    ])
-    ->orderBy('id', 'desc')
-    ->get();
+        return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_CANDIDATE)->whereHas('inviteLinks')->with([
+                'inviteLinks',
+                'user'
+            ])
+            ->orderBy('id', 'desc')
+            ->get();
 
     }
 
-
     public static function allMemberInvites()
     {
-        // dd( Helpers::getUser()['id']);
-        // return self::where('company_id', Helpers::getUser()['id'])->with(['inviteLinks' => function ($query) {
-        //     $query->where('role', 3);
-        // },
-        //     'user'
-        // ])
-        // ->orderBy('id', 'desc')
-        // ->get();
 
-        return self::where('company_id', Helpers::getUser()['id'])
-        ->whereHas('inviteLinks', function ($query) {
-            $query->where('role', 3);
-        })
-        ->with([
-            'inviteLinks' => function ($query) {
-                $query->where('role', 3);
-            },
-            'user'
-        ])
-        ->orderBy('id', 'desc')
-        ->get();
-    
+        return self::where('company_id', Helpers::getUser()['id'])->where('role', Admin::IS_TEAM_MEMBER)->whereHas('inviteLinks')->with([
+                'inviteLinks',
+                'user'
+            ])
+            ->orderBy('id', 'desc')
+            ->get();
+
     }
 }

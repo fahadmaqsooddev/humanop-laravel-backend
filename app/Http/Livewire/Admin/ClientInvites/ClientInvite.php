@@ -46,6 +46,7 @@ class ClientInvite extends Component
             $this->validate();
 
             if ($this->email) {
+
                 $user = User::where('email', $this->email)->first();
 
                 if ($user) {
@@ -56,17 +57,22 @@ class ClientInvite extends Component
                 }
 
                 $softDeletedUser = User::withTrashed()->where('email', $this->email)->first();
+
                 if ($softDeletedUser) {
                     session()->flash('success', "{$this->email} already exists. Please restore or delete it permanently.");
                     return;
+
                 }
+
                 $uniqueEmail = UserInvite::where('email', $this->email)->first();
+
                 if ($uniqueEmail) {
                     session()->flash('success', "{$this->email} Already Have Invite Link Please Create Account.");
                     return;
                 }
 
                 UserInvite::sendInvite($this->email, $this->file, $this->role);
+
                 session()->flash('success', "{$this->email} invite link generated successfully.");
             }
 
@@ -117,7 +123,9 @@ class ClientInvite extends Component
     {
 
         $invites = UserInvite::getAllInviteLinks($this->perPage, $this->searched_email, $this->role);
+
         $invites->withPath(url('/admin/client-invites'));
+
         return view('livewire.admin.client-invites.client-invite', ['invites' => $invites]);
     }
 }

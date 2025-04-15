@@ -24,11 +24,11 @@ class BusinessSubStrategies extends Model
         return self::where('business_strategy_id', $businessId)->get();
     }
 
-    public  static  function  storeSubStratergy($stratergyid=null,$substratergy=null)
+    public static function storeSubStratergy($stratergyid = null, $substratergy = null)
     {
-     return self::create([
-         'business_strategy_id' => $stratergyid,
-         'business_sub_stratergy_id' => $substratergy,
-     ]);
+        return self::create([
+            'business_strategy_id' => $stratergyid,
+            'name' => $substratergy,
+        ]);
     }
 }

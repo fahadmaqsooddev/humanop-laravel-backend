@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth;
+namespace App\Http\Requests\B2B;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CheckCandidate extends FormRequest
+class checkB2BAccount extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,17 +23,18 @@ class CheckCandidate extends FormRequest
      */
     public function rules()
     {
+        $required = (request()->input('email', null)) ? 'nullable' : 'required';
+
         return [
-            'token'=>'required',
-            'company_name'=>'required',
-            'prefer' => 'required'
+            'email' => 'nullable',
+            'invite_link' => $required,
         ];
     }
-    public function messages(){
-        return[
-            'token.required'=>'Token is required',
-            'company_name.required'=>'Company name is required',
-            'prefer.required'=>'Prefer is required',
+
+    public function messages()
+    {
+        return [
+            'invite_link.required' => 'Invite Link is required',
         ];
     }
 }
