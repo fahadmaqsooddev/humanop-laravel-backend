@@ -269,7 +269,7 @@
 
                 @if($is_published)
 
-                    <button class="float-end cluster-buttons py-1 px-3" style="background-color: lightgrey;">
+                    <button class="float-end cluster-buttons py-1 px-3" style="background-color: gray !important;">
 
                         <span>Published</span>
 
