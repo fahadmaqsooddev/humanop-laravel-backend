@@ -253,6 +253,8 @@ class UniversalEmbedding extends Component
 
             $zip->close();
 
+            $this->reset('selectedEmbeddings','bulk_option');
+
             return redirect()->route('download-zip');
         }
 
