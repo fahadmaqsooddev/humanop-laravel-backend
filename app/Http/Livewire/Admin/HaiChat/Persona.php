@@ -14,11 +14,17 @@ class Persona extends Component
 
     protected $listeners = ['updateChatBotHumanApp','viewEditPersona'];
 
-    protected $rules = [
-        'persona_name' => 'required|max:50',
-        'chat_bot_id' => 'required',
-        'human_op_app' => 'nullable',
-//        'maestro_app' => 'nullable'
+    public function rules(){
+
+        return [
+            'persona_name' => 'required|max:50|unique:hai_chat_setting,persona_name,' . $this->chat_bot_id . ',chat_bot_id',
+            'chat_bot_id' => 'required',
+            'human_op_app' => 'nullable',
+        ];
+    }
+
+    protected $messages = [
+        'persona_name.unique' => 'Persona with same name already exists.',
     ];
 
     public function mount($name){
@@ -45,6 +51,8 @@ class Persona extends Component
             $this->validate();
 
             HaiChatSetting::updatePersonaConfigurations($this->chat_bot_id, $this->persona_text, $this->persona_name, $this->human_op_app, $this->maestro_app);
+
+            $this->emit('$refresh');
 
             session()->flash('success', "Persona Updated");
 

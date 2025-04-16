@@ -11,6 +11,8 @@ class PersonaListing extends Component
 
     public $personas = [];
 
+    protected $listeners = ['$refresh'];
+
     public function updatedPersonaId($value){
 
         $this->reset('persona_id');
