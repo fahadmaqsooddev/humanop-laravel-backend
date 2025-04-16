@@ -575,7 +575,7 @@
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Advance </span>
+                                                                    <span class="sidenav-normal"> Advanced </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('hai_chat_comparison') ? 'active' : '') }}">
