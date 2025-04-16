@@ -32,7 +32,7 @@
                                 <label>Select all</label>
                             </div>
                             <select class="configurations-drop-down" wire:model="bulk_option">
-                                <option value="">Bulk Options</option>
+                                <option value="0">Bulk Options</option>
                                 <option value="1">Train/Re-Train</option>
                                 <option value="2">Export</option>
                                 <option value="3">Delete</option>

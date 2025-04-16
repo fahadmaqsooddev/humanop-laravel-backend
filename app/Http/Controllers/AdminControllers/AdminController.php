@@ -616,4 +616,17 @@ class AdminController extends Controller
         }
 
     }
+
+    public function downloadZipFile(){
+
+        $zipPath = storage_path('knowledge.zip');
+
+        if (file_exists($zipPath)){
+
+            return response()->download($zipPath)->deleteFileAfterSend(true);
+        }
+
+        abort(404);
+
+    }
 }

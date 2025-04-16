@@ -149,6 +149,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/edit-brain/{id}', [AdminController::class,'editBrain'])->name('admin_edit_brain');
         Route::get('/create-cluster', [AdminController::class,'createCluster'])->name('admin_create_cluster');
         Route::get('/edit-cluster/{id}', [AdminController::class,'editCluster'])->name('admin_edit_cluster');
+        Route::get('/download-zip', [AdminController::class,'downloadZipFile'])->name('download-zip');
     });
 
     Route::group(['middleware' => ['permission:resources']], function () {

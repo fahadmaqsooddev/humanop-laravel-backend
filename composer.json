@@ -26,7 +26,8 @@
         "spatie/pdf-to-text": "^1.54",
         "stripe/stripe-php": "9.0",
         "twilio/sdk": "^8.3",
-        "yoeunes/toastr": "^2.3"
+        "yoeunes/toastr": "^2.3",
+        "ext-zip": "*"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",

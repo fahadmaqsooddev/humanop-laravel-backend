@@ -6,8 +6,10 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use ZipArchive;
 
 class UniversalEmbedding extends Component
 {
@@ -26,7 +28,7 @@ class UniversalEmbedding extends Component
 
         }elseif ($value === 2){ // Export
 
-
+            $this->exportAllSelectedFiles();
 
         }elseif ($value === 3){ // Delete
 
@@ -206,6 +208,53 @@ class UniversalEmbedding extends Component
         }
 
         $this->reset('selectedEmbeddings', 'bulk_option');
+
+    }
+
+    public function exportAllSelectedFiles(){
+
+        $files = [];
+
+        foreach ($this->selectedEmbeddings as $key => $embeddingId){
+
+            $embedding = HaiChatEmbedding::whereId($embeddingId)->first();
+
+            if ($embedding){
+
+                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? "dev" : env("APP_ENV");
+
+                $body = ["request_id" => $embedding['request_id'], "loc" => $subFolder];
+
+                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'get_file_text', $body);
+
+                if(isset($aiReply['text_content'])){
+
+                    Storage::disk('local')->put('export-files/' . $embedding['request_id'] . '.txt', $aiReply['text_content']);
+
+                    array_push($files,storage_path('app/export-files/' . $embedding['request_id'] . '.txt'));
+                }
+
+            }
+
+        }
+
+        $zip = new \ZipArchive();
+
+        $zipPath = storage_path('knowledge.zip');
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+
+            foreach ($files as $file) {
+                if (file_exists($file)) {
+
+                    $zip->addFile($file, basename($file)); // second param = file name inside the zip
+                }
+            }
+
+            $zip->close();
+
+            return redirect()->route('download-zip');
+        }
 
     }
 }
