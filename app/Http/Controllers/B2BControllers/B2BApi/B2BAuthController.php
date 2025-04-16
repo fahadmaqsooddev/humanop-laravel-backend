@@ -109,11 +109,14 @@ class B2BAuthController extends Controller
         }
     }
 
-    public function businessStrategies()
+    public function businessStrategies(Request $request)
     {
         try {
 
-            $businessStrategies = BusinessStrategies::allBusinessStrategies();
+            $searchName = $request['search_strategy_name'] ?? null;
+
+
+            $businessStrategies = BusinessStrategies::allBusinessStrategies($searchName);
 
             return Helpers::successResponse('Business Strategies', $businessStrategies);
 
@@ -125,17 +128,25 @@ class B2BAuthController extends Controller
         }
     }
 
+
+
+
+
+
     public function getBusinessSubStrategies(getBusinessSubStrategyRequest $request)
     {
         try {
 
-            if (!empty($request['business_id'])) {
+             if (!empty($request['business_id'])) {
 
-                $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id']);
+                 $searchName=$request['search_sub_strategy_name'] ?? null;
+                $businessStrategies = BusinessSubStrategies::getSubStrategies($request['business_id'],$searchName);
 
                 return Helpers::successResponse('Business Sub Strategies', $businessStrategies);
 
-            } else {
+            }
+
+                else {
 
                 return Helpers::validationResponse('Business Sub Strategies not found');
 
