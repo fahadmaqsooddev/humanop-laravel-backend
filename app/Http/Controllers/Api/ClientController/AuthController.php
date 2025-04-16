@@ -478,6 +478,17 @@ class AuthController extends Controller
                     return Helpers::successResponse('Please complete all required steps in the signup process to log in.', $userData);
                 }
 
+
+                if (!empty($request['company_name'])) {
+
+                    $data = User::getSingleUserFromCompanyName($request['company_name']);
+
+                    if (!empty($data)) {
+                        B2BBusinessCandidates::registerCandidate($data['id'], $user['id'], $request['prefer'], Admin::NOT_SHARED_DATA);
+                    }
+
+                }
+
                 $token = $this->auth->login($user);
 
                 $updateUser = User::updateUserIsFeedback();
