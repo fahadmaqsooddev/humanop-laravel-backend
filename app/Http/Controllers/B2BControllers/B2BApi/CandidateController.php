@@ -42,10 +42,12 @@ class CandidateController extends Controller
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
                 if ($checkCompany &&$checkCompany['role']==Admin::IS_CANDIDATE) {
-                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
 
+//                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
+                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
                 }else if ($checkCompany &&$checkCompany['role']==Admin::IS_TEAM_MEMBER){
-                    return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
+//                    return Helpers::successResponse("{$email} already has an invite link with your business As a Member.");
+                    return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
 
                 }
 
