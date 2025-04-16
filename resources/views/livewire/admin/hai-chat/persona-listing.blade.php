@@ -20,7 +20,7 @@
 
             <div class="py-3">
 
-                <select id="persona_div" wire:model="persona_id" style="border: 2px solid orangered; padding: 10px; border-radius: 20px;max-width: 250px; height: 175px;" multiple>
+                <select id="persona_div" wire:model="persona_id" style="border: 2px solid orangered; padding: 10px; border-radius: 20px;width: 250px; height: 175px;" multiple>
 
                     @foreach($personas as $persona)
 
