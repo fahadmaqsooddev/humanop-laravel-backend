@@ -6,10 +6,8 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\EmbeddingGroup;
 use App\Models\HAIChai\GroupEmbedding;
 use App\Models\HAIChai\HaiChatEmbedding;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use ZipArchive;
 
 class UniversalEmbedding extends Component
 {
@@ -215,7 +213,7 @@ class UniversalEmbedding extends Component
 
         $files = [];
 
-        foreach ($this->selectedEmbeddings as $key => $embeddingId){
+        foreach ($this->selectedEmbeddings as $embeddingId){
 
             $embedding = HaiChatEmbedding::whereId($embeddingId)->first();
 
