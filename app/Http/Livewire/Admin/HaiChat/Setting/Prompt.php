@@ -216,7 +216,7 @@ class Prompt extends Component
 
         if ($this->chat_bot_id){
 
-            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name ?? null;
 
             if ($chatBotName){
 
