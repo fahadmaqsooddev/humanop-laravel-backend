@@ -337,7 +337,7 @@ class AdminController extends Controller
 
         try {
 
-            $feedbacks = Feedback::userFeedbacks();
+            $feedbacks = Feedback::userFeedbacks(10);
 
             return view('admin-dashboards.user-feedback.index', compact('feedbacks'));
 

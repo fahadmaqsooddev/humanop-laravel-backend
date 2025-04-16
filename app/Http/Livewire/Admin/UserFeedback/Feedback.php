@@ -4,15 +4,21 @@ namespace App\Http\Livewire\Admin\UserFeedback;
 
 use App\Helpers\Points\PointHelper;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Stripe\Checkout\Session;
 
 class Feedback extends Component
 {
-    public $feedbacks,$approved_feedbacks;
+    use WithPagination;
+    protected $feedbacks;
+public $name='';
+        public $approved_feedbacks;
 
-    public function getFeedback()
+public  $perPage=10;
+    protected $paginationTheme = 'bootstrap';
+    public function getFeedback($name)
     {
-        $this->feedbacks = \App\Models\Client\Feedback\Feedback::userFeedbacks();
+        $this->feedbacks = \App\Models\Client\Feedback\Feedback::userFeedbacks($this->perPage,$name);
         $this->approved_feedbacks = \App\Models\Client\Feedback\Feedback::approvedUserFeedBack();
     }
 
@@ -37,8 +43,10 @@ class Feedback extends Component
     public function render()
     {
 
-        $this->getFeedback();
+        $this->getFeedback($this->name);
 
-        return view('livewire.admin.user-feedback.feedback');
+        return view('livewire.admin.user-feedback.feedback',[
+            'feedbacks'=>$this->feedbacks,
+        ]);
     }
 }
