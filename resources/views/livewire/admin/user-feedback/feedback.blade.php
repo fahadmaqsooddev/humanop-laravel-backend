@@ -62,10 +62,10 @@
                         </span>
                     @endforeach
 
-                <td class="text-md font-weight-normal">
+                <td class="text-md font-weight-normal " style="padding-top: 1rem !important;">
                     @if(!empty($feedback['image_id']))
                         <a href="{{ $feedback['photo_url']['url'] }}" target="_blank"
-                           class="btn-sm mt-2 mb-0"
+                           class="btn-sm"
                            style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                             View
                         </a>
@@ -75,12 +75,13 @@
 
                 </td>
 
-                <td class="text-md font-weight-normal">
+                <td class="text-md font-weight-normal " style="padding-top: 1rem !important;">
                     @if($feedback['approve']==1)
-                        <a wire:click=""
-                           class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;">
-                            Approved Already
+                        <a class="btn-sm mt-2 mb-0"
+                           style="background:#f2661c;color:white;font-weight:bolder;border:none; pointer-events: none; cursor: not-allowed;">
+                            Approved
                         </a>
+
                     @else
                         <a wire:click="approveFeedback({{$feedback['id']}})"
                            class=" btn-sm mt-2 mb-0" style="background:#f2661c;color:white;font-weight:bolder;border:none;cursor: pointer">
