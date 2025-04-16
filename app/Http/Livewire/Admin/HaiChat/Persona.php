@@ -12,13 +12,19 @@ class Persona extends Component
 {
     public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app, $connected_human_apps = [];
 
-    protected $listeners = ['updateChatBotHumanApp'];
+    protected $listeners = ['updateChatBotHumanApp','viewEditPersona'];
 
-    protected $rules = [
-        'persona_name' => 'required|max:50',
-        'chat_bot_id' => 'required',
-        'human_op_app' => 'nullable',
-//        'maestro_app' => 'nullable'
+    public function rules(){
+
+        return [
+            'persona_name' => 'required|max:50|unique:hai_chat_setting,persona_name,' . $this->chat_bot_id . ',chat_bot_id',
+            'chat_bot_id' => 'required',
+            'human_op_app' => 'nullable',
+        ];
+    }
+
+    protected $messages = [
+        'persona_name.unique' => 'Persona with same name already exists.',
     ];
 
     public function mount($name){
@@ -45,6 +51,8 @@ class Persona extends Component
             $this->validate();
 
             HaiChatSetting::updatePersonaConfigurations($this->chat_bot_id, $this->persona_text, $this->persona_name, $this->human_op_app, $this->maestro_app);
+
+            $this->emit('$refresh');
 
             session()->flash('success', "Persona Updated");
 
@@ -86,6 +94,14 @@ class Persona extends Component
         HaiChatSetting::where('human_op_app', $human_app)->update(['human_op_app' => 0]);
     }
 
+    public function viewEditPersona($id = null){
+
+        $this->reset('persona_name', 'human_op_app');
+
+        $this->chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
+
+    }
+
     public function render()
     {
         $this->chatBots = Chatbot::get();
@@ -98,10 +114,11 @@ class Persona extends Component
 
             $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
-            $this->persona_text = $setting['persona_text'];
+//            $this->persona_text = $setting['persona_text'];
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app = $setting['maestro_app'];
+//            $this->maestro_app = $setting['maestro_app'];
+
         }
 
         return view('livewire.admin.hai-chat.persona');

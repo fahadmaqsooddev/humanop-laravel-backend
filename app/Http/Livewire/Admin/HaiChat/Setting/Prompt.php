@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
 use App\Models\HAIChai\ChatPrompt;
+use App\Models\HAIChai\HaiChatSetting;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use GuzzleHttp\Client;
 class Prompt extends Component
 {
     public $prompt,$restriction, $keyword = '', $keywords = [], $keyword_restriction_message, $chat_bot_id = null, $name;
+
     protected $rules = [
         'name' => 'required',
         'prompt' => 'required|max:5100',
@@ -27,7 +29,7 @@ class Prompt extends Component
         'prompt.max' => 'Prompt characters limit are 10000.',
     ];
 
-    public $listeners = ['updateChatBotId'];
+    public $listeners = ['updateChatBotId','viewEditPersona'];
 
     public function mount($name){
 
@@ -63,6 +65,11 @@ class Prompt extends Component
 
         }
 
+    }
+
+    public function viewEditPersona($id = null){
+
+        $this->chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
     }
 
     public function update(){
@@ -209,7 +216,7 @@ class Prompt extends Component
 
         if ($this->chat_bot_id){
 
-            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name;
+            $chatBotName = Chatbot::whereId($this->chat_bot_id)->first()->name ?? null;
 
             if ($chatBotName){
 
