@@ -161,7 +161,8 @@ class B2BBusinessCandidates extends Model
     {
 
         return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->update([
-            'is_permanently_deleted' => 1
+            'is_permanently_deleted' => 1,
+            'share_data'=>Admin::NOT_SHARED_DATA,
         ]);
     }
 
