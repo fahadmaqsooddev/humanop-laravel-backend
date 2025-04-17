@@ -217,7 +217,11 @@ class MemberController extends Controller
 
             $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'], $request['search_name'])->map(function ($member) {
 
-                $member->users->gender = $member->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
+//                $member->users->gender = $member->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
+                $member->users->gender = $member->users->gender !== null
+                    ? ($member->users->gender == Admin::IS_MALE ? 'Male' : 'Female')
+                    : null;
+
                 $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
 
                 $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
