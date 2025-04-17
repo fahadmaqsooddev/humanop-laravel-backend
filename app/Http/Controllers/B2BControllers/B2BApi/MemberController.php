@@ -215,20 +215,26 @@ class MemberController extends Controller
     {
         try {
 
-            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id'], $request['search_name'])->map(function ($member) {
+            $members = B2BBusinessCandidates::allBusinessMembers(Helpers::getUser()['id']);
 
-                $member->users->gender = $member->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
-                $member->users->status = $member->users->last_login ? 'on-board' : 'pending';
+            $formattedmembers = [];
 
-                $member->users->last_login = $member->users->last_login ? Carbon::parse($member->last_login)->format('m/d/Y h:i A') : null;
-                $member->user_created_at = $member->created_at ? Carbon::parse($member->created_at)->format('m/d/Y h:i A') : null;
-                unset($member->created_at);
+            foreach ($members as $member) {
 
-                return $member;
+                if (!empty($member['users'])) {
+                    $member['users']['status'] = $member['users']['last_login'] ? 'on-board' : 'pending';
 
-            });
+                    $member['users']['last_login'] = $member['users']['last_login'] ? Carbon::parse($member['users']['last_login'])->format('m/d/Y h:i A') : null;
 
-            return Helpers::successResponse('All Team members', $members);
+                    $member['user_created_at'] = $member['created_at'] ? Carbon::parse($member['created_at'])->format('m/d/Y h:i A') : null;
+
+                    unset($member['created_at']);
+
+                    $formattedmembers[] = $member;
+                }
+            }
+
+            return Helpers::successResponse('All Team members', $formattedmembers);
 
 
         } catch (\Exception $exception) {

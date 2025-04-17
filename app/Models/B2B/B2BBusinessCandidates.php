@@ -72,11 +72,33 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
+//
+//        return self::with([
+//            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
+//            'assessments:id,user_id,page'
+//        ])
+//            ->when($search_name, function ($query) use ($search_name) {
+//                $query->whereHas('users', function ($q) use ($search_name) {
+//                    $q->where('first_name', 'LIKE', "%{$search_name}%")
+//                        ->orWhere('last_name', 'LIKE', "%{$search_name}%")
+//                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
+//                });
+//            })
+//            ->when($business_id, function ($query) use ($business_id) {
+//                $query->where('business_id', $business_id)
+//                    ->where('role', Admin::IS_TEAM_MEMBER)
+//                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
+//                    ->where('is_permanently_deleted', 0);
+//            })
+//            ->orderBy('id', 'desc')
+//            ->get();
 
-        return self::with([
-            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
-            'assessments:id,user_id,page'
-        ])
+        $data = self::when($business_id, function ($query, $business_id) {
+            $query->where('business_id', $business_id)
+                ->where('is_permanently_deleted', 0)
+                ->where('role', Admin::IS_TEAM_MEMBER)
+                ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        })
             ->when($search_name, function ($query) use ($search_name) {
                 $query->whereHas('users', function ($q) use ($search_name) {
                     $q->where('first_name', 'LIKE', "%{$search_name}%")
@@ -84,35 +106,41 @@ class B2BBusinessCandidates extends Model
                         ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
                 });
             })
-            ->when($business_id, function ($query) use ($business_id) {
-                $query->where('business_id', $business_id)
-                    ->where('role', Admin::IS_TEAM_MEMBER)
-                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
-                    ->where('is_permanently_deleted', 0);
-            })
+            ->with([
+                'users' => function ($query) {
+                    $query->select('id', 'first_name', 'last_name', 'email', 'gender', 'last_login', 'timezone', 'phone', 'date_of_birth', 'company_name', 'step')
+                        ->where('step', 3);
+                },
+                'assessments:id,user_id,page'
+            ])
             ->orderBy('id', 'desc')
             ->get();
+
+        return $data;
+
+
+
 
     }
 
     public static function allBusinessCandidates($business_id = null)
     {
-        $data = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
-            'assessments:id,user_id,page'
-        ])
-            ->when($business_id, function ($query, $business_id) {
-                $query->where('business_id', $business_id)
-                    ->where('is_permanently_deleted', 0)
-                    ->where('role', Admin::IS_CANDIDATE)
-                    ->where('future_consideration', Admin::NOT_IN_FUTURE);
-            })
+        $data = self::when($business_id, function ($query, $business_id) {
+            $query->where('business_id', $business_id)
+                ->where('is_permanently_deleted', 0)
+                ->where('role', Admin::IS_CANDIDATE)
+                ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        })
+            ->with(['users' => function ($query) {
+                    $query->where('step', 3);
+                }, 'assessments:id,user_id,page'
+            ])
             ->orderBy('id', 'desc')
             ->get();
 
-
         return $data;
-
     }
+
 
     public static function getBusinessCandidate()
     {
@@ -161,7 +189,8 @@ class B2BBusinessCandidates extends Model
     {
 
         return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->update([
-            'is_permanently_deleted' => 1
+            'is_permanently_deleted' => 1,
+            'share_data'=>Admin::NOT_SHARED_DATA,
         ]);
     }
 
