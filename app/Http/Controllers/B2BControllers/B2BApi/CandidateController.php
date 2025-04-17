@@ -127,7 +127,13 @@ class CandidateController extends Controller
 
             $candidates = B2BBusinessCandidates::allBusinessCandidates(Helpers::getUser()['id'])->map(function ($candidate) {
 
-                $candidate->users->gender = $candidate->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
+//                $candidate->users->gender = $candidate->users->gender == Admin::IS_MALE ? 'Male' : 'Female';
+
+                $candidate->users->gender = $candidate->users->gender !== null
+                    ? ($candidate->users->gender == Admin::IS_MALE ? 'Male' : 'Female')
+                    : null;
+
+
                 $candidate->users->status = $candidate->users->last_login ? 'on-board' : 'pending';
 
                 $candidate->users->last_login = $candidate->users->last_login ? Carbon::parse($candidate->last_login)->format('m/d/Y h:i A') : null;
