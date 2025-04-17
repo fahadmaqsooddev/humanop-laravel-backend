@@ -449,11 +449,13 @@ class DashboardController extends Controller
                 $checkData = B2BBusinessCandidates::checkShareDataDetail($request['company_name']);
 
                 if (!empty($checkData)) {
+
                     if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
 
                         $data = [
                             'Shared_data'=>Admin::NOT_SHARED_DATA,
-                            'company_name'=>$request['company_name']
+                            'company_name'=>$request['company_name'],
+                            'status'=>$checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member':'candidate',
                         ];
 
                         return Helpers::successResponse('Check Shared Data', $data);
