@@ -97,22 +97,22 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessCandidates($business_id = null)
     {
-        $data = self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name,created_at',
-            'assessments:id,user_id,page'
-        ])
-            ->when($business_id, function ($query, $business_id) {
-                $query->where('business_id', $business_id)
-                    ->where('is_permanently_deleted', 0)
-                    ->where('role', Admin::IS_CANDIDATE)
-                    ->where('future_consideration', Admin::NOT_IN_FUTURE);
-            })
+        $data = self::when($business_id, function ($query, $business_id) {
+            $query->where('business_id', $business_id)
+                ->where('is_permanently_deleted', 0)
+                ->where('role', Admin::IS_CANDIDATE)
+                ->where('future_consideration', Admin::NOT_IN_FUTURE);
+        })
+            ->with(['users' => function ($query) {
+                    $query->where('step', 3);
+                }, 'assessments:id,user_id,page'
+            ])
             ->orderBy('id', 'desc')
             ->get();
 
-
         return $data;
-
     }
+
 
     public static function getBusinessCandidate()
     {
