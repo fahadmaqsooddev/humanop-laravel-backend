@@ -32,6 +32,11 @@ class BrainCluster extends Model
 
     }
 
+    public function cluster(){
+
+        return $this->belongsTo(EmbeddingGroup::class,'cluster_id','id');
+    }
+
     // query
     public static function addClustersWithBrain($cluster_ids = [], $chat_bot_id = null){
 
@@ -65,7 +70,7 @@ class BrainCluster extends Model
 
     public static function connectedClusterEmbeddingIds($chat_bot_id){
 
-        $request_ids = self::where('chat_bot_id',$chat_bot_id)->with('activeEmbeddings')->get()->flatMap(function ($item) {
+        $request_ids = self::has('cluster')->where('chat_bot_id',$chat_bot_id)->with('activeEmbeddings')->get()->flatMap(function ($item) {
             return $item->activeEmbeddings->pluck('request_id');
         })
             ->unique()
