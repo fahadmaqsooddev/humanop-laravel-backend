@@ -130,41 +130,38 @@ class NewEmbedding extends Component
 
                 $multipart = [
                     [
-                        'name'     => 'files', // Field name expected by the server
+                        'name'     => 'file', // Field name expected by the server
                         'contents' => Storage::disk('local')->get('training_files/' . $file->file_name),
                         'filename' => $file->file_name,
                     ],
-//                    [
-//                        'name' => "loc",
-//                        'contents' => $subFolder
-//                    ]
+                    [
+                        'name' => "loc",
+                        'contents' => $subFolder
+                    ]
                 ];
 
-//                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
-//                    'multipart' => $multipart
-//                ]);
-
-                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload/pineconeapi/', [
+                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
                     'multipart' => $multipart
                 ]);
 
-                if(isset($aiReply['results'][0])){
+//                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload/pineconeapi/', [
+//                    'multipart' => $multipart
+//                ]);
 
-                    if (!empty($aiReply['results'][0]['file_uuid'])){
+                if(isset($aiReply['request_id'])){
 
-                        $embedding = HaiChatEmbedding::createEmbedding($file->name,$aiReply['results'][0]['file_uuid']);
+                    $embedding = HaiChatEmbedding::createEmbedding($file->name,$aiReply['request_id']);
 
-                        $this->emit('$refresh');
+                    $this->emit('$refresh');
 
-                        if($embedding){
+                    if($embedding){
 
-                            Storage::disk('local')->delete('training_files/'. $file->file_name);
+                        Storage::disk('local')->delete('training_files/'. $file->file_name);
 
-                            $file->delete();
-
-                        }
+                        $file->delete();
 
                     }
+
                 }
 
             }
