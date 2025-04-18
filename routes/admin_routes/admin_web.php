@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\B2BControllers\RoleTemplateController;
 use App\Http\Controllers\B2BControllers\B2BInviteController;
+use App\Http\Controllers\B2BControllers\B2BOrganizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -168,7 +169,10 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
         // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
+        Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
         Route::get('/b2b-invites',[B2BInviteController::class,'getB2BInvite'])->name('admin_b2b_invites');
+        // Route::get('/user/view/{user_id}/{prefer}', [B2BOrganizationController::class, 'view'])->name('user.view');
+
 
     });
 

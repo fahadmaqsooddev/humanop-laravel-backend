@@ -362,5 +362,9 @@ class B2BBusinessCandidates extends Model
 
     }
 
+    public static function getCandidatesMembers($userid=null,$prefer=null){
+        return self::with('users')->where('business_id',$userid)->where('role',$prefer==1 ? 0:1)->get();
+    }
+
 
 }
