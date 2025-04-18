@@ -204,15 +204,16 @@ class DashboardController extends Controller
 
             if (!empty($request['user_id'])) {
                 $userId = $request['user_id'];
+                $user = User::getSingleUser($userId);
             } else {
-                $userId = Helpers::getUser()['id'];
+                $user = Helpers::getUser();
             }
 
-            $assessment = Assessment::getLatestAssessment($userId);
+            $assessment = Assessment::getLatestAssessment($user['id']);
 
-            ActionPlan::checkUserActionPlan($assessment);
+            ActionPlan::checkUserActionPlan($assessment, $user);
 
-            $plan = ActionPlan::userActionPlan();
+            $plan = ActionPlan::userActionPlan($user);
 
             return Helpers::successResponse('Action plan', $plan);
 
