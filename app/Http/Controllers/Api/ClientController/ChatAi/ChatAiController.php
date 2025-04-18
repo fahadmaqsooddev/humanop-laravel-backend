@@ -95,6 +95,8 @@ class ChatAiController extends Controller
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
+                Log::info(['api' => $aiReply]);
+
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
                 $reply = null;
