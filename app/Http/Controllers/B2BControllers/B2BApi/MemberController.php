@@ -221,14 +221,27 @@ class MemberController extends Controller
 
             foreach ($members as $member) {
 
-                if (!empty($member['users'])) {
+                if (!empty($member['users'])){
+
+                    $member['users']['gender'] = $member['users']['gender'] == 0 ? 'Male' : 'Female';
+
                     $member['users']['status'] = $member['users']['last_login'] ? 'on-board' : 'pending';
 
                     $member['users']['last_login'] = $member['users']['last_login'] ? Carbon::parse($member['users']['last_login'])->format('m/d/Y h:i A') : null;
 
+
+
                     $member['user_created_at'] = $member['created_at'] ? Carbon::parse($member['created_at'])->format('m/d/Y h:i A') : null;
 
                     unset($member['created_at']);
+
+                    if (isset($member['share_data']) && $member['share_data'] == Admin::NOT_SHARED_DATA) {
+                        unset($member['assessments']);
+                    }
+
+//                    if($member['share_data']==0){
+//                        $member['assessments']= null;
+//                    }
 
                     $formattedmembers[] = $member;
                 }

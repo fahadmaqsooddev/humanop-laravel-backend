@@ -72,26 +72,6 @@ class B2BBusinessCandidates extends Model
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
     {
-//
-//        return self::with([
-//            'users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name',
-//            'assessments:id,user_id,page'
-//        ])
-//            ->when($search_name, function ($query) use ($search_name) {
-//                $query->whereHas('users', function ($q) use ($search_name) {
-//                    $q->where('first_name', 'LIKE', "%{$search_name}%")
-//                        ->orWhere('last_name', 'LIKE', "%{$search_name}%")
-//                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$search_name}%"]);
-//                });
-//            })
-//            ->when($business_id, function ($query) use ($business_id) {
-//                $query->where('business_id', $business_id)
-//                    ->where('role', Admin::IS_TEAM_MEMBER)
-//                    ->where('future_consideration', Admin::NOT_IN_FUTURE)
-//                    ->where('is_permanently_deleted', 0);
-//            })
-//            ->orderBy('id', 'desc')
-//            ->get();
 
         $data = self::when($business_id, function ($query, $business_id) {
             $query->where('business_id', $business_id)
@@ -281,9 +261,9 @@ class B2BBusinessCandidates extends Model
 
             if ($checkBusinessCandidate['share_data'] == 1) {
 
-                event(new SharedDataWithBusiness($businessId, "$candidateName shared their data with your company"));
+                event(new SharedDataWithBusiness($businessId, "[ $candidateName ] elected to share their data with your company"));
 
-                Notification::createNotification('Share Data', "$candidateName shared their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+                Notification::createNotification('Data Share Granted', "[ $candidateName ] elected to share their data with your company", '', $businessId, 0, Admin::B2B_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
             }
 
             return $checkBusinessCandidate;
@@ -305,9 +285,9 @@ class B2BBusinessCandidates extends Model
 //
 //            $checkBusinessCandidate->update(['share_data' => 2]);
 
-        event(new NotSharedDataWithBusiness($businessId, "$candidateName not shared their data with your company"));
+        event(new NotSharedDataWithBusiness($businessId, "[ $candidateName ] elected to  not share their data with your company"));
 
-        Notification::createNotification('Not Share Data', "$candidateName not shared their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+        Notification::createNotification('Consent Not Granted', " [ $candidateName ] elected to  not share their data with your company", '', $businessId, 0, Admin::B2B_NOT_SHARE_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
 //        }
     }
 

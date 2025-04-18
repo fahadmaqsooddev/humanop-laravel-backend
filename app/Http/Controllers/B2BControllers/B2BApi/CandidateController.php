@@ -128,13 +128,26 @@ class CandidateController extends Controller
             foreach ($candidates as $candidate) {
 
                 if (!empty($candidate['users'])) {
+
+                    $candidate['users']['gender'] = $candidate['users']['gender'] == 0 ? 'Male' : 'Female';
+
                     $candidate['users']['status'] = $candidate['users']['last_login'] ? 'on-board' : 'pending';
 
                     $candidate['users']['last_login'] = $candidate['users']['last_login'] ? Carbon::parse($candidate['users']['last_login'])->format('m/d/Y h:i A') : null;
 
+
+
+
                     $candidate['user_created_at'] = $candidate['created_at'] ? Carbon::parse($candidate['created_at'])->format('m/d/Y h:i A') : null;
 
+
+
+
                     unset($candidate['created_at']);
+
+                    if (isset($candidate['share_data']) && $candidate['share_data'] == Admin::NOT_SHARED_DATA) {
+                        unset($candidate['assessments']);
+                    }
 
                     $formattedCandidates[] = $candidate;
                 }
