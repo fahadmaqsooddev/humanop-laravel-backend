@@ -187,7 +187,7 @@ class EditBrain extends Component
 
     public function removeAllSelectedClusters(){
 
-        BrainCluster::removeClusterFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
+        BrainCluster::removeClustersFromBrain($this->selectClustersForRemoval, $this->chat_bot_id);
 
 //        GroupEmbedding::removeAllGroupEmbeddings($this->selectClustersForRemoval, $this->name);
 

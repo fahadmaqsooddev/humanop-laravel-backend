@@ -45,6 +45,10 @@ class AssessmentColorCode extends Model
         return $code_color;
     }
 
+    public static function getSingleCodeColor($assessmentId = null, $code_name = null)
+    {
+        return self::where('assessment_id', $assessmentId)->where('code', $code_name)->first();
+    }
     public static function getAssessmentCodeAndColor($assessmentId = null)
     {
         $assessmentCodeColors = self::where('assessment_id', $assessmentId)->get();

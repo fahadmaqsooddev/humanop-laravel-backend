@@ -714,7 +714,8 @@ class Assessment extends Model
 
                 'code_name' => $style['code'],
                 'public_name' => $style['public_name'],
-                'code_number' => $getStyle[$codeKey]
+                'code_number' => $getStyle[$codeKey],
+                'code_color' => AssessmentColorCode::getSingleCodeColor($getAssessment['id'], $codeKey)['code_color'] ?? null
             ];
         }
 
