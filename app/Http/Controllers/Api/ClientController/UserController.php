@@ -479,16 +479,20 @@ class UserController extends Controller
 
         try {
 
-
-            $user_age = Carbon::parse(Helpers::getUser()->date_of_birth)->age;
-
             $assessment = Assessment::singleAssessmentFromId($request->input('assessment_id', null));
 
             if (empty($assessment)) {
                 return Helpers::validationResponse('Assessment Not Found');
             }
 
+            $get_user = User::getSingleUser($assessment['user_id']);
+
+            $user_age = Carbon::parse($get_user['date_of_birth'])->age;
+
+            $interval_life = User::getUserAge($get_user['date_of_birth']);
+
             $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+
             $gender = Helpers::getUser()->gender == 0 ? '(M)' : '(F)';
 
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
@@ -535,6 +539,7 @@ class UserController extends Controller
                 'main_result_into' => $main_result,
                 'intro_cycle_life' => $cycle_life,
                 'traits_intro' => $trait_intro,
+                'interval_life_cycle' => $interval_life,
                 'all_styles' => $allStyles,
                 'motivation_introduction' => $motivation_intro,
                 'top_features' => $topTwoFeatures,

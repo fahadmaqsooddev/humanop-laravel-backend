@@ -392,6 +392,7 @@ class AdminController extends Controller
 
             $get_user = User::getSingleUser($assessment['user_id']);
             $age = Carbon::parse($get_user['date_of_birth'])->age;
+
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
             $topFeatures = $assessment != null ? Assessment::getFeatures($assessment) : [];
             $topTwoFeatures = $topFeatures != null ? Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment) : [];

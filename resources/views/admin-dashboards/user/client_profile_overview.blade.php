@@ -1273,7 +1273,7 @@
                                                                         <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Connecting & Communicating (16-20)
+                                                                            Cycle of Life - Connecting & Communicating (7-11)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
@@ -1328,7 +1328,7 @@
                                                                         <h5 onclick="showFeatureVideo('{{ asset('assets/video/Cycle of Life - Motivation 16-20.mp4') }}', 1, 'motivation_life_cycle')"
                                                                             style="cursor: pointer;"
                                                                             class="text-white fs-10px">
-                                                                            Cycle of Life - Alchemical Revelation (16-20)
+                                                                            Cycle of Life - Alchemical Revelation (12-15)
                                                                         </h5>
                                                                     </div>
                                                                 </div>
