@@ -84,11 +84,11 @@ class Conversation extends Component
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
-//            $prompts = ChatPrompt::where('name',$this->name)->first();
+            $prompts = ChatPrompt::where('name',$this->name)->first();
 
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
-//            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
+            $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
             $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
 
@@ -142,17 +142,17 @@ class Conversation extends Component
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-//                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
-//
-//                foreach ($openRouterResponse['choices'] as $choice)
-//                {
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
-//                HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
-                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
+                foreach ($openRouterResponse['choices'] as $choice)
+                {
 
-//                }
+                HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
+//                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
-//                AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+                }
+
+                AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
 
             }else{
 
