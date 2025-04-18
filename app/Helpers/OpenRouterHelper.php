@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\Assessment;
+use Illuminate\Support\Facades\Log;
 
 class OpenRouterHelper
 {
@@ -29,6 +30,8 @@ class OpenRouterHelper
             "X-Title: $siteName",
             "Content-Type: application/json"
         ];
+
+        Log::info(['prompt' => $prompt]);
 
         $data = [
 //            "model" => "deepseek/deepseek-chat","qwen/qvq-72b-preview","deepseek/deepseek-r1-distill-qwen-1.5b","openai/gpt-3.5-turbo","anthropic/claude-3-haiku","google/gemini-2.0-flash-001",
