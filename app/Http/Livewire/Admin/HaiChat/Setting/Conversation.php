@@ -136,6 +136,8 @@ class Conversation extends Component
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
+                dd($aiReply);
+
                 Log::info(['ai Reply' => $aiReply]);
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
