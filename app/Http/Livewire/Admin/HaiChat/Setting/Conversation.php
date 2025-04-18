@@ -136,7 +136,7 @@ class Conversation extends Component
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                var_dump($aiReply);
+                print_r($aiReply);
 
                 Log::info(['ai Reply' => $aiReply]);
 
