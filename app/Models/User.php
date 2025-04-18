@@ -1268,4 +1268,49 @@ class User extends Authenticatable implements JWTSubject
     {
         return self::whereId($B2BId)->update(['company_name' => $companyName]);
     }
+
+    public static function getB2BAdmin($name = null, $email = null, $perpage = null)
+{
+    $query = self::whereNotNull('company_name');
+
+    if (!empty($name)) {
+        $query->where(function ($q) use ($name) {
+            $q->where('first_name', 'LIKE', "%{$name}%")
+              ->orWhere('last_name', 'LIKE', "%{$name}%")
+              ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$name}%"]);
+        });
+    }
+
+    if (!empty($email)) {
+        $query->where('email', 'LIKE', "%{$email}%");
+    }
+
+    $users = $query->paginate($perpage ?? 10);
+
+    // Loop through paginated items and add counts
+    foreach ($users as $user) {
+        $memberCount = B2BBusinessCandidates::
+            where('business_id', $user->id)
+            ->where('role', Admin::IS_TEAM_MEMBER)
+            ->count();
+
+        $candidateCount =  B2BBusinessCandidates::
+        where('business_id', $user->id)
+            ->where('role', Admin::IS_CANDIDATE)
+            ->count();
+
+        // You can attach these counts to the user object
+        $user->member_count = $memberCount;
+        $user->candidate_count = $candidateCount;
+    }
+
+    return $users;
+}
+
+public static function B2BResetPassword($id=null,$password=null){
+    return self::where('id',$id)->update([
+        'password'=>Hash::make($password)
+    ]);
+}
+
 }

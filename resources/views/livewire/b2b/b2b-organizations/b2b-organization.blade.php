@@ -1,14 +1,4 @@
 @push('css')
-<style>
-    .swal2-styled.swal2-confirm {
-        background-image: none !important;
-        background-color: #f2661c !important;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.75rem;
-        border-radius: 0.5rem;
-        color: white !important; /* optional: ensure text is readable */
-    }
-</style>
 
 @endpush
 <div>
