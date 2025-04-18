@@ -305,19 +305,74 @@ class MemberController extends Controller
         try {
 
             $user = Helpers::getUser()->id;
-            $data = User::where('id', $request['member_id'])->first();
 
-            if ($data->business_id != $user) {
-                return Helpers::validationResponse('You are not authorized to delete this candidate.');
+            $member=B2BBusinessCandidates::checkBusinessCandidate($user,$request['member_id']);
+
+            if (empty($member)) {
+
+                return Helpers::validationResponse('You are not authorized to delete this Member.');
+
             } else {
-                $this->user->deleteMember($request['member_id']);
-                return Helpers::successResponse('candidate deleted successfully.');
+
+               B2BBusinessCandidates::DeletedCandidate($request['member_id']);
+
+               return Helpers::successResponse('Member deleted successfully.');
 
             }
 
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function ArchivesingleMember(Request $request)
+    {
+
+        try {
+
+            if (!empty($request['member_id'])) {
+
+                $status = B2BBusinessCandidates::getInfo($request['member_id']);
+
+                if ($status) {
+
+                    return Helpers::validationResponse('This Member is already deleted with your business.');
+
+                } else {
+
+                    $archive = B2BBusinessCandidates::checkconsideration($request['member_id']);
+
+                    if ($archive) {
+
+                        return Helpers::validationResponse('This Member is already archived.');
+
+                    } else {
+
+                        $member = B2BBusinessCandidates::ArchivedCandidate($request['member_id']);
+
+                        if ($member) {
+
+                            return Helpers::successResponse('Member archive successfully.');
+
+                        } else {
+
+                            return Helpers::validationResponse('Failed to archive the Member.');
+                        }
+                    }
+
+                }
+
+            } else {
+                return Helpers::validationResponse('Failed to find Member id');
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
