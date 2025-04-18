@@ -130,31 +130,39 @@ class NewEmbedding extends Component
 
                 $multipart = [
                     [
-                        'name'     => 'file', // Field name expected by the server
+                        'name'     => 'files', // Field name expected by the server
                         'contents' => Storage::disk('local')->get('training_files/' . $file->file_name),
                         'filename' => $file->file_name,
                     ],
-                    [
-                        'name' => "loc",
-                        'contents' => $subFolder
-                    ]
+//                    [
+//                        'name' => "loc",
+//                        'contents' => $subFolder
+//                    ]
                 ];
 
-                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
+//                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload_embedding', [
+//                    'multipart' => $multipart
+//                ]);
+
+                $aiReply = $this->sendCreateRequestFromGuzzle('POST', 'http://54.227.7.149:8000/upload/pineconeapi/', [
                     'multipart' => $multipart
                 ]);
 
-                if(!empty($aiReply['request_id'])){
+                if(isset($aiReply['results'][0])){
 
-                    $embedding = HaiChatEmbedding::createEmbedding($file->name,$aiReply['request_id']);
+                    if (!empty($aiReply['results'][0]['file_uuid'])){
 
-                    $this->emit('$refresh');
+                        $embedding = HaiChatEmbedding::createEmbedding($file->name,$aiReply['results'][0]['file_uuid']);
 
-                    if($embedding){
+                        $this->emit('$refresh');
 
-                        Storage::disk('local')->delete('training_files/'. $file->file_name);
+                        if($embedding){
 
-                        $file->delete();
+                            Storage::disk('local')->delete('training_files/'. $file->file_name);
+
+                            $file->delete();
+
+                        }
 
                     }
                 }

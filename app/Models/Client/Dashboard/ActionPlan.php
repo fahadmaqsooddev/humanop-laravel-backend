@@ -92,17 +92,23 @@ class ActionPlan extends Model
 //
 //    }
 
-    public static function checkUserActionPlan($assessment = null)
+    public static function checkUserActionPlan($assessment = null, $user = null)
     {
         if (!empty($assessment)) {
 
-            $user = Helpers::getWebUser() ?? Helpers::getUser();
+            if (!empty($user)) {
+                $getUser = $user;
+            }else{
+                $getUser = Helpers::getWebUser() ?? Helpers::getUser();
 
-            $existingPlan = self::where('user_id', $user['id'])->latest()->first();
+            }
+
+            $existingPlan = self::where('user_id', $getUser['id'])->latest()->first();
+
 
             if (!empty($existingPlan) && ($existingPlan['assessment_id'] == $assessment['id'])) {
 
-                $minutes = Helpers::explodeTimezoneWithHours($user['timezone']);
+                $minutes = Helpers::explodeTimezoneWithHours($getUser['timezone']);
 
                 $userTime = Carbon::parse($existingPlan['updated_at'])
                     ->addMinutes($minutes * 60)
@@ -112,13 +118,13 @@ class ActionPlan extends Model
 
                 if ($difference > 90) {
 
-                    self::storeUserActionPlan($assessment, $user);
+                    self::storeUserActionPlan($assessment, $getUser);
 
                 }
 
             } else {
 
-                self::storeUserActionPlan($assessment, $user);
+                self::storeUserActionPlan($assessment, $getUser);
 
             }
 
@@ -497,10 +503,15 @@ class ActionPlan extends Model
 
     }
 
-    public static function userActionPlan()
+    public static function userActionPlan($user = null)
     {
 
-        $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
+        if (!empty($user)) {
+            $user_id = $user['id'];
+        }else
+        {
+            $user_id = Helpers::getUser()->id ?? Helpers::getWebUser()->id;
+        }
 
         return self::where('user_id', $user_id)->select(['id','priority', 'plan_text', 'text'])->latest()->first();
     }
