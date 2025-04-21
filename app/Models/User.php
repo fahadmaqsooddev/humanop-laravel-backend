@@ -1287,6 +1287,8 @@ class User extends Authenticatable implements JWTSubject
         $query->where('email', 'LIKE', "%{$email}%");
     }
 
+    $query->orderBy('id', 'desc');
+
     $users = $query->paginate($perpage ?? 10);
 
     // Loop through paginated items and add counts
