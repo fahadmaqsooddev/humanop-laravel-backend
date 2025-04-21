@@ -6,6 +6,7 @@ use App\Enums\Admin\Admin;
 use App\Events\Admin\Assessment\ResetAssessment;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
+use App\Models\Notification\PushNotification;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class Assessment extends Component
     public $selectedFeatureCells = [];
     protected $assessments = [];
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['selectStyleCode', 'selectFeatureCode','selectStyleNumber','selectFeatureNumber','logInAdminAsUser','changeUserAssessmentStatus','resetAssessment'];
+    protected $listeners = ['selectStyleCode', 'selectFeatureCode', 'selectStyleNumber', 'selectFeatureNumber', 'logInAdminAsUser', 'changeUserAssessmentStatus', 'resetAssessment'];
 
     protected $updatesQueryString = [
         'name' => ['except' => ''],
@@ -49,7 +50,7 @@ class Assessment extends Component
 
     public function mount()
     {
-        $this->fill(request()->only('name', 'email', 'age', 'style_code', 'style_color', 'feature_code', 'feature_color','feature_carousel_index','style_carousel_index'));
+        $this->fill(request()->only('name', 'email', 'age', 'style_code', 'style_color', 'feature_code', 'feature_color', 'feature_carousel_index', 'style_carousel_index'));
         $this->searchFilter();
     }
 
@@ -63,6 +64,7 @@ class Assessment extends Component
         // Debug the updated value
         dd($value); // This will display the updated value when 'name' changes
     }
+
     public function selectStyleCode($select_style_code, $select_style_code_color)
     {
         $this->selectedStyleCells[$select_style_code] = $select_style_code_color;
@@ -106,7 +108,8 @@ class Assessment extends Component
         $this->assessments = \App\Models\Assessment::allAssessment($this->name, $this->email, $this->age, $this->style_code, $this->style_color, $this->style_number, $this->feature_code, $this->feature_color, $this->feature_number);
     }
 
-    public function logInAdminAsUser($id = null){
+    public function logInAdminAsUser($id = null)
+    {
 
         $user = User::whereId($id)->first();
 
@@ -124,8 +127,7 @@ class Assessment extends Component
         $assessment = \App\Models\Assessment::resetAssessmentStatus($assessmentId);
 
 
-        if ($assessment['reset_assessment'] == 1)
-        {
+        if ($assessment['reset_assessment'] == 1) {
             $heading = 'Reset Assessment';
             $message = 'The assessment has been successfully reset.';
 
@@ -133,11 +135,17 @@ class Assessment extends Component
 
             $deviceToken = $user['device_token'];
 
-            event(new ResetAssessment($assessment['user_id'], $heading, $message));
+            $notification = PushNotification::getSingleNotification($user['id']);
+
+            if ($notification['reset_assessment'] == 1) {
+
+                event(new ResetAssessment($assessment['user_id'], $heading, $message));
+
+            }
 
             Helpers::OneSignalApiUsed($user['id'], $heading, $message);
 
-            Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION,Admin::B2C_NOTIFICATION);
+            Notification::createNotification($heading, $message, $deviceToken, $assessment['user_id'], 1, Admin::RESET_ASSESSMENT_NOTIFICATION, Admin::B2C_NOTIFICATION);
         }
 
         session()->flash('success', "Reset Assessment updated successfully");

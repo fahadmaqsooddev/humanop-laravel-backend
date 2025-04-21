@@ -16,6 +16,7 @@ use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
+use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
@@ -285,6 +286,8 @@ class AuthController extends Controller
                 $dataArray['gender'] = $request->input('gender') === 'male' ? 0 : 1;
 
                 tap($getUser->update($dataArray));
+
+                PushNotification::createNotification($request['user_id']);
 
                 $getUser['two_way_auth'] = ($getUser['two_way_auth'] === Admin::TWO_WAY_AUTH_ACTIVE ? true : false);
 

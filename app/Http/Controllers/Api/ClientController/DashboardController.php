@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\ClientController;
 use App\Http\Requests\Api\Client\ShareDataRequest;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\Notification\PushNotification;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Helpers\Helpers;
@@ -204,15 +205,16 @@ class DashboardController extends Controller
 
             if (!empty($request['user_id'])) {
                 $userId = $request['user_id'];
+                $user = User::getSingleUser($userId);
             } else {
-                $userId = Helpers::getUser()['id'];
+                $user = Helpers::getUser();
             }
 
-            $assessment = Assessment::getLatestAssessment($userId);
+            $assessment = Assessment::getLatestAssessment($user['id']);
 
-            ActionPlan::checkUserActionPlan($assessment);
+            ActionPlan::checkUserActionPlan($assessment, $user);
 
-            $plan = ActionPlan::userActionPlan();
+            $plan = ActionPlan::userActionPlan($user);
 
             return Helpers::successResponse('Action plan', $plan);
 
@@ -501,8 +503,6 @@ class DashboardController extends Controller
     {
         try {
 
-
-
             $userId = Helpers::getUser()['id'];
 
             if ($request['company_name']) {
@@ -522,6 +522,21 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('Data Not Shared');
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function pushNotification(Request $request)
+    {
+        try {
+
+            $userId = Helpers::getUser()['id'];
+
+            PushNotification::changeNotification($userId, $request['notification']);
+
+            return Helpers::successResponse('Push Notification has been changed');
 
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());

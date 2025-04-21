@@ -1309,10 +1309,18 @@ class User extends Authenticatable implements JWTSubject
     return $users;
 }
 
-public static function B2BResetPassword($id=null,$password=null){
-    return self::where('id',$id)->update([
-        'password'=>Hash::make($password)
-    ]);
-}
+    public static function B2BResetPassword($id=null,$password=null){
+        return self::where('id',$id)->update([
+            'password'=>Hash::make($password)
+        ]);
+    }
+
+    public static function userNameForHAi($user_id = null){
+
+        $user = self::whereId($user_id)->select(['first_name','last_name'])->first()->setAppends([]);
+
+        return ($user['first_name' . ' ' . $user['last_name']]);
+
+    }
 
 }
