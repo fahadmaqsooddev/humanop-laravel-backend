@@ -134,8 +134,6 @@ class Conversation extends Component
 
                 $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => $this->user_id];
 
-                Log::info(['convo body' => $body]);
-
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
                 Log::info(['ai Reply' => $aiReply]);
@@ -147,7 +145,9 @@ class Conversation extends Component
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
-                HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
+                    $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                    HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
                 }

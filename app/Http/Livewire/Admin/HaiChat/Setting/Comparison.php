@@ -109,6 +109,8 @@ class Comparison extends Component
 
                         if (isset($choice['message']['content'])) {
 
+                            $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
                             $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
 
                             $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
@@ -116,7 +118,7 @@ class Comparison extends Component
                             $this->modelResponse[] = [
                                 'question' => $this->message,
                                 'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
-                                'response' => $choice['message']['content']
+                                'response' => $reply
                             ];
 
                         }

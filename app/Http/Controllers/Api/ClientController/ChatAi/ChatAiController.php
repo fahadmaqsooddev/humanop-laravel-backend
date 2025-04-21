@@ -94,8 +94,6 @@ class ChatAiController extends Controller
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => Helpers::getUser()->id];
 
-//                Log::info(['api body' => $body]);
-
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
                 Log::info(['aiReply' => $aiReply]);
@@ -107,10 +105,12 @@ class ChatAiController extends Controller
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
-                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+                    $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                    HaiChat::createChat($request->input("question"), $reply, null, $request->input("is_repeat_answer"));
 
                     $reply = [
-                        $choice['message']['content'] ?? "",
+                        $reply ?? "",
                         0
                     ];
                 }

@@ -81,4 +81,17 @@ maintenance."
             ];
         }
     }
+
+    public static function removeIrregularHtmlSyntax($text){
+
+        if (str_starts_with('```html',$text) && str_ends_with('```',$text)){
+
+            $text = substr($text, 0,7);
+
+            $text = substr($text, 0,-3);
+        }
+
+        return $text;
+
+    }
 }
