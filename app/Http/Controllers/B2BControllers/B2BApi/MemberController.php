@@ -444,9 +444,7 @@ class MemberController extends Controller
                         if(!empty($getinvite)){
 
                         $getmember=User::checkEmail($getinvite['email']);
-                        
-                        if(!empty($getcandidate)){
-                         
+                        if(!empty($getmember) && $getmember['step']==3){
                            $result= B2BBusinessCandidates::getMemberRecord($check['company_id'],$getmember['id']);
 
                            if(!empty($result)){
@@ -462,6 +460,8 @@ class MemberController extends Controller
 
                             }
 
+                        }else{
+                            return Helpers::validationResponse('User Did Not complete his Signup process yet');
                         }
 
                         }
