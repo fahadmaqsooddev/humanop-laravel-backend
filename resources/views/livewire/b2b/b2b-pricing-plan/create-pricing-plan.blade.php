@@ -43,56 +43,47 @@
     @endif
 
     <div class="container">
-        <div style="margin-top: 80px; margin-left: 50px">
-            <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel"
-               style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
+
+    
+        <div style="margin-top: 80px; margin-left: 50px;">
+            <select style="background-color: #0f1534; color: lightgrey !important;width:150px;"
+            class="form-control text-white" wire:model="selected" name="selected">
+            <option value="">-- Select Plan --</option>
+            <option value="month">Monthly</option>
+            <option value="year">Yearly</option>
+        </select>
+
+            <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
             <br>
         </div>
     </div>
     <br>
 
     <div class="row container">
+        @foreach ($plans as $plan )
         <div class="card text-center border rounded-4 shadow-sm mx-auto p-4 col-md-5"
-             style="max-width: 450px; background-color:#F6BA81 !important">
-            <div class="card-header bg-opacity-50 rounded-4">
-                <img src="{{ asset('assets/img/maestro-logo.svg') }}" alt="Membership Icon"
-                     style="width: 100px; object-fit: contain;"/>
-                <div class="mt-3 px-3 py-1 mx-auto border shadow-sm rounded-pill w-50 text-dark fw-semibold">
-                    Premium
-                </div>
-                <h4 class="mt-3 fw-bold display-6">$29</h4>
-                <small class="text-muted">/ per month</small>
+        style="max-width: 450px; background-color:#F6BA81 !important">
+        <div class="card-header bg-opacity-50 rounded-4">
+            <img src="{{ asset('assets/img/maestro-logo.svg') }}" alt="Membership Icon"
+                style="width: 100px; object-fit: contain;" />
+            <div class="mt-3 px-3 py-1 mx-auto border shadow-sm rounded-pill w-50 text-dark fw-semibold">
+                {{$plan['name']}}
             </div>
-            <hr class="my-4 border border-secondary"/>
-            <div class="card-body px-4">
-                <h5 class="fw-semibold">Features</h5>
-                <p class="text-muted">Everything in Basic Plan</p>
-                <ul class="list-group list-group-flush text-start">
-                    <li class="list-group-item">Unlimited Access</li>
-                </ul>
-            </div>
+            <h4 class="mt-3 fw-bold display-6">${{$plan['price']}}</h4>
+            <small class="text-muted">{{$plan['billing_method']}}</small>
         </div>
+        <hr class="my-4 border border-secondary" />
+        <div class="card-body px-4">
+            <h5 class="fw-semibold">Features</h5>
+            <p class="text-muted">Everything in Basic Plan</p>
+            <ul class="list-group list-group-flush text-start">
+                <li class="list-group-item">Unlimited Access</li>
+            </ul>
+        </div>
+    </div>
+        @endforeach
+        
 
-        <div class="card text-center border rounded-4 shadow-sm mx-auto p-4 col-md-5"
-             style="max-width: 450px;background-color:#bcdec6 !important">
-            <div class="card-header bg-opacity-50 rounded-4">
-                <img src="{{ asset('assets/img/maestro-logo.svg') }}" alt="Membership Icon"
-                     style="width: 100px; object-fit: contain;"/>
-                <div class="mt-3 px-3 py-1 mx-auto border shadow-sm rounded-pill w-50 text-dark fw-semibold">
-                    Premium
-                </div>
-                <h4 class="mt-3 fw-bold display-6">$29</h4>
-                <small class="text-muted">/ per month</small>
-            </div>
-            <hr class="my-4 border border-secondary"/>
-            <div class="card-body px-4">
-                <h5 class="fw-semibold">Features</h5>
-                <p class="text-muted">Everything in Basic Plan</p>
-                <ul class="list-group list-group-flush text-start">
-                    <li class="list-group-item">Unlimited Access</li>
-                </ul>
-            </div>
-        </div>
     </div>
 
     <div wire:ignore.self class="modal fade" id="inviteLinkSendModel" tabindex="-1" role="dialog"

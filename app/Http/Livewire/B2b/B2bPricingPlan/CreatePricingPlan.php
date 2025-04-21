@@ -14,8 +14,10 @@ use Illuminate\Support\Facades\DB;
 class CreatePricingPlan extends Component
 {
 
-    public $plan_name, $price, $plan_type, $team_members;
-    public $data = [];
+    public $plan_name,$price,$plan_type,$team_members;
+    public $selected='';
+    public $plans;
+    public $data=[];
 
     public function submitForm()
     {
@@ -67,6 +69,8 @@ class CreatePricingPlan extends Component
 
     public function render()
     {
+        $this->plans=Plan::getdashboadB2Bplans($this->selected);
+        // dd($this->plans);
         return view('livewire.b2b.b2b-pricing-plan.create-pricing-plan');
     }
 }

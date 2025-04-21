@@ -4,6 +4,7 @@ namespace App\Models\Client\Plan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\Admin\Admin;
 
 class Plan extends Model
 {
@@ -96,5 +97,13 @@ class Plan extends Model
     public static function getB2BPlans()
     {
         return self::where('plan_type', 1)->get();
+    }
+
+    public static function getdashboadB2Bplans($selected=null){
+        $plans=self::where('plan_type',Admin::B2B_PLAN);
+        if(!empty($selected)){
+            $plans->where('billing_method',$selected);
+        }
+        return $plans->get();
     }
 }
