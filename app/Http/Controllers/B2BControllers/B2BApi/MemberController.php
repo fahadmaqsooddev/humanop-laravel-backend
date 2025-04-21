@@ -444,7 +444,9 @@ class MemberController extends Controller
                         if(!empty($getinvite)){
 
                         $getmember=User::checkEmail($getinvite['email']);
+
                         if(!empty($getmember) && $getmember['step']==3){
+
                            $result= B2BBusinessCandidates::getMemberRecord($check['company_id'],$getmember['id']);
 
                            if(!empty($result)){
@@ -456,7 +458,7 @@ class MemberController extends Controller
                             }
                             else{
 
-                                return Helpers::successResponse('Users Did not Signup Yet You Cant Delete his Account');
+                            return Helpers::successResponse('Users Did not Signup Yet You Cant Delete his Account');
 
                             }
 
@@ -478,6 +480,24 @@ class MemberController extends Controller
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+
+    public function AllArchiveMembers(Request $request)
+    {
+        try {
+
+
+            $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'],false);
+
+            return Helpers::successResponse('Archive Members', $archivemembers);
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
