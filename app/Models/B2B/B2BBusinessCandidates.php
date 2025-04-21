@@ -184,16 +184,28 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function AllArchivedCandidates($business_id)
+    public static function AllArchivedCandidates($business_id,$role=null)
     {
 
         return self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
             ->when($business_id, fn($query) => $query->where('business_id', $business_id)->where('is_permanently_deleted', 0)
-                ->where('future_consideration', 1))
+            ->where('future_consideration', 1))
+            ->where('role',!empty($role) ? Admin::IS_CANDIDATE:Admin::IS_TEAM_MEMBER)
             ->orderBy('id', 'desc')
             ->get();
 
     }
+
+    // public static function AllArchivedMembers($business_id)
+    // {
+
+    //     return self::with(['users:id,first_name,last_name,email,gender,last_login,timezone,phone,date_of_birth,company_name'])
+    //         ->when($business_id, fn($query) => $query->where('business_id', $business_id)->where('is_permanently_deleted', 0)
+    //             ->where('future_consideration', 1))
+    //         ->orderBy('id', 'desc')
+    //         ->get();
+
+    // }
 
 
     public static function AlldeletedCandidates($business_id)
