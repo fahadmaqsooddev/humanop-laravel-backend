@@ -29,6 +29,19 @@
     </style>
 @endpush
 <div>
+
+    @if (session()->has('success'))
+    <div class="alert alert-success text-white">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session()->has('error'))
+    <div class="alert alert-danger text-white">
+        {{ session('error') }}
+    </div>
+@endif
+
     <div class="container">
         <div style="margin-top: 80px; margin-left: 50px">
             <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
@@ -113,7 +126,15 @@
                                                 <option value="month">Monthly</option>
                                                 <option value="year">Yearly</option>
                                             </select>
-                                            @error('plan_name')
+                                            @error('plan_type')
+                                                <span class="text-sm text-danger">{{ $message }}</span>
+                                            @enderror
+
+                                            <label class="text-white">Team Members</label>
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                class="form-control text-white" type="number" wire:model="team_members"
+                                                name="team_members" placeholder="icon name">
+                                            @error('team_members')
                                                 <span class="text-sm text-danger">{{ $message }}</span>
                                             @enderror
 

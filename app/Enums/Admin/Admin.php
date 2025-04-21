@@ -133,4 +133,7 @@ final class Admin
     const B2B_NOTIFICATION=1;
     
     const B2C_NOTIFICATION=0;
+
+    CONST B2B_PLAN=1;
+    CONST B2C_PLAN=0;
 }

@@ -88,4 +88,9 @@ class Plan extends Model
         return self::select(['id','name'])->get();
     }
 
+    public static function storePlan($data=null){
+        // dd($data);
+    return self::create($data);
+    }
+
 }
