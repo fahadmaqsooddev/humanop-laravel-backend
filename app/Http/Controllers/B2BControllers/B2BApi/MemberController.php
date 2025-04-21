@@ -108,12 +108,13 @@ class MemberController extends Controller
             $memberInvites = [];
 
             foreach ($invites as $invite) {
-
+               $id=$invite['id'];
                 $companyName = $invite['user']['company_name'] ?? 'N/A';
                 $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
-                $memberInvites[] = [
+                $memberInvites[] =[
+                    'id'=>$id,
                     'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
                     'email' => $email,
                     'company_name' => $companyName
@@ -239,9 +240,6 @@ class MemberController extends Controller
                         unset($member['assessments']);
                     }
 
-//                    if($member['share_data']==0){
-//                        $member['assessments']= null;
-//                    }
 
                     $formattedmembers[] = $member;
                 }
@@ -426,6 +424,63 @@ class MemberController extends Controller
 
         }
     }
+
+
+
+
+
+    public function DeleteInvite(Request $request)
+    {
+        try {
+
+            if(!empty($request['invite_id'])){
+
+               $check= UserCandidateInvite::getMemberInvite($request['invite_id']);
+            
+               if(!empty($check)){
+
+                        $getinvite=UserInvite::getMemberInvite($check['invite_link_id']);
+
+                        if(!empty($getinvite)){
+
+                        $getmember=User::checkEmail($getinvite['email']);
+                        
+                        if(!empty($getcandidate)){
+                         
+                           $result= B2BBusinessCandidates::getMemberRecord($check['company_id'],$getmember['id']);
+
+                           if(!empty($result)){
+
+                            UserCandidateInvite::deleteMemberInvite($request['invite_id']);
+
+                            return Helpers::successResponse('Member Invite deleted successfully.'); 
+
+                            }
+                            else{
+
+                                return Helpers::successResponse('Users Did not Signup Yet You Cant Delete his Account');
+
+                            }
+
+                        }
+
+                        }
+
+
+               }else{
+                   return  Helpers::validationResponse('Please enter valid invite id');
+               }
+
+            }else{
+                return  Helpers::validationResponse('Please enter invite id');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 
     private function myprepareEmailData($url = null,)
     {
