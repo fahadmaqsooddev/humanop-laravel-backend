@@ -134,7 +134,7 @@ class Conversation extends Component
 
                 $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => $this->user_id];
 
-//                Log::info(['convo body' => $body]);
+                Log::info(['convo body' => $body]);
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
