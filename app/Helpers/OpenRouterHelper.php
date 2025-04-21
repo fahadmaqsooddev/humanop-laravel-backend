@@ -84,7 +84,7 @@ maintenance."
 
     public static function removeIrregularHtmlSyntax($text){
 
-        if (str_starts_with('html',$text) && str_ends_with('`',$text)){
+        if (str_starts_with($text, '`') && str_ends_with($text, '`')){
 
             Log::info(['in if']);
 
