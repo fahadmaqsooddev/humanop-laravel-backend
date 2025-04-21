@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\Admin\Admin;
 use App\Helpers\Helpers;
 use App\Models\Assessment;
+use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserOptimalTrait;
 use Carbon\Carbon;
@@ -37,73 +38,79 @@ class optimalTraitPushNotification extends Command
 
         foreach ($users as $user) {
 
-            $assessment = Assessment::getLatestAssessment($user['id']);
+            $notification = PushNotification::getSingleNotification($user['id']);
 
-            if (!empty($assessment)) {
+            if ($notification['optimal_trait'] == 1) {
 
-                $timezone = $user['timezone'];
+                $assessment = Assessment::getLatestAssessment($user['id']);
 
-                $minutes = Helpers::explodeTimezoneWithHours($timezone);
+                if (!empty($assessment)) {
 
-                $currentTime = Carbon::now()->addMinutes($minutes * 60);
+                    $timezone = $user['timezone'];
 
-                $morningStart = Carbon::createFromTimeString('05:00 AM');
+                    $minutes = Helpers::explodeTimezoneWithHours($timezone);
 
-                $morningEnd = Carbon::createFromTimeString('12:00 PM');
+                    $currentTime = Carbon::now()->addMinutes($minutes * 60);
 
-                $afternoonStart = Carbon::createFromTimeString('12:00 PM');
+                    $morningStart = Carbon::createFromTimeString('05:00 AM');
 
-                $eveningStart = Carbon::createFromTimeString('05:00 PM');
+                    $morningEnd = Carbon::createFromTimeString('12:00 PM');
 
-                $topThreeStyles = Assessment::getAllStyles($assessment);
+                    $afternoonStart = Carbon::createFromTimeString('12:00 PM');
 
-                $topFeatures = Assessment::getFeatures($assessment);
+                    $eveningStart = Carbon::createFromTimeString('05:00 PM');
 
-                $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
+                    $topThreeStyles = Assessment::getAllStyles($assessment);
 
-                $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
+                    $topFeatures = Assessment::getFeatures($assessment);
 
-                $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user['id']);
+                    $topTwoFeatures = Assessment::getTopTwoFeatures($topFeatures['top_two_keys'], $assessment);
 
-                if (count($stylesAndDrivers) > 2) {
+                    $stylesAndDrivers = array_merge($topThreeStyles, $topTwoFeatures);
 
-                    if ($currentTime->between($morningStart, $morningEnd)) {
+                    $userOptimalTrait = UserOptimalTrait::getOptimalTrait($user['id']);
 
-                        $status = Admin::MORNING_STATUS;
+                    if (count($stylesAndDrivers) > 2) {
 
-                        $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
+                        if ($currentTime->between($morningStart, $morningEnd)) {
 
-                    } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
+                            $status = Admin::MORNING_STATUS;
 
-                        $status = Admin::AFTERNOON_STATUS;
+                            $optionalTrait = $stylesAndDrivers[0]['public_name'] ?? null;
 
-                        $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
+                        } elseif ($currentTime->between($afternoonStart, $eveningStart)) {
 
-                    } else {
+                            $status = Admin::AFTERNOON_STATUS;
 
-                        $status = Admin::NIGHT_STATUS;
+                            $optionalTrait = $stylesAndDrivers[1]['public_name'] ?? null;
 
-                        $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
+                        } else {
 
-                    }
+                            $status = Admin::NIGHT_STATUS;
 
-                    $message = 'Your ' . $optionalTrait . ' Optimal Trait';
+                            $optionalTrait = $stylesAndDrivers[2]['public_name'] ?? null;
 
-                    if (empty($userOptimalTrait)) {
+                        }
 
-                        UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
+                        $message = 'Your ' . $optionalTrait . ' Optimal Trait';
 
-                        Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+                        if (empty($userOptimalTrait)) {
+
+                            UserOptimalTrait::createUserOptimalTrait($optionalTrait, $user['id'], $status);
+
+                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
 
-                    } elseif ($userOptimalTrait['status'] != $status) {
+                        } elseif ($userOptimalTrait['status'] != $status) {
 
-                        UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
+                            UserOptimalTrait::updateUserOptimalTrait($optionalTrait, $user['id'], $status);
 
-                        Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
+                            Helpers::OneSignalApiUsed($user['id'], 'Current Optimal Trait', $message);
 
+                        }
                     }
                 }
+
             }
         }
     }

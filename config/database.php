@@ -568,6 +568,11 @@ return [
             'table' => 'brain_clusters',
             'fillable' => ['chat_bot_id','cluster_id'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'PushNotification' => [
+            'table' => 'push_notification',
+            'fillable' => ['user_id','optimal_trait','daily_tip','reset_assessment','resource'],
+            'hidden' => ['updated_at','created_at'],
         ]
     ]
 ];
