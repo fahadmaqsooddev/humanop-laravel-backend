@@ -90,7 +90,11 @@ class Plan extends Model
 
     public static function storePlan($data=null){
         // dd($data);
-    return self::create($data);
+        return self::create($data);
     }
 
+    public static function getB2BPlans()
+    {
+        return self::where('plan_type', 1)->get();
+    }
 }
