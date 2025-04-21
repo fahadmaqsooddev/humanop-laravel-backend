@@ -271,23 +271,35 @@ class SessionController extends Controller
 
         Stripe::setApiKey(config('cashier.secret'));
 
-        $product = Product::create([
-            'name' => 'Gold Membership',
-            'description' => 'Access to premium features',
+//        $product = Product::create([
+//            'name' => 'Gold Membership',
+//            'description' => 'Access to premium features',
+//        ]);
+//
+//        // Step 2 (Optional): Create a price for that product
+//        $price = Price::create([
+//            'unit_amount' => 1000, // in cents => $10.00
+//            'currency' => 'usd',
+//            'recurring' => ['interval' => 'month'], // or remove for one-time price
+//            'product' => $product->id,
+//        ]);
+//
+//        return response()->json([
+//            'product' => $product,
+//            'price' => $price
+//        ]);
+
+        $products = Product::all([
+            'limit' => 20
         ]);
 
-        // Step 2 (Optional): Create a price for that product
-        $price = Price::create([
-            'unit_amount' => 1000, // in cents => $10.00
-            'currency' => 'usd',
-            'recurring' => ['interval' => 'month'], // or remove for one-time price
-            'product' => $product->id,
-        ]);
+        // Optionally include prices for each product
+        foreach ($products->data as $product) {
+            $prices = \Stripe\Price::all(['product' => $product->id]);
+            $product->prices = $prices->data;
+        }
 
-        return response()->json([
-            'product' => $product,
-            'price' => $price
-        ]);
+        return response()->json($products);
 
     }
 }

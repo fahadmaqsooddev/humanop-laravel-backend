@@ -47,7 +47,7 @@ Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->n
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy']);
 Route::get('/', [SessionController::class, 'create'])->name('login');
-Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
+Route::get('/stripe', [SessionController::class, 'triggerEvent']);
 Route::get('/', [SessionController::class, 'create']);
 
 
