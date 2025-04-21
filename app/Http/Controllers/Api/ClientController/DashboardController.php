@@ -539,9 +539,29 @@ class DashboardController extends Controller
             return Helpers::successResponse('Push Notification has been changed');
 
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
+
     }
 
+    public function getPushNotification(Request $request)
+    {
+        try {
+
+            $userId = Helpers::getUser()['id'];
+
+            $pushNotification = PushNotification::getSingleNotification($userId);
+
+            return Helpers::successResponse('Push Notification', $pushNotification);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+
+    }
 
 }

@@ -102,7 +102,7 @@ class Conversation extends Component
 
                     $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
 
-                    $user_name = User::userNameForHAi($this->user_id);
+//                    $user_name = User::userNameForHAi($this->user_id);
                 }
 
 //                if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
@@ -132,7 +132,8 @@ class Conversation extends Component
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? null, 'user_id' => $this->user_id];
+//                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? null, 'user_id' => $this->user_id];
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder];
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-gpt-updated-api', $body);
