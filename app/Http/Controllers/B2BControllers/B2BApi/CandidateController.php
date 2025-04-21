@@ -297,6 +297,10 @@ class CandidateController extends Controller
 
 
             $archivecandidates = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'],true);
+            
+            foreach($archivecandidates as $newcandidates){
+                $newcandidates['users']['gender'] = $newcandidates['users']['gender'] == 0 ? 'Male' : 'Female';
+            }
 
             return Helpers::successResponse('Archive Candidates', $archivecandidates);
 

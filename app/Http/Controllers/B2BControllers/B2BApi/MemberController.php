@@ -490,6 +490,10 @@ class MemberController extends Controller
 
 
             $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'],false);
+            foreach($archivemembers as $newmembers){
+                $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
+
+            }
 
             return Helpers::successResponse('Archive Members', $archivemembers);
 
