@@ -31,8 +31,7 @@
 <div>
     <div class="container">
         <div style="margin-top: 80px; margin-left: 50px">
-            <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white"
-                onclick="emptyRoleModal();" class="btn btn-sm float-end">Add pricing plan</a>
+            <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
             <br>
         </div>
     </div>
@@ -95,7 +94,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         @include('layouts.message')
-                        <form wire:submit.prevent="saveplan">
+                        <form wire:submit.prevent="submitForm">
                             <div class="card-body">
                                 <div class="row mt-4">
                                     <div class="col-12">
@@ -111,8 +110,8 @@
                                             <select style="background-color: #0f1534; color: lightgrey !important"
                                                 class="form-control text-white" wire:model="plan_type" name="plan_type">
                                                 <option value="">-- Select Plan --</option>
-                                                <option value="monthly">Monthly</option>
-                                                <option value="yearly">Yearly</option>
+                                                <option value="month">Monthly</option>
+                                                <option value="year">Yearly</option>
                                             </select>
                                             @error('plan_name')
                                                 <span class="text-sm text-danger">{{ $message }}</span>
@@ -130,8 +129,8 @@
                                             <label class="text-white">Description</label>
                                             <textarea style="background-color: #0f1534; color: lightgrey !important" id="peditor" class="form-control text-white"
                                                 wire:model="plan_desc" name="plan_desc" placeholder=""></textarea>
-                                                
-                                                
+
+
                                             @error('plan_desc')
                                                 <span class="text-sm text-danger">{{ $message }}</span>
                                             @enderror
@@ -170,7 +169,7 @@
     <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../assets/js/plugins/sweetalert.min.js"></script>
-    
+
     <script type="module">
         import {
             ClassicEditor,
@@ -217,5 +216,5 @@
             }
         });
 
-       
+
     </script>
