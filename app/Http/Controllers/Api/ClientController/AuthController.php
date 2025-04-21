@@ -411,7 +411,7 @@ class AuthController extends Controller
 
                     }
 
-                    Helpers::createCustomerAndSubscriptionOnStripe($user);
+//                    Helpers::createCustomerAndSubscriptionOnStripe($user);
 
                     Helpers::createClientsOnOneSignal($user['id']);
 
