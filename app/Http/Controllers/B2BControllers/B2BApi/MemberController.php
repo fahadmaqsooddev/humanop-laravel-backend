@@ -436,11 +436,36 @@ class MemberController extends Controller
             if(!empty($request['invite_id'])){
 
                $check= UserCandidateInvite::getMemberInvite($request['invite_id']);
+            
                if(!empty($check)){
 
-                   UserCandidateInvite::deleteMemberInvite($request['invite_id']);
+                        $getinvite=UserInvite::getMemberInvite($check['invite_link_id']);
 
-                   return Helpers::successResponse('Member Invite deleted successfully.');
+                        if(!empty($getinvite)){
+
+                        $getmember=User::checkEmail($getinvite['email']);
+                        
+                        if(!empty($getcandidate)){
+                         
+                           $result= B2BBusinessCandidates::getMemberRecord($check['company_id'],$getmember['id']);
+
+                           if(!empty($result)){
+
+                            UserCandidateInvite::deleteMemberInvite($request['invite_id']);
+
+                            return Helpers::successResponse('Member Invite deleted successfully.'); 
+
+                            }
+                            else{
+
+                                return Helpers::successResponse('Users Did not Signup Yet You Cant Delete his Account');
+
+                            }
+
+                        }
+
+                        }
+
 
                }else{
                    return  Helpers::validationResponse('Please enter valid invite id');

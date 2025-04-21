@@ -366,5 +366,12 @@ class B2BBusinessCandidates extends Model
         return self::with('users')->where('business_id',$userid)->where('role',$prefer==1 ? 0:1)->get();
     }
 
+    public static function getMemberRecord($businessid,$candidateid){
+        return self::where('business_id',$businessid)
+        ->where('candidate_id',$candidateid)
+        ->where('role',Admin::IS_TEAM_MEMBER)
+        ->first();
+    }
+
 
 }
