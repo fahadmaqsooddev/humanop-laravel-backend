@@ -1319,7 +1319,7 @@ class User extends Authenticatable implements JWTSubject
 
         $user = self::whereId($user_id)->select(['first_name','last_name'])->first()->setAppends([]);
 
-        return ($user['first_name' . ' ' . $user['last_name']]);
+        return ($user['first_name'] . ' ' . $user['last_name']);
 
     }
 
