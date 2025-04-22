@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use Carbon\Carbon;
@@ -374,6 +375,54 @@ class MemberController extends Controller
         }
     }
 
+    public function checkFutureConsiderationShareData(CandidatetoMember $request)
+    {
+
+        try {
+
+           $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+
+           if (!empty($futureConsideration)) {
+
+               $data = [
+                   'company_name' => $futureConsideration['busers']['company_name'],
+               ];
+
+               return Helpers::successResponse('Future Consideration', $data);
+           }
+
+            return Helpers::validationResponse('You are not Future Consideration');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+    public function futureConsiderationShareData(CandidatetoMember $request)
+    {
+        try {
+            $futureConsideration = B2BBusinessCandidates::where('candidate_id', $request->candidate_id)
+                ->where('future_consideration', 1)
+                ->where('role', Admin::IS_TEAM_MEMBER)
+                ->first();
+
+            if (!$futureConsideration) {
+                return Helpers::notFoundResponse('Candidate not found or not marked for future consideration.');
+            }
+
+            $futureConsideration->update([
+                'future_consideration_share_date' => 1,
+            ]);
+
+            return Helpers::successResponse('Future Consideration Share data updated successfully.');
+
+        } catch (\Exception $exception) {
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
 
     public function ConvertMember(MembertoCandidate $request)
     {
@@ -436,7 +485,7 @@ class MemberController extends Controller
             if(!empty($request['invite_id'])){
 
                $check= UserCandidateInvite::getMemberInvite($request['invite_id']);
-            
+
                if(!empty($check)){
 
                         $getinvite=UserInvite::getMemberInvite($check['invite_link_id']);
@@ -453,7 +502,7 @@ class MemberController extends Controller
 
                             UserCandidateInvite::deleteMemberInvite($request['invite_id']);
 
-                            return Helpers::successResponse('Member Invite deleted successfully.'); 
+                            return Helpers::successResponse('Member Invite deleted successfully.');
 
                             }
                             else{
