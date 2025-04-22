@@ -450,6 +450,8 @@ class B2BAuthController extends Controller
 
             $prices = Plan::getB2BPlans();
 
+            $plans = [];
+
             foreach ($prices as $getPrice) {
                 // Step 1: Get the Price
                 $price = Price::retrieve($getPrice['plan_id']);
@@ -457,7 +459,7 @@ class B2BAuthController extends Controller
                 // Step 2: Get the associated Product
                 $product = Product::retrieve($price->product);
 
-                $plans = [
+                $plans[] = [
                     'price_id' => $price->id,
                     'product_id' => $product->id,
                     'product_name' => $product->name,
@@ -466,9 +468,9 @@ class B2BAuthController extends Controller
                     'no_of_team_members' => $getPrice['team_members'],
                 ];
 
-                return Helpers::successResponse('B2B Pricing Plans', $plans);
             }
 
+            return Helpers::successResponse('B2B Pricing Plans', $plans);
 
         }catch (\Exception $exception) {
 
@@ -476,4 +478,5 @@ class B2BAuthController extends Controller
 
         }
     }
+
 }
