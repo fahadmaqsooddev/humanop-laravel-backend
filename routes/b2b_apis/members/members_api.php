@@ -24,6 +24,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('future-consideration-member','MemberController@ArchivesingleMember');
     Route::get('all-future-consideration-members','MemberController@AllArchiveMembers');
     Route::delete('delete-member-invite','MemberController@DeleteInvite');
+    Route::get('request-access-data','MemberController@requestAccessData');
 
 
 });

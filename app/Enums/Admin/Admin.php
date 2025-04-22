@@ -87,6 +87,7 @@ final class Admin
     const B2B_SHARE_DATA_NOTIFICATION = 11;
     
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
+    const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
     const CLIENT_INVITE_ROLE = 1;
 
@@ -134,6 +135,8 @@ final class Admin
     
     const B2C_NOTIFICATION=0;
 
-    CONST B2B_PLAN=1;
-    CONST B2C_PLAN=0;
+    const B2B_PLAN=1;
+    const B2C_PLAN=0;
+
+    const REQUEST_SEND=1;
 }

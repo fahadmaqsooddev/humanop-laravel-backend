@@ -506,6 +506,24 @@ class MemberController extends Controller
     }
 
 
+
+    public function requestAccessData(Request $request){
+        try{
+            if(empty($request['member_id'])){
+                return Helpers::validationResponse('Please Enter a Member id');
+            }else{
+              B2BBusinessCandidates::requestAccess($request['member_id']);
+              return Helpers::successResponse('Request For Access Data is Send');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
+
     private function myprepareEmailData($url = null,)
     {
         return [

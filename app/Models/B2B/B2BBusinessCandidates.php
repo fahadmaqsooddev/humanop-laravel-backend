@@ -10,6 +10,7 @@ use App\Models\UserInvite\UserInvite;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\B2B\SharedDataWithBusiness;
 use App\Events\B2B\NotSharedDataWithBusiness;
+use App\Events\B2B\RequestAccessData;
 use App\Models\Admin\Notification\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -383,6 +384,22 @@ class B2BBusinessCandidates extends Model
         ->where('candidate_id',$candidateid)
         ->where('role',Admin::IS_TEAM_MEMBER)
         ->first();
+    }
+
+    public static function requestAccess($id=null){
+        self::where('id', $id)->update([
+            'request_access' => Admin::REQUEST_SEND
+        ]);
+        
+        $data = self::find($id);
+        $companyName=Helpers::getUser()['company_name'];
+
+        event(new RequestAccessData($data['business_id'], "[ $companyName ] Company Wanted To Access Your Data ",$data['candidate_id']));
+
+        Notification::createNotification('Request Access Data', " [ $companyName ] Company Wanted To Access Your Data", '', $data['candidate_id'], 0, Admin::REQUEST_ACCESS_DATA_NOTIFICATION, Admin::B2B_NOTIFICATION);
+
+        return $data;
+
     }
 
 
