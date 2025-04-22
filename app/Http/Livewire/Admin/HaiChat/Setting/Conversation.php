@@ -83,6 +83,10 @@ class Conversation extends Component
         if ($chat_bot_id) {
 
             $this->name = Chatbot::whereId($chat_bot_id)->first()?->name;
+
+        }else{
+
+            $this->reset('name');
         }
     }
 
