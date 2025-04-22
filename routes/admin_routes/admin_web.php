@@ -48,6 +48,8 @@ Route::post('/reset-password', [ChangePasswordController::class, 'changePassword
 Route::get('/logout', [SessionController::class, 'destroy']);
 Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/stripe', [SessionController::class, 'triggerEvent']);
+Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
+Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
 Route::get('/', [SessionController::class, 'create']);
 
 

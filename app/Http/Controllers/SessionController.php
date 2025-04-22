@@ -302,4 +302,17 @@ class SessionController extends Controller
         return response()->json($products);
 
     }
+
+    public function checkout()
+    {
+        return view('stripeCheckout');
+
+
+    }
+
+    public function getData(Request $request){
+
+        dd($request->all());
+
+    }
 }

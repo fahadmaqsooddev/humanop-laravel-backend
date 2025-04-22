@@ -4,11 +4,13 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\BillingInfo\BillingInfo;
 use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Exception\CardException;
 use Stripe\Price;
 use Stripe\Product;
 use Stripe\Stripe;
@@ -59,26 +61,50 @@ class B2BSubscriptionController extends Controller
 
             return Helpers::successResponse('B2B Pricing Plans', $plans);
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
 
         }
     }
 
-    public function checkoutPlan(Request $request){
+    public function checkoutPlan(Request $request)
+    {
 
         try {
 
             $data = Subscription::checkoutPlan($request);
 
-            return Helpers::successResponse('Payment method has been created successfully!',$data);
+            return Helpers::successResponse('Payment method has been created successfully!', $data);
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function processPlan(Request $request)
+    {
+
+        try {
+
+            $plan = Subscription::processPlan($request);
+
+            return Helpers::successResponse('Payment has been done successfully!', $plan);
+
+
+        } catch (\Exception $exception) {
+
+            if ($exception instanceof CardException) {
+
+                return Helpers::validationResponse($exception->getMessage());
+
+            } else {
+
+                return Helpers::serverErrorResponse($exception->getMessage());
+            }
+        }
     }
 
 

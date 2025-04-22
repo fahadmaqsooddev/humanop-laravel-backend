@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use App\Helpers\Helpers;
-use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\StripeSetting\StripeSetting;
-use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Stripe\BaseStripeClient;
 use Stripe\StripeClient;
 
 class Subscription extends Model
@@ -137,4 +134,67 @@ class Subscription extends Model
         }
 
     }
+
+    public static function processPlan($request = null){
+
+        $user = Helpers::getUser();
+
+        $user->createOrGetStripeCustomer();
+
+        $payment_method = $request->input('payment_method');
+
+        if ($payment_method != null){
+
+            $payment_method = $user->addPaymentMethod($payment_method);
+
+        }
+
+//        --------------------------
+
+        $subscription = $user->subscription('main');
+
+        if (!empty($subscription->ends_at)){
+
+            $user->newSubscription('main', $request->input('plan_id'))
+
+                ->create($payment_method !== null ? $payment_method->id : null);
+
+        }else{
+
+            if ($subscription && $subscription->valid()) {
+
+                $subscription->swapAndInvoice($request->input('plan_id'));
+
+            } else {
+
+                $user->newSubscription('main', $request->input('plan_id'))
+
+                    ->create($payment_method !== null ? $payment_method->id : null);
+
+            }
+
+        }
+
+//        $invoices = $user->invoices()->toArray();
+//
+//        if (array_key_exists(0, $invoices)){
+//
+//            $user->stripe_invoice_id = $invoices[0]['id'] ?? null;
+//
+//            $user->save();
+//
+//        }
+
+        $plan = Plan::singlePlan($request->input('plan_id'));
+
+        $data = [
+
+            'plan_name' => $plan['name']
+
+        ];
+
+        return $data;
+
+    }
+
 }
