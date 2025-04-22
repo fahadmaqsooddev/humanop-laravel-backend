@@ -99,11 +99,12 @@ class Plan extends Model
         return self::where('plan_type', 1)->get();
     }
 
-    public static function getdashboadB2Bplans($selected=null){
+    public static function getdashboadB2Bplans($select=null){
         $plans=self::where('plan_type',Admin::B2B_PLAN);
-        if(!empty($selected)){
-            $plans->where('billing_method',$selected);
+        if(!empty($select)){
+            $plans->where('billing_method',$select);
         }
+        
         return $plans->get();
     }
 }

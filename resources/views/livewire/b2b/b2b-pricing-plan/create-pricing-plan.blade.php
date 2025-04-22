@@ -26,7 +26,29 @@
             color: blue !important;
         }
 
-    </style>
+
+
+        .tab-button {
+        flex: 1;
+        padding: 8px 0;
+        border: none;
+        border-radius: 20px;
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .tab-button.active {
+        background-color: #F2661C;
+        color: white;
+    }
+
+    .tab-button:hover {
+        background-color: #d0d0d0;
+    }
+</style>
 @endpush
 <div>
 
@@ -46,12 +68,14 @@
 
     
         <div style="margin-top: 80px; margin-left: 50px;">
-            <select style="background-color: #0f1534; color: lightgrey !important;width:150px;"
-            class="form-control text-white" wire:model="selected" name="selected">
-            <option value="">-- Select Plan --</option>
-            <option value="month">Monthly</option>
-            <option value="year">Yearly</option>
-        </select>
+            <div style="display: flex; justify-content: center; margin-top: 40px;">
+                <div style="width: 200px; background: #1C365E; border-radius: 25px; padding: 5px; display: flex; justify-content: space-between;">
+                    <button wire:click="selectTab('month')" class="tab-button {{ $tab === 'month' ? 'active' : '' }}">Monthly</button>
+                    <button wire:click="selectTab('year')" class="tab-button {{ $tab === 'year' ? 'active' : '' }}">Annually</button>
+                </div>
+            </div>
+            
+        
 
             <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
             <br>
@@ -60,28 +84,33 @@
     <br>
 
     <div class="row container">
+        
+        @if(!empty($plans))
         @foreach ($plans as $plan )
         <div class="card text-center border rounded-4 shadow-sm mx-auto p-4 col-md-5"
         style="max-width: 450px; background-color:#F6BA81 !important">
         <div class="card-header bg-opacity-50 rounded-4">
             <img src="{{ asset('assets/img/maestro-logo.svg') }}" alt="Membership Icon"
-                style="width: 100px; object-fit: contain;" />
+                style="width: 150px; object-fit: contain;" />
             <div class="mt-3 px-3 py-1 mx-auto border shadow-sm rounded-pill w-50 text-dark fw-semibold">
-                {{$plan['name']}}
+                {{$plan['product_name']}}
             </div>
-            <h4 class="mt-3 fw-bold display-6">${{$plan['price']}}</h4>
-            <small class="text-muted">{{$plan['billing_method']}}</small>
+            <h4 class="mt-3 fw-bold display-6">${{$plan['unit_amount']}}</h4>
+            <small class="text-muted">/per {{$plan['interval']}}</small>
         </div>
         <hr class="my-4 border border-secondary" />
         <div class="card-body px-4">
             <h5 class="fw-semibold">Features</h5>
-            <p class="text-muted">Everything in Basic Plan</p>
-            <ul class="list-group list-group-flush text-start">
-                <li class="list-group-item">Unlimited Access</li>
+            <p class="text-muted">Everything in  {{$plan['interval']}}ly Plan</p>
+            <ul class=" text-align-left" style="text-align: left;color:#67748E;">
+                <li class="">No of Team Members {{$plan['no_of_team_members']}}</li>
             </ul>
         </div>
     </div>
         @endforeach
+        @else
+        <p>No Plans Found</p>
+        @endif
         
 
     </div>
@@ -134,7 +163,7 @@
 
                                             <label class="text-white mt-4">Price</label>
                                             <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="number" wire:model="price"
+                                                   class="form-control text-white" type="text" wire:model="price"
                                                    name="price" placeholder="icon name">
 
                                             @error('price')
@@ -233,3 +262,5 @@
 
 
 </script>
+
+
