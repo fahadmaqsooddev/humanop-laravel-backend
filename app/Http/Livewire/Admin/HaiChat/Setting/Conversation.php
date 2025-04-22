@@ -31,7 +31,7 @@ class Conversation extends Component
 
         $editConversation = null, $updated_reply = null, $convo_id;
 
-    protected $listeners = ['updateUserId','updateChatBotId'];
+    protected $listeners = ['updateUserId','updateChatBotId','viewEditPersona'];
 
     protected $rules = [
         'message' => 'required|max:2000',
@@ -74,6 +74,20 @@ class Conversation extends Component
 
         }
 
+    }
+
+    public function viewEditPersona($id = null){
+
+        $chat_bot_id = HaiChatSetting::whereId($id)->first()->chat_bot_id ?? null;
+
+        if ($chat_bot_id) {
+
+            $this->name = Chatbot::whereId($chat_bot_id)->first()?->name;
+
+        }else{
+
+            $this->reset('name');
+        }
     }
 
     public function submitForm()
