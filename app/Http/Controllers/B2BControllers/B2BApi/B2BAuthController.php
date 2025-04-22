@@ -16,6 +16,7 @@ use App\Models\B2B\BusinessStrategies;
 use App\Models\B2B\BusinessSubStrategies;
 use App\Models\B2B\B2BSupport;
 use App\Models\B2B\SelectIntentionOption;
+use App\Models\Client\Plan\Plan;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,9 @@ use App\Http\Requests\B2B\RegisterRequest;
 use App\Http\Requests\B2B\B2BSupportRequest;
 use App\Models\Upload\Upload;
 use Illuminate\Http\Request;
+use Stripe\Price;
+use Stripe\Product;
+use Stripe\Stripe;
 use function Symfony\Component\Translation\t;
 
 class B2BAuthController extends Controller
@@ -437,4 +441,42 @@ class B2BAuthController extends Controller
 
         }
     }
+
+    public function pricingPlans()
+    {
+        try {
+
+            Stripe::setApiKey(config('cashier.secret'));
+
+            $prices = Plan::getB2BPlans();
+
+            $plans = [];
+
+            foreach ($prices as $getPrice) {
+                // Step 1: Get the Price
+                $price = Price::retrieve($getPrice['plan_id']);
+
+                // Step 2: Get the associated Product
+                $product = Product::retrieve($price->product);
+
+                $plans[] = [
+                    'price_id' => $price->id,
+                    'product_id' => $product->id,
+                    'product_name' => $product->name,
+                    'unit_amount' => $price->unit_amount,
+                    'interval' => $price->recurring->interval ?? null,
+                    'no_of_team_members' => $getPrice['team_members'],
+                ];
+
+            }
+
+            return Helpers::successResponse('B2B Pricing Plans', $plans);
+
+        }catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+
 }
