@@ -361,6 +361,7 @@ class B2BBusinessCandidates extends Model
             ->where('is_permanently_deleted',0)
             ->with('busers')
             ->get();
+            // dd($data);
 
     }
 
