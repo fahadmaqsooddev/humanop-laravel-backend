@@ -623,4 +623,21 @@ class UserController extends Controller
         }
 
     }
+
+    public function updatePromptNotification(Request $request){
+        try{
+            if(empty($request['prompt'])){
+                return Helpers::validationResponse('Prompt Key is Required');
+            }else{
+                User::where('id',Helpers::getUser()['id'])->update([
+                    'prompt_notification'=>1
+                ]);
+                return Helpers::successResponse('Prompt Updated Successfully');
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
 }

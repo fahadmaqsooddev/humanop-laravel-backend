@@ -30,6 +30,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('summary-report', 'UserController@summaryReport');
     Route::get('version', 'UserController@getLatestVersion');
 
+    Route::post('check-prompt-notification','UserController@updatePromptNotification');
+
 
 });
 
