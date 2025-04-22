@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
+use Stripe\Price;
+use Stripe\Product;
+use Stripe\Stripe;
 
 class SessionController extends Controller
 {
@@ -265,9 +268,51 @@ class SessionController extends Controller
 
     public function triggerEvent()
     {
-        event(new RealTimeMessage('Hello World! I am an event'));
 
-        return "Done";
+        Stripe::setApiKey(config('cashier.secret'));
+
+//        $product = Product::create([
+//            'name' => 'Gold Membership',
+//            'description' => 'Access to premium features',
+//        ]);
+//
+//        // Step 2 (Optional): Create a price for that product
+//        $price = Price::create([
+//            'unit_amount' => 1000, // in cents => $10.00
+//            'currency' => 'usd',
+//            'recurring' => ['interval' => 'month'], // or remove for one-time price
+//            'product' => $product->id,
+//        ]);
+//
+//        return response()->json([
+//            'product' => $product,
+//            'price' => $price
+//        ]);
+
+        $products = Product::all([
+            'limit' => 20
+        ]);
+
+        // Optionally include prices for each product
+        foreach ($products->data as $product) {
+            $prices = \Stripe\Price::all(['product' => $product->id]);
+            $product->prices = $prices->data;
+        }
+
+        return response()->json($products);
+
+    }
+
+    public function checkout()
+    {
+        return view('stripeCheckout');
+
+
+    }
+
+    public function getData(Request $request){
+
+        dd($request->all());
 
     }
 }

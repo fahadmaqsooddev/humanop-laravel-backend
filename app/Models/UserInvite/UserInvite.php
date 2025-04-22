@@ -140,4 +140,11 @@ class UserInvite extends Model
         }
 
     }
+
+
+
+    public static function getMemberInvite($id=null){
+        return self::where('id',$id)->first();
+    }
+
 }

@@ -491,9 +491,9 @@ class UserController extends Controller
 
             $interval_life = User::getUserAge($get_user['date_of_birth']);
 
-            $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+            $user_name = $get_user['first_name'] . ' ' . $get_user['last_name'];
 
-            $gender = Helpers::getUser()->gender == 0 ? '(M)' : '(F)';
+            $gender = $get_user['gender'] == 0 ? '(M)' : '(F)';
 
             $allStyles = $assessment != null ? Assessment::getAllStyles($assessment) : [];
 

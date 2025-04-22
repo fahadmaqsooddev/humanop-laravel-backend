@@ -7,6 +7,7 @@ use App\Events\Resource\NewResource;
 use App\Helpers\Helpers;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\ResourceCategory\ResourceCategory;
+use App\Models\Notification\PushNotification;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -87,11 +88,23 @@ class CreateResource extends Component
             if (!empty($resource)) {
 
                 foreach ($this->permission as $permission) {
+
                     $users = User::getAllClientUser();
+
                     $isAllPermission = ($permission == 4);
+
                     $message = 'Your New Training & Resource';
 
-                    event(new NewResource($permission, 'new training & resource', $message));
+                    foreach ($users as $user) {
+
+                        $notification = PushNotification::getSingleNotification($user['id']);
+
+                        if ($notification['resource'] == 1) {
+
+                            event(new NewResource($permission, 'new training & resource', $message));
+
+                        }
+                    }
 
                     foreach ($users as $user) {
 
@@ -104,7 +117,8 @@ class CreateResource extends Component
                         }
                     }
 
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION,Admin::B2C_NOTIFICATION
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION
+
                     );
                 }
 

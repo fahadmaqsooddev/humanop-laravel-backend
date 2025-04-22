@@ -437,4 +437,5 @@ class B2BAuthController extends Controller
 
         }
     }
+
 }

@@ -75,4 +75,15 @@ class UserCandidateInvite extends Model
             ->get();
 
     }
+
+
+    public static function getMemberInvite($id=null)
+    {
+        return self::where('id',$id)->where('role',Admin::IS_TEAM_MEMBER)->first();
+    }
+
+    public static function deleteMemberInvite($id=null)
+    {
+        return self::where('id',$id)->delete();
+    }
 }

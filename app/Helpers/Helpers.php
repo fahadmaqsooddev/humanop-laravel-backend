@@ -251,15 +251,15 @@ class Helpers
             User::createCustomerOnStripe($user, $key);
         }
 
-        if (!$user->subscription('main')) { // If user has no subscription then create subscription on stripe
-
-            $stripe = new StripeClient($key['api_key']);
-
-            $stripe->subscriptions->create([
-                'customer' => $user['stripe_id'],
-                'items' => [['price' => config('stripeinfo.plans.freemium')]]
-            ]);
-        }
+//        if (!$user->subscription('main')) { // If user has no subscription then create subscription on stripe
+//
+//            $stripe = new StripeClient($key['api_key']);
+//
+//            $stripe->subscriptions->create([
+//                'customer' => $user['stripe_id'],
+//                'items' => [['price' => config('stripeinfo.plans.freemium')]]
+//            ]);
+//        }
 
     }
 

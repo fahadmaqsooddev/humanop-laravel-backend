@@ -624,6 +624,8 @@ class User extends Authenticatable implements JWTSubject
 
         $data['is_admin'] = !empty($is_admin) ? Admin::IS_B2B : Admin::IS_CUSTOMER;
 
+        $data['company_name']= !empty($is_admin) ? $data['company_name']:null;
+
         $data['status'] = 1;
 
         $data['hai_chat'] = 2;
@@ -1284,6 +1286,8 @@ class User extends Authenticatable implements JWTSubject
     if (!empty($email)) {
         $query->where('email', 'LIKE', "%{$email}%");
     }
+
+    $query->orderBy('id', 'desc');
 
     $users = $query->paginate($perpage ?? 10);
 

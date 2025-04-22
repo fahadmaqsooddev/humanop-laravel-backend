@@ -24,6 +24,7 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\B2BControllers\RoleTemplateController;
 use App\Http\Controllers\B2BControllers\B2BInviteController;
 use App\Http\Controllers\B2BControllers\B2BOrganizationController;
+use App\Http\Controllers\B2BControllers\B2BPricingPlanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +47,9 @@ Route::get('/reset-password', [ChangePasswordController::class, 'resetPass'])->n
 Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 Route::get('/logout', [SessionController::class, 'destroy']);
 Route::get('/', [SessionController::class, 'create'])->name('login');
-Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
+Route::get('/stripe', [SessionController::class, 'triggerEvent']);
+Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
+Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
 Route::get('/', [SessionController::class, 'create']);
 
 
@@ -171,7 +174,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
         Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
         Route::get('/b2b-invites',[B2BInviteController::class,'getB2BInvite'])->name('admin_b2b_invites');
-        // Route::get('/user/view/{user_id}/{prefer}', [B2BOrganizationController::class, 'view'])->name('user.view');
+
+
+        Route::get('/b2b-pricing-plans',[B2BPricingPlanController::class,'getB2BPricingPlan'])->name('admin_b2b_pricing_plan');
 
 
     });

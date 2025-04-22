@@ -29,5 +29,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::post('shared-data','DashboardController@sharedData');
     Route::get('check-shared-data','DashboardController@CheckShareData');
     Route::post('not-shared-data','DashboardController@notSharedData');
+    Route::get('all-push-notification','DashboardController@getPushNotification');
+    Route::post('push-notification-allow-or-not-allow','DashboardController@pushNotification');
 
 });
