@@ -9,15 +9,95 @@ use App\Enums\Admin\Admin;
 use App\Models\Client\Plan\Plan;
 use Stripe\Product;
 use Stripe\Stripe;
+
 use Illuminate\Support\Facades\DB;
 
 class CreatePricingPlan extends Component
 {
 
     public $plan_name,$price,$plan_type,$team_members;
-    public $selected='';
+    
+    public $month='';
+    public $year='';
     public $plans;
     public $data=[];
+
+
+    public $tab = 'month';
+    
+
+    public function mount()
+    {
+        $this->loadPlans();
+    }
+
+    public function selectTab($type)
+    {
+        $this->tab = $type;
+        $this->loadPlans();
+    }
+
+    public function loadPlans()
+    {
+        $this->plans = [];
+        Stripe::setApiKey(config('cashier.secret'));
+        if ($this->tab === 'month') {
+            
+
+            $prices = Plan::getdashboadB2Bplans($this->tab);
+            
+            if(!empty($prices)){
+                foreach ($prices as $getPrice) {
+                    // Step 1: Get the Price
+                    $price = Price::retrieve($getPrice['plan_id']);
+    
+                    // Step 2: Get the associated Product
+                    $product = Product::retrieve($price->product);
+    
+                    $this->plans[] = [
+                        'price_id' => $price->id,
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'unit_amount' => $price->unit_amount,
+                        'interval' => $price->recurring->interval ?? null,
+                        'no_of_team_members' => $getPrice['no_of_team_members'],
+                    ];
+    
+                    
+                }
+            }
+            
+        } elseif ($this->tab === 'year') {
+      
+
+            $prices = Plan::getdashboadB2Bplans($this->tab);
+
+            if(!empty($prices)){
+                foreach ($prices as $getPrice) {
+                    
+                    $price = Price::retrieve($getPrice['plan_id']);
+    
+                    
+                    $product = Product::retrieve($price->product);
+    
+                    $this->plans[] = [
+                        'price_id' => $price->id,
+                        'product_id' => $product->id,
+                        'product_name' => $product->name,
+                        'unit_amount' => $price->unit_amount,
+                        'interval' => $price->recurring->interval ?? null,
+                        'no_of_team_members' => $getPrice['no_of_team_members'],
+                    ];
+    
+                    
+                }
+            }
+           
+            
+        }
+    }
+
+
 
     public function submitForm()
     {
@@ -46,12 +126,13 @@ class CreatePricingPlan extends Component
                 'price' => $price['unit_amount'],
                 'currency' => $price['currency'],
                 'plan_type' => Admin::B2B_PLAN,
-                'team_members' => $this->team_members,
+                'no_of_team_members' => $this->team_members,
             ];
 
             Plan::storePlan($this->data);
 
             DB::commit();
+            $this->resetForm();
 
             session()->flash('success', 'Plan created successfully!');
 
@@ -67,10 +148,15 @@ class CreatePricingPlan extends Component
 
     }
 
+    public function resetForm()
+    {
+        $this->reset(['plan_name', 'price', 'plan_type','team_members']);
+    }
+
     public function render()
     {
-        $this->plans=Plan::getdashboadB2Bplans($this->selected);
-        // dd($this->plans);
+      
+        
         return view('livewire.b2b.b2b-pricing-plan.create-pricing-plan');
     }
 }
