@@ -15,15 +15,14 @@ use App\Http\Controllers\B2BControllers\B2BApi\B2BNotificationController;
 |
 */
 Route::group(['middleware' => ['checkUser']], function () {
-    
+
     Route::get('candidate-optimization-and-core-state', 'B2BDashboardController@candidateOptimizationAndCoreState');
+    Route::get('b2b-optimization-and-core-state', 'B2BDashboardController@b2bOptimizationAndCoreState');
     Route::post('store-note','B2BDashboardController@StoreNotes');
     Route::get('get-note','B2BDashboardController@getNote');
-
     Route::get('all-b2b-notification', 'B2BNotificationController@B2Bnotifications');
-
     // Route::get('all-b2b-notifications', [B2BNotificationController::class, 'notifications']);
-    
+
 
 
 });
