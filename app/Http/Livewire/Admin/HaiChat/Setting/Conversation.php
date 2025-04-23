@@ -155,8 +155,6 @@ class Conversation extends Component
 
                 $promptMessages = self::makePromptForChat($aiReply, $prompts);
 
-                Log::info(['prompt' => $promptMessages]);
-
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
                 $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
