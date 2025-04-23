@@ -356,8 +356,10 @@ class B2BBusinessCandidates extends Model
 
         return self::where('candidate_id', $candidateid ?? Helpers::getUser()['id'])
             ->where('share_data', Admin::NOT_SHARED_DATA)
+            ->where('is_permanently_deleted',0)
             ->with('busers')
             ->get();
+            // dd($data);
 
     }
 

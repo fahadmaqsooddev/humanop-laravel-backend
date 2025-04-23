@@ -505,9 +505,10 @@ class MemberController extends Controller
                             return Helpers::successResponse('Member Invite deleted successfully.');
 
                             }
+                            
                             else{
 
-                            return Helpers::successResponse('Users Did not Signup Yet You Cant Delete his Account');
+                            return Helpers::validationResponse('Users Did not Signup Yet You Cant Delete his Account');
 
                             }
 
