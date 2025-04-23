@@ -44,11 +44,9 @@ class ChatbotKeyword extends Model
         return self::where('chatbot_id', $chatbot->id ?? null)->get();
     }
 
-    public static function checkChatBotKeywords($name, $query){
+    public static function checkChatBotKeywords($chat_bot_id, $query){
 
-        $chatbot = Chatbot::getChatFromVendorName($name);
-
-        $keywords = self::where('chatbot_id', $chatbot->id)->get();
+        $keywords = self::where('chatbot_id', $chat_bot_id)->get();
 
         foreach ($keywords as $keyword){
 

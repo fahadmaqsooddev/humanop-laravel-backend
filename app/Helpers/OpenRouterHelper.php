@@ -94,4 +94,47 @@ maintenance."
         return $text;
 
     }
+
+    public static function callOpenRouterApiWithHistory($setting, $llmModel, $messagePrompt = [])
+    {
+        $apiKey = "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";
+        $siteUrl = "humanop.com"; // Optional
+        $siteName = "HumanOp"; // Optional
+
+        $url = "https://openrouter.ai/api/v1/chat/completions";
+
+        $headers = [
+            "Authorization: Bearer $apiKey",
+            "HTTP-Referer: $siteUrl",
+            "X-Title: $siteName",
+            "Content-Type: application/json"
+        ];
+
+        $data = [
+            "model" => $llmModel,
+            "allow_fallbacks" => true,
+            "tokens" => $setting['max_tokens'] ?? 500,
+            "messages" => $messagePrompt
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode == 200) {
+            return json_decode($response, true);
+        } else {
+            return [
+                'error' => true,
+                'status_code' => $httpCode,
+                'response' => $response
+            ];
+        }
+    }
 }

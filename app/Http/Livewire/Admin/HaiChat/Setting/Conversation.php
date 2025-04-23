@@ -20,6 +20,7 @@ use App\Models\HAIChai\LlmModel;
 use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
@@ -152,9 +153,11 @@ class Conversation extends Component
 
                 Log::info(['ai Reply' => $aiReply]);
 
+                $promptMessages = self::makePromptForChat($aiReply, $prompts);
+
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
@@ -399,6 +402,46 @@ public function editHaiResponse($id)
         $this->reset('convo_id','updated_reply');
 
         $this->emit('closeEditHaiReplyModal', $conversation_id);
+
+    }
+
+    public function makePromptForChat($aiReply = [], $prompts = null){
+
+        $history = HaiChatConversation::when($this->user_id, function ($query, $user_id){
+
+            $query->where('user_id', $user_id);
+
+        })->limit(5)->latest()->get()->reverse();
+
+        $formattedHistory = $history->flatMap(function ($message){
+
+            return [
+                ['role' => 'user', 'content' => $message['message']],
+                ['role' => 'assistant', 'content' => $message['reply']]
+            ];
+
+        })->toArray();
+
+        $formattedRagContext = "--- Relevant Information ---\n" . $aiReply['prompt'] . "\n--- End Information ---";
+
+        $promptMessages = [];
+
+        if (isset($prompts['prompt'])){
+
+            $promptMessages[] = ['role' => 'system', 'content' => $prompts['prompt'] ?? null];
+        }
+
+        $promptMessages = array_merge($promptMessages, $formattedHistory);
+
+        $finalUserMessageContent = $this->message;
+
+        if (isset($aiReply['prompt'])) {
+            $finalUserMessageContent = $formattedRagContext . "\n\n Based on the above information and our conversation history, please answer the following:\n" . $this->message;
+        }
+
+        $promptMessages[] = ['role' => 'user', 'content' => $finalUserMessageContent];
+
+        return $promptMessages;
 
     }
 
