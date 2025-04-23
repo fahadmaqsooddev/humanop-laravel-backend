@@ -95,7 +95,7 @@ class Conversation extends Component
     {
         try {
 
-            $this->validate();
+//            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -154,6 +154,8 @@ class Conversation extends Component
                 Log::info(['ai Reply' => $aiReply]);
 
                 $promptMessages = self::makePromptForChat($aiReply, $prompts);
+
+                Log::info(['prompt array' => $promptMessages]);
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
@@ -426,9 +428,9 @@ public function editHaiResponse($id)
 
         $promptMessages = [];
 
-        if (isset($prompts['prompt'])){
+        if (isset($prompts['prompt']) || isset($prompts['restriction'])){
 
-            $promptMessages[] = ['role' => 'system', 'content' => $prompts['prompt'] ?? null];
+            $promptMessages[] = ['role' => 'system', 'content' => $prompts['prompt'] ?? null . "\n**Restrictions:**\n" . $prompts['restriction'] ?? null];
         }
 
         $promptMessages = array_merge($promptMessages, $formattedHistory);
