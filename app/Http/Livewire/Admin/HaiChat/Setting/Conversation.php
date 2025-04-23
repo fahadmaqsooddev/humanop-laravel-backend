@@ -95,7 +95,7 @@ class Conversation extends Component
     {
         try {
 
-//            $this->validate();
+            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
