@@ -430,7 +430,7 @@ public function editHaiResponse($id)
 
         if (isset($prompts['prompt']) || isset($prompts['restriction'])){
 
-            $promptMessages[] = ['role' => 'system', 'content' => $prompts['prompt'] ?? null . "\n**Restrictions:**\n" . $prompts['restriction'] ?? null];
+            $promptMessages[] = ['role' => 'system', 'content' => ($prompts['prompt'] ?? null) . "\n**Restrictions:**\n" . ($prompts['restriction'] ?? null)];
         }
 
         $promptMessages = array_merge($promptMessages, $formattedHistory);
