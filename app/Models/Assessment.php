@@ -1631,7 +1631,7 @@ class Assessment extends Model
             'assessment' => $assessment,
             'topThreeStyles' => $topThreeStyles,
             'topTwoFeatures' => $topTwoFeatures,
-            'tertiaryFeatures' => $nextTwoFeatures[0] ?? '',
+            'tertiaryFeatures' => $nextTwoFeatures ?? '',
             'boundary' => $boundary,
             'topCommunication' => $topCommunication,
             'energyPool' => $energyPool,
