@@ -230,6 +230,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(UserInvite::class, 'email', 'email');
     }
 
+    public function getSubscription(){
+
+        return $this->hasOne(Subscription::class,'user_id','id');
+    }
+
     public function stories()
     {
 

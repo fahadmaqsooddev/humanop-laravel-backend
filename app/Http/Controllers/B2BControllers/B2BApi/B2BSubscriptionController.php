@@ -54,7 +54,7 @@ class B2BSubscriptionController extends Controller
                     'product_name' => $product->name,
                     'unit_amount' => $price->unit_amount,
                     'interval' => $price->recurring->interval ?? null,
-                    'no_of_team_members' => $getPrice['team_members'],
+                    'no_of_team_members' => $getPrice['no_of_team_members'],
                 ];
 
             }
