@@ -320,6 +320,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(IntentionPlan::class, 'user_id', 'id');
     }
 
+    public function businessCandidate(){
+
+        return $this->hasOne(B2BBusinessCandidates::class,'business_id','id');
+    }
+
+
 
     // query
     public function isAdmin()
@@ -1328,6 +1334,15 @@ class User extends Authenticatable implements JWTSubject
 
         return ($user['first_name'] . ' ' . $user['last_name']);
 
+    }
+
+    public static function checkUserEmailInB2B($email){
+
+        return self::whereHas('businessCandidate', function ($query){
+
+            $query->where('role', 0)->where('share_data', 1);
+
+        })->whereId('business_id', Helpers::getUser()->id)->where('email', $email)->first()?->id;
     }
 
 }
