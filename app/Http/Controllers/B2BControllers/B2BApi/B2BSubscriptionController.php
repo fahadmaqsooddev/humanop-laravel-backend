@@ -121,7 +121,7 @@ class B2BSubscriptionController extends Controller
 
             foreach ($coupons as $coupon) {
 
-                $data =[
+                $data[] =[
                     'coupon_code' => $coupon['id'] ?? null,
                     'coupon_percentage' => $coupon['percent_off'] ?? null,
                     'coupon_duration' => $coupon['duration'] ?? null,
