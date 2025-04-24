@@ -16,7 +16,7 @@
                                 <td class="text-md font-weight-normal">{{$coupon['percent_off']}}% </td>
                                 <td class="text-md font-weight-normal">{{$coupon['duration']}} </td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger" onclick="confirmBoxForPermanentDelete({{$coupon['id']}})">
+                                    <button class="btn btn-sm btn-danger" onclick="confirmB2BBoxForPermanentDelete('{{$coupon['id']}}')">
                                         delete
                                     </button>
                                 </td>
@@ -40,7 +40,7 @@
     <script>
 
 
-        function confirmBoxForPermanentDelete(coupon_id){
+        function confirmB2BBoxForPermanentDelete(coupon_id){
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -57,7 +57,7 @@
                 confirmButtonText: 'Delete',
             }).then((result) => {
                 if(result.isConfirmed){
-                    window.livewire.emit('deleteCoupon', [coupon_id])
+                    window.livewire.emit('deleteCoupon', coupon_id)
                 }
             })
         }
