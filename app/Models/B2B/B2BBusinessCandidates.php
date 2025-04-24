@@ -390,7 +390,7 @@ class B2BBusinessCandidates extends Model
 
     public static function requestAccess($id=null){
         self::where('id', $id)->update([
-            'request_access' => Admin::REQUEST_SEND
+            'request_access' => 1
         ]);
 
         $data = self::find($id);
