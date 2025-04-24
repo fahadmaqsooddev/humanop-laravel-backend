@@ -36,9 +36,9 @@ class ListCoupon extends Component
 
         } catch (\Stripe\Exception\InvalidRequestException $e) {
 
-            session()->flash('error', 'Something went wrong: ' . $exception->getMessage());
+            session()->flash('error', 'Something went wrong: ' . $e->getMessage());
 
-            return Helpers::serverErrorResponse($exception->getMessage());
+            return Helpers::serverErrorResponse($e->getMessage());
 
         }
     }
