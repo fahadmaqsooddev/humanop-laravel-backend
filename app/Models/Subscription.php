@@ -149,15 +149,21 @@ class Subscription extends Model
 
         }
 
-//        --------------------------
+        $coupon = $request->input('coupon');
 
         $subscription = $user->subscription('main');
 
         if (!empty($subscription->ends_at)){
 
-            $user->newSubscription('main', $request->input('plan_id'))
+            $newSubscription = $user->newSubscription('main', $request->input('plan_id'));
 
-                ->create($payment_method !== null ? $payment_method->id : null);
+            if (!empty($coupon)) {
+
+                $newSubscription->withCoupon($coupon);
+
+            }
+
+            $newSubscription->create($payment_method !== null ? $payment_method->id : null);
 
         }else{
 
@@ -167,23 +173,19 @@ class Subscription extends Model
 
             } else {
 
-                $user->newSubscription('main', $request->input('plan_id'))
+                $newSubscription = $user->newSubscription('main', $request->input('plan_id'));
 
-                    ->create($payment_method !== null ? $payment_method->id : null);
+                if (!empty($coupon)) {
+
+                    $newSubscription->withCoupon($coupon);
+
+                }
+
+                $newSubscription->create($payment_method !== null ? $payment_method->id : null);
 
             }
 
         }
-
-//        $invoices = $user->invoices()->toArray();
-//
-//        if (array_key_exists(0, $invoices)){
-//
-//            $user->stripe_invoice_id = $invoices[0]['id'] ?? null;
-//
-//            $user->save();
-//
-//        }
 
         $plan = Plan::singlePlan($request->input('plan_id'));
 

@@ -19,4 +19,15 @@ class B2BPricingPlanController extends Controller
         }
     }
 
+    public function getB2BCoupon(){
+        try {
+
+            return view('b2b-dashboard/b2b-coupons/index');
+
+        } catch (\Exception $exception) {
+
+            return back()->withErrors(['msgError' => $exception->getMessage()]);
+        }
+    }
+
 }

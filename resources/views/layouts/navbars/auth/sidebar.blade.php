@@ -680,6 +680,18 @@
                                                         <span class="sidenav-normal"> B2B Pricing Plans </span>
                                                     </a>
                                                 </li>
+                                                <li class="nav-item {{ (Request::is('admin_b2b_coupon') ? 'active' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('admin_b2b_coupon') ? 'active' : '') }}"
+                                                       href="{{ route('admin_b2b_coupon') }}">
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-normal"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-normal"> B2B Coupon </span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
