@@ -177,6 +177,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
 
 
         Route::get('/b2b-pricing-plans',[B2BPricingPlanController::class,'getB2BPricingPlan'])->name('admin_b2b_pricing_plan');
+        Route::get('/b2b-coupon',[B2BPricingPlanController::class,'getB2BCoupon'])->name('admin_b2b_coupon');
 
 
     });
