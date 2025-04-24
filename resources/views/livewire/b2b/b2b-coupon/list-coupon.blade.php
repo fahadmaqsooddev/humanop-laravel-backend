@@ -3,8 +3,9 @@
         <table class="table table-flush" id="datatable-search">
             <thead class="thead-light">
             <tr class="table-text-color">
-                <th>Discount Code</th>
-                <th>Discount Limit</th>
+                <th>Coupon Name</th>
+                <th>Coupon Code</th>
+                <th>Coupon Limit</th>
                 <th>Coupon Duration</th>
                 <th>Action</th>
             </tr>
@@ -12,6 +13,7 @@
             <tbody>
                         @foreach($coupons['data'] as $coupon)
                             <tr class="table-text-color">
+                                <td class="text-md font-weight-normal">{{$coupon['name'] ?? 'N/A'}} </td>
                                 <td class="text-md font-weight-normal">{{$coupon['id']}} </td>
                                 <td class="text-md font-weight-normal">{{$coupon['percent_off']}}% </td>
                                 <td class="text-md font-weight-normal">{{$coupon['duration']}} </td>

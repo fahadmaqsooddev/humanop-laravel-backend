@@ -11,6 +11,7 @@ class CreateCoupon extends Component
 {
 
     public $limit;
+    public $name;
 
     protected $rules = [
         'limit' => 'required|numeric|min:100',
@@ -34,7 +35,8 @@ class CreateCoupon extends Component
 
             \Stripe\Coupon::create([
                 'percent_off' => $this->limit,
-                'duration' => 'once',
+                'name' => $this->name,
+                'duration' => 'once'
             ]);
 
             $this->resetForm();

@@ -16,6 +16,13 @@
                         <div class="card-body pt-0">
                             <div class="row">
                                 <div class="col-12 mt-2">
+                                    <label class="form-label text-white">Discount Name</label>
+                                    <div class="form-group">
+                                        <input style="background-color: #0f1534;" class="form-control text-white" type="text" name="limit" wire:model="name"
+                                               placeholder="name">
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
                                     <label class="form-label text-white">Discount Percentage</label>
                                     <div class="form-group">
                                         <input style="background-color: #0f1534;" class="form-control text-white" type="text" name="limit" wire:model="limit"
