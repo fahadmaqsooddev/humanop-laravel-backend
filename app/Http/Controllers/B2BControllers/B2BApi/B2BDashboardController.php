@@ -43,12 +43,19 @@ class B2BDashboardController extends Controller
                     $userId = $checkShareStatus['users']['id'];
 
                     $getAssessment = Assessment::getLatestAssessment($userId);
+                    // if($getAssessment){
+                    //     $getAssessment['users']['gender']= $getAssessment['users']['gender']==1 ?'FeMale':'Male';
+                    // }
 
                     if (!empty($getAssessment)) {
                         $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
                         $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
                         $userTrait = Assessment::UserTraits($userId);
                         $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
+                        if($coreState){
+                            $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+                        }
+                        // dd($coreState['assessment']['users']);
 
                         return Helpers::successResponse('candidates optimization and core state', [
                             'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
@@ -114,6 +121,10 @@ class B2BDashboardController extends Controller
             $coreState = Assessment::getCoreState($candidate['assessments'], $candidate['users']['date_of_birth']);
             $userTrait = Assessment::UserTraits($candidate['users']['id']);
             $userNote = B2BNotes::getNoteFromUserId($candidate['users']['id']) ?? '';
+            
+            if($coreState){
+                $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+            }
 
 //            if ($isCandidateAvailable) {
 //                if (!$isRecentUpdate) {
