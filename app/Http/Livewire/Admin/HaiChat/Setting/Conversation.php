@@ -95,7 +95,7 @@ class Conversation extends Component
     {
         try {
 
-            $this->validate();
+//            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -153,25 +153,55 @@ class Conversation extends Component
 
                 Log::info(['ai Reply' => $aiReply]);
 
-                $promptMessages = self::makePromptForChat($aiReply, $prompts);
+                if ($setting && $setting['model_type'] === 5){
 
-                Log::info(['prompt array' => $promptMessages]);
+                    $authorization = \request()->header('Authorization');
+
+                    $queryArray = [
+                        'headers' => ['Authorization' => $authorization]
+                    ];
+
+                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $aiReply['prompt'] ."&query=" . $this->message;
+
+                    $response = $client->request("get", $route, $queryArray);
+
+                    if ($response->getStatusCode() === 200){
+
+                        $reply = $response->getBody()->getContents();
+
+                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+
+                    }else{
+
+                        session()->flash("error", "Try again.");
+                    }
+
+
+                }else{
+
+                    $promptMessages = self::makePromptForChat($aiReply, $prompts);
+
+                    Log::info(['prompt array' => $promptMessages]);
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
 
-                foreach ($openRouterResponse['choices'] as $choice)
-                {
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
 
-                    $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+                        $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
 
-                    HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
-                }
+                    }
 
-                AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+                    AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+
+                }
 
             }else{
 

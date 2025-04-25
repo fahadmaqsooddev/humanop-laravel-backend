@@ -229,6 +229,7 @@
                             @foreach($llmModels as $model)
                                 <option value="{{$model['id']}}">{{$model['model_name']}}</option>
                             @endforeach
+                            <option value="5">Bedrock - Deepseek</option>
                         </select>
                     </div>
 
