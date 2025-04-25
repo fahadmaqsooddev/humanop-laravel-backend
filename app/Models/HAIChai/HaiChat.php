@@ -129,4 +129,42 @@ class HaiChat extends Model
         }
 
     }
+
+    public static function makePromptForChat($aiReply = [], $prompts = null, $question = null){
+
+        $history = HaiChatConversation::where('user_id', Helpers::getUser()->id)->limit(5)->latest()->get()->reverse();
+
+        $formattedHistory = $history->flatMap(function ($message){
+
+            return [
+                ['role' => 'user', 'content' => $message['message']],
+                ['role' => 'assistant', 'content' => $message['reply']]
+            ];
+
+        })->toArray();
+
+        $formattedRagContext = "--- Relevant Information ---\n" . $aiReply['prompt'] . "\n--- End Information ---";
+
+        $promptMessages = [];
+
+        if (isset($prompts['prompt']) || isset($prompts['restriction'])){
+
+            $promptMessages[] = ['role' => 'system', 'content' => ($prompts['prompt'] ?? null) . "\n**Restrictions:**\n" . ($prompts['restriction'] ?? null)];
+        }
+
+        $promptMessages = array_merge($promptMessages, $formattedHistory);
+
+        $finalUserMessageContent = $question;
+
+        if (isset($aiReply['prompt'])) {
+            $finalUserMessageContent = $formattedRagContext . "\n\n Based on the above information and our conversation history, please answer the following:\n" . $question;
+        }
+
+        $promptMessages[] = ['role' => 'user', 'content' => $finalUserMessageContent];
+
+        return $promptMessages;
+
+    }
+
+
 }

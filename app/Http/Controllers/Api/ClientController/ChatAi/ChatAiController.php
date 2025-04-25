@@ -98,7 +98,9 @@ class ChatAiController extends Controller
 
                 Log::info(['aiReply' => $aiReply]);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                $promptMessages = HaiChat::makePromptForChat($aiReply, $prompts, $request->input('question'));
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
 
                 $reply = null;
 
