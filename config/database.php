@@ -412,7 +412,7 @@ return [
         ],
         'Version' => [
             'table' => 'version_control',
-            'fillable' => ['version','details'],
+            'fillable' => ['version','note'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'OptimizationPlan' => [
@@ -573,6 +573,11 @@ return [
             'table' => 'push_notification',
             'fillable' => ['user_id','optimal_trait','daily_tip','reset_assessment','resource'],
             'hidden' => ['updated_at','created_at'],
-        ]
+        ],
+        'VersionControlDescription' => [
+            'table' => 'version_control_descriptions',
+            'fillable' => ['version_id','description','platform'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

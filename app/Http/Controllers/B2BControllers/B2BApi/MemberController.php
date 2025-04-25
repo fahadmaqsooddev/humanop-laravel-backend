@@ -508,7 +508,7 @@ class MemberController extends Controller
                             
                             else{
 
-                            return Helpers::validationResponse('Users Did not Signup Yet You Cant Delete his Account');
+                            return Helpers::validationResponse('User Did Not complete his Signup process yet');
 
                             }
 

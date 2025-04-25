@@ -26,19 +26,19 @@
 
     </style>
 @endpush
-<div wire:ignore.self class="modal fade" id="versionModel" tabindex="-1"
+<div wire:ignore.self class="modal fade" id="descriptionModel" tabindex="-1"
      role="dialog" data-bs-focus="false"
      aria-labelledby="dailyTipModel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body" style=" border-radius: 9px">
                 <div class="card-body pt-0">
-                    @if($version_id)
-                    <label class="form-label fs-4 text-white">Edit Version</label>
+                    @if($description_id)
+                    <label class="form-label fs-4 text-white">Edit Version Description</label>
 
 
                                 @else
-                                <label class="form-label fs-4 text-white">Add Version</label>
+                                <label class="form-label fs-4 text-white">Add Version Description </label>
 
                                 @endif
 
@@ -46,32 +46,63 @@
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <form wire:submit.prevent="updateVersion">
+                    <form wire:submit.prevent="updateDescription">
                         <div class="row mt-4">
                             <div class="col-12">
-                                <label class="form-label text-white">Version</label>
-                                <div class="input-group">
-                                    <input id="firstName" style="background-color: #0f1534;color:white;" wire:model="version" name="title"
-                                           class="form-control table-header-text" type="text">
-                                </div>
+                                
+                                <div class="form-group mt-4">
+                                    
+                                    <label class="form-label text-white">Select Version</label>
+                                    <select style="background-color: #0f1534;" class="form-control text-white"
+                                            wire:model.defer="version_id" placeholder="Select category">
+
+                                        <option>Select a category</option>
+
+                                        @foreach($versions as $ver)
+                                            <option value="{{$ver->id}}">{{$ver->version}}</option>
+                                        @endforeach
+
+                                    </select>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row ">
                             <div class="col-12">
-                                <label class="form-label text-white">Note</label>
+
+                                <label class="form-label text-white">Select Type</label>
+                                <div class="d-flex gap-4 align-items-center mt-2">
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input bg-white border-white" type="checkbox" wire:model="platform" value="App" id="appPlatform">
+                                        <label class="form-check-label text-white fw-semibold" for="appPlatform">
+                                            App
+                                        </label>
+                                    </div>
+                                
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input bg-white border-white" type="checkbox" wire:model="platform" value="Web" id="webPlatform">
+                                        <label class="form-check-label text-white fw-semibold" for="webPlatform">
+                                            Web
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                
+                                <label class="form-label text-white">Description</label>
                                 <div class="input-group w-100" wire:ignore >
                              <textarea class="form-control table-header-text" style="background-color: #0f1534;color:white;"  rows="5" cols="5"
-                                       name="note"
-                                       wire:model="note"></textarea>
+                                       name="description"
+                                       wire:model="description"></textarea>
                                 </div>
-                                @if($version_id)
+
+
+                                @if($description_id)
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Update Version
+                                            style="background-color: #f2661c">Update Description
                                     </button>
 
                                 @else
                                     <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Add Version
+                                            style="background-color: #f2661c">Add Description
                                     </button>
                                 @endif
                             </div>
@@ -85,9 +116,10 @@
 </div>
 
 
+
+
     
 @push('javascript')
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- <script type="importmap">
     {
@@ -144,26 +176,32 @@
                 editorInstance.setData('');
             }
         });
-        
-    </script> --}}
-
-    <script>
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeModal', () => {
                 // Close the modal
                 $('#versionModel').modal('hide');
             });
         });
+    </script> --}}
+
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+            Livewire.on('closeModal', () => {
+                // Close the modal
+                $('#descriptionModel').modal('hide');
+            });
+        });
     </script>
 
+    
 <script>
     $(document).ready(function () {
-        $('#versionModel').on('hidden.bs.modal', function () {
+        $('#descriptionModel').on('hidden.bs.modal', function () {
             Livewire.emit('emptyVersionControlValues');
         });
     });
 </script>
-
 
 
 
