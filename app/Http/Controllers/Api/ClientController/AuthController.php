@@ -352,7 +352,7 @@ class AuthController extends Controller
 
                 $this->sns->sendSms($request['phone'], $message);
 
-                return Helpers::successResponse('Your Email is verified', $user);
+                return Helpers::successResponse('sms code send', $user);
             } else {
 
                 return Helpers::validationResponse('Your Email is not verified');
@@ -379,7 +379,7 @@ class AuthController extends Controller
 
                     $user->setAppends([]);
 
-                    return Helpers::successResponse('Your Email is verified', $user);
+                    return Helpers::successResponse('phone number is verified', $user);
 
                 }else
                 {
