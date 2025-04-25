@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\PackageLimitations\PackageLimitations;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'isPractitioner' => \App\Http\Middleware\isPractitioner::class,
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'check_package' => PackageLimitations::class,
     ];
 }

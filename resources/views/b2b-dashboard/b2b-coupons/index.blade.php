@@ -38,29 +38,18 @@
 
 </style>
 @section('content')
-    {{-- <div class="row mt-4 container-fluid">
+    <div class="row mt-4 container-fluid">
         <div class="col-12">
             <div class="card" >
                 <!-- Card header -->
                 <div class="card-header table-header-text">
-                    <h5 class="mb-0">All Versions</h5>
+                    <h5 class="mb-0">All B2B Coupons</h5>
                     <a data-bs-toggle="modal"
-                       data-bs-target="#versionModel"
-                       style="background-color: #f2661c; color: white"
-                       onclick="emptyVersionModal();"
-                       class="btn btn-sm float-end mb-0 createForm">Add Version</a>
+                       data-bs-target="#createB2BCouponModel"
+                       style="background-color: #f2661c; color: white" class="btn btn-sm float-end mb-0">Add Coupon</a>
                 </div>
+                @livewire('b2b.b2b-coupon.list-coupon')
 
-                @livewire('admin.version-control.version-control-form')
-            </div>
-        </div>
-    </div> --}}
-
-    @livewire('admin.version-control.version-control-form')
-    <div class="row" style="margin-top: 200px">
-        <div class="col-12">
-            <div id="globe" class="position-absolute end-0 top-2 mt-sm-3 me-lg-7">
-                <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
             </div>
         </div>
     </div>
@@ -73,11 +62,5 @@
             searchable: true,
             fixedHeight: true
         });
-        function emptyVersionModal(){
-            window.livewire.emit('emptyVersionControlValues');
-        }
-
     </script>
-
 @endpush
-

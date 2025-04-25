@@ -585,5 +585,13 @@ class Helpers
         }
     }
 
+    public static function findEmailFromString($string){
+
+        preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i', $string, $matches);
+
+        return ($matches[0] ?? null);
+
+    }
+
 }
 

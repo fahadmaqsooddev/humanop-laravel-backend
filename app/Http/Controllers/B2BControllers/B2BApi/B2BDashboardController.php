@@ -37,14 +37,14 @@ class B2BDashboardController extends Controller
             if (!empty($request['candidate_id'])) {
 
                 $checkShareStatus = B2BBusinessCandidates::checkShare($request['candidate_id']);
+
                 if (!empty($checkShareStatus) && !empty($checkShareStatus['users']) && $checkShareStatus['share_data'] == Admin::SHARED_DATA) {
-                    
+
                     $userId = $checkShareStatus['users']['id'];
 
                     $getAssessment = Assessment::getLatestAssessment($userId);
 
-                    if (!empty($getAssessment))
-                    {
+                    if (!empty($getAssessment)) {
                         $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
                         $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['users']['date_of_birth']) : null;
                         $userTrait = Assessment::UserTraits($userId);
@@ -57,9 +57,7 @@ class B2BDashboardController extends Controller
                             'user_trait' => $userTrait,
                             'user_note' => $userNote
                         ]);
-                    }
-                    else
-                    {
+                    } else {
                         return Helpers::successResponse('candidates optimization and core state', [
                             'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
                             'optimization_plan' => null,
@@ -68,9 +66,7 @@ class B2BDashboardController extends Controller
                             'user_note' => null
                         ]);
                     }
-                }
-                else
-                {
+                } else {
                     return Helpers::successResponse('candidates optimization and core state', [
                         'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
                         'optimization_plan' => null,
@@ -134,7 +130,7 @@ class B2BDashboardController extends Controller
                 'user_trait' => $userTrait,
                 'user_note' => $userNote
             ]);
-   }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return Helpers::serverErrorResponse(
                 'Error: ' . $exception->getMessage() .
                 ' | Line: ' . $exception->getLine() .
@@ -145,6 +141,51 @@ class B2BDashboardController extends Controller
 // catch (\Exception $exception) {
 //            return Helpers::serverErrorResponse($exception->getMessage());
 //        }
+    }
+
+    public function b2bOptimizationAndCoreState(\Illuminate\Http\Request $request)
+    {
+        try {
+
+            $user = User::getSingleUser($request['id']);
+
+            $getAssessment = Assessment::getLatestAssessment($user['id']);
+
+            if (!empty($getAssessment)) {
+
+                $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($user['id']) : null;
+
+                $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $user['date_of_birth']) : null;
+
+                $userTrait = Assessment::UserTraits($user['id']);
+
+                $userNote = B2BNotes::getNoteFromUserId($user['id']) ?? '';
+
+                return Helpers::successResponse('candidates optimization and core state', [
+                    'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
+                    'optimization_plan' => $optimizationPlan,
+                    'core_state' => $coreState,
+                    'user_trait' => $userTrait,
+                    'user_note' => $userNote
+                ]);
+
+            } else {
+
+                return Helpers::successResponse('candidates optimization and core state', [
+                    'candidates_name' => ($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''),
+                    'optimization_plan' => null,
+                    'core_state' => null,
+                    'user_trait' => null,
+                    'user_note' => null
+                ]);
+            }
+
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
     }
 
     public function StoreNotes(CreateNotes $request)

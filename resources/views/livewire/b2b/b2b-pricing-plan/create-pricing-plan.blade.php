@@ -77,7 +77,7 @@
             
         
 
-            <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a>
+            {{-- <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a> --}}
             <br>
         </div>
     </div>

@@ -2,8 +2,8 @@
 
 if (env('APP_ENV') == 'local') {
     return [
-        'auth_key'=>'os_v2_app_kqjuty3ykndtvgsjew2fufxgtithqlegyuwu6x57ngojv6mnummfwaluxfziikonk25vpjvehop6oqinhxbzrccm2zalfkdeljae7pq',
-        'app_id'=>'541349e3-7853-473a-9a49-25b45a16e69a',
+        'auth_key'=>'os_v2_app_3cmvptfgofe33gpiqvkbd46v6ny4liblmsjuw64iybt6swb442mmwme56nbjtmvvxbsyetobvqbkhr2hdop2oknoifulmiz7ebnkgfa',
+        'app_id'=>'d89957cc-a671-49bd-99e8-855411f3d5f3',
 
     ];
 } elseif (env('APP_ENV') == 'development') {

@@ -191,7 +191,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department'],
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -412,7 +412,7 @@ return [
         ],
         'Version' => [
             'table' => 'version_control',
-            'fillable' => ['version','details'],
+            'fillable' => ['version','note'],
             'hidden' => ['created_at','updated_at','deleted_at'],
         ],
         'OptimizationPlan' => [
@@ -522,7 +522,7 @@ return [
         ],
         'B2BBusinessCandidates' => [
             'table' => 'business_candidates',
-            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role','share_data'],
+            'fillable' => ['business_id','candidate_id','is_permanently_deleted','future_consideration','role','share_data','request_access','future_consideration_share_date'],
             'hidden' => ['updated_at','created_at'],
         ],
         'B2BCandidateStat' => [
@@ -573,6 +573,11 @@ return [
             'table' => 'push_notification',
             'fillable' => ['user_id','optimal_trait','daily_tip','reset_assessment','resource'],
             'hidden' => ['updated_at','created_at'],
-        ]
+        ],
+        'VersionControlDescription' => [
+            'table' => 'version_control_descriptions',
+            'fillable' => ['version_id','description','platform'],
+            'hidden' => ['updated_at','created_at'],
+        ],
     ]
 ];

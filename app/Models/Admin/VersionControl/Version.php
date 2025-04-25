@@ -18,6 +18,10 @@ class Version extends Model
         parent::__construct($attributes);
     }
 
+    public function versionDescriptions(){
+
+        return $this->hasMany(VersionControlDescription::class,'version_id','id')->whereNotNull('version_id');
+    }
     public static function getLatestVersion()
     {
         return self::latest()->first();
@@ -30,28 +34,36 @@ class Version extends Model
         return self::orderBy('id', 'desc')->get();
     }
 
-    public static function createVersion($version = null, $detail = null)
+    public static function createVersion($version = null, $note = null)
     {
 
         $version = self::create([
             'version' => $version,
-            'details' => $detail,
+            'note' => $note,
         ]);
 
         return $version;
     }
 
-    public static function editVersion($id = null, $version = null, $detail = null)
+    public static function editVersion($id = null, $version = null)
     {
+
         $version = self::where('id',$id)->update([
             'version' => $version,
-            'details' => $detail,
+            
         ]);
+        
 
         return $version;
+    }
+
+
+    public static function deleteVersion($id){
+        return self::where('id',$id)->delete();
     }
 
     public static function allVersions(){
-        return self::orderBy('created_at', 'asc');
+        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->get();
     }
+    
 }

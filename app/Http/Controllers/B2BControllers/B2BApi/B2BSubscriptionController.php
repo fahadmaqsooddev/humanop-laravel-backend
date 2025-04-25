@@ -10,6 +10,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Coupon;
 use Stripe\Exception\CardException;
 use Stripe\Price;
 use Stripe\Product;
@@ -54,7 +55,7 @@ class B2BSubscriptionController extends Controller
                     'product_name' => $product->name,
                     'unit_amount' => $price->unit_amount,
                     'interval' => $price->recurring->interval ?? null,
-                    'no_of_team_members' => $getPrice['team_members'],
+                    'no_of_team_members' => $getPrice['no_of_team_members'],
                 ];
 
             }
@@ -107,5 +108,40 @@ class B2BSubscriptionController extends Controller
         }
     }
 
+    public function getCoupons(Request $request)
+    {
+
+        try {
+
+            Stripe::setApiKey(config('cashier.secret')); // or env('STRIPE_SECRET')
+
+            $coupons = Coupon::all();
+
+            $data = [];
+
+            foreach ($coupons as $coupon) {
+
+                $data[] =[
+                    'coupon_code' => $coupon['id'] ?? null,
+                    'coupon_percentage' => $coupon['percent_off'] ?? null,
+                    'coupon_duration' => $coupon['duration'] ?? null,
+                ];
+            }
+
+            return Helpers::successResponse('B2B Coupon Lists', $data);
+
+
+        } catch (\Exception $exception) {
+
+            if ($exception instanceof CardException) {
+
+                return Helpers::validationResponse($exception->getMessage());
+
+            } else {
+
+                return Helpers::serverErrorResponse($exception->getMessage());
+            }
+        }
+    }
 
 }
