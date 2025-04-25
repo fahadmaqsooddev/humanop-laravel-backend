@@ -8,37 +8,37 @@ use Livewire\Component;
 
 class CreateVersionControlForm extends Component
 {
-    public $version,$description,$version_id;
+    public $version,$note,$version_id;
     protected $listeners = ['updateVersionValues','emptyVersionControlValues','updateContent'];
     protected $rules = [
         'version' => 'required',
-        'description' => 'required',
+        'note' => 'required',
     ];
 
     protected $messages = [
         'version.required' => 'Title is required',
-        'description.required' => 'Description is required',
+        'note.required' => 'Description is required',
     ];
 
-
+    
 
     public function updateContent($editorId, $data)
     {
-        $this->description = $data;
+        $this->note = $data;
     }
 
-    public function updateVersionValues($id,$title,$description){
+    public function updateVersionValues($id,$title,$note){
         $this->emptyVersionControlValues();
         $this->version_id = $id;
         $this->version = $title;
-        $this->description = $description;
-        $this->emit('contentUpdated', $this->description);
+        $this->note = $note;
+        $this->emit('contentUpdated', $this->note);
     }
 
     public function emptyVersionControlValues(){
         $this->version_id = '';
         $this->version = '';
-        $this->description = '';
+        $this->note = '';
     }
 
     public function updateVersion(){
@@ -47,13 +47,15 @@ class CreateVersionControlForm extends Component
             $validatedData = $this->validate();
 
             if($this->version_id){
-                Version::editVersion($this->version_id,$this->version,$this->description);
+                Version::editVersion($this->version_id,$this->version,$this->note);
                 $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshVersions');
                 $this->emit('updateSession','Updated');
             }else{
-                 Version::createVersion($this->version,$this->description);
+
+            
+                Version::createVersion($this->version,$this->note);
                 $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshVersionControl');

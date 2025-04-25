@@ -45,7 +45,7 @@ class RequestAccessData implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'request-data.' . $this->companyId;
+        return 'request-data.' . $this->userId;
     }
     public function broadcastWith()
     {
