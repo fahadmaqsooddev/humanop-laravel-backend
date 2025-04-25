@@ -379,7 +379,7 @@ class AuthController extends Controller
 
                     $user->setAppends([]);
 
-                    return Helpers::successResponse('Your Email is verified', $user);
+                    return Helpers::successResponse('phone number is verified', $user);
 
                 }else
                 {
