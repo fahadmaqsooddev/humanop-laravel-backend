@@ -350,7 +350,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-//                $this->sns->sendSms($request['phone'], $message);
+                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('Your Email is verified', $user);
             } else {
