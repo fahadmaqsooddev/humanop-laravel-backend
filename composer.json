@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-zip": "*",
+        "aws/aws-sdk-php": "^3.337",
         "barryvdh/laravel-dompdf": "^2.2",
         "beyondcode/laravel-websockets": "^1.14",
         "fruitcake/laravel-cors": "^2.0",
