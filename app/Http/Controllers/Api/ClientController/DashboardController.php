@@ -25,6 +25,7 @@ use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Information\InformationIcon;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
+use App\Models\Admin\VersionControl\Version;
 
 class DashboardController extends Controller
 {
@@ -562,6 +563,41 @@ class DashboardController extends Controller
 
         }
 
+    }
+
+
+    public function getVersions(){
+
+        try {
+
+            
+
+            $versions = Version::allVersions();
+
+            return Helpers::successResponse('All Versions', $versions);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
+    }
+    public function versionUpdate(){
+
+        try {
+
+            
+            $userId = Helpers::getUser()['id'];
+
+             User::updateSingleUserVersion($userId);
+
+            return Helpers::successResponse('Version Update Successfully');
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+
+        }
     }
 
 }

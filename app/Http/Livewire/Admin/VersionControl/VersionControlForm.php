@@ -27,7 +27,8 @@ class VersionControlForm extends Component
 
     public function getVersions()
     {
-        $this->versions = Version::allVersions()->paginate($this->perPage);
+        // $this->versions = Version::allVersions()->paginate($this->perPage);
+        $this->versions = Version::allVersions();
         
     }
 

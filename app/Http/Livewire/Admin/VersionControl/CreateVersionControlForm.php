@@ -2,14 +2,22 @@
 
 namespace App\Http\Livewire\Admin\VersionControl;
 
+use App\Events\Version\VersionUpdate;
 use App\Models\Admin\DailyTip\DailyTip;
 use App\Models\Admin\VersionControl\Version;
 use Livewire\Component;
+use App\Models\Admin\VersionControl\VersionControlDescription;
+use App\Models\User;
 
 class CreateVersionControlForm extends Component
 {
-    public $version,$note,$version_id;
-    protected $listeners = ['updateVersionValues','emptyVersionControlValues','updateContent'];
+    public $version, $note, $version_id;
+    public $versionDetails = [
+        ['type' => [], 'description' => '']
+    ];
+
+
+    protected $listeners = ['updateVersionValues', 'emptyVersionControlValues', 'updateContent'];
     protected $rules = [
         'version' => 'required',
         'note' => 'required',
@@ -20,14 +28,26 @@ class CreateVersionControlForm extends Component
         'note.required' => 'Description is required',
     ];
 
-    
+    public function addVersionField()
+    {
+        $this->versionDetails[] = ['type' => [], 'description' => ''];
+    }
+
+    public function removeVersionField($index)
+    {
+        unset($this->versionDetails[$index]);
+        $this->versionDetails = array_values($this->versionDetails); // reindex
+    }
+
+
 
     public function updateContent($editorId, $data)
     {
         $this->note = $data;
     }
 
-    public function updateVersionValues($id,$title,$note){
+    public function updateVersionValues($id, $title, $note)
+    {
         $this->emptyVersionControlValues();
         $this->version_id = $id;
         $this->version = $title;
@@ -35,36 +55,43 @@ class CreateVersionControlForm extends Component
         $this->emit('contentUpdated', $this->note);
     }
 
-    public function emptyVersionControlValues(){
+    public function emptyVersionControlValues()
+    {
         $this->version_id = '';
         $this->version = '';
         $this->note = '';
+        $this->versionDetails = [
+            ['type' => [], 'description' => '']
+        ];
+    
     }
 
-    public function updateVersion(){
-        try {
+    public function storeVersionAndDescription()
+{
+    if ($this->version_id) {
+        Version::editVersion($this->version_id, $this->version);
+        $this->emit('closeModal');
+        $this->emptyVersionControlValues();
+        $this->emit('refreshVersions');
+        $this->emit('updateSession', 'Updated');
+    } else {
+        $version = Version::createVersion($this->version, $this->note);
 
-            $validatedData = $this->validate();
-
-            if($this->version_id){
-                Version::editVersion($this->version_id,$this->version,$this->note);
-                $this->emit('closeModal');
-                $this->reset();
-                $this->emit('refreshVersions');
-                $this->emit('updateSession','Updated');
-            }else{
-
-            
-                Version::createVersion($this->version,$this->note);
-                $this->emit('closeModal');
-                $this->reset();
-                $this->emit('refreshVersionControl');
-                $this->emit('updateSession','Created');
-            }
-        } catch (\Exception $exception) {
-            session()->flash('error', $exception->getMessage());
+        foreach ($this->versionDetails as $detail) {
+            VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type']);
         }
+
+        User::updateVersion();
+        event(new VersionUpdate('New Version Is Added Please Update It'));
+
+        $this->emit('closeModal');
+        $this->emptyVersionControlValues();
+        $this->emit('refreshVersionControl');
+        $this->emit('updateSession', 'Created');
     }
+}
+
+
 
     public function render()
     {

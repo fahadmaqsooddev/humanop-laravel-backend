@@ -99,7 +99,7 @@ class User extends Authenticatable implements JWTSubject
             'gender', 'email', 'phone', 'is_admin', 'is_feedback',
             'image_id', 'date_of_birth', 'hai_chat', 'referral_code',
             'timezone', 'two_way_auth', 'intro_check', 'app_intro_check',
-            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step','prompt_notification']);
+            'step', 'register_from_app', 'email_verified_at', 'company_name', 'apple_id', 'google_id', 'b2b_step','prompt_notification','version_update']);
     }
 
     // appends
@@ -1345,4 +1345,21 @@ class User extends Authenticatable implements JWTSubject
         })->whereId('business_id', Helpers::getUser()->id)->where('email', $email)->first()?->id;
     }
 
+    public static function updateVersion(){
+        $admins = self::whereIn('is_admin', [Admin::IS_CUSTOMER, Admin::IS_B2B, Admin::IS_B2U])->get();
+foreach ($admins as $admin) {
+    $admin->version_update = 0;
+    $admin->save(); 
+}
+
+    }
+
+
+
+    public static function updateSingleUserVersion($id=null){
+     
+        return self::where('id',$id)->update([
+            'version_update'=>1
+        ]);
+    }
 }
