@@ -46,7 +46,8 @@ class B2BBusinessCandidates extends Model
 
     public function assessments()
     {
-        return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->latest();
+        return $this->hasOne(Assessment::class, 'user_id', 'candidate_id')->where('page', 0)->latest();
+        
     }
 
     public static function checkBusinessCandidate($companyId = null, $candidateId = null)

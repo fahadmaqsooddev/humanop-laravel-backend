@@ -40,10 +40,11 @@ class B2bOrganization extends Component
 
     public function render()
     {
-        $this->users = User::getB2BAdmin($this->name, $this->email, $this->perPage);
+        $users = User::getB2BAdmin($this->name, $this->email, $this->perPage);
+        $users->withPath(url('admin/b2b-organizations'));
 
         return view('livewire.b2b.b2b-organizations.b2b-organization', [
-            'users' => $this->users
+            'users' => $users
         ]);
     }
 }
