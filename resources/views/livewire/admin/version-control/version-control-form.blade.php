@@ -16,11 +16,11 @@
                                 style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                             Add version
                         </button>
-                        <button data-toggle="modal" data-target="#descriptionModel" 
+                        {{-- <button data-toggle="modal" data-target="#descriptionModel" 
                                 id="create_resourse_btn"
                                 class=" btn-sm float-end mt-2 mb-0"
                                 style="background:#f2661c;color:white;font-weight:bolder;border:none;">Add Description
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>

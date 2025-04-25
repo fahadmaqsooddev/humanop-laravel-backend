@@ -26,6 +26,15 @@
 
     </style>
 @endpush
+<div>
+    @if (session()->has('message'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('message') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+
 <div wire:ignore.self class="modal fade" id="versionModel" tabindex="-1"
      role="dialog" data-bs-focus="false"
      aria-labelledby="dailyTipModel" aria-hidden="true">
@@ -46,42 +55,107 @@
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <form wire:submit.prevent="updateVersion">
+                    
+                    <form wire:submit.prevent="storeVersionAndDescription">
+                        <!-- Version Field -->
                         <div class="row mt-4">
                             <div class="col-12">
                                 <label class="form-label text-white">Version</label>
-                                <div class="input-group">
-                                    <input id="firstName" style="background-color: #0f1534;color:white;" wire:model="version" name="title"
-                                           class="form-control table-header-text" type="text">
-                                </div>
+                                <input style="background-color: #0f1534;color:white;" wire:model="version"
+                                       class="form-control table-header-text" type="text">
                             </div>
                         </div>
+                    
+                        @if($version_id)
+
+                        @else
                         <div class="row mt-4">
                             <div class="col-12">
                                 <label class="form-label text-white">Note</label>
-                                <div class="input-group w-100" wire:ignore >
-                             <textarea class="form-control table-header-text" style="background-color: #0f1534;color:white;"  rows="5" cols="5"
-                                       name="note"
-                                       wire:model="note"></textarea>
-                                </div>
-                                @if($version_id)
-                                    <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Update Version
-                                    </button>
-
-                                @else
-                                    <button type="submit" class="btn btn-sm float-end mt-4 mb-4 text-white"
-                                            style="background-color: #f2661c">Add Version
-                                    </button>
-                                @endif
+                                <textarea class="form-control table-header-text"
+                                          style="background-color: #0f1534;color:white;"
+                                          rows="2" wire:model="note"></textarea>
                             </div>
-
                         </div>
+                        @endif
+                    
+                        <!-- Dynamic Version Details -->
+                        @if($version_id)
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-sm text-white" style="background-color: #f2661c;">
+                                Update Version
+                            </button>
+                        </div>
+                        @else
+                        <!-- Add Field Button -->
+                        <div class="text-end mt-3">
+                            <button type="button" class="btn btn-success btn-sm" wire:click="addVersionField">
+                                <i class="fas fa-plus-circle"></i> Add Field
+                            </button>
+                        </div>
+                       
+                        @foreach ($versionDetails as $index => $detail)
+    <div class="row mb-3">
+        <!-- Version Type Checkboxes -->
+        <div class="col-md-12 mb-3">
+            <label class="text-white mb-1">Issue Fixed</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="checkbox"
+                       wire:model="versionDetails.{{ $index }}.type"
+                       value="Web"
+                       id="web_{{ $index }}">
+                <label class="form-check-label text-white" for="web_{{ $index }}">Web</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="checkbox"
+                       wire:model="versionDetails.{{ $index }}.type"
+                       value="App"
+                       id="app_{{ $index }}">
+                <label class="form-check-label text-white" for="app_{{ $index }}">App</label>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="col-md-12">
+            <label class="text-white mb-1">Description</label>
+            <textarea class="form-control" 
+                      style="background-color: #0f1534; color: white;" 
+                      rows="3" 
+                      wire:model="versionDetails.{{ $index }}.description"></textarea>
+        </div>
+        
+
+        @if (count($versionDetails) > 1)
+            <div class="col-md-2 d-flex align-items-end mt-2">
+                <button type="button" class="btn btn-danger btn-sm"
+                        wire:click="removeVersionField({{ $index }})">
+                    <i class="fas fa-minus-circle"></i>
+                </button>
+            </div>
+        @endif
+    </div>
+@endforeach
+
+                    
+                    
+                        
+                    
+                        <!-- Submit Button -->
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-sm text-white" style="background-color: #f2661c;">
+                                Save Version
+                            </button>
+                        </div>
+                        @endif
                     </form>
+                    
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
@@ -89,72 +163,21 @@
 @push('javascript')
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    {{-- <script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-        }
-    }
-</script> --}}
-
-    {{-- <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Paragraph,
-            Bold,
-            Italic,
-            Font,
-            List,
-            Link,
-            AutoLink
-        } from 'ckeditor5';
-
-        // Function to initialize CKEditor for a specific textarea by ID
-        let editorInstance;
-        const editorElement = document.getElementById('editor');
-        if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
-            ClassicEditor
-                .create(editorElement, {
-                    plugins: [ Essentials, Paragraph, Bold, Italic, Font ,List, Link, AutoLink ],
-                    toolbar: [
-                        'undo', 'redo', '|', 'bold', 'italic', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
-                    ]
-                })
-                .then(editor => {
-                    editor.model.document.on('change:data', () => {
-                    @this.set('description', editor.getData());
-                    })
-                    Livewire.on('contentUpdated', content => {
-                        editor.setData(content); // Set new content into CKEditor
-                    });
-                    editorInstance = editor;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-        }
-
-        $('.createForm').on('click', function() {
-            if (editorInstance) {
-                editorInstance.setData('');
-            }
-        });
-        
-    </script> --}}
+    
 
     <script>
         document.addEventListener('livewire:load', function () {
             Livewire.on('closeModal', () => {
-                // Close the modal
-                $('#versionModel').modal('hide');
+                
+                const modalElement = document.getElementById('versionModel');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
             });
         });
     </script>
+    
 
 <script>
     $(document).ready(function () {

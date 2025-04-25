@@ -45,12 +45,12 @@ class Version extends Model
         return $version;
     }
 
-    public static function editVersion($id = null, $version = null, $detail = null)
+    public static function editVersion($id = null, $version = null)
     {
 
         $version = self::where('id',$id)->update([
             'version' => $version,
-            'note' => $detail,
+            
         ]);
         
 
@@ -63,7 +63,7 @@ class Version extends Model
     }
 
     public static function allVersions(){
-        return self::with('versionDescriptions')->orderBy('created_at', 'asc');
+        return self::with('versionDescriptions')->orderBy('created_at', 'desc')->get();
     }
     
 }

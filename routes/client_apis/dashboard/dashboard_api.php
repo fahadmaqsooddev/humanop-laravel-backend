@@ -32,4 +32,7 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-push-notification','DashboardController@getPushNotification');
     Route::post('push-notification-allow-or-not-allow','DashboardController@pushNotification');
 
+    Route::get('all-versions','DashboardController@getVersions');
+    Route::get('version-update','DashboardController@versionUpdate');
+
 });
