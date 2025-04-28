@@ -86,7 +86,7 @@ class DashboardController extends Controller
 
                             Helpers::OneSignalApiUsed($user['id'], 'new daily tip', $message);
 
-                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION,Admin::B2C_NOTIFICATION);
+                            Notification::createNotification('Daily Tip', $message, $user['device_token'], $user['id'], 1, Admin::DAILY_TIP_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                             $data = [
                                 'title' => $newUserDailyTip['dailyTip']['title'],
@@ -101,18 +101,13 @@ class DashboardController extends Controller
                 } while ($newDailyTip && $latestTip && $latestTip['is_read'] == 1 && $latestTip['updated_at'] >= now()->subYear());
 
                 return Helpers::validationResponse('No new daily tip found.');
-
             } else {
                 return Helpers::successResponse('No new daily tip found.');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function haiChatStatus()
@@ -131,7 +126,6 @@ class DashboardController extends Controller
                 ];
             }
             return Helpers::successResponse('HAI CHAT status fetched successfully', $data);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -146,12 +140,10 @@ class DashboardController extends Controller
             $podcast = Podcast::getPodcast();
 
             return Helpers::successResponse('Podcast url', $podcast);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function coreStats(Request $request)
@@ -164,12 +156,10 @@ class DashboardController extends Controller
             $coreState = Assessment::getCoreState($assessment, Helpers::getUser()->date_of_birth);
 
             return Helpers::successResponse('core stats', $coreState);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function dailyTipRead()
@@ -189,14 +179,12 @@ class DashboardController extends Controller
             DB::commit();
 
             return Helpers::successResponse('Daily tip read', ['point' => $point ?? 0]);
-
         } catch (\Exception $exception) {
 
             DB::rollBack();
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function actionPlan(Request $request)
@@ -218,12 +206,10 @@ class DashboardController extends Controller
             $plan = ActionPlan::userActionPlan($user);
 
             return Helpers::successResponse('Action plan', $plan);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function informationIcon()
@@ -234,12 +220,10 @@ class DashboardController extends Controller
             $info = InformationIcon::getInfo();
 
             return Helpers::successResponse('Information Icons', $info);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
         }
-
     }
 
     public function optionalTrait()
@@ -265,12 +249,9 @@ class DashboardController extends Controller
                 $optionalTraitDetail = CodeDetail::getOptionalTraitDetail($optionalTrait);
 
                 return Helpers::successResponse('optional trait', $optionalTraitDetail);
-
             } else {
                 return Helpers::notFoundResponse('Assessment not found');
             }
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -345,10 +326,8 @@ class DashboardController extends Controller
 
                 if (!empty($alchemyCodeDetail)) {
                     $alchemyBoundary = AssessmentWalkThrough::getbyCodeName($alchemyCodeDetail['code'], Admin::ALCHEMY_TRAIT);
-
                 } else {
                     $alchemyBoundary = null;
-
                 }
 
                 $getCommunications = $assessment != null ? Assessment::getEnergy($assessment) : null;
@@ -397,7 +376,6 @@ class DashboardController extends Controller
                     'polarity' => $polarity,
                     'energyPool' => $energyPool
                 ];
-
             } else {
                 $data = [
                     'trait' => null,
@@ -409,8 +387,6 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('optional trait', $data);
-
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -423,21 +399,16 @@ class DashboardController extends Controller
 
             $userId = Helpers::getUser()['id'];
 
-            $data=B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'],$request['candidate_id']);
+            $data = B2BBusinessCandidates::AllCompaniescheckShareDataDetail($request['company_name'], $request['candidate_id']);
 
-            if(!empty($data)){
-                    foreach($data as $shared){
-                        B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
-                    }
+            if (!empty($data)) {
+                foreach ($data as $shared) {
+                    B2BBusinessCandidates::ShareDataWithBusiness($shared['business_id'], $request['candidate_id']);
+                }
                 return Helpers::successResponse('Data Shared Successfully');
-            }else{
+            } else {
                 return Helpers::validationResponse('Data not found.');
             }
-
-
-
-
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -453,27 +424,23 @@ class DashboardController extends Controller
 
                 if (!empty($checkData)) {
 
-                    if($checkData['share_data'] == Admin::NOT_SHARED_DATA){
+                    if ($checkData['share_data'] == Admin::NOT_SHARED_DATA) {
 
                         $data = [
-                            'Shared_data'=>Admin::NOT_SHARED_DATA,
-                            'company_name'=>$request['company_name'],
-                            'status'=>$checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member':'candidate',
+                            'Shared_data' => Admin::NOT_SHARED_DATA,
+                            'company_name' => $request['company_name'],
+                            'status' => $checkData['role'] == Admin::IS_TEAM_MEMBER ? 'member' : 'candidate',
                         ];
 
                         return Helpers::successResponse('Check Shared Data', $data);
-
                     }
 
                     $data = [
-                        'Shared_data'=>Admin::SHARED_DATA,
-                        'company_name'=>$request['company_name']
+                        'Shared_data' => Admin::SHARED_DATA,
+                        'company_name' => $request['company_name']
                     ];
 
                     return Helpers::successResponse('Check Shared Data', $data);
-
-
-
                 } else {
                     return Helpers::validationResponse('Data not found.');
                 }
@@ -481,7 +448,7 @@ class DashboardController extends Controller
 
                 $companies = B2BBusinessCandidates::AllLoginUserCompanies();
 
-                $data=[];
+                $data = [];
 
                 foreach ($companies as $company) {
 
@@ -493,7 +460,7 @@ class DashboardController extends Controller
 
 
 
-                return Helpers::successResponse('All Share Data',$data);
+                return Helpers::successResponse('All Share Data', $data);
             }
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -515,15 +482,11 @@ class DashboardController extends Controller
                     if (B2BBusinessCandidates::checkBusinessCandidate($company['id'], $userId)) {
 
                         B2BBusinessCandidates::notShareDataWithBusiness($company['id'], $userId);
-
                     }
-
                 }
-
             }
 
             return Helpers::successResponse('Data Not Shared');
-
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
@@ -538,13 +501,10 @@ class DashboardController extends Controller
             PushNotification::changeNotification($userId, $request['notification']);
 
             return Helpers::successResponse('Push Notification has been changed');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
     public function getPushNotification(Request $request)
@@ -556,13 +516,10 @@ class DashboardController extends Controller
             $pushNotification = PushNotification::getSingleNotification($userId);
 
             return Helpers::successResponse('Push Notification', $pushNotification);
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
-
     }
 
 
@@ -571,78 +528,78 @@ class DashboardController extends Controller
     {
         try {
             $versions = Version::allVersions();
-    
+
             $formattedVersions = [];
-    
+
             foreach ($versions as $version) {
-    
-                
+
+
                 $groupedDescriptions = $version->versionDescriptions->groupBy('version_heading');
-    
-                
+
+
                 $newFeatureDescriptions = $groupedDescriptions->get(1, []);
                 $issueFixedDescriptions = $groupedDescriptions->get(0, []);
-    
-                
+
+
                 $newFeatureDescriptionsCleaned = [];
                 $issueFixedDescriptionsCleaned = [];
-    
-                
+
+
                 foreach ($newFeatureDescriptions as $description) {
                     $newFeatureDescriptionsCleaned[] = [
                         'description' => $description->description,
                         'platform' => $description->platform,
                     ];
                 }
-    
+
                 foreach ($issueFixedDescriptions as $description) {
                     $issueFixedDescriptionsCleaned[] = [
                         'description' => $description->description,
                         'platform' => $description->platform,
                     ];
                 }
-    
-              
+
+
                 $formattedVersions[] = [
                     'version' => [
                         'Web_version' => $version->version,
                         'Ios_version' => $version->version,
                         'Android_version' => $version->version,
                         'note' => $version->note,
+                        'created_at' => $version->created_at ? $version->created_at->format('Y-m-d') : null,
+                        'updated_at' => $version->updated_at ? $version->updated_at->format('Y-m-d') : null,
+
                     ],
                     'new_feature_descriptions' => $newFeatureDescriptionsCleaned,
                     'issue_fixed_descriptions' => $issueFixedDescriptionsCleaned
                 ];
             }
-    
+
             return Helpers::successResponse('All Versions with Descriptions', $formattedVersions);
-    
         } catch (\Exception $exception) {
             return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
-    
 
-    
-    
-    
 
-    public function versionUpdate(){
+
+
+
+
+    public function versionUpdate()
+    {
 
         try {
 
-            
+
             $userId = Helpers::getUser()['id'];
 
             User::updateSingleUserVersion($userId);
 
             return Helpers::successResponse('Version Update Successfully');
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
-
 }
