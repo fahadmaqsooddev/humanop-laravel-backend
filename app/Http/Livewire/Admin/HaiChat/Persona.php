@@ -35,17 +35,12 @@ class Persona extends Component
 
         $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
 
-//        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
-//
-//        if ($setting){
-//
-//            $this->persona_text = $setting['persona_text'];
-//            $this->persona_name = $setting['persona_name'];
-//            $this->human_op_app = $setting['human_op_app'];
-//            $this->maestro_app = $setting['maestro_app'];
-//
-//        }
+        if (request()->input('is_persona') == 1){
 
+            $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
+
+            $this->industry_categories = BusinessSubStrategies::all();
+        }
     }
 
     public function updateOrSave(){
@@ -87,7 +82,6 @@ class Persona extends Component
             $this->maestro_app = $setting['maestro_app'] . '-' . $setting['maestro_app_id'];
 
         }
-
     }
 
     public function updateChatBotHumanApp($human_app){
@@ -132,10 +126,6 @@ class Persona extends Component
 
         $this->connected_human_apps = HaiChatSetting::pluck('human_op_app')->unique()->toArray();
 
-        $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
-
-        $this->industry_categories = BusinessSubStrategies::all();
-
         $this->connected_maestro_apps = HaiChatSetting::whereNot('maestro_app', 0)->get()->map(function ($value){
 
             if ($value['maestro_app'] === 1){
@@ -157,6 +147,11 @@ class Persona extends Component
             $this->human_op_app = $setting['human_op_app'];
             $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app'] : $setting['maestro_app'];
 
+        }else{
+
+            $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
+
+            $this->industry_categories = BusinessSubStrategies::all();
         }
 
         return view('livewire.admin.hai-chat.persona');
