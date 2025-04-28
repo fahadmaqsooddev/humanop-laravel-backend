@@ -579,5 +579,10 @@ return [
             'fillable' => ['public_key','secret_key','region'],
             'hidden' => ['updated_at','created_at'],
         ],
+        'SubscriptionItem' => [
+            'table' => 'subscription_items',
+            'fillable' => ['subscription_id','stripe_id','stripe_product','stripe_price','quantity'],
+            'hidden' => ['created_at']
+        ],
     ]
 ];

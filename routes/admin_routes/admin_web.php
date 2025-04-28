@@ -54,6 +54,9 @@ Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
+// stripe webhook for update customer subscription
+Route::post('/subscription_update', [\App\Http\Controllers\B2BControllers\B2BApi\B2BSubscriptionController::class,'subscriptionUpdateWebhook']);
+
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
@@ -175,9 +178,9 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
         Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
-        
-        
-        
+
+
+
         Route::get('/b2b-organizations-users/{id?}/{prefer?}', [B2BOrganizationController::class, 'allOrganizationsUsers'])
     ->name('b2b_organizations_users');
 

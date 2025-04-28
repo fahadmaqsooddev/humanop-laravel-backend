@@ -170,11 +170,7 @@ class Subscription extends Model
 
             if ($subscription && $subscription->valid()) {
 
-                $newSubscription = $user->subscription('main')->swap($request->input('plan_id'));
-
-                $newSubscription->create($payment_method !== null ? $payment_method->id : null);
-
-//                $subscription->swapAndInvoice($request->input('plan_id'));
+                $subscription->swap($request->input('plan_id'));
 
             } else {
 
