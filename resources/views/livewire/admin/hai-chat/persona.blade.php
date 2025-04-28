@@ -60,16 +60,18 @@
                 @if(empty($chat_bot_id))
                     <option value="">SELECT BRAIN FIRST</option>
                 @else
-                    <option value="">NONE</option>
-                    <option value="1">GENERAL MAESTRO HAi</option>
-                    <option class="text-center" disabled>Client Companies</option>
-                    @foreach($client_companies as $company)
-                        <option value="2-{{$company['id']}}">{{$company['company_name']}}</option>
-                    @endforeach
-                    <option class="text-center" disabled>Industry Categories</option>
-                    @foreach($industry_categories as $category)
-                        <option value="3-{{$category['id']}}">{{$category['name']}}</option>
-                    @endforeach
+                    <div style="max-height: 20px; overflow-y: scroll;">
+                        <option value="">NONE</option>
+                        <option value="1">GENERAL MAESTRO HAi</option>
+                        <option class="text-center" disabled>Client Companies</option>
+                        @foreach($client_companies as $company)
+                            <option value="2-{{$company['id']}}">{{$company['company_name']}}</option>
+                        @endforeach
+                        <option class="text-center" disabled>Industry Categories</option>
+                        @foreach($industry_categories as $category)
+                            <option value="3-{{$category['id']}}">{{$category['name']}}</option>
+                        @endforeach
+                    </div>
                 @endif
             </select>
         </div>
