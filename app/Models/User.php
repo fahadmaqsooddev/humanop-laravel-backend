@@ -323,10 +323,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function businessCandidate()
     {
-
         return $this->hasOne(B2BBusinessCandidates::class, 'business_id', 'id');
     }
 
+    public function candidate(){
+
+        return $this->hasOne(B2BBusinessCandidates::class,'candidate_id','id');
+    }
 
     // query
     public function isAdmin()
@@ -1341,12 +1344,11 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkUserEmailInB2B($email)
     {
+        return self::where('email', $email)->where('business_id', Helpers::getUser()->id)->whereHas('candidate', function ($query){
 
-        return self::whereHas('businessCandidate', function ($query) {
+            $query->where('share_data', 1);
 
-            $query->where('role', 0)->where('share_data', 1);
-
-        })->whereId('business_id', Helpers::getUser()->id)->where('email', $email)->first()?->id;
+        })->select(['id','email'])->first()?->id;
     }
 
     public static function updateVersion()

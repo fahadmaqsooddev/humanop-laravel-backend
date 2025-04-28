@@ -57,10 +57,20 @@
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
             <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
-                <option value="">NONE</option>
-                <option value="1">GENERAL MAESTRO HAi</option>
-                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>
-                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>
+                @if(empty($chat_bot_id))
+                    <option value="">SELECT BRAIN FIRST</option>
+                @else
+                    <option value="">NONE</option>
+                    <option value="1">GENERAL MAESTRO HAi</option>
+                    <option class="text-center" disabled>Client Companies</option>
+                    @foreach($client_companies as $company)
+                        <option value="2-{{$company['id']}}">{{$company['company_name']}}</option>
+                    @endforeach
+                    <option class="text-center" disabled>Industry Categories</option>
+                    @foreach($industry_categories as $category)
+                        <option value="3-{{$category['id']}}">{{$category['name']}}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
 

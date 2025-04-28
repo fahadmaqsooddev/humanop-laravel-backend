@@ -2,15 +2,19 @@
 
 namespace App\Http\Livewire\Admin\HaiChat;
 
+use App\Models\B2B\BusinessStrategies;
+use App\Models\B2B\BusinessSubStrategies;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatSetting;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Persona extends Component
 {
-    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app, $connected_human_apps = [];
+    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app,
+        $connected_human_apps = [], $client_companies = [], $industry_categories = [];
 
     protected $listeners = ['updateChatBotHumanApp','viewEditPersona'];
 
@@ -80,7 +84,7 @@ class Persona extends Component
             $this->persona_text = $setting['persona_text'];
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app = $setting['maestro_app'];
+            $this->maestro_app = $setting['maestro_app'] . '-' . $setting['maestro_app_id'];
 
         }
 
@@ -107,6 +111,10 @@ class Persona extends Component
 
         $this->connected_human_apps = HaiChatSetting::pluck('human_op_app')->unique()->toArray();
 
+        $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
+
+        $this->industry_categories = BusinessSubStrategies::all();
+
 //        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
         if ($this->chat_bot_id && empty($this->human_op_app)){
@@ -116,7 +124,7 @@ class Persona extends Component
 //            $this->persona_text = $setting['persona_text'];
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
-//            $this->maestro_app = $setting['maestro_app'];
+            $this->maestro_app = $setting['maestro_app'] . '-' . $setting['maestro_app_id'];
 
         }
 

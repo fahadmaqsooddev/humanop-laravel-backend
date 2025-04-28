@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\B2BControllers\B2BApi;
 
+use App\Enums\Persona\MaestroApp;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\OpenRouterHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Models\Assessment;
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatbotKeyword;
@@ -17,6 +19,7 @@ use App\Models\HAIChai\HaiChatSetting;
 use App\Models\HAIChai\LlmModel;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class B2BHaiController extends Controller
 {
@@ -30,11 +33,29 @@ class B2BHaiController extends Controller
 
         try {
 
-            $setting = HaiChatSetting::where('maestro_app', 1)->first();
+            $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_CURRENT_MAESTRO_COMPANY_CLIENTS_HAi)
+
+                ->where('maestro_app_id', Helpers::getUser()->id)->first();
+
+            if (!$setting){
+
+                $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
+
+                    ->where('maestro_app_id', Helpers::getUser()->business_sub_stratergy_id)->first();
+
+                if (!$setting){
+
+                    $setting = HaiChatSetting::where('maestro_app', 1)->first();
+                }
+
+            }
+
+            if (!$setting){
+
+                return Helpers::validationResponse('Contact to Admin for the Chatbot connection.');
+            }
 
             $chat_bot = Chatbot::whereId($setting['chat_bot_id'])->first();
-
-//            $setting = HaiChatSetting::getHaiChatSetting($chat_bot['id']);
 
             $prompts = ChatPrompt::where('name',$chat_bot->name)->first();
 
@@ -62,12 +83,15 @@ class B2BHaiController extends Controller
                         return Helpers::successResponse('Answer of asked question', $reply);
                     }
 
-                    $user_grid = Assessment::getAssessmentFromUserId($user_id);
+                    Cache::put('b2b-hai-member-email-' . Helpers::getUser()->id, $email);
 
-                }else{
-
-                    $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
                 }
+
+//                $members_count = B2BBusinessCandidates::where('role', 0)->where('business_id', Helpers::getUser()->id)->count();
+//                $candidate_count = B2BBusinessCandidates::where('role', 1)->where('business_id', Helpers::getUser()->id)->count();
+//                $member_grid = Assessment::getAssessmentFromUserId(Cache::get('b2b-hai-member-email-' . Helpers::getUser()->id));
+
+                $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
