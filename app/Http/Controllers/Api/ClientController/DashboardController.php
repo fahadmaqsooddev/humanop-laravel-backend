@@ -566,22 +566,67 @@ class DashboardController extends Controller
     }
 
 
-    public function getVersions(){
-
+    // Controller Method
+    public function getVersions()
+    {
         try {
-
-            
-
             $versions = Version::allVersions();
-
-            return Helpers::successResponse('All Versions', $versions);
-
+    
+            $formattedVersions = [];
+    
+            foreach ($versions as $version) {
+    
+                
+                $groupedDescriptions = $version->versionDescriptions->groupBy('version_heading');
+    
+                
+                $newFeatureDescriptions = $groupedDescriptions->get(1, []);
+                $issueFixedDescriptions = $groupedDescriptions->get(0, []);
+    
+                
+                $newFeatureDescriptionsCleaned = [];
+                $issueFixedDescriptionsCleaned = [];
+    
+                
+                foreach ($newFeatureDescriptions as $description) {
+                    $newFeatureDescriptionsCleaned[] = [
+                        'description' => $description->description,
+                        'platform' => $description->platform,
+                    ];
+                }
+    
+                foreach ($issueFixedDescriptions as $description) {
+                    $issueFixedDescriptionsCleaned[] = [
+                        'description' => $description->description,
+                        'platform' => $description->platform,
+                    ];
+                }
+    
+              
+                $formattedVersions[] = [
+                    'version' => [
+                        'Web_version' => $version->version,
+                        'Ios_version' => $version->version,
+                        'Android_version' => $version->version,
+                        'note' => $version->note,
+                    ],
+                    'new_feature_descriptions' => $newFeatureDescriptionsCleaned,
+                    'issue_fixed_descriptions' => $issueFixedDescriptionsCleaned
+                ];
+            }
+    
+            return Helpers::successResponse('All Versions with Descriptions', $formattedVersions);
+    
         } catch (\Exception $exception) {
-
             return Helpers::serverErrorResponse($exception->getMessage());
-
         }
     }
+    
+
+    
+    
+    
+
     public function versionUpdate(){
 
         try {
@@ -589,7 +634,7 @@ class DashboardController extends Controller
             
             $userId = Helpers::getUser()['id'];
 
-             User::updateSingleUserVersion($userId);
+            User::updateSingleUserVersion($userId);
 
             return Helpers::successResponse('Version Update Successfully');
 

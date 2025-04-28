@@ -13,7 +13,7 @@ class CreateVersionControlForm extends Component
 {
     public $version, $note, $version_id;
     public $versionDetails = [
-        ['type' => [], 'description' => '']
+        ['type' => [], 'description' => '','version_heading'=>'']
     ];
 
 
@@ -30,7 +30,7 @@ class CreateVersionControlForm extends Component
 
     public function addVersionField()
     {
-        $this->versionDetails[] = ['type' => [], 'description' => ''];
+        $this->versionDetails[] = ['type' => [], 'description' => '','version_heading'=>''];
     }
 
     public function removeVersionField($index)
@@ -78,7 +78,7 @@ class CreateVersionControlForm extends Component
         $version = Version::createVersion($this->version, $this->note);
 
         foreach ($this->versionDetails as $detail) {
-            VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type']);
+            VersionControlDescription::createDescription($version->id, $detail['description'], $detail['type'],$detail['version_heading']);
         }
 
         User::updateVersion();

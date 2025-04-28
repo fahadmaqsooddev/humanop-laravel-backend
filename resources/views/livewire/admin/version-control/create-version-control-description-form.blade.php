@@ -93,6 +93,14 @@
                                        name="description"
                                        wire:model="description"></textarea>
                                 </div>
+                                <div class="col-md-12 mt-3">
+                                    <label for="version_heading" class="form-label text-white">Select Version Heading</label>
+                                    <select name="version_heading" wire:model='version_heading' id="version_heading" class="form-select">
+                                        <option value="">Select Option</option>
+                                        <option value="0">Issue Fixed</option>
+                                        <option value="1">New Feature</option>
+                                    </select>
+                                </div>
 
 
                                 @if($description_id)

@@ -10,7 +10,7 @@ class CreateVersionControlDescriptionForm extends Component
 
     
 
-    public $versions,$version_id,$description,$description_id;
+    public $versions,$version_id,$description,$description_id,$version_heading;
     public $platform=[];
     protected $listeners = ['updateDescriptionValues','emptyVersionControlValues','updateContent'];
     protected $rules = [
@@ -32,7 +32,7 @@ class CreateVersionControlDescriptionForm extends Component
         $this->description = $data;
     }
 
-    public function updateDescriptionValues($id,$version_id,$description,$platform){
+    public function updateDescriptionValues($id,$version_id,$description,$platform,$version_heading){
         // dd($id,$version_id,$description,$platform);
         
         $this->emptyVersionControlValues();
@@ -41,6 +41,7 @@ class CreateVersionControlDescriptionForm extends Component
         $this->description = $description;
         // $this->platform = $platform;
         $this->platform = explode(',', $platform);
+        $this->version_heading = $version_heading;
         // $this->emit('contentUpdated', $this->note);
     }
 
@@ -49,6 +50,7 @@ class CreateVersionControlDescriptionForm extends Component
         $this->description_id = '';
         $this->description = '';
         $this->platform = '';
+        $this->version_heading= '';
     }
 
     public function updateDescription(){
@@ -58,7 +60,8 @@ class CreateVersionControlDescriptionForm extends Component
 
             if($this->description_id){
             
-                VersionControlDescription::editDescription($this->description_id,$this->version_id,$this->description,$this->platform);
+                // dd($this->description_id,$this->version_id,$this->description,$this->platform,$this->version_heading);
+                VersionControlDescription::editDescription($this->description_id,$this->version_id,$this->description,$this->platform,$this->version_heading);
                 $this->emit('closeModal');
                 $this->reset();
                 $this->emit('refreshVersions');
