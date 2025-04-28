@@ -97,13 +97,23 @@ class Conversation extends Component
 
             $this->validate();
 
+            Log::info(['name' => $this->name]);
+
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+
+            Log::info(['chatbotid' => $chat_bot_id]);
 
             $prompts = ChatPrompt::where('name',$this->name)->first();
 
+            Log::info(['prompt' => $prompts]);
+
             $setting = HaiChatSetting::getHaiChatSetting($chat_bot_id);
 
+            Log::info(['setting' => $setting]);
+
             $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
+
+            Log::info(['llm' => $selectedModel]);
 
             $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
 
