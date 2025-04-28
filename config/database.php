@@ -169,11 +169,6 @@ return [
             'fillable' => ['sidebar_color','text_color','background_color','navbar_color','user_id'],
             'hidden' => ['created_at','updated_at']
         ],
-        'Plan' => [
-            'table' => 'plans',
-            'fillable' => ['plan_id','name','billing_method','price','currency'],
-            'hidden' => ['created_at','updated_at']
-        ],
         'Question' => [
             'table' => 'questions',
             'fillable' => ['question','sort','active','multiple','gender', 'question_id'],
@@ -343,7 +338,7 @@ return [
         ],
         'Plan' => [
             'table' => 'plans',
-            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency','plan_type','no_of_team_members'],
+            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency','plan_type','no_of_team_members','status'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [

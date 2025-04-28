@@ -12,25 +12,27 @@ class Plan extends Model
 
     public function __construct(array $attributes = [])
     {
-        $this->table = config('database.models.'.class_basename(__CLASS__).'.table');
-        $this->fillable = config('database.models.'.class_basename(__CLASS__).'.fillable');
-        $this->hidden = config('database.models.'.class_basename(__CLASS__).'.hidden');
+        $this->table = config('database.models.' . class_basename(__CLASS__) . '.table');
+        $this->fillable = config('database.models.' . class_basename(__CLASS__) . '.fillable');
+        $this->hidden = config('database.models.' . class_basename(__CLASS__) . '.hidden');
 
         parent::__construct($attributes);
     }
 
-    public static function singlePlan($plan_id = null){
+    public static function singlePlan($plan_id = null)
+    {
 
         return self::where('plan_id', $plan_id)->first();
     }
 
-    public static function allPlans(){
+    public static function allPlans()
+    {
 
         $plans = self::all();
 
-        foreach ($plans as $plan){
+        foreach ($plans as $plan) {
 
-            if ($plan['name'] === 'Freemium'){
+            if ($plan['name'] === 'Freemium') {
 
                 $plan['limitations'] = [
                     '1 Assessment every 90 days',
@@ -43,7 +45,7 @@ class Plan extends Model
                     'Early Releases'
                 ];
 
-            }elseif ($plan['name'] === 'Core'){
+            } elseif ($plan['name'] === 'Core') {
 
                 $plan['limitations'] = [
                     '1 Assessment every 90 days',
@@ -56,7 +58,7 @@ class Plan extends Model
                     'Early Releases'
                 ];
 
-            }elseif ($plan['name'] === 'Premium'){
+            } elseif ($plan['name'] === 'Premium') {
 
                 $plan['limitations'] = [
                     'Licensing Model',
@@ -77,20 +79,22 @@ class Plan extends Model
 
     }
 
-    public static function findPlanFromIntValue($int_value = null){
+    public static function findPlanFromIntValue($int_value = null)
+    {
 
         $plan_name = $int_value === 0 || $int_value === 1 ? $int_value === 1 ? "Core" : "Freemium" : "Premium";
 
         return self::where('name', $plan_name)->first();
     }
 
-    public static function planNames(){
+    public static function planNames()
+    {
 
-        return self::select(['id','name'])->get();
+        return self::select(['id', 'name'])->get();
     }
 
-    public static function storePlan($data=null){
-        // dd($data);
+    public static function storePlan($data = null)
+    {
         return self::create($data);
     }
 
@@ -99,12 +103,28 @@ class Plan extends Model
         return self::where('plan_type', 1)->get();
     }
 
-    public static function getdashboadB2Bplans($select=null){
-        $plans=self::where('plan_type',Admin::B2B_PLAN);
-        if(!empty($select)){
-            $plans->where('billing_method',$select);
+    public static function getB2BActivePlans()
+    {
+        return self::where('plan_type', 1)->where('status', Admin::B2B_ACTIVE_PLAN)->get();
+    }
+
+    public static function getdashboadB2Bplans($select = null)
+    {
+        $plans = self::where('plan_type', Admin::B2B_PLAN);
+        if (!empty($select)) {
+            $plans->where('billing_method', $select);
         }
-        
+
         return $plans->get();
+    }
+
+    public static function getSingleB2BPlan($id = null)
+    {
+        return self::where('id', $id)->first();
+    }
+
+    public static function activeb2BPlans()
+    {
+        return self::where('status', Admin::B2B_ACTIVE_PLAN)->count();
     }
 }
