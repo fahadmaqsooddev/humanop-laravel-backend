@@ -284,7 +284,7 @@
                     </div>
                     <div class="d-flex justify-content-between" style="margin-left: 24px;margin-right: 24px;margin-bottom: 14px">
                         <div style="width: 100%">
-                            <textarea rows="1" type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.defer="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px"></textarea>
+                            <textarea rows="1" type="text" wire:loading.attr="disabled" wire:target="user_id" id="userInput" wire:model.debounce.10ms="message" placeholder="Your message....." class="form-control" style="padding: 4px;border-radius: 20px;padding-left: 10px;padding-right: 10px"></textarea>
                         </div>
                         <div style="width: 5%" class="pt-1">
                             <button class="bg-transparent" type="submit" style="border:none" id="submit_btn">
