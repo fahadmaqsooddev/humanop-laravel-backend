@@ -28,6 +28,8 @@ Route::post('email-verified', 'AuthController@EmailVerified');
 Route::get('check-candidate', 'AuthController@checkUserDetail');
 Route::post('register-first-step', 'AuthController@registerFirstStep');
 Route::post('check-email-verification', 'AuthController@checkEmailVerification');
+Route::post('send-sms-code', 'AuthController@sendSmsCode');
+Route::post('check-sms-code-verification', 'AuthController@SmsCodeVerification');
 Route::post('register-last-step', 'AuthController@registerLastStep');
 
 // invite link Create Api

@@ -54,15 +54,15 @@
             </select>
         </div>
 
-{{--        <div class="card-header">--}}
-{{--            <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>--}}
-{{--            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">--}}
-{{--                <option value="">NONE</option>--}}
-{{--                <option value="1">GENERAL MAESTRO HAi</option>--}}
-{{--                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>--}}
-{{--                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>--}}
-{{--            </select>--}}
-{{--        </div>--}}
+        <div class="card-header">
+            <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
+            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
+                <option value="">NONE</option>
+                <option value="1">GENERAL MAESTRO HAi</option>
+                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>
+                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>
+            </select>
+        </div>
 
         <div class="card-body d-sm-flex pt-0 justify-content-end">
             <button style="padding: 10px 16px 10px 16px; border-radius: 7px;" wire:click="updateOrSave"

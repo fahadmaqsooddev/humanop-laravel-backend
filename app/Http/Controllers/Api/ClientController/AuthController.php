@@ -11,6 +11,8 @@ use App\Http\Requests\Api\Auth\EmailVerifiedRequest;
 use App\Http\Requests\Api\Client\ForgotPasswordRequest;
 use App\Http\Requests\Api\Client\LoginRequest;
 use App\Http\Requests\Api\Client\SendPhoneOtpRequest;
+use App\Http\Requests\Client\Register\SmsCodeRequest;
+use App\Http\Requests\Client\Register\SmsRequest;
 use App\Http\Requests\RegisterFirstStepRequest;
 use App\Http\Requests\RegisterLastStepRequest;
 use App\Models\B2B\B2BBusinessCandidates;
@@ -19,6 +21,7 @@ use App\Models\Email\EmailTemplate;
 use App\Models\Notification\PushNotification;
 use App\Models\User;
 use App\Models\UserInvite\UserInvite;
+use App\Services\AwsSnsServices\SnsServices;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -30,18 +33,21 @@ class AuthController extends Controller
 {
 
     protected $auth;
+    protected $sns;
 
-    public function __construct()
+    public function __construct(SnsServices $sns)
     {
-        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail']);
+        $this->middleware('auth:api')->except(['SendInvite', 'loginClient', 'forgotPassword', 'socialLogin', 'appVersion', 'resendEmailVerification', 'registerFirstStep', 'checkEmailVerification', 'registerLastStep', 'checkInviteLink', 'EmailVerified', 'sendPhoneOtp', 'checkUserDetail', 'sendSmsCode', 'SmsCodeVerification']);
 
         $this->auth = Auth::guard('api');
+
+        $this->sns = $sns;
     }
 
     public function checkUserDetail(CheckCandidate $request)
     {
         try {
-            $dataResult = $request->only(['token', 'company_name','prefer']);
+            $dataResult = $request->only(['token', 'company_name', 'prefer']);
 
             $invite = UserInvite::where('link', $dataResult['token'])->first();
 
@@ -328,6 +334,68 @@ class AuthController extends Controller
         }
     }
 
+    public function sendSmsCode(SmsRequest $request)
+    {
+        try {
+
+            $user = User::getSingleUser($request['user_id']);
+
+            if (!empty($user)) {
+
+                $code = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+                $message = "Hi {$user['first_name']} {$user['last_name']}, your code is: {$code} for verifying your phone number.";
+
+                $user->update(['phone' => $request['phone'], 'sms_verify_code' => $code]);
+
+                $user->setAppends([]);
+
+                $this->sns->sendSms($request['phone'], $message);
+
+                return Helpers::successResponse('sms code send', $user);
+            } else {
+
+                return Helpers::validationResponse('Your Email is not verified');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function SmsCodeVerification(SmsCodeRequest $request)
+    {
+        try {
+
+            $user = User::getSingleUser($request['user_id']);
+
+            if (!empty($user)) {
+
+                $smsCode = $user['sms_verify_code'];
+
+                if ($request['verification_code'] == $smsCode)
+                {
+                    $user->update(['phone_verified_at' => Carbon::now()]);
+
+                    $user->setAppends([]);
+
+                    return Helpers::successResponse('phone number is verified', $user);
+
+                }else
+                {
+                    return Helpers::validationResponse('Your Code is not verified');
+                }
+
+            } else {
+
+                return Helpers::validationResponse('Your Email is not verified');
+            }
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
     public function loginClient(LoginRequest $request)
     {
 
@@ -351,28 +419,28 @@ class AuthController extends Controller
                 return Helpers::validationResponse("These credentials do not match our records.");
             } else if ($checkUser && $checkUser['email_verified_at'] == null) {
 
-                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
                     'registration_step' => $checkUser['step'],
-                     'user_invite' => $userInvite['link']
+                    'user_invite' => $userInvite['link']
 
                 ];
 
                 return Helpers::successResponse('Your email is not verified. Kindly verify your email to continue.', $userData);
             } else if ($checkUser && $checkUser['step'] != 3) {
 
-                 $userInvite = UserInvite::getSingleInvite($checkUser['email']);
+                $userInvite = UserInvite::getSingleInvite($checkUser['email']);
 
                 $userData = [
                     'user_id' => $checkUser['id'],
                     'user_name' => $checkUser['first_name'] . ' ' . $checkUser['last_name'],
                     'email' => $checkUser['email'],
                     'registration_step' => $checkUser['step'],
-                     'user_invite' => $userInvite['link']
+                    'user_invite' => $userInvite['link']
 
                 ];
 

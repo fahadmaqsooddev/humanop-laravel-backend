@@ -50,6 +50,8 @@ Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::get('/stripe', [SessionController::class, 'triggerEvent']);
 Route::get('/stripe-checkout', [SessionController::class, 'checkout']);
 Route::post('/data-stripe', [SessionController::class, 'getData'])->name('data-stripe');
+Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
+Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
 

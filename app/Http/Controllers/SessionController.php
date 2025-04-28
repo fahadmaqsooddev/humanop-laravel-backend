@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
@@ -314,5 +315,15 @@ class SessionController extends Controller
 
         dd($request->all());
 
+    }
+
+    public function keyEncryptDecrypt(Request $request)
+    {
+
+        $encryptedKey = Crypt::encryptString($request['key']);
+
+        $decryptedKey = Crypt::decryptString($encryptedKey);
+
+        dd($encryptedKey, $decryptedKey);
     }
 }
