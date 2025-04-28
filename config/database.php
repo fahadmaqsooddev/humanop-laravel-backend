@@ -576,7 +576,7 @@ return [
         ],
         'VersionControlDescription' => [
             'table' => 'version_control_descriptions',
-            'fillable' => ['version_id','description','platform'],
+            'fillable' => ['version_id','description','platform','version_heading'],
             'hidden' => ['updated_at','created_at'],
         ],
         'SmsNotification' => [

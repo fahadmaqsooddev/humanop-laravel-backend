@@ -36,4 +36,19 @@ class B2BOrganizationController extends Controller
 
     //     }
     // }
+
+
+    public function allOrganizationsUsers(Request $request){
+
+        $id=$request['id'];
+        $prefer = $request['prefer']; 
+
+return view('b2b-dashboard.b2b-organizations.b2b-users', compact('id', 'prefer'));
+
+        
+        
+       
+    
+    }
+ 
 }

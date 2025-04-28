@@ -38,23 +38,6 @@
 
 </style>
 @section('content')
-    {{-- <div class="row mt-4 container-fluid">
-        <div class="col-12">
-            <div class="card" >
-                <!-- Card header -->
-                <div class="card-header table-header-text">
-                    <h5 class="mb-0">All Versions</h5>
-                    <a data-bs-toggle="modal"
-                       data-bs-target="#versionModel"
-                       style="background-color: #f2661c; color: white"
-                       onclick="emptyVersionModal();"
-                       class="btn btn-sm float-end mb-0 createForm">Add Version</a>
-                </div>
-
-                @livewire('admin.version-control.version-control-form')
-            </div>
-        </div>
-    </div> --}}
 
     @livewire('admin.version-control.version-control-form')
     <div class="row" style="margin-top: 200px">

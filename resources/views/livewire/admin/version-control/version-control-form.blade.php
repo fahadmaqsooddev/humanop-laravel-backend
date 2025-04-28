@@ -16,11 +16,7 @@
                                 style="background:#f2661c;color:white;font-weight:bolder;border:none;">
                             Add version
                         </button>
-                        {{-- <button data-toggle="modal" data-target="#descriptionModel" 
-                                id="create_resourse_btn"
-                                class=" btn-sm float-end mt-2 mb-0"
-                                style="background:#f2661c;color:white;font-weight:bolder;border:none;">Add Description
-                        </button> --}}
+                        
                     </div>
                 </div>
             </div>
@@ -120,8 +116,8 @@
                                 
                                                             <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
                                                             data-bs-toggle="modal"
-                                                            wire:click="editDescription({{ $resource['id'] }},'{{$resource['version_id']}}','{{ $resource['description'] }}','{{ $resource['platform'] }}')"
-                                                            data-bs-target="#descriptionModel"  class="btn btn-sm mb-2 ">Edit
+                                                            wire:click="editDescription({{ $resource['id'] }},'{{$resource['version_id']}}','{{ $resource['description'] }}','{{ $resource['platform'] }}','{{ $resource['version_heading'] }}')"
+                                                            data-bs-target="#descriptionModel"  class="btn btn-sm mb-2 ">Edit 1
                                                             </button>
                                                         </div>
                                                     </div>

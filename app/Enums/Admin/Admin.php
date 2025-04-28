@@ -139,4 +139,8 @@ final class Admin
     const B2C_PLAN=0;
 
     const REQUEST_SEND=1;
+
+    const ISSUE_FIXED=0;
+
+    const NEW_FEATURE=1;
 }

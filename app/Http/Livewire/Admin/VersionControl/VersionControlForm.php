@@ -36,9 +36,9 @@ class VersionControlForm extends Component
         
         $this->emit('updateVersionValues', $id, $version, $note);
     }
-    public function editDescription($id,$version_id,$description,$note){
+    public function editDescription($id,$version_id,$description,$platform,$versionHeading){
         
-        $this->emit('updateDescriptionValues', $id,$version_id,$description, $note);
+        $this->emit('updateDescriptionValues', $id,$version_id,$description, $platform,$versionHeading);
     }
 
     public function updateSession($type){

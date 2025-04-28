@@ -43,12 +43,12 @@
         <table class="table table-flush">
             <thead class="thead-light">
             <tr class="text-color-blue">
-                <th>Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Members</th>
-                <th>Candidates</th>
-                <th>Change Password</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Gender</th>
+                <th class="text-center">Members</th>
+                <th class="text-center">Candidates</th>
+                <th class="text-center">Change Password</th>
 
             </tr>
             </thead>
@@ -59,14 +59,24 @@
             @foreach($users as $user)
 
                 <tr class="text-color-blue">
-                    <td class="text-sm font-weight-normal ">{{$user['first_name'].' '.$user['last_name'] }} </td>
-                    <td class="text-sm font-weight-normal ">{{$user['email']}}</td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender']==0 ? 'Male':'FeMale'}}</td>
                     <td class="text-sm font-weight-normal text-center">
-                        {{$user['member_count']}}
+                       
+                        <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 1]) }}"
+                            style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
+                            class="btn btn-sm mb-0">{{$user['member_count']}}</a>
                     </td>
                     <td class="text-sm font-weight-normal text-center">
-                        {{$user['candidate_count']}}
+                       
+
+                         <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 2]) }}"
+                            style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
+                            class="btn btn-sm mb-0">
+                            {{ $user['candidate_count'] }}
+                        </a>
+                        
                     </td>
                     <td class="text-sm font-weight-normal text-center">
                         <a onclick="resetPassword({{ $user['id'] ?? null }}, '{{ $user['first_name'] ?? null }}')"
@@ -139,26 +149,6 @@ function resetPassword(id, name) {
 
 
     </script>
-{{--    <script>--}}
-{{--        window.addEventListener('swal:error', event => {--}}
-{{--            Swal.fire({--}}
-{{--                icon: 'error',--}}
-{{--                text: event.detail.message,--}}
-{{--                background: '#1c365e',--}}
-{{--                color: '#f6ba81',--}}
-{{--            });--}}
-{{--        });--}}
-
-{{--        window.addEventListener('swal:success', event => {--}}
-{{--            Swal.fire({--}}
-{{--                icon: 'success',--}}
-{{--                text: event.detail.message,--}}
-{{--                background: '#1c365e',--}}
-{{--                color: '#f6ba81',--}}
-{{--            });--}}
-{{--        });--}}
-{{--    </script>--}}
-
 
     <script>
         window.addEventListener('swal:error', event => {
