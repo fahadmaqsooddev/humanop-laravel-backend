@@ -14,9 +14,9 @@ use Livewire\Component;
 class Persona extends Component
 {
     public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app,
-        $connected_human_apps = [], $client_companies = [], $industry_categories = [];
+        $connected_human_apps = [], $client_companies = [], $industry_categories = [], $connected_maestro_apps = [];
 
-    protected $listeners = ['updateChatBotHumanApp','viewEditPersona'];
+    protected $listeners = ['updateChatBotHumanApp','viewEditPersona','updateChatBotMaestroApp'];
 
     public function rules(){
 
@@ -97,6 +97,27 @@ class Persona extends Component
         HaiChatSetting::where('human_op_app', $human_app)->update(['human_op_app' => 0]);
     }
 
+    public function updateChatBotMaestroApp($maestro_app){
+
+        $maestro_app_array = explode('-', $maestro_app);
+
+        if (isset($maestro_app_array[1])){
+
+            HaiChatSetting::where('maestro_app', $maestro_app_array[0])->where('maestro_app_id', $maestro_app_array[1])->update([
+                'maestro_app' => 0,
+                'maestro_app_id' => null,
+            ]);
+
+        }else{
+
+            HaiChatSetting::where('maestro_app', $maestro_app_array[0])->update([
+                'maestro_app' => 0,
+                'maestro_app_id' => null,
+            ]);
+        }
+
+    }
+
     public function viewEditPersona($id = null){
 
         $this->reset('persona_name', 'human_op_app');
@@ -115,7 +136,17 @@ class Persona extends Component
 
         $this->industry_categories = BusinessSubStrategies::all();
 
-//        $this->chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
+        $this->connected_maestro_apps = HaiChatSetting::whereNot('maestro_app', 0)->get()->map(function ($value){
+
+            if ($value['maestro_app'] === 1){
+
+                return (string)$value['maestro_app'];
+
+            }else{
+
+                return $value['maestro_app'] . '-' . $value['maestro_app_id'];
+            }
+        })->toArray();
 
         if ($this->chat_bot_id && empty($this->human_op_app)){
 
@@ -124,7 +155,7 @@ class Persona extends Component
 //            $this->persona_text = $setting['persona_text'];
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app = $setting['maestro_app'] . '-' . $setting['maestro_app_id'];
+            $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app'] : $setting['maestro_app'];
 
         }
 

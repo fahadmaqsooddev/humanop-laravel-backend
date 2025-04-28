@@ -56,7 +56,7 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
+            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
                 @if(empty($chat_bot_id))
                     <option value="">SELECT BRAIN FIRST</option>
                 @else
@@ -130,6 +130,42 @@
                     if (result.isConfirmed) {
 
                         window.livewire.emit('updateChatBotHumanApp', event.value);
+
+                    }else {
+
+                        document.getElementById('human_app').value = "";
+                    }
+                })
+            }
+
+        }
+
+        connected_maestro_app = [];
+
+        function alreadyExistsMaestroApp(event){
+
+            connected_maestro_app = {!! json_encode($connected_maestro_apps)  !!};
+
+            if(connected_maestro_app.includes(event.value)){
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn bg-gradient-primary m-2',
+                        cancelButton: 'btn bg-gradient-secondary m-2',
+                    },
+                    buttonsStyling: false,
+                    background: '#3442b4',
+                })
+                swalWithBootstrapButtons.fire({
+                    // title: '<span style="color: white;">Are you sure?</span>',
+                    html: "<span style='color: white;'>This Connection already has another Persona attached to it.  Would you like to replace it with this Persona?</span>",
+                    showCancelButton: true,
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        window.livewire.emit('updateChatBotMaestroApp', event.value);
 
                     }else {
 
