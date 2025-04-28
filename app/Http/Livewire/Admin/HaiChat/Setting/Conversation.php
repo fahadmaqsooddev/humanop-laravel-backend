@@ -95,7 +95,7 @@ class Conversation extends Component
     {
         try {
 
-//            $this->validate();
+            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -163,11 +163,7 @@ class Conversation extends Component
 
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    Log::info(['prom' => $prompts]);
-
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $aiReply['prompt'] ."&query=" . $this->message;
-
-                    Log::info(['routeee' => $route]);
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $aiReply['prompt'] ?? null ."&query=" . $this->message;
 
                     $response = $client->request("get", $route, $queryArray);
 
