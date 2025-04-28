@@ -52,7 +52,7 @@ class B2BHaiController extends Controller
 
             if (!$setting){
 
-                return Helpers::validationResponse('Contact to Admin for the Chatbot connection.');
+                return Helpers::validationResponse('There is no brain connection. Please contact the administrator to establish a connection.');
             }
 
             $chat_bot = Chatbot::whereId($setting['chat_bot_id'])->first();
