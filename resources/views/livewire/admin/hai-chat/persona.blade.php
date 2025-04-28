@@ -56,7 +56,7 @@
 
         <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
+            <select class="form-control input-bg" id="maestro_app" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
                 @if(empty($chat_bot_id))
                     <option value="">SELECT BRAIN FIRST</option>
                 @else
@@ -169,7 +169,7 @@
 
                     }else {
 
-                        document.getElementById('human_app').value = "";
+                        document.getElementById('maestro_app').value = "";
                     }
                 })
             }
