@@ -145,7 +145,7 @@ class B2BSubscriptionController extends Controller
             exit();
         }
 
-        Log::info();
+
         // Handle the event
         switch ($event->type) {
 
@@ -162,14 +162,14 @@ class B2BSubscriptionController extends Controller
                 $product_id = $paymentIntent['items']['data'][0]['plan']['product'] ?? null;
 
                 $user = User::where('stripe_id', $customer_id)->first();
-                Log::info();
+
 
                 if ($user){ // User already subscribed to any subscription
 
                     $subs = Subscription::where('user_id', $user->id)->latest()->first(); // find it's subscription
 
                     if ($subs){
-                        Log::info();
+
 
                         if (!empty($cancel_subscription)){ // if user cancel their subscription
 
@@ -194,7 +194,7 @@ class B2BSubscriptionController extends Controller
                             }
 
                             $subs->update(['stripe_price' => $plan_id]);
-                            Log::info();
+
 
                             if ($sub_item && ($sub_item->stripe_price != $plan_id)){
 
@@ -204,7 +204,7 @@ class B2BSubscriptionController extends Controller
 
                         }
 
-                        Log::info();
+
 
                     }else {
 
@@ -212,7 +212,7 @@ class B2BSubscriptionController extends Controller
                         $user->getDeletedSubscription()->restore();
 
                         $subs = Subscription::where('user_id', $user->id)->first();
-                        Log::info();
+
 
                         if ($subs){
 
@@ -230,12 +230,12 @@ class B2BSubscriptionController extends Controller
                             }
 
                         }
-                        Log::info();
+
 
                     }
 
                     if ($user->stripe_invoice_id || !empty($paymentIntent['latest_invoice'])){
-                        Log::info();
+
 
                         $invoice_id = $user->stripe_invoice_id ?? $paymentIntent['latest_invoice'];
 
@@ -270,7 +270,7 @@ class B2BSubscriptionController extends Controller
                             }
 
                         }
-                        Log::info();
+
 
                     }
 
@@ -311,11 +311,11 @@ class B2BSubscriptionController extends Controller
                 break;
 
             default:
-                Log::info();
+
 
                 echo 'Received unknown event type ' . $event->type;
         }
-        Log::info();
+
 
         http_response_code(200);
 
