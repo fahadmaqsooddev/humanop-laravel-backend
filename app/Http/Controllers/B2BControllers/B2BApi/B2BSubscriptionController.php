@@ -38,7 +38,7 @@ class B2BSubscriptionController extends Controller
 
             Stripe::setApiKey(config('cashier.secret'));
 
-            $prices = Plan::getB2BPlans();
+            $prices = Plan::getB2BActivePlans();
 
             $plans = [];
 

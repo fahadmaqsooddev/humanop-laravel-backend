@@ -25,22 +25,21 @@ class AllUser extends Component
     public $age = '';
     public $selectedItems = [];
     public $is_chatBot_published;
-
     public $perPage = 10;
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['logInAdminAsUser','changeUserMemberShip','makePractitioner'
-        ,'updateHaiChatVisibility','deleteClientProfile','updateEmailVerified','bulkDelete'];
+    protected $listeners = ['logInAdminAsUser', 'changeUserMemberShip', 'makePractitioner'
+        , 'updateHaiChatVisibility', 'deleteClientProfile', 'updateEmailVerified', 'bulkDelete'];
 
-
-        public function updated($field)
-        {
-            if (in_array($field, ['name', 'email', 'age'])) {
-                $this->resetPage();
-            }
+    public function updated($field)
+    {
+        if (in_array($field, ['name', 'email', 'age'])) {
+            $this->resetPage();
         }
+    }
 
 
-    public function logInAdminAsUser($id = null, $isClientOrPractitioner = null){
+    public function logInAdminAsUser($id = null, $isClientOrPractitioner = null)
+    {
 
         $user = User::whereId($id)->first();
 
@@ -52,29 +51,28 @@ class AllUser extends Component
 
         Cache::put('admin_' . $user->id, ['is_admin' => true, 'admin_id' => $admin_id]);
 
-        if ($isClientOrPractitioner == 2)
-        {
+        if ($isClientOrPractitioner == 2) {
             return redirect('client/dashboard');
-        }
-        else
-        {
+        } else {
             return redirect('admin/dashboard');
         }
 
     }
 
-    public function changeUserMemberShip($memberShipValue, $user_id){
+    public function changeUserMemberShip($memberShipValue, $user_id)
+    {
 
         $plan = Plan::findPlanFromIntValue($memberShipValue);
 
-        if ($plan){
+        if ($plan) {
 
             Subscription::updateUserSubscriptionFromAdmin($plan->plan_id, $user_id);
         }
 
     }
 
-    public function makePractitioner($id){
+    public function makePractitioner($id)
+    {
         User::makeUserAsPractitioner($id);
     }
 
@@ -82,10 +80,10 @@ class AllUser extends Component
     {
         $user = User::find($id);
         if ($user) {
-            if($user->hai_chat == Admin::HAI_CHAT_SHOW){
-                User::updateUser(['hai_chat' => Admin::HAI_CHAT_HIDE],$id);
-            }else{
-                User::updateUser(['hai_chat' => Admin::HAI_CHAT_SHOW],$id);
+            if ($user->hai_chat == Admin::HAI_CHAT_SHOW) {
+                User::updateUser(['hai_chat' => Admin::HAI_CHAT_HIDE], $id);
+            } else {
+                User::updateUser(['hai_chat' => Admin::HAI_CHAT_SHOW], $id);
             }
         }
     }
@@ -96,14 +94,15 @@ class AllUser extends Component
 
         if ($user) {
 
-            if(empty($user->email_verified_at)){
-                User::updateUser(['email_verified_at' =>Carbon::now()->format('Y-m-d H:i:s')],$id);
-            }else{
+            if (empty($user->email_verified_at)) {
+                User::updateUser(['email_verified_at' => Carbon::now()->format('Y-m-d H:i:s')], $id);
+            } else {
             }
         }
     }
 
-    public function deleteClientProfile($id){
+    public function deleteClientProfile($id)
+    {
 
         User::deleteClientProfile($id);
     }
@@ -117,26 +116,25 @@ class AllUser extends Component
         $this->selectedItems = [];
     }
 
-    public function hideHaiChatFromAllClients(){
+    public function hideHaiChatFromAllClients()
+    {
 
         $exists = User::where('hai_chat', Admin::HAI_CHAT_SHOW)->exists();
 
-        if ($exists){
+        if ($exists) {
 
             User::query()->update(['hai_chat' => Admin::HAI_CHAT_HIDE]);
 
-        }else{
+        } else {
 
             User::query()->update(['hai_chat' => Admin::HAI_CHAT_SHOW]);
         }
 
     }
 
-
-
     public function render()
     {
-        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER,Admin::IS_PRACTITIONER]);
+        $users = User::adminClients($this->name, $this->email, $this->age, $this->perPage, [Admin::IS_CUSTOMER, Admin::IS_PRACTITIONER]);
 
         $this->is_chatBot_published = Chatbot::where('is_published', 1)->exists();
 

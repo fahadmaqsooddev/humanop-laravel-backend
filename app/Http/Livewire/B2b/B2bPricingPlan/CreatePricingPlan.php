@@ -15,86 +15,97 @@ use Illuminate\Support\Facades\DB;
 class CreatePricingPlan extends Component
 {
 
-    public $plan_name, $price, $plan_type, $team_members;
+    public $plan_name, $price, $plan_type, $team_members, $plans, $plan_id;
 
-    public $month = '';
-    public $year = '';
-    public $plans;
-    public $data = [];
-    public $tab = 'month';
+    protected $listeners = ['activeInactivePlanModal'];
 
-
-    public function mount()
+    public function getPlans()
     {
-        $this->loadPlans();
+        $this->plans = Plan::getB2BPlans();
     }
 
-    public function selectTab($type)
+    public function updatePlanModal($planId, $planName, $planPrice, $noOfMembers, $planType)
     {
-        $this->tab = $type;
-        $this->loadPlans();
+
+        $this->plan_id = $planId;
+        $this->plan_name = $planName;
+        $this->price = $planPrice;
+        $this->team_members = $noOfMembers;
+        $this->plan_type = $planType;
+
     }
 
-    public function loadPlans()
+    public function activeInactivePlanModal($planId)
     {
-        $this->plans = [];
-        Stripe::setApiKey(config('cashier.secret'));
-        if ($this->tab === 'month') {
+        DB::beginTransaction();
+        try {
 
+            Stripe::setApiKey(config('cashier.secret'));
 
-            $prices = Plan::getdashboadB2Bplans($this->tab);
+            $getPlan = Plan::getSingleB2BPlan($planId);
 
-            if (!empty($prices)) {
-                foreach ($prices as $getPrice) {
-                    // Step 1: Get the Price
-                    $price = Price::retrieve($getPrice['plan_id']);
+            // Step 1: Retrieve the price
+            $price = Price::retrieve($getPlan['plan_id']);
 
-                    // Step 2: Get the associated Product
-                    $product = Product::retrieve($price->product);
+            $productId = $price->product;
 
-                    $this->plans[] = [
-                        'price_id' => $price->id,
-                        'product_id' => $product->id,
-                        'product_name' => $product->name,
-                        'unit_amount' => $price->unit_amount,
-                        'interval' => $price->recurring->interval ?? null,
-                        'no_of_team_members' => $getPrice['no_of_team_members'],
-                    ];
+            if ($getPlan && $getPlan['status'] == 1) {
 
+                // Step 2: Deactivate the price
+                Price::update($getPlan['plan_id'], [
+                    'active' => false,
+                ]);
 
+                // Step 3: Deactivate the product
+                Product::update($productId, [
+                    'active' => false,
+                ]);
+
+                $getPlan->update(['status' => 0]);
+
+                DB::commit();
+
+                session()->flash('success', 'Plan Inactive successfully!');
+
+            } else {
+
+                $b2bActivePlan = Plan::activeb2BPlans();
+
+                if ($b2bActivePlan < 4)
+                {
+                    // Step 2: Deactivate the price
+                    Price::update($getPlan['plan_id'], [
+                        'active' => true,
+                    ]);
+
+                    // Step 3: Deactivate the product
+                    Product::update($productId, [
+                        'active' => true,
+                    ]);
+
+                    $getPlan->update(['status' => 1]);
+
+                    DB::commit();
+
+                    session()->flash('success', 'Plan activated successfully!');
                 }
+                else
+                {
+                    DB::rollBack(); // Important: Rollback if you can't proceed
+                    session()->flash('error', 'You can only have a maximum of 4 active plans.');
+                }
+
             }
 
-        } elseif ($this->tab === 'year') {
+        } catch (\Exception $exception) {
 
+            DB::rollBack();
 
-            $prices = Plan::getdashboadB2Bplans($this->tab);
+            session()->flash('error', 'Something went wrong: ' . $exception->getMessage());
 
-            if (!empty($prices)) {
-                foreach ($prices as $getPrice) {
-
-                    $price = Price::retrieve($getPrice['plan_id']);
-
-
-                    $product = Product::retrieve($price->product);
-
-                    $this->plans[] = [
-                        'price_id' => $price->id,
-                        'product_id' => $product->id,
-                        'product_name' => $product->name,
-                        'unit_amount' => $price->unit_amount,
-                        'interval' => $price->recurring->interval ?? null,
-                        'no_of_team_members' => $getPrice['no_of_team_members'],
-                    ];
-
-
-                }
-            }
-
-
+            return Helpers::serverErrorResponse($exception->getMessage());
         }
     }
-
 
     public function submitForm()
     {
@@ -108,7 +119,7 @@ class CreatePricingPlan extends Component
             ]);
 
             $price = Price::create([
-                'unit_amount' => $this->price,
+                'unit_amount' => $this->price * 100,
                 'currency' => 'usd',
                 'recurring' => ['interval' => $this->plan_type],
                 'product' => $product->id,
@@ -119,7 +130,7 @@ class CreatePricingPlan extends Component
                 'name' => $product['name'],
                 'billing_method' => $price['recurring']['interval'],
                 'interval_count' => $price['recurring']['interval_count'],
-                'price' => $price['unit_amount'],
+                'price' => $this->price,
                 'currency' => $price['currency'],
                 'plan_type' => Admin::B2B_PLAN,
                 'no_of_team_members' => $this->team_members,
@@ -141,6 +152,69 @@ class CreatePricingPlan extends Component
             return Helpers::serverErrorResponse($exception->getMessage());
         }
 
+    }
+
+    public function updateB2bPlan()
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            Stripe::setApiKey(config('cashier.secret'));
+
+            $getPlan = Plan::getSingleB2BPlan($this->plan_id);
+
+            $oldPriceId = $getPlan['plan_id'];
+            $newProductName = $this->plan_name;
+            $newAmount = $this->price; // in cents
+            $interval = $this->plan_type;
+
+            // Step 1: Get the existing price
+            $oldPrice = Price::retrieve($oldPriceId);
+            $productId = $oldPrice->product;
+
+            // Step 2: Update the product name
+            $updatedProduct = Product::update($productId, [
+                'name' => $newProductName,
+            ]);
+
+            // Step 3: Create a new price
+            $newPrice = Price::create([
+                'unit_amount' => $newAmount * 100,
+                'currency' => 'usd', // adjust as needed
+                'recurring' => ['interval' => $interval],
+                'product' => $productId,
+            ]);
+
+            // Step 4 (optional): Deactivate old price
+            Price::update($oldPriceId, ['active' => false]);
+
+            $getPlan->update([
+                'plan_id' => $newPrice['id'],
+                'name' => $updatedProduct['name'],
+                'billing_method' => $newPrice['recurring']['interval'],
+                'interval_count' => $newPrice['recurring']['interval_count'],
+                'price' => $newPrice['unit_amount'],
+                'currency' => $newPrice['currency'],
+                'plan_type' => Admin::B2B_PLAN,
+                'no_of_team_members' => $this->team_members,
+            ]);
+
+            DB::commit();
+
+            $this->resetForm();
+
+            session()->flash('success', 'Plan update successfully!');
+
+        } catch (\Exception $exception) {
+
+            DB::rollBack();
+
+            session()->flash('error', 'Something went wrong: ' . $exception->getMessage());
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
 
     }
 
@@ -152,7 +226,10 @@ class CreatePricingPlan extends Component
     public function render()
     {
 
+        $this->getPlans();
 
-        return view('livewire.b2b.b2b-pricing-plan.create-pricing-plan');
+        return view('livewire.b2b.b2b-pricing-plan.create-pricing-plan', [
+            'plans' => $this->plans
+        ]);
     }
 }
