@@ -14,7 +14,8 @@ use Livewire\Component;
 class Persona extends Component
 {
     public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app,
-        $connected_human_apps = [], $client_companies = [], $industry_categories = [], $connected_maestro_apps = [];
+        $connected_human_apps = [], $client_companies = [], $industry_categories = [],
+        $connected_maestro_apps = [], $first_time = true;
 
     protected $listeners = ['updateChatBotHumanApp','viewEditPersona','updateChatBotMaestroApp'];
 
@@ -34,13 +35,6 @@ class Persona extends Component
     public function mount($name){
 
         $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-
-        if (request()->input('is_persona') == 1){
-
-            $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
-
-            $this->industry_categories = BusinessSubStrategies::all();
-        }
     }
 
     public function updateOrSave(){
@@ -147,11 +141,15 @@ class Persona extends Component
             $this->human_op_app = $setting['human_op_app'];
             $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app'] : $setting['maestro_app'];
 
-        }else{
+        }
+
+        if ($this->first_time){
 
             $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
 
             $this->industry_categories = BusinessSubStrategies::all();
+
+            $this->first_time = false;
         }
 
         return view('livewire.admin.hai-chat.persona');
