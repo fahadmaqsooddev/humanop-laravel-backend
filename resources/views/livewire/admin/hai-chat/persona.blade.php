@@ -35,6 +35,9 @@
                     <option value="{{$chatBot->id}}">{{$chatBot->brain_name ?? $chatBot->name}}</option>
                 @endforeach
             </select>
+            <span wire:loading wire:target="chat_bot_id" class="text-secondary text-sm" style="font-size: 10px;">
+                Loading data, please wait...
+            </span>
         </div>
 
         <div class="card-header">
@@ -54,13 +57,12 @@
             </select>
         </div>
 
-        <div class="card-header" wire:ignore>
+        <div class="card-header">
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH MAESTRO APP?</h5>
-            {{\Illuminate\Support\Facades\Log::info(['loop executing'])}}
             <select class="form-control input-bg change-input-form" id="maestro_app" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
-{{--                @if(empty($chat_bot_id))--}}
-{{--                    <option value="">SELECT BRAIN FIRST</option>--}}
-{{--                @else--}}
+                @if(empty($chat_bot_id))
+                    <option value="">SELECT BRAIN FIRST</option>
+                @else
                     <option value="">NONE</option>
                     <option value="1">GENERAL MAESTRO HAi</option>
                     <option class="text-center" disabled>Client Companies</option>
@@ -71,7 +73,7 @@
                     @foreach($industry_categories as $category)
                         <option value="3-{{$category['id']}}">{{$category['name']}}</option>
                     @endforeach
-{{--                @endif--}}
+                @endif
             </select>
         </div>
 
