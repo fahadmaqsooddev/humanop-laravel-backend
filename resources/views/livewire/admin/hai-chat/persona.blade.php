@@ -56,6 +56,7 @@
 
         <div class="card-header" wire:ignore>
             <h5 class="text-orange setting-form-heading py-0">CONNECT WITH MAESTRO APP?</h5>
+            {{\Illuminate\Support\Facades\Log::info(['loop executing'])}}
             <select class="form-control input-bg change-input-form" id="maestro_app" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
 {{--                @if(empty($chat_bot_id))--}}
 {{--                    <option value="">SELECT BRAIN FIRST</option>--}}
