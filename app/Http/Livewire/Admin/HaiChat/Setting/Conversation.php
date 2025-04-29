@@ -167,9 +167,13 @@ class Conversation extends Component
 
                     $response = $client->request("get", $route, $queryArray);
 
+                    Log::info(['bedrock body response' => $response->getBody()]);
+
                     if ($response->getStatusCode() === 200){
 
                         $reply = $response->getBody()->getContents();
+
+                        Log::info(['bedrock response' => $reply]);
 
                         HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 
