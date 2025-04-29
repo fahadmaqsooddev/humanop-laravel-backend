@@ -276,6 +276,23 @@ class UserController extends Controller
         }
     }
 
+    public function referralCredits()
+    {
+
+        try {
+
+            $user = Helpers::getUser();
+
+            $getReferralUsers = User::allReferralUsers($user['id']);
+
+            return Helpers::successResponse('All Referral Credits Users List', $getReferralUsers);
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
     public function deleteProfile()
     {
 

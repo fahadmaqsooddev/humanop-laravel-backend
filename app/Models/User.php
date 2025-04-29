@@ -386,6 +386,19 @@ class User extends Authenticatable implements JWTSubject
         return self::where('referral_code', $referralCode)->first();
     }
 
+    public static function allReferralUsers($userId = null)
+    {
+        $users = self::where('referred_by', $userId)->where('step', 3)->select(['id', 'first_name', 'last_name', 'email', 'gender', 'last_login','date_of_birth'])->get();
+
+        foreach ($users as $user) {
+            $user['gender'] = $user->gender == Admin::IS_MALE ? 'Male' : 'Female';
+            $user['last_login'] = Carbon::parse($user['last_login'])->format('m/d/Y h:i A');
+            $user->setAppends([]);
+        }
+
+        return $users;
+    }
+
     public static function updateWorkEmail($id = null, $email = null)
     {
         return self::where('id', $id)->update([
