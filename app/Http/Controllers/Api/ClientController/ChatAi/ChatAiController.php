@@ -24,6 +24,7 @@ use App\Models\HAIChai\LlmModel;
 use App\Models\HAIChai\QueryAnswer;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -62,8 +63,6 @@ class ChatAiController extends Controller
 
             $selectedModel = LlmModel::getSelectedModel($setting['model_type']);
 
-//            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($chat_bot['name']);
-
             $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot['id']);
 
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
@@ -94,21 +93,59 @@ class ChatAiController extends Controller
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id];
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                if ($setting && $setting['model_type'] === 5){
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
-                $reply = null;
+                    Log::info(['ai Reply' => $aiReply]);
 
-                foreach ($openRouterResponse['choices'] as $choice)
-                {
+                    $authorization = \request()->header('Authorization');
 
-                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
-
-                    $reply = [
-                        $choice['message']['content'] ?? "",
-                        0
+                    $queryArray = [
+                        'headers' => ['Authorization' => $authorization]
                     ];
+
+                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". ($aiReply['combined_output'] ?? null) ."&query=" . $this->message;
+
+                    $response = $client->request("get", $route, $queryArray);
+
+                    if ($response->getStatusCode() === 200){
+
+                        $reply = $response->getBody()->getContents();
+
+                        HaiChat::createChat($request->input("question"), $reply, null, $request->input("is_repeat_answer"));
+
+                        $reply = [
+                            $reply ?? "",
+                            0
+                        ];
+
+                    }else{
+
+                        session()->flash("error", "Try again.");
+                    }
+
+                }else{
+
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+
+                    $reply = null;
+
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
+
+                        HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+
+                        $reply = [
+                            $choice['message']['content'] ?? "",
+                            0
+                        ];
+                    }
+
                 }
 
             }else{
