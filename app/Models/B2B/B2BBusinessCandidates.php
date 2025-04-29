@@ -427,4 +427,12 @@ class B2BBusinessCandidates extends Model
         'future_consideration'=>1
       ]);
     }
+
+    public static function deleteB2BAdmin($id=null){
+         self::where('business_id',$id)->delete();
+         $user = User::find($id);
+         if ($user) {
+             $user->delete();
+         }
+    }
 }

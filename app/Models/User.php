@@ -326,9 +326,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(B2BBusinessCandidates::class, 'business_id', 'id');
     }
 
-    public function candidate(){
+    public function candidate()
+    {
 
-        return $this->hasOne(B2BBusinessCandidates::class,'candidate_id','id');
+        return $this->hasOne(B2BBusinessCandidates::class, 'candidate_id', 'id');
     }
 
     // query
@@ -1299,7 +1300,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getB2BAdmin($name = null, $email = null, $perpage = null)
     {
-        $query = self::whereNotNull('company_name');
+        $query = self::where('is_admin', Admin::IS_B2B);
 
         if (!empty($name)) {
             $query->where(function ($q) use ($name) {
@@ -1355,11 +1356,11 @@ class User extends Authenticatable implements JWTSubject
 
     public static function checkUserEmailInB2B($email)
     {
-        return self::where('email', $email)->where('business_id', Helpers::getUser()->id)->whereHas('candidate', function ($query){
+        return self::where('email', $email)->where('business_id', Helpers::getUser()->id)->whereHas('candidate', function ($query) {
 
             $query->where('share_data', 1);
 
-        })->select(['id','email'])->first()?->id;
+        })->select(['id', 'email'])->first()?->id;
     }
 
     public static function updateVersion()
@@ -1385,8 +1386,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getUser();
 
-        if ($user['complete_assessment_walkthrough'] == 0)
-        {
+        if ($user['complete_assessment_walkthrough'] == 0) {
             $user->update(['complete_assessment_walkthrough' => 1]);
         }
 
@@ -1397,11 +1397,49 @@ class User extends Authenticatable implements JWTSubject
     {
         $user = Helpers::getUser();
 
-        if ($user['complete_tutorial'] == 0)
-        {
+        if ($user['complete_tutorial'] == 0) {
             $user->update(['complete_tutorial' => 1]);
         }
 
         return $user;
     }
+
+    public static function getB2BDeletedAdmins($name = null, $email = null, $age = null, $perPage = null)
+    {
+        $users = self::where('is_admin', Admin::IS_B2B);
+
+        if (!empty($name)) {
+            $users->where(function ($query) use ($name) {
+                $query->where('first_name', 'LIKE', "%$name%")
+                    ->orWhere('last_name', 'LIKE', "%$name%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+            });
+        }
+
+        // Filter by email
+        if (!empty($email)) {
+
+            //    $users->where('email', $email);
+            $users->where('email', 'LIKE', "%$email%");
+
+
+        }
+
+        // Filter by age
+        if (!empty($age)) {
+            $data['age_range'] = $age;
+            $ageData = Helpers::explodeAgeRangeIntoAge($data);
+
+            $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+            $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
+
+            $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+        }
+        return $users->where('is_permanently_deleted', 0)
+            ->onlyTrashed()
+            ->orderBy('deleted_at', 'desc')
+            ->paginate($perPage);
+    }
+
+
 }

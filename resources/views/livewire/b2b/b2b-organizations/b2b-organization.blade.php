@@ -49,6 +49,7 @@
                 <th class="text-center">Members</th>
                 <th class="text-center">Candidates</th>
                 <th class="text-center">Change Password</th>
+                <th class="text-center">Delete</th>
 
             </tr>
             </thead>
@@ -83,6 +84,13 @@
                            style="border: 1px solid #f2661c; color: white; background-color: red;"
                            class="btn btn-sm mb-0">
                             Reset Password
+                        </a>
+                    </td>
+                    <td class="text-sm font-weight-normal text-center">
+                        <a onclick="deleteProfile({{ $user['id'] ?? null }})"
+                           style="border: 1px solid #f2661c; color: white; background-color: red;"
+                           class="btn btn-sm mb-0">
+                            Delete
                         </a>
                     </td>
 
@@ -178,6 +186,31 @@ function resetPassword(id, name) {
                 buttonsStyling: false
             });
         });
+    </script>
+
+    <script>
+        function deleteProfile(businessId) {
+
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn bg-gradient-danger m-2',
+        cancelButton: 'btn bg-gradient-secondary m-2',
+    },
+    buttonsStyling: false,
+    background: '#3442b4',
+})
+swalWithBootstrapButtons.fire({
+    title: '<span style="color: white;">Are you sure?</span>',
+    html: "<span style='color: white;'>Want to delete  Profile</span>",
+    showCancelButton: true,
+    confirmButtonText: 'Delete',
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.livewire.emit('deleteB2BAdminProfile', businessId)
+    }
+})
+}
+
     </script>
 
 

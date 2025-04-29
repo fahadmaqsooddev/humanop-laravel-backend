@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\B2b\B2bOrganizations;
 
+use App\Models\B2B\B2BBusinessCandidates;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
@@ -14,7 +15,7 @@ class B2bOrganization extends Component
     public $name, $email;
     public $perPage = 10;
 
-    protected $listeners = ['resetPassword'];
+    protected $listeners = ['resetPassword','deleteB2BAdminProfile'];
 
     public function resetPassword($id, $newPassword)
 {
@@ -33,6 +34,10 @@ class B2bOrganization extends Component
     }
 
 }
+ public function deleteB2BAdminProfile($businessId){
+    
+     B2BBusinessCandidates::deleteB2BAdmin($businessId);
+ }
 
 
 

@@ -11,7 +11,7 @@ class B2bUsers extends Component
  
 
     use WithPagination;
-    public $perpage=2;
+    public $perpage=10;
     public $businnesId;
     public $prefer;
     protected $listeners=['deleteClientProfile','FutureConsiderationClientProfile'];
