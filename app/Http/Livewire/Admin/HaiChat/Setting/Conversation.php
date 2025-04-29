@@ -121,22 +121,55 @@ class Conversation extends Component
 
                 $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => (int)$this->user_id];
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                if ($setting && $setting['model_type'] === 5){
+
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
+
+                    Log::info(['ai Reply' => $aiReply]);
+
+                    $authorization = \request()->header('Authorization');
+
+                    $queryArray = [
+                        'headers' => ['Authorization' => $authorization]
+                    ];
+
+                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". ($aiReply['combined_output'] ?? null) ."&query=" . $this->message;
+
+                    $response = $client->request("get", $route, $queryArray);
+
+                    if ($response->getStatusCode() === 200){
+
+                        $reply = $response->getBody()->getContents();
+
+                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
+
+                    }else{
+
+                        session()->flash("error", "Try again.");
+                    }
+
+                }else{
+
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-gpt-updated-api', $body);
 
-                Log::info(['ai Reply' => $aiReply]);
+                    Log::info(['ai Reply' => $aiReply]);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
-                foreach ($openRouterResponse['choices'] as $choice)
-                {
+                    foreach ($openRouterResponse['choices'] as $choice)
+                    {
 
-                HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
+                        HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
-                }
+                    }
 
-                AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+                    AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
+
+                }
 
             }else{
 
