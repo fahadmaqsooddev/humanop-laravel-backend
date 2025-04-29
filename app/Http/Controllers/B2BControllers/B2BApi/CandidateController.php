@@ -15,6 +15,7 @@ use App\Http\Requests\B2B\CandidatetoMember;
 use App\Models\Email\Email;
 use App\Models\Email\EmailTemplate;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
 {
@@ -31,6 +32,19 @@ class CandidateController extends Controller
     public function createInviteLinkForCandidate(Request $request)
     {
         try {
+
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email:rfc,dns', // Validation rules for email
+            ], [
+                'email.required' => 'The email field is required.',
+                'email.email' => 'Please provide a valid email address.',
+            ]);
+            
+            if ($validator->fails()) {
+                return Helpers::validationResponse('Please Send proper Email Address');
+            }
+            
+
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);

@@ -175,6 +175,7 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
         Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
+        Route::get('/b2b-deleted-clients', [B2BOrganizationController::class, 'allB2BDeletedClients'])->name('all_b2b_deleted_organiozations');
         
         
         

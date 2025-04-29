@@ -1288,7 +1288,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function getB2BAdmin($name = null, $email = null, $perpage = null)
     {
-        $query = self::whereNotNull('company_name');
+        $query = self::where('is_admin',Admin::IS_B2B);
 
         if (!empty($name)) {
             $query->where(function ($q) use ($name) {
@@ -1369,4 +1369,43 @@ class User extends Authenticatable implements JWTSubject
             'version_update' => 1
         ]);
     }
+
+    public static function getB2BDeletedAdmins($name=null,$email=null,$age=null,$perPage=null){
+        $users= self::where('is_admin',Admin::IS_B2B);
+
+        if (!empty($name)) {
+            $users->where(function ($query) use ($name) {
+                $query->where('first_name', 'LIKE', "%$name%")
+                    ->orWhere('last_name', 'LIKE', "%$name%")
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);
+            });
+        }
+
+        // Filter by email
+        if (!empty($email)) {
+
+            //    $users->where('email', $email);
+            $users->where('email', 'LIKE', "%$email%");
+
+
+        }
+
+        // Filter by age
+        if (!empty($age)) {
+            $data['age_range'] = $age;
+            $ageData = Helpers::explodeAgeRangeIntoAge($data);
+
+            $min_date = Carbon::now()->subYears((int)($ageData['age_max'] ?? 0))->toDateString();
+            $max_date = Carbon::now()->subYears((int)($ageData['age_min'] ?? 0))->toDateString();
+
+            $users->whereBetween('date_of_birth', [$min_date, $max_date]);
+        }
+     return $users->where('is_permanently_deleted', 0)
+            ->onlyTrashed()
+            ->orderBy('deleted_at', 'desc')
+            ->paginate($perPage);
+    }
+
+
+    
 }

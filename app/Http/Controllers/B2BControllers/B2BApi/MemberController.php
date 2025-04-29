@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
+use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
@@ -38,6 +39,15 @@ class MemberController extends Controller
     public function createInviteLinkForMember(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email:rfc,dns',
+            ]);
+            
+            if ($validator->fails()) {
+                return Helpers::validationResponse('Please Send proper Email Address');
+            }
+            
+            
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
