@@ -98,11 +98,13 @@ class CreateResource extends Component
 //                        $notification = PushNotification::getSingleNotification($user['id']);
 //
 //                        if ($notification['resource'] == 1) {
-//
-//                            event(new NewResource($permission, 'new training & resource', $message));
-//
+
+                    event(new NewResource($permission, 'new training & resource', $message));
+
 //                        }
 //                    }
+
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                     foreach ($users as $user) {
 
@@ -114,8 +116,6 @@ class CreateResource extends Component
                             Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
                         }
                     }
-
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                 }
 
