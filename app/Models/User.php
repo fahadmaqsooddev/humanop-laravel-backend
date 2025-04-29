@@ -1369,4 +1369,28 @@ class User extends Authenticatable implements JWTSubject
             'version_update' => 1
         ]);
     }
+
+    public static function completeAssessmentWalkthrought()
+    {
+        $user = Helpers::getUser();
+
+        if ($user['complete_assessment_walkthrough'] == 0)
+        {
+            $user->update(['complete_assessment_walkthrough' => 1]);
+        }
+
+        return $user;
+    }
+
+    public static function completeTutorial()
+    {
+        $user = Helpers::getUser();
+
+        if ($user['complete_tutorial'] == 0)
+        {
+            $user->update(['complete_tutorial' => 1]);
+        }
+
+        return $user;
+    }
 }
