@@ -83,16 +83,16 @@ class CreateResource extends Component
 
             PermissionResource::createResourcePermission($resource['id'], $this->permission);
 
-//            if (!empty($resource)) {
-//
-//                foreach ($this->permission as $permission) {
-//
-//                    $users = User::getAllClientUser();
-//
-//                    $isAllPermission = ($permission == 4);
-//
-//                    $message = 'Your New Training & Resource';
-//
+            if (!empty($resource)) {
+
+                foreach ($this->permission as $permission) {
+
+                    $users = User::getAllClientUser();
+
+                    $isAllPermission = ($permission == 4);
+
+                    $message = 'Your New Training & Resource';
+
 //                    foreach ($users as $user) {
 //
 //                        $notification = PushNotification::getSingleNotification($user['id']);
@@ -103,23 +103,23 @@ class CreateResource extends Component
 //
 //                        }
 //                    }
-//
-//                    foreach ($users as $user) {
-//
-//                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
-//
-//                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
-//
-//                        if ($isAllPermission || $userPermission == $permission) {
-//                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
-//                        }
-//                    }
-//
-//                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
-//
-//                }
-//
-//            }
+
+                    foreach ($users as $user) {
+
+                        $planMapping = ['Freemium' => 1, 'Core' => 2, 'Premium' => 3];
+
+                        $userPermission = $planMapping[$user['plan_name']] ?? 4;
+
+                        if ($isAllPermission || $userPermission == $permission) {
+                            Helpers::OneSignalApiUsed($user['id'], 'new training & resource', $message, 'true');
+                        }
+                    }
+
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
+
+                }
+
+            }
 
             $this->emit('toggleCreateResourceModal');
 
