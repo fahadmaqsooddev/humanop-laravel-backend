@@ -44,13 +44,13 @@ class Conversation extends Component
         'name.required' => 'Select chat-bot first',
     ];
 
-    public function mount($name){
-
-        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-
-        $this->name = $name;
-
-    }
+//    public function mount($name){
+//
+//        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+//
+//        $this->name = $name;
+//
+//    }
 
     public function updateChatBotId($value){
 
