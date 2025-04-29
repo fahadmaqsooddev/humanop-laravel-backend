@@ -182,7 +182,7 @@
 {{--            @endphp--}}
             <div class="col-lg-9 mt-lg-0 mt-4">
 
-                @if(isset($brain))
+                @if(isset($brain) && $brain)
 
                     @livewire('admin.hai-chat.persona',['chat_bot_id' => $brain['id']])
 
