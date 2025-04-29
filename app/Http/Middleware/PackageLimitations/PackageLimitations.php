@@ -42,7 +42,7 @@ class PackageLimitations
 
             if ($type === 'add_members') {
 
-                $getExistingMembers = B2BBusinessCandidates::where('business_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->get();
+                $getExistingMembers = B2BBusinessCandidates::where('business_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->where('future_consideration',Admin::NOT_IN_FUTURE)->get();
 
                 $getMemberInvites = UserCandidateInvite::where('company_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->get();
 

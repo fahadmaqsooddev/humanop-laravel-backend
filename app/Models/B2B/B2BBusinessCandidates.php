@@ -2,6 +2,7 @@
 
 namespace App\Models\B2B;
 
+use App\Http\Livewire\B2b\B2binvites\B2bInvite;
 use App\Models\User;
 use App\Helpers\Helpers;
 use App\Enums\Admin\Admin;
@@ -61,7 +62,7 @@ class B2BBusinessCandidates extends Model
         $checkData = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
         if (empty($checkData)) {
-            return self::create([
+            $data=self::create([
 
                 'business_id' => $businessId,
                 'candidate_id' => $candidateId,
@@ -69,6 +70,16 @@ class B2BBusinessCandidates extends Model
                 'share_data' => $sharedData,
             ]);
         }
+
+
+        $user=User::where('id',$candidateId)->first();
+        $getInvite=UserInvite::where('email',$user['email'])->first();
+        UserCandidateInvite::where('company_id',$businessId)->where('invite_link_id',$getInvite['id'])->delete();
+
+
+        return $data;
+
+
     }
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
@@ -157,19 +168,22 @@ class B2BBusinessCandidates extends Model
         })->get();
     }
 
-    public static function CandidatetoMember($userid)
+    public static function CandidatetoMember($userId)
     {
 
-        return User::where('id', $userid)->update(['is_admin' => Admin::IS_B2U]);
+        return User::where('id', $userId)->update(['is_admin' => Admin::IS_B2U]);
     }
 
-    public static function DeletedCandidate($userid)
+    public static function DeletedCandidate($userId)
     {
 
-        return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->update([
-            'is_permanently_deleted' => 1,
-            'share_data' => Admin::NOT_SHARED_DATA,
-        ]);
+
+        $data=self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->delete();
+        $user=User::where('id',$userId)->first();
+        $getInvite=UserInvite::where('email',$user['email'])->first();
+        UserCandidateInvite::where('company_id',Helpers::getUser()['id'])->where('invite_link_id',$getInvite['id'])->delete();
+        return $data;
+
     }
 
 
