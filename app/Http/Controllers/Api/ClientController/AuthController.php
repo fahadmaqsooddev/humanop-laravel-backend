@@ -350,7 +350,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-                $this->sns->sendSms($request['phone'], $message);
+//                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
             } else {

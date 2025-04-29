@@ -42,9 +42,7 @@ class MemberController extends Controller
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
 
-
             if ($checkInviteLink) {
-
 
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
