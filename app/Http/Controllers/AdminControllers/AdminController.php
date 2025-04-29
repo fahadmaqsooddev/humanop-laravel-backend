@@ -541,7 +541,9 @@ class AdminController extends Controller
 
         try {
 
-            return view('admin-dashboards.hai-chat.detail', compact('name'));
+            $brain = Chatbot::getChatFromVendorName($name);
+
+            return view('admin-dashboards.hai-chat.detail', compact('brain'));
 
         }catch (\Exception $exception){
 

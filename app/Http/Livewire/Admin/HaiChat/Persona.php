@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class Persona extends Component
 {
-    public $chat_bot_id, $persona_text = null, $name, $persona_name, $human_op_app, $maestro_app,
+    public $chat_bot_id, $persona_text = null, $persona_name, $human_op_app, $maestro_app,
         $connected_human_apps = [], $client_companies = [], $industry_categories = [],
         $connected_maestro_apps = [], $first_time = true;
 
@@ -32,10 +32,10 @@ class Persona extends Component
         'persona_name.unique' => 'Persona with same name already exists.',
     ];
 
-    public function mount($name){
-
-        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-    }
+//    public function mount($name){
+//
+//        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+//    }
 
     public function updateOrSave(){
 
@@ -116,7 +116,6 @@ class Persona extends Component
 
     public function render()
     {
-        $this->chatBots = Chatbot::get();
 
         $this->connected_human_apps = HaiChatSetting::pluck('human_op_app')->unique()->toArray();
 
@@ -148,6 +147,8 @@ class Persona extends Component
             $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
 
             $this->industry_categories = BusinessSubStrategies::all();
+
+            $this->chatBots = Chatbot::get();
 
             $this->first_time = false;
         }
