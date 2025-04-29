@@ -380,6 +380,10 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public static function getReferralByUser($referralCode = null)
+    {
+        return self::where('referral_code', $referralCode)->first();
+    }
 
     public static function updateWorkEmail($id = null, $email = null)
     {
@@ -632,7 +636,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public static function createFirstStep($data = null, $googleId = null, $appleId = null, $is_admin = null)
+    public static function createFirstStep($data = null, $googleId = null, $appleId = null, $is_admin = null, $referralCode = null)
     {
 
         $data['step'] = 1;
@@ -646,6 +650,13 @@ class User extends Authenticatable implements JWTSubject
         $data['hai_chat'] = 2;
 
         $data['email_verify_token'] = Str::random(16);
+
+        if (!empty($referralCode)) {
+
+            $referralBy = self::getReferralByUser($referralCode);
+
+            $data['referred_by'] = $referralBy['id'];
+        }
 
         $user = self::create($data);
 

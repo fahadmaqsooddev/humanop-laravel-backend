@@ -117,7 +117,7 @@ class AuthController extends Controller
 
                     } else {
 
-                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false);
+                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false, $request['ref']);
 
                     }
 
