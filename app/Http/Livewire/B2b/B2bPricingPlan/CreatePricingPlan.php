@@ -195,7 +195,7 @@ class CreatePricingPlan extends Component
                 'name' => $updatedProduct['name'],
                 'billing_method' => $newPrice['recurring']['interval'],
                 'interval_count' => $newPrice['recurring']['interval_count'],
-                'price' => $newPrice['unit_amount'],
+                'price' => $newAmount,
                 'currency' => $newPrice['currency'],
                 'plan_type' => Admin::B2B_PLAN,
                 'no_of_team_members' => $this->team_members,

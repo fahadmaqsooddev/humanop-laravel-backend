@@ -258,7 +258,6 @@ class DashboardController extends Controller
         }
     }
 
-
     public function getWalkThrough()
     {
         try {
@@ -387,6 +386,50 @@ class DashboardController extends Controller
             }
 
             return Helpers::successResponse('optional trait', $data);
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function completeWalkThrough()
+    {
+        try {
+
+            $user = User::completeAssessmentWalkthrought();
+
+            if ($user['complete_assessment_walkthrough'] == 1)
+            {
+                return Helpers::successResponse('Assessment walkthrough completed');
+
+            }else
+            {
+                return Helpers::validationResponse('Assessment walkthrough not completed');
+
+            }
+
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function completeTutorial()
+    {
+        try {
+
+            $user = User::completeTutorial();
+
+            if ($user['complete_tutorial'] == 1)
+            {
+                return Helpers::successResponse('Tutorial completed');
+
+            }else
+            {
+                return Helpers::validationResponse('Tutorial not completed');
+
+            }
+
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());

@@ -25,6 +25,8 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('optional-trait', 'DashboardController@optionalTrait');
 
     Route::get('assessment-walkthrough','DashboardController@getWalkThrough');
+    Route::post('complete-assessment-walkthrough','DashboardController@completeWalkThrough');
+    Route::post('complete-tutorial','DashboardController@completeTutorial');
 
     Route::post('shared-data','DashboardController@sharedData');
     Route::get('check-shared-data','DashboardController@CheckShareData');
