@@ -125,6 +125,8 @@ class Conversation extends Component
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
+
                     Log::info(['ai Reply' => $aiReply]);
 
                     $authorization = \request()->header('Authorization');
@@ -135,7 +137,7 @@ class Conversation extends Component
 
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". ($aiReply['combined_output'] ?? null) ."&query=" . $this->message;
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
                     $response = $client->request("get", $route, $queryArray);
 
@@ -155,9 +157,11 @@ class Conversation extends Component
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-gpt-updated-api', $body);
 
+                    $prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
+
                     Log::info(['ai Reply' => $aiReply]);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $prompt, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
                     foreach ($openRouterResponse['choices'] as $choice)
                     {
