@@ -34,7 +34,7 @@ class CandidateController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email:rfc,dns', // Validation rules for email
+                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', // Validation rules for email
             ], [
                 'email.required' => 'The email field is required.',
                 'email.email' => 'Please provide a valid email address.',
@@ -142,7 +142,7 @@ class CandidateController extends Controller
             foreach ($candidates as $candidate) {
 
                 if (!empty($candidate['users'])) {
-
+// dd(1);
                     $candidate['users']['gender'] = $candidate['users']['gender'] == 0 ? 'Male' : 'Female';
 
                     $candidate['users']['status'] = $candidate['users']['last_login'] ? 'on-board' : 'pending';
@@ -166,6 +166,7 @@ class CandidateController extends Controller
                     $formattedCandidates[] = $candidate;
                 }
             }
+            
 
             return Helpers::successResponse('All candidates', $formattedCandidates);
 
@@ -189,18 +190,19 @@ class CandidateController extends Controller
                         return Helpers::validationResponse('This candidate is  already converted to member');
                     } else {
 
-                        $checklimit = B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
-
-                        if ($checklimit['members_limit'] > 0 && $checklimit['members_limit'] <= $checklimit['total_member_limit']) {
-                            $changerole = B2BBusinessCandidates::changeRole($request['candidate_id']);
-                            if ($changerole) {
-                                return Helpers::successResponse(' Candidate Change To Member');
-                            } else {
-                                return Helpers::validationResponse('Not Link With Your Business');
-                            }
+                        $changerole = B2BBusinessCandidates::changeRole($request['candidate_id']);
+                        if ($changerole) {
+                            return Helpers::successResponse(' Candidate Change To Member');
                         } else {
-                            return Helpers::validationResponse('Your Business has reached the maximum number of members');
+                            return Helpers::validationResponse('Not Link With Your Business');
                         }
+                        // // $checklimit = B2BBusinessCandidates::CheckLimit(Helpers::getUser()['email']);
+
+                        // if ($checklimit['members_limit'] > 0 && $checklimit['members_limit'] <= $checklimit['total_member_limit']) {
+                            
+                        // } else {
+                        //     return Helpers::validationResponse('Your Business has reached the maximum number of members');
+                        // }
 
                     }
                 }
