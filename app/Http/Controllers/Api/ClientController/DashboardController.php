@@ -25,6 +25,7 @@ use App\Models\Client\Dashboard\ActionPlan;
 use App\Models\Information\InformationIcon;
 use App\Models\Admin\Notification\Notification;
 use App\Models\Admin\AssessmentWalkthrough\AssessmentWalkThrough;
+use App\Models\Admin\Resources\LibraryResource;
 use App\Models\Admin\VersionControl\Version;
 
 class DashboardController extends Controller
@@ -640,6 +641,21 @@ class DashboardController extends Controller
             User::updateSingleUserVersion($userId);
 
             return Helpers::successResponse('Version Update Successfully');
+        } catch (\Exception $exception) {
+
+            return Helpers::serverErrorResponse($exception->getMessage());
+        }
+    }
+
+    public function topLibraryResourcses(){
+        try {
+
+
+           
+
+           $resource= LibraryResource::latestLibraryResourcses();
+
+            return Helpers::successResponse('Latest resourcses',$resource);
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
