@@ -104,7 +104,7 @@ maintenance."
 
             $user_name = $user['first_name'];
 
-            $gender = $user['gender'] === Admin::IS_MALE ? 'male' : 'female';
+            $gender = $user['gender'] == Admin::IS_MALE ? 'male' : 'female';
 
             $history = $user['chat_summary'];
 
