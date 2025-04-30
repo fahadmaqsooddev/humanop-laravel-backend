@@ -146,7 +146,7 @@ class Persona extends Component
 
             $this->client_companies = User::whereNotNull('company_name')->select(['id','company_name'])->get();
 
-            $this->industry_categories = BusinessSubStrategies::all();
+            $this->industry_categories = BusinessStrategies::all();
 
             $this->chatBots = Chatbot::get();
 

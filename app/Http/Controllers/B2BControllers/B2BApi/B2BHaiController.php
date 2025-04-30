@@ -41,7 +41,11 @@ class B2BHaiController extends Controller
 
                 $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
 
-                    ->where('maestro_app_id', Helpers::getUser()->business_sub_stratergy_id)->first();
+                    ->whereHas('businessSubStrategies', function ($query){
+
+                        $query->where('business_strategy_id', Helpers::getUser()->business_sub_stratergy_id);
+
+                    })->first();
 
                 if (!$setting){
 

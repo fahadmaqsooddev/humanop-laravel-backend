@@ -2,6 +2,7 @@
 
 namespace App\Models\HAIChai;
 
+use App\Models\B2B\BusinessSubStrategies;
 use App\Models\Client\Plan\Plan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,11 @@ class HaiChatSetting extends Model
     public function plan(){
 
         return $this->belongsTo(Plan::class,'plan_id','id');
+    }
+
+    public function businessSubStrategies(){
+
+        return $this->hasMany(BusinessSubStrategies::class,'business_strategy_id','maestro_app_id');
     }
 
     // Queries
