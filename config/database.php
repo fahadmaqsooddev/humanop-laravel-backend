@@ -584,5 +584,10 @@ return [
             'fillable' => ['subscription_id','stripe_id','stripe_product','stripe_price','quantity'],
             'hidden' => ['created_at']
         ],
+        'B2BCoupon' => [
+            'table' => 'b2b_coupons',
+            'fillable' => ['coupon_name','coupon_code','coupon_limit','coupon_duration'],
+            'hidden' => ['created_at', 'updated_at']
+        ],
     ]
 ];

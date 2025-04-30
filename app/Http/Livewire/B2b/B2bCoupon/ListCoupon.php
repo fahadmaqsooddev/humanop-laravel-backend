@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\B2b\B2bCoupon;
 
 use App\Helpers\Helpers;
+use App\Models\B2B\B2BCoupon;
 use Livewire\Component;
 use Stripe\Coupon;
 use Stripe\Stripe;
@@ -30,6 +31,8 @@ class ListCoupon extends Component
             $coupon = Coupon::retrieve($coupon_id);
 
             $coupon->delete();
+
+            B2BCoupon::deleteCoupon($coupon_id);
 
             session()->flash('success', 'Coupon deleted');
 
