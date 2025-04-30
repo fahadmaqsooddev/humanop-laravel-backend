@@ -47,8 +47,8 @@ class PackageLimitations
                 $getMemberInvites = UserCandidateInvite::where('company_id', $user_id)->where('role', Admin::IS_TEAM_MEMBER)->get();
 
 
-                dd(count($getExistingMembers), $limitations['no_of_team_members'], count($getMemberInvites));
-                
+                dd(count($getExistingMembers), count($getMemberInvites));
+
                 if ((count($getExistingMembers) < (int)$limitations['no_of_team_members']) && (count($getMemberInvites) < (int)$limitations['no_of_team_members'])) {
 
                     return $next($request);
