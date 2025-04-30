@@ -185,10 +185,30 @@
 {{--                $lastSegment = array_pop($urlParts);--}}
 {{--            @endphp--}}
             <div class="col-lg-9 mt-lg-0 mt-4">
-                @livewire('admin.hai-chat.persona',['name' => $name])
+
+                @if(isset($brain) && $brain)
+
+                    @livewire('admin.hai-chat.persona',['chat_bot_id' => $brain['id']])
+
+                    @livewire('admin.hai-chat.setting.prompt',['chat_bot_id' => $brain['id'], 'name' => $brain['name']])
+
+                    @livewire('admin.hai-chat.setting.conversation',['chat_bot_id' => $brain['id'], 'name' => $brain['name']])
+
+                @else
+
+                    @livewire('admin.hai-chat.persona',['chat_bot_id' => null])
+
+                    @livewire('admin.hai-chat.setting.prompt',['chat_bot_id' => null, 'name' => null])
+
+                    @livewire('admin.hai-chat.setting.conversation',['name' => null, 'chat_bot_id' => null])
+
+                @endif
+
+
+
 {{--                @livewire('admin.hai-chat.persona')--}}
 {{--                @livewire('admin.hai-chat.setting.prompt')--}}
-                @livewire('admin.hai-chat.setting.prompt',['name' => $name])
+
 {{--                @livewire('admin.hai-chat.setting.embedding',['bot_name' => $lastSegment])--}}
 
 {{--                <div class="card setting-box-background mt-4" id="capture">--}}
@@ -243,7 +263,6 @@
 {{--                    </div>--}}
 {{--                </div>--}}
 {{--                @livewire('admin.hai-chat.setting.conversation')--}}
-                @livewire('admin.hai-chat.setting.conversation',['name' => $name])
 {{--                @livewire('admin.hai-chat.setting.analytics',['name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.comparison', ['bot_name' => $lastSegment])--}}
 {{--                @livewire('admin.hai-chat.setting.setting', ['bot_name' => $lastSegment])--}}
@@ -384,20 +403,28 @@
         // Example: Set this to true when user modifies a form
         document.querySelectorAll(".change-input-form").forEach((el) => {
 
-            el.addEventListener("change", () => {
+            el.addEventListener("keydown", () => {
                 isFormChanged = true;
             });
 
         });
 
         // Prompt before leaving
-        // window.addEventListener("beforeunload", (event) => {
-        //     if (isFormChanged) {
-        //         event.preventDefault(); // Some browsers require this
-        //         event.returnValue = ""; // Required for most browsers to trigger prompt
-        //         // Chrome shows a generic prompt; custom messages are ignored for security reasons
-        //     }
-        // });
+        window.addEventListener("beforeunload", (event) => {
+            if (isFormChanged) {
+                event.preventDefault(); // Some browsers require this
+                event.returnValue = ""; // Required for most browsers to trigger prompt
+                // Chrome shows a generic prompt; custom messages are ignored for security reasons
+            }
+        });
+
+        document.querySelectorAll(".update-button").forEach((el) => {
+
+            el.addEventListener("click", () => {
+                isFormChanged = false; // prevent the unload prompt
+            });
+
+        });
 
     </script>
 @endpush

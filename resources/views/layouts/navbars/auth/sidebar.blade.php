@@ -644,6 +644,18 @@
                                                         <span class="sidenav-normal"> Organizations </span>
                                                     </a>
                                                 </li>
+                                                <li class="nav-item {{ (Request::is('all_b2b_deleted_organiozations') ? 'active' : '') }}">
+                                                    <a class="nav-link {{ (Request::is('all_b2b_deleted_organiozations') ? 'active' : '') }}"
+                                                       href="{{ route('all_b2b_deleted_organiozations') }}">
+                                                <span class="sidenav-mini-icon"><img
+                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-normal"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-normal"> B2B Deleted Organizations </span>
+                                                    </a>
+                                                </li>
                                                 <li class="nav-item {{ (Request::is('admin_role_template') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin_role_template') ? 'active' : '') }}"
                                                        href="{{ route('admin_role_template') }}">

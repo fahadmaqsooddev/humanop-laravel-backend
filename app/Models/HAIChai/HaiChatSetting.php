@@ -89,6 +89,8 @@ class HaiChatSetting extends Model
 
     public static function updatePersonaConfigurations($chat_bot_id, $persona_text, $persona_name, $human_op_app, $maestro_app){
 
+        $maestro_app_array = explode('-', $maestro_app);
+
         $haiSetting = self::getHaiChatSetting($chat_bot_id);
 
         if ($haiSetting){
@@ -97,7 +99,8 @@ class HaiChatSetting extends Model
                 'persona_text' => $persona_text,
                 'persona_name' => $persona_name,
                 'human_op_app' => $human_op_app,
-                'maestro_app' => $maestro_app
+                'maestro_app' => !empty($maestro_app_array[0]) ? (int)$maestro_app_array[0] : (int)$maestro_app,
+                'maestro_app_id' => isset($maestro_app_array[1]) ? (int)$maestro_app_array[1] : null,
             ]);
         }
 

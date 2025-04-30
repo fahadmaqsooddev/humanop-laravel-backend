@@ -11,19 +11,20 @@
             </tr>
             </thead>
             <tbody>
-                        @foreach($coupons['data'] as $coupon)
-                            <tr class="table-text-color">
-                                <td class="text-md font-weight-normal">{{$coupon['name'] ?? 'N/A'}} </td>
-                                <td class="text-md font-weight-normal">{{$coupon['id']}} </td>
-                                <td class="text-md font-weight-normal">{{$coupon['percent_off']}}% </td>
-                                <td class="text-md font-weight-normal">{{$coupon['duration']}} </td>
-                                <td>
-                                    <button class="btn btn-sm btn-danger" onclick="confirmB2BBoxForPermanentDelete('{{$coupon['id']}}')">
-                                        delete
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
+            @foreach($coupons['data'] as $coupon)
+                <tr class="table-text-color">
+                    <td class="text-md font-weight-normal">{{$coupon['name'] ?? 'N/A'}} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['id']}} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['percent_off']}}%</td>
+                    <td class="text-md font-weight-normal">{{$coupon['duration']}} </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger"
+                                onclick="confirmB2BBoxForPermanentDelete('{{$coupon['id']}}')">
+                            delete
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
 
             </tbody>
         </table>
@@ -42,15 +43,15 @@
     <script>
 
 
-        function confirmB2BBoxForPermanentDelete(coupon_id){
+        function confirmB2BBoxForPermanentDelete(coupon_id) {
 
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn bg-gradient-danger m-2',
-                    cancelButton:  'btn bg-gradient-primary m-2',
+                    cancelButton: 'btn bg-gradient-primary m-2',
                 },
                 buttonsStyling: false,
-                background : '#3442b4',
+                background: '#3442b4',
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
@@ -58,7 +59,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
-                if(result.isConfirmed){
+                if (result.isConfirmed) {
                     window.livewire.emit('deleteCoupon', coupon_id)
                 }
             })

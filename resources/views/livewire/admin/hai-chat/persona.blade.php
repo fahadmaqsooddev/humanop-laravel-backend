@@ -34,6 +34,9 @@
                     <option value="{{$chatBot->id}}">{{$chatBot->brain_name ?? $chatBot->name}}</option>
                 @endforeach
             </select>
+            <span wire:loading wire:target="chat_bot_id" class="text-secondary text-sm" style="font-size: 10px;">
+                Loading data, please wait...
+            </span>
         </div>
 
         <div class="card-header">
@@ -54,12 +57,22 @@
         </div>
 
         <div class="card-header">
-            <h5 class="text-orange setting-form-heading py-0"> CONNECT WITH MAESTRO APP?</h5>
-            <select class="form-control input-bg" id="chatDescription" wire:model.defer="maestro_app">
-                <option value="">NONE</option>
-                <option value="1">GENERAL MAESTRO HAi</option>
-                <option value="2">LIST OF CURRENT MAESTRO COMPANY CLIENTS HAi</option>
-                <option value="3">LIST OF GENERIC INDUSTRY CATEGORIES HAi</option>
+            <h5 class="text-orange setting-form-heading py-0">CONNECT WITH MAESTRO APP?</h5>
+            <select class="form-control input-bg change-input-form" id="maestro_app" wire:model.defer="maestro_app" onchange="alreadyExistsMaestroApp(this)">
+                @if(empty($chat_bot_id))
+                    <option value="">SELECT BRAIN FIRST</option>
+                @else
+                    <option value="">NONE</option>
+                    <option value="1">GENERAL MAESTRO HAi</option>
+                    <option class="text-center" disabled>Client Companies</option>
+                    @foreach($client_companies as $company)
+                        <option value="2-{{$company['id']}}">{{$company['company_name']}}</option>
+                    @endforeach
+                    <option class="text-center" disabled>Industry Categories</option>
+                    @foreach($industry_categories as $category)
+                        <option value="3-{{$category['id']}}">{{$category['name']}}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
 
@@ -123,6 +136,42 @@
                     }else {
 
                         document.getElementById('human_app').value = "";
+                    }
+                })
+            }
+
+        }
+
+        connected_maestro_app = [];
+
+        function alreadyExistsMaestroApp(event){
+
+            connected_maestro_app = {!! json_encode($connected_maestro_apps)  !!};
+
+            if(connected_maestro_app.includes(event.value)){
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn bg-gradient-primary m-2',
+                        cancelButton: 'btn bg-gradient-secondary m-2',
+                    },
+                    buttonsStyling: false,
+                    background: '#3442b4',
+                })
+                swalWithBootstrapButtons.fire({
+                    // title: '<span style="color: white;">Are you sure?</span>',
+                    html: "<span style='color: white;'>This Connection already has another Persona attached to it.  Would you like to replace it with this Persona?</span>",
+                    showCancelButton: true,
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        window.livewire.emit('updateChatBotMaestroApp', event.value);
+
+                    }else {
+
+                        document.getElementById('maestro_app').value = "";
                     }
                 })
             }

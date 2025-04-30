@@ -117,7 +117,7 @@ class AuthController extends Controller
 
                     } else {
 
-                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false);
+                        $user = $user->createFirstStep($dataArray, $request['google_id'], $request['apple_id'], false, $request['ref']);
 
                     }
 
@@ -350,7 +350,7 @@ class AuthController extends Controller
 
                 $user->setAppends([]);
 
-                $this->sns->sendSms($request['phone'], $message);
+//                $this->sns->sendSms($request['phone'], $message);
 
                 return Helpers::successResponse('sms code send', $user);
             } else {

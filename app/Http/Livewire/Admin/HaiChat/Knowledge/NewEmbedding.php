@@ -164,6 +164,25 @@ class NewEmbedding extends Component
 
                 }
 
+//                if(isset($aiReply['results'][0])){
+//
+//                    if (!empty($aiReply['results'][0]['file_uuid'])){
+//
+//                        $embedding = HaiChatEmbedding::createEmbedding($file->name,$aiReply['results'][0]['file_uuid']);
+//
+//                        $this->emit('$refresh');
+//
+//                        if($embedding){
+//
+//                            Storage::disk('local')->delete('training_files/'. $file->file_name);
+//
+//                            $file->delete();
+//
+//                        }
+//
+//                    }
+//                }
+
             }
 
             session()->flash('embedding_success', "Embedding created successfully.");

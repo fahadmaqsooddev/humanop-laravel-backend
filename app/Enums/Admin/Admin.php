@@ -85,7 +85,7 @@ final class Admin
     const NEW_MESSAGE_NOTIFICATION = 10;
 
     const B2B_SHARE_DATA_NOTIFICATION = 11;
-    
+
     const B2B_NOT_SHARE_DATA_NOTIFICATION = 12;
     const REQUEST_ACCESS_DATA_NOTIFICATION = 13;
 
@@ -132,11 +132,19 @@ final class Admin
     const NOT_SHARED_DATA = 0;
 
     const B2B_NOTIFICATION=1;
-    
+
     const B2C_NOTIFICATION=0;
 
     const B2B_PLAN=1;
     const B2C_PLAN=0;
 
     const REQUEST_SEND=1;
+
+    const ISSUE_FIXED=0;
+
+    const NEW_FEATURE=1;
+
+    const B2B_INACTIVE_PLAN = 0;
+
+    const B2B_ACTIVE_PLAN = 1;
 }

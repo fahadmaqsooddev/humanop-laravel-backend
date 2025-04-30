@@ -98,7 +98,7 @@
     <div class="row mb-3">
         <!-- Version Type Checkboxes -->
         <div class="col-md-12 mb-3">
-            <label class="text-white mb-1">Issue Fixed</label><br>
+            <label class="text-white mb-1">Select Type</label><br>
             <div class="form-check form-check-inline">
                 <input class="form-check-input"
                        type="checkbox"
@@ -124,6 +124,15 @@
                       style="background-color: #0f1534; color: white;" 
                       rows="3" 
                       wire:model="versionDetails.{{ $index }}.description"></textarea>
+        </div>
+        
+        <div class="col-md-12 mt-3">
+         <select name="" wire:model='versionDetails.{{ $index }}.version_heading' id="" class="form-select">
+            <label for="version_heading" class="form-label text-white">Select Version Heading</label>
+            <option value="">Select Option</option>
+            <option value="0">Issue Fixed</option>
+            <option value="1">New Feature</option>
+         </select>
         </div>
         
 

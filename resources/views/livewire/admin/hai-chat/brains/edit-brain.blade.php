@@ -73,13 +73,13 @@
 
                 <div class="py-2">
                     <h5>Name of Brain</h5>
-                    <input type="text" class="form-control input-bg"
+                    <input type="text" class="form-control input-bg change-input-form"
                            placeholder="Enter name of brain" wire:model.defer="brain_name">
                 </div>
 
                 <div class="py-2">
                     <h5>Description of Brain</h5>
-                    <textarea rows="5" class="form-control input-bg" wire:model.defer="description"
+                    <textarea rows="5" class="form-control input-bg change-input-form" wire:model.defer="description"
                               placeholder="Enter description of brain"></textarea>
                 </div>
 
@@ -224,7 +224,7 @@
 
                     <div class="py-2">
                         <h6> SELECT LLM MODEL TO CONNECT</h6>
-                        <select wire:model.defer="llm_model_id" class="configurations-drop-down">
+                        <select wire:model.defer="llm_model_id" class="configurations-drop-down change-input-form">
                             <option value="">Select LLM model</option>
                             @foreach($llmModels as $model)
                                 <option value="{{$model['id']}}">{{$model['model_name']}}</option>
@@ -244,7 +244,7 @@
 
                     <div class="py-2">
                         <h6> MAX TOKENS</h6>
-                        <select wire:model.defer="max_tokens" class="configurations-drop-down">
+                        <select wire:model.defer="max_tokens" class="configurations-drop-down change-input-form">
                             <option value="250">250</option>
                             @for($i = 500; $i <= 5000; $i += 500)
                                 <option value="{{ $i }}">{{ $i }}</option>
@@ -254,7 +254,7 @@
 
                     <div class="py-2">
                         <h6>CHUNKS</h6>
-                        <select wire:model.defer="chunks" class="configurations-drop-down">
+                        <select wire:model.defer="chunks" class="configurations-drop-down change-input-form">
                             @for($i = 1; $i <= 5; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
@@ -289,7 +289,7 @@
 
                 &nbsp;
 
-                <button wire:click="updateBrain" class="float-end cluster-buttons py-1 px-3">
+                <button wire:click="updateBrain" class="float-end cluster-buttons py-1 px-3 update-button">
 
                     <span wire:loading.remove wire:target="updateBrain">Update</span>
 

@@ -1,266 +1,219 @@
-@push('css')
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css">
-    <style>
-        .ck-editor__editable_inline {
-            background-color: #0f1534; /* Example: Change this to your desired background color */
-        }
-
-        .ck-editor__editable {
-            background-color: #0f1534 !important;
-        }
-
-        .ck-editor {
-            border-radius: 0 !important;
-            width: 100% !important;
-        }
-
-        .card {
-            background-color: #1C365E !important;
-        }
-
-        .ck.ck-balloon-panel {
-            z-index: 1050 !important;
-        }
-
-        .ck > p > a {
-            color: blue !important;
-        }
-
-
-
-        .tab-button {
-        flex: 1;
-        padding: 8px 0;
-        border: none;
-        border-radius: 20px;
-        background-color: transparent;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .tab-button.active {
-        background-color: #F2661C;
-        color: white;
-    }
-
-    .tab-button:hover {
-        background-color: #d0d0d0;
-    }
-</style>
-@endpush
 <div>
+    <div class="card">
+        <div class="card-header table-header-text">
+            <h5 class="mb-0">All B2B Pricing Plans</h5>
+            <a data-bs-toggle="modal"
+               data-bs-target="#createPlanModel"
+               style="background-color: #f2661c; color: white" class="btn btn-sm float-end mb-0">Add Plans</a>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success text-white">
-            {{ session('success') }}
         </div>
-    @endif
 
-    @if (session()->has('error'))
-        <div class="alert alert-danger text-white">
-            {{ session('error') }}
+        <div class="table-responsive w-100 pt-4 table-orange-color">
+            @include('layouts.message')
+
+            <table class="table table-flush" id="datatable-search">
+                <thead class="thead-light">
+                <tr class="text-color-blue">
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>No of Members</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($plans as $plan)
+                    <tr class="text-color-blue">
+                        <td class="text-sm font-weight-normal text-center">{{$plan['name']}}</td>
+                        <td class="text-sm font-weight-normal">{{$plan['billing_method']}}</td>
+                        <td class="text-sm font-weight-normal text-center">{{$plan['price']}}</td>
+                        <td class="text-sm font-weight-normal text-center">{{$plan['no_of_team_members']}}</td>
+                        <td class="text-sm font-weight-normal text-center"><button class="btn text-white" style="background-color: #f2661c" onclick="confirmB2BBoxForActiveInactivePlan('{{$plan['id']}}')">{{$plan['status'] == 0 ? 'Inactive' : 'Active'}}</button></td>
+                        <td>
+                            <button class="btn btn-sm text-white" style="background-color: #f2661c" data-bs-toggle="modal"
+                                    wire:click="updatePlanModal({{ $plan['id']}},`{{$plan['name']}}`,`{{$plan['price']}}`,`{{$plan['no_of_team_members']}}`,`{{$plan['billing_method']}}`)"
+                                    data-bs-target="#editPlan">edit
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
-    @endif
 
-    <div class="container">
+        <div wire:ignore.self class="modal fade" id="createPlanModel" tabindex="-1"
+             role="dialog" data-bs-focus="false"
+             aria-labelledby="createPlanModel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">B2B Plan</label>
 
-    
-        <div style="margin-top: 80px; margin-left: 50px;">
-            <div style="display: flex; justify-content: center; margin-top: 40px;">
-                <div style="width: 200px; background: #1C365E; border-radius: 25px; padding: 5px; display: flex; justify-content: space-between;">
-                    <button wire:click="selectTab('month')" class="tab-button {{ $tab === 'month' ? 'active' : '' }}">Monthly</button>
-                    <button wire:click="selectTab('year')" class="tab-button {{ $tab === 'year' ? 'active' : '' }}">Annually</button>
-                </div>
-            </div>
-            
-        
-
-            {{-- <a data-bs-toggle="modal" data-bs-target="#inviteLinkSendModel" style="background-color: #f2661c; color: white" class="btn btn-sm float-end">Add pricing plan</a> --}}
-            <br>
-        </div>
-    </div>
-    <br>
-
-    <div class="row container">
-        
-        @if(!empty($plans))
-        @foreach ($plans as $plan )
-        <div class="card text-center border rounded-4 shadow-sm mx-auto p-4 col-md-5"
-        style="max-width: 450px; background-color:#F6BA81 !important">
-        <div class="card-header bg-opacity-50 rounded-4">
-            <img src="{{ asset('assets/img/maestro-logo.svg') }}" alt="Membership Icon"
-                style="width: 150px; object-fit: contain;" />
-            <div class="mt-3 px-3 py-1 mx-auto border shadow-sm rounded-pill w-50 text-dark fw-semibold">
-                {{$plan['product_name']}}
-            </div>
-            <h4 class="mt-3 fw-bold display-6">${{$plan['unit_amount']}}</h4>
-            <small class="text-muted">/per {{$plan['interval']}}</small>
-        </div>
-        <hr class="my-4 border border-secondary" />
-        <div class="card-body px-4">
-            <h5 class="fw-semibold">Features</h5>
-            <p class="text-muted">Everything in  {{$plan['interval']}}ly Plan</p>
-            <ul class=" text-align-left" style="text-align: left;color:#67748E;">
-                <li class="">No of Team Members {{$plan['no_of_team_members']}}</li>
-            </ul>
-        </div>
-    </div>
-        @endforeach
-        @else
-        <p>No Plans Found</p>
-        @endif
-        
-
-    </div>
-
-    <div wire:ignore.self class="modal fade" id="inviteLinkSendModel" tabindex="-1" role="dialog"
-         aria-labelledby="inviteLinkSendModel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body" style=" border-radius: 9px">
-                    <div class="card-body pt-0">
-                        <label class="form-label fs-4 text-white">Create An Plan</label>
-
-                        <button type="button" class="close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"
-                                id="close-modal-button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        @include('layouts.message')
-                        <form wire:submit.prevent="submitForm">
-                            <div class="card-body">
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-optimization-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <form wire:submit.prevent="submitForm">
                                 <div class="row mt-4">
                                     <div class="col-12">
-                                        <div class="form-group">
-                                            <label class="text-white">Plan Name</label>
+
+                                        <label class="form-label text-white">Plan Name</label>
+                                        <div class="input-group">
                                             <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="text" wire:model="plan_name"
-                                                   name="plan_name" placeholder="icon name">
-                                            @error('plan_name')
-                                            <span class="text-sm text-danger">{{ $message }}</span>
-                                            @enderror
-                                            <label class="text-white mt-4">Plan Type</label>
-                                            <select style="background-color: #0f1534; color: lightgrey !important"
-                                                    class="form-control text-white" wire:model="plan_type"
-                                                    name="plan_type">
-                                                <option value="">-- Select Plan --</option>
-                                                <option value="month">Monthly</option>
-                                                <option value="year">Yearly</option>
-                                            </select>
-                                            @error('plan_type')
-                                            <span class="text-sm text-danger">{{ $message }}</span>
-                                            @enderror
-
-                                            <label class="text-white mt-4">No of team members</label>
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="number"
-                                                   wire:model="team_members"
-                                                   name="team_members" placeholder="icon name">
-                                            @error('team_members')
-                                            <span class="text-sm text-danger">{{ $message }}</span>
-                                            @enderror
-
-                                            <label class="text-white mt-4">Price</label>
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
-                                                   class="form-control text-white" type="text" wire:model="price"
-                                                   name="price" placeholder="icon name">
-
-                                            @error('price')
-                                            <span class="text-sm text-danger">{{ $message }}</span>
-                                            @enderror
-
-{{--                                            <label class="text-white">Description</label>--}}
-{{--                                            <textarea style="background-color: #0f1534; color: lightgrey !important"--}}
-{{--                                                      id="peditor" class="form-control text-white"--}}
-{{--                                                      wire:model="plan_desc" name="plan_desc" placeholder=""></textarea>--}}
-
-
-{{--                                            @error('plan_desc')--}}
-{{--                                            <span class="text-sm text-danger">{{ $message }}</span>--}}
-{{--                                            @enderror--}}
-
-
-                                            <button type="submit" class="btn btn-sm mt-4 float-end text-white"
-                                                    style="background-color: #f2661c ">Create Plan
-                                            </button>
+                                                   class="form-control text-white" type="text"
+                                                   wire:model="plan_name"
+                                                   placeholder="plan name">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <select class="form-control bg-transparent text-white"
+                                                wire:model="plan_type">
+                                            <option value="" style="color: black">Select Plan Type</option>
+                                            <option value="month" style="color: black">Month</option>
+                                            <option value="year" style="color: black">Year</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <label class="form-label text-white">Plan Amount</label>
+                                        <div class="input-group">
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   wire:model="price"
+                                                   class="form-control table-header-text" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <label class="form-label text-white">No of Member</label>
+                                        <div class="input-group">
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   wire:model="team_members"
+                                                   class="form-control table-header-text" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
+                                        style="background-color: #f2661c ">create plan
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div wire:ignore.self class="modal fade" id="editPlan" tabindex="-1"
+             role="dialog" data-bs-focus="false"
+             aria-labelledby="editPlan" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style=" border-radius: 9px">
+                        <div class="card-body pt-0">
+                            <label class="form-label fs-4 text-white">B2B Plan</label>
+
+                            <button type="button" class="close modal-close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close" id="close-optimization-modal-button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <form wire:submit.prevent="updateB2bPlan">
+                                <div class="row mt-4">
+                                    <div class="col-12">
+
+                                        <label class="form-label text-white">Plan Name</label>
+                                        <div class="input-group">
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   class="form-control text-white" type="text"
+                                                   wire:model="plan_name"
+                                                   placeholder="plan name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <select class="form-control bg-transparent text-white"
+                                                wire:model="plan_type">
+                                            <option value="" style="color: black">Select Plan Type</option>
+                                            <option value="month" style="color: black">Month</option>
+                                            <option value="year" style="color: black">Year</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <label class="form-label text-white">Plan Amount</label>
+                                        <div class="input-group">
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   wire:model="price"
+                                                   class="form-control table-header-text" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <label class="form-label text-white">No of Member</label>
+                                        <div class="input-group">
+                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                                   wire:model="team_members"
+                                                   class="form-control table-header-text" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm float-end mt-6 mb-0 text-white"
+                                        style="background-color: #f2661c ">Update plan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
+@push('js')
 
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script type="importmap">
-    {
-        "imports": {
-            "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-            "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-        }
-    }
+    <script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/plugins/sweetalert.min.js"></script>
+
+    <script>
+        window.Livewire.on('closeInfoModal', function (e) {
+            $('#close-optimization-modal-button').click();
+        })
+
+    </script>
+
+    <script>
 
 
-</script>
-<script src="{{ URL::asset('assets/js/plugins/datatables.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../../assets/js/plugins/sweetalert.min.js"></script>
+        function confirmB2BBoxForActiveInactivePlan(plan_id) {
 
-<script type="module">
-    import {
-        ClassicEditor,
-        Essentials,
-        Paragraph,
-        Bold,
-        Italic,
-        Font,
-        List,
-        Link,
-        AutoLink
-    } from 'ckeditor5';
-
-    // Function to initialize CKEditor for a specific textarea by ID
-    let editorInstance;
-    const editorElement = document.getElementById('peditor');
-    if (editorElement && !editorElement.classList.contains('ck-editor')) { // Check if not already initialized
-        ClassicEditor
-            .create(editorElement, {
-                plugins: [Essentials, Paragraph, Bold, Italic, Font, List, Link, AutoLink],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                    'bulletedList', 'numberedList', 'link'  // Add list options to toolbar
-                ]
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-success m-2',
+                    cancelButton: 'btn bg-gradient-primary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
             })
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                    @this.
-                    set('plan_desc', editor.getData());
-                })
-                Livewire.on('contentUpdated', content => {
-                    editor.setData(content); // Set new content into CKEditor
-                });
-                editorInstance = editor;
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to Active / Inactive Plan!</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Active / Inactive',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('activeInactivePlanModal', plan_id)
+                }
             })
-            .catch(error => {
-                console.error(error);
-            });
-
-    }
-    $('.createForm').on('click', function () {
-        if (editorInstance) {
-            editorInstance.setData('');
         }
-    });
 
-
-</script>
-
-
+    </script>
+@endpush

@@ -169,11 +169,6 @@ return [
             'fillable' => ['sidebar_color','text_color','background_color','navbar_color','user_id'],
             'hidden' => ['created_at','updated_at']
         ],
-        'Plan' => [
-            'table' => 'plans',
-            'fillable' => ['plan_id','name','billing_method','price','currency'],
-            'hidden' => ['created_at','updated_at']
-        ],
         'Question' => [
             'table' => 'questions',
             'fillable' => ['question','sort','active','multiple','gender', 'question_id'],
@@ -191,7 +186,7 @@ return [
         ],
         'User' => [
             'table' => 'users',
-            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at'],
+            'fillable' => ['first_name','last_name','email','password','phone','date_of_birth','gender','signup_date','last_login','status','stripe_id','is_admin','payment_method','pm_type','pm_last_four','pm_exp_month','pm_exp_year','google_id','is_feedback','password_set','is_permanently_deleted','image_id','apple_id','hai_chat','referral_code','referred_by','practitioner_id','timezone','two_way_auth','intro_check','reset_password','app_intro_check','reset_password_token','email_verify_token','step','email_verified_at','register_from_app','device_token','company_name','business_sub_stratergy_id','business_id','work_email','b2b_step','team_department','prompt_notification','version_update','sms_verify_code','phone_verified_at','complete_assessment_walkthrough','complete_tutorial'],
             'hidden' => ['created_at','updated_at','remember_token','two_factor_recovery_codes','two_factor_secret']
         ],
         'Page' => [
@@ -343,7 +338,7 @@ return [
         ],
         'Plan' => [
             'table' => 'plans',
-            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency','plan_type','no_of_team_members'],
+            'fillable' => ['plan_id','name','billing_method','interval_count','price','currency','plan_type','no_of_team_members','status'],
             'hidden' => ['updated_at', 'created_at'],
         ],
         'Point' => [
@@ -442,7 +437,7 @@ return [
         ],
         'HaiChatSetting' => [
             'table' => 'hai_chat_setting',
-            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id','persona_text','persona_name','human_op_app','maestro_app'],
+            'fillable' => ['id','temperature','max_token','chunk','model_type','chat_bot_id','plan_id','persona_text','persona_name','human_op_app','maestro_app','maestro_app_id'],
             'hidden' => ['created_at','updated_at'],
         ],
         'HaiChatConversation' => [
@@ -576,13 +571,18 @@ return [
         ],
         'VersionControlDescription' => [
             'table' => 'version_control_descriptions',
-            'fillable' => ['version_id','description','platform'],
+            'fillable' => ['version_id','description','platform','version_heading'],
             'hidden' => ['updated_at','created_at'],
         ],
         'SmsNotification' => [
             'table' => 'aws_credential',
             'fillable' => ['public_key','secret_key','region'],
             'hidden' => ['updated_at','created_at'],
+        ],
+        'SubscriptionItem' => [
+            'table' => 'subscription_items',
+            'fillable' => ['subscription_id','stripe_id','stripe_product','stripe_price','quantity'],
+            'hidden' => ['created_at']
         ],
     ]
 ];

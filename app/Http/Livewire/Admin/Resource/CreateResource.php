@@ -29,7 +29,6 @@ class CreateResource extends Component
 
     protected $listeners = ['toggleCreateResourceModal' => 'resetForm', 'toggleShowResourceModal' => 'handleRefreshQuery', 'deleteCategoryPermanently' => 'deleteCategory', 'fileChanged'];
 
-
     protected $rules = [
         'heading' => 'required|unique:library_resources,heading',
         'resource_file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,mkv,mp3,wav|max:204800', // Max file size 200MB
@@ -72,7 +71,6 @@ class CreateResource extends Component
     {
         try {
 
-
             DB::beginTransaction();
 
             $this->validate();
@@ -95,16 +93,18 @@ class CreateResource extends Component
 
                     $message = 'Your New Training & Resource';
 
-                    foreach ($users as $user) {
+//                    foreach ($users as $user) {
+//
+//                        $notification = PushNotification::getSingleNotification($user['id']);
+//
+//                        if ($notification['resource'] == 1) {
 
-                        $notification = PushNotification::getSingleNotification($user['id']);
+                    event(new NewResource($permission, 'new training & resource', $message));
 
-                        if ($notification['resource'] == 1) {
+//                        }
+//                    }
 
-                            event(new NewResource($permission, 'new training & resource', $message));
-
-                        }
-                    }
+                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION);
 
                     foreach ($users as $user) {
 
@@ -117,9 +117,6 @@ class CreateResource extends Component
                         }
                     }
 
-                    Notification::createNotification('new training & resource', $message, null, null, $permission, Admin::TRAINING_RESOURCE_NOTIFICATION, Admin::B2C_NOTIFICATION
-
-                    );
                 }
 
             }

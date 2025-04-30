@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use App\Models\UserInvite\UserInvite;
 use App\Models\B2B\UserCandidateInvite;
+use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
@@ -38,32 +39,38 @@ class MemberController extends Controller
     public function createInviteLinkForMember(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email:rfc,dns',
+            ]);
+            
+            if ($validator->fails()) {
+                return Helpers::validationResponse('Please Send proper Email Address');
+            }
+            
+            
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
 
-
             if ($checkInviteLink) {
-
 
                 $checkCompany = UserCandidateInvite::getSingleInvite($checkInviteLink->id);
 
-                if ($checkCompany && $checkCompany['role']==Admin::IS_CANDIDATE) {
+                if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
 
 //                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
 
-                }else if ($checkCompany && $checkCompany['role']==Admin::IS_TEAM_MEMBER){
+                } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
 
-                }
-                 else {
+                } else {
 
-                    UserCandidateInvite::createUserInvite($checkInviteLink->id,0);
+                    UserCandidateInvite::createUserInvite($checkInviteLink->id, 0);
 
-                    $linke=UserInvite::where('email',$email)->first();
+                    $linke = UserInvite::where('email', $email)->first();
 
-                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
+                    $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
 
                     $emailData = $this->myprepareEmailData($url);
 
@@ -74,14 +81,13 @@ class MemberController extends Controller
             }
 
 
-
             $newInvite = UserInvite::createInvite($email);
 
             if ($newInvite) {
 
-                UserCandidateInvite::createUserInvite($newInvite->id,0);
-                $linke=UserInvite::where('email',$email)->first();
-                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name']. '&prefer=1';
+                UserCandidateInvite::createUserInvite($newInvite->id, 0);
+                $linke = UserInvite::where('email', $email)->first();
+                $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
                 $emailData = $this->myprepareEmailData($url);
 
                 $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
@@ -109,13 +115,13 @@ class MemberController extends Controller
             $memberInvites = [];
 
             foreach ($invites as $invite) {
-               $id=$invite['id'];
+                $id = $invite['id'];
                 $companyName = $invite['user']['company_name'] ?? 'N/A';
                 $inviteLink = $invite['inviteLinks']['link'] ?? 'N/A';
                 $email = $invite['inviteLinks']['email'] ?? 'N/A';
 
-                $memberInvites[] =[
-                    'id'=>$id,
+                $memberInvites[] = [
+                    'id' => $id,
                     'invite_link' => config('client_url.client_dashboard_url') . '/register?link=' . $inviteLink . '&company_name=' . $companyName . '&prefer=1',
                     'email' => $email,
                     'company_name' => $companyName
@@ -223,14 +229,13 @@ class MemberController extends Controller
 
             foreach ($members as $member) {
 
-                if (!empty($member['users'])){
+                if (!empty($member['users'])) {
 
                     $member['users']['gender'] = $member['users']['gender'] == 0 ? 'Male' : 'Female';
 
                     $member['users']['status'] = $member['users']['last_login'] ? 'on-board' : 'pending';
 
                     $member['users']['last_login'] = $member['users']['last_login'] ? Carbon::parse($member['users']['last_login'])->format('m/d/Y h:i A') : null;
-
 
 
                     $member['user_created_at'] = $member['created_at'] ? Carbon::parse($member['created_at'])->format('m/d/Y h:i A') : null;
@@ -305,7 +310,7 @@ class MemberController extends Controller
 
             $user = Helpers::getUser()->id;
 
-            $member=B2BBusinessCandidates::checkBusinessCandidate($user,$request['member_id']);
+            $member = B2BBusinessCandidates::checkBusinessCandidate($user, $request['member_id']);
 
             if (empty($member)) {
 
@@ -313,15 +318,16 @@ class MemberController extends Controller
 
             } else {
 
-               B2BBusinessCandidates::DeletedCandidate($request['member_id']);
+                B2BBusinessCandidates::DeletedCandidate($request['member_id']);
 
-               return Helpers::successResponse('Member deleted successfully.');
+                return Helpers::successResponse('Member deleted successfully.');
 
             }
 
-
         } catch (\Exception $exception) {
+
             return Helpers::serverErrorResponse($exception->getMessage());
+
         }
     }
 
@@ -380,16 +386,16 @@ class MemberController extends Controller
 
         try {
 
-           $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
+            $futureConsideration = B2BBusinessCandidates::checkFutureConsiderationShareData($request['candidate_id']);
 
-           if (!empty($futureConsideration)) {
+            if (!empty($futureConsideration)) {
 
-               $data = [
-                   'company_name' => $futureConsideration['busers']['company_name'],
-               ];
+                $data = [
+                    'company_name' => $futureConsideration['busers']['company_name'],
+                ];
 
-               return Helpers::successResponse('Future Consideration', $data);
-           }
+                return Helpers::successResponse('Future Consideration', $data);
+            }
 
             return Helpers::validationResponse('You are not Future Consideration');
 
@@ -475,56 +481,51 @@ class MemberController extends Controller
     }
 
 
-
-
-
     public function DeleteInvite(Request $request)
     {
         try {
 
-            if(!empty($request['invite_id'])){
+            if (!empty($request['invite_id'])) {
 
-               $check= UserCandidateInvite::getMemberInvite($request['invite_id']);
+                $check = UserCandidateInvite::getMemberInvite($request['invite_id']);
 
-               if(!empty($check)){
+                if (!empty($check)) {
 
-                        $getinvite=UserInvite::getMemberInvite($check['invite_link_id']);
+                    $getinvite = UserInvite::getMemberInvite($check['invite_link_id']);
 
-                        if(!empty($getinvite)){
+                    if (!empty($getinvite)) {
 
-                        $getmember=User::checkEmail($getinvite['email']);
+                        $getmember = User::checkEmail($getinvite['email']);
 
-                        if(!empty($getmember) && $getmember['step']==3){
+                        if (!empty($getmember) && $getmember['step'] == 3) {
 
-                           $result= B2BBusinessCandidates::getMemberRecord($check['company_id'],$getmember['id']);
+                            $result = B2BBusinessCandidates::getMemberRecord($check['company_id'], $getmember['id']);
 
-                           if(!empty($result)){
+                            if (!empty($result)) {
 
-                            UserCandidateInvite::deleteMemberInvite($request['invite_id']);
+                                UserCandidateInvite::deleteMemberInvite($request['invite_id']);
 
-                            return Helpers::successResponse('Member Invite deleted successfully.');
+                                return Helpers::successResponse('Member Invite deleted successfully.');
 
-                            }
-                            
-                            else{
+                            } else {
 
-                            return Helpers::validationResponse('User Did Not complete his Signup process yet');
+                                return Helpers::validationResponse('User Did Not complete his Signup process yet');
 
                             }
 
-                        }else{
+                        } else {
                             return Helpers::validationResponse('User Did Not complete his Signup process yet');
                         }
 
-                        }
+                    }
 
 
-               }else{
-                   return  Helpers::validationResponse('Please enter valid invite id');
-               }
+                } else {
+                    return Helpers::validationResponse('Please enter valid invite id');
+                }
 
-            }else{
-                return  Helpers::validationResponse('Please enter invite id');
+            } else {
+                return Helpers::validationResponse('Please enter invite id');
             }
 
         } catch (\Exception $exception) {
@@ -539,8 +540,8 @@ class MemberController extends Controller
         try {
 
 
-            $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'],false);
-            foreach($archivemembers as $newmembers){
+            $archivemembers = B2BBusinessCandidates::AllArchivedCandidates(Helpers::getUser()['id'], false);
+            foreach ($archivemembers as $newmembers) {
                 $newmembers['users']['gender'] = $newmembers['users']['gender'] == 0 ? 'Male' : 'Female';
 
             }
@@ -556,14 +557,14 @@ class MemberController extends Controller
     }
 
 
-
-    public function requestAccessData(Request $request){
-        try{
-            if(empty($request['member_id'])){
+    public function requestAccessData(Request $request)
+    {
+        try {
+            if (empty($request['member_id'])) {
                 return Helpers::validationResponse('Please Enter a Member id');
-            }else{
-              B2BBusinessCandidates::requestAccess($request['member_id']);
-              return Helpers::successResponse('Request For Access Data is Send');
+            } else {
+                B2BBusinessCandidates::requestAccess($request['member_id']);
+                return Helpers::successResponse('Request For Access Data is Send');
             }
 
         } catch (\Exception $exception) {
@@ -595,7 +596,6 @@ class MemberController extends Controller
             $name
         );
     }
-
 
 
 }

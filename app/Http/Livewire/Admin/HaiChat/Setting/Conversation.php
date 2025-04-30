@@ -45,13 +45,13 @@ class Conversation extends Component
         'name.required' => 'Select chat-bot first',
     ];
 
-    public function mount($name){
-
-        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
-
-        $this->name = $name;
-
-    }
+//    public function mount($name){
+//
+//        $this->chat_bot_id = Chatbot::where('name', $name)->first()->id ?? null;
+//
+//        $this->name = $name;
+//
+//    }
 
     public function updateChatBotId($value){
 
@@ -107,8 +107,6 @@ class Conversation extends Component
 
             $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($chat_bot_id);
 
-//            $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->name);
-
             $this->is_restricted_word = ChatbotKeyword::checkChatBotKeywords($this->name, $this->message);
 
             if (!$this->is_restricted_word){
@@ -120,38 +118,13 @@ class Conversation extends Component
                     $user_name = User::userNameForHAi($this->user_id);
                 }
 
-//                if (HaiChatSetting::GPT_4o_MINI === $setting->model_type){
-//
-//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o-mini','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-//
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
-//
-//                }elseif(HaiChatSetting::GPT_4o === $setting->model_type){
-//
-//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'gpt-4o','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-//
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
-//
-//                }elseif(HaiChatSetting::GPT_4o_FINE_TUNED === $setting->model_type){
-//
-//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'ft:gpt-4o-mini-2024-07-18:personal::AdxDqOYu','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-//
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-gpt-model', $body);
-//
-//                }else{
-//
-//                    $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked];
-//
-//                    $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
-//                }
-
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
                 $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => (int)$this->user_id];
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                Log::info(['ai Reply' => $aiReply]);
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
                 if ($setting && $setting['model_type'] === 5){
 
@@ -237,27 +210,6 @@ class Conversation extends Component
 
         }
 
-    }
-
-    public function sendRequestFromGuzzle($method = null, $route_name = null, $body = [])
-    {
-
-        $authorization = Request::header('Authorization');
-
-        $queryArray = [
-            'headers' => ['Authorization' => $authorization],
-            'json' => $body
-        ];
-
-        $client = new Client(['http_errors' => false, 'timeout' => 180]);
-
-        $route = $route_name;
-
-        $response = $client->request($method, $route, $queryArray);
-
-        $response_body = json_decode($response->getBody()->getContents(), true);
-
-        return $response_body;
     }
 
     public function getChatBotConversation()

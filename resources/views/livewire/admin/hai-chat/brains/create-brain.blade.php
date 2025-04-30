@@ -221,6 +221,7 @@
                             @foreach($llmModels as $model)
                                 <option value="{{$model['id']}}">{{$model['model_name']}}</option>
                             @endforeach
+                            <option value="5">Bedrock-Deepseek</option>
                         </select>
                     </div>
 
@@ -257,7 +258,7 @@
 
 
             <div class="card-body d-sm-flex pt-0 justify-content-end">
-                <button wire:click="createBrain" class="float-end cluster-buttons py-1 px-3">
+                <button wire:click="createBrain" class="float-end cluster-buttons py-1 px-3 update-button">
 
                     <span wire:loading.remove wire:target="createBrain">Save</span>
 

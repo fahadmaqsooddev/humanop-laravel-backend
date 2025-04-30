@@ -18,7 +18,7 @@ class VersionControlDescription extends Model
         parent::__construct($attributes);
     }
 
-    public static function createDescription($versionId=null,$description=null,$platform=null){
+    public static function createDescription($versionId=null,$description=null,$platform=null,$versionHeading=null){
         if (is_array($platform)) {
             $platform = implode(',', $platform);
         }
@@ -28,6 +28,7 @@ class VersionControlDescription extends Model
             'version_id' => $versionId,
             'description' => $description,
             'platform' => $platform, 
+            'version_heading'=>$versionHeading
         ]);
         return $data;
     }
@@ -35,7 +36,7 @@ class VersionControlDescription extends Model
     public static function deleteDescription($id=null){
         return self::where('id',$id)->delete();
     }
-    public static function editDescription($id=null,$versionId=null,$description=null,$platform=null){
+    public static function editDescription($id=null,$versionId=null,$description=null,$platform=null,$versionHeading=null){
         if (is_array($platform)) {
             $platform = implode(',', $platform);
         }
@@ -43,6 +44,7 @@ class VersionControlDescription extends Model
             'version_id' => $versionId,
             'description' => $description,
             'platform' => $platform,
+            'version_heading'=>$versionHeading
         ]);
     }
 }

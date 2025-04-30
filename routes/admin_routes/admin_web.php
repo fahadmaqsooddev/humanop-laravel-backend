@@ -54,6 +54,9 @@ Route::get('/event-trigger', [SessionController::class, 'triggerEvent']);
 Route::get('/key-encrypt-decrypt', [SessionController::class, 'keyEncryptDecrypt']);
 Route::get('/', [SessionController::class, 'create']);
 
+// stripe webhook for update customer subscription
+Route::post('/subscription_update', [\App\Http\Controllers\B2BControllers\B2BApi\B2BSubscriptionController::class,'subscriptionUpdateWebhook']);
+
 
 $prefix = request()->segment(1) === 'admin' || request()->segment(1) === 'practitioner' ? request()->segment(1) : "admin";
 
@@ -125,10 +128,8 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         Route::get('/all-coupons', [CouponController::class, 'allCoupon'])->name('admin_all_coupon');
         Route::get('/information-icon', [InformationController::class, 'getInfo'])->name('admin_get_info');
         Route::get('/version-control', [VersionController::class, 'getVersion'])->name('admin_get_version');
-        Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])
-        ->name('admin_b2b_support');
-        Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])
-        ->name('admin_b2b_support_detail');
+        Route::get('/b2b-support', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupport'])->name('admin_b2b_support');
+        Route::get('/b2b-support-detail/{id}', [App\Http\Controllers\AdminControllers\B2BSupportController::class, 'b2bSupportDetail'])->name('admin_b2b_support_detail');
 
         Route::get('/client-invites', [ClientController::class, 'getClientInvite'])->name('admin_get_client_invite');
         Route::get('/assessment-walkthrough', [App\Http\Controllers\AdminControllers\AssessmentWalkthrough::class,'getWalkThrough'])->name('admin_get_assessment_walkthrough');
@@ -175,6 +176,12 @@ Route::group(['prefix' => $prefix, 'middleware' => ['isAdmin']], function () {
         // b2b start
         Route::get('/role-template', [RoleTemplateController::class, 'allRoleTemplates'])->name('admin_role_template');
         Route::get('/b2b-organizations', [B2BOrganizationController::class, 'allOrganizations'])->name('all_b2b_organizations');
+        Route::get('/b2b-deleted-clients', [B2BOrganizationController::class, 'allB2BDeletedClients'])->name('all_b2b_deleted_organiozations');
+        
+        
+        
+        Route::get('/b2b-organizations-users/{id?}/{prefer?}', [B2BOrganizationController::class, 'allOrganizationsUsers'])->name('b2b_organizations_users');
+
         Route::get('/b2b-invites',[B2BInviteController::class,'getB2BInvite'])->name('admin_b2b_invites');
 
 

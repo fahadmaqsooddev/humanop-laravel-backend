@@ -153,6 +153,7 @@ class Subscription extends Model
 
         $subscription = $user->subscription('main');
 
+
         if (!empty($subscription->ends_at)){
 
             $newSubscription = $user->newSubscription('main', $request->input('plan_id'));
@@ -169,7 +170,7 @@ class Subscription extends Model
 
             if ($subscription && $subscription->valid()) {
 
-                $subscription->swapAndInvoice($request->input('plan_id'));
+                $subscription->swap($request->input('plan_id'));
 
             } else {
 

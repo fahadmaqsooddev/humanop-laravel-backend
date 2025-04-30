@@ -126,5 +126,17 @@ class GuzzleHelpers
         }
     }
 
+    public static function getStripeReceiptPdf($link = null, $method = "GET"){
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $response = $client->request($method, $link);
+
+        $pdf = $response->getBody()->getContents();
+
+        return $pdf;
+
+    }
+
 }
 
