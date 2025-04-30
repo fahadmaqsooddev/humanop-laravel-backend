@@ -56,6 +56,11 @@ class B2BBusinessCandidates extends Model
         return self::where('business_id', $companyId)->where('candidate_id', $candidateId)->exists();
     }
 
+    public static function allUser()
+    {
+        return self::all();
+    }
+
     public static function registerCandidate($businessId = null, $candidateId = null, $role = null, $sharedData = null)
     {
 
