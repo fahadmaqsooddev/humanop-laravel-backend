@@ -37,4 +37,6 @@ Route::group(['middleware' => ['checkUser']], function () {
     Route::get('all-versions','DashboardController@getVersions');
     Route::get('version-update','DashboardController@versionUpdate');
 
+    Route::get('latest-library-resource','DashboardController@topLibraryResourcses');
+
 });
