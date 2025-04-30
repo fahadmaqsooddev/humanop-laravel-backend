@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Helpers\Helpers;
+use App\Models\Admin\ResourceCategory\ResourceCategory;
 
 class LibraryResource extends Model
 {
@@ -28,6 +29,10 @@ class LibraryResource extends Model
     {
 
         return $this->hasMany(PermissionResource::class, 'resource_id', 'id');
+    }
+
+    public function resourceCategory(){
+        return $this->belongsTo(ResourceCategory::class,'resource_category_id','id');
     }
 
 
@@ -164,6 +169,16 @@ class LibraryResource extends Model
     {
         self::where('resource_category_id', $current)->update(['resource_category_id' => $new]);
     }
+
+    public static function latestLibraryResourcses()
+    {
+        return self::with('resourceCategory') 
+                   ->latest()          
+                   ->take(3)           
+                   ->get();            
+    }
+    
+
 
 
 }
