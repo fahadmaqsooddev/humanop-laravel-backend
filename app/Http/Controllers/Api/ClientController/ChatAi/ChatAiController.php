@@ -95,23 +95,12 @@ class ChatAiController extends Controller
 
                 if ($setting && $setting['model_type'] === 5){
 
-                Log::info(['aiReply' => $aiReply]);
-
-                $promptMessages = HaiChat::makePromptForChat($aiReply, $prompts, $request->input('question'));
-
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
-
-                    Log::info(['ai Reply' => $aiReply]);
+                    $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
                     $authorization = \request()->header('Authorization');
 
-                    $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
-
-                    HaiChat::createChat($request->input("question"), $reply, null, $request->input("is_repeat_answer"));
-
-                    $reply = [
-                        $reply ?? "",
-                        0
+                    $queryArray = [
+                        'headers' => ['Authorization' => $authorization]
                     ];
 
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
@@ -133,24 +122,28 @@ class ChatAiController extends Controller
 
                     }else{
 
-                        session()->flash("error", "Try again.");
+                        return Helpers::serverErrorResponse('Something went wrong. Try again.');
                     }
 
                 }else{
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $promptMessages = HaiChat::makePromptForChat($aiReply, $prompts, $request->input('question'));
+
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
 
                     $reply = null;
 
                     foreach ($openRouterResponse['choices'] as $choice)
                     {
 
-                        HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+                        $filteredReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content'] ?? null);
+
+                        HaiChat::createChat($request->input("question"), $filteredReply , null, $request->input("is_repeat_answer"));
 
                         $reply = [
-                            $choice['message']['content'] ?? "",
+                            $filteredReply ?? "",
                             0
                         ];
                     }
