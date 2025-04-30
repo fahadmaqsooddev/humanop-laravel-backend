@@ -138,7 +138,7 @@ class Persona extends Component
 //            $this->persona_text = $setting['persona_text'];
             $this->persona_name = $setting['persona_name'];
             $this->human_op_app = $setting['human_op_app'];
-            $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app'] : $setting['maestro_app'];
+            $this->maestro_app = $setting['maestro_app_id'] ? $setting['maestro_app'] . '-' . $setting['maestro_app_id'] : $setting['maestro_app'];
 
         }
 
