@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Enums\Admin\Admin;
 use App\Models\Upload\Upload;
+use App\Models\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -136,5 +138,36 @@ maintenance."
                 'response' => $response
             ];
         }
+    }
+
+    public static function addUserDetailsIntoPrompt($user_id, $prompt){
+
+        if ($user_id){
+
+            $user = User::whereId($user_id)->first();
+
+            $age = Carbon::parse($user['date_of_birth'])->age;
+
+            $user_name = $user['first_name'];
+
+            $gender = $user['gender'] === Admin::IS_MALE ? 'male' : 'female';
+
+            $user_detail_text = "You are a personalized assistant that always identifies and addresses the user by name. The prompt you receive will contain user-specific details in a clear format like:
+
+user name = $user_name, age = $age, gender = $gender
+
+Use these details to personalize your responses. You *must always refer to the user by their name* when speaking to them, using it naturally in conversation.
+
+You also have access to internal user grids and metadata. You are highly familiar with the user's name, behavior, and preferences. Assume maximum familiarity with the user based on all available context.
+
+Your goals:
+- Speak to the user as if you know them well.
+- Use their *name in every reply* where it sounds natural.
+- Adapt tone and suggestions according to user profile (name, age, gender, and memory). \n\n";
+
+            return ($user_detail_text . $prompt);
+        }
+
+        return $prompt;
     }
 }

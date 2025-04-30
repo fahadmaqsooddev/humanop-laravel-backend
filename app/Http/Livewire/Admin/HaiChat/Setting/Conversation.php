@@ -126,6 +126,10 @@ class Conversation extends Component
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
+                    Log::info(['ai Reply' => $aiReply]);
+
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
+
                     $authorization = \request()->header('Authorization');
 
                     $queryArray = [
@@ -134,7 +138,7 @@ class Conversation extends Component
 
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". ($aiReply['prompt'] ?? null) ."&query=" . $this->message;
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
                     $response = $client->request("get", $route, $queryArray);
 
@@ -158,11 +162,17 @@ class Conversation extends Component
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
+                    Log::info(['ai Reply' => $aiReply]);
+
+                    $prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
+
                     $promptMessages = self::makePromptForChat($aiReply, $prompts);
 
 //                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
 
                     $openRouterResponse = OpenRouterHelper::callOpenRouterApiWithHistory($setting, $selectedModel['model_value'], $promptMessages);
+
+                    // $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $prompt, $selectedModel['model_value'], $prompts['prompt'] ?? null);
 
                     foreach ($openRouterResponse['choices'] as $choice)
                     {

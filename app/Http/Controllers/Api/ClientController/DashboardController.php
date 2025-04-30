@@ -399,16 +399,11 @@ class DashboardController extends Controller
 
             $user = User::completeAssessmentWalkthrought();
 
-            if ($user['complete_assessment_walkthrough'] == 1)
-            {
+            if ($user['complete_assessment_walkthrough'] == 1) {
                 return Helpers::successResponse('Assessment walkthrough completed');
-
-            }else
-            {
+            } else {
                 return Helpers::validationResponse('Assessment walkthrough not completed');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -421,16 +416,11 @@ class DashboardController extends Controller
 
             $user = User::completeTutorial();
 
-            if ($user['complete_tutorial'] == 1)
-            {
+            if ($user['complete_tutorial'] == 1) {
                 return Helpers::successResponse('Tutorial completed');
-
-            }else
-            {
+            } else {
                 return Helpers::validationResponse('Tutorial not completed');
-
             }
-
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
@@ -647,15 +637,24 @@ class DashboardController extends Controller
         }
     }
 
-    public function topLibraryResourcses(){
+    public function topLibraryResourcses()
+    {
         try {
 
 
-           
 
-           $resource= LibraryResource::latestLibraryResourcses();
 
-            return Helpers::successResponse('Latest resourcses',$resource);
+            $resources = LibraryResource::latestLibraryResourcses();
+            $formatedResourcse = [];
+            foreach ($resources as $resource) {
+                $resource['created_at'] =
+                    $resource['resource_created_at'] = $resource['created_at'] ? Carbon::parse($resource['created_at'])->format('m/d/Y h:i A') : null;
+
+
+                $formatedResourcse[] = $resource;
+            }
+
+            return Helpers::successResponse('Latest resourcses', $formatedResourcse);
         } catch (\Exception $exception) {
 
             return Helpers::serverErrorResponse($exception->getMessage());
