@@ -6,6 +6,7 @@ use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Helpers\LearningCluster\LearningClusterHelpers;
 use App\Helpers\OpenRouterHelper;
+use App\Jobs\SummarizeChatHistory;
 use App\Models\Admin\FineTuneContent\FineTuneContent;
 use App\Models\HAIChai\AnalyticsModel;
 use App\Models\HAIChai\BrainCluster;
@@ -129,15 +130,18 @@ class Conversation extends Component
 
                     $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
 
+                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+
                     $authorization = \request()->header('Authorization');
 
                     $queryArray = [
                         'headers' => ['Authorization' => $authorization]
                     ];
 
+
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". $llm_prompt ."&query=" . $this->message;
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
                     $response = $client->request("get", $route, $queryArray);
 
@@ -157,11 +161,13 @@ class Conversation extends Component
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-gpt-updated-api', $body);
 
-                    $prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['prompt']);
+
+                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
                     Log::info(['ai Reply' => $aiReply]);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $prompt, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona);
 
                     foreach ($openRouterResponse['choices'] as $choice)
                     {
@@ -173,6 +179,11 @@ class Conversation extends Component
 
                     AnalyticsModel::createAnalytics($this->message, $setting->model_type, $openRouterResponse['usage']);
 
+                }
+
+                if ($this->user_id){
+
+                    SummarizeChatHistory::dispatch($this->user_id);
                 }
 
             }else{

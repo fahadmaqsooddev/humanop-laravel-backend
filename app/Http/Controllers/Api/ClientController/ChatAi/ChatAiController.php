@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Client\ChatAi\AskQuestionRequest;
 use App\Http\Requests\Api\Client\ChatAi\LikeDisLikeAiReplyRequest;
 use App\Http\Requests\Api\Client\ChatAi\StoreClientQueryRequest;
+use App\Jobs\SummarizeChatHistory;
 use App\Models\Assessment;
 use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
@@ -99,6 +100,10 @@ class ChatAiController extends Controller
 
                     Log::info(['ai Reply' => $aiReply]);
 
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['combined_output']);
+
+                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt']);
+
                     $authorization = \request()->header('Authorization');
 
                     $queryArray = [
@@ -107,7 +112,7 @@ class ChatAiController extends Controller
 
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $prompts['prompt'] . "&prompt=". ($aiReply['combined_output'] ?? null) ."&query=" . $request->input('question');
+                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $request->input('question');
 
                     $response = $client->request("get", $route, $queryArray);
 
@@ -131,7 +136,11 @@ class ChatAiController extends Controller
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'], $prompts['prompt'] ?? null);
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+
+                    $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona);
 
                     $reply = null;
 
@@ -147,6 +156,8 @@ class ChatAiController extends Controller
                     }
 
                 }
+
+                SummarizeChatHistory::dispatch(Helpers::getUser()->id);
 
             }else{
 
