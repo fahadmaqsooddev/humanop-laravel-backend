@@ -62,9 +62,25 @@ class MemberController extends Controller
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
 
                 } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
+
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Member.");
 
                 } else {
+
+
+                    $userRecord=User::where('email',$email)->first();
+                    
+                    if($userRecord){
+
+                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
+                      
+                       if($result){
+
+                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
+                       
+                    }
+
+                    }
 
                     UserCandidateInvite::createUserInvite($checkInviteLink->id, 0);
 
@@ -85,9 +101,26 @@ class MemberController extends Controller
 
             if ($newInvite) {
 
+                $userRecord=User::where('email',$email)->first();
+                    
+                    if($userRecord){
+
+                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
+                      
+                       if($result){
+
+                        return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
+                       
+                    }
+
+                    }
+
                 UserCandidateInvite::createUserInvite($newInvite->id, 0);
+
                 $linke = UserInvite::where('email', $email)->first();
+
                 $url = config('client_url.client_dashboard_url') . '/register?link=' . $linke['link'] . '&company_name=' . Helpers::getUser()['company_name'] . '&prefer=1';
+               
                 $emailData = $this->myprepareEmailData($url);
 
                 $this->mysendEmailVerification($emailData, $email, 'b2b-signup-link');
