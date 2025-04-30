@@ -192,12 +192,23 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function ArchivedCandidate($userid)
+    public static function ArchivedCandidate($userId)
     {
 
-        return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->update([
+        // return self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userid)->update([
+        //     'future_consideration' => Admin::IN_FUTURE
+        // ]);
+
+        $data= self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->update([
             'future_consideration' => Admin::IN_FUTURE
         ]);
+
+        $user=User::where('id',$userId)->first();
+        $getInvite=UserInvite::where('email',$user['email'])->first();
+        UserCandidateInvite::where('company_id',Helpers::getUser()['id'])->where('invite_link_id',$getInvite['id'])->delete();
+        
+        return $data;
+
     }
 
 

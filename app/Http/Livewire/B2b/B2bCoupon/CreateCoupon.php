@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\B2b\B2bCoupon;
 
 use App\Helpers\Helpers;
+use App\Models\B2B\B2BCoupon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Stripe\Stripe;
@@ -33,13 +34,18 @@ class CreateCoupon extends Component
 
             Stripe::setApiKey(config('cashier.secret'));
 
-            \Stripe\Coupon::create([
+            $coupon = \Stripe\Coupon::create([
                 'percent_off' => $this->limit,
                 'name' => $this->name,
                 'duration' => 'once'
             ]);
 
+            B2BCoupon::createB2BCoupon($coupon['name'], $coupon['id'], $coupon['duration'], $coupon['percent_off']);
+
+            DB::commit();
+
             $this->resetForm();
+
             $this->emit('refreshB2BCoupon');
 
             session()->flash('success', 'Coupon created successfully!');

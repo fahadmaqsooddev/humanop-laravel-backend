@@ -5,6 +5,7 @@ namespace App\Http\Controllers\B2BControllers\B2BApi;
 use App\Helpers\GuzzleHelper\GuzzleHelpers;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\B2B\B2BCoupon;
 use App\Models\BillingInfo\BillingInfo;
 use App\Models\Client\Plan\Plan;
 use App\Models\Subscription;
@@ -329,16 +330,16 @@ class B2BSubscriptionController extends Controller
 
             Stripe::setApiKey(config('cashier.secret')); // or env('STRIPE_SECRET')
 
-            $coupons = Coupon::all();
+            $coupons = B2BCoupon::allCoupons();
 
             $data = [];
 
             foreach ($coupons as $coupon) {
 
                 $data[] =[
-                    'coupon_code' => $coupon['id'] ?? null,
-                    'coupon_percentage' => $coupon['percent_off'] ?? null,
-                    'coupon_duration' => $coupon['duration'] ?? null,
+                    'coupon_code' => $coupon['coupon_code'] ?? null,
+                    'coupon_percentage' => (int)$coupon['coupon_limit'] ?? null,
+                    'coupon_duration' => $coupon['coupon_duration'] ?? null,
                 ];
             }
 

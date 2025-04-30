@@ -600,8 +600,8 @@ class DashboardController extends Controller
                         'Ios_version' => $version->version,
                         'Android_version' => $version->version,
                         'note' => $version->note,
-                        'created_at' => $version->created_at ? $version->created_at->format('Y-m-d') : null,
-                        'updated_at' => $version->updated_at ? $version->updated_at->format('Y-m-d') : null,
+                        'created_at' => $version->created_at ? $version->created_at->format('F j, Y') : null,
+                       
 
                     ],
                     'new_feature_descriptions' => $newFeatureDescriptionsCleaned,
