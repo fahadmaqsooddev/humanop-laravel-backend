@@ -125,9 +125,9 @@ class Conversation extends Component
 
                     $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'temp-llm-model', $body);
 
-                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
-
                     Log::info(['ai Reply' => $aiReply]);
+
+                    $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt($this->user_id, $aiReply['combined_output']);
 
                     $authorization = \request()->header('Authorization');
 
