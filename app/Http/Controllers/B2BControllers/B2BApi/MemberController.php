@@ -40,7 +40,7 @@ class MemberController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email:rfc,dns',
+                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             ]);
             
             if ($validator->fails()) {
