@@ -12,7 +12,9 @@ class B2bDeletedOrganizations extends Component
     use WithPagination;
     public $perPage=10;
     public $name,$age,$email;
-    protected $listeners=['restoreB2BAdmin','deleteB2BAdmin'];
+    public $selectedItems = [];
+
+    protected $listeners=['restoreB2BAdmin','deleteB2BAdmin','bulkDelete'];
 
     public function restoreB2BAdmin($userId){
      
@@ -24,6 +26,15 @@ class B2bDeletedOrganizations extends Component
      
         User::onlyTrashed()->whereId($userId)->forceDelete();
     
+    }
+
+
+    public function bulkDelete()
+    {
+        
+        User::onlyTrashed()->whereIn('id', $this->selectedItems)->forceDelete();
+
+        $this->selectedItems = [];
     }
     public function render()
     {
