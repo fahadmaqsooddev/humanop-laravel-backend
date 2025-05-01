@@ -24,4 +24,7 @@ Route::group(['middleware' => ['checkUser']], function () {
 
     Route::post('b2b-ask-question', 'B2BHaiController@askQuestion');
 
+
+    Route::get('admin-optimization-and-core-state','B2BDashboardController@AdminOptimizationAndCoreState');
+
 });
