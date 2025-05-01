@@ -145,7 +145,7 @@ class Conversation extends Component
 
                     Log::info(['routee' => $route]);
 
-                    $response = $client->request("post", $route, $queryArray);
+                    $response = $client->request("get", $route, $queryArray);
 
                     Log::info(['res' => $response]);
 
