@@ -11,15 +11,15 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($coupons['data'] as $coupon)
+            @foreach($coupons as $coupon)
                 <tr class="table-text-color">
-                    <td class="text-md font-weight-normal">{{$coupon['name'] ?? 'N/A'}} </td>
-                    <td class="text-md font-weight-normal">{{$coupon['id']}} </td>
-                    <td class="text-md font-weight-normal">{{$coupon['percent_off']}}%</td>
-                    <td class="text-md font-weight-normal">{{$coupon['duration']}} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['coupon_name'] ?? 'N/A'}} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['coupon_code']}} </td>
+                    <td class="text-md font-weight-normal">{{$coupon['coupon_limit']}}%</td>
+                    <td class="text-md font-weight-normal">{{$coupon['coupon_duration']}} </td>
                     <td>
                         <button class="btn btn-sm btn-danger"
-                                onclick="confirmB2BBoxForPermanentDelete('{{$coupon['id']}}')">
+                                onclick="confirmB2BBoxForPermanentDelete('{{$coupon['coupon_code']}}')">
                             delete
                         </button>
                     </td>
