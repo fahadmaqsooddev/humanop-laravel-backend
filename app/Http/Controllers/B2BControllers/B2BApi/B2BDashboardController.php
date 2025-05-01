@@ -74,6 +74,7 @@ class B2BDashboardController extends Controller
                         ]);
                     }
                 } else {
+                    
                     return Helpers::successResponse('candidates optimization and core state', [
                         'candidates_name' => ($checkShareStatus['users']['first_name'] ?? '') . ' ' . ($checkShareStatus['users']['last_name'] ?? ''),
                         'optimization_plan' => null,
@@ -98,24 +99,7 @@ class B2BDashboardController extends Controller
             }
 
             $userId = $candidate['users']['id'] ?? null;
-//            $checkCandidateResult = B2BCandidateStat::getResult($userId);
-//            $isCandidateAvailable = !empty($checkCandidateResult);
 
-//            $isRecentUpdate = $isCandidateAvailable && Carbon::parse($checkCandidateResult['updated_at'])->gte(Carbon::now()->subHours(24));
-//
-//            if (!$isRecentUpdate) {
-//                $candidate = B2BBusinessCandidates::getBusinessCandidate();
-//            }
-//
-//            if (!$candidate) {
-//                return Helpers::successResponse('candidates optimization and core state', [
-//                    'candidates_name' => null,
-//                    'optimization_plan' => null,
-//                    'core_state' => null,
-//                    'user_trait' => null,
-//                    'user_note' => null
-//                ]);
-//            }
 
             $optimizationPlan = ActionPlan::getUserActionPlan($candidate['candidate_id']);
             $coreState = Assessment::getCoreState($candidate['assessments'], $candidate['users']['date_of_birth']);
@@ -153,6 +137,80 @@ class B2BDashboardController extends Controller
 //            return Helpers::serverErrorResponse($exception->getMessage());
 //        }
     }
+
+
+
+
+    public function AdminOptimizationAndCoreState(\Illuminate\Http\Request $request)
+    {
+        try {
+            if (!empty($request['candidate_id'])) {
+
+                $checkShareStatus = B2BBusinessCandidates::checkB2BAdminShare($request['candidate_id']);
+
+                if (!empty($checkShareStatus) && !empty($checkShareStatus['busers'])) {
+
+                    $userId = $checkShareStatus['busers']['id'];
+
+                    $getAssessment = Assessment::getLatestAssessment($userId);
+                    
+
+                    if (!empty($getAssessment)) {
+                        $optimizationPlan = $getAssessment ? ActionPlan::getUserActionPlan($userId) : null;
+                        $coreState = $getAssessment ? Assessment::getCoreState($getAssessment, $checkShareStatus['busers']['date_of_birth']) : null;
+                        $userTrait = Assessment::UserTraits($userId);
+                        $userNote = B2BNotes::getNoteFromUserId($userId) ?? '';
+                        
+                        if($coreState){
+                            $coreState['assessment']['users']['gender']= $coreState['assessment']['users']['gender']==1 ?'FeMale':'Male';
+                        }
+                        
+
+                        return Helpers::successResponse('candidates optimization and core state', [
+                            'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                            'optimization_plan' => $optimizationPlan,
+                            'core_state' => $coreState,
+                            'user_trait' => $userTrait,
+                            'user_note' => $userNote
+                        ]);
+                    } else {
+                        return Helpers::successResponse('candidates optimization and core state', [
+                            'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                            'optimization_plan' => null,
+                            'core_state' => null,
+                            'user_trait' => null,
+                            'user_note' => null
+                        ]);
+                    }
+                } else {
+                    
+                    return Helpers::successResponse('candidates optimization and core state', [
+                        'candidates_name' => ($checkShareStatus['busers']['first_name'] ?? '') . ' ' . ($checkShareStatus['busers']['last_name'] ?? ''),
+                        'optimization_plan' => null,
+                        'core_state' => null,
+                        'user_trait' => null,
+                        'user_note' => null
+                    ]);
+                }
+            }else{
+                Helpers::validationResponse('candidate Id Is required');
+            }
+
+           
+        } 
+        // catch (\Exception $exception) {
+        //     return Helpers::serverErrorResponse(
+        //         'Error: ' . $exception->getMessage() .
+        //         ' | Line: ' . $exception->getLine() .
+        //         ' | File: ' . $exception->getFile()
+        //     );
+        // }
+
+catch (\Exception $exception) {
+           return Helpers::serverErrorResponse($exception->getMessage());
+       }
+    }
+
 
     public function b2bOptimizationAndCoreState(\Illuminate\Http\Request $request)
     {
