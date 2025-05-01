@@ -8,11 +8,11 @@
 
     <div class="card-header table-header-text">
         <h5 class="mb-0 mt-2 text-color-blue">Deleted Client's</h5>
-        {{-- @if(count($selectedItems) > 0)
+        @if(count($selectedItems) > 0)
         <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
-        <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete Clients Permanently</button>
+        <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete B2B Clients Permanently</button>
         </div>
-        @endif --}}
+        @endif
     </div>
 
 
@@ -57,7 +57,7 @@
     <div class="table-responsive table-orange-color">
         <table class="table table-flush">
             <thead class="thead-light">
-            <tr class="text-color-blue">
+            <tr class="text-color-blue text-center">
                 <th>#</th>
                 <th>Username</th>
                 <th>Email</th>
@@ -73,7 +73,7 @@
                 </tr>
             @endif
             @foreach($users as $key => $user)
-                <tr class="text-color-blue">
+                <tr class="text-color-blue text-center">
                     <td class="text-md font-weight-normal">{{$key + 1}}</td>
                     <td class="text-md font-weight-normal">{{$user['first_name'] . ' ' . $user['last_name']}}</td>
                     <td class="text-md font-weight-normal">{{$user['email']}}</td>

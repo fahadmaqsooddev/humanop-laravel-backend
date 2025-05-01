@@ -24,6 +24,16 @@
     </style>
 @endpush
 <div>
+
+    <div class="card-header table-header-text">
+        <h5 class="mb-0 mt-2 text-color-blue">B2B Client's</h5>
+        @if(count($selectedItems) > 0)
+        <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+        <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete B2B Clients Permanently</button>
+        </div>
+        @endif
+    </div>
+
     <div class="table-header-text">
         <div class="d-flex mt-4">
             <div class="input-group ms-md-4 pe-md-4">
@@ -48,6 +58,7 @@
                 <th class="text-center">Gender</th>
                 <th class="text-center">Members</th>
                 <th class="text-center">Candidates</th>
+                <th class="text-center">Bulk Delete</th>
                 <th class="text-center">Change Password</th>
                 <th class="text-center">Delete</th>
 
@@ -78,6 +89,11 @@
                             {{ $user['candidate_count'] }}
                         </a>
                         
+                    </td>
+
+                    <td class="text-center">
+                        <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
+                            style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                     </td>
                     <td class="text-sm font-weight-normal text-center">
                         <a onclick="resetPassword({{ $user['id'] ?? null }}, '{{ $user['first_name'] ?? null }}')"
@@ -210,6 +226,29 @@ swalWithBootstrapButtons.fire({
     }
 })
 }
+
+
+
+function bulkDeleted(){
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn bg-gradient-danger m-2',
+                cancelButton:  'btn bg-gradient-primary m-2',
+            },
+            buttonsStyling: false,
+            background : '#3442b4',
+        })
+        swalWithBootstrapButtons.fire({
+            title: '<span style="color: white;">Are you sure?</span>',
+            html: "<span style='color: white;'><strong>Permanently delete the B2B Admin account and all related data.</strong></span>",
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+        }).then((result) => {
+            if(result.isConfirmed){
+                window.livewire.emit('bulkDelete')
+            }
+        })
+    }
 
     </script>
 
