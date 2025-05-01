@@ -15,7 +15,10 @@ class B2bOrganization extends Component
     public $name, $email;
     public $perPage = 10;
 
-    protected $listeners = ['resetPassword','deleteB2BAdminProfile'];
+    public $selectedItems = [];
+
+
+    protected $listeners = ['resetPassword','deleteB2BAdminProfile','bulkDelete'];
 
     public function resetPassword($id, $newPassword)
 {
@@ -38,6 +41,18 @@ class B2bOrganization extends Component
     
      B2BBusinessCandidates::deleteB2BAdmin($businessId);
  }
+
+
+
+
+    public function bulkDelete()
+    {
+
+        User::whereIn('id', $this->selectedItems)->delete();
+
+
+        $this->selectedItems = [];
+    }
 
 
 

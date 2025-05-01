@@ -360,6 +360,19 @@ class B2BBusinessCandidates extends Model
     }
 
 
+    
+    public static function checkB2BAdminShare($userId)
+    {
+        $data = self::where('business_id',$userId)->with('busers')->first();
+
+        if ($data && $data->busers) {
+            $data->busers->gender = $data->busers->gender == Admin::IS_MALE ? 'Male' : 'Female';
+        }
+
+        return $data;
+    }
+
+
     public static function CheckLimit($email = null)
     {
         return UserInvite::where('email', $email)->select(['members_limit', 'total_member_limit'])->first();

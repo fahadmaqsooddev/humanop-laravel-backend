@@ -161,7 +161,7 @@ class Conversation extends Component
 
                     }else{
 
-                        session()->flash("error", "Try again.");
+                        session()->flash("error", "Something went wrong. Please try again.");
                     }
 
 
