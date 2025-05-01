@@ -139,12 +139,13 @@ class Conversation extends Component
                         'headers' => ['Authorization' => $authorization]
                     ];
 
-
                     $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
                     $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
                     $response = $client->request("get", $route, $queryArray);
+
+                    Log::info(['res' => $response]);
 
                     Log::info(['bedrock body response' => $response->getBody()]);
 
