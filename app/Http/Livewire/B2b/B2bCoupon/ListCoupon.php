@@ -18,7 +18,7 @@ class ListCoupon extends Component
     {
         Stripe::setApiKey(config('cashier.secret')); // or env('STRIPE_SECRET')
 
-        $this->coupons = Coupon::all();
+        $this->coupons = B2BCoupon::allCoupons();
 
     }
 

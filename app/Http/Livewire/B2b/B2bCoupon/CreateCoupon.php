@@ -62,7 +62,7 @@ class CreateCoupon extends Component
 
     public function resetForm()
     {
-        $this->reset(['limit']);
+        $this->reset(['limit','name']);
     }
 
     public function render()
