@@ -117,7 +117,7 @@
                                                             <button style="background-color: #f2661c; color: white;margin-bottom: 0px"
                                                             data-bs-toggle="modal"
                                                             wire:click="editDescription({{ $resource['id'] }},'{{$resource['version_id']}}','{{ $resource['description'] }}','{{ $resource['platform'] }}','{{ $resource['version_heading'] }}')"
-                                                            data-bs-target="#descriptionModel"  class="btn btn-sm mb-2 ">Edit 1
+                                                            data-bs-target="#descriptionModel"  class="btn btn-sm mb-2 ">Edit 
                                                             </button>
                                                         </div>
                                                     </div>
