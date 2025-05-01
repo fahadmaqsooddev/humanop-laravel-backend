@@ -96,7 +96,7 @@ class Conversation extends Component
     {
         try {
 
-            $this->validate();
+//            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -175,7 +175,9 @@ class Conversation extends Component
 
                     $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona);
+                    [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
+
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
 
                     // $promptMessages = self::makePromptForChat($aiReply, $prompts);
 

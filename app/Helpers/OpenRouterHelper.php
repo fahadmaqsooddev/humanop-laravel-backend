@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 
 class OpenRouterHelper
 {
-    public static function callOpenRouterApi($question, $setting, $prompt, $llmModel, $persona)
+    public static function callOpenRouterApi($question, $setting, $prompt, $llmModel, $persona, $userMessage = [], $assistantMessage = [])
     {
         $apiKey = "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";
         $siteUrl = "humanop.com"; // Optional
@@ -42,10 +42,6 @@ class OpenRouterHelper
             "tokens" => $setting['max_tokens'] ?? 500,
             "messages" => [
                 [
-                    "role" => "user",
-                    "content" => $persona . "\n\n User: " . $question,
-                ],
-                [
                     "role" => "system",
                     "content" => $prompt ?? "People  who  have  a  Copper-Silver  Alchemy  align  with  utility  and  practicality.  In  other  words,  they
 are  attracted  to  getting  the  most  use  out  of  everything,  whether  it  be  value  or  longevity,  and
@@ -59,7 +55,12 @@ it's  recommended  that  they  make  slight  adjustments  towards  their  silver
 with  certain  audiences.  This  can  be  done  by  moving  into  the  practical  aspect  of  their  Alchemy
 and  paying  a  little  more  attention  to  their  home  and  themselves  in  terms  of  upkeep  and  value
 maintenance."
-                ]
+                ],
+                $userMessage, $assistantMessage,
+                [
+                    "role" => "user",
+                    "content" => $persona . "\n\n User: " . $question,
+                ],
             ]
         ];
 

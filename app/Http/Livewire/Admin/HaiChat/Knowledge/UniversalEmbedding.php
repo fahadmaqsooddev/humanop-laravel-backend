@@ -90,6 +90,9 @@ class UniversalEmbedding extends Component
                 if(isset($aiReply['text_content'])){
 
                     $this->updateEmbeddingText = $aiReply['text_content'];
+                }else{
+
+                    $this->updateEmbeddingText = "";
                 }
             }
 

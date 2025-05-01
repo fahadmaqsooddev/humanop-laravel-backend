@@ -5,6 +5,7 @@ namespace App\Models\HAIChai;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function Aws\flatmap;
 
 class HaiChatConversation extends Model
 {
@@ -55,5 +56,26 @@ class HaiChatConversation extends Model
         }
 
         return $conversation;
+    }
+
+    public static function userLastMessage($chatBotName = null,$user_id = null){
+
+        $convo = self::where('user_id', $user_id)->where('chatbot', $chatBotName)->latest()->first();
+
+        if ($convo){
+
+            return [
+                [
+                    "role" => "user",
+                    "content" => $convo['message'],
+                ],[
+                    "role" => "assistant",
+                    "content" => $convo['reply'],
+                ]
+            ];
+
+        }
+
+        return [[],[]];
     }
 }
