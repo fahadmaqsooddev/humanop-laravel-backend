@@ -129,4 +129,29 @@ class HaiChat extends Model
         }
 
     }
+
+    public static function userLastMessage(){
+
+        $convo = self::where('user_id', Helpers::getUser()->id)->latest()
+
+            ->first();
+
+        if ($convo){
+
+            return [
+                [
+                    'role' => 'user',
+                    'content' => $convo['query'],
+                ],
+                [
+                    'role' => 'assistant',
+                    'content' => $convo['answer'],
+                ]
+            ];
+
+        }
+
+        return [[],[]];
+
+    }
 }

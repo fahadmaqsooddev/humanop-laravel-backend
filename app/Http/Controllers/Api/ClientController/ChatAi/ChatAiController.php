@@ -140,7 +140,9 @@ class ChatAiController extends Controller
 
                     $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona);
+                    [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+
+                    $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'], $final_persona,$userMessage, $assistantMessage);
 
                     $reply = null;
 

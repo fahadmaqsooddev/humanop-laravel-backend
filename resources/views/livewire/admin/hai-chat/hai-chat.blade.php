@@ -65,7 +65,7 @@
                 <div class="card card-body " style="border: 3px solid {{$chat->chat_bot_color}}; background-color: {{$chat->chat_bot_color}}">
 
                     <div class="d-flex justify-content-between w-100">
-                        <a href="{{route('admin_edit_brain', $chat['id'])}}" class="w-80">
+                        <a href="{{route('admin_edit_brain', $chat['id'])}}" class="w-60">
                             <div class="py-2">
                                 <h5 style="color: #f2661c" class="text-decoration-none">
                                     <i class="bi bi-robot"></i>
@@ -83,12 +83,25 @@
                             </div>
                         </a>
                         <div>
-                            <div class="py-2">
-                                @if($chat['setting']['persona_name'] ?? false)
-                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
-                                @else
-                                    <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
+                            <div class="d-flex justify-content-between">
+                                @if($chat['is_published'] == 1)
+                                    <div class="py-2 px-2">
+                                        <a href="javascript:void(0)" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected</a>
+                                    </div>
                                 @endif
+                                @if($chat['setting'] && $chat['setting']['maestro_app'] != 0)
+                                    <div class="py-2 px-2">
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to B2B</a>
+                                    </div>
+                                @endif
+                                <div class="py-2">
+                                    @if($chat['setting']['persona_name'] ?? false)
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Connected to {{ strlen($chat['setting']['persona_name']) > 20 ? substr($chat['setting']['persona_name'], 0, 20) . "..." : $chat['setting']['persona_name']}}</a>
+                                    @else
+                                        <a href="{{route('admin_hai_chat_persona', ['name' => $chat['name']])}}" style="border: 2px solid #f2661c; color: #f2661c;border-radius: 10px; padding: 7px;">Not Connected</a>
+                                    @endif
+                                </div>
+
                             </div>
                             <div class="d-flex justify-content-end py-4">
                                 {{--                            <p class="text-dark" style="padding-right: 8px; color: black"><i class="bi bi-clock text-white"></i> less--}}
