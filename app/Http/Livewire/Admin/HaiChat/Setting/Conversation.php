@@ -143,6 +143,8 @@ class Conversation extends Component
 
                     $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
+                    Log::info(['routee' => $route]);
+
                     $response = $client->request("get", $route, $queryArray);
 
                     Log::info(['res' => $response]);
