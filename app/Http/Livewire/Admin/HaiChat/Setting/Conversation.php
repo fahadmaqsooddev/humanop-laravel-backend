@@ -132,18 +132,22 @@ class Conversation extends Component
 
                     $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
-                    $authorization = \request()->header('Authorization');
+//                    $authorization = \request()->header('Authorization');
 
-                    $queryArray = [
-                        'headers' => ['Authorization' => $authorization]
-                    ];
+//                    $queryArray = [
+//                        'headers' => ['Authorization' => $authorization]
+//                    ];
+//
+//
+//                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
 
+//                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
 
-                    $client = new Client(['http_errors' => false, 'timeout' => 180]);
+//                    $response = $client->request("get", $route, $queryArray);
 
-                    $route = "ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php?persona=" . $final_persona . "&prompt=". $llm_prompt ."&query=" . $this->message;
+                    $body = ['persona' => $final_persona, 'prompt' => $llm_prompt, 'query' => $this->message];
 
-                    $response = $client->request("get", $route, $queryArray);
+                    $response = GuzzleHelpers::sendRequestFromGuzzleForBedrockApi('post', 'ec2-34-233-15-190.compute-1.amazonaws.com/bedrock/bedrock.php', $body);
 
                     if ($response->getStatusCode() === 200){
 

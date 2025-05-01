@@ -138,5 +138,22 @@ class GuzzleHelpers
 
     }
 
+    public static function sendRequestFromGuzzleForBedrockApi($method = null, $route = null, $body = [])
+    {
+
+        $authorization = \request()->header('Authorization');
+
+        $queryArray = [
+            'headers' => ['Authorization' => $authorization],
+            'json' => $body
+        ];
+
+        $client = new Client(['http_errors' => false, 'timeout' => 180]);
+
+        $response = $client->request($method, $route, $queryArray);
+
+        return $response;
+    }
+
 }
 
