@@ -31,7 +31,7 @@
 
 </style>
 @section('content')
-    <div class="row mt-4 container-fluid mainDivClass">
+    <div class="row mt-4 container-fluid ">
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->

@@ -73,7 +73,7 @@
 
 </style>
 @section('content')
-    <div class="mt-4 mainDivClass">
+    <div class="mt-4 ">
         @livewire('admin.hai-chat.embedding',['group_id' => $id])
     </div>
 @endsection

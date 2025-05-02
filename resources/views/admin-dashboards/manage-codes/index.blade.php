@@ -9,7 +9,7 @@
     }
 </style>
 @section('content')
-    <div class="row mt-4 container-fluid mainDivClass">
+    <div class="row mt-4 container-fluid ">
         <div class="col-12">
             <button class="text-md font-weight-normal" style="padding: 0; border: none; background: none;">
                 <a href="{{ route('admin_create_code') }}"
