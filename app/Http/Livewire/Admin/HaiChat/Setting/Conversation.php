@@ -115,7 +115,13 @@ class Conversation extends Component
 
                     $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
 
-                    $user_name = User::userNameForHAi($this->user_id);
+                    $user = User::userDataForHAi($this->user_id);
+
+                    $user_name = $user['first_name'] . ' ' . $user['last_name'];
+
+//                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+
+                    $interval_life = User::getUserAge($user['date_of_birth']);
                 }
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");

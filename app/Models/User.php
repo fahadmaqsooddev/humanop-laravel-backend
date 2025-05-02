@@ -7,10 +7,12 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
+use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
@@ -330,6 +332,16 @@ class User extends Authenticatable implements JWTSubject
     {
 
         return $this->hasOne(B2BBusinessCandidates::class, 'candidate_id', 'id');
+    }
+
+    public function userIntentions(){
+
+        return $this->hasManyThrough(IntentionOption::class,IntentionPlan::class,'user_id','id','id','intention_option_id');
+    }
+
+    public function businessIntentions(){
+
+        return $this->hasManyThrough(IntentionOption::class,SelectIntentionOption::class,'business_id','id','id','intention_option_id');
     }
 
     // query
@@ -1331,15 +1343,15 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $query->paginate($perpage ?? 10);
 
-        
+
         foreach ($users as $user) {
 
             $memberCount=B2BBusinessCandidates::getMembersCount($user->id);
 
             $candidateCount=B2BBusinessCandidates::getCandidatesCount($user->id);
-            
+
             $user->member_count = $memberCount;
-            
+
             $user->candidate_count = $candidateCount;
         }
 
@@ -1353,13 +1365,11 @@ class User extends Authenticatable implements JWTSubject
         ]);
     }
 
-    public static function userNameForHAi($user_id = null)
+    public static function userDataForHAi($user_id = null)
     {
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id','first_name', 'last_name','date_of_birth'])->first()->setAppends([]);
 
-        $user = self::whereId($user_id)->select(['first_name', 'last_name'])->first()->setAppends([]);
-
-        return ($user['first_name'] . ' ' . $user['last_name']);
-
+        return $user;
     }
 
     public static function checkUserEmailInB2B($email)
@@ -1447,6 +1457,14 @@ class User extends Authenticatable implements JWTSubject
             ->onlyTrashed()
             ->orderBy('deleted_at', 'desc')
             ->paginate($perPage);
+    }
+
+    public static function b2bDetailForHai($user_id){
+
+        $user = self::with('businessIntentions')->whereId($user_id)->select(['id','first_name', 'last_name'])->first()->setAppends([]);
+
+        return $user;
+
     }
 
 
