@@ -51,6 +51,7 @@ class MemberController extends Controller
             $email = $request->input('email');
 
             $checkInviteLink = UserInvite::getSingleInvite($email);
+            
 
             if ($checkInviteLink) {
 
@@ -58,7 +59,7 @@ class MemberController extends Controller
 
                 if ($checkCompany && $checkCompany['role'] == Admin::IS_CANDIDATE) {
 
-//                    return Helpers::successResponse("{$email} already has an invite link with your business As a Candidate.");
+
                     return Helpers::validationResponse("{$email} already has an invite link with your business As a Candidate.");
 
                 } else if ($checkCompany && $checkCompany['role'] == Admin::IS_TEAM_MEMBER) {
@@ -72,8 +73,8 @@ class MemberController extends Controller
                     
                     if($userRecord){
 
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
-                      
+                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
+                    
                        if($result){
 
                         return Helpers::validationResponse("{$email} already has an Account with your business in A Future Consideration.");
@@ -105,7 +106,7 @@ class MemberController extends Controller
                     
                     if($userRecord){
 
-                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
+                       $result= B2BBusinessCandidates::where('business_id',Helpers::getUser()['id'])->where('candidate_id',$userRecord['id'])->where('future_consideration',Admin::IN_FUTURE)->first();
                       
                        if($result){
 
