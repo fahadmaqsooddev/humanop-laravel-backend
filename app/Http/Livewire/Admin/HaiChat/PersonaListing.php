@@ -23,14 +23,16 @@ class PersonaListing extends Component
     public function render()
     {
 
-        $this->personas = HaiChatSetting::whereNotNull('persona_name')->get();
+        $this->personas = HaiChatSetting::has('chatbot')->whereNotNull('persona_name')->with('chatbot')->get();
 
         return view('livewire.admin.hai-chat.persona-listing');
     }
 
-    public function viewEditPersona(){
+    public function viewEditPersona($persona_id){
 
-        $this->emit('viewEditPersona', $this->persona_id);
+        $this->persona_id = $persona_id;
+
+        $this->emit('viewEditPersona', $persona_id);
     }
 
     public function createNewPersona(){
@@ -38,5 +40,16 @@ class PersonaListing extends Component
         $this->reset('persona_id');
 
         $this->emit('viewEditPersona', null);
+    }
+
+    public function deletePersona($id){
+
+        HaiChatSetting::whereId($id)->update([
+            'maestro_app' => 0,
+            'maestro_app_id' => null,
+            'persona_name' => null,
+            'human_op_app' => 0,
+        ]);
+
     }
 }

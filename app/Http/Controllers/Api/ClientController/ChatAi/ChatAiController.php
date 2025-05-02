@@ -68,8 +68,6 @@ class ChatAiController extends Controller
 
             $is_restricted_word = ChatbotKeyword::checkChatBotKeywordsForApi($chat_bot->id ?? null, $request->input('question'));
 
-            $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
-
             if (!$is_restricted_word){
 
 //                $assessments = AssessmentHelper::getAssessments();
@@ -88,9 +86,17 @@ class ChatAiController extends Controller
 
 //                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', $url, $body);
 
+                $user_grid = Assessment::getAssessmentFromUserId(Helpers::getUser()['id'] ?? null);
+
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+                $user = User::userDataForHAi(Helpers::getUser()->id);
+
+                $user_name = $user['first_name'];
+
+//                $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+
+//                $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id];
 

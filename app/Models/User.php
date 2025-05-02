@@ -7,10 +7,12 @@ use App\Helpers\Helpers;
 use App\Models\Admin\Alchemy\AlchemyCode;
 use App\Models\Admin\Code\CodeDetail;
 use App\Models\B2B\B2BBusinessCandidates;
+use App\Models\B2B\SelectIntentionOption;
 use App\Models\Client\Connection\Connection;
 use App\Models\Client\Follow\Follow;
 use App\Models\Client\Story\Story;
 use App\Models\Client\StoryView\StoryView;
+use App\Models\IntentionPlan\IntentionOption;
 use App\Models\IntentionPlan\IntentionPlan;
 use App\Models\UserInvite\UserInvite;
 use Carbon\Carbon;
@@ -330,6 +332,16 @@ class User extends Authenticatable implements JWTSubject
     {
 
         return $this->hasOne(B2BBusinessCandidates::class, 'candidate_id', 'id');
+    }
+
+    public function userIntentions(){
+
+        return $this->hasManyThrough(IntentionOption::class,IntentionPlan::class,'user_id','id','id','intention_option_id');
+    }
+
+    public function businessIntentions(){
+
+        return $this->hasManyThrough(IntentionOption::class,SelectIntentionOption::class,'business_id','id','id','intention_option_id');
     }
 
     // query
@@ -1331,20 +1343,15 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $query->paginate($perpage ?? 10);
 
-        // Loop through paginated items and add counts
+
         foreach ($users as $user) {
-            $memberCount = B2BBusinessCandidates::
-            where('business_id', $user->id)
-                ->where('role', Admin::IS_TEAM_MEMBER)
-                ->count();
 
-            $candidateCount = B2BBusinessCandidates::
-            where('business_id', $user->id)
-                ->where('role', Admin::IS_CANDIDATE)
-                ->count();
+            $memberCount=B2BBusinessCandidates::getMembersCount($user->id);
 
-            // You can attach these counts to the user object
+            $candidateCount=B2BBusinessCandidates::getCandidatesCount($user->id);
+
             $user->member_count = $memberCount;
+
             $user->candidate_count = $candidateCount;
         }
 
@@ -1358,13 +1365,11 @@ class User extends Authenticatable implements JWTSubject
         ]);
     }
 
-    public static function userNameForHAi($user_id = null)
+    public static function userDataForHAi($user_id = null)
     {
+        $user = self::with('userIntentions')->whereId($user_id)->select(['id','first_name', 'last_name','date_of_birth'])->first()->setAppends([]);
 
-        $user = self::whereId($user_id)->select(['first_name', 'last_name'])->first()->setAppends([]);
-
-        return ($user['first_name'] . ' ' . $user['last_name']);
-
+        return $user;
     }
 
     public static function checkUserEmailInB2B($email)
@@ -1452,6 +1457,98 @@ class User extends Authenticatable implements JWTSubject
             ->onlyTrashed()
             ->orderBy('deleted_at', 'desc')
             ->paginate($perPage);
+    }
+
+    public static function b2bDetailForHai($user_id){
+
+        $user = self::with('businessIntentions')->whereId($user_id)->select(['id','first_name', 'last_name','date_of_birth'])->first()->setAppends([]);
+
+        return $user;
+
+    }
+
+    public static function userIntervalOfLife($date_of_birth = null)
+    {
+
+        $age = Carbon::parse($date_of_birth)->age;
+
+        switch ($age) {
+            case (7 <= $age && $age <= 11):
+                $interval = [
+                    'interval' => 'Connecting & Communicating',
+                    'public_name' => 'Cycle of Life - Connecting & Communicating (7-11)'
+                ];
+                break;
+            case (12 <= $age && $age <= 15):
+                $interval = [
+                    'interval' => 'Alchemical Revelation',
+                    'public_name' => 'Cycle of Life - Alchemical Revelation (12-15)'
+                ];
+                break;
+            case (16 <= $age && $age <= 20):
+                $interval = [
+                    'interval' => 'Motivation',
+                    'public_name' => 'Cycle of Life - Motivation (16-20)'
+                ];
+                break;
+            case (21 <= $age && $age <= 29):
+                $interval = [
+                    'interval' => 'Roadworthy ',
+                    'public_name' => 'Cycle of Life - Roadworthy (21-29)'
+                ];
+                break;
+            case (30 <= $age && $age <= 33):
+                $interval = [
+                    'interval' => 'Power',
+                    'public_name' => 'Cycle of Life - The Power Interval (30-33)'
+                ];
+                break;
+            case (34 <= $age && $age <= 42):
+                $interval = [
+                    'interval' => 'MidLife Transformation',
+                    'public_name' => 'Cycle of Life - Mid-Life Transformation (34-42)'
+                ];
+                break;
+            case (43 <= $age && $age <= 51):
+                $interval = [
+                    'interval' => 'Awareness',
+                    'public_name' => 'Cycle of Life - Awareness (43-51)'
+                ];
+                break;
+            case (52 <= $age && $age <= 65):
+                $interval = [
+                    'interval' => 'Payit Forward',
+                    'public_name' => 'Cycle of Life - Pay It Forward (52-65)'
+                ];
+                break;
+            case (66 <= $age && $age <= 69):
+                $interval = [
+                    'interval' => 'Liberated',
+                    'public_name' => 'Cycle of Life - Liberated (66-69)'
+                ];
+                break;
+            case (70 <= $age && $age <= 74):
+                $interval = [
+                    'interval' => 'Being',
+                    'public_name' => 'Cycle of Life - Being (70-74)'
+                ];
+                break;
+            case (75 <= $age && $age <= 83):
+                $interval = [
+                    'interval' => 'Life Review',
+                    'public_name' => 'Cycle of Life - Life Review (75-83)'
+                ];
+                break;
+            default:
+                $interval = [
+                    'interval' => 'Surrender',
+                    'public_name' => 'Cycle of Life - Surrender (84+)'
+                ];
+                break;
+
+        }
+
+        return $interval;
     }
 
 

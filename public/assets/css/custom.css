@@ -42,6 +42,10 @@
     top: -27px;
 }
 
+.mainDivClass
+{
+    margin-left: 15px !important;
+}
 .betaTag
 {
     color: white;

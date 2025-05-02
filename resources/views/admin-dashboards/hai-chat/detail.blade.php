@@ -47,7 +47,7 @@
     @endpush
     <div class="container-fluid my-1 py-1">
         @include('layouts.message')
-        <div class="row">
+        <div class="row container-fluid">
             <div class="col-lg-3">
                 <div class="position-sticky top-1">
 

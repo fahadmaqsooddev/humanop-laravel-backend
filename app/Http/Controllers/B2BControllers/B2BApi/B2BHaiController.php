@@ -33,13 +33,13 @@ class B2BHaiController extends Controller
 
         try {
 
-            $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_CURRENT_MAESTRO_COMPANY_CLIENTS_HAi)
+            $setting = HaiChatSetting::has('chatBot')->where('maestro_app', MaestroApp::LIST_OF_CURRENT_MAESTRO_COMPANY_CLIENTS_HAi)
 
                 ->where('maestro_app_id', Helpers::getUser()->id)->first();
 
             if (!$setting){
 
-                $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
+                $setting = HaiChatSetting::has('chatBot')->where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
 
                     ->whereHas('businessSubStrategies', function ($query){
 
@@ -49,7 +49,7 @@ class B2BHaiController extends Controller
 
                 if (!$setting){
 
-                    $setting = HaiChatSetting::where('maestro_app', 1)->first();
+                    $setting = HaiChatSetting::has('chatBot')->where('maestro_app', 1)->first();
                 }
 
             }
@@ -99,20 +99,34 @@ class B2BHaiController extends Controller
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+                $user = User::b2bDetailForHai(Helpers::getUser()->id);
+
+                $user_name = $user['first_name'];
+
+//                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
+
+//                $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id];
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'b2b-llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'] ?? null, $prompts['prompt'] ?? null);
+                $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+
+                $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+
+                [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'] ?? null, $final_persona ?? null, $userMessage, $assistantMessage);
 
                 $reply = null;
 
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
-                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+                    $filterReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                    HaiChat::createChat($request->input("question"), $filterReply, null, $request->input("is_repeat_answer"));
 
                     $reply = [
                         $choice['message']['content'] ?? "",

@@ -116,7 +116,14 @@ class Conversation extends Component
 
                     $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
 
-                    $user_name = User::userNameForHAi($this->user_id);
+                    $user = User::userDataForHAi($this->user_id);
+
+                    $user_name = $user['first_name'];
+
+//                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+
+//                    $interval_life = User::userIntervalOfLife($user['date_of_birth']);
+
                 }
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
@@ -176,6 +183,8 @@ class Conversation extends Component
                     $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
 
                     [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
+
+                    // Log::info(['ai Reply' => $aiReply]);
 
                     $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
 

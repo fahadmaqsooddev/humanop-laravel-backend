@@ -298,6 +298,7 @@ class B2BAuthController extends Controller
 
                     return Helpers::successResponse('Work email stored succefully', [
                         'user_id' => $result['id'],
+                        'user_email' => $result['email'],
                         'b2b_step' => $result['b2b_step']
                     ]);
 
