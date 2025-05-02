@@ -104,7 +104,7 @@ class B2BHaiController extends Controller
 
                 $user_name = $user['first_name'];
 
-//                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
+                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
 
 //                $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
