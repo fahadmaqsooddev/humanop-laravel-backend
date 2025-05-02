@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'dashboards', 'childFolder' => 'none'])
 
 @section('content')
-    <div class="row mt-4 container-fluid">
+    <div class="row mt-4 container-fluid mainDivClass">
         <div class="col-12">
             <div class="card">
                 <!-- Card header -->
@@ -12,7 +12,7 @@
                     @livewire('admin.manage-code.manage-code-form', ['code' => $code])
 
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 @endsection

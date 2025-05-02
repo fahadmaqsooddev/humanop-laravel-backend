@@ -6,7 +6,7 @@
             background-color: #1C365E !important;
         }
     </style>
-    <div class="row container-fluid">
+    <div class="row container-fluid mainDivClass">
         <div class="col-lg-7 position-relative z-index-2">
             <div class="mb-4">
                 <div class="card-body p-3">

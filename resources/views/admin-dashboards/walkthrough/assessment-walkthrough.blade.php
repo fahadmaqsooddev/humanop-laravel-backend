@@ -6,11 +6,11 @@
 
 
 @section('content')
-   
+
     <div class="container-fluid my-3 py-3">
         @include('layouts.message')
         <div class="row mb-5">
-            <div class="col-lg-3">
+            <div class="col-lg-3 container-fluid">
                 <div class="card position-sticky top-1">
                     <ul class="nav  flex-column border-radius-lg p-3">
                         <li class="nav-item">
@@ -58,26 +58,26 @@
                                 <span class="text-sm custom-text-dark">Energy Pool Sequence</span>
                             </a>
                         </li>
-                        
+
 
 
                         <li class="nav-item">
-                          
+
                             <a class="nav-link setting-options text-body" href="" data-scroll="" >
-                     
-                              
+
+
                                 <span class="text-sm custom-text-dark">Hai Tautorial Sequence</span>
                             </a>
                         </li>
-                      
-                    
+
+
                     </ul>
                 </div>
             </div>
 
             <div class="col-lg-9">
                 <div class="card card-bg-white-orange-border mt-4 trait-container" >
-               
+
 
                     <div class="largest-trait">
                         <div class="largest-trait ">
@@ -108,13 +108,13 @@
                             @livewire('admin.assessment-walkthrough.energy-pool')
                         </div>
                     </div>
-                    
-                  
+
+
                     @include('layouts.message')
-                  
+
                 </div>
             </div>
-          
+
         @include('layouts/footers/auth/footer')
     </div>
 @endsection
@@ -132,10 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Get the target element class from data-target
             const targetSelector = this.getAttribute("data-target");
- 
+
 
             console.log(targetSelector);
-            
+
             // First, hide ALL trait components
             const allTraitComponents = document.querySelectorAll(".trait-container > div");
             allTraitComponents.forEach(function (component) {

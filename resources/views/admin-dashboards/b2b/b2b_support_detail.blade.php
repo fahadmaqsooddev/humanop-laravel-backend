@@ -69,13 +69,13 @@
     }
 </style>
 @section('content')
-    <div class="row mt-4 container-fluid">
+    <div class="row mt-4 container-fluid mainDivClass">
         <div class="col-12">
             <div class="card table-orange-color">
                 <!-- Card header -->
                 <div class="card-header table-header-text">
                     <h5 class="mb-0">B2B Support Detail</h5>
-                    
+
                 </div>
 
                 {{-- <table class="table table-flush">
@@ -88,15 +88,15 @@
                     </tr>
                     </thead>
                     <tbody>
-    
+
                     @foreach($support as $index => $support)
                         <tr class="table-text-color">
                             <td class="text-md font-weight-normal">{{$support['id']}} </td>
                             <td class="text-md font-weight-normal">{{$support['title']}} </td>
 
-                            
+
                                 <td>
-                                
+
 
                                     @if($support['image_id'] != null)
                                     @if(!empty($support['photo_url']))
@@ -106,16 +106,16 @@
                                     @endif
                                     @endif
                                 </td>
-                            
-                            
+
+
                             <td>
 
-                                <a href="{{ route('admin_b2b_support_detail', ['id' => $support->id]) }}" 
-                                    class="btn mb-0 text-white" 
+                                <a href="{{ route('admin_b2b_support_detail', ['id' => $support->id]) }}"
+                                    class="btn mb-0 text-white"
                                     style="background-color: #f2661c; border-radius: 0px 5px 5px 0px">
                                      View Detail
                                  </a>
-                               
+
 
                             </td>
                         </tr>
@@ -123,7 +123,7 @@
                     </tbody>
                 </table> --}}
                 {{-- @livewire('admin.client-invites.client-invite') --}}
-          
+
 <div class="col-12" style="color: black; margin:10px;">
     {{$support['title']}}
 </div>
