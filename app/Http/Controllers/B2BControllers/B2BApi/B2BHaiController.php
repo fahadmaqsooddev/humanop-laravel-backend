@@ -33,13 +33,13 @@ class B2BHaiController extends Controller
 
         try {
 
-            $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_CURRENT_MAESTRO_COMPANY_CLIENTS_HAi)
+            $setting = HaiChatSetting::has('chatBot')->where('maestro_app', MaestroApp::LIST_OF_CURRENT_MAESTRO_COMPANY_CLIENTS_HAi)
 
                 ->where('maestro_app_id', Helpers::getUser()->id)->first();
 
             if (!$setting){
 
-                $setting = HaiChatSetting::where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
+                $setting = HaiChatSetting::has('chatBot')->where('maestro_app', MaestroApp::LIST_OF_GENERIC_INDUSTRY_CATEGORIES_HAi)
 
                     ->whereHas('businessSubStrategies', function ($query){
 
@@ -49,7 +49,7 @@ class B2BHaiController extends Controller
 
                 if (!$setting){
 
-                    $setting = HaiChatSetting::where('maestro_app', 1)->first();
+                    $setting = HaiChatSetting::has('chatBot')->where('maestro_app', 1)->first();
                 }
 
             }

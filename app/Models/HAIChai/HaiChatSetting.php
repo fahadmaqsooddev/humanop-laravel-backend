@@ -35,6 +35,11 @@ class HaiChatSetting extends Model
         return $this->hasMany(BusinessSubStrategies::class,'business_strategy_id','maestro_app_id');
     }
 
+    public function chatBot(){
+
+        return $this->belongsTo(Chatbot::class,'chat_bot_id','id');
+    }
+
     // Queries
     public static function getHaiChatSetting($chat_bot_id = null)
     {
