@@ -122,7 +122,9 @@ class B2BHaiController extends Controller
                 foreach ($openRouterResponse['choices'] as $choice)
                 {
 
-                    HaiChat::createChat($request->input("question"), $choice['message']['content'], null, $request->input("is_repeat_answer"));
+                    $filterReply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                    HaiChat::createChat($request->input("question"), $filterReply, null, $request->input("is_repeat_answer"));
 
                     $reply = [
                         $choice['message']['content'] ?? "",
