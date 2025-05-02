@@ -67,7 +67,7 @@ class B2BBusinessCandidates extends Model
         $checkData = self::where('business_id', $businessId)->where('candidate_id', $candidateId)->first();
 
         if (empty($checkData)) {
-            $data=self::create([
+            $data = self::create([
 
                 'business_id' => $businessId,
                 'candidate_id' => $candidateId,
@@ -77,14 +77,12 @@ class B2BBusinessCandidates extends Model
         }
 
 
-        $user=User::where('id',$candidateId)->first();
-        $getInvite=UserInvite::where('email',$user['email'])->first();
-        UserCandidateInvite::where('company_id',$businessId)->where('invite_link_id',$getInvite['id'])->delete();
+        $user = User::where('id', $candidateId)->first();
+        $getInvite = UserInvite::where('email', $user['email'])->first();
+        UserCandidateInvite::where('company_id', $businessId)->where('invite_link_id', $getInvite['id'])->delete();
 
 
         return $data;
-
-
     }
 
     public static function allBusinessMembers($business_id = null, $search_name = null)
@@ -183,12 +181,11 @@ class B2BBusinessCandidates extends Model
     {
 
 
-        $data=self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->delete();
-        $user=User::where('id',$userId)->first();
-        $getInvite=UserInvite::where('email',$user['email'])->first();
-        UserCandidateInvite::where('company_id',Helpers::getUser()['id'])->where('invite_link_id',$getInvite['id'])->delete();
+        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->delete();
+        $user = User::where('id', $userId)->first();
+        $getInvite = UserInvite::where('email', $user['email'])->first();
+        UserCandidateInvite::where('company_id', Helpers::getUser()['id'])->where('invite_link_id', $getInvite['id'])->delete();
         return $data;
-
     }
 
 
@@ -199,16 +196,15 @@ class B2BBusinessCandidates extends Model
         //     'future_consideration' => Admin::IN_FUTURE
         // ]);
 
-        $data= self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->update([
+        $data = self::where('business_id', Helpers::getUser()['id'])->where('candidate_id', $userId)->update([
             'future_consideration' => Admin::IN_FUTURE
         ]);
 
-        $user=User::where('id',$userId)->first();
-        $getInvite=UserInvite::where('email',$user['email'])->first();
-        UserCandidateInvite::where('company_id',Helpers::getUser()['id'])->where('invite_link_id',$getInvite['id'])->delete();
-        
-        return $data;
+        $user = User::where('id', $userId)->first();
+        $getInvite = UserInvite::where('email', $user['email'])->first();
+        UserCandidateInvite::where('company_id', Helpers::getUser()['id'])->where('invite_link_id', $getInvite['id'])->delete();
 
+        return $data;
     }
 
 
@@ -360,10 +356,10 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    
+
     public static function checkB2BAdminShare($userId)
     {
-        $data = self::where('business_id',$userId)->with('busers')->first();
+        $data = self::where('business_id', $userId)->with('busers')->first();
 
         if ($data && $data->busers) {
             $data->busers->gender = $data->busers->gender == Admin::IS_MALE ? 'Male' : 'Female';
@@ -447,61 +443,66 @@ class B2BBusinessCandidates extends Model
     }
 
 
-    public static function getBusinessUsers($id = null, $prefer =null,$perpage=null)
+    public static function getBusinessUsers($id = null, $prefer = null, $perpage = null)
     {
 
         $role = ($prefer == 1) ? '0' : '1';
 
-return self::where('business_id', $id)
-    ->where('role', $role)
-    ->where('is_permanently_deleted', 0)
-    ->where('future_consideration', 0)
-    ->whereHas('users', function($query) {
-        $query->where('step', 3);
-    })
-    ->with(['users' => function($query) {
-        $query->where('step', 3);
-    }])
-    ->paginate($perpage);
-
-
+        return self::where('business_id', $id)
+            ->where('role', $role)
+            ->where('is_permanently_deleted', 0)
+            ->where('future_consideration', 0)
+            ->whereHas('users', function ($query) {
+                $query->where('step', 3);
+            })
+            ->paginate($perpage);
     }
 
-    public static function deleteUserFromBuisness($businessId=null,$candidateId=null){
-      return self::where('business_id',$businessId)->where('candidate_id',$candidateId)->update([
-        'is_permanently_deleted'=>1
-      ]);
+    public static function deleteUserFromBuisness($businessId = null, $candidateId = null)
+    {
+        return self::where('business_id', $businessId)->where('candidate_id', $candidateId)->update([
+            'is_permanently_deleted' => 1
+        ]);
     }
-    public static function futureConsiderationUserFromBuisness($businessId=null,$candidateId=null){
+    public static function futureConsiderationUserFromBuisness($businessId = null, $candidateId = null)
+    {
         // dd($businessId,$candidateId);
-      return self::where('business_id',$businessId)->where('candidate_id',$candidateId)->update([
-        'future_consideration'=>1
-      ]);
+        return self::where('business_id', $businessId)->where('candidate_id', $candidateId)->update([
+            'future_consideration' => 1
+        ]);
     }
 
-    public static function deleteB2BAdmin($id=null){
-         self::where('business_id',$id)->delete();
-         $user = User::find($id);
-         if ($user) {
-             $user->delete();
-         }
+    public static function deleteB2BAdmin($id = null)
+    {
+        self::where('business_id', $id)->delete();
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+        }
     }
 
 
 
-    public static function getCandidateMemberCount($businessId = null, $role = null)
-{
-    return self::where('business_id', $businessId)
-        ->where('role', $role)
-        ->where('is_permanently_deleted', 0)
-        ->where('future_consideration', 0)
-        ->whereHas('users', function ($query) {
-            $query->where('step', 3);
-        })
-        ->with(['users' => function ($query) {
-            $query->where('step', 3);
-        }])
-        ->count();
-}
-
+    public static function getMembersCount($businessId = null)
+    {
+        return self::where('business_id', $businessId)
+            ->where('role',Admin::IS_TEAM_MEMBER)
+            ->where('is_permanently_deleted', 0)
+            ->where('future_consideration', 0)
+            ->whereHas('users', function ($query) {
+                $query->where('step', 3);
+            })
+            ->count();
+    }
+    public static function getCandidatesCount($businessId = null)
+    {
+        return self::where('business_id', $businessId)
+            ->where('role',Admin::IS_CANDIDATE)
+            ->where('is_permanently_deleted', 0)
+            ->where('future_consideration', 0)
+            ->whereHas('users', function ($query) {
+                $query->where('step', 3);
+            })
+            ->count();
+    }
 }
