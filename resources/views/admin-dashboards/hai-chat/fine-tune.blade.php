@@ -17,7 +17,7 @@
     @endpush
 
 
-    <div class="container-fluid my-3 py-3">
+    <div class="my-3 py-3">
     @include('layouts.message')
     <!-- Main content -->
 

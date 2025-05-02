@@ -1,7 +1,7 @@
 @extends('user_type.auth', ['parentFolder' => 'practitioner-dashboard', 'childFolder' => 'account'])
 
 @section('content')
-    <div class="container-fluid my-3 py-3">
+    <div class="my-3 py-3">
         <div class="row">
             <div class="col-lg-8">
                 <div class="row">

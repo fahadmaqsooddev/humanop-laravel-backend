@@ -23,7 +23,7 @@
 
         </style>
     @endpush
-    <div class="container-fluid my-3 py-3">
+    <div class="my-3 py-3">
         @include('layouts.message')
         <div class="row mb-5 container-fluid">
             <div class="col-lg-3">
