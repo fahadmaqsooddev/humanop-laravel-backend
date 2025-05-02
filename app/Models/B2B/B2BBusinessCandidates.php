@@ -449,14 +449,22 @@ class B2BBusinessCandidates extends Model
 
     public static function getBusinessUsers($id = null, $prefer =null,$perpage=null)
     {
+
         $role = ($prefer == 1) ? '0' : '1';
 
-        return self::with('users')->where('business_id', $id)
-            ->where('role', $role)
-            ->where('is_permanently_deleted', 0)
-            ->where('future_consideration', 0)
-            // ->get();
-            ->paginate($perpage);
+return self::where('business_id', $id)
+    ->where('role', $role)
+    ->where('is_permanently_deleted', 0)
+    ->where('future_consideration', 0)
+    ->whereHas('users', function($query) {
+        $query->where('step', 3);
+    })
+    ->with(['users' => function($query) {
+        $query->where('step', 3);
+    }])
+    ->paginate($perpage);
+
+
     }
 
     public static function deleteUserFromBuisness($businessId=null,$candidateId=null){
@@ -478,4 +486,22 @@ class B2BBusinessCandidates extends Model
              $user->delete();
          }
     }
+
+
+
+    public static function getCandidateMemberCount($businessId = null, $role = null)
+{
+    return self::where('business_id', $businessId)
+        ->where('role', $role)
+        ->where('is_permanently_deleted', 0)
+        ->where('future_consideration', 0)
+        ->whereHas('users', function ($query) {
+            $query->where('step', 3);
+        })
+        ->with(['users' => function ($query) {
+            $query->where('step', 3);
+        }])
+        ->count();
+}
+
 }
