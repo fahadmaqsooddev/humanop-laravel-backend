@@ -174,7 +174,6 @@ class Conversation extends Component
 
                     [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
 
-
                     Log::info(['ai Reply' => $aiReply]);
 
                     $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
@@ -182,7 +181,9 @@ class Conversation extends Component
                     foreach ($openRouterResponse['choices'] as $choice)
                     {
 
-                        HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
+                        $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
                     }
