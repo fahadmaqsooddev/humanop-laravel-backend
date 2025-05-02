@@ -137,7 +137,7 @@
                                 <div class="row mt-4">
                                     <div class="col-12">
                                         <select class="form-control bg-transparent text-white"
-                                                wire:model="plan_type">
+                                                wire:model="plan_type" disabled>
                                             <option value="" style="color: black">Select Plan Type</option>
                                             <option value="month" style="color: black">Month</option>
                                             <option value="year" style="color: black">Year</option>
@@ -148,7 +148,7 @@
                                     <div class="col-12">
                                         <label class="form-label text-white">Plan Amount</label>
                                         <div class="input-group">
-                                            <input style="background-color: #0f1534;color: lightgrey !important"
+                                            <input style="background-color: #0f1534;color: lightgrey !important" disabled
                                                    wire:model="price"
                                                    class="form-control table-header-text" type="text">
                                         </div>

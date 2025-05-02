@@ -167,8 +167,6 @@ class CreatePricingPlan extends Component
 
             $oldPriceId = $getPlan['plan_id'];
             $newProductName = $this->plan_name;
-            $newAmount = $this->price; // in cents
-            $interval = $this->plan_type;
 
             // Step 1: Get the existing price
             $oldPrice = Price::retrieve($oldPriceId);
@@ -179,25 +177,8 @@ class CreatePricingPlan extends Component
                 'name' => $newProductName,
             ]);
 
-            // Step 3: Create a new price
-            $newPrice = Price::create([
-                'unit_amount' => $newAmount * 100,
-                'currency' => 'usd', // adjust as needed
-                'recurring' => ['interval' => $interval],
-                'product' => $productId,
-            ]);
-
-            // Step 4 (optional): Deactivate old price
-            Price::update($oldPriceId, ['active' => false]);
-
             $getPlan->update([
-                'plan_id' => $newPrice['id'],
                 'name' => $updatedProduct['name'],
-                'billing_method' => $newPrice['recurring']['interval'],
-                'interval_count' => $newPrice['recurring']['interval_count'],
-                'price' => $newAmount,
-                'currency' => $newPrice['currency'],
-                'plan_type' => Admin::B2B_PLAN,
                 'no_of_team_members' => $this->team_members,
             ]);
 
