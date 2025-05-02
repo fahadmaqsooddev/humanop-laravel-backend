@@ -1331,17 +1331,19 @@ class User extends Authenticatable implements JWTSubject
 
         $users = $query->paginate($perpage ?? 10);
 
-        // Loop through paginated items and add counts
+        
         foreach ($users as $user) {
-            $memberCount = B2BBusinessCandidates::
-            where('business_id', $user->id)
-                ->where('role', Admin::IS_TEAM_MEMBER)
-                ->count();
+            $memberCount=B2BBusinessCandidates::getCandidateMemberCount($user->id,0);
+            // $memberCount = B2BBusinessCandidates::
+            // where('business_id', $user->id)
+            //     ->where('role', Admin::IS_TEAM_MEMBER)
+            //     ->count();
 
-            $candidateCount = B2BBusinessCandidates::
-            where('business_id', $user->id)
-                ->where('role', Admin::IS_CANDIDATE)
-                ->count();
+            $candidateCount=B2BBusinessCandidates::getCandidateMemberCount($user->id,1);
+            // $candidateCount = B2BBusinessCandidates::
+            // where('business_id', $user->id)
+            //     ->where('role', Admin::IS_CANDIDATE)
+            //     ->count();
 
             // You can attach these counts to the user object
             $user->member_count = $memberCount;
