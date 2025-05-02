@@ -99,13 +99,23 @@ class B2BHaiController extends Controller
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $user_name = Helpers::getUser()->first_name . ' ' . Helpers::getUser()->last_name;
+                $user = User::b2bDetailForHai(Helpers::getUser()->id);
+
+                $user_name = $user['first_name'] . ' ' . $user['last_name'];
+
+//                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id];
 
                 $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'b2b-llm-model', $body);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $aiReply, $selectedModel['model_value'] ?? null, $prompts['prompt'] ?? null);
+                $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(Helpers::getUser()->id, $aiReply['prompt']);
+
+                $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+
+                [$userMessage, $assistantMessage] = HaiChat::userLastMessage();
+
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($request->input('question'), $setting, $llm_prompt, $selectedModel['model_value'] ?? null, $final_persona ?? null, $userMessage, $assistantMessage);
 
                 $reply = null;
 
