@@ -101,9 +101,11 @@ class B2BHaiController extends Controller
 
                 $user = User::b2bDetailForHai(Helpers::getUser()->id);
 
-                $user_name = $user['first_name'] . ' ' . $user['last_name'];
+                $user_name = $user['first_name'];
 
 //                $user_intentions = $user?->businessIntentions?->pluck('description')->toArray();
+
+//                $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
                 $body = ["query" => $request->input('question'), 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chat_bot['name'], 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $request->input('is_repeat_answer'), 'loc' => $subFolder, 'user_name' => $user_name, 'user_id' => (int)Helpers::getUser()->id];
 

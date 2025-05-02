@@ -117,11 +117,12 @@ class Conversation extends Component
 
                     $user = User::userDataForHAi($this->user_id);
 
-                    $user_name = $user['first_name'] . ' ' . $user['last_name'];
+                    $user_name = $user['first_name'];
 
 //                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
 
-                    $interval_life = User::getUserAge($user['date_of_birth']);
+//                    $interval_life = User::userIntervalOfLife($user['date_of_birth']);
+
                 }
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
@@ -173,7 +174,6 @@ class Conversation extends Component
 
                     [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($this->name,$this->user_id);
 
-
                     Log::info(['ai Reply' => $aiReply]);
 
                     $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $selectedModel['model_value'], $final_persona, $userMessage, $assistantMessage);
@@ -181,7 +181,9 @@ class Conversation extends Component
                     foreach ($openRouterResponse['choices'] as $choice)
                     {
 
-                        HaiChatConversation::createConversation($this->name, $this->message,$choice['message']['content'], $this->user_id);
+                        $reply = OpenRouterHelper::removeIrregularHtmlSyntax($choice['message']['content']);
+
+                        HaiChatConversation::createConversation($this->name, $this->message,$reply, $this->user_id);
 //                HaiChatConversation::createConversation($this->name, $this->message,$aiReply['response'], $this->user_id);
 
                     }
