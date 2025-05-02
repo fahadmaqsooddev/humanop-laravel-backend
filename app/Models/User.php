@@ -1333,20 +1333,13 @@ class User extends Authenticatable implements JWTSubject
 
         
         foreach ($users as $user) {
-            $memberCount=B2BBusinessCandidates::getCandidateMemberCount($user->id,0);
-            // $memberCount = B2BBusinessCandidates::
-            // where('business_id', $user->id)
-            //     ->where('role', Admin::IS_TEAM_MEMBER)
-            //     ->count();
 
-            $candidateCount=B2BBusinessCandidates::getCandidateMemberCount($user->id,1);
-            // $candidateCount = B2BBusinessCandidates::
-            // where('business_id', $user->id)
-            //     ->where('role', Admin::IS_CANDIDATE)
-            //     ->count();
+            $memberCount=B2BBusinessCandidates::getMembersCount($user->id);
 
-            // You can attach these counts to the user object
+            $candidateCount=B2BBusinessCandidates::getCandidatesCount($user->id);
+            
             $user->member_count = $memberCount;
+            
             $user->candidate_count = $candidateCount;
         }
 
