@@ -56,11 +56,12 @@
                                             </span>
                                     </td>
                                     <td>
-                                        {{--                                            <button wire:click="viewEditPersona({{$persona['id']}})" style="background-color: #f2661c; color: white; font-size: small; border-radius: 8px; border: none; padding: 5px;">--}}
-                                        {{--                                                <i class="fa-solid fa-pen-to-square"></i>--}}
-                                        {{--                                            </button>--}}
                                         <a class="px-2 py-1" href="{{route('admin_hai_chat_persona', ['name' => $persona['chatbot']['name']])}}" style="background-color: #f2661c; color: white; font-size: small; border-radius: 8px; border: none;">
                                             <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a class="px-2 py-1" wire:click="deletePersona({{$persona['id']}})" style="background-color: red; color: white; font-size: small; border-radius: 8px; border: none;cursor: pointer;">
+                                            <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>

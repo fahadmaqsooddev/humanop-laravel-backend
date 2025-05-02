@@ -41,4 +41,15 @@ class PersonaListing extends Component
 
         $this->emit('viewEditPersona', null);
     }
+
+    public function deletePersona($id){
+
+        HaiChatSetting::whereId($id)->update([
+            'maestro_app' => 0,
+            'maestro_app_id' => null,
+            'persona_name' => null,
+            'human_op_app' => 0,
+        ]);
+
+    }
 }
