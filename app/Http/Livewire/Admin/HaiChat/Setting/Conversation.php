@@ -117,11 +117,12 @@ class Conversation extends Component
 
                     $user = User::userDataForHAi($this->user_id);
 
-                    $user_name = $user['first_name'] . ' ' . $user['last_name'];
+                    $user_name = $user['first_name'];
 
 //                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
 
-                    $interval_life = User::getUserAge($user['date_of_birth']);
+//                    $interval_life = User::userIntervalOfLife($user['date_of_birth']);
+
                 }
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
