@@ -28,9 +28,10 @@
     <div class="card-header table-header-text">
         <h5 class="mb-0 mt-2 text-color-blue">B2B Client's</h5>
         @if(count($selectedItems) > 0)
-        <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
-        <button type="button" onclick="bulkDeleted()"  class="btn btn-danger">Delete B2B Clients Permanently</button>
-        </div>
+            <div class=" d-flex justify-content-end ms-md-4 pe-md-4">
+                <button type="button" onclick="bulkDeleted()" class="btn btn-danger">Delete B2B Clients Permanently
+                </button>
+            </div>
         @endif
     </div>
 
@@ -66,8 +67,6 @@
             </thead>
             <tbody>
 
-
-
             @foreach($users as $user)
 
                 <tr class="text-color-blue">
@@ -75,25 +74,25 @@
                     <td class="text-sm font-weight-normal text-center">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender']==0 ? 'Male':'FeMale'}}</td>
                     <td class="text-sm font-weight-normal text-center">
-                       
+
                         <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 1]) }}"
-                            style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
-                            class="btn btn-sm mb-0">{{$user['member_count']}}</a>
+                           style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
+                           class="btn btn-sm mb-0">{{$user['member_count']}}</a>
                     </td>
                     <td class="text-sm font-weight-normal text-center">
-                       
 
-                         <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 2]) }}"
-                            style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
-                            class="btn btn-sm mb-0">
+
+                        <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 2]) }}"
+                           style="border: 1px solid #f2661c; color: white; background-color: #f2661c;"
+                           class="btn btn-sm mb-0">
                             {{ $user['candidate_count'] }}
                         </a>
-                        
+
                     </td>
 
                     <td class="text-center">
                         <input type="checkbox" wire:model="selectedItems" value="{{ $user->id }}"
-                            style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
+                               style="width: 20px; height: 20px; cursor: pointer; accent-color: #f2661c; border-radius: 50%;">
                     </td>
                     <td class="text-sm font-weight-normal text-center">
                         <a onclick="resetPassword({{ $user['id'] ?? null }}, '{{ $user['first_name'] ?? null }}')"
@@ -110,7 +109,6 @@
                         </a>
                     </td>
 
-
                 </tr>
             @endforeach
             </tbody>
@@ -124,10 +122,10 @@
     <script>
 
 
-function resetPassword(id, name) {
-    Swal.fire({
-        title: `<span style="color:white;">Reset Password</span>`,
-        html: `
+        function resetPassword(id, name) {
+            Swal.fire({
+                title: `<span style="color:white;">Reset Password</span>`,
+                html: `
             <div style="position: relative; display: flex; justify-content: center;">
                 <input type="password" id="newPassword" class="swal2-input custom-input" placeholder="Enter new password">
                 <span id="togglePassword" style="position: absolute; right: 40px; top: 60%; transform: translateY(-50%); cursor: pointer; color: #999;">
@@ -135,41 +133,41 @@ function resetPassword(id, name) {
                 </span>
             </div>
         `,
-        background: '#1c365e',
-        color: 'white',
-        showCancelButton: true,
-        confirmButtonText: 'Reset',
-        cancelButtonText: 'Cancel',
-        customClass: {
-            confirmButton: 'btn custom-confirm-btn m-2',
-            cancelButton: 'btn bg-gradient-secondary m-2',
-        },
-        buttonsStyling: false,
-        didOpen: () => {
-            const toggle = Swal.getPopup().querySelector('#togglePassword');
-            const input = Swal.getPopup().querySelector('#newPassword');
-            const icon = Swal.getPopup().querySelector('#eyeIcon');
+                background: '#1c365e',
+                color: 'white',
+                showCancelButton: true,
+                confirmButtonText: 'Reset',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn custom-confirm-btn m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                didOpen: () => {
+                    const toggle = Swal.getPopup().querySelector('#togglePassword');
+                    const input = Swal.getPopup().querySelector('#newPassword');
+                    const icon = Swal.getPopup().querySelector('#eyeIcon');
 
-            toggle.addEventListener('click', () => {
-                const type = input.type === 'password' ? 'text' : 'password';
-                input.type = type;
-                icon.className = type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash';
+                    toggle.addEventListener('click', () => {
+                        const type = input.type === 'password' ? 'text' : 'password';
+                        input.type = type;
+                        icon.className = type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash';
+                    });
+                },
+                preConfirm: () => {
+                    const password = Swal.getPopup().querySelector('#newPassword').value;
+                    if (!password) {
+                        Swal.showValidationMessage(`Please enter a password`);
+                    }
+                    return {password: password};
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const password = result.value.password;
+                    window.livewire.emit('resetPassword', id, password);
+                }
             });
-        },
-        preConfirm: () => {
-            const password = Swal.getPopup().querySelector('#newPassword').value;
-            if (!password) {
-                Swal.showValidationMessage(`Please enter a password`);
-            }
-            return { password: password };
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const password = result.value.password;
-            window.livewire.emit('resetPassword', id, password);
-        }
-    });
-}
 
 
     </script>
@@ -207,50 +205,48 @@ function resetPassword(id, name) {
     <script>
         function deleteProfile(businessId) {
 
-const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn bg-gradient-danger m-2',
-        cancelButton: 'btn bg-gradient-secondary m-2',
-    },
-    buttonsStyling: false,
-    background: '#3442b4',
-})
-swalWithBootstrapButtons.fire({
-    title: '<span style="color: white;">Are you sure?</span>',
-    html: "<span style='color: white;'>Want to delete  Profile</span>",
-    showCancelButton: true,
-    confirmButtonText: 'Delete',
-}).then((result) => {
-    if (result.isConfirmed) {
-        window.livewire.emit('deleteB2BAdminProfile', businessId)
-    }
-})
-}
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-secondary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'>Want to delete  Profile</span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('deleteB2BAdminProfile', businessId)
+                }
+            })
+        }
 
 
-
-function bulkDeleted(){
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn bg-gradient-danger m-2',
-                cancelButton:  'btn bg-gradient-primary m-2',
-            },
-            buttonsStyling: false,
-            background : '#3442b4',
-        })
-        swalWithBootstrapButtons.fire({
-            title: '<span style="color: white;">Are you sure?</span>',
-            html: "<span style='color: white;'><strong>Permanently delete the B2B Admin account and all related data.</strong></span>",
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-        }).then((result) => {
-            if(result.isConfirmed){
-                window.livewire.emit('bulkDelete')
-            }
-        })
-    }
+        function bulkDeleted() {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-danger m-2',
+                    cancelButton: 'btn bg-gradient-primary m-2',
+                },
+                buttonsStyling: false,
+                background: '#3442b4',
+            })
+            swalWithBootstrapButtons.fire({
+                title: '<span style="color: white;">Are you sure?</span>',
+                html: "<span style='color: white;'><strong>Permanently delete the B2B Admin account and all related data.</strong></span>",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.livewire.emit('bulkDelete')
+                }
+            })
+        }
 
     </script>
-
 
 @endpush
