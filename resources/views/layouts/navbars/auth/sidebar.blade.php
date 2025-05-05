@@ -9,9 +9,9 @@
             height: 40px !important;
 
         }
-        
-        .active-itt-all{
-            color:#f2661c !important;
+
+        .active-itt-all {
+            color: #f2661c !important;
         }
 
         .nav-active {
@@ -22,7 +22,8 @@
         .sticky_header {
             display: none; /* Hidden by default */
         }
-        .caret{
+
+        .caret {
             margin-left: 10px !important;
         }
 
@@ -35,11 +36,6 @@
     </style>
 
 @endpush
-
-
-
-
-
 @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
 
     <div class="sidenav-toggler sidenav-toggler-inner d-flex flex-1" id="nav-toggle-btn"
@@ -53,9 +49,6 @@
         </a>
     </div>
 @endif
-
-
-
 @if(\App\Helpers\Helpers::getWebUser()['is_admin'] != 1)
     <div class="position-sticky w-100 sticky_header" style="top: 28;z-index: 9999999;">
         <div class="d-flex justify-content-between px-5">
@@ -97,25 +90,22 @@
                 </span>
                 </a>
             @else
+            @endif
+            @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
 
-                @if(\App\Helpers\Helpers::getWebUser()['is_admin'] === 1 || \App\Helpers\Helpers::getWebUser()['is_admin'] === 3)
-
-                    <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
+                <a class="align-items-center d-flex m-0 text-wrap" href="{{ route('admin_dashboard') }}">
                 <span class="humanopLogo">
                 <img src="{{ URL::asset('assets/logos/HumanOp Logo.png') }}"
                      style="margin-left: 30px; margin-top: 15px;width: 80%; height: 80%;" alt="main_logo">
                 </span>
-                        <span class="humanopMiniLogo d-none mt-3">
+                    <span class="humanopMiniLogo d-none mt-3">
                     <img src="{{ URL::asset('assets/img/Human_OP.png') }}" class="h-100"
                          style="margin-left: 10px; width: 77px"
                          alt="main_logo">
                 </span>
-                    </a>
+                </a>
 
-                @else
-
-
-                @endif
+            @else
             @endif
         </div>
     </div>
@@ -138,427 +128,285 @@
                     <div class="collapse show" id="dashboardsExamples">
                         <ul class="nav ps-2">
 
-                            {{-- <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
-                                <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}"
-                                   href="{{ route('admin_dashboard') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
-                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                      src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
-                                                                        <span class="sidenav-normal"> Dashboard </span>
-                                </a>
-                            </li> --}}
-
-                            
-
-
-                           
-
-
-                        
-
-
-
-
-
-                        
                             @if(Auth::user()->hasRole('super admin'))
                                 <li class="nav-item mylink">
                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                        data-bs-toggle="collapse" aria-expanded="false" href="#adminExamples">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                             src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                         <span class="sidenav-normal"> Admin Dashboard <b class="caret"></b></span>
                                     </a>
-                                
                                     <div class="collapse show {{ ($childFolder == 'virtual' ? 'show' : '') }}"
                                          id="adminExamples">
                                         <ul class="nav nav-sm flex-column">
-
-                                            {{-- dashboard --}}
                                             <li class="nav-item {{ (Request::is('admin/admin-dashboard') ? 'active-itt-all' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin/admin-dashboard') ? 'active-itt-all' : '') }}"
                                                    href="{{ route('admin_dashboard') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
                                                     <span class="sidenav-normal"><img
                                                             style="width: 18px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
                                                     <span class="sidenav-normal"> Dashboard </span>
                                                 </a>
                                             </li>
-
-
-
-
-                                            {{-- my user manmagenemt add --}}
-
-
                                             <li class="nav-item ">
                                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                   data-bs-toggle="collapse" aria-expanded="false" href="#usermanagementExamples">
-                                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                                      src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"> User Management <b class="caret"></b></span>
-                                                </a>
-                                                {{-- <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}" --}}
-                                                <div class="collapse {{ Request::is('admin/users',  'admin/deleted-clients') ? 'show' : '' }}" 
-                                                     id="usermanagementExamples">
-                                                    <ul class="nav nav-sm flex-column">
-                                                      {{-- users --}}
-                                                      @can('users')
-                                                      <li class="nav-item {{ (Request::is('admin/users') ? 'active-itt-all' : '') }}">
-                                                          <a class="nav-link {{ (Request::is('admin/users') ? 'active-itt-all' : '') }}"
-                                                             href="{{ route('admin_all_users') }}">
-                                              <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                   src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                                              <span class="sidenav-normal"><img
-                                                                      style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                      src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                                              <span class="sidenav-normal"> User Database </span>
-                                                          </a>
-                                                      </li>
-                                                  @endcan
-                
-                                                  @can('deletedClient')
-                                                                <li class="nav-item {{ (Request::is('admin/deleted-clients') ? 'active-itt-all' : '') }}">
-                                                                    <a class="nav-link {{ (Request::is('admin/deleted-clients') ? 'active-itt-all' : '') }}"
-                                                                       href="{{ route('deleted_clients') }}">
-                                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                     src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
-                                                                        <span class="sidenav-normal"><img
-                                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                                src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
-                                                                        <span class="sidenav-normal"> Deleted User </span>
-                                                                    </a>
-                                                                </li>
-                                                            @endcan
-                
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-
-
-                                            {{-- assement updated link --}}
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                   data-bs-toggle="collapse" aria-expanded="false" href="#assementexample">
-                                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                                      src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"> Assessment Management <b class="caret"></b></span>
-                                                </a>
-                                                {{-- <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}" --}}
-                                                <div class="collapse {{ Request::is('admin/assessments', 'admin/abandoned-assessment') ? 'show' : '' }}" id="assementexample">
-                                                    <ul class="nav nav-sm flex-column">
-                {{-- assessments --}}
-                
-                @can('assessments')
-                
-                <li class="nav-item {{ (Request::is('admin/assessments') ? 'active-itt-all' : '') }}">
-                    <a class="nav-link {{ (Request::is('admin/assessments') ? 'active-itt-all' : '') }}"
-                       href="{{ route('assessments') }}">
-                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                         src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                        <span class="sidenav-normal"><img
-                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                        <span class="sidenav-normal"> {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 ? 'Client' : ''}} Assessment Database </span>
-                    </a>
-                </li>
-                
-                @endcan
-                
-                @can('abandonedAssessment')
-                <li class="nav-item {{ (Request::is('admin/abandoned-assessment') ? 'active-itt-all' : '') }}">
-                    <a class="nav-link {{ (Request::is('admin/abandoned-assessment') ? 'active-itt-all' : '') }}"
-                       href="{{ route('admin_abandoned_assessment') }}">
-                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                     src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                        <span class="sidenav-normal"><img
-                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                        <span class="sidenav-normal"> Unfinished Assessments </span>
-                    </a>
-                </li>
-                @endcan                                      
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-{{-- technology mamanegem link --}}
-<li class="nav-item ">
-    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-       data-bs-toggle="collapse" aria-expanded="false" href="#technologyexample">
-<span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                          src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-        <span class="sidenav-normal"> Technology Management <b class="caret" ></b></span>
-    </a>
-    <div class="collapse {{ Request::is('admin/questions') ? 'show' : '' }}"
-         id="technologyexample">
-        <ul class="nav nav-sm flex-column">
-            @can('questions')
-            <li class="nav-item {{ (Request::is('admin/questions') ? 'active-itt-all' : '') }}">
-                <a class="nav-link {{ (Request::is('admin/questions') ? 'active-itt-all' : '') }}"
-                   href="{{ route('admin_all_questions') }}">
-<span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                 src="{{URL::asset('assets/icons/Question.png')}}"></span>
-                    <span class="sidenav-normal"><img
-                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                            src="{{URL::asset('assets/icons/Question.png')}}"></span>
-                    <span class="sidenav-normal"> Questions </span>
-                </a>
-            </li>
-        @endcan
-        </ul>
-    </div>
-</li>
-
-
-                                            {{-- tecam maangemnt --}}
-
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                   data-bs-toggle="collapse" aria-expanded="false" href="#teamexample">
-                                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                                      src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"> Team Management <b class="caret"></b></span>
-                                                </a>
-                                                <div class="collapse  {{ Request::is('admin/sub-admins') ? 'show' : '' }}"
-                                                     id="teamexample">
-                                                    <ul class="nav nav-sm flex-column">
-                                                      {{-- sub admn --}}
-                                                      <li class="nav-item {{ (Request::is('admin/sub-admins') ? 'active-itt-all' : '') }}">
-                                                        <a class="nav-link {{ (Request::is('admin/sub-admins') ? 'active-itt-all' : '') }}"
-                                                           href="{{ route('admin_all_sub_admins') }}">
-                                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                     src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
-                                                            <span class="sidenav-normal"><img
-                                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                    src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
-                                                            <span class="sidenav-normal"> Sub Admins </span>
-                                                        </a>
-                                                    </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-
-
-
-
-                                            @can('chat') {{-- latest hai Links --}}
-
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                   data-bs-toggle="collapse" aria-expanded="false" href="#chat">
-                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                   data-bs-toggle="collapse" aria-expanded="false"
+                                                   href="#usermanagementExamples">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                                     <span class="sidenav-normal"><img
                                                             style="width: 18px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"> HAI Admin <b class="caret"></b></span>
+                                                    <span class="sidenav-normal"> User Management <b class="caret"></b></span>
                                                 </a>
-                                                
-                                                    {{-- class="collapse {{ (Request::is('admin/hai-chat-persona') ? 'show' : '') }}" --}}
-                                                    <div class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune') ? 'show' : '' }}" id="chat">
-
-                                                    
+                                                <div
+                                                    class="collapse {{ Request::is('admin/users',  'admin/deleted-clients') ? 'show' : '' }}"
+                                                    id="usermanagementExamples">
                                                     <ul class="nav nav-sm flex-column">
-                                                        <li class="nav-item {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}"
-                                                               href="{{ route('admin_hai_chat_persona') }}">
-                                        <span class="sidenav-mini-icon"><img
-                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        @can('users')
+                                                            <li class="nav-item {{ (Request::is('admin/users') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/users') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_all_users') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                                                    <span class="sidenav-normal"> User Database </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+                                                        @can('deletedClient')
+                                                            <li class="nav-item {{ (Request::is('admin/deleted-clients') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/deleted-clients') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('deleted_clients') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Deleted User </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                                   data-bs-toggle="collapse" aria-expanded="false"
+                                                   href="#assementexample">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"> Assessment Management <b
+                                                            class="caret"></b></span>
+                                                </a>
+                                                <div
+                                                    class="collapse {{ Request::is('admin/assessments', 'admin/abandoned-assessment') ? 'show' : '' }}"
+                                                    id="assementexample">
+                                                    <ul class="nav nav-sm flex-column">
+                                                        @can('assessments')
+                                                            <li class="nav-item {{ (Request::is('admin/assessments') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/assessments') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('assessments') }}">
+                                                                           <span class="sidenav-mini-icon"><img
+                                                                                   style="width: 18px; margin-right: 10px"
+                                                                                   src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                                    <span class="sidenav-normal"> {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 ? 'Client' : ''}} Assessment Database </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+                                                        @can('abandonedAssessment')
+                                                            <li class="nav-item {{ (Request::is('admin/abandoned-assessment') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/abandoned-assessment') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_abandoned_assessment') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Unfinished Assessments </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                                   data-bs-toggle="collapse" aria-expanded="false"
+                                                   href="#technologyexample">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"> Technology Management <b
+                                                            class="caret"></b></span>
+                                                </a>
+                                                <div class="collapse {{ Request::is('admin/questions') ? 'show' : '' }}"
+                                                     id="technologyexample">
+                                                    <ul class="nav nav-sm flex-column">
+                                                        @can('questions')
+                                                            <li class="nav-item {{ (Request::is('admin/questions') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/questions') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_all_questions') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Question.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Question.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Questions </span>
+                                                                </a>
+                                                            </li>
+                                                        @endcan
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item ">
+                                                <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                                   data-bs-toggle="collapse" aria-expanded="false" href="#teamexample">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"> Team Management <b class="caret"></b></span>
+                                                </a>
+                                                <div
+                                                    class="collapse  {{ Request::is('admin/sub-admins') ? 'show' : '' }}"
+                                                    id="teamexample">
+                                                    <ul class="nav nav-sm flex-column">
+                                                        <li class="nav-item {{ (Request::is('admin/sub-admins') ? 'active-itt-all' : '') }}">
+                                                            <a class="nav-link {{ (Request::is('admin/sub-admins') ? 'active-itt-all' : '') }}"
+                                                               href="{{ route('admin_all_sub_admins') }}">
+                                                                <span class="sidenav-mini-icon"><img
+                                                                        style="width: 18px; margin-right: 10px"
+                                                                        src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
                                                                 <span class="sidenav-normal"><img
                                                                         style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                <span class="sidenav-normal"> Persona </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="nav-item {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}"
-                                                               href="{{ route('admin_hai_chat') }}">
-                                        <span class="sidenav-mini-icon"><img
-                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                <span class="sidenav-normal"><img
-                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                <span class="sidenav-normal"> Brains </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="nav-item {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}"
-                                                               href="{{ route('admin_embedding_groups') }}">
-                                        <span class="sidenav-mini-icon"><img
-                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"><img
-                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                        src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"> Knowledge </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="nav-item {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}"
-                                                               href="{{ route('fine_tune') }}">
-                                        <span class="sidenav-mini-icon"><img
-                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"><img
-                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                        src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"> Advanced </span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">
-                                                            <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"
-                                                               href="{{ route('admin_hai_chat_comparison') }}">
-                                        <span class="sidenav-mini-icon"><img
-                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"><img
-                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                        src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                <span class="sidenav-normal"> Comparison </span>
+                                                                        src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
+                                                                <span class="sidenav-normal"> Sub Admins </span>
                                                             </a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </li>
-                    
-
-                                        @endcan
-
-                                        
-                        
-                                            
-                                            {{-- sub admn --}}
-                                            {{-- <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
-                                                <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
-                                                   href="{{ route('admin_all_sub_admins') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
-                                                    <span class="sidenav-normal"><img
-                                                            style="width: 18px; margin-right: 10px"
-                                                            src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
-                                                    <span class="sidenav-normal"> Sub Admins </span>
-                                                </a>
-                                            </li> --}}
-
-                                            {{-- users --}}
-                                            {{-- @can('users')
-                                                <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
-                                                       href="{{ route('admin_all_users') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                            @can('chat')
+                                                <li class="nav-item ">
+                                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
+                                                       data-bs-toggle="collapse" aria-expanded="false" href="#chat">
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                                        <span class="sidenav-normal"> Clients </span>
+                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                        <span class="sidenav-normal"> HAI Admin <b
+                                                                class="caret"></b></span>
                                                     </a>
+                                                    <div
+                                                        class="collapse {{ Request::is('admin/hai-chat-persona', 'admin/clusters', 'admin/hai-chat', 'admin/hai-chat-comparison', 'admin/fine-tune') ? 'show' : '' }}"
+                                                        id="chat">
+                                                        <ul class="nav nav-sm flex-column">
+                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-persona') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_hai_chat_persona') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Persona </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/hai-chat') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_hai_chat') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Brains </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/clusters') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_embedding_groups') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Knowledge </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/fine-tune') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('fine_tune') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Advanced </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/hai-chat-comparison') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_hai_chat_comparison') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Comparison </span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </li>
-                                            @endcan --}}
-
-                                            {{-- assessments --}}
-
-                                            {{-- @can('assessments')
-
-                                                <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
-                                                       href="{{ route('assessments') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                                                        <span class="sidenav-normal"> {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 ? 'Client' : ''}} Assessments </span>
-                                                    </a>
-                                                </li>
-
                                             @endcan
-
-                                            @can('abandonedAssessment')
-                                                <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
-                                                       href="{{ route('admin_abandoned_assessment') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
-                                                        <span class="sidenav-normal"> Abandoned Assessment </span>
-                                                    </a>
-                                                </li>
-                                            @endcan --}}
-                                            
-                                            {{-- @can('deletedClient')
-                                                <li class="nav-item {{ (Request::is('deleted-clients') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('deleted-clients') ? 'active' : '') }}"
-                                                       href="{{ route('deleted_clients') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
-                                                        <span class="sidenav-normal"> Deleted Clients </span>
-                                                    </a>
-                                                </li>
-                                            @endcan --}}
-                                            {{-- @can('questions')
-                                                <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
-                                                       href="{{ route('admin_all_questions') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Question.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Question.png')}}"></span>
-                                                        <span class="sidenav-normal"> Questions </span>
-                                                    </a>
-                                                </li>
-                                            @endcan --}}
-                                            {{-- @can('resources')
-                                                <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
-                                                       href="{{ route('admin_resources') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/resourcee.png')}}">
-                                <span class="sidenav-normal"> Resources & Trainings </span>
-                                                    </a>
-                                                </li>
-                                            @endcan --}}
-
-
                                             @can('cms')
-
-                                            {{-- @can('cms') --}}
                                                 <li class="nav-item ">
                                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                                        data-bs-toggle="collapse" aria-expanded="false"
                                                        href="#vrExamples">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"> CMS Management<b class="caret"></b></span>
+                                                        <span class="sidenav-normal"> CMS Admin<b
+                                                                class="caret"></b></span>
                                                     </a>
                                                     <div
                                                         class="collapse  {{ Request::is('admin/codes','admin/client-invites',
@@ -573,123 +421,75 @@
                                                         'admin/admin_get_client_invite') ? 'show' : '' }}"
                                                         id="vrExamples">
                                                         <ul class="nav nav-sm flex-column">
-                                                            <li class="nav-item {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_manage_code') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Codes Manage </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_get_client_invite') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Client Invites </span>
-                                                                </a>
-                                                            </li>
-
                                                             <li class="nav-item {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/assessment-walkthrough') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_get_assessment_walkthrough') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"> Post Assessment WalkThrough </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                            <li class="nav-item {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}"
+                                                                   href="#">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Video Buckets </span>
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Assessment Introduction Page </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active-itt-all':'') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/cms') ?  'active-itt-all':'') }}"
-                                                                   href="{{ route('admin_web_pages') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Website page.png')}}"></span>
+                                                            <li class="nav-item {{ (Request::is('admin/summary-report') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/summary-report') ? 'active-itt-all' : '') }}"
+                                                                   href="#">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Website page.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Web Pages </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/dashboard-cms') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/dashboard-cms') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_cms') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span
-                                                                        class="sidenav-normal"> Assets Management </span>
+                                                                        class="sidenav-normal"> Summary Report Content </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
+                                                            <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_resources') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
+                                                                            src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
                                                                     <span
-                                                                        class="sidenav-normal"> Resources Content </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-coupons') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-coupons') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_all_coupon') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Coupons </span>
+                                                                        class="sidenav-normal"> Resources & Trainings </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/all-daily-tips') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-daily-tips') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_all_daily_tip') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Daily Tip Management </span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Daily Tip Management </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/all-optimization-plan') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-optimization-plan') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_all_optimization_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
@@ -700,299 +500,99 @@
                                                             <li class="nav-item {{ (Request::is('admin/all-intention-plans') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-intention-plans') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_all_intention_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"> Intention of Use Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_payment_history') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Payment History </span>
-                                                                </a>
-                                                            </li>
-                                                            
                                                             <li class="nav-item {{ (Request::is('admin/information-icon') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/information-icon') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_get_info') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span
-                                                                        class="sidenav-normal"> Information Icon & <br> Tutorials </span>
+                                                                        class="sidenav-normal"> Information Icon Management </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_b2b_support') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
+                                                                   href="{{ url('#') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> B2B Support </span>
-                                                                </a>
-                                                            </li>
-
-                                                            <li class="nav-item {{ (Request::is('admin/version-control') ? 'active-itt-all' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/version-control') ? 'active-itt-all' : '') }}"
-                                                                   href="{{ route('admin_get_version') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Version Control </span>
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-normal"> Video Results Management </span>
                                                                 </a>
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/podcast') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/podcast') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('podcast') }}">
                                                                    <span class="sidenav-normal"><img
-                                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Podcast </span>
+                                                                           style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                           src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Podcast Management </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="nav-item {{ (Request::is('admin/version-control') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/version-control') ? 'active-itt-all' : '') }}"
+                                                                   href="{{ route('admin_get_version') }}">
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-normal"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span
+                                                                        class="sidenav-normal"> Version Pop-Up Management </span>
                                                                 </a>
                                                             </li>
 
-                                                            
-                                                <li class="nav-item {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/resources') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('admin_resources') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/resourcee.png')}}">
-                                <span class="sidenav-normal"> Resources & Trainings </span>
-                                                    </a>
-                                                </li>
-                                            
 
-
-
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                            {{-- @endcan --}}
-                    
-
-
-
-                                            {{-- previous code --}}
-                                                {{-- <li class="nav-item ">
-                                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                       data-bs-toggle="collapse" aria-expanded="false"
-                                                       href="#vrExamples">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"> CMS <b class="caret"></b></span>
-                                                    </a>
-                                                    <div
-                                                        class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
-                                                        id="vrExamples">
-                                                        <ul class="nav nav-sm flex-column">
-                                                            <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
+                                                            <li class="nav-item {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/codes') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_manage_code') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"> Codes Manage </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin_get_client_invite') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin_get_client_invite') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_get_client_invite') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
+                                                            @if(env("APP_ENV") === 'production')
+                                                            @else
+                                                                <li class="nav-item {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}">
+                                                                    <a class="nav-link {{ (Request::is('admin/client-invites') ? 'active-itt-all' : '') }}"
+                                                                       href="{{ route('admin_get_client_invite') }}">
+                                                                    <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Client Invites </span>
-                                                                </a>
-                                                            </li>
-
-                                                            <li class="nav-item {{ (Request::is('admin_get_assessment_walkthrough') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin_get_assessment_walkthrough') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_get_assessment_walkthrough') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Assessment WalkThrough </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Video Buckets </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_web_pages') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Website page.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Website page.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Web Pages </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_cms') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Assets Management </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Resources Content </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-coupons') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-coupons') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_all_coupon') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Coupons </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_all_daily_tip') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Daily Tip </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-optimization-plan') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-optimization-plan') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_all_optimization_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Optimization Plan </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_all_intention_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Intention Plan </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_payment_history') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Payment.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Payment History </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/feedback') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/feedback') ? 'active' : '') }}"
-                                                                   href="{{ route('feedback') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"> User Feedback </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/information-icon') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/information-icon') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_get_info') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Information Icon & <br> Tutorials </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/b2b-support') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/b2b-support') ? 'active' : '') }}"
+                                                                        <span class="sidenav-normal"><img
+                                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                        <span
+                                                                            class="sidenav-normal"> Client Invites </span>
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                            <li class="nav-item {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}">
+                                                                <a class="nav-link {{ (Request::is('admin/b2b-support') ? 'active-itt-all' : '') }}"
                                                                    href="{{ route('admin_b2b_support') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
@@ -1000,179 +600,100 @@
                                                                         class="sidenav-normal"> B2B Support </span>
                                                                 </a>
                                                             </li>
-                                                            <li class="nav-item {{ (Request::is('admin/version-control') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/version-control') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_get_version') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                                    <span
-                                                                        class="sidenav-normal"> Version Control </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('admin/podcast') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('admin/podcast') ? 'active' : '') }}"
-                                                                   href="{{ route('podcast') }}">
-                                                                    <span class="sidenav-mini-icon"> P </span>
-                                                                    <span class="sidenav-normal"> Podcast </span>
-                                                                </a>
-                                                            </li>
+
+                                                            {{--                                                            <li class="nav-item {{ (Request::is('admin/cms') ? 'active-itt-all':'') }}">--}}
+                                                            {{--                                                                <a class="nav-link {{ (Request::is('admin/cms') ?  'active-itt-all':'') }}"--}}
+                                                            {{--                                                                   href="{{ route('admin_web_pages') }}">--}}
+                                                            {{--                                                                    <span class="sidenav-mini-icon"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Website page.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Website page.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"> Web Pages </span>--}}
+                                                            {{--                                                                </a>--}}
+                                                            {{--                                                            </li>--}}
+                                                            {{--                                                            <li class="nav-item {{ (Request::is('admin/dashboard-cms') ? 'active-itt-all' : '') }}">--}}
+                                                            {{--                                                                <a class="nav-link {{ (Request::is('admin/dashboard-cms') ? 'active-itt-all' : '') }}"--}}
+                                                            {{--                                                                   href="{{ route('admin_cms') }}">--}}
+                                                            {{--                                                                    <span class="sidenav-mini-icon"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>--}}
+                                                            {{--                                                                    <span--}}
+                                                            {{--                                                                        class="sidenav-normal"> Assets Management </span>--}}
+                                                            {{--                                                                </a>--}}
+                                                            {{--                                                            </li>--}}
+                                                            {{--                                                            <li class="nav-item {{ (Request::is('admin/all-coupons') ? 'active-itt-all' : '') }}">--}}
+                                                            {{--                                                                <a class="nav-link {{ (Request::is('admin/all-coupons') ? 'active-itt-all' : '') }}"--}}
+                                                            {{--                                                                   href="{{ route('admin_all_coupon') }}">--}}
+                                                            {{--                                                                    <span class="sidenav-mini-icon"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"> Coupons </span>--}}
+                                                            {{--                                                                </a>--}}
+                                                            {{--                                                            </li>--}}
+                                                            {{--                                                            <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active-itt-all' : '') }}">--}}
+                                                            {{--                                                                <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active-itt-all' : '') }}"--}}
+                                                            {{--                                                                   href="{{ route('admin_payment_history') }}">--}}
+                                                            {{--                                                                    <span class="sidenav-mini-icon"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Payment.png')}}"></span>--}}
+                                                            {{--                                                                    <span class="sidenav-normal"><img--}}
+                                                            {{--                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"--}}
+                                                            {{--                                                                            src="{{URL::asset('assets/icons/Payment.png')}}"></span>--}}
+                                                            {{--                                                                    <span--}}
+                                                            {{--                                                                        class="sidenav-normal"> Payment History </span>--}}
+                                                            {{--                                                                </a>--}}
+                                                            {{--                                                            </li>--}}
                                                         </ul>
                                                     </div>
-                                                </li> --}}
-
-
+                                                </li>
                                             @endcan
-
-
-
-                                            {{-- @can('chat') --}}
-
-                                            {{-- previous hai Links --}}
-                                                {{-- <li class="nav-item ">
-                                                    <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                       data-bs-toggle="collapse" aria-expanded="false" href="#chat">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                        <span class="sidenav-normal"> HAI <b class="caret"></b></span>
-                                                    </a>
-                                                    <div
-                                                        class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
-                                                        id="chat">
-                                                        <ul class="nav nav-sm flex-column">
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_hai_chat_persona') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Persona </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_hai_chat') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Brains </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_embedding_groups') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Knowledge </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('fine_tune') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('fine_tune') ? 'active' : '') }}"
-                                                                   href="{{ route('fine_tune') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Advanced </span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item {{ (Request::is('hai_chat_comparison') ? 'active' : '') }}">
-                                                                <a class="nav-link {{ (Request::is('hai_chat_comparison') ? 'active' : '') }}"
-                                                                   href="{{ route('admin_hai_chat_comparison') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"><img
-                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
-                                                                    <span class="sidenav-normal"> Comparison </span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li> --}}
-
-
-
-
-                                               
-
-
-                                            {{-- support admin linmk --}}
                                             <li class="nav-item mylink">
                                                 <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
-                                                   data-bs-toggle="collapse" aria-expanded="false" href="#supportadminExamples">
-                                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                                      src="{{URL::asset('assets/icons/CMS.png')}}"></span>
-                                                    <span class="sidenav-normal"> Support Admin Menu <b class="caret"></b></span>
+                                                   data-bs-toggle="collapse" aria-expanded="false"
+                                                   href="#supportadminExamples">
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                    <span class="sidenav-normal"> Support Admin <b
+                                                            class="caret"></b></span>
                                                 </a>
                                                 <div class="collapse {{ (Request::is('admin/feedback') ?'show':'') }}"
-                                                id="supportadminExamples">
-                                               <ul class="nav nav-sm flex-column">
-                                                <li class="nav-item {{ (Request::is('admin/feedback') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/feedback') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('feedback') }}">
-                                <span class="sidenav-mini-icon"><img
-                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                        src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
-                                                        <span class="sidenav-normal"> User Feedback Management</span>
-                                                    </a>
-                                                </li>
-                                               </ul>
+                                                     id="supportadminExamples">
+                                                    <ul class="nav nav-sm flex-column">
+                                                        <li class="nav-item {{ (Request::is('admin/feedback') ? 'active-itt-all' : '') }}">
+                                                            <a class="nav-link {{ (Request::is('admin/feedback') ? 'active-itt-all' : '') }}"
+                                                               href="{{ route('feedback') }}">
+                                                                <span class="sidenav-mini-icon"><img
+                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                        src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                <span class="sidenav-normal"><img
+                                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                        src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                <span
+                                                                    class="sidenav-normal"> User Feedback Management</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                        
                                             </li>
-
-
-
-
-
-                                            
-
-
-                                            {{-- @can('projects')
-                                                <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
-                                                       href="{{ route('admin_projects') }}">
-                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                 src="{{URL::asset('assets/icons/Project.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Project.png')}}"></span>
-                                                        <span class="sidenav-normal">Projects</span>
-                                                    </a>
-                                                </li>
-                                            @endcan --}}
-
                                             @can('clientQueries')
                                                 <li class="nav-item {{ (Request::is('admin/client-queries') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/client-queries') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_client_queries') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
@@ -1184,8 +705,9 @@
                                                 <li class="nav-item {{ (Request::is('admin/approve-queries') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/approve-queries') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_approve_queries') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
@@ -1195,59 +717,42 @@
                                             @endcan
                                         </ul>
                                     </div>
-
-
                                 </li>
-
                             @endif
-
-                            
-
                             {{-- b2b dashbpoard --}}
                             @if(Auth::user()->hasRole('super admin'))
                                 @can('cms')
                                     <li class="nav-item ">
                                         <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                            data-bs-toggle="collapse" aria-expanded="false" href="#b2bExamples">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                             <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                               src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                             <span class="sidenav-normal"> B2B Dashboard <b class="caret"></b></span>
                                         </a>
-                                        <div class="collapse {{ ( Request::is('admin/b2b-organizations','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
-                                             id="b2bExamples">
+                                        <div
+                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
+                                            id="b2bExamples">
                                             <ul class="nav nav-sm flex-column">
                                                 <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('all_b2b_organizations') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"> Organizations </span>
                                                     </a>
                                                 </li>
-                                                {{-- <li class="nav-item {{ (Request::is('admin/b2b-deleted-clients') ? 'active-itt-all' : '') }}">
-                                                    <a class="nav-link {{ (Request::is('admin/b2b-deleted-clients') ? 'active-itt-all' : '') }}"
-                                                       href="{{ route('all_b2b_deleted_organiozations') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"><img
-                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
-                                                        <span class="sidenav-normal"> B2B Deleted Organizations </span>
-                                                    </a>
-                                                </li> --}}
                                                 <li class="nav-item {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/role-template') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_role_template') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1257,9 +762,9 @@
                                                 <li class="nav-item {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/b2b-invites') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_invites') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1269,9 +774,9 @@
                                                 <li class="nav-item {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/b2b-pricing-plans') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_pricing_plan') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1281,9 +786,9 @@
                                                 <li class="nav-item {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin/b2b-coupon') ? 'active-itt-all' : '') }}"
                                                        href="{{ route('admin_b2b_coupon') }}">
-                                                <span class="sidenav-mini-icon"><img
-                                                        style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                        src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1295,14 +800,12 @@
                                     </li>
                                 @endcan
                             @endif
-
-
                             @if(Auth::user()->hasRole('sub admin'))
                                 <li class="nav-item mylink">
                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                        data-bs-toggle="collapse" aria-expanded="false" href="#adminExamples">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
+                                                                             src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                         <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                           src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                         <span class="sidenav-normal"> Admin Dashboard <b class="caret"></b></span>
@@ -1310,26 +813,25 @@
                                     <div class="collapse {{ ($childFolder == 'virtual' ? 'show' : '') }}"
                                          id="adminExamples">
                                         <ul class="nav nav-sm flex-column">
-
-                                            {{-- dashboard --}}
                                             <li class="nav-item {{ (Request::is('admin-dashboard') ? 'active' : '') }}">
                                                 <a class="nav-link {{ (Request::is('admin-dashboard') ? 'active' : '') }}"
                                                    href="{{ route('admin_dashboard') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
+                                                    <span class="sidenav-mini-icon"><img
+                                                            style="width: 18px; margin-right: 10px"
+                                                            src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
                                                     <span class="sidenav-normal"><img
                                                             style="width: 18px; margin-right: 10px"
                                                             src="{{URL::asset('assets/icons/Dashboard.png')}}"></span>
                                                     <span class="sidenav-normal"> Dashboard </span>
                                                 </a>
                                             </li>
-                                            {{-- sub admn --}}
                                             @can('sub-admin')
                                                 <li class="nav-item {{ (Request::is('sub-admins') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('sub-admins') ? 'active' : '') }}"
                                                        href="{{ route('admin_all_sub_admins') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Sub Admin.png')}}"></span>
@@ -1337,14 +839,13 @@
                                                     </a>
                                                 </li>
                                             @endcan
-
-                                            {{-- users --}}
                                             @can('users')
                                                 <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
                                                        href="{{ route('admin_all_users') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Client.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Client.png')}}"></span>
@@ -1352,31 +853,27 @@
                                                     </a>
                                                 </li>
                                             @endcan
-
-                                            {{-- assessments --}}
-
                                             @can('assessments')
-
                                                 <li class="nav-item {{ (Request::is('assessments') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('assessments') ? 'active' : '') }}"
                                                        href="{{ route('assessments') }}">
-                                    <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                         src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                                         <span class="sidenav-normal"> {{\App\Helpers\Helpers::getWebUser()['is_admin'] == 4 ? 'Client' : ''}} Assessments </span>
                                                     </a>
                                                 </li>
-
                                             @endcan
-
                                             @can('abandonedAssessment')
                                                 <li class="nav-item {{ (Request::is('abandoned-assessment') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('abandoned-assessment') ? 'active' : '') }}"
                                                        href="{{ route('admin_abandoned_assessment') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Abandoned Assessment.png')}}"></span>
@@ -1388,8 +885,9 @@
                                                 <li class="nav-item {{ (Request::is('client-queries') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('client-queries') ? 'active' : '') }}"
                                                        href="{{ route('admin_client_queries') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Client Queries.png')}}"></span>
@@ -1401,8 +899,9 @@
                                                 <li class="nav-item {{ (Request::is('approve-queries') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('approve-queries') ? 'active' : '') }}"
                                                        href="{{ route('admin_approve_queries') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Approved queries.png')}}"></span>
@@ -1414,8 +913,9 @@
                                                 <li class="nav-item {{ (Request::is('deleted-clients') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('deleted-clients') ? 'active' : '') }}"
                                                        href="{{ route('deleted_clients') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Delete Client.png')}}"></span>
@@ -1427,8 +927,9 @@
                                                 <li class="nav-item {{ (Request::is('questions') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('questions') ? 'active' : '') }}"
                                                        href="{{ route('admin_all_questions') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/Question.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Question.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Question.png')}}"></span>
@@ -1440,12 +941,13 @@
                                                 <li class="nav-item {{ (Request::is('admin_resources') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('admin_resources') ? 'active' : '') }}"
                                                        href="{{ route('admin_resources') }}">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
-                                                                src="{{URL::asset('assets/icons/resourcee.png')}}">
-                                <span class="sidenav-normal"> Resources & Trainings </span>
+                                                                src="{{URL::asset('assets/icons/resourcee.png')}}"></span>
+                                                        <span class="sidenav-normal"> Resources & Trainings </span>
                                                     </a>
                                                 </li>
                                             @endcan
@@ -1454,8 +956,9 @@
                                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                                        data-bs-toggle="collapse" aria-expanded="false"
                                                        href="#vrExamples">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
@@ -1468,9 +971,9 @@
                                                             <li class="nav-item {{ (Request::is('admin_manage_code') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin_manage_code') ? 'active' : '') }}"
                                                                    href="{{ route('admin_manage_code') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1480,23 +983,21 @@
                                                             <li class="nav-item {{ (Request::is('admin_get_client_invite') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin_get_client_invite') ? 'active' : '') }}"
                                                                    href="{{ route('admin_get_client_invite') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"> Client Invites </span>
                                                                 </a>
                                                             </li>
-
-
                                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                                    href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
@@ -1506,9 +1007,9 @@
                                                             <li class="nav-item {{ (Request::is('cms') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('cms') ? 'active' : '') }}"
                                                                    href="{{ route('admin_web_pages') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Website page.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Website page.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Website page.png')}}"></span>
@@ -1518,9 +1019,9 @@
                                                             <li class="nav-item {{ (Request::is('dashboard-cms') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('dashboard-cms') ? 'active' : '') }}"
                                                                    href="{{ route('admin_cms') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Asset Management.png')}}"></span>
@@ -1531,9 +1032,9 @@
                                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                                    href="{{ url('#') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Library Resources.png')}}"></span>
@@ -1544,9 +1045,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/all-coupons') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-coupons') ? 'active' : '') }}"
                                                                    href="{{ route('admin_all_coupon') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
@@ -1556,9 +1057,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-daily-tips') ? 'active' : '') }}"
                                                                    href="{{ route('admin_all_daily_tip') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
@@ -1568,9 +1069,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/all-optimization-plan') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-optimization-plan') ? 'active' : '') }}"
                                                                    href="{{ route('admin_all_optimization_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
@@ -1581,9 +1082,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/all-intention-plan') ? 'active' : '') }}"
                                                                    href="{{ route('admin_all_intention_plan') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Coupom.png')}}"></span>
@@ -1593,9 +1094,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/payment-history') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/payment-history') ? 'active' : '') }}"
                                                                    href="{{ route('admin_payment_history') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Payment.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Payment.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Payment.png')}}"></span>
@@ -1606,9 +1107,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/feedback') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/feedback') ? 'active' : '') }}"
                                                                    href="{{ route('feedback') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
@@ -1618,9 +1119,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/information-icon') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/information-icon') ? 'active' : '') }}"
                                                                    href="{{ route('admin_get_info') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
@@ -1631,9 +1132,9 @@
                                                             <li class="nav-item {{ (Request::is('admin/version-control') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/version-control') ? 'active' : '') }}"
                                                                    href="{{ route('admin_get_version') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/User feedback.png')}}"></span>
@@ -1656,8 +1157,9 @@
                                                 <li class="nav-item ">
                                                     <a class="nav-link {{ ($childFolder == 'virtual' ? 'active' : '') }}"
                                                        data-bs-toggle="collapse" aria-expanded="false" href="#chat">
-                                <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                     src="{{URL::asset('assets/icons/CMS.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/CMS.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/CMS.png')}}"></span>
@@ -1670,9 +1172,9 @@
                                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                                    href="{{ route('admin_hai_chat') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Codee.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Codee.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -1682,9 +1184,9 @@
                                                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                                    href="{{ route('admin_embedding_groups') }}">
-                                            <span class="sidenav-mini-icon"><img
-                                                    style="width: 18px; margin-left: 28px; margin-right: 10px"
-                                                    src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
+                                                                    <span class="sidenav-mini-icon"><img
+                                                                            style="width: 18px; margin-left: 28px; margin-right: 10px"
+                                                                            src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
                                                                     <span class="sidenav-normal"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Video Bucket.png')}}"></span>
@@ -1695,13 +1197,13 @@
                                                     </div>
                                                 </li>
                                             @endcan
-
                                             @can('projects')
                                                 <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                                     <a class="nav-link {{ (Request::is('') ? 'active' : '') }}"
                                                        href="{{ route('admin_projects') }}">
-                            <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                 src="{{URL::asset('assets/icons/Project.png')}}"></span>
+                                                        <span class="sidenav-mini-icon"><img
+                                                                style="width: 18px; margin-right: 10px"
+                                                                src="{{URL::asset('assets/icons/Project.png')}}"></span>
                                                         <span class="sidenav-normal"><img
                                                                 style="width: 18px; margin-right: 10px"
                                                                 src="{{URL::asset('assets/icons/Project.png')}}"></span>
@@ -1711,24 +1213,8 @@
                                             @endcan
                                         </ul>
                                     </div>
-
-
                                 </li>
-
                             @endif
-
-                            {{-- @can('users')
-                                <li class="nav-item {{ (Request::is('users') ? 'active' : '') }}">
-                                    <a class="nav-link {{ (Request::is('users') ? 'active' : '') }}"
-                                       href="{{ route('admin_all_users') }}">
-                                        <span class="sidenav-mini-icon"><img style="width: 18px; margin-right: 10px"
-                                                                             src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                        <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
-                                                                          src="{{URL::asset('assets/icons/Client.png')}}"></span>
-                                        <span class="sidenav-normal"> Clients </span>
-                                    </a>
-                                </li>
-                            @endcan --}}
                             @can('practitioner')
                                 <li class="nav-item {{ (Request::is('practitioners') ? 'active' : '') }}">
                                     <a class="nav-link {{ (Request::is('practitioners') ? 'active' : '') }}"
@@ -1763,7 +1249,6 @@
                                     </a>
                                 </li>
                             @endif
-
                             <li class="nav-item {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}">
                                 <a class="nav-link {{ (Request::is('admin/settings') ? 'active-itt-all' : '') }}"
                                    href="{{ route('admin_setting') }}">
@@ -1771,7 +1256,7 @@
                                                                          src="{{URL::asset('assets/icons/Settings.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Settings.png')}}"></span>
-                                    <span class="sidenav-normal"> Setting </span>
+                                    <span class="sidenav-normal"> Settings </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
@@ -1781,10 +1266,9 @@
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal text-bold"> Sign Out </span>
+                                    <span class="sidenav-normal text-bold"> Log Out </span>
                                 </a>
                             </li>
-
                             @if(\App\Helpers\Helpers::getWebUser()['is_admin'] == 4)
                                 <li class="nav-item mt-2 d-flex justify-content-center">
                                     <div class="d-flex justify-content-between">
@@ -1814,31 +1298,23 @@
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
                                     @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_PRACTITIONER)
-
-                                        <div class="d-flex justify-content-center mt-3">
-
+                                        <div class="d-flex justify-content-center mt-3">\
                                             <div class="bg-white py-1"
                                                  style="cursor: pointer; width: 60px; height: 60px; border-radius: 50%;"
                                                  data-toggle="modal" data-target="#humanOpWalletModal">
-
                                                 <img src="{{asset('assets/icons/wallet-humanop.svg')}}"
                                                      alt="wallet icon"
                                                      style="width: 50px; height: 50px; color: white;"/>
-
                                             </div>
-
                                         </div>
-
                                     @endif
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </li>
-
             @elseif((\Illuminate\Support\Facades\Auth::user()->is_admin == 2) && (\Illuminate\Support\Facades\Auth::user()->practitioner_id != null))
                 <li class="nav-item">
-
                     @php($is_admin = \Illuminate\Support\Facades\Cache::get('admin_' . auth()->id())['is_admin'] ?? false)
                     @if($is_admin == true)
                         {{\Illuminate\Support\Facades\Log::info(['2222' => $is_admin, 'id' => auth()->id()])}}
@@ -1849,33 +1325,6 @@
                                 admin</a>
                         </div>
                     @endif
-
-                    {{--                    <a data-bs-toggle="collapse" href="#clientdashboardids"--}}
-                    {{--                       class="nav-link {{ ($parentFolder == 'client-dashboard' ? ' active' : '') }}"--}}
-                    {{--                       aria-controls="clientdashboardids" role="button" aria-expanded="false">--}}
-                    {{--                        <div--}}
-                    {{--                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">--}}
-                    {{--                            <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1"--}}
-                    {{--                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-                    {{--                                <title>document</title>--}}
-                    {{--                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">--}}
-                    {{--                                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF"--}}
-                    {{--                                       fill-rule="nonzero">--}}
-                    {{--                                        <g transform="translate(1716.000000, 291.000000)">--}}
-                    {{--                                            <g transform="translate(154.000000, 300.000000)">--}}
-                    {{--                                                <path class="color-background"--}}
-                    {{--                                                      d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"--}}
-                    {{--                                                      opacity="0.603585379"></path>--}}
-                    {{--                                                <path class="color-background"--}}
-                    {{--                                                      d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>--}}
-                    {{--                                            </g>--}}
-                    {{--                                        </g>--}}
-                    {{--                                    </g>--}}
-                    {{--                                </g>--}}
-                    {{--                            </svg>--}}
-                    {{--                        </div>--}}
-                    {{--                        <span class="nav-link-text ms-1">Client</span>--}}
-                    {{--                    </a>--}}
                     <div class="collapse {{ ($parentFolder == 'client-dashboard' ? ' show' : '') }}"
                          id="clientdashboardids">
                         <ul class="nav ms-3">
@@ -2014,10 +1463,9 @@
                                                                          src="{{URL::asset('assets/icons/Settings.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/Settings.png')}}"></span>
-                                    <span class="sidenav-normal"> Setting </span>
+                                    <span class="sidenav-normal"> Settings </span>
                                 </a>
                             </li>
-
                             <li class="nav-item">
                                 <a class="nav-link"
                                    href="{{ \App\Helpers\Practitioner\PractitionerHelpers::makePractitionerUrl('logout')}}">
@@ -2025,7 +1473,7 @@
                                                                          src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
                                     <span class="sidenav-normal"><img style="width: 18px; margin-right: 10px"
                                                                       src="{{URL::asset('assets/icons/signoutt.png')}}"></span>
-                                    <span class="sidenav-normal text-bold  "> Sign Out </span>
+                                    <span class="sidenav-normal text-bold  "> Log Out </span>
                                 </a>
                             </li>
                             <li class="nav-item mt-2 d-flex justify-content-center">
@@ -2052,29 +1500,21 @@
                                   </span>
                                 </div>
                             </li>
-
                             <li class="nav-item">
                                 <div class="abc mb-3" style="text-align: center">
                                     @if(Auth::user()['is_admin'] == \App\Enums\Admin\Admin::IS_CUSTOMER)
-
                                         <div class="d-flex justify-content-center mt-3">
-
                                             <div class="bg-white py-1"
                                                  style="cursor: pointer; width: 60px; height: 60px; border-radius: 50%;"
                                                  data-toggle="modal" data-target="#humanOpWalletModal">
-
                                                 <img src="{{asset('assets/icons/wallet-humanop.svg')}}"
                                                      alt="wallet icon"
                                                      style="width: 50px; height: 50px; color: white;"/>
-
                                             </div>
-
                                         </div>
-
                                     @endif
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </li>
@@ -2116,14 +1556,12 @@
                                     <span class="sidenav-normal"> Dashboard </span>
                                 </a>
                             </li>
-
                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
                                     <span class="sidenav-mini-icon"> L </span>
                                     <span class="sidenav-normal"> License Status </span>
                                 </a>
                             </li>
-
                             <li class="nav-item {{ (Request::is('practitioner-projects') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('practitioner-projects') ? 'active' : '') }}"
                                    href="{{ url('practitioner-projects') }}">
@@ -2131,7 +1569,6 @@
                                     <span class="sidenav-normal"> Projects </span>
                                 </a>
                             </li>
-
                             <li class="nav-item {{ (Request::is('practitioner-new-user') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('practitioner-new-user') ? 'active' : '') }}"
                                    href="{{ url('practitioner-new-user') }}">
@@ -2139,7 +1576,6 @@
                                     <span class="sidenav-normal"> New Users </span>
                                 </a>
                             </li>
-
                             <li class="nav-item {{ (Request::is('practitioner-total-sales') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('practitioner-total-sales') ? 'active' : '') }}"
                                    href="{{ url('practitioner-total-sales') }}">
@@ -2147,7 +1583,6 @@
                                     <span class="sidenav-normal"> Total Sales </span>
                                 </a>
                             </li>
-
                             <li class="nav-item {{ (Request::is('') ? 'active' : '') }}">
                                 <a class="nav-link {{ (Request::is('') ? 'active' : '') }}" href="{{ url('#') }}">
                                     <span class="sidenav-mini-icon"> H </span>
@@ -2165,7 +1600,7 @@
                                 <a class="nav-link {{ (Request::is('practitioner-pages-account-settings') ? 'active' : '') }}"
                                    href="{{ url('practitioner-pages-account-settings') }}">
                                     <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Setting </span>
+                                    <span class="sidenav-normal"> Settings </span>
                                 </a>
                             </li>
                         </ul>
@@ -2257,10 +1692,9 @@
                                 <a class="nav-link {{ (Request::is('enterprise-pages-account-settings') ? 'active' : '') }}"
                                    href="{{ url('enterprise-pages-account-settings') }}">
                                     <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Setting </span>
+                                    <span class="sidenav-normal"> Settings </span>
                                 </a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
@@ -2268,11 +1702,8 @@
 
         </ul>
     </div>
-
 </aside>
-
 @push('js')
-
     <script>
 
         is_admin = localStorage.getItem('is_admin');
