@@ -57,6 +57,7 @@
                 <th class="text-center">Name</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Gender</th>
+                <th class="text-center">Organization Name</th>
                 <th class="text-center">Members</th>
                 <th class="text-center">Candidates</th>
                 <th class="text-center">Bulk Delete</th>
@@ -73,6 +74,7 @@
                     <td class="text-sm font-weight-normal text-center">{{$user['first_name'].' '.$user['last_name'] }} </td>
                     <td class="text-sm font-weight-normal text-center">{{$user['email']}}</td>
                     <td class="text-sm font-weight-normal text-center">{{$user['gender']==0 ? 'Male':'FeMale'}}</td>
+                    <td class="text-sm font-weight-normal text-center">{{$user['company_name']}}</td>
                     <td class="text-sm font-weight-normal text-center">
 
                         <a href="{{ route('b2b_organizations_users', ['id' => $user['id'], 'prefer' => 1]) }}"
