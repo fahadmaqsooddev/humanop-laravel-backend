@@ -476,10 +476,19 @@ class B2BBusinessCandidates extends Model
     {
         self::where('business_id', $id)->delete();
 
-        $user = User::find($id);
-        if ($user) {
-            $user->delete();
+        $organization = User::getSingleUser($id);
+
+        if ($organization['is_admin'] == Admin::IS_B2B)
+        {
+            $organization->forceDelete();
         }
+        else{
+
+            $organization->update(['company_name' => null]);
+
+        }
+
+        return $organization;
     }
 
     public static function getMembersCount($businessId = null)

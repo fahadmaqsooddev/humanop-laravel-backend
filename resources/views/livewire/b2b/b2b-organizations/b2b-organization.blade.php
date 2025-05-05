@@ -217,7 +217,7 @@
             })
             swalWithBootstrapButtons.fire({
                 title: '<span style="color: white;">Are you sure?</span>',
-                html: "<span style='color: white;'>Want to delete  Profile</span>",
+                html: "<span style='color: white;'>Want to delete Organization</span>",
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
             }).then((result) => {
