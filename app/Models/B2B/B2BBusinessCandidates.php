@@ -356,7 +356,6 @@ class B2BBusinessCandidates extends Model
     }
 
 
-
     public static function checkB2BAdminShare($userId)
     {
         $data = self::where('business_id', $userId)->with('busers')->first();
@@ -464,6 +463,7 @@ class B2BBusinessCandidates extends Model
             'is_permanently_deleted' => 1
         ]);
     }
+
     public static function futureConsiderationUserFromBuisness($businessId = null, $candidateId = null)
     {
         // dd($businessId,$candidateId);
@@ -475,18 +475,17 @@ class B2BBusinessCandidates extends Model
     public static function deleteB2BAdmin($id = null)
     {
         self::where('business_id', $id)->delete();
+
         $user = User::find($id);
         if ($user) {
             $user->delete();
         }
     }
 
-
-
     public static function getMembersCount($businessId = null)
     {
         return self::where('business_id', $businessId)
-            ->where('role',Admin::IS_TEAM_MEMBER)
+            ->where('role', Admin::IS_TEAM_MEMBER)
             ->where('is_permanently_deleted', 0)
             ->where('future_consideration', 0)
             ->whereHas('users', function ($query) {
@@ -494,10 +493,11 @@ class B2BBusinessCandidates extends Model
             })
             ->count();
     }
+
     public static function getCandidatesCount($businessId = null)
     {
         return self::where('business_id', $businessId)
-            ->where('role',Admin::IS_CANDIDATE)
+            ->where('role', Admin::IS_CANDIDATE)
             ->where('is_permanently_deleted', 0)
             ->where('future_consideration', 0)
             ->whereHas('users', function ($query) {
