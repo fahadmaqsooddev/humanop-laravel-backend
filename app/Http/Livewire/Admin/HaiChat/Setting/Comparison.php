@@ -9,9 +9,12 @@ use App\Models\HAIChai\BrainCluster;
 use App\Models\HAIChai\Chatbot;
 use App\Models\HAIChai\ChatPrompt;
 use App\Models\HAIChai\HaiChatActiveEmbedding;
+use App\Models\HAIChai\HaiChatConversation;
 use App\Models\HAIChai\HaiChatSetting;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use App\Models\HAIChai\LlmModel;
 
@@ -35,12 +38,14 @@ class Comparison extends Component
 
     protected $rules = [
         'message' => 'required|max:2000',
-        'selectedModels' => 'required',
         'chat_bot_id' => 'required',
+        'selectedModel1' => 'required',
+        'selectedModel2' => 'required',
     ];
 
     protected $messages = [
-        'selectedModels.required' => 'At least one model must be selected.',
+        'selectedModel1.required' => 'Select model to compare to.',
+        'selectedModel2.required' => 'Select model to compare with.',
         'message.required' => 'The Message field is required.',
         'message.max' => 'Query cannot contain more than 2000 characters.',
         'chat_bot_id' => 'Select chat-bot first.'
@@ -65,61 +70,55 @@ class Comparison extends Component
     public function submitForm()
     {
 
-        $this->modelResponse = [];
+        try {
 
-        $this->selectedModels = array_merge(
-            (array) $this->selectedModel1,
-            (array) $this->selectedModel2
-        );
+            $this->modelResponse = [];
 
-        $this->validate();
+            $this->selectedModels = array_merge(
+                (array) $this->selectedModel1,
+                (array) $this->selectedModel2
+            );
 
-//        $chatBot = Chatbot::getChatFromVendorName($this->bot_name);
+            $this->validate();
 
-        $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
+            $setting = HaiChatSetting::getHaiChatSetting($this->chat_bot_id);
 
-        $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
+            $chatbot = Chatbot::whereId($this->chat_bot_id)->first();
 
-//        $activeChatAndEmbedding = HaiChatActiveEmbedding::getChatActiveEmbedding($this->bot_name);
+            $activeChatAndEmbedding = BrainCluster::connectedClusterEmbeddingIds($this->chat_bot_id);
 
-        if ($this->user_id){
+            $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-            $user_grid = Assessment::getAssessmentFromUserId($this->user_id);
-        }
+            $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $chatbot->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => "null", 'user_id' => 0];
 
-        if (!empty($this->selectedModels)) {
+            $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+
+            $prompts = ChatPrompt::where('name',$chatbot['name'])->first();
+
+            $llm_prompt = OpenRouterHelper::addUserDetailsIntoPrompt(null, $aiReply['prompt']);
+
+            $final_persona = OpenRouterHelper::createFinalPersona($prompts['prompt'] ?? "");
+
+            [$userMessage, $assistantMessage] = HaiChatConversation::userLastMessage($chatbot['name'],null);
 
             foreach ($this->selectedModels as $llmModel) {
 
-                $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
+                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $llm_prompt, $llmModel, $final_persona, $userMessage,$assistantMessage);
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->bot_name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => "null", 'user_id' => 0];
+                foreach ($openRouterResponse['choices'] as $choice)
+                {
 
-                $aiReply = GuzzleHelpers::sendRequestFromGuzzle('post', 'llm-model', $body);
+                    if (isset($choice['message']['content'])) {
 
-//                $aiReply = $this->sendRequestFromGuzzle('post', 'http://54.227.7.149:8000/llm-model', $body);
+                        $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
 
-                $prompts = ChatPrompt::where('name',$this->bot_name)->first();
+                        $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
 
-                $openRouterResponse = OpenRouterHelper::callOpenRouterApi($this->message, $setting, $aiReply, $llmModel, $prompts['prompt'] ?? null);
-
-                if (!empty($openRouterResponse['choices'])) {
-
-                    foreach ($openRouterResponse['choices'] as $choice) {
-
-                        if (isset($choice['message']['content'])) {
-
-                            $selectedModel = ['Deepseek' => 'deepseek/deepseek-chat', 'Qwen' => 'qwen/qvq-72b-preview', 'Deepseek R1-Qwen' => 'deepseek/deepseek-r1-distill-qwen-1.5b', 'OpenAI' => 'openai/gpt-3.5-turbo'];
-
-                            $modelKey = array_search($openRouterResponse['model'], $selectedModel, true);
-
-                            $this->modelResponse[] = [
-                                'question' => $this->message,
-                                'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
-                                'response' => $choice['message']['content']
-                            ];
-
-                        }
+                        $this->modelResponse[] = [
+                            'question' => $this->message,
+                            'model' => $modelKey !== false ? $modelKey : $openRouterResponse['model'],
+                            'response' => $choice['message']['content']
+                        ];
 
                     }
 
@@ -127,9 +126,12 @@ class Comparison extends Component
 
             }
 
-        }
+            $this->reset('message');
 
-        $this->reset('message');
+        }catch (\Exception $exception){
+
+            session()->flash('error', $exception->getMessage());
+        }
 
     }
 

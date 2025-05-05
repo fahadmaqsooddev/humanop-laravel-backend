@@ -95,7 +95,7 @@ class Conversation extends Component
     {
         try {
 
-//            $this->validate();
+            $this->validate();
 
             $chat_bot_id = Chatbot::getChatFromVendorName($this->name)->id ?? null;
 
@@ -119,7 +119,7 @@ class Conversation extends Component
 
                     $user_name = $user['first_name'];
 
-//                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
+                    $user_intentions = $user?->userIntentions?->pluck('description')->toArray();
 
 //                    $interval_life = User::userIntervalOfLife($user['date_of_birth']);
 
@@ -127,7 +127,7 @@ class Conversation extends Component
 
                 $subFolder = env("APP_ENV") === 'local' || env("APP_ENV") === 'development' ? 'dev' : env("APP_ENV");
 
-                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => (int)$this->user_id];
+                $body = ['query' => $this->message, 'temperature' => $setting['temperature'], 'max_tokens' => $setting['max_token'], 'file_name' => $activeChatAndEmbedding['file_name'], 'prompt_folder' => $this->name, 'total_chunks' => $setting['chunk'], 'gpt_model' => 'sonnet','user_grid' => $user_grid ?? [], 'dislike' => $this->disliked, 'loc' => $subFolder, 'user_name' => $user_name ?? "null", 'user_id' => (int)$this->user_id, 'user_intentions' => $user_intentions ?? []];
 
                 if ($setting && $setting['model_type'] === 5){
 

@@ -12,7 +12,7 @@
                     @livewire('admin.manage-code.manage-code-form', ['code' => $code])
 
                 </div>
-            </div>  
+            </div>
         </div>
     </div>
 @endsection
