@@ -411,6 +411,7 @@
                                                     <div
                                                         class="collapse  {{ Request::is('admin/codes','admin/client-invites',
                                                         'admin/assessment-walkthrough','admin/all-daily-tips',
+                                                        'admin/resources',
                                                         'admin/dashboard-cms',
                                                         'admin/all-coupons','admin/cms','admin/all-optimization-plan',
                                                         'admin/all-intention-plans',
@@ -435,7 +436,7 @@
                                                             </li>
                                                             <li class="nav-item {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}">
                                                                 <a class="nav-link {{ (Request::is('admin/assessment-introduction') ? 'active-itt-all' : '') }}"
-                                                                   href="#">
+                                                                   href="{{route('admin_manage_assessment_intro')}}">
                                                                     <span class="sidenav-mini-icon"><img
                                                                             style="width: 18px; margin-left: 28px; margin-right: 10px"
                                                                             src="{{URL::asset('assets/icons/Codee.png')}}"></span>
@@ -732,7 +733,7 @@
                                             <span class="sidenav-normal"> B2B Dashboard <b class="caret"></b></span>
                                         </a>
                                         <div
-                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
+                                            class="collapse {{ ( Request::is('admin/b2b-organizations','admin/role-template','admin/role-template','admin/b2b-deleted-clients','admin/b2b-invites','admin/b2b-pricing-plans','admin/b2b-coupon') ? 'show' : '') }}"
                                             id="b2bExamples">
                                             <ul class="nav nav-sm flex-column">
                                                 <li class="nav-item {{ (Request::is('admin/b2b-organizations') ? 'active-itt-all' : '') }}">
